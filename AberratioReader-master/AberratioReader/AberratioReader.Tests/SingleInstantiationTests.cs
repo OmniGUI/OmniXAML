@@ -8,13 +8,30 @@ namespace AberratioReader.Tests
     [TestClass]
     public class SingleInstantiationTests
     {
+        private XamlReaderBuilder xamlReaderBuilder;
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            xamlReaderBuilder = new XamlReaderBuilder();
+        }
+
         [TestMethod]
         [ExpectedException(typeof(XamlReaderException))]
         public void EmptyStreamThrowsXamlReadingException()
+        {            
+            var sut = xamlReaderBuilder.Build();
+            LoadFromString(sut, Xaml.Empty);
+        }
+
+        [TestMethod]
+        public void SingleInstanceReturnsInstanceOfThatType()
         {
             XamlReaderBuilder builder = new XamlReaderBuilder();
             var sut = builder.Build();
-            LoadFromString(sut, Xaml.Empty);
+            var actual = LoadFromString(sut, Xaml.SingleInstance);
+
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
         }
 
         private static object LoadFromString(XamlReader sut, string contents)

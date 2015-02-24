@@ -37,6 +37,8 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ITypeFactory.cs" />
+    <Compile Include="ITypeProvider.cs" />
     <Compile Include="XamlReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlReaderException.cs" />

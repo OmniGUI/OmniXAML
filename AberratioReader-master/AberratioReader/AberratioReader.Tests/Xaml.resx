@@ -120,4 +120,7 @@
   <data name="Empty" xml:space="preserve">
     <value />
   </data>
+  <data name="SingleInstance" xml:space="preserve">
+    <value>&lt;DummyClass&gt;&lt;/DummyClass&gt;</value>
+  </data>
 </root>

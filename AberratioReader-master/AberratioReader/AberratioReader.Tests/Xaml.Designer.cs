@@ -68,5 +68,14 @@ namespace AberratioReader.Tests {
                 return ResourceManager.GetString("Empty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass&gt;&lt;/DummyClass&gt;.
+        /// </summary>
+        internal static string SingleInstance {
+            get {
+                return ResourceManager.GetString("SingleInstance", resourceCulture);
+            }
+        }
     }
 }
