@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22512.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AberratioReader", "AberratioReader\AberratioReader.csproj", "{44C120F6-6EA8-4545-85B2-1DA690E3302B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AberratioReader.Tests", "AberratioReader.Tests\AberratioReader.Tests.csproj", "{4A7491E9-E218-45F5-BF42-430247765630}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{44C120F6-6EA8-4545-85B2-1DA690E3302B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44C120F6-6EA8-4545-85B2-1DA690E3302B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44C120F6-6EA8-4545-85B2-1DA690E3302B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44C120F6-6EA8-4545-85B2-1DA690E3302B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
