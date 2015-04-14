@@ -12,4 +12,4 @@ foreach (thing in life)
 
 For the moment, there is only a Markup Extension parser.
 
-Thanks to Nicholas Blumhardt for his awesome project "Sprache" (https://github.com/sprache/Sprache)
+Thanks to [Nicholas Blumhardt](https://twitter.com/nblumhardt) for his awesome project [Sprache](https://github.com/sprache/Sprache)
