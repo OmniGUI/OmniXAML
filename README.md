@@ -1,5 +1,5 @@
 # AberratioReader
-Portable XAML Reader
+Portable XAML Reader. 
 
 I know you need it, I know you want it. XAML!
 
@@ -9,3 +9,7 @@ foreach (thing in life)
    world.Shout(string.Format("XAML is the best language to describe {0}", thing);
 }
 ```
+
+For the moment, there is only a Markup Extension parser.
+
+Thanks to Nicholas Blumhardt for his awesome project "Sprache" (https://github.com/sprache/Sprache)
