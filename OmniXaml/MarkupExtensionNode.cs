@@ -9,7 +9,7 @@ namespace OmniXaml
 
         public MarkupExtensionNode(string identifier)
         {
-            this.Identifier = identifier + "Extension";
+            Identifier = identifier + "Extension";
         }
 
         public MarkupExtensionNode(string identifier, IEnumerable<Option> options) :  this(identifier)
@@ -38,7 +38,7 @@ namespace OmniXaml
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

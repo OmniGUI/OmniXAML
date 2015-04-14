@@ -10,8 +10,8 @@ namespace OmniXaml
 
         public PropertyOption(string property, string value)
         {
-            this.Property = property;
-            this.Value = value;
+            Property = property;
+            Value = value;
         }
 
         public override string ToString()
@@ -34,7 +34,7 @@ namespace OmniXaml
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

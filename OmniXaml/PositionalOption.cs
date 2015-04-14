@@ -9,7 +9,7 @@ namespace OmniXaml
 
         public PositionalOption(string identifier)
         {
-            this.Identifier = identifier;
+            Identifier = identifier;
         }
 
         public override string ToString()
@@ -32,7 +32,7 @@ namespace OmniXaml
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

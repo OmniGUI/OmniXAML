@@ -4,8 +4,8 @@ namespace OmniXaml
 
     public class AssignmentNode
     {
-        public string Attr { get; set; }
-        public string Value { get; set; }
+        public string Attr { get; }
+        public string Value { get; }
 
         public AssignmentNode(string attr, string value)
         {
@@ -28,7 +28,7 @@ namespace OmniXaml
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
