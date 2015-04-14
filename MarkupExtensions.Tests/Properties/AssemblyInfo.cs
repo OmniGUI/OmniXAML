@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AberratioReader.Tests")]
+[assembly: AssemblyTitle("MarkupExtensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AberratioReader.Tests")]
+[assembly: AssemblyProduct("MarkupExtensions")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4a7491e9-e218-45f5-bf42-430247765630")]
+[assembly: Guid("a37cd2b1-8272-4785-9fb0-cba2c62fa9b4")]
 
 // Version information for an assembly consists of the following four values:
 //
