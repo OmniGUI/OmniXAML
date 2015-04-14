@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "MarkupExtensions.Tests\OmniXaml.Tests.csproj", "{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "OmniXaml\OmniXaml.csproj", "{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "OmniXaml.Tests\OmniXaml.Tests.csproj", "{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
