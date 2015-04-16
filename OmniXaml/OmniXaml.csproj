@@ -42,6 +42,8 @@
     <Compile Include="PositionalOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyOption.cs" />
+    <Compile Include="StringNode.cs" />
+    <Compile Include="TreeNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">

@@ -7,14 +7,14 @@ namespace OmniXaml
         public OptionsCollection Options { get; }
         public string Identifier { get; }
 
-        public MarkupExtensionNode(string identifier)
-        {
-            Identifier = identifier + "Extension";
+        public MarkupExtensionNode(string identifier) : this(identifier, new OptionsCollection())
+        {            
         }
 
-        public MarkupExtensionNode(string identifier, IEnumerable<Option> options) :  this(identifier)
+        public MarkupExtensionNode(string identifier, IEnumerable<Option> options)
         {
             Options = new OptionsCollection(options);
+            Identifier = identifier + "Extension";
         }
 
         public override string ToString()
@@ -52,9 +52,5 @@ namespace OmniXaml
                 return ((Options?.GetHashCode() ?? 0)*397) ^ Identifier.GetHashCode();
             }
         }
-    }
-
-    public abstract class TreeNode
-    {
     }
 }

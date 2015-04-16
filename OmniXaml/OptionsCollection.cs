@@ -9,6 +9,10 @@ namespace OmniXaml
     [DebuggerDisplay("{ToString()}")]
     public class OptionsCollection : Collection<Option>
     {
+        public OptionsCollection()
+        {            
+        }
+
         public OptionsCollection(IEnumerable<Option> options) : base(options.ToList())
         {            
         }

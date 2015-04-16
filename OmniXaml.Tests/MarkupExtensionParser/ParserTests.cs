@@ -58,5 +58,49 @@
 
             Assert.AreEqual(actual, expected);
         }
+
+        [TestMethod]
+        public void ParsePropertyWithExtension()
+        {
+            var actual = MarkupExtensionParser.Assignment.Parse("Value={Dummy}");
+            var markupExtensionNode = new MarkupExtensionNode("Dummy");
+            Assert.AreEqual(new AssignmentNode("Value", markupExtensionNode), actual);
+        }
+
+        [TestMethod]
+        public void ComposedExtension()
+        {
+            var actual =
+                MarkupExtensionParser.MarkupExtension.Parse(
+                    "{Binding Width,RelativeSource={RelativeSource FindAncestor,AncestorLevel=1,AncestorType={Type Grid}}}");
+
+            MarkupExtensionNode expected = new MarkupExtensionNode(
+                "Binding",
+                new OptionsCollection(
+                    new List<Option>
+                    {
+                        new PositionalOption("Width"),
+                        new PropertyOption(
+                            "RelativeSource",
+                            new MarkupExtensionNode(
+                                "RelativeSource",
+                                new List<Option>
+                                {
+                                    new PositionalOption("FindAncestor"),
+                                    new PropertyOption("AncestorLevel", new StringNode("1")),
+                                    new PropertyOption(
+                                        "AncestorType",
+                                        new MarkupExtensionNode(
+                                            "Type",
+                                            new List<Option>
+                                            {
+                                                new PositionalOption("Grid")
+                                            }))
+
+                                }))
+                    }));
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

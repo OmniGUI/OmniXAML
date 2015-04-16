@@ -4,18 +4,23 @@ namespace OmniXaml
 
     public class AssignmentNode
     {
-        public string Attr { get; }
+        public string Property { get; }
         public TreeNode Value { get; }
 
-        public AssignmentNode(string attr, TreeNode node)
+        public AssignmentNode(string property, TreeNode node)
         {
-            Attr = attr;
+            Property = property;
             Value = node;
+        }
+
+        public override string ToString()
+        {
+            return $"{Property}={Value}";
         }
 
         protected bool Equals(AssignmentNode other)
         {
-            return String.Equals(Attr, other.Attr) && String.Equals(Value, other.Value);
+            return string.Equals(Property, other.Property) && string.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -39,7 +44,7 @@ namespace OmniXaml
         {
             unchecked
             {
-                return ((Attr != null ? Attr.GetHashCode() : 0)*397) ^ (Value != null ? Value.GetHashCode() : 0);
+                return ((Property != null ? Property.GetHashCode() : 0)*397) ^ (Value != null ? Value.GetHashCode() : 0);
             }
         }
     }
