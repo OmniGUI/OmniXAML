@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.Tests.MarkupExtensionParser
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Sprache;
     using MarkupExtensionParser = OmniXaml.MarkupExtensionParser;
@@ -21,6 +23,16 @@
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Value1,Value2}");
             var options = new List<Option> {new PositionalOption("Value1"), new PositionalOption("Value2")};
             Assert.AreEqual(new MarkupExtensionNode("Dummy", options), actual);
+        }
+
+        [TestMethod]
+        public void DelimitedBy()
+        {
+            var identifier = from c in Parse.LetterOrDigit.Many() select new string(c.ToArray());
+
+            var parser = from id in identifier.DelimitedBy(Parse.Char(',').Token()) select id;               
+            var p = parser.Parse("SomeValue   ,  AnotherValue");
+            CollectionAssert.AreEqual(new[] { "SomeValue", "AnotherValue" }, p.ToList());
         }
 
         [TestMethod]
@@ -72,9 +84,9 @@
         {
             var actual =
                 MarkupExtensionParser.MarkupExtension.Parse(
-                    "{Binding Width,RelativeSource={RelativeSource FindAncestor,AncestorLevel=1,AncestorType={Type Grid}}}");
+                    "{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={Type Grid}}}");
 
-            MarkupExtensionNode expected = new MarkupExtensionNode(
+            var expected = new MarkupExtensionNode(
                 "Binding",
                 new OptionsCollection(
                     new List<Option>

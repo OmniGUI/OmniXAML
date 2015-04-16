@@ -36,7 +36,7 @@ namespace OmniXaml
         private static readonly Parser<Option> Attribute = from identifier in Assignment
             select new PropertyOption(identifier.Property, identifier.Value);
 
-        public static readonly Parser<OptionsCollection> Options = from options in Attribute.Or(Positional).DelimitedBy(Parse.Char(Comma)).Token()
+        public static readonly Parser<OptionsCollection> Options = from options in Attribute.Or(Positional).DelimitedBy(Parse.Char(Comma).Token())
             select new OptionsCollection(options);
 
         private static readonly Parser<MarkupExtensionNode> SimpleMarkupExtension = from openCurly in Parse.Char(OpenCurly)
