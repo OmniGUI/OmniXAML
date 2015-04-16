@@ -27,7 +27,7 @@
         public void ExtensionWithPositionalAndAssignmentOptions()
         {
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Value,Property='Some Value'}");
-            var options = new List<Option> { new PositionalOption("Value"), new PropertyOption("Property", "Some Value") };
+            var options = new List<Option> { new PositionalOption("Value"), new PropertyOption("Property", new StringNode("Some Value")) };
             Assert.AreEqual(new MarkupExtensionNode("Dummy", options), actual);
         }
 
@@ -35,14 +35,14 @@
         public void AssignmentOfDirectValue()
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Property=SomeValue");
-            Assert.AreEqual(new AssignmentNode("Property", "SomeValue"), actual);
+            Assert.AreEqual(new AssignmentNode("Property", new StringNode("SomeValue")), actual);
         }    
 
         [TestMethod]
         public void AssignmentOfQuotedValue()
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Property='value with spaces'");
-            Assert.AreEqual(new AssignmentNode("Property", "value with spaces"), actual);
+            Assert.AreEqual(new AssignmentNode("Property", new StringNode("value with spaces")), actual);
         }
 
         [TestMethod]
@@ -52,8 +52,8 @@
             var expected = new OptionsCollection(new List<Option>
             {
                 new PositionalOption("value1"),
-                new PropertyOption("Property1", "Value1"),
-                new PropertyOption("Property2", "Some value")
+                new PropertyOption("Property1", new StringNode("Value1")),
+                new PropertyOption("Property2", new StringNode("Some value"))
             });
 
             Assert.AreEqual(actual, expected);

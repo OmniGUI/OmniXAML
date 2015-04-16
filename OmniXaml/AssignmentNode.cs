@@ -5,12 +5,12 @@ namespace OmniXaml
     public class AssignmentNode
     {
         public string Attr { get; }
-        public string Value { get; }
+        public TreeNode Value { get; }
 
-        public AssignmentNode(string attr, string value)
+        public AssignmentNode(string attr, TreeNode node)
         {
             Attr = attr;
-            Value = value;
+            Value = node;
         }
 
         protected bool Equals(AssignmentNode other)

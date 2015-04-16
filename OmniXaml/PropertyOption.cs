@@ -6,9 +6,9 @@ namespace OmniXaml
     class PropertyOption : Option
     {
         public string Property { get; }
-        public string Value { get; }
+        public TreeNode Value { get; }
 
-        public PropertyOption(string property, string value)
+        public PropertyOption(string property, TreeNode value)
         {
             Property = property;
             Value = value;

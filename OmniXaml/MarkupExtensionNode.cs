@@ -2,7 +2,7 @@ namespace OmniXaml
 {
     using System.Collections.Generic;
 
-    public class MarkupExtensionNode
+    public class MarkupExtensionNode : TreeNode
     {
         public OptionsCollection Options { get; }
         public string Identifier { get; }
@@ -52,5 +52,9 @@ namespace OmniXaml
                 return ((Options?.GetHashCode() ?? 0)*397) ^ Identifier.GetHashCode();
             }
         }
+    }
+
+    public abstract class TreeNode
+    {
     }
 }

@@ -10,20 +10,20 @@ namespace OmniXaml
         private const char CloseCurly = '}';
         private const char Comma = ',';
 
-        private static readonly Parser<string> QuotedValue = from firstQuote in Parse.Char(Quote)
+        private static readonly Parser<TreeNode> QuotedValue = from firstQuote in Parse.Char(Quote)
             from identifier in Parse.CharExcept(new[] {Quote, OpenCurly, CloseCurly}).Many()
             from secondQuote in Parse.Char(Quote)
-            select new string(identifier.ToArray());
+            select new StringNode(new string(identifier.ToArray()));
 
         private static readonly Parser<string> Identifier =            
             from first in Parse.Letter.Once()
             from rest in Parse.LetterOrDigit.Many()            
             select new string(first.Concat(rest).ToArray());
 
-        private static readonly Parser<string> DirectValue = from value in Parse.LetterOrDigit.Many()
-            select new string(value.ToArray());
+        private static readonly Parser<TreeNode> DirectValue = from value in Parse.LetterOrDigit.Many()
+            select new StringNode(new string(value.ToArray()));
 
-        private static readonly Parser<string> AssignedValue = QuotedValue.Or(DirectValue);
+        private static readonly Parser<TreeNode> AssignedValue = QuotedValue.Or(DirectValue);
 
         public static readonly Parser<AssignmentNode> Assignment = from attr in Identifier
             from eqSign in Parse.Char('=')
@@ -52,5 +52,42 @@ namespace OmniXaml
             select new MarkupExtensionNode(identifier, options.First());
 
         public static readonly Parser<MarkupExtensionNode> MarkupExtension = MarkupExtensionWithOptions.Or(SimpleMarkupExtension);
+    }
+
+    internal class StringNode : TreeNode
+    {
+        private readonly string str;
+
+        public StringNode(string str)
+        {
+            this.str = str;
+        }
+
+        protected bool Equals(StringNode other)
+        {
+            return string.Equals(str, other.str);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            return Equals((StringNode) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return (str != null ? str.GetHashCode() : 0);
+        }
     }
 }
