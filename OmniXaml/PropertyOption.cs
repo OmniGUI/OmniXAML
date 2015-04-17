@@ -21,7 +21,7 @@ namespace OmniXaml
 
         protected bool Equals(PropertyOption other)
         {
-            return string.Equals(Property, other.Property) && string.Equals(Value, other.Value);
+            return string.Equals(Property, other.Property) && Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)

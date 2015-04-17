@@ -1,7 +1,5 @@
 namespace OmniXaml
 {
-    using System;
-
     public class AssignmentNode
     {
         public string Property { get; }
@@ -20,7 +18,7 @@ namespace OmniXaml
 
         protected bool Equals(AssignmentNode other)
         {
-            return string.Equals(Property, other.Property) && string.Equals(Value, other.Value);
+            return string.Equals(Property, other.Property) && Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)

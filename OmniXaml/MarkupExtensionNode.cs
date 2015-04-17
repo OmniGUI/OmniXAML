@@ -1,20 +1,18 @@
 namespace OmniXaml
 {
-    using System.Collections.Generic;
-
     public class MarkupExtensionNode : TreeNode
     {
         public OptionsCollection Options { get; }
-        public string Identifier { get; }
+        public IdentifierNode Identifier { get; }
 
-        public MarkupExtensionNode(string identifier) : this(identifier, new OptionsCollection())
+        public MarkupExtensionNode(IdentifierNode identifier) : this(identifier, new OptionsCollection())
         {            
         }
 
-        public MarkupExtensionNode(string identifier, IEnumerable<Option> options)
+        public MarkupExtensionNode(IdentifierNode identifier, OptionsCollection options)
         {
             Options = new OptionsCollection(options);
-            Identifier = identifier + "Extension";
+            Identifier = identifier;
         }
 
         public override string ToString()
@@ -25,7 +23,7 @@ namespace OmniXaml
 
         protected bool Equals(MarkupExtensionNode other)
         {
-            return Equals(Options, other.Options) && string.Equals(Identifier, other.Identifier);
+            return Equals(Options, other.Options) && Equals(Identifier, other.Identifier);
         }
 
         public override bool Equals(object obj)

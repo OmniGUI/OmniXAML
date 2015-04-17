@@ -9,6 +9,8 @@ namespace OmniXaml
         private const char OpenCurly = '{';
         private const char CloseCurly = '}';
         private const char Comma = ',';
+        private const char Colon = ':';
+        private const char EqualSign = '=';
 
         private static readonly Parser<TreeNode> QuotedValue = from firstQuote in Parse.Char(Quote)
             from identifier in Parse.CharExcept(new[] {Quote, OpenCurly, CloseCurly}).Many()
@@ -25,10 +27,10 @@ namespace OmniXaml
         
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
       
-        public static readonly Parser<AssignmentNode> Assignment = from attr in Identifier
-            from eqSign in Parse.Char('=')
+        public static readonly Parser<AssignmentNode> Assignment = from prop in Identifier
+            from eqSign in Parse.Char(EqualSign)
             from value in AssignmentSource
-            select new AssignmentNode(attr, value);
+            select new AssignmentNode(prop, value);
 
         private static readonly Parser<Option> Positional = from identifier in Identifier
             select new PositionalOption(identifier);
@@ -40,19 +42,76 @@ namespace OmniXaml
             select new OptionsCollection(options);
 
         private static readonly Parser<MarkupExtensionNode> SimpleMarkupExtension = from openCurly in Parse.Char(OpenCurly)
-            from identifier in Identifier
+            from identifier in XamlTypeIdentifier
             from closeCurly in Parse.Char(CloseCurly)
             select new MarkupExtensionNode(identifier);
 
         private static readonly Parser<MarkupExtensionNode> MarkupExtensionWithOptions = from openCurly in Parse.Char(OpenCurly)
-            from identifier in Identifier
+            from identifier in XamlTypeIdentifier
             from space in Parse.WhiteSpace.AtLeastOnce()
             from options in Options.Once()
             from closeCurly in Parse.Char(CloseCurly)
             select new MarkupExtensionNode(identifier, options.First());
 
+        private static readonly Parser<IdentifierNode> IdentifierWithPrefix = from prefix in Identifier
+                                                                              from colon in Parse.Char(Colon)
+                                                                              from typeName in Identifier
+                                                                              select new IdentifierNode(prefix, typeName);
+
+        private static readonly Parser<IdentifierNode> IdentifierWithoutPrefix = from id in Identifier
+                                                                                 select new IdentifierNode(id);
+
+        private static readonly Parser<IdentifierNode> XamlTypeIdentifier = IdentifierWithPrefix.Or(IdentifierWithoutPrefix);
+
         public static readonly Parser<MarkupExtensionNode> MarkupExtension = MarkupExtensionWithOptions.Or(SimpleMarkupExtension);
 
         private static readonly Parser<TreeNode> AssignmentSource = MarkupExtension.Or(StringValueNode);
+    }
+
+    public class IdentifierNode
+    {
+        public string Prefix { get; }
+        public string TypeName { get; }
+
+        public IdentifierNode(string typeName)
+        {
+            this.TypeName = typeName;
+        }
+
+        public IdentifierNode(string prefix, string typeName)
+        {
+            this.Prefix = prefix;
+            this.TypeName = typeName;
+        }
+
+        protected bool Equals(IdentifierNode other)
+        {
+            return string.Equals(Prefix, other.Prefix) && string.Equals(TypeName, other.TypeName);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            return Equals((IdentifierNode) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Prefix != null ? Prefix.GetHashCode() : 0)*397) ^ (TypeName != null ? TypeName.GetHashCode() : 0);
+            }
+        }
     }
 }
