@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22609.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "OmniXaml\OmniXaml.csproj", "{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "OmniXaml\OmniXaml.csproj", "{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "OmniXaml.Tests\OmniXaml.Tests.csproj", "{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FCCAF8EF-B08E-4442-90B6-A41903CFB93A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass", "External\Glass\Glass.csproj", "{B719FF91-BC7A-4145-8597-811D504FCFEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Classes", "OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj", "{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Tests.Resources", "External\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj", "{9B517520-4D99-4BF5-8219-A643F718F6DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "OmniXaml.Tests\OmniXaml.Tests.csproj", "{4A7491E9-E218-45F5-BF42-430247765630}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,16 +21,34 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A37CD2B1-8272-4785-9FB0-CBA2C62FA9B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B719FF91-BC7A-4145-8597-811D504FCFEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B719FF91-BC7A-4145-8597-811D504FCFEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B719FF91-BC7A-4145-8597-811D504FCFEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B719FF91-BC7A-4145-8597-811D504FCFEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B517520-4D99-4BF5-8219-A643F718F6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B517520-4D99-4BF5-8219-A643F718F6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B517520-4D99-4BF5-8219-A643F718F6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B517520-4D99-4BF5-8219-A643F718F6DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A7491E9-E218-45F5-BF42-430247765630}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B719FF91-BC7A-4145-8597-811D504FCFEF} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{9B517520-4D99-4BF5-8219-A643F718F6DD} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{4A7491E9-E218-45F5-BF42-430247765630} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 	EndGlobalSection
 EndGlobal

@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("OmniReader.Tests")]
+[assembly: AssemblyTitle("OmniXaml.Tests.SysXaml")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("OmniReader.Tests")]
+[assembly: AssemblyProduct("OmniXaml.Tests.SysXaml")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4a7491e9-e218-45f5-bf42-430247765630")]
+[assembly: Guid("e6fda529-90c2-4dda-9080-7e7eef64b2ca")]
 
 // Version information for an assembly consists of the following four values:
 //

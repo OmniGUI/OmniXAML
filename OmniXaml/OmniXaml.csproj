@@ -5,7 +5,7 @@
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A6F3A1E6-3BE2-4F34-B22B-70B8DCF89A98}</ProjectGuid>
+    <ProjectGuid>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OmniXaml</RootNamespace>
@@ -34,25 +34,88 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AssignmentNode.cs" />
-    <Compile Include="MarkupExtensionNode.cs" />
-    <Compile Include="MarkupExtensionParser.cs" />
-    <Compile Include="Option.cs" />
-    <Compile Include="OptionsCollection.cs" />
-    <Compile Include="PositionalOption.cs" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\External\Glass\Glass.csproj">
+      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\ContentPropertyAttribute.cs" />
+    <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="Catalogs\AttributeBasedClrMappingCatalog.cs" />
+    <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
+    <Compile Include="Catalogs\AttributeBasedConverterCatalog.cs" />
+    <Compile Include="Catalogs\ClrMappingCatalog.cs" />
+    <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
+    <Compile Include="Catalogs\EnumerableBasedClrCatalog.cs" />
+    <Compile Include="ClrMapping.cs" />
+    <Compile Include="ContentPropertyProvider.cs" />
+    <Compile Include="DefaultTypeFactory.cs" />
+    <Compile Include="IContentPropertyProvider.cs" />
+    <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="ITypeContext.cs" />
+    <Compile Include="ITypeFactory.cs" />
+    <Compile Include="IValueConverter.cs" />
+    <Compile Include="IXamlLoader.cs" />
+    <Compile Include="IXamlNamespaceTypeResolver.cs" />
+    <Compile Include="IXamlObjectWriter.cs" />
+    <Compile Include="IXamlPullParser.cs" />
+    <Compile Include="IXamlReader.cs" />
+    <Compile Include="MarkupExtension.cs" />
+    <Compile Include="NamespaceDeclaration.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\AssignmentNode.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionNode.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionParser.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\Option.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\OptionsCollection.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\PositionalOption.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\PropertyOption.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\StringNode.cs" />
+    <Compile Include="Parsers\Sprache\MarkupExtension\TreeNode.cs" />
+    <Compile Include="TypeContext.cs" />
+    <Compile Include="TypeContextBuilder.cs" />
+    <Compile Include="TypeConversion\ITypeConverter.cs" />
+    <Compile Include="TypeConversion\ITypeConverterProvider.cs" />
+    <Compile Include="TypeConversion\ITypeDescriptorContext.cs" />
+    <Compile Include="TypeConversion\NumberTypeConverter.cs" />
+    <Compile Include="TypeConversion\StringTypeConverter.cs" />
+    <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
+    <Compile Include="TypeConversion\TypeConverterProvider.cs" />
+    <Compile Include="TypeNotFoundException.cs" />
+    <Compile Include="Typing\ClrAssemblyPair.cs" />
+    <Compile Include="Typing\FrameworkBuiltInTypeRepository.cs" />
+    <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
+    <Compile Include="Typing\IXamlTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PropertyOption.cs" />
-    <Compile Include="StringNode.cs" />
-    <Compile Include="TreeNode.cs" />
+    <Compile Include="Typing\PrefixRegistration.cs" />
+    <Compile Include="Typing\XamlDirective.cs" />
+    <Compile Include="Typing\XamlMember.cs" />
+    <Compile Include="Typing\XamlName.cs" />
+    <Compile Include="Typing\XamlNamespace.cs" />
+    <Compile Include="Typing\XamlNamespaceRegistry.cs" />
+    <Compile Include="Typing\PropertyLocator.cs" />
+    <Compile Include="Typing\XamlQualifiedName.cs" />
+    <Compile Include="Typing\CoreTypes.cs" />
+    <Compile Include="Typing\XamlType.cs" />
+    <Compile Include="Typing\XamlTypeName.cs" />
+    <Compile Include="Typing\XamlTypeRepository.cs" />
+    <Compile Include="WiringContext.cs" />
+    <Compile Include="WiringContextBuilder.cs" />
+    <Compile Include="XamlNode.cs" />
+    <Compile Include="XamlNodeType.cs" />
+    <Compile Include="XamlReader.cs" />
+    <Compile Include="XamlReaderException.cs" />
+    <Compile Include="XamlToObjectWiringContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
