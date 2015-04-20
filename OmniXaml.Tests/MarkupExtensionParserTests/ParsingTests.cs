@@ -8,7 +8,7 @@
     using MarkupExtensionParser = Parsers.Sprache.MarkupExtension.MarkupExtensionParser;
 
     [TestClass]
-    public class ParserTests
+    public class ParsingTests
     {
         [TestMethod]
         public void SimpleExtension()

@@ -34,13 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\External\Glass\Glass.csproj">
-      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
     <Compile Include="Catalogs\AttributeBasedClrMappingCatalog.cs" />
@@ -73,6 +66,7 @@
     <Compile Include="Parsers\Sprache\MarkupExtension\PropertyOption.cs" />
     <Compile Include="Parsers\Sprache\MarkupExtension\StringNode.cs" />
     <Compile Include="Parsers\Sprache\MarkupExtension\TreeNode.cs" />
+    <Compile Include="Parsers\PullParser\XamlPullParser.cs" />
     <Compile Include="TypeContext.cs" />
     <Compile Include="TypeContextBuilder.cs" />
     <Compile Include="TypeConversion\ITypeConverter.cs" />
@@ -116,6 +110,12 @@
       <HintPath>..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\External\Glass\Glass.csproj">
+      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

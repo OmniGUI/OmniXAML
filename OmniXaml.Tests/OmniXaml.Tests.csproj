@@ -62,7 +62,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="MarkupExtensionParserTests\ParserTests.cs" />
+    <Compile Include="MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="NamespaceTest.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />

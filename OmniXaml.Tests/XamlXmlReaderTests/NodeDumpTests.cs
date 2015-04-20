@@ -11,6 +11,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Xaml.Tests.Resources;
 
     [TestClass]
+    [Ignore]
     public class NodeDumpTests
     {
         private readonly XamlNodeBuilder nodeBuilder;

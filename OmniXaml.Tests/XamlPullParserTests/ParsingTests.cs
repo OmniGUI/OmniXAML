@@ -1,8 +1,8 @@
 ﻿namespace OmniXaml.Tests.XamlPullParserTests
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
     using Classes;
     using Classes.Another;
@@ -10,6 +10,7 @@
     using Xaml.Tests.Resources;
 
     [TestClass]
+    [Ignore]
     public class ParsingTests : GivenAWiringContext
     {
         private readonly XamlNodeBuilder nodeBuilder;
@@ -370,7 +371,11 @@
 
         private ICollection<XamlNode> ExtractNodesFromPullParser(TextReader stringReader)
         {
-           throw new NotImplementedException();
+            using (var xmlReader = XmlReader.Create(stringReader))
+            {               
+                var pullParser = new Parsers.PullParser.XamlPullParser();
+                return pullParser.Parse().ToList();
+            }
         }
     }
 }
