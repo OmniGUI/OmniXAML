@@ -57,6 +57,7 @@
     <Compile Include="IXamlReader.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
+    <Compile Include="ObjectWriter\XamlObjectWriter.cs" />
     <Compile Include="Parsers\Sprache\MarkupExtension\AssignmentNode.cs" />
     <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionNode.cs" />
     <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionParser.cs" />

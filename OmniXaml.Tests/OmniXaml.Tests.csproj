@@ -65,6 +65,8 @@
     <Compile Include="MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="NamespaceTest.cs" />
+    <Compile Include="XamlObjectWriterTests\SimpleTests.cs" />
+    <Compile Include="XamlObjectWriterTests\XamlReaderMock.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />
     <Compile Include="XamlNamespaceRegistryTests.cs" />
     <Compile Include="XamlPullParserTests\ParsingTests.cs" />
