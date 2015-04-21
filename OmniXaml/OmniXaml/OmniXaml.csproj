@@ -34,6 +34,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\..\Glass\Glass.csproj">
+      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
     <Compile Include="Catalogs\AttributeBasedClrMappingCatalog.cs" />
@@ -53,21 +60,21 @@
     <Compile Include="IXamlLoader.cs" />
     <Compile Include="IXamlNamespaceTypeResolver.cs" />
     <Compile Include="IXamlObjectWriter.cs" />
-    <Compile Include="IXamlPullParser.cs" />
     <Compile Include="IXamlReader.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
-    <Compile Include="ObjectWriter\XamlObjectWriter.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\AssignmentNode.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionNode.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\MarkupExtensionParser.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\Option.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\OptionsCollection.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\PositionalOption.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\PropertyOption.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\StringNode.cs" />
-    <Compile Include="Parsers\Sprache\MarkupExtension\TreeNode.cs" />
-    <Compile Include="Parsers\PullParser\XamlPullParser.cs" />
+    <Compile Include="Parsers\Xaml\SuperXamlPullParser.cs" />
+    <Compile Include="Parsers\ProtoParser\ProtoNodeType.cs" />
+    <Compile Include="Parsers\MarkupExtensions\AssignmentNode.cs" />
+    <Compile Include="Parsers\MarkupExtensions\MarkupExtensionNode.cs" />
+    <Compile Include="Parsers\MarkupExtensions\MarkupExtensionParser.cs" />
+    <Compile Include="Parsers\MarkupExtensions\Option.cs" />
+    <Compile Include="Parsers\MarkupExtensions\OptionsCollection.cs" />
+    <Compile Include="Parsers\MarkupExtensions\PositionalOption.cs" />
+    <Compile Include="Parsers\MarkupExtensions\PropertyOption.cs" />
+    <Compile Include="Parsers\MarkupExtensions\StringNode.cs" />
+    <Compile Include="Parsers\MarkupExtensions\TreeNode.cs" />
+    <Compile Include="ProtoXamlNode.cs" />
     <Compile Include="TypeContext.cs" />
     <Compile Include="TypeContextBuilder.cs" />
     <Compile Include="TypeConversion\ITypeConverter.cs" />
@@ -79,6 +86,7 @@
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\ClrAssemblyPair.cs" />
+    <Compile Include="Typing\ClrNamespace.cs" />
     <Compile Include="Typing\FrameworkBuiltInTypeRepository.cs" />
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
@@ -99,9 +107,9 @@
     <Compile Include="WiringContextBuilder.cs" />
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />
-    <Compile Include="XamlReader.cs" />
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="XamlToObjectWiringContext.cs" />
+    <Compile Include="XmlNode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -111,12 +119,6 @@
       <HintPath>..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\External\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

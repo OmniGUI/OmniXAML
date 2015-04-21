@@ -1,11 +1,10 @@
-﻿namespace OmniXaml.Tests.MarkupExtensionParserTests
+﻿namespace OmniXaml.Tests.Parsers.MarkupExtensionParserTests
 {
     using System.Collections.Generic;
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Parsers.Sprache.MarkupExtension;
+    using OmniXaml.Parsers.MarkupExtensions;
     using Sprache;
-    using MarkupExtensionParser = Parsers.Sprache.MarkupExtension.MarkupExtensionParser;
 
     [TestClass]
     public class ParsingTests

@@ -1,4 +1,4 @@
-namespace OmniXaml.Parsers.Sprache.MarkupExtension
+namespace OmniXaml.Parsers.MarkupExtensions
 {
     internal class StringNode : TreeNode
     {
