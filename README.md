@@ -1,4 +1,4 @@
-# OmniXaml
+# OmniXAML
 Portable XAML Reader. 
 
 I know you need it, I know you want it. XAML!
