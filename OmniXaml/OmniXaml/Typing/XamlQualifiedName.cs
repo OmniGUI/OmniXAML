@@ -1,7 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System;
-
     public class XamlQualifiedName : XamlName
     {
         public XamlQualifiedName(string prefix, string propertyName)
@@ -9,21 +7,39 @@ namespace OmniXaml.Typing
         {
         }
 
-        public override string ScopedName
+        private static bool IsNameValid(string name)
         {
-            get
+            if (name.Length == 0 || !IsValidNameStartChar(name[0]))
             {
-                if (!string.IsNullOrEmpty(Prefix))
-                {
-                    return Prefix + ":" + PropertyName;
-                }
-                return PropertyName;
+                return false;
             }
-        }
+            for (var index = 1; index < name.Length; ++index)
+            {
+                if (!IsValidQualifiedNameChar(name[index]))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }        
 
-        public static bool Parse(string longName, out string prefix, out string name)
+        public static bool TryParse(string longName, out string prefix, out string name)
         {
-            throw new NotImplementedException();
+            var startIndex = 0;
+            var length = longName.IndexOf(':');
+            prefix = string.Empty;
+            name = string.Empty;
+            if (length != -1)
+            {
+                prefix = longName.Substring(startIndex, length);
+                if (string.IsNullOrEmpty(prefix) || !IsNameValid(prefix))
+                {
+                    return false;
+                }
+                startIndex = length + 1;
+            }
+            name = startIndex == 0 ? longName : longName.Substring(startIndex);
+            return !string.IsNullOrEmpty(name);
         }
     }
 }

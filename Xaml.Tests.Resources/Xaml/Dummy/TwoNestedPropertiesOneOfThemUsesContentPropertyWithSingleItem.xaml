@@ -1,0 +1,8 @@
+﻿<ChildClass  xmlns="root">
+  <Item>
+    <Item Title="Item1" />    
+  </Item>
+  <ChildClass.Child>
+    <ChildClass />
+  </ChildClass.Child>
+</ChildClass>

@@ -10,9 +10,9 @@ namespace OmniXaml
 
         public ClrMapping(Assembly assembly, string xamlNamespace, string clrNamespace)
         {
-            this.Assembly = assembly;
-            this.XamlNamespace = xamlNamespace;
-            this.ClrNamespace = clrNamespace;            
+            Assembly = assembly;
+            XamlNamespace = xamlNamespace;
+            ClrNamespace = clrNamespace;            
         }
     }
 }

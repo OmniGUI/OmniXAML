@@ -1,0 +1,6 @@
+﻿<DummyClass xmlns="root"
+            xmlns:x="another" SampleProperty="One" AnotherProperty="Two">
+  <DummyClass.ChildFromAnotherNamespace>
+    <x:Foreigner />
+  </DummyClass.ChildFromAnotherNamespace>
+</DummyClass>

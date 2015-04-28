@@ -18,7 +18,7 @@ namespace OmniXaml.Typing
 
         public XamlNamespace(string xamlNamespaceUri, IEnumerable<ClrAssemblyPair> clrAssemblyPair) : this(xamlNamespaceUri)
         {
-            this.mappings = new HashSet<ClrAssemblyPair>(clrAssemblyPair);
+            mappings = new HashSet<ClrAssemblyPair>(clrAssemblyPair);
         }
 
         public string NamespaceUri => xamlNamespaceUri;

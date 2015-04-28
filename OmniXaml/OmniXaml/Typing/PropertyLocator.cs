@@ -18,17 +18,7 @@
             }
         }
 
-        public override string ScopedName
-        {
-            get
-            {
-                if (!IsDotted)
-                {
-                    return PropertyName;
-                }
-                return Owner.ScopedName + "." + PropertyName;
-            }
-        }
+      
 
         public string OwnerName
         {
@@ -54,7 +44,7 @@
             string prefix;
             string qualifiedName;
 
-            if (!XamlQualifiedName.Parse(longName, out prefix, out qualifiedName))
+            if (!XamlQualifiedName.TryParse(longName, out prefix, out qualifiedName))
             {
                 return null;
             }

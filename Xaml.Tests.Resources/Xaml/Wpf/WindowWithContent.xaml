@@ -1,0 +1,5 @@
+﻿<Window xmlns="root">
+  <Window.Content>
+    <TextBlock Text="Saludos cordiales!" />
+  </Window.Content>
+</Window>

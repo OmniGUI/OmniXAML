@@ -21,15 +21,15 @@ namespace OmniXaml.Typing
             IsUnreachable = true;
         }
 
-        public bool IsUnreachable { get; private set; }
+        public bool IsUnreachable { get; }
 
-        public Type UnderlyingType { get; private set; }
+        public Type UnderlyingType { get; }
 
         public string Name { get; set; }
 
         public XamlType BaseType { get; set; }
 
-        public bool IsCollection => typeof (IList).GetTypeInfo().IsAssignableFrom(this.UnderlyingType.GetTypeInfo());
+        public bool IsCollection => typeof (IList).GetTypeInfo().IsAssignableFrom(UnderlyingType.GetTypeInfo());
 
         public bool IsContainer => IsCollection || IsDictionary;
 
@@ -111,5 +111,7 @@ namespace OmniXaml.Typing
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
         }
+
+ 
     }
 }

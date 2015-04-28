@@ -1,0 +1,16 @@
+﻿<DummyClass xmlns="root">
+  <Item Title="Main1" />
+  <Item Title="Main2" />
+  <DummyClass.Child>
+    <ChildClass>
+      <Item>
+        <Item Title="Item1" />
+        <Item Title="Item2" />
+        <Item Title="Item3" />
+      </Item>
+      <ChildClass.Child>
+        <ChildClass />
+      </ChildClass.Child>
+    </ChildClass>
+  </DummyClass.Child>
+</DummyClass>

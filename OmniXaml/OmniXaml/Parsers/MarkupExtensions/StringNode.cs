@@ -1,17 +1,17 @@
 namespace OmniXaml.Parsers.MarkupExtensions
 {
-    internal class StringNode : TreeNode
+    public class StringNode : TreeNode
     {
-        private readonly string str;
+        public string Value { get; }
 
-        public StringNode(string str)
+        public StringNode(string value)
         {
-            this.str = str;
+            Value = value;
         }
 
         protected bool Equals(StringNode other)
         {
-            return string.Equals(str, other.str);
+            return string.Equals(Value, other.Value);
         }
 
         public override bool Equals(object obj)
@@ -24,7 +24,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
@@ -33,7 +33,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
 
         public override int GetHashCode()
         {
-            return (str != null ? str.GetHashCode() : 0);
+            return (Value != null ? Value.GetHashCode() : 0);
         }
     }
 }

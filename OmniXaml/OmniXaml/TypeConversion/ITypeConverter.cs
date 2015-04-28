@@ -5,12 +5,12 @@
 
     public interface ITypeConverter
     {
-        object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value);
+        object ConvertFrom(CultureInfo culture, object value);
 
-        object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType);
+        object ConvertTo(CultureInfo culture, object value, Type destinationType);
 
-        bool CanConvertTo(ITypeDescriptorContext context, Type destinationType);
+        bool CanConvertTo(Type destinationType);
 
-        bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType);
+        bool CanConvertFrom(Type sourceType);
     }
 }

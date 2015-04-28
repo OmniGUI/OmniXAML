@@ -31,13 +31,13 @@ namespace OmniXaml.Typing
 
         public string Name => name;
 
-        public bool IsAttachable { get; set; }
+        public bool IsAttachable { get; }
 
-        public bool IsDirective { get; protected set; }
+        public bool IsDirective { get; set; }
 
-        public XamlType DeclaringType { get; private set; }
+        public XamlType DeclaringType { get; set; }
 
-        public bool IsUnreachable { get; private set; }
+        public bool IsUnreachable { get; set; }
 
         public XamlType Type { get; set; }
 
@@ -84,7 +84,7 @@ namespace OmniXaml.Typing
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }

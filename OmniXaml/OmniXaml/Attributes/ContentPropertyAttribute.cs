@@ -13,7 +13,7 @@
 
         public ContentPropertyAttribute(string name)
         {
-            this.Name = name;
+            Name = name;
         }
     }
 }

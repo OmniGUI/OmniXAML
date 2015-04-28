@@ -3,7 +3,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
     using System.Diagnostics;
 
     [DebuggerDisplay("{ToString()}")]
-    class PropertyOption : Option
+    public class PropertyOption : Option
     {
         public string Property { get; }
         public TreeNode Value { get; }

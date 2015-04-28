@@ -2,6 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
+    using BuiltInConverters;
 
     public class TypeConverterProvider : ITypeConverterProvider
     {
@@ -20,6 +22,7 @@
             Register(typeof(short), new NumberTypeConverter());
             Register(typeof(double), new NumberTypeConverter());
             Register(typeof(float), new NumberTypeConverter());
+            Register(typeof(bool), new BooleanConverter());
         }
 
         private void Register(Type type, ITypeConverter converter)
@@ -35,10 +38,20 @@
             }
         }
 
-        public ITypeConverter GetTypeConverter(Type getType)
+        public ITypeConverter GetTypeConverter(Type type)
         {
             ITypeConverter converter;
-            return converters.TryGetValue(getType, out converter) ? converter : null;
+            if (IsNullable(type))
+            {
+                type = Nullable.GetUnderlyingType(type);
+            }
+          
+            return converters.TryGetValue(type, out converter) ? converter : null;
+        }
+
+        static bool IsNullable(Type type)
+        {            
+            return Nullable.GetUnderlyingType(type) != null;
         }
     }
 }

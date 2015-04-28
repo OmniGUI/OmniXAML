@@ -8,7 +8,7 @@
 
         public TypeConverterAttribute(Type typeConverter)
         {
-            this.Converter = typeConverter;
+            Converter = typeConverter;
         }        
     }
 }

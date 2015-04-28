@@ -3,7 +3,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
     using System.Diagnostics;
 
     [DebuggerDisplay("{ToString()}")]
-    class PositionalOption : Option
+    public class PositionalOption : Option
     {
         public string Identifier { get; }
 

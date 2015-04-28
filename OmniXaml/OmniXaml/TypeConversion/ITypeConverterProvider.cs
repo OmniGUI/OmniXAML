@@ -5,7 +5,7 @@ namespace OmniXaml.TypeConversion
 
     public interface ITypeConverterProvider
     {
-        ITypeConverter GetTypeConverter(Type getType);
+        ITypeConverter GetTypeConverter(Type type);
         
         void AddCatalog(IDictionary<Type, ITypeConverter> typeConverters);
     }

@@ -5,12 +5,12 @@ namespace OmniXaml.Typing
         public XamlDirective(string name)
             : base(name)
         {
-            this.IsDirective = true;
+            IsDirective = true;
         }
 
         public XamlDirective(string name, XamlType xamlType) : this(name)
         {
-            this.Type = xamlType;
+            Type = xamlType;
         }
     }
 }

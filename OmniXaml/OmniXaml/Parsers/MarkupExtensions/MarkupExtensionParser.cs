@@ -1,7 +1,7 @@
 namespace OmniXaml.Parsers.MarkupExtensions
 {
     using System.Linq;
-    using global::Sprache;
+    using Sprache;
 
     public static class MarkupExtensionParser
     {
@@ -66,52 +66,5 @@ namespace OmniXaml.Parsers.MarkupExtensions
         public static readonly Parser<MarkupExtensionNode> MarkupExtension = MarkupExtensionWithOptions.Or(SimpleMarkupExtension);
 
         private static readonly Parser<TreeNode> AssignmentSource = MarkupExtension.Or(StringValueNode);
-    }
-
-    public class IdentifierNode
-    {
-        public string Prefix { get; }
-        public string TypeName { get; }
-
-        public IdentifierNode(string typeName)
-        {
-            this.TypeName = typeName;
-        }
-
-        public IdentifierNode(string prefix, string typeName)
-        {
-            this.Prefix = prefix;
-            this.TypeName = typeName;
-        }
-
-        protected bool Equals(IdentifierNode other)
-        {
-            return string.Equals(Prefix, other.Prefix) && string.Equals(TypeName, other.TypeName);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj))
-            {
-                return false;
-            }
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-            if (obj.GetType() != this.GetType())
-            {
-                return false;
-            }
-            return Equals((IdentifierNode) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Prefix != null ? Prefix.GetHashCode() : 0)*397) ^ (TypeName != null ? TypeName.GetHashCode() : 0);
-            }
-        }
     }
 }

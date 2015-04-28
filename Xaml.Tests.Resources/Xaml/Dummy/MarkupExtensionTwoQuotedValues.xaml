@@ -1,0 +1,3 @@
+﻿<DummyClass xmlns="root"
+            SampleProperty="{Dummy Property='Some Value'}"
+            AnotherProperty="{Dummy Property='Another Value'}" />

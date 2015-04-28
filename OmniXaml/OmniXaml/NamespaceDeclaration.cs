@@ -22,5 +22,35 @@ namespace OmniXaml
             get { return prefix; }
             set { prefix = value; }
         }
+
+        protected bool Equals(NamespaceDeclaration other)
+        {
+            return string.Equals(ns, other.ns) && string.Equals(prefix, other.prefix);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+            return Equals((NamespaceDeclaration) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((ns != null ? ns.GetHashCode() : 0)*397) ^ (prefix != null ? prefix.GetHashCode() : 0);
+            }
+        }
     }
 }

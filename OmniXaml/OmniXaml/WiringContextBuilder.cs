@@ -8,8 +8,8 @@ namespace OmniXaml
 
     public class WiringContextBuilder
     {
-        private readonly IContentPropertyProvider contentPropertyProvider;
-        private readonly ITypeConverterProvider converterProvider;
+        private IContentPropertyProvider contentPropertyProvider;
+        private ITypeConverterProvider converterProvider;
 
         private readonly TypeContextBuilder typingCoreBuilder = new TypeContextBuilder();
 
@@ -41,6 +41,18 @@ namespace OmniXaml
         public WiringContextBuilder WithContentPropertiesFromAssemblies(IEnumerable<Assembly> assemblies)
         {
             contentPropertyProvider.AddCatalog(new AttributeBasedContentPropertyCatalog(assemblies));
+            return this;
+        }
+
+        public WiringContextBuilder WithContentPropertyProvider(IContentPropertyProvider provider)
+        {
+            contentPropertyProvider = provider;
+            return this;
+        }
+
+        public WiringContextBuilder WithConverterProvider(ITypeConverterProvider provider)
+        {
+            converterProvider = provider;
             return this;
         }
 

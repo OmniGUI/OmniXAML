@@ -1,0 +1,10 @@
+﻿<DummyClass xmlns="root">
+  <DummyClass.Items>
+    <Item Title="Main1" />
+    <Item Title="Main2" />
+  </DummyClass.Items>
+  <DummyClass.Child>
+    <ChildClass>
+    </ChildClass>
+  </DummyClass.Child>
+</DummyClass>
