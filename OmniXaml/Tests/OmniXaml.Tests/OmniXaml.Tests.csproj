@@ -62,6 +62,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />
+    <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
@@ -79,7 +80,6 @@
     <Compile Include="XamlNodeBuilder.cs" />
     <Compile Include="XamlNodesAssert.cs" />
     <Compile Include="GivenAWiringContext.cs" />
-    <Compile Include="Parsers\ProtoNodeBuilder.cs" />
     <Compile Include="XamlXmlLoaderTests\ChildInstanceReadingTests.cs" />
     <Compile Include="XamlXmlLoaderTests\PropertyReadingTests.cs" />
     <Compile Include="XamlXmlLoaderTests\SingleInstantiationTests.cs" />

@@ -1,9 +1,9 @@
-﻿namespace OmniXaml.Tests.Parsers
+﻿namespace OmniXaml
 {
     using System;
     using System.Linq.Expressions;
     using Glass;
-    using OmniXaml.Parsers.ProtoParser;
+    using Parsers.ProtoParser;
     using Typing;
 
     internal class ProtoNodeBuilder
@@ -82,13 +82,18 @@
         }
 
         public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string ns)
-        {          
+        {
             return PropertyElement(selector, ns, isCollapsed: false);
         }
 
-        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string ns, bool isCollapsed)
+        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName, string ns)
         {
-            var property = typeRepository.Get(typeof(T)).GetMember(selector.GetFullPropertyName());
+            return PropertyElement(type, memberName, ns, isCollapsed: false);
+        }
+
+        private ProtoXamlNode PropertyElement(Type type, string memberName, string ns, bool isCollapsed)
+        {
+            var property = typeRepository.Get(type).GetMember(memberName);
 
             return new ProtoXamlNode
             {
@@ -100,6 +105,11 @@
                         ? NodeType.EmptyPropertyElement
                         : NodeType.PropertyElement
             };
+        }
+
+        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string ns, bool isCollapsed)
+        {
+            return PropertyElement(typeof(T), selector.GetFullPropertyName(), ns, isCollapsed);
         }
 
         public ProtoXamlNode EndTag()
