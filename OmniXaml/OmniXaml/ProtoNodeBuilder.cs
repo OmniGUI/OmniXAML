@@ -41,6 +41,7 @@
             return new ProtoXamlNode
             {
                 Namespace = ns,
+                Prefix = string.Empty,
                 XamlType = XamlType.Builder.Create(type, typeRepository),
                 NodeType = isEmtpy ? NodeType.EmptyElement : NodeType.Element,
             };
@@ -98,6 +99,7 @@
             return new ProtoXamlNode
             {
                 PropertyElement = property,
+                Prefix = string.Empty,
                 Namespace = ns,
                 XamlType = null,
                 NodeType =

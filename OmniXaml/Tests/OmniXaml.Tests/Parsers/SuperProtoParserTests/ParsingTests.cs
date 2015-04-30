@@ -27,7 +27,7 @@
 
         [TestMethod]
         public void SingleCollapsed()
-        {            
+        {
             var actualNodes = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
@@ -92,6 +92,32 @@
                 builder.NonEmptyElement(typeof(DummyClass), root),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
                 builder.EmptyElement(typeof(ChildClass), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void ThreeLevelsOfNesting()
+        {
+            var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();
+
+            var root = "root";
+            ICollection expectedNodes = new Collection<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof (DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyElement(typeof (ChildClass), root),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
+                builder.EmptyElement(typeof (ChildClass), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
