@@ -33,26 +33,49 @@
             }
             else
             {
-                yield return nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+                foreach (var protoXamlNode in ParseNonEmptyElement(xamlType, reader)) yield return protoXamlNode;
+            }
+        }
 
+        private IEnumerable<ProtoXamlNode> ParseNonEmptyElement(XamlType xamlType, XmlReader reader)
+        {
+            yield return
+                nodeBuilder.NonEmptyElement(
+                    xamlType.UnderlyingType,
+                    wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+
+            reader.Read();
+
+            if (reader.NodeType != XmlNodeType.EndElement)
+            {
+                SkipWhitespaces(reader);
+
+                var memberName = GetMemberName(reader.LocalName);
+                yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, memberName, "root");
                 reader.Read();
 
-                if (reader.NodeType != XmlNodeType.EndElement)
-                {
-                    SkipWhitespaces(reader);
+                foreach (var p in ParseChild(reader)) yield return p;
+            }
 
-                    var memberName = GetMemberName(reader.LocalName);
-                    yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, memberName, "root");
-                    reader.Read();
-                    SkipWhitespaces(reader);
+            yield return nodeBuilder.EndTag();
+        }
 
-                    var childType = GetCurrentType(reader);
-                    yield return nodeBuilder.EmptyElement(childType.UnderlyingType, "root");
-                    yield return nodeBuilder.Text();
-                    yield return nodeBuilder.EndTag();
-                }
+        private IEnumerable<ProtoXamlNode> ParseChild(XmlReader reader)
+        {
+            SkipWhitespaces(reader);
 
+            var childType = GetCurrentType(reader);
 
+            if (reader.IsEmptyElement)
+            {
+                yield return nodeBuilder.EmptyElement(childType.UnderlyingType, "root");
+                yield return nodeBuilder.Text();
+                yield return nodeBuilder.EndTag();
+            }
+            else
+            {
+                foreach (var protoXamlNode in ParseNonEmptyElement(childType, reader)) yield return protoXamlNode;
+                yield return nodeBuilder.Text();
                 yield return nodeBuilder.EndTag();
             }
         }

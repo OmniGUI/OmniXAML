@@ -101,7 +101,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ThreeLevelsOfNesting()
         {
             var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();
@@ -115,6 +114,36 @@
                 builder.NonEmptyElement(typeof (ChildClass), root),
                 builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
                 builder.EmptyElement(typeof (ChildClass), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void FourLevelsOfNesting()
+        {
+            var actualNodes = sut.Parse(Dummy.FourLevelsOfNesting).ToList();
+
+            var root = "root";
+            ICollection expectedNodes = new Collection<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyElement(typeof(ChildClass), root),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
+                builder.NonEmptyElement(typeof(ChildClass), root),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
+                builder.EmptyElement(typeof(ChildClass), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
