@@ -129,14 +129,19 @@
             return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, };
         }
 
-        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value)
+        public ProtoXamlNode Attribute(XamlMember member, string value)
         {
             return new ProtoXamlNode
             {
-                PropertyAttribute = typeRepository.Get(typeof(T)).GetMember(selector.GetFullPropertyName()),
+                PropertyAttribute = member,
                 NodeType = NodeType.Attribute,
                 PropertyAttributeText = value,
             };
+        }
+
+        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value)
+        {
+            return Attribute(typeRepository.Get(typeof (T)).GetMember(selector.GetFullPropertyName()), value);           
         }
     }
 }

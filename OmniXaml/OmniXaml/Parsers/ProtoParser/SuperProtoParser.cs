@@ -1,10 +1,9 @@
 ﻿namespace OmniXaml.Parsers.ProtoParser
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Xml;
-    using Glass;
     using Typing;
 
     internal class SuperProtoParser
@@ -23,26 +22,47 @@
             var reader = XmlReader.Create(new StringReader(xml));
             reader.Read();
 
-            foreach (var protoXamlNode in ParseNamespaceDefinitions(reader)) yield return protoXamlNode;
+            AssertValidElement(reader);
 
             var xamlType = GetCurrentType(reader);
 
             if (reader.IsEmptyElement)
             {
-                yield return nodeBuilder.EmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+                foreach (var protoXamlNode in ParseEmptyElement(xamlType, reader)) yield return protoXamlNode;
             }
             else
             {
-                foreach (var protoXamlNode in ParseNonEmptyElement(xamlType, reader)) yield return protoXamlNode;
+                foreach (var protoXamlNode in ParseElement(xamlType, reader)) yield return protoXamlNode;
             }
         }
 
-        private IEnumerable<ProtoXamlNode> ParseNonEmptyElement(XamlType xamlType, XmlReader reader)
+        private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType, XmlReader reader)
         {
-            yield return
-                nodeBuilder.NonEmptyElement(
-                    xamlType.UnderlyingType,
-                    wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            foreach (var protoXamlNode in CommonNodesOfElement(xamlType, reader, emptyElement)) yield return protoXamlNode;
+        }
+
+        private IEnumerable<ProtoXamlNode> CommonNodesOfElement(XamlType xamlType, XmlReader reader, ProtoXamlNode elementNode)
+        {
+            var rawAttributes = GetAttributes(xamlType, reader).ToList();
+
+            foreach (var rawAttribute in GetPrefixDefinitions(rawAttributes))
+            {
+                yield return ConvertToNsDefinition(rawAttribute);
+            }
+
+            yield return elementNode;
+
+            foreach (var p in GetAttributes(rawAttributes).Select(ConvertToAttribute))
+            {
+                yield return p;
+            }
+        }
+
+        private IEnumerable<ProtoXamlNode> ParseElement(XamlType xamlType, XmlReader reader)
+        {
+            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            foreach (var node in CommonNodesOfElement(xamlType, reader, element)) yield return node;
 
             reader.Read();
 
@@ -60,6 +80,43 @@
             yield return nodeBuilder.EndTag();
         }
 
+        private static void AssertValidElement(XmlReader reader)
+        {
+            if (!(reader.NodeType == XmlNodeType.Element && !reader.LocalName.Contains(".")))
+            {
+                throw new XamlParseException("The root should be an element.");
+            }
+        }
+
+        private IEnumerable<RawAttribute> GetAttributes(IEnumerable<RawAttribute> rawAttributes)
+        {
+            return rawAttributes.Where(attribute => !attribute.Name.Contains("xmlns"));
+        }
+
+        private ProtoXamlNode ConvertToAttribute(RawAttribute rawAttribute)
+        {
+            var member = rawAttribute.Owner.GetMember(rawAttribute.Name);
+            return nodeBuilder.Attribute(member, rawAttribute.Value);
+        }
+
+        private IEnumerable<RawAttribute> GetPrefixDefinitions(IEnumerable<RawAttribute> rawAttributes)
+        {
+            return rawAttributes.Where(attribute => attribute.Name.Contains("xmlns"));
+        }
+
+        private static IEnumerable<RawAttribute> GetAttributes(XamlType owner, XmlReader reader)
+        {
+            if (reader.MoveToFirstAttribute())
+            {
+                do
+                {
+                    yield return new RawAttribute(owner, reader.Name, reader.Value);
+                } while (reader.MoveToNextAttribute());
+
+                reader.MoveToElement();
+            }
+        }
+
         private IEnumerable<ProtoXamlNode> ParseChild(XmlReader reader)
         {
             SkipWhitespaces(reader);
@@ -68,16 +125,15 @@
 
             if (reader.IsEmptyElement)
             {
-                yield return nodeBuilder.EmptyElement(childType.UnderlyingType, "root");
-                yield return nodeBuilder.Text();
-                yield return nodeBuilder.EndTag();
+                foreach (var protoXamlNode in ParseEmptyElement(childType, reader)) yield return protoXamlNode;                
             }
             else
             {
-                foreach (var protoXamlNode in ParseNonEmptyElement(childType, reader)) yield return protoXamlNode;
-                yield return nodeBuilder.Text();
-                yield return nodeBuilder.EndTag();
+                foreach (var protoXamlNode in ParseElement(childType, reader)) yield return protoXamlNode;
             }
+
+            yield return nodeBuilder.Text();
+            yield return nodeBuilder.EndTag();
         }
 
         private static string GetMemberName(string propertyName)
@@ -99,42 +155,25 @@
             return wiringContext.TypeContext.GetByPrefix(reader.Prefix, reader.LocalName);
         }
 
-        private IEnumerable<ProtoXamlNode> ParseNamespaceDefinitions(XmlReader reader)
+        private ProtoXamlNode ConvertToNsDefinition(RawAttribute rawAttribute)
         {
-            if (reader.MoveToFirstAttribute())
-            {
-                do
-                {
-                    var value = reader.Value;
-                    var propName = new Property(reader.Name);
-                    yield return nodeBuilder.NamespacePrefixDeclaration(value, propName.Name);
-                } while (reader.MoveToNextAttribute());
-
-                reader.MoveToElement();
-            }
+            var value = rawAttribute.Value;
+            var propName = new Property(rawAttribute.Name);
+            return nodeBuilder.NamespacePrefixDeclaration(value, propName.Name);
         }
     }
 
-    internal class Property
+    internal class RawAttribute
     {
-        public Property(string longName)
-        {
-            Guard.ThrowIfNull(longName, nameof(longName));
-
-            var colonPosition = longName.IndexOf(":", StringComparison.Ordinal);
-            if (colonPosition != -1)
-            {
-                Prefix = longName.Substring(0, colonPosition);
-                Name = longName.Substring(colonPosition + 1, longName.Length - colonPosition - 1);
-            }
-            else
-            {
-                Prefix = longName;
-                Name = string.Empty;
-            }
-        }
-
+        public XamlType Owner { get; }
         public string Name { get; }
-        public string Prefix { get; private set; }
+        public string Value { get; }
+
+        public RawAttribute(XamlType owner, string name, string value)
+        {
+            this.Owner = owner;
+            this.Name = name;
+            this.Value = value;
+        }
     }
 }

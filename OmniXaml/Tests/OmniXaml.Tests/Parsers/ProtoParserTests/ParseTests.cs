@@ -50,7 +50,7 @@
         }
 
         [TestMethod]
-        public void PropertyTagOpenWithInstance()
+        public void ElementWithChild()
         {
             var actualStates = sut.Parse(ProtoInputs.ElementWithChild).ToList();
             var expectedStates = new List<ProtoXamlNode>
@@ -122,23 +122,6 @@
         }
 
         [TestMethod]
-        public void AttachedProperty()
-        {
-            var actualStates = sut.Parse(Dummy.WithAttachableProperty).ToList();
-            var expectedStates = new List<ProtoXamlNode>
-            {
-                builder.NamespacePrefixDeclaration("root", ""),
-                builder.NonEmptyElement(typeof(DummyClass), "root"),
-                builder.AttachableProperty<Container>("Property"),
-                builder.EndTag(),
-                builder.None()
-            };
-
-
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
-        }
-
-        [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
             var actualNodes = sut.Parse(Dummy.StringProperty).ToList();
@@ -153,6 +136,23 @@
             };
 
             ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void AttachedProperty()
+        {
+            var actualStates = sut.Parse(Dummy.WithAttachableProperty).ToList();
+            var expectedStates = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), "root"),
+                builder.AttachableProperty<Container>("Property"),
+                builder.EndTag(),
+                builder.None()
+            };
+
+
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
         }
 
         [TestMethod]

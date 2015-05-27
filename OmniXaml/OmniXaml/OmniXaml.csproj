@@ -91,6 +91,7 @@
     <Compile Include="Parsers\MarkupExtensions\StringNode.cs" />
     <Compile Include="Parsers\MarkupExtensions\TreeNode.cs" />
     <Compile Include="Parsers\Inject.cs" />
+    <Compile Include="Parsers\ProtoParser\Property.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser.cs" />
     <Compile Include="Parsers\XamlNodes\XamlNodesPullParser.cs" />
     <Compile Include="Parsers\ProtoParser\AttributeType.cs" />
