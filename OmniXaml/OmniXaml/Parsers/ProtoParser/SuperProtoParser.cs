@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Parsers.ProtoParser
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
@@ -83,7 +84,17 @@
 
         private ProtoXamlNode ConvertAttributeToNode(RawAttribute rawAttribute)
         {
-            var member = rawAttribute.Owner.GetMember(rawAttribute.Name);
+            XamlMember member;
+
+            if (!Equals(rawAttribute.Owner, rawAttribute.ContainingType))
+            {
+                member = rawAttribute.Owner.GetAttachableMember(rawAttribute.Name);
+            }
+            else
+            {
+                member = rawAttribute.Owner.GetMember(rawAttribute.Name);
+            }
+            
             return nodeBuilder.Attribute(member, rawAttribute.Value);
         }
 
@@ -92,17 +103,57 @@
             return rawAttributes.Where(attribute => attribute.Name.Contains("xmlns"));
         }
 
-        private IEnumerable<RawAttribute> GetAttributes(XamlType owner)
+        private IEnumerable<RawAttribute> GetAttributes(XamlType containingType)
         {
             if (reader.MoveToFirstAttribute())
             {
                 do
                 {
-                    yield return new RawAttribute(owner, reader.Name, reader.Value);
+                    var propertyOwner = GetPropertyOwner(containingType, reader.Name);
+                    var propertyName = GetPropertyName(reader.Name);
+                    var attributeDescriptor = new AttributeDescriptor(containingType, propertyOwner, propertyName);
+
+                    yield return new RawAttribute(attributeDescriptor, reader.Value);
                 } while (reader.MoveToNextAttribute());
 
                 reader.MoveToElement();
             }
+        }
+
+        private string GetPropertyName(string propertyName)
+        {
+            if (propertyName.Contains("xmlns"))
+            {
+                return propertyName;
+            }
+
+            var parts = propertyName.Split('.');
+
+            if (parts.Count() > 1)
+            {
+                return parts[1];
+            }
+
+            return propertyName;
+        }
+
+        private XamlType GetPropertyOwner(XamlType containingType, string propertyName)
+        {
+            if (propertyName.Contains("xmlns"))
+            {
+                return containingType;
+            }
+
+            var parts = propertyName.Split('.');
+
+            if (parts.Count() > 1)
+            {
+                var typeName = parts.First();
+                string prefix = string.Empty;
+                return wiringContext.TypeContext.GetByPrefix(prefix, typeName);
+            }
+
+            return containingType;
         }
 
         private IEnumerable<ProtoXamlNode> ParseElement()
@@ -144,20 +195,6 @@
             var value = rawAttribute.Value;
             var propName = new Property(rawAttribute.Name);
             return nodeBuilder.NamespacePrefixDeclaration(value, propName.Name);
-        }
-    }
-
-    internal class RawAttribute
-    {
-        public XamlType Owner { get; }
-        public string Name { get; }
-        public string Value { get; }
-
-        public RawAttribute(XamlType owner, string name, string value)
-        {
-            this.Owner = owner;
-            this.Name = name;
-            this.Value = value;
         }
     }
 }

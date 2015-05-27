@@ -142,6 +142,22 @@
         }
 
         [TestMethod]
+        public void AttachedProperty()
+        {
+            var actualNodes = sut.Parse(Dummy.WithAttachableProperty).ToList();
+
+            var expectedNodes = new Collection<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), "root"),
+                builder.AttachableProperty<Container>("Property", "Value"),
+                builder.EndTag(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
         public void ThreeLevelsOfNesting()
         {
             var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();

@@ -130,7 +130,7 @@
             {
                 builder.NamespacePrefixDeclaration("root", ""),
                 builder.NonEmptyElement(typeof(DummyClass), "root"),
-                builder.AttachableProperty<Container>("Property"),
+                builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
                 builder.EndTag(),
                 builder.None()
             };
@@ -146,7 +146,7 @@
             {
                 builder.NamespacePrefixDeclaration("root", ""),
                 builder.NonEmptyElement(typeof(DummyClass), "root"),
-                builder.AttachableProperty<Container>("Property"),
+                builder.AttachableProperty<Container>("Property", "Value"),
                 builder.EndTag(),
                 builder.None()
             };
