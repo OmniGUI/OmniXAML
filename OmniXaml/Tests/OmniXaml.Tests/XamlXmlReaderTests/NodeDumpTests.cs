@@ -170,44 +170,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
             var protoNodes = new ProtoParser(wiringContext.TypeContext).Parse(xaml);
-            var reader = new XamlReader(pullParser.Parse(protoNodes));
-
-            return DumpReaderNodes(reader);
-        }
-
-        private static IList<XamlNode> DumpReaderNodes(IXamlReader sut)
-        {
-            var nodes = new List<XamlNode>();
-
-            while (sut.Read())
-            {
-                nodes.Add(ExtractXamlNodeFromReader(sut));
-            }
-
-            return nodes;
-        }
-
-        private static XamlNode ExtractXamlNodeFromReader(IXamlReader sut)
-        {
-            object data = null;
-
-            switch (sut.NodeType)
-            {
-                case XamlNodeType.StartObject:
-                    data = sut.Type;
-                    break;
-                case XamlNodeType.StartMember:
-                    data = sut.Member;
-                    break;
-                case XamlNodeType.NamespaceDeclaration:
-                    data = sut.Namespace;
-                    break;
-                case XamlNodeType.Value:
-                    data = sut.Value;
-                    break;
-            }
-
-            return new XamlNode(sut.NodeType, data);
+            return pullParser.Parse(protoNodes).ToList();         
         }
     }
 }

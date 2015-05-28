@@ -146,7 +146,6 @@
     <Compile Include="XamlElement.cs" />
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />
-    <Compile Include="XamlReader.cs" />
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="XamlToObjectWiringContext.cs" />
     <Compile Include="XamlXmlLoader.cs" />
