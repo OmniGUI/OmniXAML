@@ -25,35 +25,35 @@
         [TestMethod]
         public void SingleCollapsed()
         {
-            var actualStates = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
-            var expectedStates = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.EmptyElement(typeof(DummyClass), string.Empty),
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         public void SingleOpenAndClose()
         {
-            var actualStates = sut.Parse(ProtoInputs.SingleOpenAndClose).ToList();
-            var expectedStates = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse(ProtoInputs.SingleOpenAndClose).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.EndTag(),
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         public void ElementWithChild()
         {
-            var actualStates = sut.Parse(ProtoInputs.ElementWithChild).ToList();
-            var expectedStates = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse(ProtoInputs.ElementWithChild).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
@@ -64,31 +64,31 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         public void SingleCollapsedWithNs()
         {
-            var actualStates = sut.Parse(ProtoInputs.SingleCollapsedWithNs).ToList();
+            var actualNodes = sut.Parse(ProtoInputs.SingleCollapsedWithNs).ToList();
             const string oneNamespace = "root";
 
-            var expectedStates = new List<ProtoXamlNode>
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration(oneNamespace, ""),
                 builder.EmptyElement(typeof(DummyClass), oneNamespace),
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         public void ElementWith2NsDeclarations()
         {
-            var actualStates = sut.Parse(ProtoInputs.ElementWith2NsDeclarations).ToList();
+            var actualNodes = sut.Parse(ProtoInputs.ElementWith2NsDeclarations).ToList();
 
-            var expectedStates = new List<ProtoXamlNode>
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("root", ""),
                 builder.NamespacePrefixDeclaration("another", "a"),
@@ -96,14 +96,14 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         public void SingleOpenWithNs()
         {
-            var actualStates = sut.Parse(ProtoInputs.SingleOpenAndCloseWithNs).ToList();
-            var expectedStates = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse(ProtoInputs.SingleOpenAndCloseWithNs).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("root", ""),
                 builder.NonEmptyElement(typeof(DummyClass), "root"),
@@ -111,14 +111,14 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
         [ExpectedException(typeof(XamlParseException))]
         public void PropertyTagOpen()
         {
-            var actualStates = sut.Parse(ProtoInputs.PropertyTagOpen).ToList();
+            var actualNodes = sut.Parse(ProtoInputs.PropertyTagOpen).ToList();
         }
 
         [TestMethod]
@@ -141,8 +141,8 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualStates = sut.Parse(Dummy.WithAttachableProperty).ToList();
-            var expectedStates = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse(Dummy.WithAttachableProperty).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("root", ""),
                 builder.NonEmptyElement(typeof(DummyClass), "root"),
@@ -152,7 +152,7 @@
             };
 
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedStates, actualStates);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -210,6 +210,32 @@
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+
+        [TestMethod]
+        public void ChildCollection()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.ChildCollection).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),                
+                builder.None(),
+            };
+
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
     }
 }

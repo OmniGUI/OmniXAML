@@ -31,7 +31,7 @@
         }
 
         [TestMethod]
-        public void PropertyWithChildren()
+        public void ChildCollection()
         {       
             var actualInstance = LoadXaml(Dummy.ChildCollection);
 

@@ -59,12 +59,19 @@
 
                 reader.Read();
 
-                foreach (var p in ParseElement()) yield return p;
+                while (reader.NodeType != XmlNodeType.EndElement)
+                {
+                    foreach (var p in ParseElement()) yield return p;
 
-                yield return nodeBuilder.Text();
+                    yield return nodeBuilder.Text();
+
+                    reader.Read();
+                    SkipWhitespaces();
+                }
+
                 yield return nodeBuilder.EndTag();
             }
-
+            
             yield return nodeBuilder.EndTag();
         }
 

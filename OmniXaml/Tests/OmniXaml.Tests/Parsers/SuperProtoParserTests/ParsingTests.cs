@@ -212,5 +212,29 @@
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void ChildCollection()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.ChildCollection).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EndTag(),
+                builder.EndTag(),
+            };
+
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+        }
     }
 }
