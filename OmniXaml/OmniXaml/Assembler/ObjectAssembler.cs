@@ -31,6 +31,40 @@
 
         public object Result { get; internal set; }
 
+        public void WriteNode(XamlNode node)
+        {
+            Guard.ThrowIfNull(node, nameof(node));
+
+            switch (node.NodeType)
+            {
+                case XamlNodeType.None:
+                    break;
+                case XamlNodeType.StartObject:
+                    startObjectWriter.WriteStartObject(node.XamlType);
+                    break;
+                case XamlNodeType.EndObject:
+                    endObjectWriter.WriteEndObject();
+                    break;
+                case XamlNodeType.StartMember:
+                    startMemberWriter.WriteStartMember(node.Member);
+                    break;
+                case XamlNodeType.EndMember:
+                    endMemberWriter.WriteEndMember();
+                    break;
+                case XamlNodeType.Value:
+                    valueWriter.WriteValue(node.Value);
+                    break;
+                case XamlNodeType.GetObject:
+                    getObjectWriter.WriteGetObject();
+                    break;
+                case XamlNodeType.NamespaceDeclaration:
+                    namespaceWriter.WriteNamespace(node.NamespaceDeclaration);
+                    break;
+                default:
+                    throw new InvalidOperationException($"Cannot handle this kind of node type: {node.NodeType}");
+            }
+        }
+
         public void WriteNode(IXamlReader reader)
         {
             Guard.ThrowIfNull(reader, nameof(reader));
