@@ -91,13 +91,18 @@
         {
             XamlMember member;
 
-            if (!Equals(rawAttribute.Owner, rawAttribute.ContainingType))
+            if (rawAttribute.Descriptor.Locator.IsDotted)
             {
-                member = rawAttribute.Owner.GetAttachableMember(rawAttribute.Name);
+                var ownerName = rawAttribute.Descriptor.Locator.Owner.PropertyName;
+                var ownerPrefix = rawAttribute.Descriptor.Locator.Owner.Prefix;
+
+                var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
+
+                member = owner.GetAttachableMember(rawAttribute.Name);
             }
             else
             {
-                member = rawAttribute.Owner.GetMember(rawAttribute.Name);
+                member = rawAttribute.ContainingType.GetMember(rawAttribute.Name);
             }
             
             return nodeBuilder.Attribute(member, rawAttribute.Value);
