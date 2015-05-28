@@ -129,8 +129,8 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
                 expectedNodes.ToList(),
                 actualNodes.ToList(),
                 "\nExpected:\n{0}\n\nActual:\n{1}",
-                EnumerableExtensions.ToString(expectedNodes),
-                EnumerableExtensions.ToString(actualNodes));
+                Extensions.ToString(expectedNodes),
+                Extensions.ToString(actualNodes));
         }
 
         private static IList<XamlNodeType> ParseResult(string str)

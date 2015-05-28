@@ -8,6 +8,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using ProtoParserTests;
     using Xaml.Tests.Resources;
 
