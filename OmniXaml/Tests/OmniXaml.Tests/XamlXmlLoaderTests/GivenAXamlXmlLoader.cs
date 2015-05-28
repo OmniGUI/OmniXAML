@@ -2,7 +2,7 @@
 {
     using System.IO;
     using System.Text;
-    using global::OmniXaml.Assembler;
+    using Assembler;
 
     namespace OmniXaml.Reader.Tests.Wpf
     {

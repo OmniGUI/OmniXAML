@@ -3,8 +3,10 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Glass;
     using Parsers.ProtoParser;
+    using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
     public class XamlXmlLoader : IXamlLoader
@@ -24,7 +26,9 @@
         public object Load(Stream stream)
         {
             using (var t = new StreamReader(stream))
+            {
                 return Load(t.ReadToEnd(), null);
+            }
         }
 
         public object Load(Stream stream, object rootInstance)
@@ -35,7 +39,8 @@
         private object Load(string xml, object rootInstance)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var xamlNodes = pullParser.Parse(new ProtoParser(wiringContext.TypeContext).Parse(xml));
+            var protoXamlNodes = new ProtoParser(wiringContext.TypeContext).Parse(xml).ToList();
+            var xamlNodes = pullParser.Parse(protoXamlNodes);
             return Load(xamlNodes, rootInstance);
         }
 
