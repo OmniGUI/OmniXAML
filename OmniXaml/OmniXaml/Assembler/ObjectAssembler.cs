@@ -65,40 +65,6 @@
             }
         }
 
-        public void WriteNode(IXamlReader reader)
-        {
-            Guard.ThrowIfNull(reader, nameof(reader));
-
-            switch (reader.NodeType)
-            {
-                case XamlNodeType.None:
-                    break;
-                case XamlNodeType.StartObject:
-                    startObjectWriter.WriteStartObject(reader.Type);
-                    break;
-                case XamlNodeType.EndObject:
-                    endObjectWriter.WriteEndObject();
-                    break;
-                case XamlNodeType.StartMember:
-                    startMemberWriter.WriteStartMember(reader.Member);
-                    break;
-                case XamlNodeType.EndMember:
-                    endMemberWriter.WriteEndMember();
-                    break;
-                case XamlNodeType.Value:
-                    valueWriter.WriteValue(reader.Value);
-                    break;
-                case XamlNodeType.GetObject:
-                    getObjectWriter.WriteGetObject();
-                    break;
-                case XamlNodeType.NamespaceDeclaration:
-                    namespaceWriter.WriteNamespace(reader.Namespace);
-                    break;
-                default:
-                    throw new InvalidOperationException($"Cannot handle this kind of node type: {reader.NodeType}");
-            }
-        }
-
         public void SetUnfinishedResult()
         {
             Result = null;
