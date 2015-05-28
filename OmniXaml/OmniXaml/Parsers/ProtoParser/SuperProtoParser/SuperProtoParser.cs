@@ -55,9 +55,12 @@
                 SkipWhitespaces();
 
                 var propertyLocator = PropertyLocator.Parse(reader.LocalName);
-                yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
 
-                reader.Read();
+                if (propertyLocator.IsDotted)
+                {
+                    yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
+                    reader.Read();
+                }
 
                 while (reader.NodeType != XmlNodeType.EndElement)
                 {
@@ -69,7 +72,10 @@
                     SkipWhitespaces();
                 }
 
-                yield return nodeBuilder.EndTag();
+                if (propertyLocator.IsDotted)
+                {
+                    yield return nodeBuilder.EndTag();
+                }
             }
             
             yield return nodeBuilder.EndTag();

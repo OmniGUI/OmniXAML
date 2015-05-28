@@ -236,5 +236,23 @@
 
             ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void ContentPropertyForCollectionOneElement()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.EmptyElement(typeof(Item), root),
+                builder.Text(),
+                builder.EndTag(),
+            };
+
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+        }
     }
 }
