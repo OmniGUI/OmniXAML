@@ -183,12 +183,9 @@
 
         private void ExtractNodes(IEnumerable<XamlNode> nodes)
         {
-            var nodeStream = nodes.GetEnumerator();
-            xamlReaderMock = new XamlReaderMock(nodeStream);
-
-            while (xamlReaderMock.Read())
+            foreach (var xamlNode in nodes)
             {
-                sut.WriteNode(xamlReaderMock);
+                sut.WriteNode(xamlNode);
             }
         }
     }

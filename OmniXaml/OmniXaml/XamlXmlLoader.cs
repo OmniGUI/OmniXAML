@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Glass;
     using Parsers.ProtoParser;
@@ -34,18 +35,18 @@
         private object Load(string xml, object rootInstance)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var xamlXmlReader = new XamlReader(pullParser.Parse(new ProtoParser(wiringContext.TypeContext).Parse(xml)));
-            return Load(xamlXmlReader, rootInstance);
+            var xamlNodes = pullParser.Parse(new ProtoParser(wiringContext.TypeContext).Parse(xml));
+            return Load(xamlNodes, rootInstance);
         }
 
-        public object Load(IXamlReader reader, object rootObject = null)
-        {                      
-            while (reader.Read())
+        private object Load(IEnumerable<XamlNode> xamlNodes, object rootInstance)
+        {
+            foreach (var xamlNode in xamlNodes)
             {
-                objectAssembler.WriteNode(reader);
+                objectAssembler.WriteNode(xamlNode);
             }
 
             return objectAssembler.Result;
-        }        
+        }
     }   
 }
