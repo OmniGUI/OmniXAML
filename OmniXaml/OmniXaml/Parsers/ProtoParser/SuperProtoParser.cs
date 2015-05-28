@@ -79,7 +79,12 @@
 
         private IEnumerable<RawAttribute> GetAttributes(IEnumerable<RawAttribute> rawAttributes)
         {
-            return rawAttributes.Where(attribute => !attribute.Name.Contains("xmlns"));
+            return rawAttributes.Where(attribute => !IsPrefixDeclaration(attribute));
+        }
+
+        private static bool IsPrefixDeclaration(RawAttribute attribute)
+        {
+            return attribute.Descriptor.Locator.PropertyName.Contains("xmlns") || attribute.Descriptor.Locator.Prefix.Contains("xmlns");
         }
 
         private ProtoXamlNode ConvertAttributeToNode(RawAttribute rawAttribute)
@@ -100,7 +105,7 @@
 
         private IEnumerable<RawAttribute> GetPrefixDefinitions(IEnumerable<RawAttribute> rawAttributes)
         {
-            return rawAttributes.Where(attribute => attribute.Name.Contains("xmlns"));
+            return rawAttributes.Where(IsPrefixDeclaration);
         }
 
         private IEnumerable<RawAttribute> GetAttributes(XamlType containingType)
@@ -111,7 +116,8 @@
                 {
                     var propertyOwner = GetPropertyOwner(containingType, reader.Name);
                     var propertyName = GetPropertyName(reader.Name);
-                    var attributeDescriptor = new AttributeDescriptor(containingType, propertyOwner, propertyName);
+                    var propLocator = PropertyLocator.Parse(reader.Name);
+                    var attributeDescriptor = new AttributeDescriptor(propLocator, containingType, propertyOwner, propertyName);
 
                     yield return new RawAttribute(attributeDescriptor, reader.Value);
                 } while (reader.MoveToNextAttribute());

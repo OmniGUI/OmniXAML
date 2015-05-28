@@ -16,9 +16,7 @@
             {
                 Prefix = prefix ?? string.Empty;
             }
-        }
-
-      
+        }     
 
         public string OwnerName
         {
@@ -69,6 +67,7 @@
             {
                 xamlQualifiedName = new XamlQualifiedName(prefix, part1);
             }
+
             return new PropertyLocator(xamlQualifiedName, prefix, part2);
         }
 

@@ -4,11 +4,14 @@
 
     internal class AttributeDescriptor
     {
-        public AttributeDescriptor(XamlType containingType, XamlType owner, string name)
+        public PropertyLocator Locator { get; }
+
+        public AttributeDescriptor(PropertyLocator propertyLocator, XamlType containingType, XamlType owner, string name)
         {
-            this.ContainingType = containingType;
-            this.Owner = owner;
-            this.Name = name;
+            Locator = propertyLocator;
+            ContainingType = containingType;
+            Owner = owner;
+            Name = name;
         }
 
         public XamlType ContainingType { get; }
