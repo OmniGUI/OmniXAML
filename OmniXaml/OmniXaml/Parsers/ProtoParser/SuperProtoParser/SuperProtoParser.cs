@@ -62,7 +62,7 @@
 
         private IEnumerable<ProtoXamlNode> ParseNestedElements(XamlType xamlType)
         {
-            if (reader.NodeType != XmlNodeType.EndElement)
+            while (reader.NodeType != XmlNodeType.EndElement)
             {
                 SkipWhitespaces();
 
@@ -70,11 +70,13 @@
                 if (isPropertyElement)
                 {
                     foreach (var node in ParseNestedProperty(xamlType)) yield return node;
+
+                    reader.Read();
                 }
                 else
                 {
-                    foreach (var protoXamlNode in ParseChildren()) yield return protoXamlNode;
-                }
+                    foreach (var node in ParseChildren()) yield return node;
+                }               
             }
         }
 
@@ -84,9 +86,13 @@
             yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
             reader.Read();
 
-            foreach (var protoXamlNode in ParseChildren())
+            SkipWhitespaces();
+            if (reader.NodeType != XmlNodeType.EndElement)
             {
-                yield return protoXamlNode;
+                foreach (var protoXamlNode in ParseChildren())
+                {
+                    yield return protoXamlNode;
+                }
             }
 
             yield return nodeBuilder.EndTag();
@@ -171,9 +177,9 @@
 
         private XamlType CurrentType => wiringContext.TypeContext.GetByPrefix(reader.Prefix, reader.LocalName);
 
-        private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix nsPrefox)
+        private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {
-            return nodeBuilder.NamespacePrefixDeclaration(nsPrefox.Namespace, nsPrefox.Prefix);
+            return nodeBuilder.NamespacePrefixDeclaration(prefix.Namespace, prefix.Prefix);
         }
     }
 }

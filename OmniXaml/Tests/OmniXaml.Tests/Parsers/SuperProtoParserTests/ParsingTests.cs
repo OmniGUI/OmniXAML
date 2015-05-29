@@ -270,8 +270,7 @@
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
-        [TestMethod]
-        [Ignore]
+        [TestMethod]        
         public void TwoNestedProperties()
         {
             var root = "root";
@@ -286,7 +285,6 @@
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
                 builder.EndTag(),
                 builder.EndTag(),
-                builder.None(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
