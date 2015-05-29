@@ -39,6 +39,7 @@
         private object Load(string xml, object rootInstance)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
+            // BUG: is we don't materialize the enumerable into a list, the MarkupExtensionsTests fail (they hang).
             var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(xml).ToList();
             var xamlNodes = pullParser.Parse(protoXamlNodes);
             return Load(xamlNodes, rootInstance);

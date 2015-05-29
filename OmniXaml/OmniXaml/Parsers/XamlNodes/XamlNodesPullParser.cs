@@ -10,6 +10,7 @@
     {
         private readonly WiringContext wiringContext;
         private IEnumerator<ProtoXamlNode> nodeStream;
+        private bool EndOfStream { get; set; }
 
         public XamlNodesPullParser(WiringContext wiringContext)
         {
@@ -33,7 +34,7 @@
                 yield return Inject.StartOfMember(hostingProperty);
             }
 
-            while (CurrentNodeIsElement)
+            while (CurrentNodeIsElement && !EndOfStream)
             {
                 switch (nodeStream.Current.NodeType)
                 {
@@ -174,7 +175,7 @@
 
         private void SetNextNode()
         {
-            nodeStream.MoveNext();
+            EndOfStream = !nodeStream.MoveNext();           
         }
 
         private IEnumerable<XamlNode> ParseCollectionInsideThisProperty(XamlMember member)

@@ -235,7 +235,7 @@
                 builder.None(),
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -254,7 +254,23 @@
                 builder.None(),
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void CollapsedTag()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.CollapsedTag).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.EmptyElement(typeof(DummyClass), root),                
+                builder.None(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
     }
 }

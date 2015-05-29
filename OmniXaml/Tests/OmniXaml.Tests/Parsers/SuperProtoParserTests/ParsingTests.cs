@@ -254,5 +254,20 @@
 
             ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void CollapsedTag()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.CollapsedTag).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.EmptyElement(typeof(DummyClass), root),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
     }
 }
