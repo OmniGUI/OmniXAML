@@ -56,7 +56,7 @@
             reader.Read();
 
             foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
-            
+
             yield return nodeBuilder.EndTag();
         }
 
@@ -66,22 +66,30 @@
             {
                 SkipWhitespaces();
 
-                var propertyLocator = PropertyLocator.Parse(reader.LocalName);
-
-                var isPropertyElement = propertyLocator.IsDotted;
+                var isPropertyElement = reader.LocalName.Contains('.');
                 if (isPropertyElement)
                 {
-                    yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
-                    reader.Read();
+                    foreach (var node in ParseNestedProperty(xamlType)) yield return node;
                 }
-
-                foreach (var protoXamlNode in ParseChildren()) yield return protoXamlNode;
-
-                if (isPropertyElement)
+                else
                 {
-                    yield return nodeBuilder.EndTag();
+                    foreach (var protoXamlNode in ParseChildren()) yield return protoXamlNode;
                 }
             }
+        }
+
+        private IEnumerable<ProtoXamlNode> ParseNestedProperty(XamlType xamlType)
+        {
+            var propertyLocator = PropertyLocator.Parse(reader.LocalName);
+            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
+            reader.Read();
+
+            foreach (var protoXamlNode in ParseChildren())
+            {
+                yield return protoXamlNode;
+            }
+
+            yield return nodeBuilder.EndTag();
         }
 
         private IEnumerable<ProtoXamlNode> ParseChildren()
@@ -125,7 +133,7 @@
             {
                 member = containingType.GetMember(rawAttribute.Locator.PropertyName);
             }
-            
+
             return nodeBuilder.Attribute(member, rawAttribute.Value);
         }
 
