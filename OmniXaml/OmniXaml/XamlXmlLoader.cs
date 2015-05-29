@@ -39,7 +39,7 @@
         private object Load(string xml, object rootInstance)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoXamlNodes = new ProtoParser(wiringContext.TypeContext).Parse(xml).ToList();
+            var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(xml).ToList();
             var xamlNodes = pullParser.Parse(protoXamlNodes);
             return Load(xamlNodes, rootInstance);
         }

@@ -45,6 +45,11 @@
 
         private IEnumerable<ProtoXamlNode> ParseExpandedElement(XamlType xamlType)
         {
+            if (xamlType.IsUnreachable)
+            {
+                throw new XamlReaderException($"The type {xamlType} is unknown, therefore it cannot be reflected.");
+            }
+
             var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
             foreach (var node in CommonNodesOfElement(xamlType, element)) yield return node;
 
