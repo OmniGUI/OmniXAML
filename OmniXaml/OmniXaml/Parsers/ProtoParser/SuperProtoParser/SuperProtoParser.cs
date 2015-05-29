@@ -50,35 +50,49 @@
 
             reader.Read();
 
+            foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
+            
+            yield return nodeBuilder.EndTag();
+        }
+
+        private IEnumerable<ProtoXamlNode> ParseNestedElements(XamlType xamlType)
+        {
             if (reader.NodeType != XmlNodeType.EndElement)
             {
                 SkipWhitespaces();
 
                 var propertyLocator = PropertyLocator.Parse(reader.LocalName);
 
-                if (propertyLocator.IsDotted)
+                var isPropertyElement = propertyLocator.IsDotted;
+                if (isPropertyElement)
                 {
                     yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
                     reader.Read();
                 }
 
-                while (reader.NodeType != XmlNodeType.EndElement)
-                {
-                    foreach (var p in ParseElement()) yield return p;
+                foreach (var protoXamlNode in ParseChildren()) yield return protoXamlNode;
 
-                    yield return nodeBuilder.Text();
-
-                    reader.Read();
-                    SkipWhitespaces();
-                }
-
-                if (propertyLocator.IsDotted)
+                if (isPropertyElement)
                 {
                     yield return nodeBuilder.EndTag();
                 }
             }
-            
-            yield return nodeBuilder.EndTag();
+        }
+
+        private IEnumerable<ProtoXamlNode> ParseChildren()
+        {
+            while (reader.NodeType != XmlNodeType.EndElement)
+            {
+                foreach (var p in ParseElement())
+                {
+                    yield return p;
+                }
+
+                yield return nodeBuilder.Text();
+
+                reader.Read();
+                SkipWhitespaces();
+            }
         }
 
         private void AssertValidElement()
