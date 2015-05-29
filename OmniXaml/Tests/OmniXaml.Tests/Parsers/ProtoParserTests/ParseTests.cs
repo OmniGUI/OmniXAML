@@ -142,11 +142,12 @@
         public void AttachedProperty()
         {
             var actualNodes = sut.Parse(Dummy.WithAttachableProperty).ToList();
+            var prefix = "root";
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("root", ""),
-                builder.NonEmptyElement(typeof(DummyClass), "root"),
-                builder.AttachableProperty<Container>("Property", "Value"),
+                builder.NamespacePrefixDeclaration(prefix, ""),
+                builder.NonEmptyElement(typeof(DummyClass), prefix),
+                builder.AttachableProperty<Container>("Property", "Value", ""),
                 builder.EndTag(),
                 builder.None()
             };
@@ -274,7 +275,7 @@
         }
 
         [TestMethod]
-        public void TwoNestedProperties()
+        public void TwoNestedPropertiesEmpty()
         {
             var root = "root";
 
@@ -286,6 +287,36 @@
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
                 builder.EndTag(),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.EndTag(),
+                builder.EndTag(),
+                builder.None(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void TwoNestedProperties()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.TwoNestedProperties).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
+                builder.EmptyElement<Item>(root),
+                builder.Attribute<Item>(i => i.Title, "Main1"),
+                builder.Text(),
+                builder.EmptyElement<Item>(root),
+                builder.Attribute<Item>(i => i.Title, "Main2"),
+                builder.Text(),
+                builder.EndTag(),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyElement(typeof(ChildClass), root),
+                builder.EndTag(),
+                builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
                 builder.None(),

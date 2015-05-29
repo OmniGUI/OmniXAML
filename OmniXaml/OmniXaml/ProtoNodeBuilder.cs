@@ -61,7 +61,7 @@
             return EmptyElement(typeof(T), ns);
         }
 
-        public ProtoXamlNode AttachableProperty<TParent>(string name, string value)
+        public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
         {
             var type = typeof(TParent);
             var xamlType = typeRepository.Get(type);
@@ -75,6 +75,7 @@
                 XamlType = null,
                 PropertyAttribute = member,
                 PropertyAttributeText = value,
+                Prefix = prefix,
             };
         }
 
@@ -137,6 +138,7 @@
                 PropertyAttribute = member,
                 NodeType = NodeType.Attribute,
                 PropertyAttributeText = value,
+                Prefix = string.Empty,
             };
         }
 
