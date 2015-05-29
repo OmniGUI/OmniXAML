@@ -175,6 +175,10 @@
 
         private void SetNextNode()
         {
+            if (EndOfStream)
+            {
+                throw new XamlParseException("The end of the stream has been alread reached!");
+            }
             EndOfStream = !nodeStream.MoveNext();           
         }
 
@@ -207,7 +211,7 @@
 
         private IEnumerable<XamlNode> ParseMembersOfObject()
         {
-            while (CurrentNodeType == NodeType.Attribute)
+            while (CurrentNodeType == NodeType.Attribute && !EndOfStream)
             {
                 var protoXamlNode = nodeStream.Current;
                 var valueOfMember = protoXamlNode.PropertyAttributeText;
