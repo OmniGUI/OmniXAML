@@ -478,6 +478,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a &lt;DummyClass xmlns=&quot;root&quot;&gt;
+        ///  &lt;DummyClass.Items&gt;   
+        ///  &lt;/DummyClass.Items&gt;
+        ///  &lt;DummyClass.Child&gt;    
+        ///  &lt;/DummyClass.Child&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string TwoNestedPropertiesEmpty {
+            get {
+                return ResourceManager.GetString("TwoNestedPropertiesEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a &lt;ChildClass  xmlns=&quot;root&quot;&gt;
         ///  &lt;Item&gt;
         ///    &lt;Item Title=&quot;Item1&quot; /&gt;    
@@ -490,6 +504,22 @@ namespace Xaml.Tests.Resources {
         public static string TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem {
             get {
                 return ResourceManager.GetString("TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a &lt;ChildClass  xmlns=&quot;root&quot;&gt;
+        ///  &lt;Item&gt;
+        ///    &lt;Item Title=&quot;Item1&quot; /&gt;    
+        ///  &lt;/Item&gt;
+        ///  &lt;ChildClass.Child&gt;
+        ///    &lt;ChildClass /&gt;
+        ///  &lt;/ChildClass.Child&gt;
+        ///&lt;/ChildClass&gt;.
+        /// </summary>
+        public static string TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem1 {
+            get {
+                return ResourceManager.GetString("TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem1", resourceCulture);
             }
         }
         
@@ -521,7 +551,7 @@ namespace Xaml.Tests.Resources {
         ///        mc:Ignorable=&quot;d&quot;
         ///        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
         ///  &lt;Grid Background=&quot;BlueViolet&quot;&gt;
-        ///    &lt;Grid [resto de la cadena truncado]&quot;;.
+        /// [resto de la cadena truncado]&quot;;.
         /// </summary>
         public static string XamlStage1 {
             get {
@@ -551,8 +581,7 @@ namespace Xaml.Tests.Resources {
         ///    d:DesignWidth=&quot;600&quot;&gt;
         ///
         ///  &lt;Grid MinHeight=&quot;400&quot; MinWidth=&quot;600&quot;&gt;
-        ///    &lt;Canvas&gt;
-        /// [resto de la cadena truncado]&quot;;.
+        ///  [resto de la cadena truncado]&quot;;.
         /// </summary>
         public static string XamlStage2 {
             get {

@@ -272,5 +272,26 @@
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void TwoNestedProperties()
+        {
+            var root = "root";
+
+            var actualNodes = sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList();
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("root", ""),
+                builder.NonEmptyElement(typeof(DummyClass), root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
+                builder.EndTag(),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.EndTag(),
+                builder.EndTag(),
+                builder.None(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
     }
 }

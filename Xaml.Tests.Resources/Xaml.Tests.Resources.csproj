@@ -69,6 +69,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Xaml\Dummy\TwoNestedProperties.xaml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Xaml\Wpf\Stage1.xaml">
       <SubType>Designer</SubType>
     </None>
@@ -101,11 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xaml\Dummy\UnknownType.xaml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Xaml\Dummy\TwoNestedProperties.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -281,6 +279,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xaml\Dummy\FourLevelsOfNesting.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xaml\Dummy\TwoNestedPropertiesEmpty.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

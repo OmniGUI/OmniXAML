@@ -217,9 +217,6 @@
   <data name="ThreeLevelsOfNesting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\threelevelsofnesting.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
-  <data name="TwoNestedProperties" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>xaml\dummy\twonestedproperties.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
-  </data>
   <data name="TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\twonestedpropertiesoneofthemusescontentpropertywithsingleitem.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
@@ -243,5 +240,14 @@
   </data>
   <data name="FourLevelsOfNesting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\fourlevelsofnesting.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="TwoNestedProperties" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\twonestedproperties.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="TwoNestedPropertiesEmpty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\twonestedpropertiesempty.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\twonestedpropertiesoneofthemusescontentpropertywithsingleitem.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
 </root>
