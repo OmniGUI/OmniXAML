@@ -9,6 +9,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Xaml.Tests.Resources;
 
@@ -169,7 +170,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         private IList<XamlNode> FlattenNodesFromXaml(string xaml)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoNodes = new ProtoParser(wiringContext.TypeContext).Parse(xaml);
+            var protoNodes = new SuperProtoParser(wiringContext).Parse(xaml);
             return pullParser.Parse(protoNodes).ToList();         
         }
     }

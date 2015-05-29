@@ -7,6 +7,7 @@
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Xaml.Tests.Resources;
 
@@ -373,7 +374,7 @@
         private ICollection<XamlNode> ExtractNodesFromPullParser(string xml)
         {
             var pullParser = new XamlNodesPullParser(WiringContext);
-            return pullParser.Parse(new ProtoParser(WiringContext.TypeContext).Parse(xml)).ToList();
+            return pullParser.Parse(new SuperProtoParser(WiringContext).Parse(xml)).ToList();
         }
     }
 }
