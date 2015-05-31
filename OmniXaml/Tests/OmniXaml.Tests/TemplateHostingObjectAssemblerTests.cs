@@ -42,12 +42,8 @@
             var actualNodes = sut.NodeList;
             var expectedNodes = new Collection<XamlNode>
             {
-                x.StartObject<Template>(),
-                x.StartMember<Template>(i => i.Content),
                 x.StartObject<Grid>(),
-                x.EndObject(),
-                x.EndMember(),
-                x.EndObject(),
+                x.EndObject(),                
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);

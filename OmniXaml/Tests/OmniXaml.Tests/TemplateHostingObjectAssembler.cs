@@ -21,11 +21,12 @@
         {
             if (recording)
             {
-                if (node.NodeType == XamlNodeType.StartObject)
+                if (node.NodeType == XamlNodeType.StartMember)
                 {
                     depth++;
                 }
-                if (node.NodeType == XamlNodeType.EndObject)
+
+                if (node.NodeType == XamlNodeType.EndMember)
                 {
                     depth--;
                     if (depth == 0)
@@ -34,16 +35,18 @@
                     }                    
                 }
 
-                nodeList.Add(node);
+                if (depth>0)
+                {
+                    nodeList.Add(node);
+                }
             }
             else
             {
-                if (node.NodeType == XamlNodeType.StartObject && node.XamlType.UnderlyingType == typeof(Template))
+                if (node.NodeType == XamlNodeType.StartMember && node.Member.Name == "Content")
                 {
                     recording = true;
                     nodeList = new Collection<XamlNode>();
                     depth++;
-                    nodeList.Add(node);
                 }
                 else
                 {
