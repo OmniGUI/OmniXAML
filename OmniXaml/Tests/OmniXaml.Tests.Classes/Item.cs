@@ -14,5 +14,6 @@ namespace OmniXaml.Tests.Classes
         public string Title { get; set; }
         public string Text { get; set; }
         public Collection<Item> Children { get; set; }
+        public Template Template { get; set; }
     }
 }

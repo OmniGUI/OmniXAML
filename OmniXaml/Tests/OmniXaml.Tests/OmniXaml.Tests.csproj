@@ -69,6 +69,8 @@
     <Compile Include="Parsers\XamlNodesPullParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\XamlNodesPullParserTests\SampleData.cs" />
     <Compile Include="Parsers\XamlNodesPullParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
+    <Compile Include="TemplateHostingObjectAssembler.cs" />
+    <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="NamespaceTest.cs" />
     <Compile Include="XamlObjectWriterTests\SimpleTests.cs" />

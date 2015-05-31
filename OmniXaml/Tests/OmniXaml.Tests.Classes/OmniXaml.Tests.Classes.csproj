@@ -50,6 +50,8 @@
     <Compile Include="DummyClass.cs" />
     <Compile Include="DummyExtension.cs" />
     <Compile Include="Item.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateContent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
