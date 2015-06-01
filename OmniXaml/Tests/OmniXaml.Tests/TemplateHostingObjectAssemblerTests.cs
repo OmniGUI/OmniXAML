@@ -34,6 +34,10 @@
             };
 
             var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext));
+
+            var assembler = new DummyDeferredObjectAssembler();
+            sut.DeferredAssembler<Template>(t => t.Content, assembler);
+
             foreach (var xamlNode in input)
             {
                 sut.WriteNode(xamlNode);
