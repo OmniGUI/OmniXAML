@@ -51,6 +51,7 @@
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            Assert.IsNotNull(((Item) sut.Result).Template.Content);
         }
     }
 }

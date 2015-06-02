@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
@@ -40,7 +41,9 @@
                     if (depth == 0)
                     {
                         recording = false;
-                        assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList));
+                        var loaded = assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList));
+                        objectAssembler.OverrideInstance(loaded);
+                        objectAssembler.WriteNode(node);
                     }
                 }
 
@@ -59,6 +62,7 @@
                         recording = true;
                         nodeList = new Collection<XamlNode>();
                         depth++;
+                        objectAssembler.WriteNode(node);
                     }
                 }
 
@@ -79,6 +83,15 @@
         }
 
         public object Result => objectAssembler.Result;
+        public void OverrideInstance(object instance)
+        {            
+        }
+
+        public void PushScope()
+        {
+            throw new NotImplementedException();
+        }
+
         public IList NodeList => new ReadOnlyCollection<XamlNode>(nodeList);
 
         public void DeferredAssembler<TItem>(Expression<Func<TItem, object>> selector, IDeferredObjectAssembler assembler)

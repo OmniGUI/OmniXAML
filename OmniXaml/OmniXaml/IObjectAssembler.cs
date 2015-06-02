@@ -2,8 +2,10 @@
 {
     public interface IObjectAssembler
     {
+        object Result { get; }
+
         void WriteNode(XamlNode node);
 
-        object Result { get; }
+        void OverrideInstance(object instance);
     }
 }

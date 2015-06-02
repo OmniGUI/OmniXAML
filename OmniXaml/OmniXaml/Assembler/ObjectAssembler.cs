@@ -30,6 +30,11 @@
         internal StateBag Bag { get; } = new StateBag();
 
         public object Result { get; internal set; }
+        public void OverrideInstance(object instance)
+        {
+            Bag.PushScope();
+            Bag.Current.Instance = instance;
+        }
 
         public void WriteNode(XamlNode node)
         {
@@ -74,6 +79,11 @@
         {
             var newInstance = typeOperations.Create(bag.Current.Type);
             bag.Current.Instance = newInstance;
+        }
+
+        public void PushScope()
+        {
+            Bag.PushScope();
         }
     }
 }
