@@ -2,6 +2,6 @@
 {
     public interface IMarkupExtension
     {
-        object ProvideValue(XamlToObjectWiringContext toObjectWiringContext);
+        object ProvideValue(XamlToObjectWiringContext extensionContext);
     }
 }

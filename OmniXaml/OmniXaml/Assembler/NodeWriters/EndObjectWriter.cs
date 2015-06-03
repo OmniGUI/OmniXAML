@@ -45,12 +45,26 @@ namespace OmniXaml.Assembler.NodeWriters
         private void AssignValueFromMarkupExtension(StateBag stateBag)
         {
             var markupExtension = (MarkupExtension) stateBag.Current.Instance;
-            var providedValue = markupExtension.ProvideValue(null);
+
+            var extensionContext = GetExtensionContext(stateBag);
+
+            var providedValue = markupExtension.ProvideValue(extensionContext);
 
             stateBag.Current.Type = typeRepository.Get(providedValue.GetType());
             stateBag.Current.Instance = providedValue;
 
             AssignCurrentInstanceToParent(bag);
+        }
+
+        private static XamlToObjectWiringContext GetExtensionContext(StateBag stateBag)
+        {
+            var inflationContext = new XamlToObjectWiringContext
+            {
+                TargetObject = stateBag.Parent.Instance,
+                TargetProperty = stateBag.Parent.Instance.GetType().GetRuntimeProperty(stateBag.Parent.Property.Name),
+            };
+
+            return inflationContext;
         }
 
         private static bool IsMarkupExtension(XamlType type)
