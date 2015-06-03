@@ -28,7 +28,7 @@
 
         private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType)
         {
-            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, "", wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
             return CommonNodesOfElement(xamlType, emptyElement);
         }
 
@@ -50,7 +50,9 @@
                 throw new XamlReaderException($"The type {xamlType} is unknown, therefore it cannot be reflected.");
             }
 
-            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            var prefix = string.Empty;
+            var ns = wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix);
+            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, prefix, ns);
             foreach (var node in CommonNodesOfElement(xamlType, element)) yield return node;
 
             reader.Read();
@@ -179,7 +181,7 @@
 
         private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {
-            return nodeBuilder.NamespacePrefixDeclaration(prefix.Namespace, prefix.Prefix);
+            return nodeBuilder.NamespacePrefixDeclaration(prefix.Prefix, prefix.Namespace);
         }
     }
 }

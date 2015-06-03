@@ -61,8 +61,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
+    <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />

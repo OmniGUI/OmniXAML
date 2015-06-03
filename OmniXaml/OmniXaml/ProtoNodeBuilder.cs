@@ -25,7 +25,7 @@
             };
         }
 
-        public ProtoXamlNode NamespacePrefixDeclaration(string ns, string prefix)
+        public ProtoXamlNode NamespacePrefixDeclaration(string prefix, string ns)
         {
             return new ProtoXamlNode
             {
@@ -36,29 +36,29 @@
             };
         }
 
-        private ProtoXamlNode Element(Type type, string ns, bool isEmtpy)
+        private ProtoXamlNode Element(Type type, string prefix, string ns, bool isEmtpy)
         {
             return new ProtoXamlNode
             {
                 Namespace = ns,
-                Prefix = string.Empty,
+                Prefix = prefix,
                 XamlType = XamlType.Builder.Create(type, typeRepository),
                 NodeType = isEmtpy ? NodeType.EmptyElement : NodeType.Element,
             };
         }
 
-        public ProtoXamlNode NonEmptyElement(Type type, string ns)
+        public ProtoXamlNode NonEmptyElement(Type type, string prefix, string ns)
         {
-            return Element(type, ns, false);
+            return Element(type, prefix, ns, false);
         }
 
-        public ProtoXamlNode EmptyElement(Type type, string ns)
+        public ProtoXamlNode EmptyElement(Type type, string prefix, string ns)
         {
-            return Element(type, ns, true);
+            return Element(type, prefix, ns, true);
         }
         internal ProtoXamlNode EmptyElement<T>(string ns)
         {
-            return EmptyElement(typeof(T), ns);
+            return EmptyElement(typeof(T), "", ns);
         }
 
         public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
