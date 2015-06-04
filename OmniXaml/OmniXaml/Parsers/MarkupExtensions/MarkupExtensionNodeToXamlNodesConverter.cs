@@ -15,7 +15,8 @@
 
         public IEnumerable<XamlNode> Convert(MarkupExtensionNode tree)
         {
-            var xamlType = wiringContext.TypeContext.GetByPrefix(string.Empty, tree.Identifier.TypeName);
+            var identifierNode = tree.Identifier;
+            var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
             yield return Inject.StartOfObject(xamlType);
 
             foreach (var xamlNode in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return xamlNode;

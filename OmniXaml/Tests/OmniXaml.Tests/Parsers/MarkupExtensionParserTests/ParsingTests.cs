@@ -13,14 +13,14 @@
         public void SimpleExtension()
         {
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy}");
-            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("Dummy")), actual);
+            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("DummyExtension")), actual);
         }
 
         [TestMethod]
         public void PrefixedExtension()
         {
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{x:Dummy}");
-            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("x", "Dummy")), actual);
+            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("x", "DummyExtension")), actual);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@
         {
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Value1,Value2}");
             var options = new OptionsCollection { new PositionalOption("Value1"), new PositionalOption("Value2") };
-            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("Dummy"), options), actual);
+            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@
         {
             var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Value,Property='Some Value'}");
             var options = new OptionsCollection { new PositionalOption("Value"), new PropertyOption("Property", new StringNode("Some Value")) };
-            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("Dummy"), options), actual);
+            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@
         }
 
         [TestMethod]
-        public void ParsePositionaAndPropertyOptions()
+        public void ParsePositionalAndPropertyOptions()
         {
             var actual = MarkupExtensionParser.Options.Parse("value1,Property1=Value1,Property2='Some value'");
             var expected = new OptionsCollection(new List<Option>
@@ -81,7 +81,7 @@
         public void ParsePropertyWithExtension()
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Value={Dummy}");
-            var markupExtensionNode = new MarkupExtensionNode(new IdentifierNode("Dummy"));
+            var markupExtensionNode = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
             Assert.AreEqual(new AssignmentNode("Value", markupExtensionNode), actual);
         }
 
@@ -93,7 +93,7 @@
                     "{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}");
 
             var expected = new MarkupExtensionNode(
-                new IdentifierNode("Binding"),
+                new IdentifierNode("BindingExtension"),
                 new OptionsCollection(
                     new List<Option>
                     {
@@ -101,7 +101,7 @@
                         new PropertyOption(
                             "RelativeSource",
                             new MarkupExtensionNode(
-                                new IdentifierNode("RelativeSource"),
+                                new IdentifierNode("RelativeSourceExtension"),
                                 new OptionsCollection
                                 {
                                     new PositionalOption("FindAncestor"),
@@ -109,7 +109,7 @@
                                     new PropertyOption(
                                         "AncestorType",
                                         new MarkupExtensionNode(
-                                            new IdentifierNode("x", "Type"),
+                                            new IdentifierNode("x", "TypeExtension"),
                                             new OptionsCollection
                                             {
                                                 new PositionalOption("Grid")

@@ -20,7 +20,7 @@
         [TestMethod]
         public void NameOnly()
         {
-            var tree = new MarkupExtensionNode(new IdentifierNode("Dummy"));
+            var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
             var expectedNodes = new List<XamlNode>
@@ -35,7 +35,7 @@
         [TestMethod]
         public void NameAndAttribute()
         {
-            var tree = new MarkupExtensionNode(new IdentifierNode("Dummy"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
+            var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
@@ -54,7 +54,7 @@
         [TestMethod]
         public void NameAndTwoAttributes()
         {
-            var tree = new MarkupExtensionNode(new IdentifierNode("Dummy"), new OptionsCollection
+            var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection
             {
                 new PropertyOption("Property", new StringNode("Value")),
                 new PropertyOption("AnotherProperty", new StringNode("AnotherValue")),
@@ -80,7 +80,7 @@
         [TestMethod]
         public void PositionalOption()
         {
-            var tree = new MarkupExtensionNode(new IdentifierNode("Dummy"), new OptionsCollection
+            var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection
             {
                new PositionalOption("Option")
             });

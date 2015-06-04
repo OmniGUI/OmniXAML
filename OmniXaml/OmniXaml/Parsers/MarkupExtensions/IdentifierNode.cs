@@ -1,19 +1,20 @@
 namespace OmniXaml.Parsers.MarkupExtensions
 {
+    using System;
+
     public class IdentifierNode
     {
         public string Prefix { get; }
         public string TypeName { get; }
 
-        public IdentifierNode(string typeName)
-        {
-            TypeName = typeName + "Extension";
+        public IdentifierNode(string typeName) : this(string.Empty, typeName)
+        {           
         }
 
         public IdentifierNode(string prefix, string typeName)
         {
-            Prefix = prefix;
             TypeName = typeName;
+            Prefix = prefix;
         }
 
         protected bool Equals(IdentifierNode other)

@@ -10,7 +10,6 @@
     [TestClass]
     public class SimpleTests : GivenAWiringContext
     {
-        private XamlReaderMock xamlReaderMock;
         private readonly XamlNodeBuilder builder;
         private readonly ObjectAssembler sut;
 

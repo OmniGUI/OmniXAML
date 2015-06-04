@@ -7,7 +7,6 @@ namespace OmniXaml.Typing
     public class XamlNamespace
     {
         private readonly string xamlNamespaceUri;
-        private readonly IXamlTypeRepository typeRepository;
 
         private readonly HashSet<ClrAssemblyPair> mappings = new HashSet<ClrAssemblyPair>();
 
@@ -22,21 +21,6 @@ namespace OmniXaml.Typing
         }
 
         public string NamespaceUri => xamlNamespaceUri;
-
-        public XamlType GetXamlType(string typeName)
-        {
-            var firstType = (from clrAssemblyPair in mappings
-                let clrNs = clrAssemblyPair.Namespace
-                select clrAssemblyPair.Assembly.GetType(clrNs + "." + typeName)).FirstOrDefault(
-                    type => type != null);
-
-            if (firstType == null)
-            {
-                return null;
-            }
-
-            return XamlType.Builder.Create(firstType, typeRepository);
-        }
 
         public void AddMapping(ClrAssemblyPair clrAssemblyPair)
         {
