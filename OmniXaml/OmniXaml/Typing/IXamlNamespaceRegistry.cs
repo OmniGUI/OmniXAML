@@ -1,19 +1,14 @@
 namespace OmniXaml.Typing
 {
+    using Builder;
     using Catalogs;
 
     public interface IXamlNamespaceRegistry
     {
-        //void RegisterPrefix(PrefixRegistration prefixRegistration);
-        //XamlNamespace GetXamlNamespace(string ns);
-        //void MapNamespaceTo(XamlNamespace xamlNamespace, ClrAssemblyPair targetAssembly);
-        //XamlNamespace GetNamespaceForType(string typeName);
-        //XamlNamespace GetNamespaceForType(Type type);
-        //XamlNamespace GetNamespaceForType(XamlTypeName xamlTypeName);
-        XamlNamespace GetXamlNamespace(string ns);
         string GetNamespaceForPrefix(string prefix);
         void RegisterPrefix(PrefixRegistration prefixRegistration);
-        void RegisterNamespace(XamlNamespace xamlNamespace);
+        void AddNamespace(FullyConfiguredMapping xamlNamespace);
         void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog);
+        FullyConfiguredMapping GetXamlNamespace(string ns);
     }
 }

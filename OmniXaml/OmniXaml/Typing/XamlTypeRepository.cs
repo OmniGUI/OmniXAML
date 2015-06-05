@@ -31,7 +31,7 @@ namespace OmniXaml.Typing
                 return XamlType.Builder.CreateUnreachable(xamlTypeName);
             }
 
-            var correspondingType = xamlNamespace.Get(xamlTypeName.Name);
+            var correspondingType = xamlNamespace.Addresses.Get(xamlTypeName.Name);
 
             if (correspondingType != null)
             {
@@ -39,6 +39,6 @@ namespace OmniXaml.Typing
             }
 
             return XamlType.Builder.CreateUnreachable(xamlTypeName);
-        }
+        }      
     }
 }

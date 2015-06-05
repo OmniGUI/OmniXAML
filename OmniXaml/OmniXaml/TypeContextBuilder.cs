@@ -4,6 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Builder;
     using Catalogs;
     using Typing;
 
@@ -46,9 +47,9 @@ namespace OmniXaml
             foreach (var xamlMapping in xamlMappings.ToLookup(mapping => mapping.XamlNamespace))
             {
                 var xamlNs = xamlMapping.Key;
-                var mappedTo = xamlMapping.Select(mapping => new ClrAssemblyPair(mapping.Assembly, mapping.ClrNamespace));
+                var mappedTo = xamlMapping.Select(mapping => new ClrNamespaceAddress(mapping.Assembly, mapping.ClrNamespace));
 
-                namespaceRegistry.RegisterNamespace(new XamlNamespace(xamlNs, mappedTo));
+                namespaceRegistry.AddNamespace(new FullyConfiguredMapping(xamlNs, new ClrNamespaceAddressCollection(mappedTo)));
             }
         }
 

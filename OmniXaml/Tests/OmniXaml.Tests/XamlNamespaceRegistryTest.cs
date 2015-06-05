@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Typing;
@@ -37,13 +38,14 @@
             var type = typeof (DummyClass);
 
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
-            registry.RegisterNamespace(
-                new XamlNamespace(
-                    "target",
-                    new[] {new ClrAssemblyPair(type.Assembly, type.Namespace)}));
+            registry.AddNamespace(
+                Namespace
+                .CreateMapFor(type.Namespace)
+                .FromAssembly(type.Assembly)
+                .To("target"));
 
             var ns = registry.GetXamlNamespaceByPrefix("my");
-            Assert.AreEqual("target", ns.NamespaceUri);
+            Assert.AreEqual("target", ns.XamlNamespace);
         }
 
         [TestMethod]
@@ -52,9 +54,13 @@
             var type = typeof (DummyClass);
 
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
-            registry.RegisterNamespace(new XamlNamespace("target", new[] {new ClrAssemblyPair(type.Assembly, type.Namespace)}));
+            registry.AddNamespace(Namespace
+                .CreateMapFor(type.Namespace)
+                .FromAssembly(type.Assembly)
+                .To("target"));
+
             var ns = registry.GetXamlNamespace("target");
-            Assert.AreEqual("target", ns.NamespaceUri);
+            Assert.AreEqual("target", ns.XamlNamespace);
         }
     }
 }

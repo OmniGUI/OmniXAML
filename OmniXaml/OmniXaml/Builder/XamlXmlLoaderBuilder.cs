@@ -31,9 +31,9 @@
             {
                 foreach (var mapping in namespaceRegistration)
                 {
-                    foreach (var ns in mapping.Namespaces)
+                    foreach (var address in mapping.Addresses)
                     {
-                        wiringContextBuilder.WithXamlNs(mapping.XamlNamespace, mapping.AssemblyConfiguration.Assembly, ns);
+                        wiringContextBuilder.WithXamlNs(mapping.XamlNamespace, address.Assembly, address.Namespace);
                     }
                 }
             }            

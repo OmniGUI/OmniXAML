@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Tests
 {
+    using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
@@ -16,9 +17,13 @@
 
             var type = typeof(DummyClass);
 
-            var clrAssemblyPair = new ClrAssemblyPair(type.Assembly, type.Namespace);
+            var fullyConfiguredMapping = Namespace
+                .CreateMapFor(type.Namespace)
+                .FromAssembly(type.Assembly)
+                .To("root");
+
             nsRegistryMock.Setup(registry => registry.GetXamlNamespace("root"))
-                .Returns(new XamlNamespace("root", new[] { clrAssemblyPair }));
+                .Returns(fullyConfiguredMapping);
         }
 
         [TestMethod]

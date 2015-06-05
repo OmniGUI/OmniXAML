@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System;
+    using Builder;
     using Catalogs;
     using Typing;
 
@@ -17,7 +18,7 @@ namespace OmniXaml
             this.typeFactory = typeFactory;
         }
 
-        public XamlNamespace GetXamlNamespace(string ns)
+        public FullyConfiguredMapping GetXamlNamespace(string ns)
         {
             return nsRegistry.GetXamlNamespace(ns);
         }
@@ -32,9 +33,9 @@ namespace OmniXaml
             nsRegistry.RegisterPrefix(prefixRegistration);
         }
 
-        public void RegisterNamespace(XamlNamespace xamlNamespace)
+        public void AddNamespace(FullyConfiguredMapping xamlNamespace)
         {
-            nsRegistry.RegisterNamespace(xamlNamespace);
+            nsRegistry.AddNamespace(xamlNamespace);
         }
 
         public void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog)

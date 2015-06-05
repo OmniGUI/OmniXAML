@@ -1,13 +1,15 @@
 namespace OmniXaml.Typing
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Builder;
     using Catalogs;
 
     public class XamlNamespaceRegistry : IXamlNamespaceRegistry
     {
         private readonly IDictionary<string, string> registeredPrefixes = new Dictionary<string, string>();
-        private readonly ISet<XamlNamespace> namespaces = new HashSet<XamlNamespace>();
+        private readonly ISet<FullyConfiguredMapping> newNamespaces = new HashSet<FullyConfiguredMapping>(); 
 
         public IEnumerable<string> RegisteredPrefixes => registeredPrefixes.Keys;
 
@@ -16,9 +18,9 @@ namespace OmniXaml.Typing
             registeredPrefixes.Add(prefixRegistration.Prefix, prefixRegistration.Ns);
         }
 
-        public XamlNamespace GetXamlNamespace(string ns)
+        public FullyConfiguredMapping GetXamlNamespace(string ns)
         {
-            var xamlNamespace = namespaces.FirstOrDefault(ns1 => ns1.NamespaceUri == ns);
+            var xamlNamespace = newNamespaces.FirstOrDefault(ns1 => ns1.XamlNamespace == ns);
             return xamlNamespace;
         }
 
@@ -27,25 +29,19 @@ namespace OmniXaml.Typing
             return registeredPrefixes[prefix];
         }
 
-        public XamlNamespace GetXamlNamespaceByPrefix(string prefix)
+        public FullyConfiguredMapping GetXamlNamespaceByPrefix(string prefix)
         {
             return GetXamlNamespace(registeredPrefixes[prefix]);
         }
 
-        public void RegisterNamespace(XamlNamespace xamlNamespace)
+        public void AddNamespace(FullyConfiguredMapping xamlNamespace)
         {
-            namespaces.Add(xamlNamespace);
+            newNamespaces.Add(xamlNamespace);
         }
 
         public void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog)
         {
-            foreach (var xamlMapping in attributeBasedClrMappingCatalog.Mappings.ToLookup(mapping => mapping.XamlNamespace))
-            {
-                var xamlNs = xamlMapping.Key;
-                var mappedTo = xamlMapping.Select(mapping => new ClrAssemblyPair(mapping.Assembly, mapping.ClrNamespace));
-
-                RegisterNamespace(new XamlNamespace(xamlNs, mappedTo));
-            }
+           throw new NotImplementedException();
         }
     }
 }

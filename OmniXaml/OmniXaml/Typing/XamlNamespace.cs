@@ -8,23 +8,23 @@ namespace OmniXaml.Typing
     {
         private readonly string xamlNamespaceUri;
 
-        private readonly HashSet<ClrAssemblyPair> mappings = new HashSet<ClrAssemblyPair>();
+        private readonly HashSet<ClrNamespaceAddress> mappings = new HashSet<ClrNamespaceAddress>();
 
         public XamlNamespace(string xamlNamespaceUri)
         {
             this.xamlNamespaceUri = xamlNamespaceUri;
         }
 
-        public XamlNamespace(string xamlNamespaceUri, IEnumerable<ClrAssemblyPair> clrAssemblyPair) : this(xamlNamespaceUri)
+        public XamlNamespace(string xamlNamespaceUri, IEnumerable<ClrNamespaceAddress> clrAssemblyPair) : this(xamlNamespaceUri)
         {
-            mappings = new HashSet<ClrAssemblyPair>(clrAssemblyPair);
+            mappings = new HashSet<ClrNamespaceAddress>(clrAssemblyPair);
         }
 
         public string NamespaceUri => xamlNamespaceUri;
 
-        public void AddMapping(ClrAssemblyPair clrAssemblyPair)
+        public void AddMapping(ClrNamespaceAddress clrNamespaceAddress)
         {
-            mappings.Add(clrAssemblyPair);
+            mappings.Add(clrNamespaceAddress);
         }
 
         public Type Get(string name)
