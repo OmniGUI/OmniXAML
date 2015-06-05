@@ -44,6 +44,10 @@
     <Compile Include="Assembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="Builder\AssemblyConfiguration.cs" />
+    <Compile Include="Builder\ClrNamespaceConfiguration.cs" />
+    <Compile Include="Builder\FullyConfiguredMapping.cs" />
+    <Compile Include="Builder\Namespace.cs" />
     <Compile Include="Catalogs\AttributeBasedClrMappingCatalog.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\AttributeBasedConverterCatalog.cs" />
@@ -148,6 +152,7 @@
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="XamlToObjectWiringContext.cs" />
     <Compile Include="XamlXmlLoader.cs" />
+    <Compile Include="Builder\XamlXmlLoaderBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">

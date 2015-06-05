@@ -74,6 +74,7 @@
     <Compile Include="TemplateHostingObjectAssembler.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TestingExtensions.cs" />
+    <Compile Include="XamlXmlLoaderBuilderTests.cs" />
     <Compile Include="XamlObjectWriterTests\SimpleTests.cs" />
     <Compile Include="XamlObjectWriterTests\XamlReaderMock.cs" />
     <Compile Include="Parsers\ProtoParserTests\ParseTests.cs" />
