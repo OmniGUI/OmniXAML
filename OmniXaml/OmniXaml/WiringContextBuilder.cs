@@ -12,6 +12,7 @@ namespace OmniXaml
         private ITypeConverterProvider converterProvider;
 
         private readonly TypeContextBuilder typingCoreBuilder = new TypeContextBuilder();
+        private IEnumerable<Assembly> assembliesForNamespaces;
 
         public WiringContextBuilder()
         {            
@@ -59,7 +60,19 @@ namespace OmniXaml
         public WiringContext Build()
         {
             var typingCore = typingCoreBuilder.Build();
+
+            if (assembliesForNamespaces!=null)
+            {
+                typingCore.AddCatalog(new AttributeBasedClrMappingCatalog(assembliesForNamespaces));
+            }
+
             return new WiringContext(typingCore, contentPropertyProvider, converterProvider);
+        }
+
+        public WiringContextBuilder WithNamespacesProvidedByAttributes(IEnumerable<Assembly> assembliesForNamespaces)
+        {
+            this.assembliesForNamespaces = assembliesForNamespaces;
+            return this;
         }
     }
 }

@@ -2,6 +2,7 @@ namespace OmniXaml.Typing
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Catalogs;
 
     public class XamlNamespaceRegistry : IXamlNamespaceRegistry
     {
@@ -34,6 +35,17 @@ namespace OmniXaml.Typing
         public void RegisterNamespace(XamlNamespace xamlNamespace)
         {
             namespaces.Add(xamlNamespace);
+        }
+
+        public void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog)
+        {
+            foreach (var xamlMapping in attributeBasedClrMappingCatalog.Mappings.ToLookup(mapping => mapping.XamlNamespace))
+            {
+                var xamlNs = xamlMapping.Key;
+                var mappedTo = xamlMapping.Select(mapping => new ClrAssemblyPair(mapping.Assembly, mapping.ClrNamespace));
+
+                RegisterNamespace(new XamlNamespace(xamlNs, mappedTo));
+            }
         }
     }
 }

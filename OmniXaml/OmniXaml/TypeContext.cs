@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System;
+    using Catalogs;
     using Typing;
 
     public class TypeContext : ITypeContext
@@ -34,6 +35,11 @@ namespace OmniXaml
         public void RegisterNamespace(XamlNamespace xamlNamespace)
         {
             nsRegistry.RegisterNamespace(xamlNamespace);
+        }
+
+        public void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog)
+        {
+            nsRegistry.AddCatalog(attributeBasedClrMappingCatalog);
         }
 
         public XamlType Get(Type type)

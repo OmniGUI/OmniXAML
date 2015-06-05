@@ -4,6 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Catalogs;
     using Typing;
 
     public class TypeContextBuilder
@@ -68,6 +69,6 @@ namespace OmniXaml
         {
             xamlMappings.Add(new ClrMapping(assembly, xamlNs, clrNs));
             return this;
-        }
+        } 
     }
 }

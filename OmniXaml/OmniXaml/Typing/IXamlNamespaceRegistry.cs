@@ -1,5 +1,7 @@
 namespace OmniXaml.Typing
 {
+    using Catalogs;
+
     public interface IXamlNamespaceRegistry
     {
         //void RegisterPrefix(PrefixRegistration prefixRegistration);
@@ -12,5 +14,6 @@ namespace OmniXaml.Typing
         string GetNamespaceForPrefix(string prefix);
         void RegisterPrefix(PrefixRegistration prefixRegistration);
         void RegisterNamespace(XamlNamespace xamlNamespace);
+        void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog);
     }
 }

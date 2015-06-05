@@ -10,6 +10,7 @@
         private List<FullyConfiguredMapping> namespaceRegistration = new List<FullyConfiguredMapping>();
         private IEnumerable<Assembly> lookupAssemblies = new List<Assembly>();
         private List<PrefixRegistration> prefixes = new List<PrefixRegistration>();
+        private IEnumerable<Assembly> assembliesForNamespaces;
 
         public XamlXmlLoader Build()
         {
@@ -22,13 +23,20 @@
                 wiringContextBuilder.WithNsPrefix(prefixRegistration.Prefix, prefixRegistration.Ns);
             }
 
-            foreach (var mapping in namespaceRegistration)
+            if (assembliesForNamespaces != null)
             {
-                foreach (var ns in mapping.Namespaces)
-                {
-                    wiringContextBuilder.WithXamlNs(mapping.XamlNamespace, mapping.AssemblyConfiguration.Assembly, ns);
-                }                
+                wiringContextBuilder.WithNamespacesProvidedByAttributes(assembliesForNamespaces);
             }
+            else
+            {
+                foreach (var mapping in namespaceRegistration)
+                {
+                    foreach (var ns in mapping.Namespaces)
+                    {
+                        wiringContextBuilder.WithXamlNs(mapping.XamlNamespace, mapping.AssemblyConfiguration.Assembly, ns);
+                    }
+                }
+            }            
 
             var wiringContext = wiringContextBuilder.Build();
             var assembler = new ObjectAssembler(wiringContext);
@@ -44,6 +52,12 @@
         internal XamlXmlLoaderBuilder WithNamespaces(List<FullyConfiguredMapping> namespaceRegistration)
         {
             this.namespaceRegistration = namespaceRegistration;
+            return this;
+        }
+
+        internal XamlXmlLoaderBuilder WithNamespacesProvidedByAttributes(IEnumerable<Assembly> assembliesForNamespaces)
+        {
+            this.assembliesForNamespaces = assembliesForNamespaces;
             return this;
         }
 
