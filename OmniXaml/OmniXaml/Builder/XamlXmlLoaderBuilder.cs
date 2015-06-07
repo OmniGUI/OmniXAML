@@ -7,7 +7,7 @@
 
     public class XamlXmlLoaderBuilder
     {
-        private List<FullyConfiguredMapping> namespaceRegistration = new List<FullyConfiguredMapping>();
+        private List<XamlNamespace> namespaceRegistration = new List<XamlNamespace>();
         private IEnumerable<Assembly> lookupAssemblies = new List<Assembly>();
         private List<PrefixRegistration> prefixes = new List<PrefixRegistration>();
         private IEnumerable<Assembly> assembliesForNamespaces;
@@ -33,7 +33,7 @@
                 {
                     foreach (var address in mapping.Addresses)
                     {
-                        wiringContextBuilder.WithXamlNs(mapping.XamlNamespace, address.Assembly, address.Namespace);
+                        wiringContextBuilder.WithXamlNs(mapping.Name, address.Assembly, address.Namespace);
                     }
                 }
             }            
@@ -49,7 +49,7 @@
             return this;
         }
 
-        internal XamlXmlLoaderBuilder WithNamespaces(List<FullyConfiguredMapping> namespaceRegistration)
+        internal XamlXmlLoaderBuilder WithNamespaces(List<XamlNamespace> namespaceRegistration)
         {
             this.namespaceRegistration = namespaceRegistration;
             return this;

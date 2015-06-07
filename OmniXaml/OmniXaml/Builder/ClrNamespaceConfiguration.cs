@@ -7,9 +7,9 @@ namespace OmniXaml.Builder
     {
         public List<string> Namespaces { get; }
 
-        public ClrNamespaceConfiguration(IEnumerable<string> list, string ns)
+        public ClrNamespaceConfiguration(IEnumerable<string> namespaces, string ns)
         {
-            Namespaces = new List<string>(list) { ns };
+            Namespaces = new List<string>(namespaces) { ns };
         }
 
         public ClrNamespaceConfiguration And(string ns)

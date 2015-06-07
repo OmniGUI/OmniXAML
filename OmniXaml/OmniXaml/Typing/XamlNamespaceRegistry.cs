@@ -9,7 +9,7 @@ namespace OmniXaml.Typing
     public class XamlNamespaceRegistry : IXamlNamespaceRegistry
     {
         private readonly IDictionary<string, string> registeredPrefixes = new Dictionary<string, string>();
-        private readonly ISet<FullyConfiguredMapping> newNamespaces = new HashSet<FullyConfiguredMapping>(); 
+        private readonly ISet<XamlNamespace> newNamespaces = new HashSet<XamlNamespace>(); 
 
         public IEnumerable<string> RegisteredPrefixes => registeredPrefixes.Keys;
 
@@ -18,9 +18,9 @@ namespace OmniXaml.Typing
             registeredPrefixes.Add(prefixRegistration.Prefix, prefixRegistration.Ns);
         }
 
-        public FullyConfiguredMapping GetXamlNamespace(string ns)
+        public XamlNamespace GetXamlNamespace(string ns)
         {
-            var xamlNamespace = newNamespaces.FirstOrDefault(ns1 => ns1.XamlNamespace == ns);
+            var xamlNamespace = newNamespaces.FirstOrDefault(ns1 => ns1.Name == ns);
             return xamlNamespace;
         }
 
@@ -29,12 +29,12 @@ namespace OmniXaml.Typing
             return registeredPrefixes[prefix];
         }
 
-        public FullyConfiguredMapping GetXamlNamespaceByPrefix(string prefix)
+        public XamlNamespace GetXamlNamespaceByPrefix(string prefix)
         {
             return GetXamlNamespace(registeredPrefixes[prefix]);
         }
 
-        public void AddNamespace(FullyConfiguredMapping xamlNamespace)
+        public void AddNamespace(XamlNamespace xamlNamespace)
         {
             newNamespaces.Add(xamlNamespace);
         }

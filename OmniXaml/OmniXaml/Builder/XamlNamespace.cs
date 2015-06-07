@@ -6,31 +6,36 @@ namespace OmniXaml.Builder
     using System.Linq;
     using Typing;
 
-    public class FullyConfiguredMapping
+    public class XamlNamespace
     {
-        public string XamlNamespace { get; private set; }
+        public string Name { get; private set; }
 
-        public FullyConfiguredMapping(AssemblyConfiguration configuredAssemblyConfiguration, string xamlNamespace)
+        public XamlNamespace(AssemblyConfiguration assemblyConfiguration, string name)
         {
-            if (configuredAssemblyConfiguration == null)
+            if (assemblyConfiguration == null)
             {
-                throw new ArgumentNullException(nameof(configuredAssemblyConfiguration));
+                throw new ArgumentNullException(nameof(assemblyConfiguration));
             }
 
-            var clrNamespaceAddresses = configuredAssemblyConfiguration.ClrNamespaceConfiguration.Namespaces
-                .Select(ns => new ClrNamespaceAddress(configuredAssemblyConfiguration.Assembly, ns));
+            var clrNamespaceAddresses = assemblyConfiguration.ClrNamespaceConfiguration.Namespaces
+                .Select(ns => new ClrNamespaceAddress(assemblyConfiguration.Assembly, ns));
 
             Addresses = new ClrNamespaceAddressCollection(clrNamespaceAddresses);
-            XamlNamespace = xamlNamespace;            
+            Name = name;            
         }
 
-        public FullyConfiguredMapping(string name, ClrNamespaceAddressCollection addresses)
+        public XamlNamespace(string name, ClrNamespaceAddressCollection addresses)
         {
             Addresses = addresses;
-            XamlNamespace = name;
+            Name = name;
         }
 
         public ClrNamespaceAddressCollection Addresses { get; private set; }
+
+        public static ClrNamespaceConfiguration CreateMapFor(string ns)
+        {
+            return new ClrNamespaceConfiguration(new List<string>(), ns);
+        }
     }
 
     public class ClrNamespaceAddressCollection : Collection<ClrNamespaceAddress>

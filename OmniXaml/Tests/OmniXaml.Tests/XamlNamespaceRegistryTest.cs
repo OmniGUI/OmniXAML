@@ -39,13 +39,13 @@
 
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
             registry.AddNamespace(
-                Namespace
+                XamlNamespace
                 .CreateMapFor(type.Namespace)
                 .FromAssembly(type.Assembly)
                 .To("target"));
 
             var ns = registry.GetXamlNamespaceByPrefix("my");
-            Assert.AreEqual("target", ns.XamlNamespace);
+            Assert.AreEqual("target", ns.Name);
         }
 
         [TestMethod]
@@ -54,13 +54,13 @@
             var type = typeof (DummyClass);
 
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
-            registry.AddNamespace(Namespace
+            registry.AddNamespace(XamlNamespace
                 .CreateMapFor(type.Namespace)
                 .FromAssembly(type.Assembly)
                 .To("target"));
 
             var ns = registry.GetXamlNamespace("target");
-            Assert.AreEqual("target", ns.XamlNamespace);
+            Assert.AreEqual("target", ns.Name);
         }
     }
 }

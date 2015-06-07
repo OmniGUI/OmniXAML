@@ -17,7 +17,7 @@
 
             var type = typeof(DummyClass);
 
-            var fullyConfiguredMapping = Namespace
+            var fullyConfiguredMapping = XamlNamespace
                 .CreateMapFor(type.Namespace)
                 .FromAssembly(type.Assembly)
                 .To("root");

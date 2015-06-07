@@ -7,8 +7,8 @@ namespace OmniXaml.Typing
     {
         string GetNamespaceForPrefix(string prefix);
         void RegisterPrefix(PrefixRegistration prefixRegistration);
-        void AddNamespace(FullyConfiguredMapping xamlNamespace);
+        void AddNamespace(XamlNamespace xamlNamespace);
         void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog);
-        FullyConfiguredMapping GetXamlNamespace(string ns);
+        XamlNamespace GetXamlNamespace(string ns);
     }
 }

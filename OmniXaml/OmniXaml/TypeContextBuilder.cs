@@ -49,7 +49,7 @@ namespace OmniXaml
                 var xamlNs = xamlMapping.Key;
                 var mappedTo = xamlMapping.Select(mapping => new ClrNamespaceAddress(mapping.Assembly, mapping.ClrNamespace));
 
-                namespaceRegistry.AddNamespace(new FullyConfiguredMapping(xamlNs, new ClrNamespaceAddressCollection(mappedTo)));
+                namespaceRegistry.AddNamespace(new XamlNamespace(xamlNs, new ClrNamespaceAddressCollection(mappedTo)));
             }
         }
 

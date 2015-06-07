@@ -21,17 +21,17 @@
 
             var sut = new XamlXmlLoaderBuilder();
 
-            var definitionForRoot = Namespace
+            var definitionForRoot = XamlNamespace
                 .CreateMapFor(rootType.Namespace)
                 .FromAssembly(rootType.Assembly)
                 .To("root");
 
-            var definitionForAnother = Namespace
+            var definitionForAnother = XamlNamespace
                 .CreateMapFor(anotherType.Namespace)
                 .FromAssembly(anotherType.Assembly)
                 .To("another");
 
-            sut.WithNamespaces(new List<FullyConfiguredMapping> { definitionForRoot, definitionForAnother });
+            sut.WithNamespaces(new List<XamlNamespace> { definitionForRoot, definitionForAnother });
             sut.WithNsPrefixes(new List<PrefixRegistration>
             {
                 new PrefixRegistration(string.Empty, "root"),

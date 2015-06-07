@@ -18,7 +18,7 @@ namespace OmniXaml
             this.typeFactory = typeFactory;
         }
 
-        public FullyConfiguredMapping GetXamlNamespace(string ns)
+        public XamlNamespace GetXamlNamespace(string ns)
         {
             return nsRegistry.GetXamlNamespace(ns);
         }
@@ -33,7 +33,7 @@ namespace OmniXaml
             nsRegistry.RegisterPrefix(prefixRegistration);
         }
 
-        public void AddNamespace(FullyConfiguredMapping xamlNamespace)
+        public void AddNamespace(XamlNamespace xamlNamespace)
         {
             nsRegistry.AddNamespace(xamlNamespace);
         }

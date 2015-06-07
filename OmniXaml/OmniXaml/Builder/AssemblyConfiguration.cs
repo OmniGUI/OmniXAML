@@ -13,9 +13,9 @@ namespace OmniXaml.Builder
             this.Assembly = assembly;
         }
 
-        public FullyConfiguredMapping To(string xamlNs)
+        public XamlNamespace To(string xamlNs)
         {
-            return new FullyConfiguredMapping(this, xamlNs);
+            return new XamlNamespace(this, xamlNs);
         }
     }
 }
