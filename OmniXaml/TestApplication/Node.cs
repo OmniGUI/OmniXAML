@@ -10,7 +10,7 @@
 
         public Node(object data)
         {
-            this.Data = data;
+            Data = data;
             IsExpanded = true;
             TypeName = data.GetType().Name;
             Tag = data.ToString();

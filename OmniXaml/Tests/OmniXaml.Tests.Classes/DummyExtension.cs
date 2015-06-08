@@ -5,7 +5,7 @@
         public string Property { get; set; }
         public string AnotherProperty { get; set; }
 
-        public override object ProvideValue(XamlToObjectWiringContext serviceProvider)
+        public override object ProvideValue(MarkupExtensionContext markupExtensionContext)
         {
             return Property ?? "Text From Markup Extension";
         }

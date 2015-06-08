@@ -2,8 +2,8 @@ namespace OmniXaml
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Reflection;
     using Builder;
     using Catalogs;
     using Typing;
@@ -14,8 +14,9 @@ namespace OmniXaml
         private IXamlNamespaceRegistry nsRegistry;
         private readonly ITypeFactory typeFactory = new DefaultTypeFactory();
 
-        private readonly ISet<ClrMapping> xamlMappings = new HashSet<ClrMapping>();
-        private readonly IDictionary<string,string> prefixes = new Dictionary<string, string>();        
+        private readonly IDictionary<string,string> prefixes = new Dictionary<string, string>();
+        private IEnumerable<XamlNamespace> namespaceRegistrations = new Collection<XamlNamespace>();
+        private IEnumerable<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();
 
         public TypeContextBuilder()
         {
@@ -36,20 +37,17 @@ namespace OmniXaml
 
         private void RegisterPrefixes(IXamlNamespaceRegistry namespaceRegistry)
         {
-            foreach (var prefix in prefixes)
+            foreach (var prefix in prefixRegistrations)
             {
-                namespaceRegistry.RegisterPrefix(new PrefixRegistration(prefix.Key, prefix.Value));
+                namespaceRegistry.RegisterPrefix(prefix);
             }
         }
 
         private void RegisterNamespaces(IXamlNamespaceRegistry namespaceRegistry)
         {
-            foreach (var xamlMapping in xamlMappings.ToLookup(mapping => mapping.XamlNamespace))
-            {
-                var xamlNs = xamlMapping.Key;
-                var mappedTo = xamlMapping.Select(mapping => new ClrNamespaceAddress(mapping.Assembly, mapping.ClrNamespace));
-
-                namespaceRegistry.AddNamespace(new XamlNamespace(xamlNs, new ClrNamespaceAddressCollection(mappedTo)));
+            foreach (var xamlNamespace in namespaceRegistrations)
+            {               
+                namespaceRegistry.AddNamespace(xamlNamespace);
             }
         }
 
@@ -62,14 +60,17 @@ namespace OmniXaml
         public TypeContextBuilder AddNsForThisType(string prefix, string xamlNs, Type referenceType)
         {
             WithNsPrefix(prefix, xamlNs);
-            WithXamlNs(xamlNs, referenceType.GetTypeInfo().Assembly, referenceType.Namespace);
             return this;
         }
 
-        public TypeContextBuilder WithXamlNs(string xamlNs, Assembly assembly, string clrNs)
+        public void WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistrations)
         {
-            xamlMappings.Add(new ClrMapping(assembly, xamlNs, clrNs));
-            return this;
-        } 
+            this.namespaceRegistrations = namespaceRegistrations;
+        }
+
+        public void WithNsPrefixes(IEnumerable<PrefixRegistration> prefixRegistrations)
+        {
+            this.prefixRegistrations = prefixRegistrations;
+        }
     }
 }

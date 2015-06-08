@@ -1,16 +1,14 @@
 namespace OmniXaml.Tests
 {
+    using System.Collections.Generic;
+    using Builder;
     using Classes;
     using Classes.Another;
+    using Typing;
+    using WiringContext = WiringContext;
 
     public class GivenAWiringContext
     {
-        protected WiringContext WiringContext
-        { get; }
-        = new WiringContextBuilder()
-            .AddNsForThisType("", "root", typeof(DummyClass))
-            .AddNsForThisType("x", "another", typeof(Foreigner))
-            .WithContentPropertiesFromAssemblies(new[] { typeof(DummyClass).Assembly })
-            .Build();       
+        protected WiringContext WiringContext => DummyWiringContext.Create();
     }
 }

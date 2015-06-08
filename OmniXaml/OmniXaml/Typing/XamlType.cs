@@ -110,8 +110,6 @@ namespace OmniXaml.Typing
         {
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
-        }
-
- 
+        } 
     }
 }

@@ -1,10 +1,8 @@
 namespace OmniXaml.Typing
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Builder;
-    using Catalogs;
 
     public class XamlNamespaceRegistry : IXamlNamespaceRegistry
     {
@@ -37,11 +35,6 @@ namespace OmniXaml.Typing
         public void AddNamespace(XamlNamespace xamlNamespace)
         {
             newNamespaces.Add(xamlNamespace);
-        }
-
-        public void AddCatalog(AttributeBasedClrMappingCatalog attributeBasedClrMappingCatalog)
-        {
-           throw new NotImplementedException();
         }
     }
 }

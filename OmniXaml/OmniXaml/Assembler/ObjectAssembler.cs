@@ -197,15 +197,15 @@
 
             var providedValue = markupExtension.ProvideValue(extensionContext);
 
-            stateBag.Current.Type = this.typeRepository.Get(providedValue.GetType());
+            stateBag.Current.Type = typeRepository.Get(providedValue.GetType());
             stateBag.Current.Instance = providedValue;
 
             AssignCurrentInstanceToParent(Bag);
         }
 
-        private static XamlToObjectWiringContext GetExtensionContext(StateBag stateBag)
+        private static MarkupExtensionContext GetExtensionContext(StateBag stateBag)
         {
-            var inflationContext = new XamlToObjectWiringContext
+            var inflationContext = new MarkupExtensionContext
             {
                 TargetObject = stateBag.Parent.Instance,
                 TargetProperty = stateBag.Parent.Instance.GetType().GetRuntimeProperty(stateBag.Parent.Property.Name),

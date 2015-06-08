@@ -2,6 +2,6 @@
 {
     public abstract class MarkupExtension : IMarkupExtension
     {
-        public abstract object ProvideValue(XamlToObjectWiringContext extensionContext);        
+        public abstract object ProvideValue(MarkupExtensionContext markupExtensionContext);        
     }
 }

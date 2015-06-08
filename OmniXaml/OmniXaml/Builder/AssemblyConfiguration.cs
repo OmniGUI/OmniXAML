@@ -9,8 +9,8 @@ namespace OmniXaml.Builder
 
         public AssemblyConfiguration(ClrNamespaceConfiguration clrNamespaceClrNamespaceConfiguration, Assembly assembly)
         {
-            this.ClrNamespaceConfiguration = clrNamespaceClrNamespaceConfiguration;
-            this.Assembly = assembly;
+            ClrNamespaceConfiguration = clrNamespaceClrNamespaceConfiguration;
+            Assembly = assembly;
         }
 
         public XamlNamespace To(string xamlNs)
