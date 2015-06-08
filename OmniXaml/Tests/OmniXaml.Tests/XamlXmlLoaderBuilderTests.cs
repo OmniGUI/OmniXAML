@@ -1,8 +1,12 @@
 ﻿namespace OmniXaml.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
+    using Attributes;
     using Builder;
     using Classes;
     using Classes.Another;
@@ -13,6 +17,27 @@
     [TestClass]
     public class XamlXmlLoaderBuilderTests
     {
+
+        [TestMethod]
+        public void AttributeBasedConfigurationForNamespaces()
+        {
+            var rootType = typeof(DummyClass);
+            var sut = new XamlXmlLoaderBuilder();
+
+            sut.WithNamespaces(XamlNamespace.DefinedInAssemblies(new[] {rootType.Assembly}));
+            Assert.IsTrue(sut.NamespaceRegistrations.Any());
+        }
+
+        [TestMethod]
+        public void AttributeBasedConfigurationForContentProperties()
+        {
+            var rootType = typeof(DummyClass);
+            var sut = new XamlXmlLoaderBuilder();
+
+            sut.WithContentProperties(ContentProperties.DefinedInAssemblies(new[] { rootType.Assembly }));
+            Assert.IsTrue(sut.ContentProperties.Any());
+        }
+
         [TestMethod]
         public void BasicConfigurationWithPrefixes()
         {
@@ -46,6 +71,4 @@
             }
         }
     }
-
-
 }

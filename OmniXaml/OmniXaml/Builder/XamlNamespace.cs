@@ -4,6 +4,8 @@ namespace OmniXaml.Builder
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reflection;
+    using Attributes;
     using Typing;
 
     public class XamlNamespace
@@ -35,6 +37,25 @@ namespace OmniXaml.Builder
         public static ClrNamespaceConfiguration CreateMapFor(string ns)
         {
             return new ClrNamespaceConfiguration(new List<string>(), ns);
+        }
+
+        public static ClrNamespaceConfiguration CreateMapFor(IEnumerable<string> namespaces)
+        {
+            return new ClrNamespaceConfiguration(namespaces);
+        }
+
+        public static IEnumerable<XamlNamespace> DefinedInAssemblies(IEnumerable<Assembly> assemblies)
+        {
+            var namespaces = from a in assemblies
+                let attributes = a.GetCustomAttributes<XmlnsDefinitionAttribute>()
+                from byNamespace in attributes.GroupBy(arg => arg.XmlNamespace)
+                let name = byNamespace.Key
+                let clrNamespaces = byNamespace.Select(arg => arg.ClrNamespace)
+                select CreateMapFor(clrNamespaces)
+                    .FromAssembly(a)
+                    .To(name);
+
+            return namespaces;
         }
     }
 
