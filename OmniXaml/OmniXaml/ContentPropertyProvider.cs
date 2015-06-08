@@ -3,6 +3,7 @@ namespace OmniXaml
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using Builder;
     using Catalogs;
 
     public class ContentPropertyProvider : IContentPropertyProvider
@@ -53,6 +54,11 @@ namespace OmniXaml
             {
                 throw new InvalidOperationException(string.Format("There has been a problem adding the catalog: {0}", ex));
             }
+        }
+
+        public void Add(ContentPropertyDefinition contentPropertyDefinition)
+        {
+            this.registeredContentProperties.Add(contentPropertyDefinition.OwnerType, contentPropertyDefinition.Name);
         }
     }
 }

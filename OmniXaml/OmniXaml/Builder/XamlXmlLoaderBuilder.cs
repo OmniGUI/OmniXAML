@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Assembler;
@@ -10,15 +11,14 @@
 
     public class XamlXmlLoaderBuilder
     {
-        private IEnumerable<XamlNamespace> namespaceRegistrations = new List<XamlNamespace>();
-        private IEnumerable<Assembly> lookupAssemblies = new List<Assembly>();
-        private List<PrefixRegistration> prefixes = new List<PrefixRegistration>();
-        private IEnumerable<Assembly> assembliesForNamespaces;
-        private IEnumerable<ContentPropertyDefinition> contentContentProperties;
+        private IEnumerable<XamlNamespace> namespaceRegistrations = new Collection<XamlNamespace>();
+        private readonly IEnumerable<Assembly> lookupAssemblies = new Collection<Assembly>();
+        private IEnumerable<PrefixRegistration> prefixes = new Collection<PrefixRegistration>();
+        private IEnumerable<ContentPropertyDefinition> contentPropertyDefinitionDefinitions = new Collection<ContentPropertyDefinition>();
 
         public IEnumerable<XamlNamespace> NamespaceRegistrations => namespaceRegistrations;
 
-        public IEnumerable<ContentPropertyDefinition> ContentProperties => contentContentProperties;
+        public IEnumerable<ContentPropertyDefinition> ContentPropertyDefinitions => contentPropertyDefinitionDefinitions;
 
         public XamlXmlLoader Build()
         {
@@ -31,41 +31,36 @@
                 wiringContextBuilder.WithNsPrefix(prefixRegistration.Prefix, prefixRegistration.Ns);
             }
 
-            if (assembliesForNamespaces != null)
-            {
-                wiringContextBuilder.WithNamespacesProvidedByAttributes(assembliesForNamespaces);
-            }
-            else
-            {
-                foreach (var mapping in namespaceRegistrations)
-                {
-                    foreach (var address in mapping.Addresses)
-                    {
-                        wiringContextBuilder.WithXamlNs(mapping.Name, address.Assembly, address.Namespace);
-                    }
-                }
-            }
-
+            RegisterNamespaces(wiringContextBuilder);
+            RegisterContentProperties(wiringContextBuilder);
+            
             var wiringContext = wiringContextBuilder.Build();
             var assembler = new ObjectAssembler(wiringContext);
             return new XamlXmlLoader(assembler, wiringContext);
         }
 
-        internal XamlXmlLoaderBuilder WithContentProperties(IEnumerable<Assembly> lookupAssemblies)
+        private void RegisterContentProperties(WiringContextBuilder wiringContextBuilder)
         {
-            this.lookupAssemblies = lookupAssemblies;
-            return this;
+            foreach (var contentPropertyDefinition in ContentPropertyDefinitions)
+            {
+                wiringContextBuilder.WithContentProperty(contentPropertyDefinition);
+            }
         }
 
-        internal XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistration)
+        private void RegisterNamespaces(WiringContextBuilder wiringContextBuilder)
         {
-            this.namespaceRegistrations = namespaceRegistration;
-            return this;
+            foreach (var mapping in namespaceRegistrations)
+            {
+                foreach (var address in mapping.Addresses)
+                {
+                    wiringContextBuilder.WithXamlNs(mapping.Name, address.Assembly, address.Namespace);
+                }
+            }
         }
 
-        internal XamlXmlLoaderBuilder WithNamespacesProvidedByAttributes(IEnumerable<Assembly> assembliesForNamespaces)
+        internal XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaces)
         {
-            this.assembliesForNamespaces = assembliesForNamespaces;
+            this.namespaceRegistrations = namespaces;
             return this;
         }
 
@@ -75,17 +70,17 @@
             return this;
         }
 
-        public void WithContentProperties(IEnumerable<ContentPropertyDefinition> definedInAssemblies)
+        public void WithContentProperties(IEnumerable<ContentPropertyDefinition> definitions)
         {
 
-            this.contentContentProperties = definedInAssemblies;
+            this.contentPropertyDefinitionDefinitions = definitions;
         }
 
     }
 
     public static class ContentProperties
     {
-        public static IEnumerable<ContentPropertyDefinition> DefinedInAssemblies(Assembly[] assemblies)
+        public static IEnumerable<ContentPropertyDefinition> DefinedInAssemblies(IEnumerable<Assembly> assemblies)
         {
             return from assembly in assemblies
                    let allTypes = assembly.DefinedTypes
@@ -99,16 +94,16 @@
 
     public class ContentPropertyDefinition
     {
-        private readonly Type type;
+        private readonly Type ownerType;
         private readonly string name;
 
-        public ContentPropertyDefinition(Type type, string name)
+        public ContentPropertyDefinition(Type ownerType, string name)
         {
-            this.type = type;
+            this.ownerType = ownerType;
             this.name = name;
         }
 
-        public Type Type => type;
+        public Type OwnerType => ownerType;
 
         public string Name => name;
     }
