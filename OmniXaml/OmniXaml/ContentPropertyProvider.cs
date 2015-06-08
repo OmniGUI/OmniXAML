@@ -58,7 +58,7 @@ namespace OmniXaml
 
         public void Add(ContentPropertyDefinition contentPropertyDefinition)
         {
-            this.registeredContentProperties.Add(contentPropertyDefinition.OwnerType, contentPropertyDefinition.Name);
+            registeredContentProperties.Add(contentPropertyDefinition.OwnerType, contentPropertyDefinition.Name);
         }
     }
 }

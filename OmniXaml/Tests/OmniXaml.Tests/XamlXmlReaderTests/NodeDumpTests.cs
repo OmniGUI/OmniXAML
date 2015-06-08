@@ -14,18 +14,15 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class NodeDumpTests
+    public class NodeDumpTests : GivenAWiringContext
     {
         private readonly XamlNodeBuilder nodeBuilder;
-        private readonly WiringContext wiringContext;
 
         public NodeDumpTests()
         {
-            wiringContext = new WiringContextBuilder()
-                .AddNsForThisType("", "root", typeof(DummyClass))
-                .Build();
+      
 
-            nodeBuilder = new XamlNodeBuilder(wiringContext.TypeContext);
+            nodeBuilder = new XamlNodeBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]
@@ -169,8 +166,8 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
         private IList<XamlNode> FlattenNodesFromXaml(string xaml)
         {
-            var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoNodes = new SuperProtoParser(wiringContext).Parse(xaml);
+            var pullParser = new XamlNodesPullParser(WiringContext);
+            var protoNodes = new SuperProtoParser(WiringContext).Parse(xaml);
             return pullParser.Parse(protoNodes).ToList();         
         }
     }

@@ -56,7 +56,6 @@
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultTypeFactory.cs" />
-    <Compile Include="DefaultXamlNamespaceTypeResolver.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="ITypeContext.cs" />
@@ -125,7 +124,6 @@
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\ClrNamespaceAddress.cs" />
-    <Compile Include="Typing\ClrNamespace.cs" />
     <Compile Include="Typing\FrameworkBuiltInTypeRepository.cs" />
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
@@ -148,7 +146,7 @@
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />
     <Compile Include="XamlReaderException.cs" />
-    <Compile Include="XamlToObjectWiringContext.cs" />
+    <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="XamlXmlLoader.cs" />
     <Compile Include="Builder\XamlXmlLoaderBuilder.cs" />
   </ItemGroup>

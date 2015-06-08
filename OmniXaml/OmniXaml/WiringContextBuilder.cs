@@ -6,6 +6,7 @@ namespace OmniXaml
     using Builder;
     using Catalogs;
     using TypeConversion;
+    using Typing;
 
     public class WiringContextBuilder
     {
@@ -13,7 +14,6 @@ namespace OmniXaml
         private ITypeConverterProvider converterProvider;
 
         private readonly TypeContextBuilder typingCoreBuilder = new TypeContextBuilder();
-        private IEnumerable<Assembly> assembliesForNamespaces;
 
         public WiringContextBuilder()
         {            
@@ -29,7 +29,6 @@ namespace OmniXaml
 
         public WiringContextBuilder WithXamlNs(string xamlNs, Assembly assembly, string clrNs)
         {
-            typingCoreBuilder.WithXamlNs(xamlNs, assembly, clrNs);
             return this;
         }
 
@@ -61,24 +60,35 @@ namespace OmniXaml
         public WiringContext Build()
         {
             var typingCore = typingCoreBuilder.Build();
-
-            if (assembliesForNamespaces!=null)
-            {
-                typingCore.AddCatalog(new AttributeBasedClrMappingCatalog(assembliesForNamespaces));
-            }
-
+            
             return new WiringContext(typingCore, contentPropertyProvider, converterProvider);
         }
 
-        public WiringContextBuilder WithNamespacesProvidedByAttributes(IEnumerable<Assembly> assembliesForNamespaces)
+        public WiringContextBuilder WithContentProperty(ContentPropertyDefinition contentPropertyDefinition)
         {
-            this.assembliesForNamespaces = assembliesForNamespaces;
+            contentPropertyProvider.Add(contentPropertyDefinition);
             return this;
         }
 
-        public void WithContentProperty(ContentPropertyDefinition contentPropertyDefinition)
+        public WiringContextBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistrations)
         {
-            this.contentPropertyProvider.Add(contentPropertyDefinition);
+            typingCoreBuilder.WithNamespaces(namespaceRegistrations);
+            return this;
+        }
+
+        public WiringContextBuilder WithNsPrefixes(IEnumerable<PrefixRegistration> prefixRegistrations)
+        {
+            typingCoreBuilder.WithNsPrefixes(prefixRegistrations);
+            return this;
+        }
+
+        public WiringContextBuilder WithContentProperties(IEnumerable<ContentPropertyDefinition> contentProperties)
+        {
+            foreach (var contentPropertyDefinition in contentProperties)
+            {
+                contentPropertyProvider.Add(contentPropertyDefinition);
+            }
+            return this;
         }
     }
 }

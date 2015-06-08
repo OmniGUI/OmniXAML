@@ -6,14 +6,11 @@
     using System.IO;
     using System.Text;
     using System.Windows;
-    using System.Windows.Controls.Primitives;
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Assembler;
     using OmniXaml.Tests.Classes;
-    using WpfAdaptation;
-    using ContentPropertyProvider = WpfAdaptation.ContentPropertyProvider;
-    using TextBlock = System.Windows.Controls.TextBlock;
+    using OmniXaml.Wpf;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class MainViewModel : ViewModel
@@ -34,32 +31,9 @@
             SetSelectedSnippetCommand = new RelayCommand(o => SetSelectedSnippet());
         }
 
-        private WiringContext ContextForWpf
-        {
-            get
-            {
-                var windowType = typeof(Window);
-                var textBlockType = typeof(TextBlock);
-                var toggleButtonType = typeof(ToggleButton);
+        private WiringContext ContextForWpf => WpfContextFactory.Create();
 
-                var context = new WiringContextBuilder()
-                    .WithNsPrefix("", "root")
-                    .WithXamlNs("root", windowType.Assembly, windowType.Namespace)
-                    .WithXamlNs("root", textBlockType.Assembly, textBlockType.Namespace)
-                    .WithXamlNs("root", toggleButtonType.Assembly, toggleButtonType.Namespace)
-                    .WithContentPropertyProvider(new ContentPropertyProvider())
-                    .WithConverterProvider(new ConverterProvider())
-                    .Build();
-
-                return context;
-            }
-        }
-
-        private WiringContext ContextForTestClasses
-        { get; }
-        = new WiringContextBuilder().AddNsForThisType("", "root", typeof(DummyClass))
-            .WithContentPropertiesFromAssemblies(new[] { typeof(DummyClass).Assembly })
-            .Build();
+        private WiringContext ContextForTestClasses => DummyWiringContext.Create();
 
         public IList Snippets { get; set; }
 

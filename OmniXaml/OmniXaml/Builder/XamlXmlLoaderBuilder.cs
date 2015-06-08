@@ -25,15 +25,11 @@
             var wiringContextBuilder = new WiringContextBuilder();
 
             wiringContextBuilder.WithContentPropertiesFromAssemblies(lookupAssemblies);
-
-            foreach (var prefixRegistration in prefixes)
-            {
-                wiringContextBuilder.WithNsPrefix(prefixRegistration.Prefix, prefixRegistration.Ns);
-            }
+            wiringContextBuilder.WithNsPrefixes(prefixes);
 
             RegisterNamespaces(wiringContextBuilder);
             RegisterContentProperties(wiringContextBuilder);
-            
+
             var wiringContext = wiringContextBuilder.Build();
             var assembler = new ObjectAssembler(wiringContext);
             return new XamlXmlLoader(assembler, wiringContext);
@@ -49,31 +45,24 @@
 
         private void RegisterNamespaces(WiringContextBuilder wiringContextBuilder)
         {
-            foreach (var mapping in namespaceRegistrations)
-            {
-                foreach (var address in mapping.Addresses)
-                {
-                    wiringContextBuilder.WithXamlNs(mapping.Name, address.Assembly, address.Namespace);
-                }
-            }
+            wiringContextBuilder.WithNamespaces(NamespaceRegistrations);
         }
 
         internal XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaces)
         {
-            this.namespaceRegistrations = namespaces;
+            namespaceRegistrations = namespaces;
             return this;
         }
 
         public XamlXmlLoaderBuilder WithNsPrefixes(List<PrefixRegistration> prefixRegistrations)
         {
-            this.prefixes = prefixRegistrations;
+            prefixes = prefixRegistrations;
             return this;
         }
 
         public void WithContentProperties(IEnumerable<ContentPropertyDefinition> definitions)
         {
-
-            this.contentPropertyDefinitionDefinitions = definitions;
+            contentPropertyDefinitionDefinitions = definitions;
         }
 
     }

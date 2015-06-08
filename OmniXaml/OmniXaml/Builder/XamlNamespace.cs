@@ -67,7 +67,7 @@ namespace OmniXaml.Builder
 
         public Type Get(string typeName)
         {
-            var types = from mapping in this.Items
+            var types = from mapping in Items
                         let t = mapping.Assembly.GetType(mapping.Namespace + "." + typeName)
                         where t != null
                         select t;

@@ -1,13 +1,12 @@
-namespace TestApplication.WpfAdaptation
+namespace OmniXaml.Wpf
 {
     using System;
     using System.Reflection;
     using System.Windows.Markup;
-    using OmniXaml;
-    using OmniXaml.Builder;
-    using OmniXaml.Catalogs;
+    using Builder;
+    using Catalogs;
 
-    public class ContentPropertyProvider : IContentPropertyProvider
+    internal class WpfContentPropertyProvider : IContentPropertyProvider
     {
         public string GetContentPropertyName(Type type)
         {
