@@ -35,7 +35,7 @@
             var sut = new XamlXmlLoaderBuilder();
 
             sut.WithContentProperties(ContentProperties.DefinedInAssemblies(new[] { rootType.Assembly }));
-            Assert.IsTrue(sut.ContentProperties.Any());
+            Assert.IsTrue(sut.ContentPropertyDefinitions.Any());
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ namespace OmniXaml
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using Builder;
     using Catalogs;
     using TypeConversion;
 
@@ -73,6 +74,11 @@ namespace OmniXaml
         {
             this.assembliesForNamespaces = assembliesForNamespaces;
             return this;
+        }
+
+        public void WithContentProperty(ContentPropertyDefinition contentPropertyDefinition)
+        {
+            this.contentPropertyProvider.Add(contentPropertyDefinition);
         }
     }
 }

@@ -4,6 +4,7 @@ namespace TestApplication.WpfAdaptation
     using System.Reflection;
     using System.Windows.Markup;
     using OmniXaml;
+    using OmniXaml.Builder;
     using OmniXaml.Catalogs;
 
     public class ContentPropertyProvider : IContentPropertyProvider
@@ -14,6 +15,11 @@ namespace TestApplication.WpfAdaptation
         }
 
         public void AddCatalog(ContentPropertyCatalog catalog)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Add(ContentPropertyDefinition contentPropertyDefinition)
         {
             throw new NotImplementedException();
         }
