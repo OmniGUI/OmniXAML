@@ -12,6 +12,11 @@ namespace OmniXaml.Builder
             Namespaces = new List<string>(namespaces) { ns };
         }
 
+        public ClrNamespaceConfiguration(IEnumerable<string> namespaces)
+        {
+            Namespaces = new List<string>(namespaces);
+        }
+
         public ClrNamespaceConfiguration And(string ns)
         {
             return new ClrNamespaceConfiguration(Namespaces, ns);
