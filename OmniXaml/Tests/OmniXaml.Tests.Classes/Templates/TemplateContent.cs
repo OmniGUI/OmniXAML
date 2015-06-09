@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.Classes
+namespace OmniXaml.Tests.Classes.Templates
 {
     using System.Collections.Generic;
 

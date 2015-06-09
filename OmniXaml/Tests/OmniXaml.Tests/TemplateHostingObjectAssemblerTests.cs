@@ -3,6 +3,7 @@
     using System.Collections.ObjectModel;
     using Assembler;
     using Classes;
+    using Classes.Templates;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
 

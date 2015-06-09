@@ -1,7 +1,10 @@
+using OmniXaml.Tests.Classes.Templates;
+
 namespace OmniXaml.Tests.Classes
 {
     using System.Collections.ObjectModel;
     using Attributes;
+    using Templates;
 
     [ContentProperty("Children")]
     public class Item

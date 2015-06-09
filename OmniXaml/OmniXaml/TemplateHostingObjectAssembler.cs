@@ -7,7 +7,6 @@
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Classes;
     using Glass;
     using Typing;
 
@@ -77,7 +76,7 @@
         {
             Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
 
-            var propInfo = xamlMember.DeclaringType.UnderlyingType.GetProperty(xamlMember.Name);
+            var propInfo = xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name);
             var success = deferredObjectAssemblers.TryGetValue(propInfo, out assembler);
             return success;
         }
@@ -96,7 +95,7 @@
 
         public void DeferredAssembler<TItem>(Expression<Func<TItem, object>> selector, IDeferredObjectAssembler assembler)
         {
-            var propInfo = typeof(TItem).GetProperty(selector.GetFullPropertyName());
+            var propInfo = typeof(TItem).GetRuntimeProperty(selector.GetFullPropertyName());
             deferredObjectAssemblers.Add(propInfo, assembler);
         }
     }

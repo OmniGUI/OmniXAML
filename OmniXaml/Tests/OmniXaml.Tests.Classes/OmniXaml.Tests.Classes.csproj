@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="Templates\DummyDeferredObjectAssembler.cs" />
     <Compile Include="DummyWiringContext.cs" />
     <Compile Include="Grid.cs" />
     <Compile Include="IntExtension.cs" />
@@ -53,8 +54,10 @@
     <Compile Include="DummyClass.cs" />
     <Compile Include="DummyExtension.cs" />
     <Compile Include="Item.cs" />
-    <Compile Include="Template.cs" />
-    <Compile Include="TemplateContent.cs" />
+    <Compile Include="RowDefinition.cs" />
+    <Compile Include="Templates\Template.cs" />
+    <Compile Include="Templates\TemplateContent.cs" />
+    <Compile Include="TextBlock.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
