@@ -29,7 +29,17 @@ namespace OmniXaml.Typing
 
         public XamlType BaseType { get; set; }
 
-        public bool IsCollection => typeof (IList).GetTypeInfo().IsAssignableFrom(UnderlyingType.GetTypeInfo());
+        public bool IsCollection
+        {
+            get
+            {
+                var typeInfo = UnderlyingType.GetTypeInfo();
+                var isCollection = typeof (ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isEnumerable = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
+
+                return isCollection || isEnumerable;
+            }
+        }
 
         public bool IsContainer => IsCollection || IsDictionary;
 
