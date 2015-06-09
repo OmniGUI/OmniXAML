@@ -76,7 +76,6 @@
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="XamlXmlLoaderBuilderTests.cs" />
     <Compile Include="XamlObjectWriterTests\SimpleTests.cs" />
-    <Compile Include="XamlObjectWriterTests\XamlReaderMock.cs" />
     <Compile Include="Parsers\ProtoParserTests\ParseTests.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />
     <Compile Include="XamlNamespaceRegistryTest.cs" />

@@ -88,12 +88,7 @@
             bag.Current.Instance = newInstance;
         }
 
-        public void PushScope()
-        {
-            Bag.PushScope();
-        }
-
-        public void WriteEndMember()
+        private void WriteEndMember()
         {
             SetUnfinishedResult();
             var xamlMember = Bag.Current.Type != null ? Bag.Current.Property : Bag.Parent.Property;
@@ -163,7 +158,7 @@
             }
         }
 
-        public void WriteEndObject()
+        private void WriteEndObject()
         {
             if (!Bag.Current.IsObjectFromMember)
             {
@@ -188,7 +183,6 @@
             Bag.PopScope();
         }
 
-        // TODO: This may be a duplicate (EndMemberWriter also uses it)
         private void AssignValueFromMarkupExtension(StateBag stateBag)
         {
             var markupExtension = (MarkupExtension)stateBag.Current.Instance;
@@ -222,12 +216,12 @@
             return meType.IsAssignableFrom(underlyingType);
         }
 
-        public static bool IsAssignmentBeingMadeToContainer(XamlMember parentProperty, XamlType type)
+        private static bool IsAssignmentBeingMadeToContainer(XamlMember parentProperty, XamlType type)
         {
             return parentProperty.IsDirective && type.IsContainer;
         }
 
-        public static void AssignInstanceToParentCollection(object parentCollection, object instance)
+        private static void AssignInstanceToParentCollection(object parentCollection, object instance)
         {
             TypeOperations.Add(parentCollection, instance);
         }
@@ -255,9 +249,9 @@
             return e.Handled;
         }
 
-        public bool IsLeafMember => Bag.Current.Type == null;
+        private bool IsLeafMember => Bag.Current.Type == null;
 
-        public IXamlTypeRepository XamlTypeRepository
+        private IXamlTypeRepository XamlTypeRepository
         {
             get { return xamlTypeRepository; }
         }

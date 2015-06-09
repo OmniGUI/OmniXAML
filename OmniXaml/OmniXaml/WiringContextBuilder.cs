@@ -1,6 +1,5 @@
 namespace OmniXaml
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
@@ -19,23 +18,6 @@ namespace OmniXaml
         {            
             converterProvider = new TypeConverterProvider();
             contentPropertyProvider = new ContentPropertyProvider();            
-        }
-
-        public WiringContextBuilder AddNsForThisType(string prefix, string xamlNs, Type referenceType)
-        {
-            typingCoreBuilder.AddNsForThisType(prefix, xamlNs, referenceType);
-            return this;
-        }
-
-        public WiringContextBuilder WithXamlNs(string xamlNs, Assembly assembly, string clrNs)
-        {
-            return this;
-        }
-
-        public WiringContextBuilder WithNsPrefix(string prefix, string ns)
-        {
-            typingCoreBuilder.WithNsPrefix(prefix, ns);
-            return this;
         }
 
 

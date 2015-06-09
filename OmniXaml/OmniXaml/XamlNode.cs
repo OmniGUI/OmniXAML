@@ -59,8 +59,6 @@ namespace OmniXaml
 
         public object Value => NodeType == XamlNodeType.Value ? data : null;
 
-        internal bool IsEof => NodeType == XamlNodeType.None && internalNodeType == InternalNodeType.EndOfStream;
-
         public NamespaceDeclaration NamespaceDeclaration
         {
             get
@@ -92,7 +90,7 @@ namespace OmniXaml
             unchecked
             {
                 var hashCode = (int) nodeType;
-                hashCode = (hashCode*397) ^ (data != null ? data.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (data?.GetHashCode() ?? 0);
                 hashCode = (hashCode*397) ^ (int) internalNodeType;
                 return hashCode;
             }
