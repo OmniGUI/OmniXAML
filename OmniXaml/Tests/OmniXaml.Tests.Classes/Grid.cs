@@ -9,13 +9,4 @@
         public Collection<RowDefinition> RowDefinitions { get; set; }
         public Collection<TextBlock> Children { get; set; }
     }
-
-    public class TextBlock
-    {
-    }
-
-    public class RowDefinition
-    {
-    }
-
 }

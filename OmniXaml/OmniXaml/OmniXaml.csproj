@@ -53,6 +53,7 @@
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultTypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
+    <Compile Include="IDeferredObjectAssembler.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="ITypeContext.cs" />
     <Compile Include="ITypeFactory.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Parsers\ProtoParser\TextBuffer.cs" />
     <Compile Include="ProtoNodeBuilder.cs" />
     <Compile Include="ProtoXamlNode.cs" />
+    <Compile Include="TemplateHostingObjectAssembler.cs" />
     <Compile Include="TypeContext.cs" />
     <Compile Include="TypeContextBuilder.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\BooleanConverter.cs" />
