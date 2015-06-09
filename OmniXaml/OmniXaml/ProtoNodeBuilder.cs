@@ -79,6 +79,7 @@
             };
         }
 
+        // ReSharper disable once UnusedMember.Global
         public ProtoXamlNode EmptyPropertyElement<T>(Expression<Func<T, object>> selector, string ns)
         {
             return PropertyElement(selector, ns, isCollapsed: true);

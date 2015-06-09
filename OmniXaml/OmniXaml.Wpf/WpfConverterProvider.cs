@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Wpf
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
     using TypeConversion;
@@ -34,11 +33,6 @@
                 converter = new ConverterAdapter(converterInstance);
             }
             return converter;
-        }
-
-        public void AddCatalog(IDictionary<Type, ITypeConverter> typeConverters)
-        {
-            throw new NotImplementedException();
         }
     }
 }

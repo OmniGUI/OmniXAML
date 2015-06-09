@@ -30,14 +30,6 @@
             converters[type] = converter;
         }
 
-        public void AddCatalog(IDictionary<Type, ITypeConverter> catalog)
-        {
-            foreach (var typeConverter in catalog)
-            {
-                converters.Add(typeConverter);
-            }
-        }
-
         public ITypeConverter GetTypeConverter(Type type)
         {
             ITypeConverter converter;

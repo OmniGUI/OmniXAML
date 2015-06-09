@@ -8,6 +8,7 @@
         {
         }
 
+        // ReSharper disable once UnusedMember.Global
         public XamlReaderException(string message, Exception innerException) : base(message, innerException)
         {
         }

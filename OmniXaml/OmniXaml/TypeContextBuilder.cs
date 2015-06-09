@@ -1,6 +1,5 @@
 namespace OmniXaml
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -14,7 +13,6 @@ namespace OmniXaml
         private IXamlNamespaceRegistry nsRegistry;
         private readonly ITypeFactory typeFactory = new DefaultTypeFactory();
 
-        private readonly IDictionary<string,string> prefixes = new Dictionary<string, string>();
         private IEnumerable<XamlNamespace> namespaceRegistrations = new Collection<XamlNamespace>();
         private IEnumerable<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();
 
@@ -49,18 +47,6 @@ namespace OmniXaml
             {               
                 namespaceRegistry.AddNamespace(xamlNamespace);
             }
-        }
-
-        public TypeContextBuilder WithNsPrefix(string prefix, string ns)
-        {
-            prefixes.Add(prefix, ns);
-            return this;
-        }
-
-        public TypeContextBuilder AddNsForThisType(string prefix, string xamlNs, Type referenceType)
-        {
-            WithNsPrefix(prefix, xamlNs);
-            return this;
         }
 
         public void WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistrations)

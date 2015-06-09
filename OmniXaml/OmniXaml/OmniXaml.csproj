@@ -47,12 +47,8 @@
     <Compile Include="Builder\AssemblyConfiguration.cs" />
     <Compile Include="Builder\ClrNamespaceConfiguration.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
-    <Compile Include="Catalogs\AttributeBasedClrMappingCatalog.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
-    <Compile Include="Catalogs\AttributeBasedConverterCatalog.cs" />
-    <Compile Include="Catalogs\ClrMappingCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
-    <Compile Include="Catalogs\EnumerableBasedClrCatalog.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultTypeFactory.cs" />
@@ -63,9 +59,7 @@
     <Compile Include="ITypeProvider.cs" />
     <Compile Include="IValueConverter.cs" />
     <Compile Include="IXamlLoader.cs" />
-    <Compile Include="IXamlNamespaceTypeResolver.cs" />
     <Compile Include="IObjectAssembler.cs" />
-    <Compile Include="IXamlReader.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Assembler\LinkedListStackExtensions.cs" />
@@ -114,10 +108,8 @@
     <Compile Include="TypeContext.cs" />
     <Compile Include="TypeContextBuilder.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\BooleanConverter.cs" />
-    <Compile Include="TypeConversion\BuiltInConverters\EnumTypeConverter.cs" />
     <Compile Include="TypeConversion\ITypeConverter.cs" />
     <Compile Include="TypeConversion\ITypeConverterProvider.cs" />
-    <Compile Include="TypeConversion\ITypeDescriptorContext.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\NumberTypeConverter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\StringTypeConverter.cs" />
     <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
@@ -142,7 +134,6 @@
     <Compile Include="ValueConversionException.cs" />
     <Compile Include="WiringContext.cs" />
     <Compile Include="WiringContextBuilder.cs" />
-    <Compile Include="XamlElement.cs" />
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />
     <Compile Include="XamlReaderException.cs" />
