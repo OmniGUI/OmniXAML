@@ -14,17 +14,23 @@
             var textBlockType = typeof(System.Windows.Controls.TextBlock);
             var toggleButtonType = typeof(ToggleButton);
 
-            var rootNs = XamlNamespace
-                .CreateMapFor(windowType.Namespace)
-                .And(textBlockType.Namespace)
-                .And(toggleButtonType.Namespace)
-                .FromAssembly(windowType.Assembly)
-                .To("root");
+            var rootNs = XamlNamespace.Map("root")
+                .With(
+                    new[]
+                    {
+                        Route.Assembly(windowType.Assembly).WithNamespaces(
+                            new[]
+                            {
+                                windowType.Namespace,
+                                textBlockType.Namespace,
+                                toggleButtonType.Namespace,
+                            })
+                    });
 
             var wiringContextBuilder = new WiringContextBuilder();
 
             wiringContextBuilder
-                .WithNamespaces(new List<XamlNamespace> {rootNs})
+                .WithNamespaces(new List<XamlNamespace> { rootNs })
                 .WithNsPrefixes(new List<PrefixRegistration> {new PrefixRegistration("", "root")})
                 .WithContentPropertyProvider(new WpfContentPropertyProvider())
                 .WithConverterProvider(new WpfConverterProvider());

@@ -24,7 +24,7 @@
             var rootType = typeof(DummyClass);
             var sut = new XamlXmlLoaderBuilder();
 
-            sut.WithNamespaces(XamlNamespace.DefinedInAssemblies(new[] {rootType.Assembly}));
+            sut.WithNamespaces(XamlNamespace.DefinedInAssemblies(new[] { rootType.Assembly }));
             Assert.IsTrue(sut.NamespaceRegistrations.Any());
         }
 
@@ -41,27 +41,36 @@
         [TestMethod]
         public void BasicConfigurationWithPrefixes()
         {
-            var rootType = typeof(DummyClass);
-            var anotherType = typeof(Foreigner);
+            var rootType = typeof (DummyClass);
+            var anotherType = typeof (Foreigner);
 
             var sut = new XamlXmlLoaderBuilder();
 
             var definitionForRoot = XamlNamespace
-                .CreateMapFor(rootType.Namespace)
-                .FromAssembly(rootType.Assembly)
-                .To("root");
+                .Map("root")
+                .With(
+                    new[]
+                    {
+                        Route.Assembly(rootType.Assembly)
+                            .WithNamespaces(new[] {rootType.Namespace})
+                    });
 
             var definitionForAnother = XamlNamespace
-                .CreateMapFor(anotherType.Namespace)
-                .FromAssembly(anotherType.Assembly)
-                .To("another");
+                .Map("another")
+                .With(
+                    new[]
+                    {
+                        Route.Assembly(anotherType.Assembly)
+                            .WithNamespaces(new[] {anotherType.Namespace})
+                    });
 
-            sut.WithNamespaces(new List<XamlNamespace> { definitionForRoot, definitionForAnother });
-            sut.WithNsPrefixes(new List<PrefixRegistration>
-            {
-                new PrefixRegistration(string.Empty, "root"),
-                new PrefixRegistration("x", "another")
-            });
+            sut.WithNamespaces(new List<XamlNamespace> {definitionForRoot, definitionForAnother})
+                .WithNsPrefixes(
+                    new List<PrefixRegistration>
+                    {
+                        new PrefixRegistration(string.Empty, "root"),
+                        new PrefixRegistration("x", "another")
+                    });
 
             var loader = sut.Build();
 

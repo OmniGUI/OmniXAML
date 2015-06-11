@@ -7,6 +7,7 @@
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
     using System.Reflection;
+    using Assembler;
     using Glass;
     using Typing;
 
@@ -25,6 +26,11 @@
             this.objectAssembler = objectAssembler;
         }
 
+        public WiringContext WiringContext
+        {
+            get { return objectAssembler.WiringContext; }
+        }
+
         public void WriteNode(XamlNode node)
         {
             if (recording)
@@ -40,7 +46,7 @@
                     if (depth == 0)
                     {
                         recording = false;
-                        var loaded = assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList));
+                        var loaded = assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList), WiringContext);
                         objectAssembler.OverrideInstance(loaded);
                         objectAssembler.WriteNode(node);
                     }
@@ -53,7 +59,7 @@
             }
             else
             {
-                if (node.NodeType == XamlNodeType.StartMember)
+                if (node.NodeType == XamlNodeType.StartMember && !node.Member.IsDirective)
                 {                    
                     var hasAssembler = TryGetDeferredAssembler(node.Member, out assembler);
                     if (hasAssembler)
@@ -82,6 +88,12 @@
         }
 
         public object Result => objectAssembler.Result;
+        public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler
+        {
+            get { return objectAssembler.XamlSetValueHandler; }
+            set { objectAssembler.XamlSetValueHandler = value; }
+        }
+
         public void OverrideInstance(object instance)
         {            
         }

@@ -1,48 +1,24 @@
 namespace OmniXaml.Builder
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Attributes;
-    using Typing;
 
     public class XamlNamespace
     {
-        public string Name { get; private set; }
+        private readonly AddressPack addressPack;
+        private readonly string name;
 
-        public XamlNamespace(AssemblyConfiguration assemblyConfiguration, string name)
+        public XamlNamespace(string name, AddressPack addressPack)
         {
-            if (assemblyConfiguration == null)
-            {
-                throw new ArgumentNullException(nameof(assemblyConfiguration));
-            }
-
-            var clrNamespaceAddresses = assemblyConfiguration.ClrNamespaceConfiguration.Namespaces
-                .Select(ns => new ClrNamespaceAddress(assemblyConfiguration.Assembly, ns));
-
-            Addresses = new ClrNamespaceAddressCollection(clrNamespaceAddresses);
-            Name = name;            
+            this.name = name;
+            this.addressPack = addressPack;
         }
 
-        public XamlNamespace(string name, ClrNamespaceAddressCollection addresses)
-        {
-            Addresses = addresses;
-            Name = name;
-        }
+        public AddressPack Addresses => addressPack;
 
-        public ClrNamespaceAddressCollection Addresses { get; private set; }
-
-        public static ClrNamespaceConfiguration CreateMapFor(string ns)
-        {
-            return new ClrNamespaceConfiguration(new List<string>(), ns);
-        }
-
-        public static ClrNamespaceConfiguration CreateMapFor(IEnumerable<string> namespaces)
-        {
-            return new ClrNamespaceConfiguration(namespaces);
-        }
+        public string Name => name;
 
         public static IEnumerable<XamlNamespace> DefinedInAssemblies(IEnumerable<Assembly> assemblies)
         {
@@ -51,28 +27,20 @@ namespace OmniXaml.Builder
                 from byNamespace in attributes.GroupBy(arg => arg.XmlNamespace)
                 let name = byNamespace.Key
                 let clrNamespaces = byNamespace.Select(arg => arg.ClrNamespace)
-                select CreateMapFor(clrNamespaces)
-                    .FromAssembly(a)
-                    .To(name);
+                select Map(name)
+                    .With(
+                        new[]
+                        {
+                            Route.Assembly(a)
+                                .WithNamespaces(clrNamespaces)
+                        });
 
             return namespaces;
         }
-    }
 
-    public class ClrNamespaceAddressCollection : Collection<ClrNamespaceAddress>
-    {
-        public ClrNamespaceAddressCollection(IEnumerable<ClrNamespaceAddress> enumerable) : base(enumerable.ToList())
-        {
-        }
-
-        public Type Get(string typeName)
-        {
-            var types = from mapping in Items
-                        let t = mapping.Assembly.GetType(mapping.Namespace + "." + typeName)
-                        where t != null
-                        select t;
-
-            return types.FirstOrDefault();
+        public static AssemblyNameConfig Map(string root)
+        {            
+            return new AssemblyNameConfig(root);
         }
     }
 }
