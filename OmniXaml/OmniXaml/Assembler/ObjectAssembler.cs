@@ -9,7 +9,8 @@
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
-    {        
+    {
+        private readonly WiringContext wiringContext;
         private readonly GetObjectWriter getObjectWriter;
         private readonly NamespaceWriter namespaceWriter;
         private readonly StartMemberWriter startMemberWriter;
@@ -23,6 +24,7 @@
 
         public ObjectAssembler(WiringContext wiringContext)
         {
+            this.wiringContext = wiringContext;
             typeConverterProvider = wiringContext.ConverterProvider;
             xamlTypeRepository = wiringContext.TypeContext;
             typeRepository = wiringContext.TypeContext;            
@@ -42,6 +44,8 @@
             Bag.PushScope();
             Bag.Current.Instance = instance;
         }
+
+        public WiringContext WiringContext => wiringContext;
 
         public void WriteNode(XamlNode node)
         {
@@ -197,12 +201,13 @@
             AssignCurrentInstanceToParent(Bag);
         }
 
-        private static MarkupExtensionContext GetExtensionContext(StateBag stateBag)
+        private MarkupExtensionContext GetExtensionContext(StateBag stateBag)
         {
             var inflationContext = new MarkupExtensionContext
             {
                 TargetObject = stateBag.Parent.Instance,
                 TargetProperty = stateBag.Parent.Instance.GetType().GetRuntimeProperty(stateBag.Parent.Property.Name),
+                TypeRepository = this.XamlTypeRepository,
             };
 
             return inflationContext;

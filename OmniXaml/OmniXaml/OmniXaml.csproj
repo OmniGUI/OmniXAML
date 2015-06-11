@@ -44,8 +44,14 @@
     <Compile Include="Assembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
-    <Compile Include="Builder\AssemblyConfiguration.cs" />
-    <Compile Include="Builder\ClrNamespaceConfiguration.cs" />
+    <Compile Include="Builder\AddressPack.cs" />
+    <Compile Include="Builder\ClrNamespaceAddressCollection.cs" />
+    <Compile Include="Builder\ConfiguredAssembly.cs" />
+    <Compile Include="Builder\ConfiguredAssemblyWithNamespaces.cs" />
+    <Compile Include="Builder\ContentProperties.cs" />
+    <Compile Include="Builder\ContentPropertyDefinition.cs" />
+    <Compile Include="Builder\Route.cs" />
+    <Compile Include="Builder\AssemblyNameConfig.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />

@@ -15,50 +15,36 @@
         [TestInitialize]
         public void Initialize()
         {
+            var type = typeof(DummyClass);
             registry = new XamlNamespaceRegistry();
-            new XamlTypeRepository(new XamlNamespaceRegistry());
+            registry.RegisterPrefix(new PrefixRegistration("my", "target"));
+            registry.AddNamespace(
+                XamlNamespace.Map("target")
+                    .With(new[] { Route.Assembly(type.Assembly).WithNamespaces(new[] { type.Namespace }) }));
         }
 
         [TestMethod]
         public void RegisterPrefixTest()
         {
-            registry.RegisterPrefix(new PrefixRegistration("my", "target"));
             CollectionAssert.AreEqual(registry.RegisteredPrefixes.ToList(), new List<string> { "my" });
         }
 
         [TestMethod]
         public void GetXamlNamespaceOfNotRegisteredPrefix()
         {
-            Assert.IsNull(registry.GetXamlNamespace("namespace"));
+            Assert.IsNull(registry.GetXamlNamespace("unknown_namespace"));
         }
 
         [TestMethod]
         public void GetNamespaceByPrefix()
         {
-            var type = typeof (DummyClass);
-
-            registry.RegisterPrefix(new PrefixRegistration("my", "target"));
-            registry.AddNamespace(
-                XamlNamespace
-                .CreateMapFor(type.Namespace)
-                .FromAssembly(type.Assembly)
-                .To("target"));
-
             var ns = registry.GetXamlNamespaceByPrefix("my");
             Assert.AreEqual("target", ns.Name);
         }
 
         [TestMethod]
         public void GetNamespace()
-        {
-            var type = typeof (DummyClass);
-
-            registry.RegisterPrefix(new PrefixRegistration("my", "target"));
-            registry.AddNamespace(XamlNamespace
-                .CreateMapFor(type.Namespace)
-                .FromAssembly(type.Assembly)
-                .To("target"));
-
+        {            
             var ns = registry.GetXamlNamespace("target");
             Assert.AreEqual("target", ns.Name);
         }

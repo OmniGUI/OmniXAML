@@ -1,12 +1,9 @@
 ﻿namespace OmniXaml.Builder
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using System.Reflection;
     using Assembler;
-    using Attributes;
     using Typing;
 
     public class XamlXmlLoaderBuilder
@@ -48,12 +45,6 @@
             wiringContextBuilder.WithNamespaces(NamespaceRegistrations);
         }
 
-        internal XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaces)
-        {
-            namespaceRegistrations = namespaces;
-            return this;
-        }
-
         public XamlXmlLoaderBuilder WithNsPrefixes(List<PrefixRegistration> prefixRegistrations)
         {
             prefixes = prefixRegistrations;
@@ -65,35 +56,10 @@
             contentPropertyDefinitionDefinitions = definitions;
         }
 
-    }
-
-    public static class ContentProperties
-    {
-        public static IEnumerable<ContentPropertyDefinition> DefinedInAssemblies(IEnumerable<Assembly> assemblies)
+        public XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> xamlNamespaces)
         {
-            return from assembly in assemblies
-                   let allTypes = assembly.DefinedTypes
-                   from typeInfo in allTypes
-                   let attribute = typeInfo.GetCustomAttribute<ContentPropertyAttribute>()
-                   where attribute != null
-                   select new ContentPropertyDefinition(typeInfo.AsType(), attribute.Name);
-
+            namespaceRegistrations = xamlNamespaces;
+            return this;
         }
-    }
-
-    public class ContentPropertyDefinition
-    {
-        private readonly Type ownerType;
-        private readonly string name;
-
-        public ContentPropertyDefinition(Type ownerType, string name)
-        {
-            this.ownerType = ownerType;
-            this.name = name;
-        }
-
-        public Type OwnerType => ownerType;
-
-        public string Name => name;
     }
 }

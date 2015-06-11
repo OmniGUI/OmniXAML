@@ -18,9 +18,8 @@
             var type = typeof(DummyClass);
 
             var fullyConfiguredMapping = XamlNamespace
-                .CreateMapFor(type.Namespace)
-                .FromAssembly(type.Assembly)
-                .To("root");
+                .Map("root")
+                .With(new[] {Route.Assembly(type.Assembly).WithNamespaces(new[] {type.Namespace})});
 
             nsRegistryMock.Setup(registry => registry.GetXamlNamespace("root"))
                 .Returns(fullyConfiguredMapping);

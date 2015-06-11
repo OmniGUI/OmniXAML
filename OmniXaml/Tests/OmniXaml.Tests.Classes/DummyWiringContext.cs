@@ -1,8 +1,6 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
     using System.Collections.Generic;
-    using System.Windows;
-    using System.Windows.Controls.Primitives;
     using Another;
     using Builder;
     using Typing;
@@ -11,35 +9,41 @@
     {
         public static WiringContext Create()
         {
+            var rootType = typeof (DummyClass);
+            var anotherType = typeof (Foreigner);
+
             var builder = new WiringContextBuilder();
 
-            var rootType = typeof(DummyClass);
-            var anotherType = typeof(Foreigner);
-
             var definitionForRoot = XamlNamespace
-                .CreateMapFor(rootType.Namespace)
-                .FromAssembly(rootType.Assembly)
-                .To("root");
+                .Map("root")
+                .With(
+                    new[]
+                    {
+                        Route.Assembly(rootType.Assembly)
+                            .WithNamespaces(new[] {rootType.Namespace})
+                    });
 
             var definitionForAnother = XamlNamespace
-                .CreateMapFor(anotherType.Namespace)
-                .FromAssembly(anotherType.Assembly)
-                .To("another");
+                .Map("another")
+                .With(
+                    new[]
+                    {
+                        Route.Assembly(anotherType.Assembly)
+                            .WithNamespaces(new[] {anotherType.Namespace})
+                    });
 
-            var contentProperties = ContentProperties.DefinedInAssemblies(new[] { rootType.Assembly });
+            var contentProperties = ContentProperties.DefinedInAssemblies(new[] {rootType.Assembly});
 
-            builder
+            builder.WithNamespaces(new List<XamlNamespace> {definitionForRoot, definitionForAnother})
                 .WithContentProperties(contentProperties)
-                .WithNamespaces(new List<XamlNamespace> { definitionForRoot, definitionForAnother })
                 .WithNsPrefixes(
-                new List<PrefixRegistration>
-                {
+                    new List<PrefixRegistration>
+                    {
                         new PrefixRegistration(string.Empty, "root"),
                         new PrefixRegistration("x", "another")
-                });
-
+                    });
 
             return builder.Build();
-        }      
+        }
     }
 }
