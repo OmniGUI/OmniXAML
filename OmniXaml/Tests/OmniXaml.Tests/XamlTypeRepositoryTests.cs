@@ -23,6 +23,8 @@
 
             nsRegistryMock.Setup(registry => registry.GetNamespace("root"))
                 .Returns(fullyConfiguredMapping);
+            nsRegistryMock.Setup(registry => registry.GetNamespace("clr-namespace:DummyNamespace;Assembly=DummyAssembly"))
+                .Returns(new ClrNamespace(type.Assembly, type.Namespace));
         }
 
         [TestMethod]
@@ -31,6 +33,17 @@
             var sut = new XamlTypeRepository(nsRegistryMock.Object);
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("root", "DummyClass"));
+
+            Assert.IsFalse(xamlType.IsUnreachable);
+            Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
+        }
+
+        [TestMethod]
+        public void GetWithFullAddressOfClrNamespaceReturnsTheCorrectType()
+        {
+            var sut = new XamlTypeRepository(nsRegistryMock.Object);
+
+            var xamlType = sut.GetWithFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
 
             Assert.IsFalse(xamlType.IsUnreachable);
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));

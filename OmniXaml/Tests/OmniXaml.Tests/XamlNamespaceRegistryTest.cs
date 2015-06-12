@@ -39,7 +39,7 @@
         public void GetClrNsByPrefix()
         {
             var clrNs = registry.GetClrNamespaceByPrefix("clr");
-            ClrNamespace expected = new ClrNamespace(type.GetTypeInfo().Assembly, type.Namespace);
+            var expected = new ClrNamespace(type.GetTypeInfo().Assembly, type.Namespace);
             Assert.AreEqual(expected, clrNs);            
         }
 
