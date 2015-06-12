@@ -8,11 +8,11 @@
 
     internal class ProtoNodeBuilder
     {
-        private readonly IXamlTypeRepository typeRepository;
+        private readonly ITypeContext typeContext;
 
-        public ProtoNodeBuilder(IXamlTypeRepository typeRepository)
+        public ProtoNodeBuilder(ITypeContext typeContext)
         {
-            this.typeRepository = typeRepository;
+            this.typeContext = typeContext;
         }
 
         public ProtoXamlNode None()
@@ -36,35 +36,36 @@
             };
         }
 
-        private ProtoXamlNode Element(Type type, string prefix, string ns, bool isEmtpy)
+        private ProtoXamlNode Element(Type type, string prefix, bool isEmtpy)
         {
             return new ProtoXamlNode
             {
-                Namespace = ns,
+                // TODO:
+                Namespace = typeContext.GetNamespaceByPrefix(prefix).Name,
                 Prefix = prefix,
-                XamlType = XamlType.Builder.Create(type, typeRepository),
+                XamlType = XamlType.Builder.Create(type, typeContext),
                 NodeType = isEmtpy ? NodeType.EmptyElement : NodeType.Element,
             };
         }
 
-        public ProtoXamlNode NonEmptyElement(Type type, string prefix, string ns)
+        public ProtoXamlNode NonEmptyElement(Type type, string prefix)
         {
-            return Element(type, prefix, ns, false);
+            return Element(type, prefix, false);
         }
 
-        public ProtoXamlNode EmptyElement(Type type, string prefix, string ns)
+        public ProtoXamlNode EmptyElement(Type type, string prefix)
         {
-            return Element(type, prefix, ns, true);
+            return Element(type, prefix, true);
         }
         internal ProtoXamlNode EmptyElement<T>(string ns)
         {
-            return EmptyElement(typeof(T), "", ns);
+            return EmptyElement(typeof(T), "");
         }
 
         public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
         {
             var type = typeof(TParent);
-            var xamlType = typeRepository.Get(type);
+            var xamlType = typeContext.Get(type);
 
             var member = xamlType.GetAttachableMember(name);
 
@@ -80,30 +81,30 @@
         }
 
         // ReSharper disable once UnusedMember.Global
-        public ProtoXamlNode EmptyPropertyElement<T>(Expression<Func<T, object>> selector, string ns)
+        public ProtoXamlNode EmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix)
         {
-            return PropertyElement(selector, ns, isCollapsed: true);
+            return PropertyElement(selector, prefix, isCollapsed: true);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string ns)
+        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix)
         {
-            return PropertyElement(selector, ns, isCollapsed: false);
+            return PropertyElement(selector, prefix, isCollapsed: false);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName, string ns)
+        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName)
         {
-            return PropertyElement(type, memberName, ns, isCollapsed: false);
+            return PropertyElement(type, memberName, isCollapsed: false);
         }
 
-        private ProtoXamlNode PropertyElement(Type type, string memberName, string ns, bool isCollapsed)
+        private ProtoXamlNode PropertyElement(Type type, string memberName, bool isCollapsed)
         {
-            var property = typeRepository.Get(type).GetMember(memberName);
+            var property = typeContext.Get(type).GetMember(memberName);
 
             return new ProtoXamlNode
             {
                 PropertyElement = property,
                 Prefix = string.Empty,
-                Namespace = ns,
+                Namespace = null, // TODO
                 XamlType = null,
                 NodeType =
                     isCollapsed
@@ -112,9 +113,9 @@
             };
         }
 
-        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string ns, bool isCollapsed)
+        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string prefix, bool isCollapsed)
         {
-            return PropertyElement(typeof(T), selector.GetFullPropertyName(), ns, isCollapsed);
+            return PropertyElement(typeof(T), selector.GetFullPropertyName(), isCollapsed);
         }
 
         public ProtoXamlNode EndTag()
@@ -145,7 +146,7 @@
 
         public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value)
         {
-            return Attribute(typeRepository.Get(typeof (T)).GetMember(selector.GetFullPropertyName()), value);           
+            return Attribute(typeContext.Get(typeof (T)).GetMember(selector.GetFullPropertyName()), value);           
         }
     }
 }

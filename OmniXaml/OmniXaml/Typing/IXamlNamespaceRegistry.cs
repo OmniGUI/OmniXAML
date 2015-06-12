@@ -4,9 +4,9 @@ namespace OmniXaml.Typing
 
     public interface IXamlNamespaceRegistry
     {
-        string GetNamespaceForPrefix(string prefix);
+        Namespace GetNamespace(string name);
+        Namespace GetNamespaceByPrefix(string prefix);
         void RegisterPrefix(PrefixRegistration prefixRegistration);
-        void AddNamespace(XamlNamespace xamlNamespace);
-        XamlNamespace GetXamlNamespace(string ns);
+        void AddNamespace(XamlNamespace xamlNamespace);        
     }
 }

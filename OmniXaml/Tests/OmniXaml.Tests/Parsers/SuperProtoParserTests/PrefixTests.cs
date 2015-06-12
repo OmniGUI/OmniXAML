@@ -1,16 +1,12 @@
 ﻿namespace OmniXaml.Tests.Parsers.SuperProtoParserTests
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
-    using ProtoParserTests;
-    using Xaml.Tests.Resources;
 
     [TestClass]
     public class PrefixTests : GivenAWiringContext
@@ -36,7 +32,7 @@
             var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.EmptyElement(typeof (Foreigner), "", "another"),
+                builder.EmptyElement(typeof (Foreigner), ""),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -54,7 +50,7 @@
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.NonEmptyElement(typeof (DummyClass), string.Empty, ns),
+                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
                 builder.AttachableProperty<Foreigner>("Property", "Value", "x"),
                 builder.EndTag(),
             };

@@ -1,6 +1,7 @@
 namespace OmniXaml.Typing
 {
     using System;
+    using Glass;
 
     public class XamlTypeRepository : IXamlTypeRepository
     {
@@ -12,26 +13,35 @@ namespace OmniXaml.Typing
         }
 
         public XamlType Get(Type type)
-        {            
+        {
+            Guard.ThrowIfNull(type, nameof(type));
+
             return XamlType.Builder.Create(type, this);
         }
 
         public XamlType GetByPrefix(string prefix, string typeName)
         {
-            var ns = xamlNamespaceRegistry.GetNamespaceForPrefix(prefix);
-            return GetWithFullAddress(new XamlTypeName(ns, typeName));
+            var ns = xamlNamespaceRegistry.GetNamespaceByPrefix(prefix);
+            var type = ns.Get(typeName);
+
+            if (type == null)
+            {
+                throw new TypeNotFoundException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
+            }
+
+            return Get(type);                       
         }
 
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
         {
-            var xamlNamespace = xamlNamespaceRegistry.GetXamlNamespace(xamlTypeName.Namespace);
+            var ns = xamlNamespaceRegistry.GetNamespace(xamlTypeName.Namespace);
 
-            if (xamlNamespace == null)
+            if (ns == null)
             {
                 return XamlType.Builder.CreateUnreachable(xamlTypeName);
             }
 
-            var correspondingType = xamlNamespace.Addresses.Get(xamlTypeName.Name);
+            var correspondingType = ns.Get(xamlTypeName.Name);
 
             if (correspondingType != null)
             {

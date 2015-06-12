@@ -25,7 +25,7 @@
         }
 
         [TestMethod]        
-        [ExpectedException(typeof(XamlReaderException))]
+        [ExpectedException(typeof(TypeNotFoundException))]
         public void UnknownElementThrows()
         {
             LoadXaml(Dummy.UnknownType);

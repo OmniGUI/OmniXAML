@@ -8,7 +8,7 @@
 
     public static class Converters
     {
-        public static IEnumerable<ConverterRegistration> FromAssemblies(IEnumerable<Assembly> lookupAssemblies)
+        public static IEnumerable<TypeConverterRegistration> FromAssemblies(IEnumerable<Assembly> lookupAssemblies)
         {
             var types = lookupAssemblies.SelectMany(assembly => assembly.DefinedTypes).ToList();
 
@@ -22,7 +22,7 @@
             foreach (var typeWithAttribute in typeAndAttributePairs)
             {
                 var converterInstance = (ITypeConverter)Activator.CreateInstance(typeWithAttribute.att.Converter);
-                yield return new ConverterRegistration(typeWithAttribute.type.AsType(), converterInstance);
+                yield return new TypeConverterRegistration(typeWithAttribute.type.AsType(), converterInstance);
             }
         }
     }

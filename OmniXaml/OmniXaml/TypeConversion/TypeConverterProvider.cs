@@ -42,9 +42,9 @@
             return converters.TryGetValue(type, out converter) ? converter : null;
         }
 
-        public void RegisterConverter(ConverterRegistration converterRegistration)
+        public void RegisterConverter(TypeConverterRegistration typeConverterRegistration)
         {
-            Register(converterRegistration.TargetType, converterRegistration.TypeConverter);
+            Register(typeConverterRegistration.TargetType, typeConverterRegistration.TypeConverter);
         }
 
         static bool IsNullable(Type type)

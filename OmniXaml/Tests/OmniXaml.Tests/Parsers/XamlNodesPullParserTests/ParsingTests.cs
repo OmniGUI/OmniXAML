@@ -46,7 +46,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.EmptyElement(typeof(DummyClass), "", string.Empty),
+                p.EmptyElement(typeof(DummyClass), ""),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -65,7 +65,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof(DummyClass),  string.Empty, string.Empty),
+                p.NonEmptyElement(typeof(DummyClass),  string.Empty),
                 p.EndTag(),
             };
 
@@ -86,7 +86,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
-                p.EmptyElement(typeof (DummyClass), "", "root"),
+                p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
             };
 
@@ -111,7 +111,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
-                p.EmptyElement(typeof (DummyClass), "", "root"),
+                p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
                 p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!"),
             };
@@ -141,7 +141,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration("", rootNs),
-                p.EmptyElement(typeof(DummyClass), "", rootNs),
+                p.EmptyElement(typeof(DummyClass), ""),
                 p.None()
             };
 
@@ -167,7 +167,7 @@
             {
                 p.NamespacePrefixDeclaration("", oneNamespace),
                 p.NamespacePrefixDeclaration("a", anotherNamespace),
-                p.EmptyElement(typeof(DummyClass), "", oneNamespace),
+                p.EmptyElement(typeof(DummyClass), ""),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -188,9 +188,9 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty, string.Empty),
+                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
-                        p.EmptyElement(typeof (ChildClass), "", string.Empty),
+                        p.EmptyElement(typeof (ChildClass), ""),
                         p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -218,12 +218,12 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty, rootNs),
+                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample"),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
-                        p.NonEmptyElement(typeof (ChildClass),  string.Empty, rootNs),
+                        p.NonEmptyElement(typeof (ChildClass),  string.Empty),
                             p.NonEmptyPropertyElement<ChildClass>(d => d.Content, rootNs),
-                                p.EmptyElement(typeof (Item), "", rootNs),
+                                p.EmptyElement(typeof (Item), ""),
                                     p.Attribute<Item>(@class => @class.Text, "Value!"),
                                 p.Text(),
                             p.EndTag(),
@@ -266,7 +266,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty, rootNs),
+                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Items, rootNs),
                         p.EmptyElement<Item>(rootNs),
                             p.Text(),
@@ -309,8 +309,8 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (ChildClass),  string.Empty, rootNs),
-                    p.EmptyElement(typeof (Item), "", rootNs),
+                p.NonEmptyElement(typeof (ChildClass),  string.Empty),
+                    p.EmptyElement(typeof (Item), ""),
                     p.Text(),
                 p.EndTag(),
             };
@@ -338,7 +338,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (DummyClass), string.Empty, rootNs),
+                p.NonEmptyElement(typeof (DummyClass), string.Empty),
                     p.EmptyElement<Item>(rootNs),
                         p.Text(),
                     p.EmptyElement<Item>(rootNs),
@@ -399,18 +399,18 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (DummyClass), string.Empty, rootNs),
+                p.NonEmptyElement(typeof (DummyClass), string.Empty),
 
-                    p.EmptyElement(typeof (Item), "", rootNs),
+                    p.EmptyElement(typeof (Item), ""),
                     p.Attribute<Item>(d => d.Title, "Main1"),
                     p.Text(),
 
-                    p.EmptyElement(typeof (Item), "", rootNs),
+                    p.EmptyElement(typeof (Item), ""),
                     p.Attribute<Item>(d => d.Title, "Main2"),
                     p.Text(),
 
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
-                        p.NonEmptyElement(typeof(ChildClass), string.Empty, rootNs),
+                        p.NonEmptyElement(typeof(ChildClass), string.Empty),
                         p.EndTag(),
                         p.Text(),
                     p.EndTag(),
@@ -469,9 +469,9 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty, rootNs),
+                p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
-                        p.EmptyElement(typeof (RowDefinition), "", rootNs),
+                        p.EmptyElement(typeof (RowDefinition), ""),
                     p.EndTag(),
                     p.EmptyElement<TextBlock>(rootNs),
                 p.EndTag(),
@@ -512,12 +512,12 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty, rootNs),
+                p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.NonEmptyPropertyElement<Grid>(g => g.Children, rootNs),
-                        p.NonEmptyElement(typeof (TextBlock), string.Empty, rootNs),
+                        p.NonEmptyElement(typeof (TextBlock), string.Empty),
                         p.EndTag(),
                         p.Text(),
-                        p.EmptyElement(typeof (TextBlock), "", rootNs),
+                        p.EmptyElement(typeof (TextBlock), ""),
                         p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -552,10 +552,10 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty, rootNs),
+                p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.EmptyElement<TextBlock>(rootNs),
                     p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
-                        p.EmptyElement(typeof (RowDefinition), "", rootNs),
+                        p.EmptyElement(typeof (RowDefinition), ""),
                     p.EndTag(),
                 p.EndTag(),
             };

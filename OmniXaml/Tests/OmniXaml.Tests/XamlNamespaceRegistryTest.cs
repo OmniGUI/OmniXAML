@@ -1,7 +1,9 @@
 ﻿namespace OmniXaml.Tests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,13 +13,17 @@
     public class XamlNamespaceRegistryTest
     {
         private XamlNamespaceRegistry registry;
+        private Type type;
+        private string clrNamespace;
 
         [TestInitialize]
         public void Initialize()
         {
-            var type = typeof(DummyClass);
+            type = typeof(DummyClass);
             registry = new XamlNamespaceRegistry();
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
+            clrNamespace = $"clr-namespace:{type.Namespace};Assembly={type.GetTypeInfo().Assembly}";
+            registry.RegisterPrefix(new PrefixRegistration("clr", clrNamespace));
             registry.AddNamespace(
                 XamlNamespace.Map("target")
                     .With(new[] { Route.Assembly(type.Assembly).WithNamespaces(new[] { type.Namespace }) }));
@@ -26,7 +32,15 @@
         [TestMethod]
         public void RegisterPrefixTest()
         {
-            CollectionAssert.AreEqual(registry.RegisteredPrefixes.ToList(), new List<string> { "my" });
+            CollectionAssert.AreEqual(registry.RegisteredPrefixes.ToList(), new List<string> { "my", "clr" });
+        }
+
+        [TestMethod]
+        public void GetClrNsByPrefix()
+        {
+            var clrNs = registry.GetClrNamespaceByPrefix("clr");
+            ClrNamespace expected = new ClrNamespace(type.GetTypeInfo().Assembly, type.Namespace);
+            Assert.AreEqual(expected, clrNs);            
         }
 
         [TestMethod]

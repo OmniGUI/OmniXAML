@@ -36,7 +36,7 @@
             return converter;
         }
 
-        public void RegisterConverter(ConverterRegistration converterRegistration)
+        public void RegisterConverter(TypeConverterRegistration typeConverterRegistration)
         {
             throw new NotImplementedException();
         }

@@ -3,6 +3,7 @@ namespace OmniXaml.Typing
     using System;
     using System.Collections;
     using System.Reflection;
+    using Glass;
 
     public class XamlType
     {
@@ -10,6 +11,9 @@ namespace OmniXaml.Typing
 
         private XamlType(Type type, IXamlTypeRepository typeRepository)
         {
+            Guard.ThrowIfNull(type, nameof(type));
+            Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
+
             this.typeRepository = typeRepository;
             UnderlyingType = type;
             Name = type.Name;
@@ -102,16 +106,22 @@ namespace OmniXaml.Typing
         {
             public static XamlType CreateUnreachable(XamlTypeName typeName)
             {
+                Guard.ThrowIfNull(typeName, nameof(typeName));
+
                 return new XamlType(typeName.Name);
             }
 
             public static XamlType Create(Type underlyingType, IXamlTypeRepository mother)
             {
+                Guard.ThrowIfNull(underlyingType, nameof(mother));
+
                 return new XamlType(underlyingType, mother);
             }
 
             public static XamlType CreateForBuiltInType(Type type)
             {
+                Guard.ThrowIfNull(type, nameof(type));
+
                 return new XamlType(type, new FrameworkBuiltInTypeRepository());
             }
         }

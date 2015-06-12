@@ -6,6 +6,6 @@ namespace OmniXaml.TypeConversion
     public interface ITypeConverterProvider
     {
         ITypeConverter GetTypeConverter(Type type);
-        void RegisterConverter(ConverterRegistration converterRegistration);
+        void RegisterConverter(TypeConverterRegistration typeConverterRegistration);
     }
 }

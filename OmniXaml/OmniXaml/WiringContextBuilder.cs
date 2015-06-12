@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Reflection;
     using Builder;
     using Catalogs;
@@ -13,7 +14,7 @@ namespace OmniXaml
         private ITypeConverterProvider converterProvider;
 
         private readonly TypeContextBuilder typingCoreBuilder = new TypeContextBuilder();
-        private IEnumerable<ConverterRegistration> converterRegistrations;
+        private IEnumerable<TypeConverterRegistration> converterRegistrations = new Collection<TypeConverterRegistration>();
 
         public WiringContextBuilder()
         {                        
@@ -82,7 +83,7 @@ namespace OmniXaml
             return this;
         }
 
-        public WiringContextBuilder WithConverters(IEnumerable<ConverterRegistration> converterRegistrations)
+        public WiringContextBuilder WithConverters(IEnumerable<TypeConverterRegistration> converterRegistrations)
         {
             this.converterRegistrations = converterRegistrations;
             return this;

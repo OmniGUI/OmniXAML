@@ -30,7 +30,7 @@
             var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.EmptyElement(typeof (Foreigner), "x", "another"),
+                builder.EmptyElement(typeof (Foreigner), "x"),
                 builder.None()
             };
 
@@ -48,7 +48,7 @@
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.NonEmptyElement(typeof (DummyClass), string.Empty, ns),
+                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
                 builder.AttachableProperty<Foreigner>("Property", "Value", "x"),
                 builder.EndTag(),
                 builder.None()

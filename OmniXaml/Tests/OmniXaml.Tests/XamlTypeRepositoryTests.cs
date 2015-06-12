@@ -21,7 +21,7 @@
                 .Map("root")
                 .With(new[] {Route.Assembly(type.Assembly).WithNamespaces(new[] {type.Namespace})});
 
-            nsRegistryMock.Setup(registry => registry.GetXamlNamespace("root"))
+            nsRegistryMock.Setup(registry => registry.GetNamespace("root"))
                 .Returns(fullyConfiguredMapping);
         }
 

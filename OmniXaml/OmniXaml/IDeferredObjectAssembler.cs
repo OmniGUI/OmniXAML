@@ -1,7 +1,6 @@
 namespace OmniXaml
 {
     using System.Collections.Generic;
-    using Tests;
 
     public interface IDeferredObjectAssembler
     {

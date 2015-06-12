@@ -3,12 +3,12 @@ namespace OmniXaml.Builder
     using System;
     using TypeConversion;
 
-    public class ConverterRegistration
+    public class TypeConverterRegistration
     {
         private readonly Type type;
         private readonly ITypeConverter typeConverter;
 
-        public ConverterRegistration(Type type, ITypeConverter typeConverter)
+        public TypeConverterRegistration(Type type, ITypeConverter typeConverter)
         {
             this.type = type;
             this.typeConverter = typeConverter;

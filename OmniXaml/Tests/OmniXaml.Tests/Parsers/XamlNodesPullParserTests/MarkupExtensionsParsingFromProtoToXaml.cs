@@ -26,7 +26,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
-                p.EmptyElement(typeof (DummyClass), "", "root"),
+                p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}"),
             };
 

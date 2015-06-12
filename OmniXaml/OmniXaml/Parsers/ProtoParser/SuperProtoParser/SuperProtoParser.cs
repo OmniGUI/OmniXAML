@@ -28,7 +28,7 @@
 
         private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType)
         {
-            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, "", wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix));
+            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, "");
             return CommonNodesOfElement(xamlType, emptyElement);
         }
 
@@ -51,8 +51,8 @@
             }
 
             var prefix = string.Empty;
-            var ns = wiringContext.TypeContext.GetNamespaceForPrefix(reader.Prefix);
-            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, prefix, ns);
+            var ns = wiringContext.TypeContext.GetNamespace(reader.Prefix);
+            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, prefix);
             foreach (var node in CommonNodesOfElement(xamlType, element)) yield return node;
 
             reader.Read();
@@ -85,7 +85,7 @@
         private IEnumerable<ProtoXamlNode> ParseNestedProperty(XamlType xamlType)
         {
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
-            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, "root");
+            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName);
             reader.Read();
 
             SkipWhitespaces();

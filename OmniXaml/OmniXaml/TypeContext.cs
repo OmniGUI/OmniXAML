@@ -17,14 +17,14 @@ namespace OmniXaml
             this.typeFactory = typeFactory;
         }
 
-        public XamlNamespace GetXamlNamespace(string ns)
+        public Namespace GetNamespace(string name)
         {
-            return nsRegistry.GetXamlNamespace(ns);
+            return nsRegistry.GetNamespace(name);
         }
 
-        public string GetNamespaceForPrefix(string prefix)
+        public Namespace GetNamespaceByPrefix(string prefix)
         {
-            return nsRegistry.GetNamespaceForPrefix(prefix);
+            return nsRegistry.GetNamespaceByPrefix(prefix);
         }
 
         public void RegisterPrefix(PrefixRegistration prefixRegistration)
