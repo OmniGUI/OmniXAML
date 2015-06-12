@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Builder;
@@ -32,7 +33,9 @@
         [TestMethod]
         public void RegisterPrefixTest()
         {
-            CollectionAssert.AreEqual(registry.RegisteredPrefixes.ToList(), new List<string> { "my", "clr" });
+            CollectionAssert.AreEqual(
+                registry.RegisteredPrefixes.ToList(),
+                new Collection<PrefixRegistration> {new PrefixRegistration("my", "target"), new PrefixRegistration("clr", clrNamespace)});
         }
 
         [TestMethod]

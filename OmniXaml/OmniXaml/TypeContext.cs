@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System;
+    using System.Collections.Generic;
     using Builder;
     using Typing;
 
@@ -53,5 +54,10 @@ namespace OmniXaml
         }
 
         public ITypeFactory TypeFactory => typeFactory;
+
+        public IEnumerable<PrefixRegistration> RegisteredPrefixes
+        {
+            get { return this.nsRegistry.RegisteredPrefixes; }
+        }
     }
 }

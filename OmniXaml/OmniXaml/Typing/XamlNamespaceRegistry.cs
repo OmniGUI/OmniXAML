@@ -2,6 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Builder;
@@ -13,8 +14,9 @@ namespace OmniXaml.Typing
         private readonly IDictionary<string, string> registeredPrefixes = new Dictionary<string, string>();
         private readonly ISet<XamlNamespace> xamlNamespaces = new HashSet<XamlNamespace>();
         private readonly IDictionary<string, ClrNamespace> clrNamespaces = new Dictionary<string, ClrNamespace>();
+        private readonly ICollection<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();
 
-        public IEnumerable<string> RegisteredPrefixes => registeredPrefixes.Keys;
+        public IEnumerable<PrefixRegistration> RegisteredPrefixes => prefixRegistrations;
 
         public Namespace GetNamespaceByPrefix(string prefix)
         {
@@ -30,12 +32,16 @@ namespace OmniXaml.Typing
 
         public void RegisterPrefix(PrefixRegistration prefixRegistration)
         {
-            var prefix = prefixRegistration.Prefix;
-            var @namespace = prefixRegistration.Ns;
+            if (!registeredPrefixes.ContainsKey(prefixRegistration.Prefix))
+            {
+                var prefix = prefixRegistration.Prefix;
+                var @namespace = prefixRegistration.Ns;
 
-            RegisterWhenItsClrNs(prefix, @namespace);
+                RegisterWhenItsClrNs(prefix, @namespace);
 
-            registeredPrefixes.Add(prefixRegistration.Prefix, @namespace);
+                prefixRegistrations.Add(prefixRegistration);
+                registeredPrefixes.Add(prefixRegistration.Prefix, @namespace);
+            }
         }
 
         private void RegisterWhenItsClrNs(string prefix, string @namespace)

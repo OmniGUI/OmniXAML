@@ -12,19 +12,40 @@ namespace OmniXaml.Typing
             this.ns = ns;
         }
 
-        public string Prefix
+        public string Prefix => prefix;
+
+        public string Ns => ns;
+
+        protected bool Equals(PrefixRegistration other)
         {
-            get
-            {
-                return prefix;
-            }
+            return string.Equals(prefix, other.prefix) && string.Equals(ns, other.ns);
         }
 
-        public string Ns
+        public override bool Equals(object obj)
         {
-            get
+            if (ReferenceEquals(null, obj))
             {
-                return ns;
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+
+            return Equals((PrefixRegistration) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return (prefix.GetHashCode()*397) ^ ns.GetHashCode();
             }
         }
     }

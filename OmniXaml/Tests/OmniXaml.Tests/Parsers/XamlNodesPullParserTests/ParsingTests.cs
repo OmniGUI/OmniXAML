@@ -1,7 +1,9 @@
 ﻿namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
@@ -593,6 +595,30 @@
             var expectedNodes = sampleData.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection();
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void ClrNamespace()
+        {
+            var type = typeof(DummyClass);
+            string clrNamespace = $"clr-namespace:{type.Namespace};Assembly={type.GetTypeInfo().Assembly.GetName().Name}";
+            var prefix = "prefix";
+            var input = new List<ProtoXamlNode>
+            {
+                p.NamespacePrefixDeclaration(prefix, clrNamespace),
+                p.EmptyElement(type, prefix),
+            };
+
+            var expectedNodes = new List<XamlNode>
+            {
+                x.NamespacePrefixDeclaration(clrNamespace, prefix),
+                x.StartObject<DummyClass>(),
+                x.EndObject(),
+            };
+
+            var actualNodes = sut.Parse(input);
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
         }
     }
 }

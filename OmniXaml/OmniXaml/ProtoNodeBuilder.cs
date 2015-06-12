@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
     using Glass;
     using Parsers.ProtoParser;
@@ -15,6 +16,8 @@
             this.typeContext = typeContext;
         }
 
+        public PrefixRegistrationMode PrefixRegistrationMode { get; set; } = PrefixRegistrationMode.Automatic;
+
         public ProtoXamlNode None()
         {
             return new ProtoXamlNode
@@ -27,6 +30,15 @@
 
         public ProtoXamlNode NamespacePrefixDeclaration(string prefix, string ns)
         {
+            if (PrefixRegistrationMode == PrefixRegistrationMode.Automatic)
+            {
+                var prefixRegistration = new PrefixRegistration(prefix, ns);
+                if (!typeContext.RegisteredPrefixes.Contains(prefixRegistration))
+                {                    
+                    typeContext.RegisterPrefix(prefixRegistration);
+                }
+            }
+
             return new ProtoXamlNode
             {
                 Namespace = ns,

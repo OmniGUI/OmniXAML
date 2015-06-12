@@ -74,7 +74,6 @@
     <Compile Include="Assembler\LinkedListStackExtensions.cs" />
     <Compile Include="Assembler\CurrentScopeProxy.cs" />
     <Compile Include="Assembler\NodeWriters\GetObjectWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\NamespaceWriter.cs" />
     <Compile Include="Assembler\NodeWriters\StartMemberWriter.cs" />
     <Compile Include="Assembler\NodeWriters\StartObjectWriter.cs" />
     <Compile Include="Assembler\NodeWriters\ValueWriter.cs" />
@@ -112,6 +111,7 @@
     <Compile Include="Parsers\ProtoParser\ProtoParserNode.cs" />
     <Compile Include="Parsers\ProtoParser\Context.cs" />
     <Compile Include="Parsers\ProtoParser\TextBuffer.cs" />
+    <Compile Include="PrefixRegistrationMode.cs" />
     <Compile Include="ProtoNodeBuilder.cs" />
     <Compile Include="ProtoXamlNode.cs" />
     <Compile Include="TemplateHostingObjectAssembler.cs" />

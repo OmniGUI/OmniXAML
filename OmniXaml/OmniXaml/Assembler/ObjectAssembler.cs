@@ -12,7 +12,6 @@
     {
         private readonly WiringContext wiringContext;
         private readonly GetObjectWriter getObjectWriter;
-        private readonly NamespaceWriter namespaceWriter;
         private readonly StartMemberWriter startMemberWriter;
         private readonly StartObjectWriter startObjectWriter;
         private readonly TypeOperations typeOperations;
@@ -33,7 +32,6 @@
             getObjectWriter = new GetObjectWriter(this);
             startObjectWriter = new StartObjectWriter(this);
             valueWriter = new ValueWriter(this);
-            namespaceWriter = new NamespaceWriter();            
         }
 
         internal StateBag Bag { get; } = new StateBag();
@@ -74,11 +72,23 @@
                     getObjectWriter.WriteGetObject();
                     break;
                 case XamlNodeType.NamespaceDeclaration:
-                    namespaceWriter.WriteNamespace(node.NamespaceDeclaration);
+                    WriteNamespace(node.NamespaceDeclaration);
                     break;
                 default:
                     throw new InvalidOperationException($"Cannot handle this kind of node type: {node.NodeType}");
             }
+        }
+
+        private void WriteNamespace(NamespaceDeclaration namespaceDeclarationNode)
+        {
+            if (Bag.Current.Type != null)
+            {
+                Bag.PushScope();
+            }
+
+            var prefix = namespaceDeclarationNode.Prefix;
+            var ns = namespaceDeclarationNode.Namespace;
+            xamlTypeRepository.RegisterPrefix(new PrefixRegistration(prefix, ns));
         }
 
         public void SetUnfinishedResult()

@@ -177,8 +177,9 @@
         {
             if (EndOfStream)
             {
-                throw new XamlParseException("The end of the stream has been alread reached!");
+                throw new XamlParseException("The end of the stream has already been reached!");
             }
+
             EndOfStream = !nodeStream.MoveNext();           
         }
 
