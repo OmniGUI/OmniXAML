@@ -12,6 +12,7 @@
         private readonly IEnumerable<Assembly> lookupAssemblies = new Collection<Assembly>();
         private IEnumerable<PrefixRegistration> prefixes = new Collection<PrefixRegistration>();
         private IEnumerable<ContentPropertyDefinition> contentPropertyDefinitionDefinitions = new Collection<ContentPropertyDefinition>();
+        private IEnumerable<ConverterRegistration> converterRegistrations = new Collection<ConverterRegistration>();
 
         public IEnumerable<XamlNamespace> NamespaceRegistrations => namespaceRegistrations;
 
@@ -21,8 +22,11 @@
         {
             var wiringContextBuilder = new WiringContextBuilder();
 
-            wiringContextBuilder.WithContentPropertiesFromAssemblies(lookupAssemblies);
-            wiringContextBuilder.WithNsPrefixes(prefixes);
+            wiringContextBuilder
+                .WithContentPropertiesFromAssemblies(lookupAssemblies)
+                .WithNsPrefixes(prefixes)
+                .WithConverters(Converters.FromAssemblies(lookupAssemblies));
+
 
             RegisterNamespaces(wiringContextBuilder);
             RegisterContentProperties(wiringContextBuilder);
@@ -59,6 +63,12 @@
         public XamlXmlLoaderBuilder WithNamespaces(IEnumerable<XamlNamespace> xamlNamespaces)
         {
             namespaceRegistrations = xamlNamespaces;
+            return this;
+        }
+
+        public XamlXmlLoaderBuilder WithConverters(IEnumerable<ConverterRegistration> converterRegistrations)
+        {
+            this.converterRegistrations = converterRegistrations;
             return this;
         }
     }

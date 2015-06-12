@@ -83,8 +83,14 @@
             Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
 
             var propInfo = xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name);
-            var success = deferredObjectAssemblers.TryGetValue(propInfo, out assembler);
-            return success;
+            if  (propInfo!=null)
+            {
+                var success = deferredObjectAssemblers.TryGetValue(propInfo, out assembler);
+                return success;
+            }
+
+            assembler = null;
+            return false;
         }
 
         public object Result => objectAssembler.Result;

@@ -51,6 +51,8 @@
     <Compile Include="Builder\ConfiguredAssemblyWithNamespaces.cs" />
     <Compile Include="Builder\ContentProperties.cs" />
     <Compile Include="Builder\ContentPropertyDefinition.cs" />
+    <Compile Include="Builder\ConverterRegistration.cs" />
+    <Compile Include="Builder\Converters.cs" />
     <Compile Include="Builder\Route.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />

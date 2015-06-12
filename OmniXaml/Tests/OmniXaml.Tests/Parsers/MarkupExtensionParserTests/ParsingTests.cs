@@ -57,6 +57,13 @@
         }
 
         [TestMethod]
+        public void AssignmentOfDirectValueWithColon()
+        {
+            var actual = MarkupExtensionParser.Assignment.Parse("Property=x:SomeValue");
+            Assert.AreEqual(new AssignmentNode("Property", new StringNode("x:SomeValue")), actual);
+        }
+
+        [TestMethod]
         public void AssignmentOfQuotedValue()
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Property='value with spaces'");

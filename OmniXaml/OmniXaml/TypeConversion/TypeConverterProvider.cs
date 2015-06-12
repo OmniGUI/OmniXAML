@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
+    using Builder;
     using BuiltInConverters;
 
     public class TypeConverterProvider : ITypeConverterProvider
@@ -39,6 +40,11 @@
             }
           
             return converters.TryGetValue(type, out converter) ? converter : null;
+        }
+
+        public void RegisterConverter(ConverterRegistration converterRegistration)
+        {
+            Register(converterRegistration.TargetType, converterRegistration.TypeConverter);
         }
 
         static bool IsNullable(Type type)

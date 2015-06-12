@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel;
     using System.Reflection;
+    using Builder;
     using TypeConversion;
     using TypeConverterAttribute = System.ComponentModel.TypeConverterAttribute;
 
@@ -33,6 +34,11 @@
                 converter = new ConverterAdapter(converterInstance);
             }
             return converter;
+        }
+
+        public void RegisterConverter(ConverterRegistration converterRegistration)
+        {
+            throw new NotImplementedException();
         }
     }
 }

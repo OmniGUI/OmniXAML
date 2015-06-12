@@ -13,10 +13,10 @@ namespace OmniXaml
         private ITypeConverterProvider converterProvider;
 
         private readonly TypeContextBuilder typingCoreBuilder = new TypeContextBuilder();
+        private IEnumerable<ConverterRegistration> converterRegistrations;
 
         public WiringContextBuilder()
-        {            
-            converterProvider = new TypeConverterProvider();
+        {                        
             contentPropertyProvider = new ContentPropertyProvider();            
         }
 
@@ -42,6 +42,15 @@ namespace OmniXaml
         public WiringContext Build()
         {
             var typingCore = typingCoreBuilder.Build();
+
+            if (converterProvider == null)
+            {
+                converterProvider = new TypeConverterProvider();
+                foreach (var converterRegistration in converterRegistrations)
+                {
+                    converterProvider.RegisterConverter(converterRegistration);
+                }
+            }
             
             return new WiringContext(typingCore, contentPropertyProvider, converterProvider);
         }
@@ -70,6 +79,12 @@ namespace OmniXaml
             {
                 contentPropertyProvider.Add(contentPropertyDefinition);
             }
+            return this;
+        }
+
+        public WiringContextBuilder WithConverters(IEnumerable<ConverterRegistration> converterRegistrations)
+        {
+            this.converterRegistrations = converterRegistrations;
             return this;
         }
     }
