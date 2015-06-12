@@ -23,14 +23,6 @@ namespace OmniXaml
             this.data = data;
         }
 
-        public XamlNode(InternalNodeType internalNodeType)
-        {
-            nodeType = XamlNodeType.None;
-            this.internalNodeType = internalNodeType;
-            data = null;
-            this.internalNodeType = internalNodeType;
-        }
-
         public XamlType XamlType
         {
             get

@@ -214,15 +214,14 @@
         [TestMethod]
         public void ComplexNesting()
         {
-            const string rootNs = "root";
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample"),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                         p.NonEmptyElement(typeof (ChildClass),  string.Empty),
-                            p.NonEmptyPropertyElement<ChildClass>(d => d.Content, rootNs),
+                            p.NonEmptyPropertyElement<ChildClass>(d => d.Content, ""),
                                 p.EmptyElement(typeof (Item), ""),
                                     p.Attribute<Item>(@class => @class.Text, "Value!"),
                                 p.Text(),
@@ -267,12 +266,12 @@
             {
                 p.NamespacePrefixDeclaration(string.Empty, rootNs),
                 p.NonEmptyElement(typeof (DummyClass),  string.Empty),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Items, rootNs),
-                        p.EmptyElement<Item>(rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
+                        p.EmptyElement<Item>(""),
                             p.Text(),
-                        p.EmptyElement<Item>(rootNs),
+                        p.EmptyElement<Item>(""),
                             p.Text(),
-                        p.EmptyElement<Item>(rootNs),
+                        p.EmptyElement<Item>(""),
                             p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -334,16 +333,15 @@
         [TestMethod]
         public void NestedCollectionWithContentProperty()
         {
-            const string rootNs = "root";
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
-                    p.EmptyElement<Item>(rootNs),
+                    p.EmptyElement<Item>(""),
                         p.Text(),
-                    p.EmptyElement<Item>(rootNs),
+                    p.EmptyElement<Item>(""),
                         p.Text(),
-                    p.EmptyElement<Item>(rootNs),
+                    p.EmptyElement<Item>(""),
                         p.Text(),
                 p.EndTag(),
             };
@@ -409,7 +407,7 @@
                     p.Attribute<Item>(d => d.Title, "Main2"),
                     p.Text(),
 
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                         p.NonEmptyElement(typeof(ChildClass), string.Empty),
                         p.EndTag(),
                         p.Text(),
@@ -465,15 +463,14 @@
         [TestMethod]
         public void MixedPropertiesWithContentPropertyAfter()
         {
-            const string rootNs = "root";
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
+                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
                         p.EmptyElement(typeof (RowDefinition), ""),
                     p.EndTag(),
-                    p.EmptyElement<TextBlock>(rootNs),
+                    p.EmptyElement<TextBlock>(""),
                 p.EndTag(),
             };
 
@@ -508,12 +505,11 @@
         [TestMethod]
         public void CollectionWithMixedEmptyAndNotEmptyNestedElements()
         {
-            const string rootNs = "root";
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.NonEmptyPropertyElement<Grid>(g => g.Children, rootNs),
+                    p.NonEmptyPropertyElement<Grid>(g => g.Children, ""),
                         p.NonEmptyElement(typeof (TextBlock), string.Empty),
                         p.EndTag(),
                         p.Text(),
@@ -548,13 +544,12 @@
         [TestMethod]
         public void MixedPropertiesWithContentPropertyBefore()
         {
-            const string rootNs = "root";
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.EmptyElement<TextBlock>(rootNs),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
+                    p.EmptyElement<TextBlock>(""),
+                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
                         p.EmptyElement(typeof (RowDefinition), ""),
                     p.EndTag(),
                 p.EndTag(),

@@ -35,7 +35,7 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
                 p.Text(),
                 p.EndTag(),
                 p.Text(),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 p.EmptyElement(typeof (ChildClass), ""),
                 p.Text(),
                 p.EndTag(),
@@ -150,7 +150,7 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
                 p.EmptyElement(typeof (Item), ""),
                 p.Attribute<Item>(d => d.Title, "Main2"),
                 p.Text(),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 p.NonEmptyElement(typeof (ChildClass), string.Empty),
                 p.NonEmptyElement(typeof (Item), string.Empty),
                 p.EmptyElement(typeof (Item), ""),
@@ -164,8 +164,8 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
                 p.Text(),
                 p.EndTag(),
                 p.Text(),
-                p.NonEmptyPropertyElement<ChildClass>(c => c.Child, rootNs),
-                p.EmptyElement<ChildClass>(rootNs),
+                p.NonEmptyPropertyElement<ChildClass>(c => c.Child, ""),
+                p.EmptyElement<ChildClass>(""),
                 p.Text(),
                 p.EndTag(),
                 p.EndTag(),
@@ -177,12 +177,11 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
 
         public IEnumerable<ProtoXamlNode> CreateInputForTwoNestedProperties()
         {
-            const string rootNs = "root";
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.Items, rootNs),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
                 p.EmptyElement(typeof (Item), ""),
                 p.Attribute<Item>(d => d.Title, "Main1"),
                 p.Text(),
@@ -190,7 +189,7 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
                 p.Attribute<Item>(d => d.Title, "Main2"),
                 p.Text(),
                 p.EndTag(),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 p.NonEmptyElement(typeof (ChildClass), string.Empty),
                 p.EndTag(),
                 p.Text(),

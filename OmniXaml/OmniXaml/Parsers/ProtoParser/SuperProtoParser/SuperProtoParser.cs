@@ -85,7 +85,7 @@
         private IEnumerable<ProtoXamlNode> ParseNestedProperty(XamlType xamlType)
         {
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
-            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName);
+            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, propertyLocator.Prefix);
             reader.Read();
 
             SkipWhitespaces();

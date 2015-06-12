@@ -11,7 +11,6 @@
     using Xaml.Tests.Resources;
 
     [TestClass]
-    [Ignore]
     public class ParseTests : GivenAWiringContext
     {
         private readonly ProtoNodeBuilder builder;
@@ -29,7 +28,7 @@
             var actualNodes = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.EmptyElement(typeof(DummyClass), ""),
+                builder.EmptyElement<DummyClass>(),
                 builder.None()
             };
 
@@ -42,12 +41,12 @@
             var actualNodes = sut.Parse(ProtoInputs.SingleOpenAndClose).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NonEmptyElement(typeof(DummyClass), ""),
+                builder.NonEmptyElement(typeof(DummyClass)),
                 builder.EndTag(),
                 builder.None()
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -56,9 +55,9 @@
             var actualNodes = sut.Parse(ProtoInputs.ElementWithChild).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NonEmptyElement(typeof(DummyClass), ""),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
-                builder.EmptyElement(typeof(ChildClass), ""),
+                builder.NonEmptyElement(typeof(DummyClass)),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child),
+                builder.EmptyElement<ChildClass>(),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -167,9 +166,9 @@
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass),  string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 builder.NonEmptyElement(typeof(ChildClass), string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, ""),
                 builder.EmptyElement(typeof(ChildClass), ""),
                 builder.Text(),
                 builder.EndTag(),
@@ -193,12 +192,12 @@
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
                 builder.NonEmptyElement(typeof(ChildClass), string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, string.Empty),
                 builder.NonEmptyElement(typeof(ChildClass),  string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, root),
-                builder.EmptyElement(typeof(ChildClass), ""),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, string.Empty),
+                builder.EmptyElement(typeof(ChildClass), string.Empty),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -225,12 +224,12 @@
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
+                builder.EmptyElement(typeof(Item), string.Empty),
                 builder.Text(),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.EmptyElement(typeof(Item), string.Empty),
                 builder.Text(),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.EmptyElement(typeof(Item), string.Empty),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),                
@@ -285,9 +284,9 @@
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
                 builder.EndTag(),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, root),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 builder.EndTag(),
                 builder.EndTag(),
                 builder.None(),

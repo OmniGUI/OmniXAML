@@ -36,19 +36,18 @@
             };
         }
 
-        private ProtoXamlNode Element(Type type, string prefix, bool isEmtpy)
+        private ProtoXamlNode Element(Type type, string prefix, bool isEmpty)
         {
             return new ProtoXamlNode
-            {
-                // TODO:
-                Namespace = typeContext.GetNamespaceByPrefix(prefix).Name,
-                Prefix = prefix,
+            {                
+                Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
+                Prefix = prefix ?? string.Empty,
                 XamlType = XamlType.Builder.Create(type, typeContext),
-                NodeType = isEmtpy ? NodeType.EmptyElement : NodeType.Element,
+                NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }
 
-        public ProtoXamlNode NonEmptyElement(Type type, string prefix)
+        public ProtoXamlNode NonEmptyElement(Type type, string prefix = null)
         {
             return Element(type, prefix, false);
         }
@@ -57,9 +56,15 @@
         {
             return Element(type, prefix, true);
         }
-        internal ProtoXamlNode EmptyElement<T>(string ns)
+
+        internal ProtoXamlNode EmptyElement<T>()
         {
-            return EmptyElement(typeof(T), "");
+            return EmptyElement<T>(null);
+        }
+
+        internal ProtoXamlNode EmptyElement<T>(string prefix)
+        {
+            return EmptyElement(typeof(T), prefix);
         }
 
         public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
@@ -86,25 +91,25 @@
             return PropertyElement(selector, prefix, isCollapsed: true);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix)
+        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix = null)
         {
             return PropertyElement(selector, prefix, isCollapsed: false);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName)
+        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName, string prefix)
         {
-            return PropertyElement(type, memberName, isCollapsed: false);
+            return PropertyElement(type, memberName, prefix, isCollapsed: false);
         }
 
-        private ProtoXamlNode PropertyElement(Type type, string memberName, bool isCollapsed)
+        private ProtoXamlNode PropertyElement(Type type, string memberName, string prefix, bool isCollapsed)
         {
             var property = typeContext.Get(type).GetMember(memberName);
 
             return new ProtoXamlNode
             {
                 PropertyElement = property,
-                Prefix = string.Empty,
-                Namespace = null, // TODO
+                Prefix = prefix,
+                Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
                 XamlType = null,
                 NodeType =
                     isCollapsed
@@ -115,7 +120,7 @@
 
         private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string prefix, bool isCollapsed)
         {
-            return PropertyElement(typeof(T), selector.GetFullPropertyName(), isCollapsed);
+            return PropertyElement(typeof(T), selector.GetFullPropertyName(), prefix, isCollapsed);
         }
 
         public ProtoXamlNode EndTag()

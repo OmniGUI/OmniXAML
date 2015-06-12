@@ -36,7 +36,7 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-               builder.EmptyElement<DummyClass>("root"),
+               builder.EmptyElement<DummyClass>(""),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -64,7 +64,7 @@
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, "root"),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 builder.EmptyElement(typeof(ChildClass), ""),
                 builder.Text(),
                 builder.EndTag(),
@@ -82,7 +82,7 @@
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration(string.Empty, "root"),
-                builder.EmptyElement<DummyClass>("root"),
+                builder.EmptyElement<DummyClass>(""),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -97,7 +97,7 @@
             {
                 builder.NamespacePrefixDeclaration(string.Empty, "root"),
                 builder.NamespacePrefixDeclaration("a", "another"),
-                builder.EmptyElement<DummyClass>("root"),
+                builder.EmptyElement<DummyClass>(""),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -294,18 +294,16 @@
         [TestMethod]
         public void TwoNestedProperties()
         {
-            var root = "root";
-
             var actualNodes = sut.Parse(Dummy.TwoNestedProperties).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
-                builder.EmptyElement<Item>(root),
+                builder.EmptyElement<Item>(""),
                 builder.Attribute<Item>(i => i.Title, "Main1"),
                 builder.Text(),
-                builder.EmptyElement<Item>(root),
+                builder.EmptyElement<Item>(""),
                 builder.Attribute<Item>(i => i.Title, "Main2"),
                 builder.Text(),
                 builder.EndTag(),
