@@ -2,13 +2,6 @@
 
 *I know you need it, I know you want it. I know you XAML!*
 
-```csharp
-foreach (var thing in life) 
-{
-   world.Shout(string.Format("XAML is the best language to describe {0}", thing);
-}
-```
-
 OmniXAML is a library that allows you interpret XAML with ease. You can read XAML and get the object it represents, like a Window in WPF, a document, a diagram or whatever object you can describe.
 
 In its current state it's able to interpret more or less complex XAML without problems.
@@ -58,3 +51,10 @@ The following an example of XAML that can be read with OmniXAML.
 This project is linked with [Perspex, the next-generation WPF](https://github.com/grokys/Perspex).
 
 Thanks to [Nicholas Blumhardt](https://twitter.com/nblumhardt) for his awesome project [Sprache](https://github.com/sprache/Sprache) that has introduced me in the world of parsers.
+
+```csharp
+foreach (var thing in life) 
+{
+   world.Shout(string.Format("XAML is the best language to describe {0}", thing);
+}
+```
