@@ -89,7 +89,7 @@
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -114,8 +114,8 @@
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
-                p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!"),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
+                p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", ""),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -220,12 +220,12 @@
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.NonEmptyElement(typeof (DummyClass),  string.Empty),
-                    p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample"),
+                    p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", ""),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                         p.NonEmptyElement(typeof (ChildClass),  string.Empty),
                             p.NonEmptyPropertyElement<ChildClass>(d => d.Content, ""),
                                 p.EmptyElement(typeof (Item), ""),
-                                    p.Attribute<Item>(@class => @class.Text, "Value!"),
+                                    p.Attribute<Item>(@class => @class.Text, "Value!", ""),
                                 p.Text(),
                             p.EndTag(),
                         p.EndTag(),
@@ -402,11 +402,11 @@
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
 
                     p.EmptyElement(typeof (Item), ""),
-                    p.Attribute<Item>(d => d.Title, "Main1"),
+                    p.Attribute<Item>(d => d.Title, "Main1", ""),
                     p.Text(),
 
                     p.EmptyElement(typeof (Item), ""),
-                    p.Attribute<Item>(d => d.Title, "Main2"),
+                    p.Attribute<Item>(d => d.Title, "Main2", ""),
                     p.Text(),
 
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),

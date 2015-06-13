@@ -39,7 +39,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void AttachedProperty()
         {
             var actualNodes = sut.Parse(@"<DummyClass xmlns=""root"" xmlns:x=""another"" x:Foreigner.Property=""Value""></DummyClass>").ToList();

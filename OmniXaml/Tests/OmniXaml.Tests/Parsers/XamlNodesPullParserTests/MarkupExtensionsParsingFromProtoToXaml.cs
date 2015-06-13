@@ -27,7 +27,7 @@
             {
                 p.NamespacePrefixDeclaration(string.Empty, "root"),
                 p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}"),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", ""),
             };
 
             var expectedNodes = new List<XamlNode>

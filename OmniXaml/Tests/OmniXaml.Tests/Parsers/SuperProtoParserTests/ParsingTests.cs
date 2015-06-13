@@ -134,7 +134,7 @@
             {
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!"),
+                builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
                 builder.EndTag(),
             };
 
@@ -301,10 +301,10 @@
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
                 builder.EmptyElement<Item>(""),
-                builder.Attribute<Item>(i => i.Title, "Main1"),
+                builder.Attribute<Item>(i => i.Title, "Main1", ""),
                 builder.Text(),
                 builder.EmptyElement<Item>(""),
-                builder.Attribute<Item>(i => i.Title, "Main2"),
+                builder.Attribute<Item>(i => i.Title, "Main2", ""),
                 builder.Text(),
                 builder.EndTag(),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),

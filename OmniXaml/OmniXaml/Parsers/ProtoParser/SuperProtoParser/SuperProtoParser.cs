@@ -142,7 +142,7 @@
                 member = containingType.GetMember(rawAttribute.Locator.PropertyName);
             }
 
-            return nodeBuilder.Attribute(member, rawAttribute.Value);
+            return nodeBuilder.Attribute(member, rawAttribute.Value, rawAttribute.Locator.Prefix);
         }
 
         private AttributeFeed GetAttributes()

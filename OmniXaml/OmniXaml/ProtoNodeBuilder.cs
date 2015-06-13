@@ -150,20 +150,21 @@
             return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, };
         }
 
-        public ProtoXamlNode Attribute(XamlMember member, string value)
+        public ProtoXamlNode Attribute(XamlMember member, string value, string prefix)
         {
             return new ProtoXamlNode
             {
                 PropertyAttribute = member,
                 NodeType = NodeType.Attribute,
                 PropertyAttributeText = value,
-                Prefix = string.Empty,
+                Prefix = prefix,
             };
         }
 
-        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value)
+        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
         {
-            return Attribute(typeContext.Get(typeof (T)).GetMember(selector.GetFullPropertyName()), value);           
+            var xamlMember = typeContext.Get(typeof (T)).GetMember(selector.GetFullPropertyName());
+            return Attribute(xamlMember, value, prefix);
         }
     }
 }
