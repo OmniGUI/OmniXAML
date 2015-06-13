@@ -26,15 +26,15 @@
             return ParseElement();
         }
 
-        private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType)
+        private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType, string prefix, AttributeFeed attributes)
         {
-            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, "");
-            return CommonNodesOfElement(xamlType, emptyElement);
+            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, prefix);
+            return CommonNodesOfElement(xamlType, emptyElement, attributes);
         }
 
-        private IEnumerable<ProtoXamlNode> CommonNodesOfElement(XamlType owner, ProtoXamlNode elementToInject)
+        private IEnumerable<ProtoXamlNode> CommonNodesOfElement(XamlType owner, ProtoXamlNode elementToInject, AttributeFeed attributeFeed)
         {
-            var attributes = GetAttributes();
+            var attributes = attributeFeed;
 
             foreach (var node in attributes.PrefixRegistrations.Select(ConvertAttributeToNsPrefixDefinition)) yield return node;
 
@@ -43,17 +43,15 @@
             foreach (var node in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return node;
         }
 
-        private IEnumerable<ProtoXamlNode> ParseExpandedElement(XamlType xamlType)
+        private IEnumerable<ProtoXamlNode> ParseExpandedElement(XamlType xamlType, string prefix, AttributeFeed attributes)
         {
             if (xamlType.IsUnreachable)
             {
                 throw new XamlReaderException($"The type {xamlType} is unknown, therefore it cannot be reflected.");
             }
 
-            var prefix = string.Empty;
-            var ns = wiringContext.TypeContext.GetNamespace(reader.Prefix);
             var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, prefix);
-            foreach (var node in CommonNodesOfElement(xamlType, element)) yield return node;
+            foreach (var node in CommonNodesOfElement(xamlType, element, attributes)) yield return node;
 
             reader.Read();
 
@@ -157,15 +155,32 @@
 
             AssertValidElement();
 
-            var childType = CurrentType;
+            var attributes = GetAttributes();
+
+            var prefixRegistrations = attributes.PrefixRegistrations.ToList();
+
+            RegisterPrefixes(prefixRegistrations);
+
+            var prefix = reader.Prefix;
+
+            var childType = wiringContext.TypeContext.GetByPrefix(prefix, reader.LocalName);
 
             if (reader.IsEmptyElement)
             {
-                foreach (var node in ParseEmptyElement(childType)) yield return node;
+                foreach (var node in ParseEmptyElement(childType, prefix, attributes)) yield return node;
             }
             else
             {
-                foreach (var node in ParseExpandedElement(childType)) yield return node;
+                foreach (var node in ParseExpandedElement(childType, prefix, attributes)) yield return node;
+            }
+        }
+
+        private void RegisterPrefixes(IEnumerable<NsPrefix> prefixRegistrations)
+        {
+            foreach (var prefixRegistration in prefixRegistrations)
+            {
+                var registration = new PrefixRegistration(prefixRegistration.Prefix, prefixRegistration.Namespace);
+                wiringContext.TypeContext.RegisterPrefix(registration);
             }
         }
 
@@ -176,8 +191,6 @@
                 reader.Read();
             }
         }
-
-        private XamlType CurrentType => wiringContext.TypeContext.GetByPrefix(reader.Prefix, reader.LocalName);
 
         private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {

@@ -1,15 +1,12 @@
 ﻿namespace OmniXaml.Tests.Parsers.ProtoParserTests
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
-    using Xaml.Tests.Resources;
 
     [TestClass]
     public class PrefixTests : GivenAWiringContext
@@ -69,7 +66,7 @@
                 builder.NamespacePrefixDeclaration("custom", ns),
                 builder.NonEmptyElement(typeof (DummyClass), "custom"),
                 builder.EndTag(),
-                builder.None(),
+                builder.None()
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);

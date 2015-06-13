@@ -32,7 +32,7 @@
             var expectedNodes = new List<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.EmptyElement(typeof (Foreigner), ""),
+                builder.EmptyElement(typeof (Foreigner), "x"),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -58,7 +58,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
             var actualNodes = sut.Parse(@"<custom:DummyClass xmlns:custom=""root""></custom:DummyClass>").ToList();
