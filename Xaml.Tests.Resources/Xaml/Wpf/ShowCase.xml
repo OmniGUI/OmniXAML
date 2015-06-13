@@ -1,0 +1,150 @@
+﻿<Window Title="MainWindow" Height="350" Width="525">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Menu>
+      <MenuItem Header="File">
+        <MenuItem Header="Open">
+          <MenuItem.Icon>
+            <Image Source="github_icon.png"></Image>
+          </MenuItem.Icon>
+        </MenuItem>
+        <MenuItem Header="Save">
+          <MenuItem Header="SubItem 1" />
+          <MenuItem Header="SubItem 2" />
+        </MenuItem>
+        <MenuItem Header="Save As">
+          <MenuItem Header="SubItem 1" />
+          <MenuItem Header="SubItem 2" />
+        </MenuItem>
+        <MenuItem Header="Exit" />
+      </MenuItem>
+      <MenuItem Header="Edit">
+        <MenuItem Header="Cut" />
+        <MenuItem Header="Copy" />
+        <MenuItem Header="Past" />
+      </MenuItem>
+    </Menu>
+    <TabControl Grid.Row="1">
+      <TabItem Header="Buttons">
+        <StackPanel HorizontalAlignment="Center" Width="200" VerticalAlignment="Center">
+          <Button Content="Button" />
+          <Button Content="Button" IsCancel="True" Background="#119EDA" ToolTip="Goodbye Cruel World!" />
+          <Button Content="Default" IsDefault="True" />
+          <Button Content="Disabled" IsEnabled="False" />
+          <Button Content="Disabled" IsEnabled="False" Background="#119eda" />
+          <ToggleButton Content="Toggle" />
+          <ToggleButton Content="Toggle" IsEnabled="False" />
+          <CheckBox Content="Checkbox" />
+          <RadioButton Content="RadioButton 1" IsChecked="True" />
+          <RadioButton Content="RadioButton 2" />
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Text">
+        <StackPanel HorizontalAlignment="Center" Width="200" VerticalAlignment="Center">
+          <TextBlock
+              Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin venenatis dui quis libero suscipit tincidunt."
+              TextWrapping="Wrap" TextAlignment="Center" />
+          <TextBlock Text="Italic text." TextWrapping="Wrap" TextAlignment="Left" FontStyle="Italic" />
+          <TextBlock Text="Bold text." TextWrapping="Wrap" TextAlignment="Right" FontWeight="Bold" />
+          <TextBox Text="A non-wrapping text box. Lorem ipsum dolor sit amet." TextWrapping="NoWrap" />
+          <TextBox
+              Text="A wrapping text box. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin venenatis dui quis libero suscipit tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin venenatis dui quis libero suscipit tincidunt."
+              TextWrapping="Wrap" MaxHeight="100" AcceptsReturn="True" />
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Images">
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+          <ScrollViewer Height="200" Width="200" HorizontalScrollBarVisibility="Visible">
+            <Image Source="github_icon.png" Height="500" Width="400" />
+          </ScrollViewer>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Lists">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+          <TreeView>
+            <TreeViewItem Header="Root 1">
+              <TreeViewItem Header="Child 1" IsExpanded="True" />
+              <TreeViewItem Header="Child 2" IsExpanded="True">
+                <TreeViewItem Header="Grandchild 1" />
+                <TreeViewItem Header="Grandmaster Flash" />
+              </TreeViewItem>
+              <TreeViewItem Header="Child 3" />
+            </TreeViewItem>
+            <TreeViewItem Header="Root 2" />
+          </TreeView>
+          <ListBox>
+            <ListBoxItem>
+              <StackPanel>
+                <TextBlock Text="Item 1" FontSize="24" />
+                <TextBlock Text="Item 1 Value" />
+              </StackPanel>
+            </ListBoxItem>
+            <ListBoxItem>
+              <StackPanel>
+                <TextBlock Text="Item 2" FontSize="24" />
+                <TextBlock Text="Item 2 Value" />
+              </StackPanel>
+            </ListBoxItem>
+          </ListBox>
+          <ComboBox VerticalAlignment="Center">
+            <ComboBoxItem>
+              <StackPanel>
+                <TextBlock Text="Item 1" FontSize="24" />
+                <TextBlock Text="Item 1 Value" />
+              </StackPanel>
+            </ComboBoxItem>
+            <ComboBoxItem>
+              <StackPanel>
+                <TextBlock Text="Item 2" FontSize="24" />
+                <TextBlock Text="Item 2 Value" />
+              </StackPanel>
+            </ComboBoxItem>
+          </ComboBox>
+        </StackPanel>
+      </TabItem>
+      <TabItem Header="Layout">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <StackPanel>
+            <Button HorizontalAlignment="Left" Content="Left Aligned" />
+            <Button HorizontalAlignment="Center" Content="Center Aligned" />
+            <Button HorizontalAlignment="Right" Content="Right Aligned" />
+            <Button HorizontalAlignment="Stretch" Content="Stretch" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal">
+            <Button VerticalAlignment="Top" Content="Top Aligned" />
+            <Button VerticalAlignment="Center" Content="Center Aligned" />
+            <Button VerticalAlignment="Bottom" Content="Bottom Aligned" />
+            <Button VerticalAlignment="Stretch" Content="Stretch" />
+          </StackPanel>
+        </Grid>
+      </TabItem>
+      <TabItem Header="Animations">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Border Width="100" Height="100" Background="Crimson">
+            <TextBox HorizontalAlignment="Center" VerticalAlignment="Center" Text="hello!"></TextBox>
+          </Border>
+          <Border Grid.Row="0" Grid.Column="1" Background="Coral" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Image Width="100" Height="100" Source="github_icon.png">
+            </Image>
+          </Border>
+          <Button Grid.Row="1" Grid.Column="1" Content="Animate" HorizontalAlignment="Center"></Button>
+        </Grid>
+      </TabItem>
+    </TabControl>
+  </Grid>
+</Window>

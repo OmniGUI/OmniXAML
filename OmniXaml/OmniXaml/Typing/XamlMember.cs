@@ -1,5 +1,8 @@
 namespace OmniXaml.Typing
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     public class XamlMember
@@ -23,10 +26,24 @@ namespace OmniXaml.Typing
             }
             else
             {
-                var typeInfo = owner.UnderlyingType.GetTypeInfo();
-                var setMethod = typeInfo.GetDeclaredMethod("Get" + name);
-                Type = XamlType.Builder.Create(setMethod.ReturnType, mother);
+                var getMethod = GetGetMethodForAttachable(owner, name);
+                Type = XamlType.Builder.Create(getMethod.ReturnType, mother);
             }
+        }
+
+        private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)
+        {
+            return owner.UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
+        }
+
+        private static MethodInfo GetSetMethodForAttachable(XamlType owner, string name)
+        {
+            var runtimeMethods = owner.UnderlyingType.GetRuntimeMethods();
+            return runtimeMethods.First(info =>
+            {
+                var nameOfSetMethod = "Set" + name;
+                return info.Name == nameOfSetMethod && info.GetParameters().Length == 2;
+            });
         }
 
         public string Name => name;
