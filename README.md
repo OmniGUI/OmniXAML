@@ -1,5 +1,4 @@
-# OmniXAML
-## The Cross-platform XAML Framework
+# OmniXAML. The Cross-platform XAML Framework.
 
 *I know you need it, I know you want it. I know you XAML!*
 
