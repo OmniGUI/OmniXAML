@@ -1,7 +1,7 @@
 # OmniXAML
-The Cross-platform XAML Framework. 
+## The Cross-platform XAML Framework
 
-I know you need it, I know you want it. I know you XAML!
+*I know you need it, I know you want it. I know you XAML!*
 
 ```csharp
 foreach (var thing in life) 
