@@ -17,7 +17,7 @@ In its current state it's able to interpret more or less complex XAML without pr
 It already can deal with the some features that make XAML the coolest descriptive XML-based language, like:
 - XAML namespaces
 - Prefix definitions
-- Content Properties. 
+- Content Properties
 - Markup Extensions (i.e. Bindings, x:Type, StaticResource…)
 - Deferred reading (DataTemplates, ControlTemplates)
 - Attachable Members. (Attached Properties in WPF/WinRT)
