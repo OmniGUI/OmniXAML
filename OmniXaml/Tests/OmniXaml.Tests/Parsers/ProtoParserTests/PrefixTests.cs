@@ -56,5 +56,23 @@
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void ElementWithPrefixThatIsDefinedAfterwards()
+        {
+            var actualNodes = sut.Parse(@"<custom:DummyClass xmlns:custom=""root""></custom:DummyClass>").ToList();
+
+            var ns = "root";
+
+            var expectedNodes = new Collection<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("custom", ns),
+                builder.NonEmptyElement(typeof (DummyClass), "custom"),
+                builder.EndTag(),
+                builder.None(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
     }
 }
