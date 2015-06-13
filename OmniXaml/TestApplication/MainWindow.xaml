@@ -9,7 +9,7 @@
         xmlns:testApplication="clr-namespace:TestApplication"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="OmniXAML Loader" Height="509.456" Width="667.407">
+        Title="OmniXAML Tester" Height="509.456" Width="667.407">
     <Window.Resources>
         <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
             <CollectionViewSource.SortDescriptions>
