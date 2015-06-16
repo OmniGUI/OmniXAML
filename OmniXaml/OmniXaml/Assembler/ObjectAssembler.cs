@@ -199,7 +199,7 @@
 
         private void AssignValueFromMarkupExtension(StateBag stateBag)
         {
-            var markupExtension = (MarkupExtension)stateBag.Current.Instance;
+            var markupExtension = (IMarkupExtension)stateBag.Current.Instance;
 
             var extensionContext = GetExtensionContext(stateBag);
 
@@ -227,7 +227,7 @@
         {
             var underlyingType = type.UnderlyingType.GetTypeInfo();
 
-            var meType = typeof(MarkupExtension).GetTypeInfo();
+            var meType = typeof(IMarkupExtension).GetTypeInfo();
             return meType.IsAssignableFrom(underlyingType);
         }
 

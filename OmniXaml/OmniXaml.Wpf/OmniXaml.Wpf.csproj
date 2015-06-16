@@ -43,6 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BindingExtension.cs" />
     <Compile Include="WpfContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="WpfConverterProvider.cs" />

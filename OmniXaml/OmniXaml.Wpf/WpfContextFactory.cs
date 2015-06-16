@@ -14,10 +14,14 @@
             var textBlockType = typeof(System.Windows.Controls.TextBlock);
             var toggleButtonType = typeof(ToggleButton);
 
+            var bindingType = typeof (BindingExtension);
+
             var rootNs = XamlNamespace.Map("root")
                 .With(
                     new[]
                     {
+                        Route.Assembly(bindingType.Assembly).WithNamespaces(
+                            new[] {bindingType.Namespace}),
                         Route.Assembly(windowType.Assembly).WithNamespaces(
                             new[]
                             {
