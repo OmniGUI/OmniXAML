@@ -47,7 +47,15 @@ namespace OmniXaml.Typing
 
         public bool IsContainer => IsCollection || IsDictionary;
 
-        public bool IsDictionary { get; set; }
+        public bool IsDictionary
+        {
+            get
+            {
+                var typeInfo = UnderlyingType.GetTypeInfo();
+                var isDictionary = typeof(IDictionary).GetTypeInfo().IsAssignableFrom(typeInfo);
+                return isDictionary;
+            }
+        }
 
         protected bool Equals(XamlType other)
         {

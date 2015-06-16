@@ -100,6 +100,25 @@
         {
             var newInstance = typeOperations.Create(bag.Current.Type);
             bag.Current.Instance = newInstance;
+
+            if (bag.LiveDepth > 1 && !(newInstance is MarkupExtension) && bag.LiveDepth > 1)
+            {
+                CheckAssignmentToParentStart(bag);
+            }
+        }
+
+        private void CheckAssignmentToParentStart(StateBag bag)
+        {
+            var parentPropertyIsItemsDictionary = bag.Parent.Property == CoreTypes.Items && bag.Parent.Type.IsDictionary;
+            if (!parentPropertyIsItemsDictionary)
+            {
+                bag.Current.WasAssignedAtCreation = true;
+                AssignCurrentInstanceToParent(bag);
+            }
+            else
+            {
+                bag.Current.WasAssignedAtCreation = false;
+            }
         }
 
         private void WriteEndMember()
@@ -185,13 +204,15 @@
                 {
                     AssignValueFromMarkupExtension(Bag);
                 }
+                else
+                {
+                    if (Bag.LiveDepth > 1 && !Bag.Current.WasAssignedAtCreation)
+                    {
+                        AssignCurrentInstanceToParent(Bag);
+                    }
+                }
             }
-
-            if (Bag.LiveDepth > 1)
-            {
-                AssignCurrentInstanceToParent(Bag);
-            }
-
+          
             Result = Bag.Current.Instance;
 
             Bag.PopScope();

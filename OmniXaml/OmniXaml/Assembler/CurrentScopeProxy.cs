@@ -79,5 +79,11 @@ namespace OmniXaml.Assembler
                 stackingLinkedList.Peek().IsObjectFromMember = value;
             }
         }
+
+        public bool WasAssignedAtCreation
+        {
+            get { return stackingLinkedList.Peek().WasAssignedAtCreation; }
+            set { stackingLinkedList.Peek().WasAssignedAtCreation = value; }
+        }
     }
 }

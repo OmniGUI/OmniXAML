@@ -10,5 +10,6 @@ namespace OmniXaml.Assembler
         public bool IsPropertyValueSet { get; set; }
         public bool IsObjectFromMember { get; set; }
         public object Collection { get; set; }
+        public bool WasAssignedAtCreation { get; set; }
     }
 }

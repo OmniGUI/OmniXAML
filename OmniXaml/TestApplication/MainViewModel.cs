@@ -91,7 +91,7 @@
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(Xaml)))
                 {
                     var window = (Window)localLoader.Load(stream);
-                    window.DataContext = new ViewModel();
+                    window.DataContext = new TestViewModel();
                     window.Show();
                 }
             }

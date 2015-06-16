@@ -7,11 +7,10 @@
     using System.Windows.Markup;
 
     public class BindingExtension: Binding, IMarkupExtension
-    {
-        readonly Binding innerBindingExtension = new Binding();
+    {        
         public object ProvideValue(MarkupExtensionContext markupExtensionContext)
         {
-            var provideValue = innerBindingExtension.ProvideValue(new WpfServiceLocator(markupExtensionContext));
+            var provideValue = ProvideValue(new WpfServiceLocator(markupExtensionContext));
             return provideValue;
         }
     }
