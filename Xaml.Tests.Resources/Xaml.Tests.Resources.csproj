@@ -72,6 +72,9 @@
     <None Include="Xaml\Dummy\TwoNestedProperties.xaml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Xaml\Wpf\ShowCase.xaml">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Xaml\Wpf\Stage1.xaml">
       <SubType>Designer</SubType>
     </None>
@@ -289,11 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xaml\Wpf\DataTemplate.xaml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Xaml\Wpf\ShowCase.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

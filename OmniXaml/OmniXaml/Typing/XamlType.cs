@@ -92,6 +92,11 @@ namespace OmniXaml.Typing
 
         public XamlMember GetMember(string name)
         {
+            return LookupMember(name);
+        }
+
+        protected virtual XamlMember LookupMember(string name)
+        {
             if (IsUnreachable)
             {
                 return XamlMember.Builder.CreateUnreachable(name, this);

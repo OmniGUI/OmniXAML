@@ -19,16 +19,19 @@ namespace OmniXaml.Typing
             IsAttachable = isAttachable;
             DeclaringType = owner;
 
+            Type = LookupType(name, owner, mother, isAttachable);
+        }
+
+        private XamlType LookupType(string name, XamlType owner, IXamlTypeRepository mother, bool isAttachable)
+        {
             if (!isAttachable)
             {
                 var property = owner.UnderlyingType.GetRuntimeProperty(name);
-                Type = XamlType.Builder.Create(property.PropertyType, mother);
+                return XamlType.Builder.Create(property.PropertyType, mother);
             }
-            else
-            {
-                var getMethod = GetGetMethodForAttachable(owner, name);
-                Type = XamlType.Builder.Create(getMethod.ReturnType, mother);
-            }
+
+            var getMethod = GetGetMethodForAttachable(owner, name);
+            return XamlType.Builder.Create(getMethod.ReturnType, mother);
         }
 
         private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)
@@ -121,5 +124,82 @@ namespace OmniXaml.Typing
                 return hashCode;
             }
         }
+
+        public IXamlMemberValuePlugin XamlMemberValueConnector => LookupXamlMemberValueConnector();
+
+        private IXamlMemberValuePlugin LookupXamlMemberValueConnector()
+        {
+            return new DefaultMemberValuePlugin(this);
+        }     
+    }
+
+    internal class DefaultMemberValuePlugin : IXamlMemberValuePlugin
+    {
+        private readonly XamlMember xamlMember;
+
+        public DefaultMemberValuePlugin(XamlMember xamlMember)
+        {
+            this.xamlMember = xamlMember;
+        }
+
+        public object GetValue(object instance)
+        {
+            return ValueGetter.Invoke(instance, null);
+        }
+
+        public void SetValue(object instance, object value)
+        {
+            SetValueIndependent(instance, value);
+        }
+
+        private void SetValueIndependent(object instance, object value)
+        {
+            if (ValueSetter.IsStatic)
+            {
+                ValueSetter.Invoke(null, new[] { instance, value });
+            }
+            else
+            {
+                ValueSetter.Invoke(instance, new[] { value });
+            }
+        }
+
+        private MethodInfo ValueSetter
+        {
+            get
+            {
+                if (xamlMember.IsAttachable)
+                {
+                    var underlyingType = xamlMember.DeclaringType.UnderlyingType;
+                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Set" + xamlMember.Name);
+                }
+                else
+                {
+                    return xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name).SetMethod;
+                }
+            }
+        }
+
+        private MethodInfo ValueGetter
+        {
+            get
+            {
+                if (xamlMember.IsAttachable)
+                {
+                    var underlyingType = xamlMember.DeclaringType.UnderlyingType;
+                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Get" + xamlMember.Name);
+                }
+                else
+                {
+                    return xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name).GetMethod;
+                }
+            }
+        }
+    }
+
+    public interface IXamlMemberValuePlugin
+    {
+        void SetValue(object instance, object value);
+        object GetValue(object instance);
     }
 }

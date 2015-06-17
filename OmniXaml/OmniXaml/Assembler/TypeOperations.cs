@@ -21,23 +21,12 @@ namespace OmniXaml.Assembler
 
         public static object GetValue(object parentInstance, XamlMember property)
         {
-            var prop = parentInstance.GetType().GetRuntimeProperty(property.Name);
-            return prop.GetValue(parentInstance);
+            return property.XamlMemberValueConnector.GetValue(parentInstance);            
         }
 
         public static void SetValue(object instance, XamlMember parentProperty, object value)
         {
-            if (parentProperty.IsAttachable)
-            {
-                var underlyingType = parentProperty.DeclaringType.UnderlyingType;
-                var prop = underlyingType.GetTypeInfo().GetDeclaredMethod("Set" + parentProperty.Name);                    
-                prop.Invoke(null, new[] { instance, value});
-            }
-            else
-            {
-                var prop = instance.GetType().GetRuntimeProperty(parentProperty.Name);
-                prop.SetValue(instance, value);
-            }
+            parentProperty.XamlMemberValueConnector.SetValue(instance, value);          
         }
 
         public object Create(XamlType xamlType)
