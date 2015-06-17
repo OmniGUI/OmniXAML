@@ -14,7 +14,7 @@ namespace OmniXaml.Typing
             this.name = name;
         }
 
-        private XamlMember(string name, XamlType owner, IXamlTypeRepository mother, bool isAttachable) : this(name)
+        public XamlMember(string name, XamlType owner, IXamlTypeRepository mother, bool isAttachable) : this(name)
         {
             IsAttachable = isAttachable;
             DeclaringType = owner;

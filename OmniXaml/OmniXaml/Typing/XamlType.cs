@@ -9,7 +9,7 @@ namespace OmniXaml.Typing
     {
         private readonly IXamlTypeRepository typeRepository;
 
-        private XamlType(Type type, IXamlTypeRepository typeRepository)
+        protected XamlType(Type type, IXamlTypeRepository typeRepository)
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
@@ -143,6 +143,11 @@ namespace OmniXaml.Typing
         {
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
-        } 
+        }
+
+        protected virtual XamlMember LookupAttachableMember(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

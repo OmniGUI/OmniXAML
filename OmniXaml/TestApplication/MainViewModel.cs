@@ -32,7 +32,7 @@
             SetSelectedSnippetCommand = new RelayCommand(o => SetSelectedSnippet());
         }
 
-        private WiringContext ContextForWpf => WpfWiringContext.Create();
+        private WiringContext ContextForWpf => WpfWiringContextFactory.Create();
 
         private WiringContext ContextForTestClasses => DummyWiringContext.Create();
 

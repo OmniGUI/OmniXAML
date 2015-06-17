@@ -49,14 +49,16 @@ namespace OmniXaml
             }
         }
 
-        public void WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistrations)
+        public TypeContextBuilder WithNamespaces(IEnumerable<XamlNamespace> namespaceRegistrations)
         {
             this.namespaceRegistrations = namespaceRegistrations;
+            return this;
         }
 
-        public void WithNsPrefixes(IEnumerable<PrefixRegistration> prefixRegistrations)
+        public TypeContextBuilder WithNsPrefixes(IEnumerable<PrefixRegistration> prefixRegistrations)
         {
             this.prefixRegistrations = prefixRegistrations;
+            return this;
         }
     }
 }

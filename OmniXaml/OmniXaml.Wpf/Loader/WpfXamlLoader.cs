@@ -8,7 +8,7 @@
 
         public WpfXamlLoader()
         {
-            var wiringContext = WpfWiringContext.Create();
+            var wiringContext = WpfWiringContextFactory.Create();
             var objectAssembler = new WpfObjectAssembler(wiringContext);
 
             xamlXmlLoader = new XamlXmlLoader(objectAssembler, wiringContext);

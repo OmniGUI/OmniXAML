@@ -4,6 +4,6 @@ namespace OmniXaml.Tests.Wpf
 
     public class GivenAWiringContext
     {
-        protected WiringContext WiringContext => OmniXaml.Wpf.WpfWiringContext.Create();
+        protected WiringContext WiringContext => OmniXaml.Wpf.WpfWiringContextFactory.Create();
     }
 }

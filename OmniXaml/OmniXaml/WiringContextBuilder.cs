@@ -40,7 +40,7 @@ namespace OmniXaml
             return this;
         }
 
-        public WiringContext Build()
+        public virtual WiringContext Build()
         {
             var typingCore = typingCoreBuilder.Build();
 

@@ -4,9 +4,10 @@
     using System.Windows;
     using System.Windows.Controls.Primitives;
     using Builder;
+    using TypeConversion;
     using Typing;
 
-    public static class WpfWiringContext
+    public static class WpfWiringContextFactory
     {
         public static WiringContext Create()
         {
@@ -14,7 +15,7 @@
             var textBlockType = typeof(System.Windows.Controls.TextBlock);
             var toggleButtonType = typeof(ToggleButton);
 
-            var bindingType = typeof (BindingExtension);
+            var bindingType = typeof(BindingExtension);
 
             var rootNs = XamlNamespace.Map("root")
                 .With(
@@ -31,15 +32,22 @@
                             })
                     });
 
-            var wiringContextBuilder = new WiringContextBuilder();
+            var typeContextBuilder = new TypeContextBuilder()
+                .WithNamespaces(new[] {rootNs})
+                .WithNsPrefixes(new List<PrefixRegistration> {new PrefixRegistration("", "root")});
 
-            wiringContextBuilder
-                .WithNamespaces(new List<XamlNamespace> { rootNs })
-                .WithNsPrefixes(new List<PrefixRegistration> {new PrefixRegistration("", "root")})
-                .WithContentPropertyProvider(new WpfContentPropertyProvider())
-                .WithConverterProvider(new WpfConverterProvider());
+            var contentPropertyProvider = new WpfContentPropertyProvider();            
+            ITypeConverterProvider typeConverterProvider = new WpfConverterProvider();
 
-            return wiringContextBuilder.Build();
+            return new WpfWiringContext(typeContextBuilder.Build(), contentPropertyProvider, typeConverterProvider);
+        }
+    }
+
+    public class WpfWiringContext : WiringContext
+    {
+        public WpfWiringContext(ITypeContext typeContext, IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
+            : base(typeContext, contentPropertyProvider, converterProvider)
+        {
         }
     }
 }
