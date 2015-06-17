@@ -87,6 +87,23 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
+        ///  &lt;ListBox ItemsSource=&quot;{Binding Collection}&quot;&gt;
+        ///    &lt;ListBox.ItemTemplate&gt;
+        ///      &lt;DataTemplate&gt;
+        ///        &lt;TextBlock Text=&quot;{Binding}&quot; /&gt;
+        ///      &lt;/DataTemplate&gt;
+        ///    &lt;/ListBox.ItemTemplate&gt;    
+        ///  &lt;/ListBox&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string DataTemplate {
+            get {
+                return ResourceManager.GetString("DataTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
         ///  &lt;Grid&gt;
         ///    &lt;Grid.RowDefinitions&gt;

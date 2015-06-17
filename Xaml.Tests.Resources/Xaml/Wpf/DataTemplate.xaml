@@ -1,0 +1,9 @@
+﻿<Window xmlns="root" Title="Hello from OmniXaml!" Width="800" Height="600">
+  <ListBox ItemsSource="{Binding Path=Collection}">
+    <ListBox.ItemTemplate>
+      <DataTemplate>
+        <TextBlock Text="{Binding}" />
+      </DataTemplate>
+    </ListBox.ItemTemplate>    
+  </ListBox>
+</Window>

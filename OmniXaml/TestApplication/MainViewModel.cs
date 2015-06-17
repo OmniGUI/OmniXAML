@@ -11,6 +11,7 @@
     using OmniXaml.Assembler;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Wpf;
+    using OmniXaml.Wpf.Loader;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class MainViewModel : ViewModel
@@ -31,7 +32,7 @@
             SetSelectedSnippetCommand = new RelayCommand(o => SetSelectedSnippet());
         }
 
-        private WiringContext ContextForWpf => WpfContextFactory.Create();
+        private WiringContext ContextForWpf => WpfWiringContext.Create();
 
         private WiringContext ContextForTestClasses => DummyWiringContext.Create();
 
@@ -86,7 +87,7 @@
         {
             try
             {
-                var localLoader = new XamlXmlLoader(new ObjectAssembler(ContextForWpf), ContextForWpf);
+                var localLoader = new WpfXamlLoader();
 
                 using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(Xaml)))
                 {

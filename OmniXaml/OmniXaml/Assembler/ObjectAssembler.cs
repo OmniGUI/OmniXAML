@@ -101,7 +101,7 @@
             var newInstance = typeOperations.Create(bag.Current.Type);
             bag.Current.Instance = newInstance;
 
-            if (bag.LiveDepth > 1 && !(newInstance is MarkupExtension) && bag.LiveDepth > 1)
+            if (bag.LiveDepth > 1 && !(newInstance is IMarkupExtension) && bag.LiveDepth > 1)
             {
                 CheckAssignmentToParentStart(bag);
             }
