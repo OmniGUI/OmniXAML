@@ -78,6 +78,11 @@
       <Name>OmniXaml.Tests.Classes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="github_icon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -3,15 +3,16 @@ namespace OmniXaml.Tests.Wpf
     using System.IO;
     using System.Text;
     using Assembler;
+    using OmniXaml.Wpf.Loader;
 
     public class GivenAXamlXmlLoader : GivenAWiringContext
     {
         protected GivenAXamlXmlLoader()
         {
-            Loader = new XamlXmlLoader(new ObjectAssembler(WiringContext), WiringContext);
+            Loader = new WpfXamlLoader();
         }
 
-        private XamlXmlLoader Loader { get; }
+        private IXamlLoader Loader { get; }
         
         protected object LoadXaml(string xamlContent)
         {

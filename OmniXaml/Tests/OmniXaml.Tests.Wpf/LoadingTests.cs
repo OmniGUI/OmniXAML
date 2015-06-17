@@ -31,5 +31,18 @@
             Assert.AreEqual("Saludos cordiales!", textBlock.Text);
         }
 
+        [TestMethod]
+        [Ignore]
+        public void BindingTest()
+        {
+            var visualTree = LoadXaml(Resources.DataTemplate);            
+        }
+
+        [TestMethod]
+
+        public void ShowCaseTest()
+        {
+            var visualTree = LoadXaml(Resources.ShowCase);
+        }
     }
 }

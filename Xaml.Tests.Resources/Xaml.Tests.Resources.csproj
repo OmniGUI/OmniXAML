@@ -288,10 +288,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Xaml\Wpf\ShowCase.xml" />
+    <None Include="Xaml\Wpf\DataTemplate.xaml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Xaml\Wpf\DataTemplate.xaml">
+    <None Include="Xaml\Wpf\ShowCase.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
