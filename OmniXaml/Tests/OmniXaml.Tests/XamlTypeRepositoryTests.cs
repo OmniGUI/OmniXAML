@@ -49,9 +49,9 @@
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
-
         [TestMethod]
-        public void FullAddressOfUnknownReturnUnreachable()
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void FullAddressOfUnknownThrowNotFound()
         {
             var sut = new XamlTypeRepository(nsRegistryMock.Object);
 

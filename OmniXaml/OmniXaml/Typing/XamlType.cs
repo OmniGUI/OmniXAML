@@ -124,13 +124,6 @@ namespace OmniXaml.Typing
 
         public static class Builder
         {
-            public static XamlType CreateUnreachable(XamlTypeName typeName)
-            {
-                Guard.ThrowIfNull(typeName, nameof(typeName));
-
-                return new XamlType(typeName.Name);
-            }
-
             public static XamlType Create(Type underlyingType, IXamlTypeRepository mother)
             {
                 Guard.ThrowIfNull(underlyingType, nameof(mother));

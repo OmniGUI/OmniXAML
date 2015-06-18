@@ -57,8 +57,6 @@ namespace OmniXaml.Typing
 
         public XamlType DeclaringType { get; set; }
 
-        public bool IsUnreachable { get; set; }
-
         public XamlType Type { get; set; }
 
         public override string ToString()
@@ -73,15 +71,6 @@ namespace OmniXaml.Typing
                 return new XamlMember(name, parent, mother, false);
             }
 
-            public static XamlMember CreateUnreachable(string name, XamlType declaringType)
-            {
-                return new XamlMember(name)
-                {
-                    DeclaringType = declaringType,
-                    IsUnreachable = true,
-                };
-            }
-
             public static XamlMember CreateAttached(string name, XamlType parent, IXamlTypeRepository mother)
             {
                 return new XamlMember(name, parent, mother, true);
@@ -91,7 +80,7 @@ namespace OmniXaml.Typing
         protected bool Equals(XamlMember other)
         {
             return string.Equals(name, other.name) && IsAttachable.Equals(other.IsAttachable) && IsDirective.Equals(other.IsDirective) &&
-                   Equals(DeclaringType, other.DeclaringType) && IsUnreachable.Equals(other.IsUnreachable) && Equals(Type, other.Type);
+                   Equals(DeclaringType, other.DeclaringType) && Equals(Type, other.Type);
         }
 
         public override bool Equals(object obj)
@@ -119,7 +108,6 @@ namespace OmniXaml.Typing
                 hashCode = (hashCode * 397) ^ IsAttachable.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsDirective.GetHashCode();
                 hashCode = (hashCode * 397) ^ (DeclaringType != null ? DeclaringType.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ IsUnreachable.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Type != null ? Type.GetHashCode() : 0);
                 return hashCode;
             }

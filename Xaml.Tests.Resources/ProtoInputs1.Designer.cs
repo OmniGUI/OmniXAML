@@ -101,7 +101,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass&gt;
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///&lt;DummyClass.Property/&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -112,7 +112,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass&gt;
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///&lt;DummyClass.SampleProperty&gt;
         ///&lt;/DummyClass.SampleProperty&gt;
         ///&lt;/DummyClass&gt;.
@@ -133,7 +133,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass/&gt;.
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;/&gt;.
         /// </summary>
         public static string SingleCollapsed {
             get {
@@ -151,7 +151,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass&gt;&lt;/DummyClass&gt;.
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;&lt;/DummyClass&gt;.
         /// </summary>
         public static string SingleOpenAndClose {
             get {

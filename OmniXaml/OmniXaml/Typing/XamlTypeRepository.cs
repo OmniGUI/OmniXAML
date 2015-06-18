@@ -39,7 +39,7 @@ namespace OmniXaml.Typing
 
             if (ns == null)
             {
-                return XamlType.Builder.CreateUnreachable(xamlTypeName);
+                throw new TypeNotFoundException($"Error trying to resolve a XamlType: Cannot find the namespace '{xamlTypeName.Namespace}'");
             }
 
             var correspondingType = ns.Get(xamlTypeName.Name);
@@ -49,7 +49,7 @@ namespace OmniXaml.Typing
                 return XamlType.Builder.Create(correspondingType, this);
             }
 
-            return XamlType.Builder.CreateUnreachable(xamlTypeName);
+            throw new TypeNotFoundException($"Error trying to resolve a XamlType: The type {xamlTypeName.Name} has not been found into the namespace '{xamlTypeName.Namespace}'");
         }
 
         public XamlMember GetMember(PropertyInfo propertyInfo)

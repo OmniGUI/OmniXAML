@@ -118,12 +118,12 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ElementWithCollapsedProperty" xml:space="preserve">
-    <value>&lt;DummyClass&gt;
+    <value>&lt;DummyClass xmlns="root"&gt;
 &lt;DummyClass.Property/&gt;
 &lt;/DummyClass&gt;</value>
   </data>
   <data name="ElementWithPropertyNoContents" xml:space="preserve">
-    <value>&lt;DummyClass&gt;
+    <value>&lt;DummyClass xmlns="root"&gt;
 &lt;DummyClass.SampleProperty&gt;
 &lt;/DummyClass.SampleProperty&gt;
 &lt;/DummyClass&gt;</value>
@@ -139,13 +139,13 @@
 &lt;/DummyClass&gt;</value>
   </data>
   <data name="SingleCollapsed" xml:space="preserve">
-    <value>&lt;DummyClass/&gt;</value>
+    <value>&lt;DummyClass xmlns="root"/&gt;</value>
   </data>
   <data name="SingleCollapsedWithNs" xml:space="preserve">
     <value>&lt;DummyClass xmlns="root"  /&gt;</value>
   </data>
   <data name="SingleOpenAndClose" xml:space="preserve">
-    <value>&lt;DummyClass&gt;&lt;/DummyClass&gt;</value>
+    <value>&lt;DummyClass xmlns="root"&gt;&lt;/DummyClass&gt;</value>
   </data>
   <data name="SingleOpenAndCloseWithNs" xml:space="preserve">
     <value>&lt;DummyClass xmlns="root"&gt;&lt;/DummyClass&gt;</value>

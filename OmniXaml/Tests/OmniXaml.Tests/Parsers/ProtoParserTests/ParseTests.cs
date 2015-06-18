@@ -28,7 +28,8 @@
             var actualNodes = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.EmptyElement<DummyClass>(),
+                builder.NamespacePrefixDeclaration("", "root"),
+                builder.EmptyElement<DummyClass>(""),
                 builder.None()
             };
 
@@ -41,7 +42,8 @@
             var actualNodes = sut.Parse(ProtoInputs.SingleOpenAndClose).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NonEmptyElement(typeof(DummyClass)),
+                builder.NamespacePrefixDeclaration("", "root"),
+                builder.NonEmptyElement(typeof(DummyClass), ""),
                 builder.EndTag(),
                 builder.None()
             };
