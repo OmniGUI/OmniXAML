@@ -82,7 +82,7 @@
         public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
         {
             var type = typeof(TParent);
-            var xamlType = typeContext.Get(type);
+            var xamlType = typeContext.GetXamlType(type);
 
             var member = xamlType.GetAttachableMember(name);
 
@@ -115,7 +115,7 @@
 
         private ProtoXamlNode PropertyElement(Type type, string memberName, string prefix, bool isCollapsed)
         {
-            var property = typeContext.Get(type).GetMember(memberName);
+            var property = typeContext.GetXamlType(type).GetMember(memberName);
 
             return new ProtoXamlNode
             {
@@ -163,7 +163,7 @@
 
         public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
         {
-            var xamlMember = typeContext.Get(typeof (T)).GetMember(selector.GetFullPropertyName());
+            var xamlMember = typeContext.GetXamlType(typeof (T)).GetMember(selector.GetFullPropertyName());
             return Attribute(xamlMember, value, prefix);
         }
     }

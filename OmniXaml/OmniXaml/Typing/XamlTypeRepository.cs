@@ -13,7 +13,7 @@ namespace OmniXaml.Typing
             this.xamlNamespaceRegistry = xamlNamespaceRegistry;
         }
 
-        public XamlType Get(Type type)
+        public virtual XamlType GetXamlType(Type type)
         {
             Guard.ThrowIfNull(type, nameof(type));
 
@@ -30,7 +30,7 @@ namespace OmniXaml.Typing
                 throw new TypeNotFoundException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
             }
 
-            return Get(type);                       
+            return GetXamlType(type);                       
         }
 
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
@@ -46,7 +46,7 @@ namespace OmniXaml.Typing
 
             if (correspondingType != null)
             {
-                return XamlType.Builder.Create(correspondingType, this);
+                return GetXamlType(correspondingType);
             }
 
             throw new TypeNotFoundException($"Error trying to resolve a XamlType: The type {xamlTypeName.Name} has not been found into the namespace '{xamlTypeName.Namespace}'");
@@ -54,7 +54,7 @@ namespace OmniXaml.Typing
 
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
-            var owner = Get(propertyInfo.DeclaringType);
+            var owner = GetXamlType(propertyInfo.DeclaringType);
             return new XamlMember(propertyInfo.Name, owner, this, false);
         }
     }

@@ -39,9 +39,9 @@ namespace OmniXaml
             nsRegistry.AddNamespace(xamlNamespace);
         }
 
-        public XamlType Get(Type type)
+        public XamlType GetXamlType(Type type)
         {
-            return typeRepository.Get(type);
+            return typeRepository.GetXamlType(type);
         }
 
         public XamlType GetByPrefix(string prefix, string typeName)

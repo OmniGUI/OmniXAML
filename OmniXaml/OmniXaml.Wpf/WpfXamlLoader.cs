@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Wpf.Loader
+﻿namespace OmniXaml.Wpf
 {
     using System.IO;
 

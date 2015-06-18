@@ -26,7 +26,7 @@
 
         public XamlNode StartObject(Type type)
         {
-            return new XamlNode(XamlNodeType.StartObject, registry.Get(type));
+            return new XamlNode(XamlNodeType.StartObject, registry.GetXamlType(type));
         }
 
         public XamlNode StartObject<T>()
@@ -42,7 +42,7 @@
         public XamlNode StartMember<T>(Expression<Func<T, object>> selector)
         {
             var name = ReflectionExtensions.GetFullPropertyName(selector);
-            var xamlMember = registry.Get(typeof(T)).GetMember(name);
+            var xamlMember = registry.GetXamlType(typeof(T)).GetMember(name);
             return new XamlNode(XamlNodeType.StartMember, xamlMember);
         }
 

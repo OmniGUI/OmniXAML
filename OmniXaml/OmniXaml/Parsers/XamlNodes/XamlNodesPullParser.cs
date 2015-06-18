@@ -119,7 +119,7 @@
         private XamlMember GetContentProperty(XamlType parentType)
         {
             var propertyName = wiringContext.ContentPropertyProvider.GetContentPropertyName(parentType.UnderlyingType);
-            var member = wiringContext.TypeContext.Get(parentType.UnderlyingType).GetMember(propertyName);
+            var member = wiringContext.TypeContext.GetXamlType(parentType.UnderlyingType).GetMember(propertyName);
             return member;
         }
 

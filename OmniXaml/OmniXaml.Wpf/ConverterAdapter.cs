@@ -17,7 +17,7 @@
 
         public object ConvertFrom(CultureInfo culture, object value)
         {
-            ITypeDescriptorContext typeDescriptor = new FakeDescriptor();
+            ITypeDescriptorContext typeDescriptor = new TypeDescriptorContext();
             return converter.ConvertFrom(typeDescriptor, culture, value);
         }
 
@@ -35,27 +35,5 @@
         {
             return converter.CanConvertFrom(null, sourceType);
         }
-    }
-
-    public class FakeDescriptor : ITypeDescriptorContext
-    {
-        public object GetService(Type serviceType)
-        {
-            return null;
-        }
-
-        public bool OnComponentChanging()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void OnComponentChanged()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IContainer Container { get; }
-        public object Instance { get; }
-        public PropertyDescriptor PropertyDescriptor { get; }
     }
 }

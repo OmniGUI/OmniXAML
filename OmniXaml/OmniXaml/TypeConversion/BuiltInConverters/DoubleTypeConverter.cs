@@ -1,13 +1,13 @@
-﻿namespace OmniXaml.TypeConversion.BuiltInConverters
+namespace OmniXaml.TypeConversion.BuiltInConverters
 {
     using System;
     using System.Globalization;
 
-    public class NumberTypeConverter : ITypeConverter
+    public class DoubleTypeConverter : ITypeConverter
     {
         public object ConvertFrom(CultureInfo culture, object value)
         {
-            return int.Parse((string) value);
+            return double.Parse((string) value);
         }
 
         public object ConvertTo(CultureInfo culture, object value, Type destinationType)

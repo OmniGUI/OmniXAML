@@ -19,7 +19,7 @@ namespace OmniXaml
 
         public XamlType GetType(Type type)
         {
-            return TypeContext.Get(type);
+            return TypeContext.GetXamlType(type);
         }
 
         public XamlMember GetMember(XamlType xamlType, string name)

@@ -5,7 +5,7 @@ namespace OmniXaml.Typing
 
     public class FrameworkBuiltInTypeRepository : IXamlTypeRepository
     {
-        public XamlType Get(Type type)
+        public XamlType GetXamlType(Type type)
         {
             throw new NotImplementedException();
         }

@@ -11,7 +11,6 @@
     using OmniXaml.Assembler;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Wpf;
-    using OmniXaml.Wpf.Loader;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class MainViewModel : ViewModel

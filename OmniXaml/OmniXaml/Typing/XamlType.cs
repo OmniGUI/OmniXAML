@@ -17,12 +17,6 @@ namespace OmniXaml.Typing
             this.typeRepository = typeRepository;
             UnderlyingType = type;
             Name = type.Name;
-        }      
-
-        private XamlType(string name)
-        {
-            Name = name;
-            IsUnreachable = true;
         }
 
         public bool IsUnreachable { get; }

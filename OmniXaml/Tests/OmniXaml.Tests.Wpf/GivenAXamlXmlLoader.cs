@@ -2,8 +2,7 @@ namespace OmniXaml.Tests.Wpf
 {
     using System.IO;
     using System.Text;
-    using Assembler;
-    using OmniXaml.Wpf.Loader;
+    using OmniXaml.Wpf;
 
     public class GivenAXamlXmlLoader : GivenAWiringContext
     {

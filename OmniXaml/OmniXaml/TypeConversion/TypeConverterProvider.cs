@@ -18,11 +18,11 @@
         private void RegisterBuiltIn()
         {
             Register(typeof(string), new StringTypeConverter());
-            Register(typeof(int), new NumberTypeConverter());
-            Register(typeof(long), new NumberTypeConverter());
-            Register(typeof(short), new NumberTypeConverter());
-            Register(typeof(double), new NumberTypeConverter());
-            Register(typeof(float), new NumberTypeConverter());
+            Register(typeof(int), new IntTypeConverter());
+            Register(typeof(long), new IntTypeConverter());
+            Register(typeof(short), new IntTypeConverter());
+            Register(typeof(double), new DoubleTypeConverter());
+            Register(typeof(float), new IntTypeConverter());
             Register(typeof(bool), new BooleanConverter());
         }
 

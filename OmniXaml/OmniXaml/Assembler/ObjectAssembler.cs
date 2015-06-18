@@ -137,7 +137,7 @@
                     if (markupExtension != null)
                     {
                         Bag.Current.Instance = markupExtension;
-                        var xamlType = XamlTypeRepository.Get(currentInstance.GetType());
+                        var xamlType = XamlTypeRepository.GetXamlType(currentInstance.GetType());
 
                         if (!xamlType.CanAssignTo(xamlMember.Type))
                         {
@@ -147,7 +147,7 @@
                     }
                     else
                     {
-                        var xamlTypeOfCurrentInstance = XamlTypeRepository.Get(currentInstance.GetType());
+                        var xamlTypeOfCurrentInstance = XamlTypeRepository.GetXamlType(currentInstance.GetType());
 
                         var isString = Equals(xamlTypeOfCurrentInstance, CoreTypes.String);
                         var canAssign = xamlTypeOfCurrentInstance.CanAssignTo(xamlMember.Type);
@@ -226,7 +226,7 @@
 
             var providedValue = markupExtension.ProvideValue(extensionContext);
 
-            stateBag.Current.Type = typeRepository.Get(providedValue.GetType());
+            stateBag.Current.Type = typeRepository.GetXamlType(providedValue.GetType());
             stateBag.Current.Instance = providedValue;
 
             AssignCurrentInstanceToParent(Bag);

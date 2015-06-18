@@ -27,7 +27,23 @@ namespace OmniXaml.Typing
                 return clrNs;
             }
 
-            return GetXamlNamespace(registeredPrefixes[prefix]);
+            var namespaceName = GetXamlNamespaceNameByPrefix(prefix);
+
+            return GetXamlNamespace(namespaceName);
+        }
+
+        private string GetXamlNamespaceNameByPrefix(string prefix)
+        {
+            bool isFound;
+            string name;
+            isFound = registeredPrefixes.TryGetValue(prefix, out name);
+
+            if (!isFound)
+            {
+                throw new KeyNotFoundException($"The prefix {prefix} is not registered");
+            }
+
+            return name;
         }
 
         public void RegisterPrefix(PrefixRegistration prefixRegistration)

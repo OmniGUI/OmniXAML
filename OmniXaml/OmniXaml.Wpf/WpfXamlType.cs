@@ -7,7 +7,7 @@
     {
         private readonly IXamlTypeRepository typeRepository;
 
-        protected WpfXamlType(Type type, IXamlTypeRepository typeRepository) : base(type, typeRepository)
+        public WpfXamlType(Type type, IXamlTypeRepository typeRepository) : base(type, typeRepository)
         {
             this.typeRepository = typeRepository;
         }
