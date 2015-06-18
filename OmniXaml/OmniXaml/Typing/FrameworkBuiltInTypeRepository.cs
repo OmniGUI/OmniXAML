@@ -1,6 +1,7 @@
 namespace OmniXaml.Typing
 {
     using System;
+    using System.Reflection;
 
     public class FrameworkBuiltInTypeRepository : IXamlTypeRepository
     {
@@ -15,6 +16,11 @@ namespace OmniXaml.Typing
         }
 
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public XamlMember GetMember(PropertyInfo propertyInfo)
         {
             throw new NotImplementedException();
         }

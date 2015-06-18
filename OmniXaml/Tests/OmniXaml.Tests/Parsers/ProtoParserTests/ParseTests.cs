@@ -55,9 +55,10 @@
             var actualNodes = sut.Parse(ProtoInputs.ElementWithChild).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NonEmptyElement(typeof(DummyClass)),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child),
-                builder.EmptyElement<ChildClass>(),
+                builder.NamespacePrefixDeclaration("", "root"),
+                builder.NonEmptyElement(typeof(DummyClass), ""),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
+                builder.EmptyElement<ChildClass>(""),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),

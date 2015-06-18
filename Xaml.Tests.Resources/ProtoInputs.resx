@@ -132,7 +132,7 @@
     <value>&lt;Parent.Property&gt;</value>
   </data>
   <data name="ElementWithChild" xml:space="preserve">
-    <value>&lt;DummyClass&gt;
+    <value>&lt;DummyClass xmlns="root" &gt;
 &lt;DummyClass.Child&gt;
 &lt;ChildClass /&gt;
 &lt;/DummyClass.Child&gt;

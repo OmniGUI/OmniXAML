@@ -63,6 +63,7 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
+                builder.NamespacePrefixDeclaration(string.Empty, "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
                 builder.EmptyElement(typeof(ChildClass), ""),

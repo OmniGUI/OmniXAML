@@ -1,6 +1,7 @@
 namespace OmniXaml.Typing
 {
     using System;
+    using System.Reflection;
     using Glass;
 
     public class XamlTypeRepository : IXamlTypeRepository
@@ -49,6 +50,12 @@ namespace OmniXaml.Typing
             }
 
             return XamlType.Builder.CreateUnreachable(xamlTypeName);
-        }      
+        }
+
+        public XamlMember GetMember(PropertyInfo propertyInfo)
+        {
+            var owner = Get(propertyInfo.DeclaringType);
+            return new XamlMember(propertyInfo.Name, owner, this, false);
+        }
     }
 }

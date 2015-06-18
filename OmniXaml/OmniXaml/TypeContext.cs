@@ -2,6 +2,7 @@ namespace OmniXaml
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
     using Builder;
     using Typing;
 
@@ -51,6 +52,11 @@ namespace OmniXaml
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
         {
             return typeRepository.GetWithFullAddress(xamlTypeName);
+        }
+
+        public XamlMember GetMember(PropertyInfo propertyInfo)
+        {
+            return typeRepository.GetMember(propertyInfo);
         }
 
         public ITypeFactory TypeFactory => typeFactory;

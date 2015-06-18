@@ -99,10 +99,17 @@ namespace OmniXaml.Typing
         {
             if (IsUnreachable)
             {
-                return XamlMember.Builder.CreateUnreachable(name, this);
+                var propertyInfo = GetPropertyInfo(name);
+                var member = typeRepository.GetMember(propertyInfo);
+                return member;
             }
 
             return XamlMember.Builder.Create(name, this, typeRepository);
+        }
+
+        private PropertyInfo GetPropertyInfo(string name)
+        {
+            return UnderlyingType.GetRuntimeProperty(name);
         }
 
         public XamlMember GetAttachableMember(string name)
