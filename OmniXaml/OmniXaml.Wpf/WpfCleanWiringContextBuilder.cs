@@ -8,6 +8,8 @@ namespace OmniXaml.Wpf
 
     public class WpfCleanWiringContextBuilder : CleanWiringContextBuilder
     {
+        private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+
         public WpfCleanWiringContextBuilder()
         {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
@@ -18,7 +20,7 @@ namespace OmniXaml.Wpf
 
             var bindingType = typeof(BindingExtension);
 
-            var rootNs = XamlNamespace.Map("root")
+            var rootNs = XamlNamespace.Map(WpfRootNs)
                 .With(
                     new[]
                     {
@@ -38,7 +40,8 @@ namespace OmniXaml.Wpf
                 xamlNamespaceRegistry.AddNamespace(ns);
             }
 
-            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("", "root"));            
+            
+            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("", WpfRootNs));            
 
             TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new DefaultTypeFactory());
             ContentPropertyProvider = new WpfContentPropertyProvider();

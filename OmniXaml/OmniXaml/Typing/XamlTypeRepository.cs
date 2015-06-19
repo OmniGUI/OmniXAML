@@ -19,6 +19,7 @@ namespace OmniXaml.Typing
 
             return XamlType.Builder.Create(type, this);
         }
+        
 
         public XamlType GetByPrefix(string prefix, string typeName)
         {
