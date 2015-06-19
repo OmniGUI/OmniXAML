@@ -2,11 +2,11 @@ namespace OmniXaml.Typing
 {
     using System.Reflection;
 
-    public class DefaultMemberValuePlugin : IXamlMemberValuePlugin
+    public class MemberValuePlugin : IXamlMemberValuePlugin
     {
         private readonly XamlMember xamlMember;
 
-        public DefaultMemberValuePlugin(XamlMember xamlMember)
+        public MemberValuePlugin(XamlMember xamlMember)
         {
             this.xamlMember = xamlMember;
         }

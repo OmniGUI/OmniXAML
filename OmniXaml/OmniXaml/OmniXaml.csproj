@@ -57,9 +57,10 @@
     <Compile Include="Builder\XamlNamespace.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
+    <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
-    <Compile Include="DefaultTypeFactory.cs" />
+    <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IDeferredObjectAssembler.cs" />
     <Compile Include="IMarkupExtension.cs" />
@@ -128,12 +129,12 @@
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\ClrNamespace.cs" />
     <Compile Include="Typing\ClrNamespaceAddress.cs" />
-    <Compile Include="Typing\DefaultMemberValuePlugin.cs" />
     <Compile Include="Typing\FrameworkBuiltInTypeRepository.cs" />
     <Compile Include="Typing\IXamlMemberValuePlugin.cs" />
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Typing\MemberValuePlugin.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />
     <Compile Include="Typing\XamlDirective.cs" />

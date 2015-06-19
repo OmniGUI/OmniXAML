@@ -11,7 +11,7 @@ namespace OmniXaml
     {
         private IXamlTypeRepository typeRepository;
         private IXamlNamespaceRegistry nsRegistry;
-        private readonly ITypeFactory typeFactory = new DefaultTypeFactory();
+        private readonly ITypeFactory typeFactory = new TypeFactory();
 
         private IEnumerable<XamlNamespace> namespaceRegistrations = new Collection<XamlNamespace>();
         private IEnumerable<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();

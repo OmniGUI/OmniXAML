@@ -117,7 +117,7 @@ namespace OmniXaml.Typing
 
         protected virtual IXamlMemberValuePlugin LookupXamlMemberValueConnector()
         {
-            return new DefaultMemberValuePlugin(this);
+            return new MemberValuePlugin(this);
         }     
     }
 }

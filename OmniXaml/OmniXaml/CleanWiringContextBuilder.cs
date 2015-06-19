@@ -1,4 +1,4 @@
-namespace OmniXaml.Wpf
+namespace OmniXaml
 {
     using TypeConversion;
     using Typing;
@@ -12,7 +12,7 @@ namespace OmniXaml.Wpf
         public CleanWiringContextBuilder()
         {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
-            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new DefaultTypeFactory());
+            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new TypeFactory());
             ContentPropertyProvider = new ContentPropertyProvider();
             TypeConverterProvider = new TypeConverterProvider();
         }

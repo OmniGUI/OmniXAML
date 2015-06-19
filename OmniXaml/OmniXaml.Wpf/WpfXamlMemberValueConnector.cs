@@ -5,7 +5,7 @@ namespace OmniXaml.Wpf
     using System.Windows;
     using Typing;
 
-    public class WpfXamlMemberValueConnector : DefaultMemberValuePlugin
+    public class WpfXamlMemberValueConnector : MemberValuePlugin
     {
         private readonly XamlMember xamlMember;
 

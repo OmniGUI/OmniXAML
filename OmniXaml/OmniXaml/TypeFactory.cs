@@ -4,7 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using Glass;
 
-    public class DefaultTypeFactory : ITypeFactory
+    public class TypeFactory : ITypeFactory
     {
         public object Create(Type type)
         {

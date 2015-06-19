@@ -152,5 +152,21 @@
 
             return methodInfo.CreateDelegate(type, instance);
         }
+
+        public static object GetValueOfStaticField(Type type, string name)
+        {
+            var fieldInfo = type.GetRuntimeField(name);
+
+            if (fieldInfo == null)
+            {
+                var baseType = type.GetTypeInfo().BaseType;
+                if (baseType != null)
+                {
+                    return GetValueOfStaticField(baseType, name);
+                }
+            }
+
+            return fieldInfo?.GetValue(null);
+        }
     }
 }

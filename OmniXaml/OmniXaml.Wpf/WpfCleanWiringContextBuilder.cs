@@ -12,13 +12,21 @@ namespace OmniXaml.Wpf
 
         public WpfCleanWiringContextBuilder()
         {
+            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
+            TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new TypeFactory());
+            ContentPropertyProvider = new WpfContentPropertyProvider();
+            TypeConverterProvider = new WpfTypeConverterProvider();
+        }
+
+        private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
+        {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
 
-            var windowType = typeof(Window);
-            var textBlockType = typeof(System.Windows.Controls.TextBlock);
-            var toggleButtonType = typeof(ToggleButton);
+            var windowType = typeof (Window);
+            var textBlockType = typeof (System.Windows.Controls.TextBlock);
+            var toggleButtonType = typeof (ToggleButton);
 
-            var bindingType = typeof(BindingExtension);
+            var bindingType = typeof (BindingExtension);
 
             var rootNs = XamlNamespace.Map(WpfRootNs)
                 .With(
@@ -35,17 +43,14 @@ namespace OmniXaml.Wpf
                             })
                     });
 
-            foreach (var ns in new List<XamlNamespace> { rootNs })
+            foreach (var ns in new List<XamlNamespace> {rootNs})
             {
                 xamlNamespaceRegistry.AddNamespace(ns);
             }
 
-            
-            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("", WpfRootNs));            
+            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("", WpfRootNs));
 
-            TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new DefaultTypeFactory());
-            ContentPropertyProvider = new WpfContentPropertyProvider();
-            TypeConverterProvider = new WpfTypeConverterProvider();
+            return xamlNamespaceRegistry;
         }
     }
 }
