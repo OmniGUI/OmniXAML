@@ -15,6 +15,9 @@ It already can deal with the some features that make XAML the coolest descriptiv
 - Attachable Members. (Attached Properties in WPF/WinRT)
 - Type Converters. Ability to convert an instance of one type to another implicitly (usually from values in XAML that come as strings).
 
+# Using OmniXAML with WFP 
+It's super easy! Just follow this [simple guide](https://github.com/SuperJMN/OmniXAML/wiki/Using-OmniXAML-for-WPF).
+
 # Screenshots
 ![Test Application](https://cloud.githubusercontent.com/assets/3109851/8144539/a7bc8274-11e3-11e5-98b9-7ef890afaa5a.PNG "Test Application.")
 
