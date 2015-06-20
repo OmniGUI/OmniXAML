@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>OmniXaml.Wpf</id>
+        <version>0.0.3</version>
+        <title>OmniXAML for WPF</title>
+        <authors>José Manuel Nieto</authors>
+        <owners>José Manuel Nieto</owners>
+        <licenseUrl>https://github.com/SuperJMN/OmniXAML/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/SuperJMN/OmniXAML</projectUrl>
+        <iconUrl>http://i62.tinypic.com/17pcwi.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>OmniXAML for WPF.</description>
+        <summary>Provides the classes to allow OmniXAML read XAML for WPF</summary>
+        <releaseNotes>Check the samples in https://github.com/SuperJMN/OmniXAML (TestApplication)</releaseNotes>
+        <language>en-US</language>
+        <tags>XAML, MVVM, WPF</tags>
+        <dependencies>
+            <dependency id="OmniXaml" version="0.0.7" />
+        </dependencies>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="PresentationCore" targetFramework="" />
+            <frameworkAssembly assemblyName="PresentationFramework" targetFramework="" />
+            <frameworkAssembly assemblyName="System" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Core" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Data" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Data.DataSetExtensions" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Net.Http" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Xaml" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Xml" targetFramework="" />
+            <frameworkAssembly assemblyName="System.Xml.Linq" targetFramework="" />
+            <frameworkAssembly assemblyName="WindowsBase" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files>
+        <file src="bin\Release\OmniXaml.Wpf.dll" target="lib" />
+    </files>
+</package>

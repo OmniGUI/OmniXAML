@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>OmniXaml</id>
+    <version>0.0.7</version>
+    <authors>José Manuel Nieto (@SuperJMN)</authors>
+    <owners>José Manuel Nieto (@SuperJMN)</owners>
+    <licenseUrl>https://github.com/SuperJMN/OmniXAML/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/SuperJMN/OmniXAML</projectUrl>
+    <iconUrl>http://i62.tinypic.com/17pcwi.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Cross-platform XAML framework.</description>
+    <summary>OmniXAML is a library that allows you interpret XAML with ease. You can read XAML and get the object it represents, like a Window in WPF, a document, a diagram or whatever object you can describe.</summary>
+    <releaseNotes>Check the samples in https://github.com/SuperJMN/OmniXAML (TestApplication)</releaseNotes>
+    <language>en-US</language>
+    <tags>XAML, MVVM, WPF</tags>
+    <dependencies>
+      <dependency id="Sprache" version="2.0.0.45" />
+    </dependencies>
+    <references>
+      <reference file="Glass.dll" />
+    </references>
+  </metadata>
+  <files>
+    <file src="bin\Release\OmniXaml.dll" target="lib\portable-net451+win81" />
+    <file src="bin\Release\Glass.dll" target="lib\portable-net451+win81" />
+  </files>  
+</package>
