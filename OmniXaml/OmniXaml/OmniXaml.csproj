@@ -41,6 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assembler\ObjectAssemblerSettings.cs" />
     <Compile Include="Assembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />

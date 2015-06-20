@@ -21,16 +21,16 @@
         private readonly ITypeConverterProvider typeConverterProvider;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
 
-        public ObjectAssembler(WiringContext wiringContext)
+        public ObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings settings = null)
         {
             this.wiringContext = wiringContext;
             typeConverterProvider = wiringContext.ConverterProvider;
             xamlTypeRepository = wiringContext.TypeContext;
-            typeRepository = wiringContext.TypeContext;            
+            typeRepository = wiringContext.TypeContext;
             typeOperations = new TypeOperations(typeRepository.TypeFactory);
             startMemberWriter = new StartMemberWriter(this);
             getObjectWriter = new GetObjectWriter(this);
-            startObjectWriter = new StartObjectWriter(this);
+            startObjectWriter = new StartObjectWriter(this, settings?.RootInstance);
             valueWriter = new ValueWriter(this);
         }
 
@@ -152,7 +152,7 @@
                         var isString = Equals(xamlTypeOfCurrentInstance, CoreTypes.String);
                         var canAssign = xamlTypeOfCurrentInstance.CanAssignTo(xamlMember.Type);
                         if (isString || !canAssign)
-                        {                            
+                        {
                             valueWasAssigned = TryCreateCompatibleInstanceForCurrentMember(Bag, Bag.Current.Instance, xamlMember.Type.UnderlyingType);
                         }
                     }
@@ -183,7 +183,7 @@
                 AssignInstanceToParentCollection(bag.Parent.Collection, bag.Current.Instance);
             }
             else if (bag.Parent.Instance != null)
-            {              
+            {
                 if (!bag.Current.IsObjectFromMember)
                 {
                     ApplyPropertyValue(bag, parentProperty, currentInstance, true);
@@ -212,7 +212,7 @@
                     }
                 }
             }
-          
+
             Result = Bag.Current.Instance;
 
             Bag.PopScope();

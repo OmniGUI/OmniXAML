@@ -10,12 +10,7 @@
     [TestClass]
     public class SingleInstantiationTests : GivenAXamlXmlLoader
     {
-        readonly Type expectedType;
-        
-        public SingleInstantiationTests()
-        {
-            expectedType = typeof(DummyClass);        
-        }
+        readonly Type expectedType = typeof(DummyClass);
 
         [TestMethod]
         [ExpectedException(typeof(XmlException))]
@@ -24,7 +19,7 @@
             Loader.Load(Dummy.Empty);
         }
 
-        [TestMethod]        
+        [TestMethod]
         [ExpectedException(typeof(TypeNotFoundException))]
         public void UnknownElementThrows()
         {
@@ -44,7 +39,7 @@
             var actual = Loader.Load(Dummy.RootNamespace);
             Assert.IsInstanceOfType(actual, expectedType);
         }
-     
+
         [TestMethod]
         public void SimpleXamlWithCollapsedTagsShouldReadLikeExplicitEndingTag()
         {
@@ -57,6 +52,6 @@
         {
             var actual = Loader.Load(Dummy.DifferentNamespaces);
             Assert.IsInstanceOfType(actual, expectedType);
-        }
+        }       
     }
 }

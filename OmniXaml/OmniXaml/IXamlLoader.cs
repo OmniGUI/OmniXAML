@@ -4,9 +4,6 @@
 
     public interface IXamlLoader
     {
-        object Load(Stream stream);
-
-        // ReSharper disable once UnusedMember.Global
-        object Load(Stream stream, object rootInstance);
+        object Load(Stream stream);    
     }
 }

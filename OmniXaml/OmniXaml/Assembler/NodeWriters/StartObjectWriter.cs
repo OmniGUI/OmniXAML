@@ -5,12 +5,14 @@ namespace OmniXaml.Assembler.NodeWriters
     public class StartObjectWriter
     {
         private readonly ObjectAssembler objectAssembler;
+        private readonly object rootInstance;
 
         private readonly StateBag bag;
-
-        public StartObjectWriter(ObjectAssembler objectAssembler)
+        
+        public StartObjectWriter(ObjectAssembler objectAssembler, object rootInstance = null)
         {
             this.objectAssembler = objectAssembler;
+            this.rootInstance = rootInstance;
             bag = objectAssembler.Bag;
         }
 
@@ -24,6 +26,8 @@ namespace OmniXaml.Assembler.NodeWriters
             {
                 bag.PushScope();
             }
+
+            bag.Current.Instance = rootInstance;
 
             bag.Current.Type = type;
         }

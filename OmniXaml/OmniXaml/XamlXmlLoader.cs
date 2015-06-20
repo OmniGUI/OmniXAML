@@ -27,24 +27,24 @@
         {
             using (var t = new StreamReader(stream))
             {
-                return Load(t.ReadToEnd(), null);
+                return Load(t.ReadToEnd());
             }
         }
 
         public object Load(Stream stream, object rootInstance)
         {
-            throw new NotImplementedException();
+            return Load(stream);
         }
 
-        private object Load(string xml, object rootInstance)
+        private object Load(string xml)
         {
             var pullParser = new XamlNodesPullParser(wiringContext);
             var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(xml);
             var xamlNodes = pullParser.Parse(protoXamlNodes);
-            return Load(xamlNodes, rootInstance);
+            return Load(xamlNodes);
         }
 
-        private object Load(IEnumerable<XamlNode> xamlNodes, object rootInstance)
+        private object Load(IEnumerable<XamlNode> xamlNodes)
         {
             foreach (var xamlNode in xamlNodes)
             {

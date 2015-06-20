@@ -89,6 +89,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
     <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
+    <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
     <Compile Include="XamlXmlReaderTests\NodeDumpTests.cs" />
   </ItemGroup>
   <ItemGroup>
