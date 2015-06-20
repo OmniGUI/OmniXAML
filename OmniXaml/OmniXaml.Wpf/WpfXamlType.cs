@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.Wpf
 {
     using System;
+    using System.IO;
+    using System.Text;
     using Typing;
 
     public class WpfXamlType : XamlType
@@ -20,6 +22,17 @@
         protected override XamlMember LookupAttachableMember(string name)
         {
             return new WpfXamlMember(name, this, typeRepository, true);
+        }
+    }
+
+    public static class XamlLoaderExtensions
+    {
+        public static object LoadFromFile(this IXamlLoader xamlLoader, string path)
+        {
+            using (var stream = new FileStream(path, FileMode.Open))
+            {
+                return xamlLoader.Load(stream);
+            }
         }
     }
 }

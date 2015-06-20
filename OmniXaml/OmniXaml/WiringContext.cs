@@ -13,7 +13,7 @@ namespace OmniXaml
             ConverterProvider = converterProvider;
         }
 
-        public ITypeContext TypeContext { get; private set; }
+        public ITypeContext TypeContext { get; }
         public IContentPropertyProvider ContentPropertyProvider { get; private set; }
         public ITypeConverterProvider ConverterProvider { get; private set; }
 

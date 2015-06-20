@@ -11,7 +11,7 @@
         [TestMethod]
         public void StringProperty()
         {
-            var actualInstance = LoadXaml(Dummy.StringProperty);
+            var actualInstance = Loader.Load(Dummy.StringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -22,7 +22,7 @@
         [TestMethod]
         public void NonStringProperty()
         {
-            var actualInstance = LoadXaml(Dummy.NonStringProperty);
+            var actualInstance = Loader.Load(Dummy.NonStringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -33,7 +33,7 @@
         [TestMethod]
         public void ChildCollection()
         {       
-            var actualInstance = LoadXaml(Dummy.ChildCollection);
+            var actualInstance = Loader.Load(Dummy.ChildCollection);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -45,7 +45,7 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualInstance = LoadXaml(Dummy.AttachedProperty);
+            var actualInstance = Loader.Load(Dummy.AttachedProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -66,7 +66,7 @@
         //        .AddNsForThisType("", "root", typeof(DummyClass))
         //        .Build();
 
-        //    var actualInstance = LoadXaml(Dummy.NestedChildWithoutPropertyName);
+        //    var actualInstance = Load(Dummy.NestedChildWithoutPropertyName);
 
         //    Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The root should be an instance of DummyClass");
         //    Assert.IsNotNull(((DummyClass)actualInstance).Child, "Child should't be null");

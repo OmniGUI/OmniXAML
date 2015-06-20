@@ -88,12 +88,10 @@
             {
                 var localLoader = new WpfXamlLoader();
 
-                using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(Xaml)))
-                {
-                    var window = (Window)localLoader.Load(stream);
-                    window.DataContext = new TestViewModel();
-                    window.Show();
-                }
+                var window = (Window)localLoader.Load(Xaml);
+                window.DataContext = new TestViewModel();
+                window.Show();
+
             }
             catch (Exception e)
             {
@@ -119,7 +117,7 @@
             {
                 var loader = new XamlXmlLoader(new ObjectAssembler(ContextForTestClasses), ContextForTestClasses);
 
-                var rootObject = LoadFromString(Xaml, loader);
+                var rootObject = loader.Load(Xaml);
                 Representation = ConvertToViewNodes(rootObject);
             }
             catch (Exception e)
@@ -137,14 +135,6 @@
                 return str;
             }
             return str.Substring(0, max) + "…";
-        }
-
-        private static object LoadFromString(string xaml, IXamlLoader loader)
-        {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xaml)))
-            {
-                return loader.Load(stream);
-            }
         }
 
         private static ObservableCollection<Node> ConvertToViewNodes(object result)

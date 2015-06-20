@@ -34,7 +34,6 @@
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("root", "DummyClass"));
 
-            Assert.IsFalse(xamlType.IsUnreachable);
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
@@ -45,7 +44,6 @@
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
 
-            Assert.IsFalse(xamlType.IsUnreachable);
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
@@ -55,12 +53,8 @@
         {
             var sut = new XamlTypeRepository(nsRegistryMock.Object);
 
-            const string UnreachableTypeName = "UnreachableType";
-
-            var xamlType = sut.GetWithFullAddress(new XamlTypeName("root", UnreachableTypeName));
-
-            Assert.IsTrue(xamlType.IsUnreachable);
-            Assert.AreEqual(UnreachableTypeName, xamlType.Name);
-        }
+            const string unreachableTypeName = "UnreachableType";
+            sut.GetWithFullAddress(new XamlTypeName("root", unreachableTypeName));
+       }
     }
 }

@@ -150,6 +150,7 @@
     <Compile Include="ValueConversionException.cs" />
     <Compile Include="WiringContext.cs" />
     <Compile Include="WiringContextBuilder.cs" />
+    <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />
     <Compile Include="XamlReaderException.cs" />

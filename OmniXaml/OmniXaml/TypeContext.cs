@@ -59,6 +59,11 @@ namespace OmniXaml
             return typeRepository.GetMember(propertyInfo);
         }
 
+        public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        {
+            return typeRepository.GetAttachableMember(name, getter, setter);
+        }
+
         public ITypeFactory TypeFactory => typeFactory;
 
         public IEnumerable<PrefixRegistration> RegisteredPrefixes

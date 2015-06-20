@@ -21,41 +21,41 @@
         [ExpectedException(typeof(XmlException))]
         public void EmptyStreamThrows()
         {
-            LoadXaml(Dummy.Empty);
+            Loader.Load(Dummy.Empty);
         }
 
         [TestMethod]        
         [ExpectedException(typeof(TypeNotFoundException))]
         public void UnknownElementThrows()
         {
-            LoadXaml(Dummy.UnknownType);
+            Loader.Load(Dummy.UnknownType);
         }
 
         [TestMethod]
         [ExpectedException(typeof(XmlException))]
         public void BadFormatThrowsXamlReaderException()
         {
-            LoadXaml(Dummy.BadFormat);
+            Loader.Load(Dummy.BadFormat);
         }
 
         [TestMethod]
         public void NoPrefixMapsToNamespaceAndReturnsTheCorrectInstance()
         {
-            var actual = LoadXaml(Dummy.RootNamespace);
+            var actual = Loader.Load(Dummy.RootNamespace);
             Assert.IsInstanceOfType(actual, expectedType);
         }
      
         [TestMethod]
         public void SimpleXamlWithCollapsedTagsShouldReadLikeExplicitEndingTag()
         {
-            var actual = LoadXaml(Dummy.CollapsedTag);
+            var actual = Loader.Load(Dummy.CollapsedTag);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void DifferentNamespacesShouldReturnCorrectInstances()
         {
-            var actual = LoadXaml(Dummy.DifferentNamespaces);
+            var actual = Loader.Load(Dummy.DifferentNamespaces);
             Assert.IsInstanceOfType(actual, expectedType);
         }
     }

@@ -55,7 +55,7 @@ namespace OmniXaml.Typing
 
         public bool IsDirective { get; set; }
 
-        public XamlType DeclaringType { get; set; }
+        public XamlType DeclaringType { get; }
 
         public XamlType Type { get; set; }
 

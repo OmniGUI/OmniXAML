@@ -41,7 +41,7 @@
 
         public XamlNode StartMember<T>(Expression<Func<T, object>> selector)
         {
-            var name = ReflectionExtensions.GetFullPropertyName(selector);
+            var name = selector.GetFullPropertyName();
             var xamlMember = registry.GetXamlType(typeof(T)).GetMember(name);
             return new XamlNode(XamlNodeType.StartMember, xamlMember);
         }

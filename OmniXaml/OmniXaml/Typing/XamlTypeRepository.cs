@@ -58,5 +58,10 @@ namespace OmniXaml.Typing
             var owner = GetXamlType(propertyInfo.DeclaringType);
             return new XamlMember(propertyInfo.Name, owner, this, false);
         }
+
+        public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -31,11 +31,6 @@ namespace OmniXaml.Assembler
 
         public object Create(XamlType xamlType)
         {
-            if (xamlType.IsUnreachable)
-            {
-                throw new XamlReaderException($"The underlying type is null for this XAML Type: {xamlType}");
-            }
-
             return typeFactory.Create(xamlType.UnderlyingType);            
         }
     }

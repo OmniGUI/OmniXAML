@@ -19,13 +19,11 @@ namespace OmniXaml.Typing
             Name = type.Name;
         }
 
-        public bool IsUnreachable { get; }
-
         public Type UnderlyingType { get; }
 
-        public string Name { get; set; }
+        public string Name { get; private set; }
 
-        public XamlType BaseType { get; set; }
+        public XamlType BaseType { get; private set; }
 
         public bool IsCollection
         {
@@ -90,14 +88,7 @@ namespace OmniXaml.Typing
         }
 
         protected virtual XamlMember LookupMember(string name)
-        {
-            if (IsUnreachable)
-            {
-                var propertyInfo = GetPropertyInfo(name);
-                var member = typeRepository.GetMember(propertyInfo);
-                return member;
-            }
-
+        {         
             return XamlMember.Builder.Create(name, this, typeRepository);
         }
 
