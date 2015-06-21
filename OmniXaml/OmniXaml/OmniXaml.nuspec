@@ -19,6 +19,7 @@
     </dependencies>
     <references>
       <reference file="Glass.dll" />
+      <reference file="OmniXaml.dll" />
     </references>
   </metadata>
   <files>

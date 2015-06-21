@@ -27,9 +27,17 @@ namespace OmniXaml.Assembler.NodeWriters
                 bag.PushScope();
             }
 
-            bag.Current.Instance = rootInstance;
-
             bag.Current.Type = type;
+
+            OverrideCurrentInstanceOnFirstLevel();
+        }
+
+        private void OverrideCurrentInstanceOnFirstLevel()
+        {
+            if (bag.LiveDepth == 1 && rootInstance != null)
+            {
+                bag.Current.Instance = rootInstance;
+            }
         }
     }
 }
