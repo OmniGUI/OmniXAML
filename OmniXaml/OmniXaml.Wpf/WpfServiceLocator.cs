@@ -4,6 +4,7 @@ namespace OmniXaml.Wpf
     using System.Reflection;
     using System.Windows;
     using System.Windows.Markup;
+    using System.Xaml;
 
     public class WpfServiceLocator : IServiceProvider, IProvideValueTarget
     {
@@ -21,6 +22,15 @@ namespace OmniXaml.Wpf
                 return this;
             }
 
+            if (serviceType == typeof(IXamlObjectWriterFactory))
+            {
+                return new ObjectWriterFactory();
+            }
+
+            if (serviceType == typeof(IRootObjectProvider))
+            {
+                return new RootObjectProvider();
+            }
             throw new InvalidOperationException($"Cannot locate the type {serviceType}");
         }
 

@@ -1,8 +1,6 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    using System.IO;
-    using System.Text;
-    using Assembler;
+    using global::OmniXaml.Assembler;
 
     namespace OmniXaml.Reader.Tests.Wpf
     {

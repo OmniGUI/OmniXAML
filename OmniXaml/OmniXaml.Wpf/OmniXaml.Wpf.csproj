@@ -44,6 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
+    <Compile Include="DependencyObjectHelper.cs" />
+    <Compile Include="MyReader.cs" />
+    <Compile Include="ObjectWriterFactory.cs" />
+    <Compile Include="RootObjectProvider.cs" />
     <Compile Include="DataTemplate.cs" />
     <Compile Include="TypeDescriptorContext.cs" />
     <Compile Include="DeferredObjectAssembler.cs" />
@@ -61,6 +65,8 @@
     <Compile Include="WpfXamlMemberValueConnector.cs" />
     <Compile Include="WpfXamlType.cs" />
     <Compile Include="WpfXamlTypeRepository.cs" />
+    <Compile Include="XamlLoaderExtensions.cs" />
+    <Compile Include="XamlNodeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Glass\Glass.csproj">

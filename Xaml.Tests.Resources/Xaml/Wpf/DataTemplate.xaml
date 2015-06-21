@@ -2,8 +2,8 @@
   <ListBox ItemsSource="{Binding Path=Collection}">
     <ListBox.ItemTemplate>
       <DataTemplate>
-        <TextBlock Text="{Binding}" />
+        <Button Content="{Binding}"/>
       </DataTemplate>
-    </ListBox.ItemTemplate>    
+    </ListBox.ItemTemplate>
   </ListBox>
 </Window>
