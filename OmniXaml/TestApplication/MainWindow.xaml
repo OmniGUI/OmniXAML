@@ -10,105 +10,32 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="OmniXAML Tester" Height="509.456" Width="667.407">
-    <Window.Resources>
-        <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
-            <CollectionViewSource.SortDescriptions>
-                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <Style x:Key="XamlTextBoxStyle" TargetType="TextBox">
-            <Setter Property="AcceptsReturn" Value="True" />
-            <Setter Property="AcceptsTab" Value="True" />
-            <Setter Property="FontSize" Value="16"></Setter>
-        </Style>
-    </Window.Resources>
-    <Window.DataContext>
-        <testApplication:MainViewModel />
-    </Window.DataContext>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid testApplication:GridExpanderSizeBehavior.SizeRowsToExpanderState="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Expander Grid.Row="0" Header="XAML" IsExpanded="True">
-                <DockPanel>
-                    <StackPanel DockPanel.Dock="Bottom" >
-                        <StackPanel.Resources>
-                            <Style x:Key="ButtonStyle" TargetType="Button">
-                                <Setter Property="Margin" Value="5" />
-                                <Setter Property="Padding" Value="8" />
-                            </Style>
-                        </StackPanel.Resources>
-                        <Button VerticalAlignment="Bottom" IsDefault="True" Content="Load"
-                                Command="{Binding LoadCommand}" Style="{StaticResource ButtonStyle}" />
-                        <Button VerticalAlignment="Bottom"  Content="Load for WPF"
-                                Command="{Binding LoadForWpfCommand}" Style="{StaticResource ButtonStyle}" />
-                    </StackPanel>
-
-                    <TextBox Text="{Binding Xaml}" Style="{StaticResource XamlTextBoxStyle}" />
-                </DockPanel>
-            </Expander>
-            <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" DockPanel.Dock="Bottom">
-                <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}" SelectedItem="{Binding SelectedSnippet}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type testApplication:Snippet}">
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding SetSelectedSnippetCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBox>
-            </Expander>
-        </Grid>
-
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
-
-        <GroupBox Grid.Column="2" Header="Structure">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="5*" />
-                </Grid.RowDefinitions>
-
-                <TreeView ItemsSource="{Binding Representation}" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectedItemChanged">
-                            <i:InvokeCommandAction Command="{Binding SetSelectedItemCommand}"
-                                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeView}}, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type testApplication:Node}" ItemsSource="{Binding Children}">
-
-                            <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
-
-                            <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate DataType="{x:Type testApplication:Node}">
-                                    <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
-                                </DataTemplate>
-                            </HierarchicalDataTemplate.ItemTemplate>
-                        </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
-
-                <GridSplitter Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5" />
-                <xctk:PropertyGrid ShowTitle="True" Grid.Row="2" SelectedObject="{Binding SelectedItem.Data}" IsReadOnly="True" />
-            </Grid>
-        </GroupBox>
-    </Grid>
+    <TabControl>
+        <TabItem Header="WPF">
+            <TabItem.Resources>
+                <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
+                    <CollectionViewSource.SortDescriptions>
+                        <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </TabItem.Resources>
+            <TabItem.DataContext>
+                <testApplication:WpfViewModel />
+            </TabItem.DataContext>
+            <testApplication:WpfLoaderControl/>
+        </TabItem>
+        <TabItem Header="Dummy">
+            <TabItem.Resources>
+                <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
+                    <CollectionViewSource.SortDescriptions>
+                        <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+                    </CollectionViewSource.SortDescriptions>
+                </CollectionViewSource>
+            </TabItem.Resources>
+            <TabItem.DataContext>
+                <testApplication:DummyViewModel />
+            </TabItem.DataContext>
+            <testApplication:DummyLoaderControl/>
+        </TabItem>
+    </TabControl>
 </Window>

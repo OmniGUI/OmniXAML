@@ -1,0 +1,52 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestApplication"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Class="TestApplication.WpfLoaderControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="384.824" d:DesignWidth="577.347" d:DataContext="{d:DesignInstance local:WpfViewModel}">
+    <UserControl.Resources>
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+        <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
+            <CollectionViewSource.SortDescriptions>
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" MinWidth="120" />
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="10" TextWrapping="Wrap" Grid.ColumnSpan="2">Please, enter your XAML in the TextBox or choose a predefined snippet from the list of the left.</TextBlock>
+        <GroupBox Grid.Column="1" Header="XAML" Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <xctk:WatermarkTextBox Watermark="Please, enter some XAML" Text="{Binding Xaml}" TextWrapping="Wrap" Style="{StaticResource WpfXamlTextBoxStyle}" />
+            </ScrollViewer>
+        </GroupBox>
+        <GroupBox Header="XAML Snippets" Grid.Row="1" Grid.Column="0">
+            <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}"
+    			SelectedItem="{Binding SelectedSnippet}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:Snippet}">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>              
+            </ListBox>
+        </GroupBox>
+        <Button Grid.ColumnSpan="2" Grid.Column="0"  Content="Load"
+                Command="{Binding LoadXamlCommand}" Style="{StaticResource ButtonStyle}" Margin="8" Grid.Row="2" />
+    </Grid>
+</UserControl>

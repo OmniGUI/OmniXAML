@@ -6,8 +6,8 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
     using System.Resources;
-    using Xaml.Tests.Resources;
 
     public interface IXamlSnippetProvider
     {
@@ -18,10 +18,9 @@
     {
         private readonly ICollection<Snippet> snippets = new Collection<Snippet>();
 
-        public XamlSnippetProvider()
+        public XamlSnippetProvider(Assembly assembly, string resourceIdString)
         {
-            var assembly = typeof(Dummy).Assembly;
-            var resourceIds = new[] {"Xaml.Tests.Resources.Dummy.resources", "Xaml.Tests.Resources.Wpf.resources" };
+            var resourceIds = new[] { resourceIdString };
 
             foreach (var resourceId in resourceIds)
             {
@@ -45,21 +44,9 @@
                 {
                     Debug.WriteLine($"Cannot load snippets. Exception: {e}");
                 }
-            }  
+            }
         }
 
         public IList Snippets => new ReadOnlyCollection<Snippet>(snippets.ToList());
-    }
-
-    public class Snippet
-    {
-        public Snippet(string name, string xaml)
-        {
-            Name = name;
-            Xaml = xaml;
-        }
-
-        public string Name { get; set; }
-        public string Xaml { get; set; }
     }
 }

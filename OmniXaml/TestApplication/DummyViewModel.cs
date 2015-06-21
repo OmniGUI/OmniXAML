@@ -13,16 +13,16 @@
     using OmniXaml.Wpf;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
-    public class MainViewModel : ViewModel
+    public class DummyViewModel : ViewModel
     {
         private ObservableCollection<Node> representation;
         private Node selectedItem;
         private Snippet selectedSnippet;
         private string xaml;
 
-        public MainViewModel()
+        public DummyViewModel()
         {
-            IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider();
+            IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(XamlResources).Assembly, "Xaml.Tests.Resources.Dummy.resources");
             Snippets = snippetsProvider.Snippets;
             Xaml = XamlResources.ChildCollection;
             LoadCommand = new RelayCommand(o => LoadXaml());
@@ -78,6 +78,7 @@
             set
             {
                 selectedSnippet = value;
+                Xaml = string.Copy(SelectedSnippet.Xaml);
                 OnPropertyChanged();
             }
         }
@@ -103,7 +104,7 @@
 
         private void SetSelectedSnippet()
         {
-            Xaml = SelectedSnippet.Xaml;
+            Xaml = string.Copy(SelectedSnippet.Xaml);
         }
 
         private void SetSelectedItem(Node o)
