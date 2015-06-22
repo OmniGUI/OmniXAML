@@ -3,39 +3,37 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"        
-        xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:testApplication="clr-namespace:TestApplication"
+        xmlns:views="clr-namespace:TestApplication.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="OmniXAML Tester" Height="509.456" Width="667.407">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type testApplication:Snippet}">
+            <Grid d:DesignWidth="159.113" d:DesignHeight="50.25">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                <Button Grid.Column="1" ToolTip="Show as indented list"  VerticalAlignment="Center" Command="{Binding Path=DataContext.VisualizeNodesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Xaml}" >
+                    <Border BorderBrush="Black" Background="{DynamicResource TabbedBrush}" Width="20" Height="20" />
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <TabControl>
         <TabItem Header="WPF">
-            <TabItem.Resources>
-                <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
-                    <CollectionViewSource.SortDescriptions>
-                        <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
-                    </CollectionViewSource.SortDescriptions>
-                </CollectionViewSource>
-            </TabItem.Resources>
             <TabItem.DataContext>
-                <testApplication:WpfViewModel />
+                <testApplication:WpfLoaderViewModel />
             </TabItem.DataContext>
-            <testApplication:WpfLoaderControl/>
+            <views:WpfLoaderControl/>
         </TabItem>
         <TabItem Header="Dummy">
-            <TabItem.Resources>
-                <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
-                    <CollectionViewSource.SortDescriptions>
-                        <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
-                    </CollectionViewSource.SortDescriptions>
-                </CollectionViewSource>
-            </TabItem.Resources>
             <TabItem.DataContext>
-                <testApplication:DummyViewModel />
+                <testApplication:DummyLoaderViewModel />
             </TabItem.DataContext>
-            <testApplication:DummyLoaderControl/>
+            <views:DummyLoaderControl/>
         </TabItem>
     </TabControl>
 </Window>

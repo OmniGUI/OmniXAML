@@ -4,9 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TestApplication"
-             xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="TestApplication.DummyLoaderControl"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="TestApplication.Views.DummyLoaderControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450.496" d:DesignWidth="653.407" d:DataContext="{d:DesignInstance local:DummyViewModel}">
+             d:DesignHeight="450.496" d:DesignWidth="653.407" d:DataContext="{d:DesignInstance local:DummyLoaderViewModel}">
     <UserControl.Resources>
         <Style x:Key="XamlTextBoxStyle" TargetType="{x:Type TextBox}">
             <Setter Property="AcceptsReturn" Value="True" />
@@ -15,7 +15,7 @@
         </Style>
         <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
             <CollectionViewSource.SortDescriptions>
-                <ComponentModel:SortDescription Direction="Ascending" PropertyName="Name" />
+                <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
@@ -46,19 +46,10 @@
                     <TextBox Text="{Binding Xaml}" Style="{StaticResource XamlTextBoxStyle}" />
                 </DockPanel>
             </Expander>
-            <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" DockPanel.Dock="Bottom" IsExpanded="True">
+            <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" IsExpanded="True">
                 <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}"
-    				SelectedItem="{Binding SelectedSnippet}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type local:Snippet}">
-                            <TextBlock Text="{Binding Name}" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding SetSelectedSnippetCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                         Style="{StaticResource ListBoxStyle}"
+    				SelectedItem="{Binding SelectedSnippet}">                    
                 </ListBox>
             </Expander>
         </Grid>

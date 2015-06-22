@@ -53,5 +53,102 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+        <DrawingBrush x:Key="TabbedBrush" Viewbox="0,0,300,300" ViewboxUnits="Absolute" Stretch="UniformToFill">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,15,14.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M26,25.333333 L276.77391,25.333333">
+                                    <PathGeometry.Transform>
+                                        <MatrixTransform Matrix="0.486880761704489,0,0,1,-1.15889980431672,-13.8333339691162"/>
+                                    </PathGeometry.Transform>
+                                </PathGeometry>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,41.667,53.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L123.60701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,90.176,91.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,43.639,53.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,141.01,132.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,90.176,172.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,43.639,218.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,15,267"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
     </Application.Resources>
 </Application>

@@ -79,23 +79,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DummyLoaderControl.xaml.cs">
-      <DependentUpon>DummyLoaderControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GridExpanderSizeBehavior.cs" />
+    <Compile Include="LevelConverter.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Snippet.cs" />
     <Compile Include="TestViewModel.cs" />
     <Compile Include="ViewModel.cs" />
-    <Compile Include="WpfLoaderControl.xaml.cs">
+    <Compile Include="Views\DummyLoaderControl.xaml.cs">
+      <DependentUpon>DummyLoaderControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NodeVisualizerWindow.xaml.cs">
+      <DependentUpon>NodeVisualizerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WpfLoaderControl.xaml.cs">
       <DependentUpon>WpfLoaderControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfViewModel.cs" />
+    <Compile Include="Views\NodeVisualizerViewModel.cs" />
+    <Compile Include="Views\WpfLoaderViewModel.cs" />
     <Compile Include="XamlSnippetProvider.cs" />
-    <Page Include="DummyLoaderControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,14 +105,22 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DummyViewModel.cs" />
+    <Compile Include="Views\DummyLoaderViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="WpfLoaderControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\DummyLoaderControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NodeVisualizerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\WpfLoaderControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -161,11 +170,18 @@
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
       <Name>OmniXaml.Tests.Classes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tests\OmniXaml.Tests\OmniXaml.Tests.csproj">
+      <Project>{4A7491E9-E218-45F5-BF42-430247765630}</Project>
+      <Name>OmniXaml.Tests</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="github_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

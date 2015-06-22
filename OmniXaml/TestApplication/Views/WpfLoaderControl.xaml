@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:TestApplication"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    x:Class="TestApplication.WpfLoaderControl"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    x:Class="TestApplication.Views.WpfLoaderControl"
              mc:Ignorable="d" 
-             d:DesignHeight="384.824" d:DesignWidth="577.347" d:DataContext="{d:DesignInstance local:WpfViewModel}">
+             d:DesignHeight="384.824" d:DesignWidth="577.347" d:DataContext="{d:DesignInstance local:WpfLoaderViewModel}">
     <UserControl.Resources>
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5" />
@@ -38,12 +39,7 @@
         </GroupBox>
         <GroupBox Header="XAML Snippets" Grid.Row="1" Grid.Column="0">
             <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}"
-    			SelectedItem="{Binding SelectedSnippet}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:Snippet}">
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>              
+                     SelectedItem="{Binding SelectedSnippet}" Style="{StaticResource ListBoxStyle}">                               
             </ListBox>
         </GroupBox>
         <Button Grid.ColumnSpan="2" Grid.Column="0"  Content="Load"
