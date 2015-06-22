@@ -32,15 +32,9 @@
             </Grid.RowDefinitions>
             <Expander Grid.Row="0" Header="XAML" IsExpanded="True">
                 <DockPanel>
-                    <StackPanel DockPanel.Dock="Bottom">
-                        <StackPanel.Resources>
-                            <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
-                                <Setter Property="Margin" Value="5" />
-                                <Setter Property="Padding" Value="8" />
-                            </Style>
-                        </StackPanel.Resources>
+                    <StackPanel DockPanel.Dock="Bottom">                        
                         <Button VerticalAlignment="Bottom" IsDefault="True" Content="Load"
-    						Command="{Binding LoadCommand}" Style="{StaticResource ButtonStyle}" />
+    						Command="{Binding LoadCommand}" Style="{StaticResource LoadButtonStyle}" />
                     </StackPanel>
 
                     <TextBox Text="{Binding Xaml}" Style="{StaticResource XamlTextBoxStyle}" />
@@ -49,7 +43,7 @@
             <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" IsExpanded="True">
                 <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}"
                          Style="{StaticResource ListBoxStyle}"
-    				SelectedItem="{Binding SelectedSnippet}">                    
+    				SelectedItem="{Binding SelectedSnippet}">
                 </ListBox>
             </Expander>
         </Grid>
@@ -72,15 +66,15 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type local:Node}"
+                        <HierarchicalDataTemplate DataType="{x:Type local:InstanceNodeViewModel}"
     						ItemsSource="{Binding Children}">
 
                             <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
 
                             <HierarchicalDataTemplate.ItemTemplate>
-                                <DataTemplate DataType="{x:Type local:Node}">
+                                <HierarchicalDataTemplate DataType="{x:Type local:InstanceNodeViewModel}" ItemsSource="{Binding Children}">
                                     <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
-                                </DataTemplate>
+                                </HierarchicalDataTemplate>
                             </HierarchicalDataTemplate.ItemTemplate>
                         </HierarchicalDataTemplate>
                     </TreeView.ItemTemplate>

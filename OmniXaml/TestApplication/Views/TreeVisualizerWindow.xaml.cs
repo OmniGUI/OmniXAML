@@ -3,11 +3,11 @@
     using System.Windows;
 
     /// <summary>
-    /// Interaction logic for NodeVisualizerWindow.xaml
+    /// Interaction logic for TagVisualizerWindow.xaml
     /// </summary>
-    public partial class NodeVisualizerWindow : Window
+    public partial class TreeVisualizerWindow : Window
     {
-        public NodeVisualizerWindow()
+        public TreeVisualizerWindow()
         {
             InitializeComponent();
         }

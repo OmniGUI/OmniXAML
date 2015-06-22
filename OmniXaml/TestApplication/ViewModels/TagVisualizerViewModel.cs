@@ -3,9 +3,9 @@ namespace TestApplication
     using System.Collections.Generic;
     using OmniXaml.Tests;
 
-    public class NodeVisualizerViewModel : ViewModel
+    public class TagVisualizerViewModel : ViewModel
     {
-        public NodeVisualizerViewModel(IEnumerable<Tag> tags)
+        public TagVisualizerViewModel(IEnumerable<Tag> tags)
         {
             Tags = tags;
         }

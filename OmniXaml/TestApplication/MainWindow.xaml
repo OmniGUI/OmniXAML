@@ -10,15 +10,41 @@
         Title="OmniXAML Tester" Height="509.456" Width="667.407">
     <Window.Resources>
         <DataTemplate DataType="{x:Type testApplication:Snippet}">
-            <Grid d:DesignWidth="159.113" d:DesignHeight="50.25">
+            <Grid d:DesignWidth="159.113" d:DesignHeight="50.25" x:Name="Tools" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                <Button Grid.Column="1" ToolTip="Show as indented list"  VerticalAlignment="Center" Command="{Binding Path=DataContext.VisualizeNodesCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" CommandParameter="{Binding Xaml}" >
-                    <Border BorderBrush="Black" Background="{DynamicResource TabbedBrush}" Width="20" Height="20" />
-                </Button>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" >
+                    <StackPanel.Resources>
+                        <Style x:Key="ButtonStyle" TargetType="Button">
+                            <Setter Property="Width" Value="20" />
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="CommandParameter" Value="{Binding Xaml}" />
+                        </Style>
+                    </StackPanel.Resources>
+                    <Button ToolTip="Show as indented list"                            
+                            Command="{Binding Path=DataContext.(testApplication:XamlVisualizerViewModel.VisualizeTagsCommand), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
+                            Style="{StaticResource ButtonStyle}">
+                        <Image Source="Images/indents.png" Width="20" Stretch="Uniform" />
+                    </Button>
+
+                    <Button ToolTip="Show as tree" 
+                            Style="{StaticResource ButtonStyle}" 
+                            Command="{Binding Path=DataContext.(testApplication:XamlVisualizerViewModel.VisualizeTreeCommand), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}">
+                        <Image Source="Images/tree.png" />
+                    </Button>
+                    <StackPanel.Style>
+                        <Style TargetType="{x:Type StackPanel}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="False">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                </StackPanel>
             </Grid>
         </DataTemplate>
     </Window.Resources>
