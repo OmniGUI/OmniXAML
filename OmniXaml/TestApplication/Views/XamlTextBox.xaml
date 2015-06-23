@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="TestApplication.Views.XamlTextBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TestApplication.Views"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:testApplication="clr-namespace:TestApplication"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:XamlTextBox}}}">        
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <xctk:WatermarkTextBox Watermark="Please, enter some XAML" Text="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               TextWrapping="Wrap" Style="{StaticResource WpfXamlTextBoxStyle}" />
+        </ScrollViewer>
+        <testApplication:XamlToolsControl HorizontalAlignment="Right" VerticalAlignment="Top" Xaml="{Binding Xaml}" WiringContext="{Binding WiringContext}" Margin="{Binding Source={x:Static SystemParameters.VerticalScrollBarWidth}}">
+            <testApplication:XamlToolsControl.Effect>
+                <DropShadowEffect BlurRadius="10" Opacity="0.4" />
+            </testApplication:XamlToolsControl.Effect>
+        </testApplication:XamlToolsControl>
+    </Grid>
+</UserControl>

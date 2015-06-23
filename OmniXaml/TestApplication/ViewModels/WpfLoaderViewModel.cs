@@ -1,4 +1,4 @@
-﻿namespace TestApplication
+﻿namespace TestApplication.ViewModels
 {
     using System;
     using System.Collections;
@@ -10,44 +10,20 @@
 
     public class WpfLoaderViewModel : XamlVisualizerViewModel
     {
-        private InstanceNodeViewModel selectedItem;
         private Snippet selectedSnippet;
-        private string xaml;
-
+        
         public WpfLoaderViewModel()
         {
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
             Snippets = snippetsProvider.Snippets;
-            LoadXamlCommand = new RelayCommand(o => LoadXamlForWpf(), o => IsValidXaml);
-            SetSelectedItemCommand = new RelayCommand(o => SetSelectedItem((InstanceNodeViewModel)o));
+            LoadCommand = new RelayCommand(o => LoadXamlForWpf(), o => Xaml != string.Empty);
             WiringContext = WpfWiringContextFactory.Create();
         }
 
 
         public IList Snippets { get; set; }
 
-        public InstanceNodeViewModel SelectedItem
-        {
-            get { return selectedItem; }
-            set
-            {
-                selectedItem = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string Xaml
-        {
-            get { return xaml; }
-            set
-            {
-                xaml = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ICommand LoadXamlCommand { get; private set; }
-        public ICommand SetSelectedItemCommand { get; private set; }
+        public ICommand LoadCommand { get; private set; }
 
         public Snippet SelectedSnippet
         {
@@ -78,27 +54,11 @@
             }
         }
 
-        private void SetSelectedItem(InstanceNodeViewModel o)
-        {
-            SelectedItem = o;
-        }
-
-        private bool IsValidXaml => Xaml != null;
-
         private static void ShowProblemLoadingError(Exception e)
         {
             MessageBox.Show(
-                $"There has been a problem loading the XAML.\n\nException:\n{GetFirstNChars(e.ToString(), 500)}",
+                $"There has been a problem loading the XAML.\n\nException:\n{e.ToString().GetFirstNChars(500)}",
                 "Load problem");
-        }
-
-        private static string GetFirstNChars(string str, int max)
-        {
-            if (str.Length <= max)
-            {
-                return str;
-            }
-            return str.Substring(0, max) + "…";
         }
     }
 }

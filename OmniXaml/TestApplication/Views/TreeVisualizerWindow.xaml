@@ -4,16 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
-        xmlns:tests="clr-namespace:OmniXaml.Tests;assembly=OmniXaml.Tests"
-        xmlns:testApplication="clr-namespace:TestApplication"
-        SizeToContent="WidthAndHeight"
-        MaxWidth="800"
-        MaxHeight="600"        
+        xmlns:testApplication="clr-namespace:TestApplication"      
         MinHeight="200"
         MinWidth="300"
+        
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Tree Visualizer" Height="300" Width="300" d:DataContext="{d:DesignInstance viewModels:TreeVisualizerViewModel}">
+        Title="Tree Visualizer" Width="640" Height="480"
+        d:DataContext="{d:DesignInstance viewModels:TreeVisualizerViewModel}">
     <Window.Resources>
 
         <testApplication:NodeTypeToUriConverter x:Key="NodeTypeToUriConverter" />

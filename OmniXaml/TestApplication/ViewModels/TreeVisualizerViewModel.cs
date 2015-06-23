@@ -6,7 +6,7 @@ namespace TestApplication.ViewModels
 
     public class TreeVisualizerViewModel : ViewModel
     {
-        public TreeVisualizerViewModel(Node root)
+        public TreeVisualizerViewModel(VisualizationNode root)
         {
             Nodes = new Collection<VisualizerNodeViewModel> { new VisualizerNodeViewModel(root) };
         }

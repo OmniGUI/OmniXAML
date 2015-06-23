@@ -1,11 +1,11 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Runtime.InteropServices;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Typing;
+    using Visualization;
 
     [TestClass]
     public class VisualizationTests : GivenAWiringContext
@@ -49,24 +49,6 @@
             };
 
             var result = NodeVisualizer.ToTree(col);
-        }
-    }
-
-    [DebuggerDisplay("{Name}")]
-    public class Tag
-    {
-        public string Name { get; private set; }
-        public int Level { get; set; }
-
-        public Tag(string name, int level)
-        {
-            Name = name;
-            Level = level;
-        }
-
-        public override string ToString()
-        {
-            return Name;
         }
     }
 }

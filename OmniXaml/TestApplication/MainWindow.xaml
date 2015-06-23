@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:testApplication="clr-namespace:TestApplication"
         xmlns:views="clr-namespace:TestApplication.Views"
+        xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterScreen"        
         Title="OmniXAML Tester" Height="509.456" Width="667.407">
     <Window.Resources>
         <DataTemplate DataType="{x:Type testApplication:Snippet}">
@@ -16,50 +17,68 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Grid.Column="1" >
-                    <StackPanel.Resources>
-                        <Style x:Key="ButtonStyle" TargetType="Button">
-                            <Setter Property="Width" Value="20" />
-                            <Setter Property="Height" Value="20" />
-                            <Setter Property="CommandParameter" Value="{Binding Xaml}" />
-                        </Style>
-                    </StackPanel.Resources>
-                    <Button ToolTip="Show as indented list"                            
-                            Command="{Binding Path=DataContext.(testApplication:XamlVisualizerViewModel.VisualizeTagsCommand), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}"
-                            Style="{StaticResource ButtonStyle}">
-                        <Image Source="Images/indents.png" Width="20" Stretch="Uniform" />
-                    </Button>
-
-                    <Button ToolTip="Show as tree" 
-                            Style="{StaticResource ButtonStyle}" 
-                            Command="{Binding Path=DataContext.(testApplication:XamlVisualizerViewModel.VisualizeTreeCommand), RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}">
-                        <Image Source="Images/tree.png" />
-                    </Button>
-                    <StackPanel.Style>
-                        <Style TargetType="{x:Type StackPanel}">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Value="False">
-                                    <Setter Property="Visibility" Value="Hidden" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </StackPanel.Style>
-                </StackPanel>
+                <testApplication:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" WiringContext="{Binding Path=DataContext.WiringContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
             </Grid>
         </DataTemplate>
     </Window.Resources>
-    <TabControl>
-        <TabItem Header="WPF">
-            <TabItem.DataContext>
-                <testApplication:WpfLoaderViewModel />
-            </TabItem.DataContext>
-            <views:WpfLoaderControl/>
-        </TabItem>
-        <TabItem Header="Dummy">
-            <TabItem.DataContext>
-                <testApplication:DummyLoaderViewModel />
-            </TabItem.DataContext>
-            <views:DummyLoaderControl/>
-        </TabItem>
-    </TabControl>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="10">
+            <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Margin="4" >
+                <Run>In order to load (inflate) XAML you need to choose a model of objects.</Run>
+                <Run>You can choose the WPF or Dummy. </Run>
+            </TextBlock>
+            <StackPanel Margin="4">
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Ellipse Stroke="Black" Height="6" Width="6" Margin="0,1,0,0"  />
+                    </BulletDecorator.Bullet>
+                    <TextBlock Margin="5,0,0,0" TextWrapping="Wrap">WPF will inflate into a real Windows Presentation Foundation visual tree.</TextBlock>
+                </BulletDecorator>
+                <BulletDecorator>
+                    <BulletDecorator.Bullet>
+                        <Ellipse Stroke="Black" Height="6" Width="6" Margin="0,1,0,0"  />
+                    </BulletDecorator.Bullet>
+                    <TextBlock Margin="5,0,0,0" TextWrapping="Wrap">Dummy is a test model rich and simple enough to be useful.</TextBlock>
+                </BulletDecorator>
+            </StackPanel>
+        </StackPanel>
+        <TabControl Grid.Row="1">
+            <TabItem>
+                <TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image RenderOptions.BitmapScalingMode="HighQuality" Height="20" Source="Images/wpf.png" />
+                        <TextBlock Margin="4" VerticalAlignment="Center" Grid.Column="1">WPF</TextBlock>
+                    </Grid>
+                </TabItem.Header>
+                <TabItem.DataContext>
+                    <viewModels:WpfLoaderViewModel />
+                </TabItem.DataContext>
+                <views:WpfLoaderControl />
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image RenderOptions.BitmapScalingMode="HighQuality" Height="20" Source="Images/dummy.png" />
+                        <TextBlock Margin="4" VerticalAlignment="Center" Grid.Column="1">Dummy</TextBlock>
+                    </Grid>
+                </TabItem.Header>
+                <TabItem.DataContext>
+                    <viewModels:DummyLoaderViewModel />
+                </TabItem.DataContext>
+                <views:DummyLoaderControl />
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

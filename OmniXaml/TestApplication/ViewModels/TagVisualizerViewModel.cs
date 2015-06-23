@@ -5,11 +5,11 @@ namespace TestApplication
 
     public class TagVisualizerViewModel : ViewModel
     {
-        public TagVisualizerViewModel(IEnumerable<Tag> tags)
+        public TagVisualizerViewModel(IEnumerable<VisualizationTag> tags)
         {
             Tags = tags;
         }
 
-        public IEnumerable<Tag> Tags { get; set; }
+        public IEnumerable<VisualizationTag> Tags { get; set; }
     }
 }

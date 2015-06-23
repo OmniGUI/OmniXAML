@@ -62,38 +62,13 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
-        ///  &lt;Grid&gt;
-        ///    &lt;Grid.RowDefinitions&gt;
-        ///      &lt;RowDefinition /&gt;
-        ///      &lt;RowDefinition Height=&quot;Auto&quot; /&gt;
-        ///    &lt;/Grid.RowDefinitions&gt;
-        ///
-        ///    &lt;Grid.ColumnDefinitions&gt;
-        ///      &lt;ColumnDefinition /&gt;
-        ///      &lt;ColumnDefinition /&gt;
-        ///    &lt;/Grid.ColumnDefinitions&gt;
-        ///
-        ///    &lt;Grid.Children&gt;
-        ///      &lt;TextBlock Grid.Column=&quot;1&quot; Grid.Row=&quot;1&quot; Text=&quot;Press F12 for Dev Tools&quot; /&gt;
-        ///      &lt;TabControl Grid.ColumnSpan=&quot;2&quot;&gt;
-        ///        &lt;TabControl.Items&gt;
-        ///          &lt;TabI [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string Complex {
-            get {
-                return ResourceManager.GetString("Complex", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
         ///  &lt;ListBox ItemsSource=&quot;{Binding Path=Collection}&quot;&gt;
         ///    &lt;ListBox.ItemTemplate&gt;
         ///      &lt;DataTemplate&gt;
-        ///        &lt;TextBlock Text=&quot;{Binding}&quot; /&gt;
+        ///        &lt;Button Content=&quot;{Binding}&quot;/&gt;
         ///      &lt;/DataTemplate&gt;
-        ///    &lt;/ListBox.ItemTemplate&gt;    
+        ///    &lt;/ListBox.ItemTemplate&gt;
         ///  &lt;/ListBox&gt;
         ///&lt;/Window&gt;.
         /// </summary>
@@ -104,7 +79,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+        ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
         ///  &lt;Grid&gt;
         ///    &lt;Grid.RowDefinitions&gt;
         ///      &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
@@ -118,9 +93,7 @@ namespace Xaml.Tests.Resources {
         ///          &lt;/MenuItem.Icon&gt;
         ///        &lt;/MenuItem&gt;
         ///        &lt;MenuItem Header=&quot;Save&quot;&gt;
-        ///          &lt;MenuItem Header=&quot;SubItem 1&quot; /&gt;
-        ///          &lt;MenuItem Header=&quot;SubItem 2&quot; /&gt;
-        ///   [rest of string was truncated]&quot;;.
+        ///          &lt;MenuItem He [rest of string was truncated]&quot;;.
         /// </summary>
         public static string ShowCase {
             get {
@@ -129,7 +102,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; Title=&quot;Hello OmniXaml!&quot;&gt;
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;Hello OmniXaml!&quot;&gt;
         ///  &lt;Window.Content&gt;
         ///    &lt;Grid&gt;
         ///      &lt;Grid.ColumnDefinitions&gt;
@@ -151,7 +124,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot;&gt;&lt;/Window&gt;.
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;&lt;/Window&gt;.
         /// </summary>
         public static string Window {
             get {
@@ -160,7 +133,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot;&gt;
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
         ///  &lt;Window.Content&gt;
         ///    &lt;TextBlock Text=&quot;Saludos cordiales!&quot; /&gt;
         ///  &lt;/Window.Content&gt;

@@ -1,13 +1,11 @@
-namespace OmniXaml.Tests
+namespace OmniXaml.Visualization
 {
-    using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using Classes;
+    using Tests;
 
     public static class NodeVisualizer
     {
-        public static IEnumerable<Tag> ToTags(IEnumerable<XamlNode> xamlNodes)
+        public static IEnumerable<VisualizationTag> ToTags(IEnumerable<XamlNode> xamlNodes)
         {
             var enumerator = xamlNodes.GetEnumerator();
             var level = 0;
@@ -21,7 +19,7 @@ namespace OmniXaml.Tests
                     level--;
                 }
 
-                yield return new Tag(current.ToString(), level);
+                yield return new VisualizationTag(current.ToString(), level);
 
                 if (RaisesLevel(current))
                 {
@@ -41,12 +39,12 @@ namespace OmniXaml.Tests
             return current.NodeType.ToString().Contains("Start") || current.NodeType == XamlNodeType.GetObject;
         }
 
-        public static Node ToTree(IEnumerable<XamlNode> xamlNodes)
+        public static VisualizationNode ToTree(IEnumerable<XamlNode> xamlNodes)
         {
             var enumerator = xamlNodes.GetEnumerator();
 
-            var stack = new Stack<Node>();
-            stack.Push(new Node("Root"));
+            var stack = new Stack<VisualizationNode>();
+            stack.Push(new VisualizationNode("Root"));
 
             while (enumerator.MoveNext())
             {
@@ -58,7 +56,7 @@ namespace OmniXaml.Tests
                 }
                 else
                 {
-                    var item = new Node(current);
+                    var item = new VisualizationNode(current);
                     stack.Peek().Children.Add(item);
 
                     if (RaisesLevel(current))
@@ -70,33 +68,5 @@ namespace OmniXaml.Tests
 
             return stack.Peek();
         }       
-    }
-
-    public class Node
-    {
-        public XamlNode XamlNode { get; }
-
-        public Node(string name) : this(new XamlNode(XamlNodeType.None))
-        {
-
-        }
-
-        public Node(XamlNode xamlNode)
-        {
-            this.XamlNode = xamlNode;           
-            this.Children = new Collection<Node>();
-        }
-
-        public ICollection<Node> Children { get; set; }
-    }
-
-    public enum NodeType
-    {
-        Root,
-        NamespaceDeclaration,
-        GetObject,
-        Object,
-        Member,
-        Value,
     }
 }

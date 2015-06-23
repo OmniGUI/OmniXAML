@@ -6,15 +6,14 @@ namespace TestApplication.ViewModels
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Tests;
-    using OmniXaml.Typing;
 
     public class VisualizerNodeViewModel : ViewModel
     {
-        private readonly Node model;
+        private readonly VisualizationNode model;
         private bool isExpanded;
         private readonly List<VisualizerNodeViewModel> children;
 
-        public VisualizerNodeViewModel(Node model)
+        public VisualizerNodeViewModel(VisualizationNode model)
         {
             this.model = model;
             this.IsExpanded = true;
@@ -45,24 +44,24 @@ namespace TestApplication.ViewModels
 
         public string Name => GetName(model);
 
-        private string GetName(Node node)
+        private string GetName(VisualizationNode visualizationNode)
         {
             switch (NodeType)
             {
                 case NodeType.Member:
-                    return GetMemberName(node);
+                    return GetMemberName(visualizationNode);
 
                case NodeType.Object:
-                    return node.XamlNode.XamlType.Name;
+                    return visualizationNode.XamlNode.XamlType.Name;
 
                 case NodeType.GetObject:
                     return "Collection";
 
                 case NodeType.NamespaceDeclaration:
-                    return "Namespace Declaration: Mapping " + node.XamlNode.NamespaceDeclaration;
+                    return "Namespace Declaration: Mapping " + visualizationNode.XamlNode.NamespaceDeclaration;
 
                 case NodeType.Value:
-                    return $"\"{node.XamlNode.Value}\"";
+                    return $"\"{visualizationNode.XamlNode.Value}\"";
 
                 case NodeType.Root:
                     return "Root";
@@ -71,9 +70,9 @@ namespace TestApplication.ViewModels
             throw new InvalidOperationException("The node type {NodeType} cannot be handled.");
         }
 
-        private static string GetMemberName(Node node)
+        private static string GetMemberName(VisualizationNode visualizationNode)
         {
-            var xamlMember = node.XamlNode.Member;
+            var xamlMember = visualizationNode.XamlNode.Member;
 
             if (!xamlMember.IsAttachable)
             {

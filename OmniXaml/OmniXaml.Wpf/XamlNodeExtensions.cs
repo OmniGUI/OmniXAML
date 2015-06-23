@@ -2,7 +2,7 @@ namespace OmniXaml.Wpf
 {
     using System;
     using System.Xaml;
-    using XamlNodeType = OmniXaml.XamlNodeType;
+    using XamlNodeType = XamlNodeType;
 
     public static class XamlNodeExtensions
     {
