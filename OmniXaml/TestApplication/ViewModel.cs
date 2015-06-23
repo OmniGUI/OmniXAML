@@ -2,6 +2,7 @@
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using OmniXaml.Tests.Classes;
     using Properties;
 
     public abstract class ViewModel : INotifyPropertyChanged

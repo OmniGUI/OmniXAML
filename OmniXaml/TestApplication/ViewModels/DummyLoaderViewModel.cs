@@ -13,31 +13,28 @@
     using OmniXaml.Wpf;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
-    public class DummyViewModel : ViewModel
+    public class DummyLoaderViewModel : XamlVisualizerViewModel
     {
-        private ObservableCollection<Node> representation;
-        private Node selectedItem;
+        private ObservableCollection<InstanceNodeViewModel> representation;
+        private InstanceNodeViewModel selectedItem;
         private Snippet selectedSnippet;
         private string xaml;
 
-        public DummyViewModel()
+        public DummyLoaderViewModel()
         {
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(XamlResources).Assembly, "Xaml.Tests.Resources.Dummy.resources");
             Snippets = snippetsProvider.Snippets;
             Xaml = XamlResources.ChildCollection;
             LoadCommand = new RelayCommand(o => LoadXaml());
-            LoadForWpfCommand = new RelayCommand(o => LoadXamlForWpf());
-            SetSelectedItemCommand = new RelayCommand(o => SetSelectedItem((Node)o));
+            
+            SetSelectedItemCommand = new RelayCommand(o => SetSelectedItem((InstanceNodeViewModel)o));
             SetSelectedSnippetCommand = new RelayCommand(o => SetSelectedSnippet());
+            WiringContext = DummyWiringContext.Create();
         }
-
-        private WiringContext ContextForWpf => WpfWiringContextFactory.Create();
-
-        private WiringContext ContextForTestClasses => DummyWiringContext.Create();
 
         public IList Snippets { get; set; }
 
-        public Node SelectedItem
+        public InstanceNodeViewModel SelectedItem
         {
             get { return selectedItem; }
             set
@@ -47,7 +44,7 @@
             }
         }
 
-        public ObservableCollection<Node> Representation
+        public ObservableCollection<InstanceNodeViewModel> Representation
         {
             get { return representation; }
             set
@@ -107,7 +104,7 @@
             Xaml = string.Copy(SelectedSnippet.Xaml);
         }
 
-        private void SetSelectedItem(Node o)
+        private void SetSelectedItem(InstanceNodeViewModel o)
         {
             SelectedItem = o;
         }
@@ -116,7 +113,7 @@
         {
             try
             {
-                var loader = new XamlXmlLoader(new ObjectAssembler(ContextForTestClasses), ContextForTestClasses);
+                var loader = new XamlXmlLoader(new ObjectAssembler(WiringContext), WiringContext);
 
                 var rootObject = loader.Load(Xaml);
                 Representation = ConvertToViewNodes(rootObject);
@@ -138,11 +135,11 @@
             return str.Substring(0, max) + "…";
         }
 
-        private static ObservableCollection<Node> ConvertToViewNodes(object result)
+        private static ObservableCollection<InstanceNodeViewModel> ConvertToViewNodes(object result)
         {
-            return new ObservableCollection<Node>
+            return new ObservableCollection<InstanceNodeViewModel>
             {
-                new Node(result)
+                new InstanceNodeViewModel(result)
             };
         }
     }

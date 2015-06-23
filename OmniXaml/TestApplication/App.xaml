@@ -1,6 +1,8 @@
 ﻿<Application x:Class="TestApplication.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:testApplication="clr-namespace:TestApplication"
+             xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style x:Key="XamlTextBoxStyle" TargetType="TextBox">
@@ -11,7 +13,7 @@
         <Style x:Key="WpfXamlTextBoxStyle" TargetType="TextBox" BasedOn="{StaticResource XamlTextBoxStyle}">
             <Setter Property="FontSize" Value="12" />
         </Style>
-        <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>        
+        <BorderGapMaskConverter x:Key="BorderGapMaskConverter"/>
         <Style TargetType="{x:Type GroupBox}">
             <Setter Property="BorderBrush" Value="#D5DFE5"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -53,5 +55,155 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ListBoxStyle" TargetType="ListBox">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        </Style>
+        <DrawingBrush x:Key="TabbedBrush" Viewbox="0,0,300,300" ViewboxUnits="Absolute" Stretch="UniformToFill">
+            <DrawingBrush.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,15,14.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M26,25.333333 L276.77391,25.333333">
+                                    <PathGeometry.Transform>
+                                        <MatrixTransform Matrix="0.486880761704489,0,0,1,-1.15889980431672,-13.8333339691162"/>
+                                    </PathGeometry.Transform>
+                                </PathGeometry>
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,41.667,53.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L123.60701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,90.176,91.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,43.639,53.666"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,141.01,132.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,90.176,172.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59801,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,43.639,218.333"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                    <DrawingGroup>
+                        <DrawingGroup.Transform>
+                            <MatrixTransform Matrix="1,0,0,1,15,267"/>
+                        </DrawingGroup.Transform>
+                        <GeometryDrawing Brush="Black" Geometry="M11.5,11.500001 L133.59701,11.500001">
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="Black" DashCap="Flat" EndLineCap="Flat" LineJoin="Miter" MiterLimit="10" StartLineCap="Flat" Thickness="23"/>
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup>
+                </DrawingGroup>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+        <Style x:Key="TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+            <Setter Property="MaxWidth" Value="600" />
+        </Style>
+        
+        <ControlTemplate x:Key="LoadButtonTemplate" TargetType="{x:Type ButtonBase}">
+            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="True">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image RenderOptions.BitmapScalingMode="HighQuality" Source="../Images/load.png" Height="24" HorizontalAlignment="Right"></Image>
+                    <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                      Content="{TemplateBinding Content}"
+                                      ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      Margin="{TemplateBinding Padding}" RecognizesAccessKey="True"
+                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </StackPanel>
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True">
+                    <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                </Trigger>
+                <Trigger Property="ToggleButton.IsChecked" Value="True">
+                    <Setter Property="Background" TargetName="border" Value="#FFBCDDEE"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FF245A83"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                    <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                    <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="8" />
+        </Style>
+
+        <Style x:Key="LoadButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Template" Value="{StaticResource LoadButtonTemplate}" />
+        </Style>
+
     </Application.Resources>
 </Application>

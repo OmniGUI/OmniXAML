@@ -52,5 +52,23 @@ namespace OmniXaml
                 return ((ns != null ? ns.GetHashCode() : 0)*397) ^ (prefix != null ? prefix.GetHashCode() : 0);
             }
         }
+
+        public override string ToString()
+        {
+            string finalPrefix;
+            if (Prefix == null)
+            {
+                finalPrefix = "{No namespace}";
+            } else if (Prefix == "")
+            {
+                finalPrefix = "{Default}";
+            }
+            else
+            {
+                finalPrefix = Prefix;
+            }
+
+            return $"{finalPrefix} => {Namespace}";
+        }
     }
 }

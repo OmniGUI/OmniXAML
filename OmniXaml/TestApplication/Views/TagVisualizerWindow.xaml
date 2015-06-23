@@ -1,0 +1,27 @@
+﻿<Window x:Class="TestApplication.Views.TagVisualizerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestApplication"
+        SizeToContent="WidthAndHeight"
+        MaxWidth="800"
+        MaxHeight="600"     
+        MinHeight="200"
+        MinWidth="300"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="TagVisualizerWindow" Height="300" Width="300" d:DataContext="{d:DesignInstance local:TagVisualizerViewModel}">
+    <Window.Resources>
+        <local:LevelConverter x:Key="LevelConverter" />
+    </Window.Resources>
+    <Grid>
+        <ListBox ItemsSource="{Binding Tags}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" Margin="{Binding Level, Converter={StaticResource LevelConverter}}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</Window>

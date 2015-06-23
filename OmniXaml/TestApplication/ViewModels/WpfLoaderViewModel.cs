@@ -2,33 +2,31 @@
 {
     using System;
     using System.Collections;
-    using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.Assembler;
     using OmniXaml.Wpf;
     using Xaml.Tests.Resources;
 
-    public class WpfViewModel : ViewModel
+    public class WpfLoaderViewModel : XamlVisualizerViewModel
     {
-        private ObservableCollection<Node> representation;
-        private Node selectedItem;
+        private InstanceNodeViewModel selectedItem;
         private Snippet selectedSnippet;
         private string xaml;
 
-        public WpfViewModel()
+        public WpfLoaderViewModel()
         {
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
             Snippets = snippetsProvider.Snippets;
             LoadXamlCommand = new RelayCommand(o => LoadXamlForWpf(), o => IsValidXaml);
-            SetSelectedItemCommand = new RelayCommand(o => SetSelectedItem((Node)o));
+            SetSelectedItemCommand = new RelayCommand(o => SetSelectedItem((InstanceNodeViewModel)o));
+            WiringContext = WpfWiringContextFactory.Create();
         }
 
 
         public IList Snippets { get; set; }
 
-        public Node SelectedItem
+        public InstanceNodeViewModel SelectedItem
         {
             get { return selectedItem; }
             set
@@ -80,19 +78,12 @@
             }
         }
 
-        private void SetSelectedItem(Node o)
+        private void SetSelectedItem(InstanceNodeViewModel o)
         {
             SelectedItem = o;
         }
 
         private bool IsValidXaml => Xaml != null;
-
-        private static void ShowInvalidXamlError()
-        {
-            MessageBox.Show(
-                $"Please, put some XAML into the text box",
-                "Load problem");
-        }
 
         private static void ShowProblemLoadingError(Exception e)
         {
