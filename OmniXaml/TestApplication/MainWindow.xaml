@@ -8,7 +8,7 @@
         xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"        
-        Title="OmniXAML Tester" Height="509.456" Width="667.407">
+        Title="OmniXAML Tester" Height="648.456" Width="742.407">
     <Window.Resources>
         <DataTemplate DataType="{x:Type testApplication:Snippet}">
             <Grid d:DesignWidth="159.113" d:DesignHeight="50.25" x:Name="Tools" Background="Transparent">
@@ -20,16 +20,11 @@
                 <testApplication:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" WiringContext="{Binding Path=DataContext.WiringContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
             </Grid>
         </DataTemplate>
-    </Window.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <StackPanel Margin="10">
+
+        <StackPanel x:Key="Guidelines" Margin="10">
             <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Margin="4" >
                 <Run>In order to load (inflate) XAML you need to choose a model of objects.</Run>
-                <Run>You can choose the WPF or Dummy. </Run>
+                <Run>You can choose WPF or Dummy. </Run>
             </TextBlock>
             <StackPanel Margin="4">
                 <BulletDecorator>
@@ -46,6 +41,15 @@
                 </BulletDecorator>
             </StackPanel>
         </StackPanel>
+
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ContentControl Content="{StaticResource Guidelines}">
+        </ContentControl>
         <TabControl Grid.Row="1">
             <TabItem>
                 <TabItem.Header>
