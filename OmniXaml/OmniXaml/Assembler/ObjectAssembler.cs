@@ -102,7 +102,11 @@
         {
             var parameters = bag.Current.ConstructorArguments != null ? bag.Current.ConstructorArguments.ToArray() : null;
             var newInstance = typeOperations.Create(bag.Current.Type, parameters);
+
+            // Resets the constructor arguments
+            bag.Current.ConstructorArguments = null;
             bag.Current.Instance = newInstance;
+
 
             if (bag.LiveDepth > 1 && !(newInstance is IMarkupExtension) && bag.LiveDepth > 1)
             {
