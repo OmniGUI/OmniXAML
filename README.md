@@ -1,6 +1,8 @@
 # OmniXAML 
 ## The Cross-platform XAML Framework.
 
+[![Join the chat at https://gitter.im/SuperJMN/OmniXAML](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SuperJMN/OmniXAML?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 *I know you need it, I know you want it. I know you XAML!*
 
 ![Sample](https://cloud.githubusercontent.com/assets/3109851/8272107/1af21840-1837-11e5-85d5-e61c7c8e9679.png "Test Application")
