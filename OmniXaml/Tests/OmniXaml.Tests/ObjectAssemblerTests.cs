@@ -29,7 +29,7 @@
 
             var result = sut.Result;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
         }
 
         [TestMethod]
@@ -45,9 +45,9 @@
                 });
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property);
         }
 
@@ -67,10 +67,10 @@
                 });
 
             var result = sut.Result;
-            var property1 = ((DummyClass) result).SampleProperty;
-            var property2 = ((DummyClass) result).AnotherProperty;
+            var property1 = ((DummyClass)result).SampleProperty;
+            var property2 = ((DummyClass)result).AnotherProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property1);
             Assert.AreEqual("Another!", property2);
         }
@@ -89,10 +89,10 @@
                 });
 
             var result = sut.Result;
-            var property = ((DummyClass) result).Child;
+            var property = ((DummyClass)result).Child;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
-            Assert.IsInstanceOfType(property, typeof (ChildClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.IsInstanceOfType(property, typeof(ChildClass));
         }
 
         [TestMethod]
@@ -170,6 +170,31 @@
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(12, property);
+        }
+
+        [TestMethod]
+        public void ExtensionWithArgument()
+        {
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.NamespacePrefixDeclaration("root", ""),
+                    builder.StartObject(typeof (DummyClass)),
+                    builder.StartMember<DummyClass>(d => d.SampleProperty),
+                    builder.StartObject(typeof (DummyExtension)),
+                    builder.MarkupExtensionArguments(),
+                    builder.Value("Option"),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var result = sut.Result;
+            var property = ((DummyClass) result).SampleProperty;
+
+            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.AreEqual("Option", property);
         }
     }
 }
