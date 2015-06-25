@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using Glass;
     using NodeWriters;
@@ -184,12 +185,28 @@
 
             var inflatedArguments = new List<object>();
 
+            var xamlTypes = GetTypesOfBestCtorMatch(Bag.Current.Type, arguments.Count);
+
+            int i = 0;
             foreach (var markupExtensionArgument in arguments)
             {
-                inflatedArguments.Add(markupExtensionArgument.Value);
+                var targetType = xamlTypes[i];
+                var compatibleValue = ConvertValueIfNecessary(markupExtensionArgument.Value, targetType.UnderlyingType);
+                inflatedArguments.Add(compatibleValue);
             }
 
             Bag.Current.ConstructorArguments = inflatedArguments;
+        }
+
+        private IList<XamlType> GetTypesOfBestCtorMatch(XamlType xamlType, int count)
+        {
+            var constructor = SelectConstructor(xamlType, count);
+            return constructor.GetParameters().Select(p => typeRepository.GetXamlType(p.ParameterType)).ToList();
+        }
+
+        private ConstructorInfo SelectConstructor(XamlType xamlType, int count)
+        {
+            return xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors.First(info => info.GetParameters().Count() == count);
         }
 
         internal void AssignCurrentInstanceToParent(StateBag bag)

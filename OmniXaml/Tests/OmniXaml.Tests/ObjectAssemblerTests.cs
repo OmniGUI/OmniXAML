@@ -222,5 +222,30 @@
             Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("OneSecond", property);
         }
+
+        [TestMethod]
+        public void ExtensionWithNonStringArgument()
+        {
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.NamespacePrefixDeclaration("root", ""),
+                    builder.StartObject(typeof (DummyClass)),
+                    builder.StartMember<DummyClass>(d => d.Number),
+                    builder.StartObject(typeof (IntExtension)),
+                    builder.MarkupExtensionArguments(),
+                    builder.Value("123"),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).Number;
+
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual(123, property);
+        }
     }
 }
