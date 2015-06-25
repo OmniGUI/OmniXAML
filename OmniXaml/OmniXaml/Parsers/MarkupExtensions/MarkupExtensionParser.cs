@@ -32,8 +32,8 @@ namespace OmniXaml.Parsers.MarkupExtensions
                                                                    from value in AssignmentSource
                                                                    select new AssignmentNode(prop, value);
 
-        private static readonly Parser<Option> Positional = from identifier in Identifier
-                                                            select new PositionalOption(identifier);
+        private static readonly Parser<Option> Positional = from value in Parse.LetterOrDigit.Or(Parse.Char(':')).Many()
+                                                            select new PositionalOption(new string(value.ToArray()));
 
         private static readonly Parser<Option> Attribute = from identifier in Assignment
                                                            select new PropertyOption(identifier.Property, identifier.Value);
