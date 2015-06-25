@@ -5,7 +5,7 @@
 
     public class StringTypeConverter : ITypeConverter
     {
-        public object ConvertFrom(CultureInfo culture, object value)
+        public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
         {
             if (value == null)
             {
@@ -20,7 +20,7 @@
             return value.ToString();
         }
 
-        public object ConvertTo(CultureInfo culture, object value, Type destinationType)
+        public object ConvertTo(IXamlTypeConverterContext context, CultureInfo culture, object value, Type destinationType)
         {
             if (value == null)
             {
@@ -58,7 +58,7 @@
             return value.ToString();
         }
 
-        public bool CanConvertTo(Type destinationType)
+        public bool CanConvertTo(IXamlTypeConverterContext context, Type destinationType)
         {
             if (destinationType == typeof(string) || destinationType == typeof(int))
             {
@@ -68,7 +68,7 @@
             return false;
         }
 
-        public bool CanConvertFrom(Type sourceType)
+        public bool CanConvertFrom(IXamlTypeConverterContext context, Type sourceType)
         {
             return true;
         }

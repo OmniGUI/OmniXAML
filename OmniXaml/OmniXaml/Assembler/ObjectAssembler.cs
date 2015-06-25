@@ -354,7 +354,7 @@
             var typeConverter = typeConverterProvider.GetTypeConverter(targetType);
             if (typeConverter != null)
             {
-                var anotherValue = typeConverter.ConvertFrom(CultureInfo.InvariantCulture, value);
+                var anotherValue = typeConverter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
                 return anotherValue;
             }
 

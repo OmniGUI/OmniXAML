@@ -61,6 +61,7 @@
     <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
+    <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
     <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IDeferredObjectAssembler.cs" />

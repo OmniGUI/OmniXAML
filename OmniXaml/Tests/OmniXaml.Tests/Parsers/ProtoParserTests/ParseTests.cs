@@ -189,7 +189,6 @@
         {
             var actualNodes = sut.Parse(Dummy.FourLevelsOfNesting).ToList();
 
-            var root = "root";
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("", "root"),
