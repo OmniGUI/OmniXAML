@@ -3,12 +3,16 @@
     public class DummyExtension : MarkupExtension
     {
         public DummyExtension()
-        {            
+        {
         }
 
         public DummyExtension(string option)
         {
             this.Option = option;
+        }
+        public DummyExtension(string one, string two)
+        {
+            this.Option = one + two;
         }
 
         public string Option { get; set; }
@@ -28,7 +32,7 @@
                 return Property;
             }
 
-            return  "Text From Markup Extension";
+            return "Text From Markup Extension";
         }
     }
 }

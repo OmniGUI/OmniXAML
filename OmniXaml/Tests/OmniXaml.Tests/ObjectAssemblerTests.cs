@@ -196,5 +196,31 @@
             Assert.IsInstanceOfType(result, typeof (DummyClass));
             Assert.AreEqual("Option", property);
         }
+
+        [TestMethod]
+        public void ExtensionWithTwoArguments()
+        {
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.NamespacePrefixDeclaration("root", ""),
+                    builder.StartObject(typeof (DummyClass)),
+                    builder.StartMember<DummyClass>(d => d.SampleProperty),
+                    builder.StartObject(typeof (DummyExtension)),
+                    builder.MarkupExtensionArguments(),
+                    builder.Value("One"),
+                    builder.Value("Second"),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).SampleProperty;
+
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual("OneSecond", property);
+        }
     }
 }
