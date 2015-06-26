@@ -1,11 +1,14 @@
 ﻿namespace OmniXaml.Assembler
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using Glass;
     using NodeWriters;
     using TypeConversion;
+    using TypeConversion.BuiltInConverters;
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
@@ -98,8 +101,13 @@
 
         internal void PrepareNewInstanceBecauseWeWantToConfigureIt(StateBag bag)
         {
-            var newInstance = typeOperations.Create(bag.Current.Type);
+            var parameters = bag.Current.ConstructorArguments != null ? bag.Current.ConstructorArguments.ToArray() : null;
+            var newInstance = typeOperations.Create(bag.Current.Type, parameters);
+
+            // Resets the constructor arguments
+            bag.Current.ConstructorArguments = null;
             bag.Current.Instance = newInstance;
+
 
             if (bag.LiveDepth > 1 && !(newInstance is IMarkupExtension) && bag.LiveDepth > 1)
             {
@@ -126,7 +134,11 @@
             SetUnfinishedResult();
             var xamlMember = Bag.Current.Type != null ? Bag.Current.Property : Bag.Parent.Property;
 
-            if (IsLeafMember)
+            if (Equals(xamlMember, CoreTypes.MarkupExtensionArguments))
+            {
+                ConvertCurrentCollectionToMarkupExtensionArguments();
+            }
+            else if (IsLeafMember)
             {
                 var currentInstance = Bag.Current.Instance;
                 var valueWasAssigned = true;
@@ -172,7 +184,37 @@
             Bag.Current.IsPropertyValueSet = false;
         }
 
-        private void AssignCurrentInstanceToParent(StateBag bag)
+        private void ConvertCurrentCollectionToMarkupExtensionArguments()
+        {
+            var arguments = (List<MarkupExtensionArgument>)Bag.Current.Collection;
+
+            var inflatedArguments = new List<object>();
+
+            var xamlTypes = GetTypesOfBestCtorMatch(Bag.Current.Type, arguments.Count);
+
+            int i = 0;
+            foreach (var markupExtensionArgument in arguments)
+            {
+                var targetType = xamlTypes[i];
+                var compatibleValue = ConvertValueIfNecessary(markupExtensionArgument.Value, targetType.UnderlyingType);
+                inflatedArguments.Add(compatibleValue);
+            }
+
+            Bag.Current.ConstructorArguments = inflatedArguments;
+        }
+
+        private IList<XamlType> GetTypesOfBestCtorMatch(XamlType xamlType, int count)
+        {
+            var constructor = SelectConstructor(xamlType, count);
+            return constructor.GetParameters().Select(p => typeRepository.GetXamlType(p.ParameterType)).ToList();
+        }
+
+        private ConstructorInfo SelectConstructor(XamlType xamlType, int count)
+        {
+            return xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors.First(info => info.GetParameters().Count() == count);
+        }
+
+        internal void AssignCurrentInstanceToParent(StateBag bag)
         {
             var parentProperty = bag.Parent.Property;
             var currentInstance = bag.Current.Instance;
@@ -180,7 +222,7 @@
 
             if (IsAssignmentBeingMadeToContainer(parentProperty, parentPropertyType))
             {
-                AssignInstanceToParentCollection(bag.Parent.Collection, bag.Current.Instance);
+                AssignCurrentInstanceToParentCollection();
             }
             else if (bag.Parent.Instance != null)
             {
@@ -257,9 +299,10 @@
             return parentProperty.IsDirective && type.IsContainer;
         }
 
-        private static void AssignInstanceToParentCollection(object parentCollection, object instance)
+        internal void AssignCurrentInstanceToParentCollection()
         {
-            TypeOperations.Add(parentCollection, instance);
+            var parentCollection = Bag.Parent.Collection;
+            TypeOperations.Add(parentCollection, Bag.Current.Instance);
         }
 
         private void ApplyPropertyValue(StateBag bag, XamlMember parentProperty, object value, bool onParent)
@@ -312,7 +355,8 @@
             var typeConverter = typeConverterProvider.GetTypeConverter(targetType);
             if (typeConverter != null)
             {
-                var anotherValue = typeConverter.ConvertFrom(CultureInfo.InvariantCulture, value);
+                var context = new XamlTypeConverterContext(xamlTypeRepository);
+                var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
                 return anotherValue;
             }
 

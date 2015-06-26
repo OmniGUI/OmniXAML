@@ -37,8 +37,36 @@
                 x.StartMember<DummyClass>(d => d.SampleProperty),
                 x.StartObject(typeof(DummyExtension)),
                 x.EndObject(),
+                x.EndMember(),                
+                x.EndObject(),
+            };
+
+            var actualNodes = sut.Parse(input).ToList();
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void ExtensionWithOption()
+        {
+            var input = new List<ProtoXamlNode>
+            {
+                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.EmptyElement(typeof (DummyClass), ""),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", ""),
+            };
+
+            var expectedNodes = new List<XamlNode>
+            {
+                x.NamespacePrefixDeclaration("root", ""),
+                x.StartObject(typeof (DummyClass)),
+                x.StartMember<DummyClass>(d => d.SampleProperty),
+                x.StartObject(typeof (DummyExtension)),
+                x.MarkupExtensionArguments(),
+                x.Value("Option"),
                 x.EndMember(),
-                //x.None(),
+                x.EndObject(),
+                x.EndMember(),
                 x.EndObject(),
             };
 

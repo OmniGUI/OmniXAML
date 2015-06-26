@@ -167,7 +167,6 @@
         {
             var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();
 
-            var root = "root";
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("", "root"),
@@ -192,7 +191,6 @@
         {
             var actualNodes = sut.Parse(Dummy.FourLevelsOfNesting).ToList();
 
-            var root = "root";
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("", "root"),
@@ -220,8 +218,6 @@
         [TestMethod]
         public void ChildCollection()
         {
-            var root = "root";
-
             var actualNodes = sut.Parse(Dummy.ChildCollection).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
@@ -244,8 +240,6 @@
         [TestMethod]
         public void ContentPropertyForCollectionOneElement()
         {
-            var root = "root";
-
             var actualNodes = sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
@@ -262,8 +256,6 @@
         [TestMethod]
         public void CollapsedTag()
         {
-            var root = "root";
-
             var actualNodes = sut.Parse(Dummy.CollapsedTag).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
@@ -277,8 +269,6 @@
         [TestMethod]
         public void TwoNestedPropertiesEmpty()
         {
-            var root = "root";
-
             var actualNodes = sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {

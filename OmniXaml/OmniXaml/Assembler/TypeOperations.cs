@@ -1,6 +1,7 @@
 namespace OmniXaml.Assembler
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Reflection;
     using Typing;
 
@@ -29,9 +30,9 @@ namespace OmniXaml.Assembler
             parentProperty.XamlMemberValueConnector.SetValue(instance, value);          
         }
 
-        public object Create(XamlType xamlType)
+        public object Create(XamlType xamlType, object[] parameters = null)
         {
-            return typeFactory.Create(xamlType.UnderlyingType);            
+            return typeFactory.Create(xamlType.UnderlyingType, parameters);            
         }
     }
 }

@@ -10,6 +10,11 @@ namespace OmniXaml.Typing
             throw new NotImplementedException();
         }
 
+        public XamlType GetByQualifiedName(string qualifiedName)
+        {
+            throw new NotImplementedException();
+        }
+
         public XamlType GetByPrefix(string prefix, string typeName)
         {
             throw new NotImplementedException();

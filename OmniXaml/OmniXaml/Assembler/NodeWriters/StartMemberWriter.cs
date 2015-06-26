@@ -1,5 +1,8 @@
 namespace OmniXaml.Assembler.NodeWriters
 {
+    using System;
+    using System.Collections.Generic;
+    using Parsers.MarkupExtensions;
     using Typing;
 
     internal class StartMemberWriter
@@ -19,8 +22,26 @@ namespace OmniXaml.Assembler.NodeWriters
 
             if (bag.Current.Instance == null)
             {
-                objectAssembler.PrepareNewInstanceBecauseWeWantToConfigureIt(bag);
+                if (!IsConstructionDirective(property))
+                {
+                    objectAssembler.PrepareNewInstanceBecauseWeWantToConfigureIt(bag);
+                }
+                if (Equals(property, CoreTypes.MarkupExtensionArguments))
+                {
+                    SetupCurrentCollectionToHoldPositionalArguments();
+                }
             }
+            
+        }
+
+        private bool IsConstructionDirective(XamlMember xamlMember)
+        {
+            return Equals(xamlMember, CoreTypes.MarkupExtensionArguments);
+        }
+
+        private void SetupCurrentCollectionToHoldPositionalArguments()
+        {
+            bag.Current.Collection = new List<MarkupExtensionArgument>();
         }
     }
 }

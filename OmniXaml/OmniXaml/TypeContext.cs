@@ -44,6 +44,12 @@ namespace OmniXaml
             return typeRepository.GetXamlType(type);
         }
 
+        public XamlType GetByQualifiedName(string qualifiedName)
+        {
+
+            return typeRepository.GetByQualifiedName(qualifiedName);
+        }
+
         public XamlType GetByPrefix(string prefix, string typeName)
         {
             return typeRepository.GetByPrefix(prefix, typeName);

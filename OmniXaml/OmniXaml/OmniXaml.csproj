@@ -41,6 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assembler\MarkupExtensionArgument.cs" />
     <Compile Include="Assembler\ObjectAssemblerSettings.cs" />
     <Compile Include="Assembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
@@ -61,6 +62,9 @@
     <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
+    <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
+    <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
+    <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />
     <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IDeferredObjectAssembler.cs" />

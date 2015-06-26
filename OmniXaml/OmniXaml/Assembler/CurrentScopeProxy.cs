@@ -1,5 +1,6 @@
 namespace OmniXaml.Assembler
 {
+    using System.Collections.Generic;
     using Glass;
     using Typing;
 
@@ -85,5 +86,7 @@ namespace OmniXaml.Assembler
             get { return stackingLinkedList.Peek().WasAssignedAtCreation; }
             set { stackingLinkedList.Peek().WasAssignedAtCreation = value; }
         }
+
+        public List<object> ConstructorArguments { get; set; }
     }
 }
