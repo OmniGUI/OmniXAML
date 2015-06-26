@@ -24,6 +24,7 @@
             Register(typeof(double), new DoubleTypeConverter());
             Register(typeof(float), new IntTypeConverter());
             Register(typeof(bool), new BooleanConverter());
+            Register(typeof(Type), new TypeTypeConverter());
         }
 
         private void Register(Type type, ITypeConverter converter)

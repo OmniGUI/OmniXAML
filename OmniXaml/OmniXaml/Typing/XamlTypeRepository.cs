@@ -19,7 +19,12 @@ namespace OmniXaml.Typing
 
             return XamlType.Builder.Create(type, this);
         }
-        
+
+        public XamlType GetByQualifiedName(string qualifiedName)
+        {
+            var tuple = qualifiedName.Dicotomize(':');
+            return GetByPrefix(tuple.Item1, tuple.Item2);
+        }
 
         public XamlType GetByPrefix(string prefix, string typeName)
         {

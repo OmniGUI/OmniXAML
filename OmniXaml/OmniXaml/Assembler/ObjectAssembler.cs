@@ -8,6 +8,7 @@
     using Glass;
     using NodeWriters;
     using TypeConversion;
+    using TypeConversion.BuiltInConverters;
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
@@ -354,7 +355,8 @@
             var typeConverter = typeConverterProvider.GetTypeConverter(targetType);
             if (typeConverter != null)
             {
-                var anotherValue = typeConverter.ConvertFrom(null, CultureInfo.InvariantCulture, value);
+                var context = new XamlTypeConverterContext(xamlTypeRepository);
+                var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
                 return anotherValue;
             }
 

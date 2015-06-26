@@ -9,7 +9,7 @@ namespace OmniXaml.Typing
     {
         private readonly IXamlTypeRepository typeRepository;
 
-        protected XamlType(Type type, IXamlTypeRepository typeRepository)
+        public XamlType(Type type, IXamlTypeRepository typeRepository)
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
