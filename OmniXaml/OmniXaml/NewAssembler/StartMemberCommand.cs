@@ -1,6 +1,5 @@
 namespace OmniXaml.NewAssembler
 {
-    using System;
     using Typing;
 
     public class StartMemberCommand : Command
@@ -14,7 +13,14 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            State.Value.XamlMember = member;
+            State.CurrentValue.XamlMember = member;
+
+            if (State.CurrentValue.Instance == null)
+            {
+                State.CurrentValue.MeterializeCurrentType();
+            }
         }
+
+      
     }
 }

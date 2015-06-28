@@ -10,8 +10,9 @@ namespace OmniXaml.NewAssembler
         }
 
         public override void Execute()
-        {            
-            Current.XamlMember.SetValue(Current.Instance, value);
+        {
+            State.Push(new Level());
+            State.CurrentValue.Instance = value;
         }
     }
 }

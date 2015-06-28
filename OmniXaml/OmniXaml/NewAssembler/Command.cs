@@ -13,6 +13,6 @@ namespace OmniXaml.NewAssembler
 
         public abstract void Execute();
         public StackingLinkedList<Level> State => Assembler.State;
-        public Level Current => State.Value;
+        public Level Current => State.CurrentValue;
     }
 }
