@@ -48,7 +48,7 @@
 
         public WiringContext WiringContext => wiringContext;
 
-        public void WriteNode(XamlNode node)
+        public void Process(XamlNode node)
         {
             Guard.ThrowIfNull(node, nameof(node));
 

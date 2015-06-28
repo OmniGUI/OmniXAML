@@ -12,6 +12,11 @@
         }
 
         public LinkedListNode<T> Current => linkedList.Last;
+        public T Value
+        {
+            get { return Current.Value; }
+            set { Current.Value = value; }
+        }
 
         public void Pop()
         {

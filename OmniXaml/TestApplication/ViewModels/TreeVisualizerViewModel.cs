@@ -3,6 +3,7 @@ namespace TestApplication.ViewModels
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using OmniXaml.Tests;
+    using OmniXaml.Visualization;
 
     public class TreeVisualizerViewModel : ViewModel
     {

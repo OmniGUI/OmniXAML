@@ -2,21 +2,20 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Assembler;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
-    public class ObjectAssemblerTests : GivenAWiringContext
+    public abstract class ObjectAssemblerTests : GivenAWiringContext
     {
         private readonly XamlNodeBuilder builder;
-        private readonly ObjectAssembler sut;
+        private readonly IObjectAssembler sut;
 
-        public ObjectAssemblerTests()
+        protected ObjectAssemblerTests()
         {
             builder = new XamlNodeBuilder(WiringContext.TypeContext);
-            sut = new ObjectAssembler(WiringContext);
+            sut = CreateNewObjectAssembler();
         }
+        protected abstract IObjectAssembler CreateNewObjectAssembler();       
 
         [TestMethod]
         public void OneObject()

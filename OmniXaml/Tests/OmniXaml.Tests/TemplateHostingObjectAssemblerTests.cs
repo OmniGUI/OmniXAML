@@ -41,7 +41,7 @@
 
             foreach (var xamlNode in input)
             {
-                sut.WriteNode(xamlNode);
+                sut.Process(xamlNode);
             }
 
             var actualNodes = sut.NodeList;

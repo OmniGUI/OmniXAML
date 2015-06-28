@@ -30,7 +30,7 @@
             get { return objectAssembler.WiringContext; }
         }
 
-        public void WriteNode(XamlNode node)
+        public void Process(XamlNode node)
         {
             if (recording)
             {
@@ -47,7 +47,7 @@
                         recording = false;
                         var loaded = assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList), WiringContext);
                         objectAssembler.OverrideInstance(loaded);
-                        objectAssembler.WriteNode(node);
+                        objectAssembler.Process(node);
                     }
                 }
 
@@ -66,13 +66,13 @@
                         recording = true;
                         nodeList = new Collection<XamlNode>();
                         depth++;
-                        objectAssembler.WriteNode(node);
+                        objectAssembler.Process(node);
                     }
                 }
 
                 if (!recording)
                 {
-                    objectAssembler.WriteNode(node);
+                    objectAssembler.Process(node);
                 }                
             }
         }

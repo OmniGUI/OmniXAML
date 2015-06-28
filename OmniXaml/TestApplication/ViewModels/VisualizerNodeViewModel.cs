@@ -6,6 +6,7 @@ namespace TestApplication.ViewModels
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Tests;
+    using OmniXaml.Visualization;
 
     public class VisualizerNodeViewModel : ViewModel
     {

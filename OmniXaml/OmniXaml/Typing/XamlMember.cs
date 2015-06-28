@@ -118,6 +118,11 @@ namespace OmniXaml.Typing
         protected virtual IXamlMemberValuePlugin LookupXamlMemberValueConnector()
         {
             return new MemberValuePlugin(this);
-        }     
+        }
+
+        public void SetValue(object instance, object value)
+        {
+            XamlMemberValueConnector.SetValue(instance, value);
+        }
     }
 }

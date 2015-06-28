@@ -1,7 +1,6 @@
 namespace OmniXaml.Visualization
 {
     using System.Collections.Generic;
-    using Tests;
 
     public static class NodeVisualizer
     {

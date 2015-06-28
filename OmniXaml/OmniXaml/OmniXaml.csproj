@@ -62,6 +62,15 @@
     <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
+    <Compile Include="NewAssembler\Command.cs" />
+    <Compile Include="NewAssembler\EndMemberCommand.cs" />
+    <Compile Include="NewAssembler\EndObjectCommand.cs" />
+    <Compile Include="NewAssembler\Level.cs" />
+    <Compile Include="NewAssembler\NamespaceDeclarationCommand.cs" />
+    <Compile Include="NewAssembler\StartMemberCommand.cs" />
+    <Compile Include="NewAssembler\StartObjectCommand.cs" />
+    <Compile Include="NewAssembler\SuperObjectAssembler.cs" />
+    <Compile Include="NewAssembler\ValueCommand.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
     <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
     <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />

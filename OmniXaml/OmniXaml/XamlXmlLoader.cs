@@ -48,7 +48,7 @@
         {
             foreach (var xamlNode in xamlNodes)
             {
-                objectAssembler.WriteNode(xamlNode);
+                objectAssembler.Process(xamlNode);
             }
 
             return objectAssembler.Result;

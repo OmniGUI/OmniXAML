@@ -17,11 +17,11 @@ namespace OmniXaml.Assembler
         {
             get
             {
-                return stackingLinkedList.Peek().Instance;
+                return stackingLinkedList.GetValue().Instance;
             }
             set
             {
-                stackingLinkedList.Peek().Instance = value;
+                stackingLinkedList.GetValue().Instance = value;
             }
         }
 
@@ -29,11 +29,11 @@ namespace OmniXaml.Assembler
         {
             get
             {
-                return stackingLinkedList.Peek().XamlType;
+                return stackingLinkedList.GetValue().XamlType;
             }
             set
             {
-                stackingLinkedList.Peek().XamlType = value;
+                stackingLinkedList.GetValue().XamlType = value;
             }
         }
 
@@ -41,11 +41,11 @@ namespace OmniXaml.Assembler
         {
             get
             {
-                return stackingLinkedList.Peek().Member;
+                return stackingLinkedList.GetValue().Member;
             }
             set
             {
-                stackingLinkedList.Peek().Member = value;
+                stackingLinkedList.GetValue().Member = value;
             }
         }
 
@@ -53,11 +53,11 @@ namespace OmniXaml.Assembler
         {
             get
             {
-                return stackingLinkedList.Peek().Collection;
+                return stackingLinkedList.GetValue().Collection;
             }
             set
             {
-                stackingLinkedList.Peek().Collection = value;
+                stackingLinkedList.GetValue().Collection = value;
             }
         }
 
@@ -65,7 +65,7 @@ namespace OmniXaml.Assembler
         {
             set
             {
-                stackingLinkedList.Peek().IsPropertyValueSet = value;
+                stackingLinkedList.GetValue().IsPropertyValueSet = value;
             }
         }
 
@@ -73,18 +73,18 @@ namespace OmniXaml.Assembler
         {
             get
             {
-                return stackingLinkedList.Peek().IsObjectFromMember;
+                return stackingLinkedList.GetValue().IsObjectFromMember;
             }
             set
             {
-                stackingLinkedList.Peek().IsObjectFromMember = value;
+                stackingLinkedList.GetValue().IsObjectFromMember = value;
             }
         }
 
         public bool WasAssignedAtCreation
         {
-            get { return stackingLinkedList.Peek().WasAssignedAtCreation; }
-            set { stackingLinkedList.Peek().WasAssignedAtCreation = value; }
+            get { return stackingLinkedList.GetValue().WasAssignedAtCreation; }
+            set { stackingLinkedList.GetValue().WasAssignedAtCreation = value; }
         }
 
         public List<object> ConstructorArguments { get; set; }
