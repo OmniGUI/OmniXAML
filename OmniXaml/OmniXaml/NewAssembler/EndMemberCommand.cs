@@ -8,19 +8,15 @@ namespace OmniXaml.NewAssembler
 
         public EndMemberCommand(SuperObjectAssembler assembler) : base(assembler)
         {
-            if (IsLeafMember)
+            if (ShouldAssignCurrentInstanceToParent)
             {
-                var child = State.CurrentValue.Instance;
-                var parent = State.PreviousValue.Instance;
-                var parentProperty = State.PreviousValue.XamlMember;
-                parentProperty.SetValue(parent, child);
-
+                State.AssignChildToParent();
                 State.Pop();
             }
 
             State.CurrentValue.XamlMember = null;
         }
 
-        private bool IsLeafMember => State.CurrentValue.XamlMember == null;
+        private bool ShouldAssignCurrentInstanceToParent => State.CurrentValue.XamlMember == null;
     }
 }

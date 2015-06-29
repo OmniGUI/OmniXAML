@@ -8,7 +8,7 @@ namespace OmniXaml.NewAssembler
         public XamlType XamlType { get; set; }
         public XamlMember XamlMember { get; set; }
 
-        public void MeterializeCurrentType()
+        public void MeterializeType()
         {
             var instance = XamlType.CreateInstance(null);
             Instance = instance;

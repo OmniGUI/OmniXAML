@@ -8,21 +8,20 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            if (State.CurrentValue.Instance == null)
+            var assemblerStack = State;
+
+            if (State.HasCurrentInstance)
             {                
-                State.CurrentValue.MeterializeCurrentType();
+                assemblerStack.CurrentValue.MeterializeType();
             }
 
             if (State.Count > 1)
             {
-                var child = State.CurrentValue.Instance;
-                var parent = State.PreviousValue.Instance;
-                var parentProperty = State.PreviousValue.XamlMember;
-                parentProperty.SetValue(parent, child);
+                State.AssignChildToParent();
             }
 
             Assembler.Result = Current.Instance;
-            State.Pop();
+            assemblerStack.Pop();
         }
     }
 }

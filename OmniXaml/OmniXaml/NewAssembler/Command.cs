@@ -1,7 +1,5 @@
 namespace OmniXaml.NewAssembler
 {
-    using Glass;
-
     public abstract class Command
     {
         protected Command(SuperObjectAssembler assembler)
@@ -12,7 +10,7 @@ namespace OmniXaml.NewAssembler
         protected SuperObjectAssembler Assembler { get; }
 
         public abstract void Execute();
-        public StackingLinkedList<Level> State => Assembler.State;
+        public AssemblerState State => Assembler.State;
         public Level Current => State.CurrentValue;
     }
 }

@@ -2,23 +2,20 @@ namespace OmniXaml.NewAssembler
 {
     using System;
     using Assembler;
-    using Glass;
 
     public class SuperObjectAssembler : IObjectAssembler
     {
-        private readonly StackingLinkedList<Level> state = new StackingLinkedList<Level>();
-
         public SuperObjectAssembler(WiringContext wiringContext)
         {
             WiringContext = wiringContext;
-            state.Push(new Level());
+            State.Push(new Level());
         }
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public WiringContext WiringContext { get; }
 
-        public StackingLinkedList<Level> State => state;
+        public AssemblerState State { get; } = new AssemblerState();
 
         public void Process(XamlNode node)
         {
