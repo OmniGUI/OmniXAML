@@ -95,7 +95,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void WithCollection()
         {
             sut.PumpNodes(new Collection<XamlNode>
@@ -124,7 +123,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void WithCollectionAndInnerAttribute()
         {
             sut.PumpNodes(new Collection<XamlNode>
@@ -155,7 +153,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void MemberWithIncompatibleTypes()
         {
             sut.PumpNodes(new Collection<XamlNode>
@@ -175,7 +172,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExtensionWithArgument()
         {
             sut.PumpNodes(
@@ -201,7 +197,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExtensionWithTwoArguments()
         {
             sut.PumpNodes(
@@ -228,7 +223,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExtensionWithNonStringArgument()
         {
             sut.PumpNodes(

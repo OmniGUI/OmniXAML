@@ -41,6 +41,9 @@ namespace OmniXaml.NewAssembler
                 case XamlNodeType.EndMember:
                     command = new EndMemberCommand(this);
                     break;
+                case XamlNodeType.GetObject:
+                    command = new GetObjectCommand(this);
+                    break;
                 default:
                     throw new InvalidOperationException();
             }
@@ -50,6 +53,18 @@ namespace OmniXaml.NewAssembler
 
         public void OverrideInstance(object instance)
         {
+        }
+    }
+
+    public class GetObjectCommand : Command
+    {
+        public GetObjectCommand(SuperObjectAssembler superObjectAssembler) : base(superObjectAssembler)
+        {            
+        }
+
+        public override void Execute()
+        {
+            State.IsProcessingCollection = true;
         }
     }
 }

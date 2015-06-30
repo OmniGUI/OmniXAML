@@ -69,7 +69,7 @@ namespace OmniXaml.Assembler
             }
         }
 
-        public bool IsObjectFromMember
+        public bool IsCollectionHoldingObject
         {
             get
             {

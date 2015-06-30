@@ -13,5 +13,6 @@ namespace OmniXaml.NewAssembler
         }
 
         public bool HasCurrentInstance => CurrentValue.Instance == null;
+        public bool IsProcessingCollection { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 namespace OmniXaml.Assembler.NodeWriters
 {
+    using Typing;
+
     internal class GetObjectWriter
     {
         private readonly ObjectAssembler objectAssembler;
@@ -15,28 +17,42 @@ namespace OmniXaml.Assembler.NodeWriters
         {
             objectAssembler.SetUnfinishedResult();
 
-            var property = bag.Current.Type != null || bag.Depth <= 1
-                               ? bag.Current.Property
-                               : bag.Parent.Property;           
-
             if (bag.Current.Type != null)
             {
                 bag.PushScope();
             }
 
-            bag.Current.IsObjectFromMember = true;
+            var property = GetPropertyForGetObject();
 
-            var parentInstance = bag.Parent.Instance;
-            bag.Current.Type = property.Type;
+            bag.Current.IsCollectionHoldingObject = true;
 
-            var valueOfProperty = TypeOperations.GetValue(parentInstance, property);
-           
+            var valueOfProperty = GetValueOfMemberFromParentInstance(property);
+
             bag.Current.Instance = valueOfProperty;
 
             if (property.Type.IsContainer)
             {
                 bag.Current.Collection = valueOfProperty;
             }
+        }
+
+        private XamlMember GetPropertyForGetObject()
+        {
+            if (bag.Current.Type != null || bag.Depth <= 1)
+            {
+                return bag.Current.Property;
+            }
+
+            return bag.Parent.Property;
+        }
+
+        private object GetValueOfMemberFromParentInstance(XamlMember property)
+        {
+            var parentInstance = bag.Parent.Instance;
+            bag.Current.Type = property.Type;
+
+            var valueOfProperty = TypeOperations.GetValue(parentInstance, property);
+            return valueOfProperty;
         }
     }
 }

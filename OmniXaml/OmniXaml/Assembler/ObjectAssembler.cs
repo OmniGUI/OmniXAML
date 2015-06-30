@@ -226,7 +226,7 @@
             }
             else if (bag.Parent.Instance != null)
             {
-                if (!bag.Current.IsObjectFromMember)
+                if (!bag.Current.IsCollectionHoldingObject)
                 {
                     ApplyPropertyValue(bag, parentProperty, currentInstance, true);
                 }
@@ -235,7 +235,7 @@
 
         private void WriteEndObject()
         {
-            if (!Bag.Current.IsObjectFromMember)
+            if (!Bag.Current.IsCollectionHoldingObject)
             {
                 if (Bag.Current.Instance == null)
                 {
