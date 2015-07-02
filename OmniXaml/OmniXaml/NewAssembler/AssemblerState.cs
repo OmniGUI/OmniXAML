@@ -4,7 +4,7 @@ namespace OmniXaml.NewAssembler
 
     public class AssemblerState : StackingLinkedList<Level>
     {
-        public void AssignChildToParent()
+        public void AssignChildToParentProperty()
         {
             var child = CurrentValue.Instance;
             var parent = PreviousValue.Instance;
@@ -12,7 +12,6 @@ namespace OmniXaml.NewAssembler
             parentProperty.SetValue(parent, child);
         }
 
-        public bool HasCurrentInstance => CurrentValue.Instance == null;
-        public bool IsProcessingCollection { get; set; }
+        public bool HasCurrentInstance => CurrentValue.Instance == null;        
     }
 }

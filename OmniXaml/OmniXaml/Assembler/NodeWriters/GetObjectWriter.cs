@@ -29,6 +29,7 @@ namespace OmniXaml.Assembler.NodeWriters
             var valueOfProperty = GetValueOfMemberFromParentInstance(property);
 
             bag.Current.Instance = valueOfProperty;
+            bag.Current.Type = property.Type;
 
             if (property.Type.IsContainer)
             {
@@ -49,8 +50,6 @@ namespace OmniXaml.Assembler.NodeWriters
         private object GetValueOfMemberFromParentInstance(XamlMember property)
         {
             var parentInstance = bag.Parent.Instance;
-            bag.Current.Type = property.Type;
-
             var valueOfProperty = TypeOperations.GetValue(parentInstance, property);
             return valueOfProperty;
         }

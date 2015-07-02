@@ -17,7 +17,7 @@ namespace OmniXaml.NewAssembler
 
             if (State.CurrentValue.Instance == null)
             {
-                State.CurrentValue.MeterializeType();
+                State.CurrentValue.MaterializeType();
             }
         }      
     }

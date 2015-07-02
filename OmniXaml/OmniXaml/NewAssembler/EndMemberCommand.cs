@@ -10,7 +10,7 @@ namespace OmniXaml.NewAssembler
         {
             if (ShouldAssignCurrentInstanceToParent)
             {
-                State.AssignChildToParent();
+                State.AssignChildToParentProperty();
                 State.Pop();
             }
 

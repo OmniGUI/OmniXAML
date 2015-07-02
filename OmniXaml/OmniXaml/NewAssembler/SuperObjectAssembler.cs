@@ -64,7 +64,20 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            State.IsProcessingCollection = true;
+            State.Push(new Level());
+
+            PromoteMemberInstanceToCurrentInstance();
+
+            State.CurrentValue.IsCollectionHolderObject = true;
+        }
+
+        private void PromoteMemberInstanceToCurrentInstance()
+        {
+            var member = State.PreviousValue.XamlMember;
+            var instance = State.PreviousValue.Instance;
+            var value = member.GetValue(instance);
+            State.CurrentValue.Instance = value;
+            State.CurrentValue.XamlType = member.Type;
         }
     }
 }

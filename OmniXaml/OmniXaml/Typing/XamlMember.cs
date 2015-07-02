@@ -124,5 +124,10 @@ namespace OmniXaml.Typing
         {
             XamlMemberValueConnector.SetValue(instance, value);
         }
+
+        public object GetValue(object instance)
+        {
+            return XamlMemberValueConnector.GetValue(instance);
+        }
     }
 }
