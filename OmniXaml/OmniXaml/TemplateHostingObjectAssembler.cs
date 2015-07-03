@@ -8,6 +8,7 @@
     using System.Reflection;
     using Assembler;
     using Glass;
+    using NewAssembler;
     using Typing;
 
     public class TemplateHostingObjectAssembler : IObjectAssembler

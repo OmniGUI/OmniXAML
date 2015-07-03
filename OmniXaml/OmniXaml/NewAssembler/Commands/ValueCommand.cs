@@ -1,4 +1,4 @@
-namespace OmniXaml.NewAssembler
+namespace OmniXaml.NewAssembler.Commands
 {
     public class ValueCommand : Command
     {
@@ -11,8 +11,9 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            State.Push(new Level());
-            State.CurrentValue.Instance = value;
+            this.StateCommuter.Instance = value;
+            this.StateCommuter.AssignChildToParentProperty();
+            this.StateCommuter.DecreaseLevel();
         }
     }
 }

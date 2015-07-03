@@ -1,4 +1,4 @@
-namespace OmniXaml.NewAssembler
+namespace OmniXaml.NewAssembler.Commands
 {
     using Typing;
 
@@ -13,12 +13,12 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            if (State.CurrentValue.XamlType != null)
+            if (StateCommuter.HasCurrentInstance)
             {
-                State.Push(new Level());
+                StateCommuter.RaiseLevel();
             }
 
-            State.CurrentValue.XamlType = xamlType;          
+            StateCommuter.XamlType = xamlType;
         }
     }
 }

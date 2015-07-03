@@ -2,20 +2,27 @@ namespace OmniXaml.NewAssembler
 {
     using System;
     using Assembler;
+    using Commands;
+    using Glass;
 
     public class SuperObjectAssembler : IObjectAssembler
     {
-        public SuperObjectAssembler(WiringContext wiringContext)
+        public SuperObjectAssembler(WiringContext wiringContext) : this(new StackingLinkedList<Level>(), wiringContext)
         {
-            WiringContext = wiringContext;
-            State.Push(new Level());
+            StateCommuter.RaiseLevel();
+        }
+
+        public SuperObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext)
+        {
+            WiringContext = wiringContext;          
+            StateCommuter = new StateCommuter(state);
         }
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public WiringContext WiringContext { get; }
 
-        public AssemblerState State { get; } = new AssemblerState();
+        public StateCommuter StateCommuter { get; }
 
         public void Process(XamlNode node)
         {
@@ -53,31 +60,6 @@ namespace OmniXaml.NewAssembler
 
         public void OverrideInstance(object instance)
         {
-        }
-    }
-
-    public class GetObjectCommand : Command
-    {
-        public GetObjectCommand(SuperObjectAssembler superObjectAssembler) : base(superObjectAssembler)
-        {            
-        }
-
-        public override void Execute()
-        {
-            State.Push(new Level());
-
-            PromoteMemberInstanceToCurrentInstance();
-
-            State.CurrentValue.IsCollectionHolderObject = true;
-        }
-
-        private void PromoteMemberInstanceToCurrentInstance()
-        {
-            var member = State.PreviousValue.XamlMember;
-            var instance = State.PreviousValue.Instance;
-            var value = member.GetValue(instance);
-            State.CurrentValue.Instance = value;
-            State.CurrentValue.XamlType = member.Type;
         }
     }
 }

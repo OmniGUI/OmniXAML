@@ -1,4 +1,4 @@
-namespace OmniXaml.NewAssembler
+namespace OmniXaml.NewAssembler.Commands
 {
     using Typing;
 
@@ -13,12 +13,14 @@ namespace OmniXaml.NewAssembler
 
         public override void Execute()
         {
-            State.CurrentValue.XamlMember = member;
-
-            if (State.CurrentValue.Instance == null)
+            if (member.IsDirective)
             {
-                State.CurrentValue.MaterializeType();
+                return;
             }
+
+            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();            
+            StateCommuter.Member = member;
+            StateCommuter.RaiseLevel();
         }      
     }
 }

@@ -15,6 +15,9 @@
             builder = new XamlNodeBuilder(WiringContext.TypeContext);
             sut = CreateNewObjectAssembler();
         }
+
+        protected IObjectAssembler Assembler => sut;
+
         protected abstract IObjectAssembler CreateNewObjectAssembler();       
 
         [TestMethod]
@@ -119,6 +122,7 @@
             var children = ((DummyClass)result).Items;
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual(3, children.Count);
             CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
         }
 

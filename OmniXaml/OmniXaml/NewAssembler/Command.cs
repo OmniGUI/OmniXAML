@@ -4,13 +4,12 @@ namespace OmniXaml.NewAssembler
     {
         protected Command(SuperObjectAssembler assembler)
         {
-            this.Assembler = assembler;
+            Assembler = assembler;
         }
 
         protected SuperObjectAssembler Assembler { get; }
 
         public abstract void Execute();
-        public AssemblerState State => Assembler.State;
-        public Level Current => State.CurrentValue;
+        protected StateCommuter StateCommuter => Assembler.StateCommuter;        
     }
 }

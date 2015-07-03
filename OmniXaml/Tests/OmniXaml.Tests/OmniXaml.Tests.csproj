@@ -61,6 +61,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="NewObjectAssemblerTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />

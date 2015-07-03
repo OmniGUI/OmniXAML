@@ -9,6 +9,6 @@ namespace OmniXaml.Tests
         protected override IObjectAssembler CreateNewObjectAssembler()
         {
             return new SuperObjectAssembler(WiringContext);
-        }
-    }    
+        }     
+    }
 }
