@@ -75,30 +75,26 @@ namespace OmniXaml.NewAssembler
             CurrentValue.Instance = xamlType.CreateInstance(null);
         }
 
-        public bool IsObjectFromMember
+        public bool IsPreviousHoldingChildrenIntoACollection => CurrentValue.Collection != null;
+        public bool IsGetObject
         {
-            get { return CurrentValue.IsObjectFromMember; }
-            set { CurrentValue.IsObjectFromMember = value; }
+            get { return CurrentValue.IsGetObject; }
+            set { CurrentValue.IsGetObject = value; }
         }
 
-        public bool IsPreviousHoldingChildrenIntoACollection => CurrentValue.Collection != null;
+        public ICollection Collection
+        {
+            get { return CurrentValue.Collection; }
+            set { CurrentValue.Collection = value; }
+        }
+
+        public XamlMember PreviousMember => PreviousValue.XamlMember;
+        public object PreviousInstance => PreviousValue.Instance;
+        public bool PreviousIsHostingChildren => PreviousValue.Collection != null;
 
         public void AssignChildToCurrentCollection()
         {
-            TypeOperations.Add(CurrentValue.Collection, Instance);
-        }
-
-        public void ConfigureForGetObject()
-        {
-            var collection = GetCollection();
-            IsObjectFromMember = true;
-            RaiseLevel();
-            CurrentValue.Collection = collection;            
-        }
-
-        private ICollection GetCollection()
-        {
-            return (ICollection)PreviousValue.XamlMember.GetValue(PreviousValue.Instance);
+            TypeOperations.Add(PreviousValue.Collection, Instance);
         }
     }
 }

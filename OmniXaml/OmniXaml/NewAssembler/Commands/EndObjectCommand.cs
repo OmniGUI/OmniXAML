@@ -8,14 +8,14 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (!StateCommuter.IsObjectFromMember)
+            if (!StateCommuter.IsGetObject)
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
                 Assembler.Result = StateCommuter.Instance;
 
                 if (StateCommuter.Level > 1)
                 {
-                    if (StateCommuter.IsPreviousHoldingChildrenIntoACollection)
+                    if (StateCommuter.PreviousIsHostingChildren)
                     {
                         StateCommuter.AssignChildToCurrentCollection();
                     }

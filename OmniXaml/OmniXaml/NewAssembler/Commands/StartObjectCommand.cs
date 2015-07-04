@@ -13,12 +13,14 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (StateCommuter.HasCurrentInstance)
+            if (ConflictsWithObjectBeingConfigured)
             {
                 StateCommuter.RaiseLevel();
             }
 
             StateCommuter.XamlType = xamlType;
         }
+
+        private bool ConflictsWithObjectBeingConfigured => StateCommuter.HasCurrentInstance || StateCommuter.IsGetObject;
     }
 }
