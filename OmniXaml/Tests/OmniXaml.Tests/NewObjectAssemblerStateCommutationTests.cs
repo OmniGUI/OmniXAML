@@ -133,9 +133,9 @@ namespace OmniXaml.Tests
 
             sut.Process(builder.GetObject());
 
-            Assert.AreEqual(2, state.Count);
-            Assert.IsTrue(state.CurrentValue.Collection != null);            
-            Assert.IsTrue(state.CurrentValue.IsGetObject);
+            Assert.AreEqual(3, state.Count);
+            Assert.IsTrue(state.PreviousValue.Collection != null);            
+            Assert.IsTrue(state.PreviousValue.IsGetObject);
         }
 
         [TestMethod]
