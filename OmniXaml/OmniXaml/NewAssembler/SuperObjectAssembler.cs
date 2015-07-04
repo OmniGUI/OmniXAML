@@ -15,7 +15,7 @@ namespace OmniXaml.NewAssembler
         public SuperObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext)
         {
             WiringContext = wiringContext;          
-            StateCommuter = new StateCommuter(state);
+            StateCommuter = new StateCommuter(state, wiringContext);
         }
 
         public object Result { get; set; }
