@@ -7,8 +7,11 @@ namespace OmniXaml.NewAssembler
 
     public class SuperObjectAssembler : IObjectAssembler
     {
-        public SuperObjectAssembler(WiringContext wiringContext) : this(new StackingLinkedList<Level>(), wiringContext)
+        private readonly ObjectAssemblerSettings settings;
+
+        public SuperObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext)
         {
+            this.settings = settings;
             StateCommuter.RaiseLevel();
         }
 
@@ -34,7 +37,7 @@ namespace OmniXaml.NewAssembler
                     command = new NamespaceDeclarationCommand(this, node.NamespaceDeclaration);
                     break;
                 case XamlNodeType.StartObject:
-                    command = new StartObjectCommand(this, node.XamlType);
+                    command = new StartObjectCommand(this, node.XamlType, settings?.RootInstance);
                     break;
                 case XamlNodeType.StartMember:
                     command = new StartMemberCommand(this, node.Member);
