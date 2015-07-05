@@ -6,7 +6,7 @@ namespace OmniXaml.Tests
     [TestClass]
     public class NewObjectAssemblerTests : ObjectAssemblerTests
     {
-        protected override IObjectAssembler CreateNewObjectAssembler()
+        protected override IObjectAssembler CreateObjectAssembler()
         {
             return new SuperObjectAssembler(WiringContext);
         }     

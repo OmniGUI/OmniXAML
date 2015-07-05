@@ -6,7 +6,7 @@
     [TestClass]
     public class RealObjectAssemblerTests : ObjectAssemblerTests
     {
-        protected override IObjectAssembler CreateNewObjectAssembler()
+        protected override IObjectAssembler CreateObjectAssembler()
         {
             return new ObjectAssembler(WiringContext);
         }

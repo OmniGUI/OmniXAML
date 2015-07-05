@@ -13,12 +13,10 @@
         protected ObjectAssemblerTests()
         {
             builder = new XamlNodeBuilder(WiringContext.TypeContext);
-            sut = CreateNewObjectAssembler();
+            sut = CreateObjectAssembler();
         }
 
-        protected IObjectAssembler Assembler => sut;
-
-        protected abstract IObjectAssembler CreateNewObjectAssembler();       
+        protected abstract IObjectAssembler CreateObjectAssembler();       
 
         [TestMethod]
         public void OneObject()
