@@ -12,7 +12,7 @@ namespace OmniXaml.NewAssembler.Commands
         }
 
         public override void Execute()
-        {
+        {            
             if (ConflictsWithObjectBeingConfigured)
             {
                 StateCommuter.RaiseLevel();

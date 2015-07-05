@@ -6,6 +6,7 @@ namespace OmniXaml.Tests
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NewAssembler;
+    using Typing;
 
     [TestClass]
     public class NewObjectAssemblerStateCommutationTests : GivenAWiringContext
@@ -182,6 +183,98 @@ namespace OmniXaml.Tests
             sut.Process(builder.EndObject());
 
             Assert.AreEqual(0, state.Count);
+        }
+
+        [TestMethod]
+        public void GivenStateToStartMarkupeExtension_WritingMarkupExtensionArgumentsDirectiveSetsTheModeToReceiveValuesAsCtorArugments()
+        {
+            var state = new StackingLinkedList<Level>();
+
+            state.Push(
+                new Level
+                {
+                    XamlType = WiringContext.GetType(typeof(DummyExtension)),
+                });
+           
+
+            var sut = new SuperObjectAssembler(state, WiringContext);
+
+            sut.Process(builder.MarkupExtensionArguments());
+            Assert.IsTrue(state.CurrentValue.IsProcessingValuesAsCtorArguments);
+        }
+
+        [TestMethod]
+        public void GivenNodeThatWantsValuesAsCtorArguments_WritingValueAddsCtorArgument()
+        {
+            var state = new StackingLinkedList<Level>();
+
+            state.Push(
+                new Level
+                {
+                    IsProcessingValuesAsCtorArguments = true,
+                    CtorArguments = new Collection<ConstructionArgument>()
+                });
+
+
+            var sut = new SuperObjectAssembler(state, WiringContext);
+
+            sut.Process(builder.Value("Value"));
+            Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
+        }
+
+        [TestMethod]
+        public void GivenCtorArguments_WritingEndMemberCreatesProperExtensionArguments()
+        {
+            var state = new StackingLinkedList<Level>();
+
+            var constructionArguments = new Collection<ConstructionArgument> {new ConstructionArgument("Value")};
+            state.Push(
+                new Level
+                {
+                    XamlType = WiringContext.GetType(typeof(DummyExtension)),
+                    CtorArguments = constructionArguments,
+                    IsProcessingValuesAsCtorArguments = true,
+                });
+
+
+            var sut = new SuperObjectAssembler(state, WiringContext);
+            sut.Process(builder.EndMember());
+
+            Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
+            var expectedCollection = new Collection<ConstructionArgument>()
+            {
+                new ConstructionArgument("Value", "Value"),
+            };
+
+            CollectionAssert.AreEqual(expectedCollection, state.CurrentValue.CtorArguments);
+        }
+
+        [TestMethod]
+        public void GivenCtorArguments_WritingEndObjectMakesResultTheProvidedValueOfTheMarkupExtension()
+        {
+            var state = new StackingLinkedList<Level>();
+
+            var xamlType = WiringContext.GetType(typeof (DummyClass));
+            state.Push(
+                new Level
+                {
+                    XamlType = xamlType,
+                    Instance = new DummyClass(),
+                    XamlMember = xamlType.GetMember("SampleProperty")
+                });
+
+            var constructionArguments = new Collection<ConstructionArgument> { new ConstructionArgument("Value", "Value") };
+            state.Push(
+                new Level
+                {
+                    XamlType = WiringContext.GetType(typeof(DummyExtension)),
+                    CtorArguments = constructionArguments,
+                });
+            
+            var sut = new SuperObjectAssembler(state, WiringContext);
+            sut.Process(builder.EndObject());
+
+            Assert.AreEqual("Value", sut.Result);
         }
     }
 }

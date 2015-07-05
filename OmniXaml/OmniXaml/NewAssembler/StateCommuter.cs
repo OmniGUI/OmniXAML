@@ -5,6 +5,9 @@ namespace OmniXaml.NewAssembler
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
     using System.Reflection;
     using Assembler;
     using Glass;
@@ -29,7 +32,7 @@ namespace OmniXaml.NewAssembler
             PreviousValue.XamlMember.SetValue(PreviousInstance, compatibleValue);
         }
 
-        private object ConvertValueIfNecessary(object value, Type targetType)
+        public object ConvertValueIfNecessary(object value, Type targetType)
         {
             if (IsAlreadyCompatible(value, targetType))
             {
@@ -136,8 +139,19 @@ namespace OmniXaml.NewAssembler
             {
                 throw new InvalidOperationException("A type must be set before invoking MaterializeInstanceOfCurrentType");
             }
+            var parameters = GatherConstructionArguments();
+            CurrentValue.Instance = xamlType.CreateInstance(parameters);
+        }
 
-            CurrentValue.Instance = xamlType.CreateInstance(null);
+        private object[] GatherConstructionArguments()
+        {
+            if (CtorArguments == null)
+            {
+                return null;
+            }
+
+            var arguments = CtorArguments.Select(argument => argument.Value).ToArray();
+            return arguments.Any() ? arguments : null;
         }
 
         public bool IsGetObject
@@ -156,9 +170,33 @@ namespace OmniXaml.NewAssembler
         public object PreviousInstance => PreviousValue.Instance;
         public bool PreviousIsHostingChildren => PreviousValue.Collection != null;
 
+        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
+        public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
+
         public void AssignChildToCurrentCollection()
         {
             TypeOperations.Add(PreviousValue.Collection, Instance);
+        }
+
+        public void AddCtorArgument(string stringValue)
+        {
+            CurrentValue.CtorArguments.Add(new ConstructionArgument(stringValue));
+        }
+
+        public void BeginProcessingValuesAsCtorArguments()
+        {
+            CurrentValue.CtorArguments = new Collection<ConstructionArgument>();
+            CurrentValue.IsProcessingValuesAsCtorArguments = true;
+        }
+
+        public void StopProcessingValuesAsCtorArguments()
+        {
+            CurrentValue.IsProcessingValuesAsCtorArguments = false;
+        }
+
+        public void ResetCtorArguments()
+        {
+            CurrentValue.CtorArguments = null;
         }
     }
 }

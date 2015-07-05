@@ -15,12 +15,19 @@ namespace OmniXaml.NewAssembler.Commands
         {
             if (member.IsDirective)
             {
-                return;
+                if (IsMarkupExtensionArguments)
+                {
+                    StateCommuter.BeginProcessingValuesAsCtorArguments();
+                }
             }
+            else
+            {
+                StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
+                StateCommuter.Member = member;
+                StateCommuter.RaiseLevel();
+            }
+        }
 
-            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();            
-            StateCommuter.Member = member;
-            StateCommuter.RaiseLevel();
-        }      
+        private bool IsMarkupExtensionArguments => member.Equals(CoreTypes.MarkupExtensionArguments);
     }
 }

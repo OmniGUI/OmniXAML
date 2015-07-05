@@ -40,7 +40,7 @@ namespace OmniXaml.NewAssembler
                     command = new StartMemberCommand(this, node.Member);
                     break;
                 case XamlNodeType.Value:
-                    command = new ValueCommand(this, node.Value);
+                    command = new ValueCommand(this, (string)node.Value);
                     break;
                 case XamlNodeType.EndObject:
                     command = new EndObjectCommand(this);
