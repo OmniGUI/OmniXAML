@@ -44,5 +44,12 @@
         {
             var visualTree = LoadXaml(Resources.ShowCase);
         }
+
+        [TestMethod]
+
+        public void MicroShowCase()
+        {
+            var visualTree = LoadXaml(Resources.MicroShowCase);
+        }
     }
 }

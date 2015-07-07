@@ -95,6 +95,29 @@ namespace Xaml.Tests.Resources {
         ///        &lt;MenuItem Header=&quot;Save&quot;&gt;
         ///          &lt;MenuItem He [rest of string was truncated]&quot;;.
         /// </summary>
+        public static string MicroShowCase {
+            get {
+                return ResourceManager.GetString("MicroShowCase", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+        ///  &lt;Grid&gt;
+        ///    &lt;Grid.RowDefinitions&gt;
+        ///      &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
+        ///      &lt;RowDefinition /&gt;
+        ///    &lt;/Grid.RowDefinitions&gt;
+        ///    &lt;Menu&gt;
+        ///      &lt;MenuItem Header=&quot;File&quot;&gt;
+        ///        &lt;MenuItem Header=&quot;Open&quot;&gt;
+        ///          &lt;MenuItem.Icon&gt;
+        ///            &lt;Image Source=&quot;github_icon.png&quot;&gt;&lt;/Image&gt;
+        ///          &lt;/MenuItem.Icon&gt;
+        ///        &lt;/MenuItem&gt;
+        ///        &lt;MenuItem Header=&quot;Save&quot;&gt;
+        ///          &lt;MenuItem He [rest of string was truncated]&quot;;.
+        /// </summary>
         public static string ShowCase {
             get {
                 return ResourceManager.GetString("ShowCase", resourceCulture);

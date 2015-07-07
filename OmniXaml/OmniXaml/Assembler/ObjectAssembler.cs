@@ -8,7 +8,6 @@
     using Glass;
     using NodeWriters;
     using TypeConversion;
-    using TypeConversion.BuiltInConverters;
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
