@@ -7,7 +7,7 @@ namespace OmniXaml.NewAssembler.Commands
 
     public class EndMemberCommand : Command
     {
-        private ITypeContext typeContext;
+        private readonly ITypeContext typeContext;
 
         public EndMemberCommand(SuperObjectAssembler assembler) : base(assembler)
         {

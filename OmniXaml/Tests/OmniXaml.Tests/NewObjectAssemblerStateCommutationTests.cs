@@ -67,7 +67,7 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
-        public void GivenConfiguredInstance_StartMemberSetsTheMemberAndRaisesLevel()
+        public void GivenConfiguredInstance_StartMemberSetsTheMember()
         {
             var state = new StackingLinkedList<Level>();
 
@@ -84,13 +84,12 @@ namespace OmniXaml.Tests
 
             sut.Process(builder.StartMember<DummyClass>(d => d.Items));
 
-            Assert.AreEqual(2, state.Count);
-            Assert.AreEqual(state.CurrentValue, new Level());
-            Assert.AreEqual(state.PreviousValue.XamlMember, xamlMember);
+            Assert.AreEqual(1, state.Count);
+            Assert.AreEqual(state.CurrentValue.XamlMember, xamlMember);
         }
 
         [TestMethod]
-        public void GivenConfiguredXamlType_StartMemberInstantiatesItSetsTheMemberAndRaisesLevel()
+        public void GivenConfiguredXamlType_StartMemberInstantiatesItSetsTheMember()
         {
             var state = new StackingLinkedList<Level>();
 
@@ -107,10 +106,9 @@ namespace OmniXaml.Tests
 
             sut.Process(builder.StartMember<DummyClass>(d => d.Items));
 
-            Assert.AreEqual(2, state.Count);
-            Assert.AreEqual(state.CurrentValue, new Level());
-            Assert.IsInstanceOfType(state.PreviousValue.Instance, type);
-            Assert.AreEqual(state.PreviousValue.XamlMember, xamlMember);
+            Assert.AreEqual(1, state.Count);
+            Assert.IsInstanceOfType(state.CurrentValue.Instance, type);
+            Assert.AreEqual(state.CurrentValue.XamlMember, xamlMember);
         }
 
         [TestMethod]
@@ -128,15 +126,13 @@ namespace OmniXaml.Tests
                     XamlMember = xamlMember,                    
                 });
 
-            state.Push(new Level());
-            
             var sut = new SuperObjectAssembler(state, WiringContext);
 
             sut.Process(builder.GetObject());
 
-            Assert.AreEqual(3, state.Count);
-            Assert.IsTrue(state.PreviousValue.Collection != null);            
-            Assert.IsTrue(state.PreviousValue.IsGetObject);
+            Assert.AreEqual(2, state.Count);
+            Assert.IsTrue(state.CurrentValue.Collection != null);            
+            Assert.IsTrue(state.CurrentValue.IsGetObject);
         }
 
         [TestMethod]

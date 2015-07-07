@@ -13,6 +13,7 @@ namespace OmniXaml.NewAssembler.Commands
         {
             if (!StateCommuter.IsProcessingValuesAsCtorArguments)
             {
+                StateCommuter.RaiseLevel();
                 StateCommuter.Instance = value;
                 StateCommuter.AssignChildToParentProperty();
                 StateCommuter.DecreaseLevel();

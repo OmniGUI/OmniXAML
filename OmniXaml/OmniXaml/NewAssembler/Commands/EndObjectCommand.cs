@@ -20,18 +20,7 @@ namespace OmniXaml.NewAssembler.Commands
                 }
 
                 Assembler.Result = StateCommuter.Instance;
-
-                if (StateCommuter.Level > 1)
-                {
-                    if (StateCommuter.PreviousIsHostingChildren)
-                    {
-                        StateCommuter.AssignChildToCurrentCollection();
-                    }
-                    else
-                    {
-                        StateCommuter.AssignChildToParentProperty();
-                    }                
-                }
+                StateCommuter.AssociateCurrentInstanceToParent();
             }
 
             StateCommuter.DecreaseLevel();

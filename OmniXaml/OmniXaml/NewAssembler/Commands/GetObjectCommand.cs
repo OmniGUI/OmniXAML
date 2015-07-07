@@ -9,10 +9,10 @@ namespace OmniXaml.NewAssembler.Commands
         }
 
         public override void Execute()
-        {
+        {            
+            StateCommuter.RaiseLevel();
             StateCommuter.IsGetObject = true;
             StateCommuter.Collection = GetCollection();
-            StateCommuter.RaiseLevel();
         }
 
         private ICollection GetCollection()

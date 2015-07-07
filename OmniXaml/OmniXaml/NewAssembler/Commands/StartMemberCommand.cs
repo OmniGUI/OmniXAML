@@ -13,6 +13,8 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
+            StateCommuter.Member = member;
+
             if (member.IsDirective)
             {
                 if (IsMarkupExtensionArguments)
@@ -23,10 +25,9 @@ namespace OmniXaml.NewAssembler.Commands
             else
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-                StateCommuter.Member = member;
-                StateCommuter.RaiseLevel();
+                StateCommuter.AssociateCurrentInstanceToParent();
             }
-        }
+        }     
 
         private bool IsMarkupExtensionArguments => member.Equals(CoreTypes.MarkupExtensionArguments);
     }

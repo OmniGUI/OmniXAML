@@ -198,5 +198,22 @@ namespace OmniXaml.NewAssembler
         {
             CurrentValue.CtorArguments = null;
         }
+
+        public void AssociateCurrentInstanceToParent()
+        {
+            if (HasParentToAssociate)
+            {
+                if (PreviousIsHostingChildren)
+                {
+                    AssignChildToCurrentCollection();
+                }
+                else
+                {
+                    AssignChildToParentProperty();
+                }
+            }
+        }
+
+        private bool HasParentToAssociate => Level > 1;
     }
 }
