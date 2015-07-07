@@ -5,6 +5,7 @@
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Assembler;
+    using OmniXaml.NewAssembler;
     using OmniXaml.Tests.Classes;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
@@ -61,7 +62,7 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlXmlLoader(new ObjectAssembler(WiringContext), WiringContext);
+            var loader = new XamlXmlLoader(new SuperObjectAssembler(WiringContext), WiringContext);
 
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);
