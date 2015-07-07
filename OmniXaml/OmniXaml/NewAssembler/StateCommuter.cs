@@ -237,5 +237,12 @@ namespace OmniXaml.NewAssembler
         public bool InstanceCanBeAssociated => !(Instance is MarkupExtension);
 
         private bool HasParentToAssociate => Level > 1;
+        public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
+
+        public void AssociateCurrentInstanceToParentForCreation()
+        {
+            AssociateCurrentInstanceToParent();
+            CurrentValue.WasAssociatedRightAfterCreation = true;
+        }
     }
 }

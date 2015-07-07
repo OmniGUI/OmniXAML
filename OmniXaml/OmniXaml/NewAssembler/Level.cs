@@ -15,6 +15,7 @@ namespace OmniXaml.NewAssembler
         public bool IsGetObject { get; set; }
         public bool IsProcessingValuesAsCtorArguments { get; set; }
         public Collection<ConstructionArgument> CtorArguments { get; set; }
+        public bool WasAssociatedRightAfterCreation { get; set; }
 
         protected bool Equals(Level other)
         {

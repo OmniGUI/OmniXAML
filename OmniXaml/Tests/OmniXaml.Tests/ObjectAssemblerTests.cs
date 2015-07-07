@@ -16,7 +16,7 @@
             sut = CreateObjectAssembler();
         }
 
-        protected abstract IObjectAssembler CreateObjectAssembler();       
+        protected abstract IObjectAssembler CreateObjectAssembler();
 
         [TestMethod]
         public void OneObject()
@@ -125,6 +125,53 @@
         }
 
         [TestMethod]
+        public void CollectionWithInnerCollection()
+        {
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.StartObject<DummyClass>(),
+                    builder.StartMember<DummyClass>(d => d.Items),
+                    builder.GetObject(),
+                    builder.Items(),
+                    builder.StartObject<Item>(),
+
+
+                    // Inner collection
+                    builder.StartMember<Item>(d => d.Children),
+                    builder.GetObject(),
+                    builder.Items(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),                    
+                    builder.EndMember(),
+                    builder.EndObject(),
+
+
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var result = sut.Result;
+            var children = ((DummyClass)result).Items;
+
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual(3, children.Count);
+            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
+            var innerCollection = children[0].Children;
+            Assert.AreEqual(2, innerCollection.Count);
+            CollectionAssert.AllItemsAreInstancesOfType(innerCollection, typeof(Item));
+        }
+
+        [TestMethod]
         public void WithCollectionAndInnerAttribute()
         {
             sut.PumpNodes(new Collection<XamlNode>
@@ -192,9 +239,9 @@
                 });
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Option", property);
         }
 
