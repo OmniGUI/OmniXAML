@@ -63,6 +63,8 @@ namespace OmniXaml.NewAssembler
 
         public void OverrideInstance(object instance)
         {
+            StateCommuter.RaiseLevel();
+            StateCommuter.Instance = instance;
         }
     }
 }

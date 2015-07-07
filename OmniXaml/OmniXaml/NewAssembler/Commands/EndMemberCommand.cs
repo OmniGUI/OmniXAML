@@ -20,7 +20,15 @@ namespace OmniXaml.NewAssembler.Commands
             {
                 AdaptCurrentCtorArgumentsToCurrentType();
             }
+
+            if (IsTherePendingInstanceWaitingToBeAssigned)
+            {
+                StateCommuter.AssociateCurrentInstanceToParent();
+                StateCommuter.DecreaseLevel();
+            }
         }
+
+        public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.HasCurrentInstance && StateCommuter.Member == null;
 
         private void AdaptCurrentCtorArgumentsToCurrentType()
         {

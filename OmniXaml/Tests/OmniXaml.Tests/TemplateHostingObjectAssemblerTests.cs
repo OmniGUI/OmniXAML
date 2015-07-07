@@ -5,6 +5,7 @@
     using Classes;
     using Classes.Templates;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NewAssembler;
     using Xaml.Tests.Resources;
 
     [TestClass]
@@ -34,7 +35,7 @@
                 x.EndObject(),
             };
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext));
+            var sut = new TemplateHostingObjectAssembler(new SuperObjectAssembler(WiringContext));
 
             var assembler = new DummyDeferredObjectAssembler();
             sut.DeferredAssembler<Template>(t => t.Content, assembler);
