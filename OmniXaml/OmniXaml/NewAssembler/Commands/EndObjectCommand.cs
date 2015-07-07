@@ -16,7 +16,7 @@ namespace OmniXaml.NewAssembler.Commands
 
                 if (StateCommuter.Instance is MarkupExtension)
                 {
-                    ReplaceInstanceByValueProvidedByMarkupExtension((MarkupExtension) StateCommuter.Instance);
+                    StateCommuter.Instance = StateCommuter.ReplaceInstanceByValueProvidedByMarkupExtension((MarkupExtension)StateCommuter.Instance);
                 }
 
                 Assembler.Result = StateCommuter.Instance;
@@ -24,25 +24,6 @@ namespace OmniXaml.NewAssembler.Commands
             }
 
             StateCommuter.DecreaseLevel();
-        }
-
-        private void ReplaceInstanceByValueProvidedByMarkupExtension(MarkupExtension instance)
-        {
-            var markupExtensionContext = GetExtensionContext();
-            StateCommuter.Instance = instance.ProvideValue(markupExtensionContext);
-        }
-
-        private MarkupExtensionContext GetExtensionContext()
-        {
-            var inflationContext = new MarkupExtensionContext
-            {
-                TargetObject = StateCommuter.PreviousInstance,
-                TargetProperty = StateCommuter.PreviousInstance.GetType().GetRuntimeProperty(StateCommuter.PreviousMember.Name),
-                TypeRepository = Assembler.WiringContext.TypeContext,
-            };
-
-            return inflationContext;
-        }
-
+        } 
     }
 }

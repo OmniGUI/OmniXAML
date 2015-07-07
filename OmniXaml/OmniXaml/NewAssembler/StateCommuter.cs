@@ -140,7 +140,27 @@ namespace OmniXaml.NewAssembler
                 throw new InvalidOperationException("A type must be set before invoking MaterializeInstanceOfCurrentType");
             }
             var parameters = GatherConstructionArguments();
-            CurrentValue.Instance = xamlType.CreateInstance(parameters);
+            var instance = xamlType.CreateInstance(parameters);
+           
+            CurrentValue.Instance = instance;
+        }
+
+        public object ReplaceInstanceByValueProvidedByMarkupExtension(MarkupExtension instance)
+        {
+            var markupExtensionContext = GetExtensionContext();
+            return instance.ProvideValue(markupExtensionContext);
+        }
+
+        private MarkupExtensionContext GetExtensionContext()
+        {
+            var inflationContext = new MarkupExtensionContext
+            {
+                TargetObject = PreviousInstance,
+                TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
+                TypeRepository = wiringContext.TypeContext,
+            };
+
+            return inflationContext;
         }
 
         private object[] GatherConstructionArguments()
@@ -201,7 +221,7 @@ namespace OmniXaml.NewAssembler
 
         public void AssociateCurrentInstanceToParent()
         {
-            if (HasParentToAssociate)
+            if (HasParentToAssociate && InstanceCanBeAssociated)
             {
                 if (PreviousIsHostingChildren)
                 {
@@ -213,6 +233,8 @@ namespace OmniXaml.NewAssembler
                 }
             }
         }
+
+        public bool InstanceCanBeAssociated => !(Instance is MarkupExtension);
 
         private bool HasParentToAssociate => Level > 1;
     }
