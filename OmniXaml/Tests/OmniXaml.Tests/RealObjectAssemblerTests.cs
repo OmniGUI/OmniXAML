@@ -1,14 +1,14 @@
 ﻿namespace OmniXaml.Tests
 {
-    using Assembler;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NewAssembler;
 
     [TestClass]
     public class RealObjectAssemblerTests : ObjectAssemblerTests
     {
         protected override IObjectAssembler CreateObjectAssembler()
         {
-            return new ObjectAssembler(WiringContext);
+            return new SuperObjectAssembler(WiringContext);
         }
     }
 }
