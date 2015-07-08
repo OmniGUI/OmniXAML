@@ -10,7 +10,7 @@
 
         public WpfObjectAssembler(WiringContext wiringContext)
         {
-            objectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(wiringContext));
+            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext));
             objectAssembler.DeferredAssembler<DataTemplate>(template => template.AlternateTemplateContent, new DeferredObjectAssembler());
         }        
 

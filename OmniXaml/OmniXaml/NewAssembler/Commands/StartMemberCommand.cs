@@ -25,9 +25,12 @@ namespace OmniXaml.NewAssembler.Commands
             else
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-                StateCommuter.AssociateCurrentInstanceToParentForCreation();                
+                if (!StateCommuter.WasAssociatedRightAfterCreation)
+                {
+                    StateCommuter.AssociateCurrentInstanceToParentForCreation();
+                }
             }
-        }     
+        }
 
         private bool IsMarkupExtensionArguments => member.Equals(CoreTypes.MarkupExtensionArguments);
     }
