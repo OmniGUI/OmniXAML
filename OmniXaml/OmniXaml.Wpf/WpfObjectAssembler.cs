@@ -2,6 +2,7 @@
 {
     using System;
     using Assembler;
+    using NewAssembler;
 
     public class WpfObjectAssembler : IObjectAssembler
     {
@@ -9,16 +10,16 @@
 
         public WpfObjectAssembler(WiringContext wiringContext)
         {
-            objectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(wiringContext));
+            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext));
             objectAssembler.DeferredAssembler<DataTemplate>(template => template.AlternateTemplateContent, new DeferredObjectAssembler());
         }        
 
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public WiringContext WiringContext => objectAssembler.WiringContext;
-        public void WriteNode(XamlNode node)
+        public void Process(XamlNode node)
         {
-            objectAssembler.WriteNode(node);
+            objectAssembler.Process(node);
         }
 
         public void OverrideInstance(object instance)

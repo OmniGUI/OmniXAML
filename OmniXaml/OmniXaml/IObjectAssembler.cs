@@ -2,6 +2,7 @@
 {
     using System;
     using Assembler;
+    using NewAssembler;
 
     public interface IObjectAssembler
     {
@@ -9,7 +10,7 @@
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         WiringContext WiringContext { get; }
 
-        void WriteNode(XamlNode node);
+        void Process(XamlNode node);
 
         void OverrideInstance(object instance);
     }

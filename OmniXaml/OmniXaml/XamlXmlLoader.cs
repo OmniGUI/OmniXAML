@@ -1,11 +1,8 @@
 ﻿namespace OmniXaml
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using Glass;
-    using Parsers.ProtoParser;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
@@ -48,7 +45,7 @@
         {
             foreach (var xamlNode in xamlNodes)
             {
-                objectAssembler.WriteNode(xamlNode);
+                objectAssembler.Process(xamlNode);
             }
 
             return objectAssembler.Result;

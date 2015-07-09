@@ -5,6 +5,7 @@
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Assembler;
+    using OmniXaml.NewAssembler;
     using OmniXaml.Tests.Classes;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
@@ -19,6 +20,7 @@
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(XamlResources).Assembly, "Xaml.Tests.Resources.Dummy.resources");
             Snippets = snippetsProvider.Snippets;
             Xaml = XamlResources.ChildCollection;
+            SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
             WiringContext = DummyWiringContext.Create();
         }
@@ -61,7 +63,7 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlXmlLoader(new ObjectAssembler(WiringContext), WiringContext);
+            var loader = new XamlXmlLoader(new SuperObjectAssembler(WiringContext), WiringContext);
 
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);

@@ -2,6 +2,7 @@ namespace TestApplication
 {
     using System.Collections.Generic;
     using OmniXaml.Tests;
+    using OmniXaml.Visualization;
 
     public class TagVisualizerViewModel : ViewModel
     {

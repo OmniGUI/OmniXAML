@@ -134,5 +134,10 @@ namespace OmniXaml.Typing
         {
             throw new NotImplementedException();
         }
+
+        public object CreateInstance(object[] parameters)
+        {
+            return Activator.CreateInstance(UnderlyingType, parameters);
+        }
     }
 }

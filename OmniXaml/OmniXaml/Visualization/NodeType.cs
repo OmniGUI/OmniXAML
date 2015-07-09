@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests
+namespace OmniXaml.Visualization
 {
     public enum NodeType
     {

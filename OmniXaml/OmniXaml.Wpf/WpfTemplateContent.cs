@@ -19,7 +19,7 @@ namespace OmniXaml.Wpf
             var loader = new WpfObjectAssembler(Context);
             foreach (var xamlNode in Nodes)
             {
-                loader.WriteNode(xamlNode);
+                loader.Process(xamlNode);
             }
 
             return (FrameworkElement) loader.Result;

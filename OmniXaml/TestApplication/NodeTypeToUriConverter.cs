@@ -5,6 +5,7 @@ namespace TestApplication
     using System.Windows;
     using System.Windows.Data;
     using OmniXaml.Tests;
+    using OmniXaml.Visualization;
 
     public class NodeTypeToUriConverter : IValueConverter
     {

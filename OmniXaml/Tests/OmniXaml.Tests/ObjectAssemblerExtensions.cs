@@ -8,7 +8,7 @@ namespace OmniXaml.Tests
         {
             foreach (var xamlNode in nodes)
             {
-                assembler.WriteNode(xamlNode);
+                assembler.Process(xamlNode);
             }
         }
     }

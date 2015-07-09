@@ -2,21 +2,21 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Assembler;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    [TestClass]
-    public class ObjectAssemblerTests : GivenAWiringContext
+    public abstract class ObjectAssemblerTests : GivenAWiringContext
     {
         private readonly XamlNodeBuilder builder;
-        private readonly ObjectAssembler sut;
+        private readonly IObjectAssembler sut;
 
-        public ObjectAssemblerTests()
+        protected ObjectAssemblerTests()
         {
             builder = new XamlNodeBuilder(WiringContext.TypeContext);
-            sut = new ObjectAssembler(WiringContext);
+            sut = CreateObjectAssembler();
         }
+
+        protected abstract IObjectAssembler CreateObjectAssembler();
 
         [TestMethod]
         public void OneObject()
@@ -120,7 +120,55 @@
             var children = ((DummyClass)result).Items;
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual(3, children.Count);
             CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
+        }
+
+        [TestMethod]
+        public void CollectionWithInnerCollection()
+        {
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.StartObject<DummyClass>(),
+                    builder.StartMember<DummyClass>(d => d.Items),
+                    builder.GetObject(),
+                    builder.Items(),
+                    builder.StartObject<Item>(),
+
+
+                    // Inner collection
+                    builder.StartMember<Item>(d => d.Children),
+                    builder.GetObject(),
+                    builder.Items(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),                    
+                    builder.EndMember(),
+                    builder.EndObject(),
+
+
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.StartObject<Item>(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var result = sut.Result;
+            var children = ((DummyClass)result).Items;
+
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.AreEqual(3, children.Count);
+            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
+            var innerCollection = children[0].Children;
+            Assert.AreEqual(2, innerCollection.Count);
+            CollectionAssert.AllItemsAreInstancesOfType(innerCollection, typeof(Item));
         }
 
         [TestMethod]
@@ -191,9 +239,9 @@
                 });
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Option", property);
         }
 

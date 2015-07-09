@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Reflection;
     using Assembler;
+    using NewAssembler;
     using Typing;
 
     public class XamlXmlLoaderBuilder
@@ -32,7 +33,7 @@
             RegisterContentProperties(wiringContextBuilder);
 
             var wiringContext = wiringContextBuilder.Build();
-            var assembler = new ObjectAssembler(wiringContext);
+            var assembler = new SuperObjectAssembler(wiringContext);
             return new XamlXmlLoader(assembler, wiringContext);
         }
 

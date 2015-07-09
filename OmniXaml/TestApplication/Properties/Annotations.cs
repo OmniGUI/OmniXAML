@@ -870,7 +870,7 @@ namespace TestApplication.Properties
   public sealed class RazorWriteMethodParameterAttribute : Attribute { }
 
   /// <summary>
-  /// Prevents the Member Reordering feature from tossing members of the marked class
+  /// Prevents the XamlMember Reordering feature from tossing members of the marked class
   /// </summary>
   /// <remarks>
   /// The attribute must be mentioned in your member reordering patterns

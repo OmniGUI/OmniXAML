@@ -8,7 +8,6 @@
     using Glass;
     using NodeWriters;
     using TypeConversion;
-    using TypeConversion.BuiltInConverters;
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
@@ -48,7 +47,7 @@
 
         public WiringContext WiringContext => wiringContext;
 
-        public void WriteNode(XamlNode node)
+        public void Process(XamlNode node)
         {
             Guard.ThrowIfNull(node, nameof(node));
 
@@ -226,7 +225,7 @@
             }
             else if (bag.Parent.Instance != null)
             {
-                if (!bag.Current.IsObjectFromMember)
+                if (!bag.Current.IsCollectionHoldingObject)
                 {
                     ApplyPropertyValue(bag, parentProperty, currentInstance, true);
                 }
@@ -235,7 +234,7 @@
 
         private void WriteEndObject()
         {
-            if (!Bag.Current.IsObjectFromMember)
+            if (!Bag.Current.IsCollectionHoldingObject)
             {
                 if (Bag.Current.Instance == null)
                 {
