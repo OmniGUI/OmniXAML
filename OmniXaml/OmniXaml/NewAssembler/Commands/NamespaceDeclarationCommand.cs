@@ -1,4 +1,4 @@
-namespace OmniXaml.NewAssembler
+namespace OmniXaml.NewAssembler.Commands
 {
     public class NamespaceDeclarationCommand : Command
     {

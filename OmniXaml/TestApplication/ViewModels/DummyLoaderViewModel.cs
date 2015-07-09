@@ -20,6 +20,7 @@
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(XamlResources).Assembly, "Xaml.Tests.Resources.Dummy.resources");
             Snippets = snippetsProvider.Snippets;
             Xaml = XamlResources.ChildCollection;
+            SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
             WiringContext = DummyWiringContext.Create();
         }

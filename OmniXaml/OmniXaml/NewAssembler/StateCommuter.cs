@@ -16,76 +16,20 @@ namespace OmniXaml.NewAssembler
     public class StateCommuter
     {
         private readonly StackingLinkedList<Level> stack;
-        private readonly WiringContext wiringContext;
+        private readonly ValuePipeline valuePipeline;
 
         public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext)
         {
             this.stack = stack;
-            this.wiringContext = wiringContext;
+            valuePipeline = new ValuePipeline(wiringContext);
         }
 
         public void AssignChildToParentProperty()
         {
             var underlyingType = PreviousMember.Type.UnderlyingType;
-            var compatibleValue = ConvertValueIfNecessary(Instance, underlyingType);
+            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, underlyingType);
 
             PreviousValue.XamlMember.SetValue(PreviousInstance, compatibleValue);
-        }
-
-        public object ConvertValueIfNecessary(object value, Type targetType)
-        {
-            if (IsAlreadyCompatible(value, targetType))
-            {
-                return value;
-            }
-
-            object converted;
-            var success = TrySpecialConversion(value, targetType, out converted);
-            if (success)
-            {
-                return converted;
-            }
-
-            var typeConverter = wiringContext.ConverterProvider.GetTypeConverter(targetType);
-            if (typeConverter != null)
-            {
-                var context = new XamlTypeConverterContext(wiringContext.TypeContext);
-                var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
-                return anotherValue;
-            }
-
-            throw new ValueConversionException($"Cannot convert {value} to type {targetType}");
-        }
-
-        private static bool IsAlreadyCompatible(object value, Type targetType)
-        {
-            return targetType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo());
-        }
-
-        private static bool TrySpecialConversion(object value, Type targetType, out object converted)
-        {
-            var type = value.GetType();
-
-            if (type == typeof(string) && targetType == typeof(string))
-            {
-                converted = value;
-                return true;
-            }
-
-            if (type == typeof(string) && targetType == typeof(object))
-            {
-                converted = value.ToString();
-                return true;
-            }
-
-            if (targetType.GetTypeInfo().IsEnum)
-            {
-                converted = Enum.Parse(targetType, value.ToString());
-                return true;
-            }
-
-            converted = null;
-            return false;
         }
 
         public bool HasCurrentInstance => CurrentValue.Instance != null;
@@ -145,7 +89,7 @@ namespace OmniXaml.NewAssembler
             CurrentValue.Instance = instance;
         }
 
-        public object ReplaceInstanceByValueProvidedByMarkupExtension(MarkupExtension instance)
+        public object ReplaceInstanceByValueProvidedByMarkupExtension(IMarkupExtension instance)
         {
             var markupExtensionContext = GetExtensionContext();
             return instance.ProvideValue(markupExtensionContext);
@@ -157,7 +101,7 @@ namespace OmniXaml.NewAssembler
             {
                 TargetObject = PreviousInstance,
                 TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
-                TypeRepository = wiringContext.TypeContext,
+                TypeRepository = ValuePipeline.WiringContext.TypeContext,
             };
 
             return inflationContext;
@@ -238,6 +182,8 @@ namespace OmniXaml.NewAssembler
 
         private bool HasParentToAssociate => Level > 1;
         public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
+
+        public ValuePipeline ValuePipeline => valuePipeline;
 
         public void AssociateCurrentInstanceToParentForCreation()
         {

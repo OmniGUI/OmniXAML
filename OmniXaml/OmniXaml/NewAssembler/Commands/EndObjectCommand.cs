@@ -14,9 +14,9 @@ namespace OmniXaml.NewAssembler.Commands
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
 
-                if (StateCommuter.Instance is MarkupExtension)
+                if (StateCommuter.Instance is IMarkupExtension)
                 {
-                    StateCommuter.Instance = StateCommuter.ReplaceInstanceByValueProvidedByMarkupExtension((MarkupExtension)StateCommuter.Instance);
+                    StateCommuter.Instance = StateCommuter.ReplaceInstanceByValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Instance);
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
                 else if (!StateCommuter.WasAssociatedRightAfterCreation)
