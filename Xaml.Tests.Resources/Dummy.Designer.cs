@@ -317,6 +317,17 @@ namespace Xaml.Tests.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
+        ///    &lt;SampleProperty&gt;Property!&lt;/SampleProperty&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string InnerContent {
+            get {
+                return ResourceManager.GetString("InnerContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
         ///    &lt;ChildClass&gt;&lt;/ChildClass&gt;
         ///  &lt;/DummyClass.Child&gt;
@@ -370,7 +381,7 @@ namespace Xaml.Tests.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
-        ///  &lt;ChildClass /&gt;
+        ///  &lt;Item /&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
         public static string NestedChildWithoutPropertyName {

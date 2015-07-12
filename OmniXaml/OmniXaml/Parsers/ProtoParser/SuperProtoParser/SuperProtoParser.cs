@@ -71,7 +71,7 @@
                 else
                 {
                     foreach (var node in ParseChildren()) yield return node;
-                }               
+                }
             }
         }
 
@@ -80,6 +80,8 @@
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
             yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, propertyLocator.Prefix);
             reader.Read();
+
+            foreach (var p in ParseInnerTextIfAny()) yield return p;
 
             SkipWhitespaces();
             if (reader.NodeType != XmlNodeType.EndElement)
@@ -91,6 +93,15 @@
             }
 
             yield return nodeBuilder.EndTag();
+        }
+
+        private IEnumerable<ProtoXamlNode> ParseInnerTextIfAny()
+        {
+            if (reader.NodeType == XmlNodeType.Text)
+            {
+                yield return nodeBuilder.Text(reader.Value);
+                reader.Read();
+            }
         }
 
         private IEnumerable<ProtoXamlNode> ParseChildren()

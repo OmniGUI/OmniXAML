@@ -310,5 +310,23 @@
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
+
+        [TestMethod]
+        public void ExpandedStringProperty()
+        {
+            var actualNodes = sut.Parse(Dummy.InnerContent).ToList();
+
+            var expectedNodes = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("", "root"),
+                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, ""),
+                builder.Text("Property!"),
+                builder.EndTag(),
+                builder.EndTag(),
+            };
+
+            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+        }
     }
 }

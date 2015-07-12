@@ -34,7 +34,7 @@
             {
                 var prefixRegistration = new PrefixRegistration(prefix, ns);
                 if (!typeContext.RegisteredPrefixes.Contains(prefixRegistration))
-                {                    
+                {
                     typeContext.RegisterPrefix(prefixRegistration);
                 }
             }
@@ -51,7 +51,7 @@
         private ProtoXamlNode Element(Type type, string prefix, bool isEmpty)
         {
             return new ProtoXamlNode
-            {                
+            {
                 Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
                 Prefix = prefix ?? string.Empty,
                 XamlType = XamlType.Builder.Create(type, typeContext),
@@ -145,9 +145,9 @@
             };
         }
 
-        public ProtoXamlNode Text()
+        public ProtoXamlNode Text(string text = null)
         {
-            return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, };
+            return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, Text = text };
         }
 
         public ProtoXamlNode Attribute(XamlMember member, string value, string prefix)
@@ -163,7 +163,7 @@
 
         public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
         {
-            var xamlMember = typeContext.GetXamlType(typeof (T)).GetMember(selector.GetFullPropertyName());
+            var xamlMember = typeContext.GetXamlType(typeof(T)).GetMember(selector.GetFullPropertyName());
             return Attribute(xamlMember, value, prefix);
         }
     }

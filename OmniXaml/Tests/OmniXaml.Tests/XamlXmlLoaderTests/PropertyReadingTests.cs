@@ -17,7 +17,19 @@
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
-        }    
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void ExpandedStringProperty()
+        {
+            var actualInstance = Loader.Load(Dummy.InnerContent);
+
+            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            var dummyClass = actualInstance as DummyClass;
+            Assert.IsNotNull(dummyClass);
+            Assert.AreEqual("Property!", dummyClass.SampleProperty);
+        }
 
         [TestMethod]
         public void NonStringProperty()

@@ -12,12 +12,13 @@
         public string Prefix { get; set; }
         public XamlMember PropertyElement { get; set; }
         public string PropertyAttributeText { get; set; }
+        public string Text { get; set; }
 
         protected bool Equals(ProtoXamlNode other)
         {
             return Equals(XamlType, other.XamlType) && string.Equals(Namespace, other.Namespace) && NodeType == other.NodeType &&
                    Equals(PropertyAttribute, other.PropertyAttribute) && string.Equals(Prefix, other.Prefix) && Equals(PropertyElement, other.PropertyElement) &&
-                   string.Equals(PropertyAttributeText, other.PropertyAttributeText);
+                   string.Equals(PropertyAttributeText, other.PropertyAttributeText) && string.Equals(Text, other.Text);
         }
 
         public override bool Equals(object obj)
@@ -30,7 +31,7 @@
             {
                 return true;
             }
-            if (obj.GetType() != GetType())
+            if (obj.GetType() != this.GetType())
             {
                 return false;
             }
@@ -48,6 +49,7 @@
                 hashCode = (hashCode * 397) ^ (Prefix != null ? Prefix.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (PropertyElement != null ? PropertyElement.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (PropertyAttributeText != null ? PropertyAttributeText.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Text != null ? Text.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -76,7 +78,7 @@
                 case NodeType.Directive:
                     str = string.Concat(str, PropertyAttribute);
                     return str;
-                    case NodeType.PrefixDefinition:
+                case NodeType.PrefixDefinition:
                     str = string.Concat($"{Prefix}:{Namespace}");
                     return str;
                 default:
