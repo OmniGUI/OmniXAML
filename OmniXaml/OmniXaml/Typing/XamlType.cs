@@ -33,7 +33,7 @@ namespace OmniXaml.Typing
                 var isCollection = typeof (ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
                 var isEnumerable = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
 
-                return isCollection || isEnumerable;
+                return UnderlyingType != typeof(string) && (isCollection || isEnumerable) ;
             }
         }
 

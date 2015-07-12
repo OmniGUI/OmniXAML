@@ -620,5 +620,34 @@
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
         }
+
+        [TestMethod]
+        public void ExpandedStringProperty()
+        {
+            var input = new List<ProtoXamlNode>
+            {
+                p.NamespacePrefixDeclaration("", "root"),
+                p.NonEmptyElement(typeof (DummyClass), string.Empty),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, ""),
+                p.Text("Property!"),
+                p.EndTag(),
+                p.EndTag(),
+            };
+
+            var expectedNodes = new List<XamlNode>
+            {
+                x.NamespacePrefixDeclaration("root", string.Empty),
+                x.StartObject<DummyClass>(),
+                x.StartMember<DummyClass>(c => c.SampleProperty),
+                x.Value("Property!"),
+                x.EndMember(),
+                x.EndObject(),
+            };
+
+            var actualNodes = sut.Parse(input);
+            var xamlNodes = actualNodes.ToList();
+
+            CollectionAssert.AreEqual(expectedNodes, xamlNodes);
+        }
     }
 }

@@ -20,7 +20,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExpandedStringProperty()
         {
             var actualInstance = Loader.Load(Dummy.InnerContent);
@@ -63,26 +62,6 @@
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual(Container.GetProperty(dummyClass), "Value");
-        }
-
-        //[TestMethod]
-        //[Ignore]
-        //public void ConfiguredContentPropertyShouldReadItsValue()
-        //{
-        //    var cpp = new Mock<IContentPropertyProvider>();
-        //    cpp.Setup(provider => provider.GetContentPropertyName(It.IsAny<Type>()))
-        //        .Returns(() => "Child");
-
-        //    var sut = xamlXmlLoaderBuilder
-        //        .WithContentPropertyProvider(cpp.Object)
-        //        .AddNsForThisType("", "root", typeof(DummyClass))
-        //        .Build();
-
-        //    var actualInstance = Load(Dummy.NestedChildWithoutPropertyName);
-
-        //    Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The root should be an instance of DummyClass");
-        //    Assert.IsNotNull(((DummyClass)actualInstance).Child, "Child should't be null");
-        //    Assert.IsInstanceOfType(((DummyClass)actualInstance).Child, typeof(ChildClass), "Child should be an instance of ChildClass");
-        //}
+        }      
     }
 }

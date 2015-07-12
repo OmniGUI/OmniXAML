@@ -202,12 +202,24 @@
 
             SetNextNode();
 
-            foreach (var xamlNode in ParseElements())
-            {
-                yield return xamlNode;
-            }
+            foreach (var xamlNode in ParseInnerContentOfNestedProperty()) yield return xamlNode;
 
             yield return Inject.EndOfMember();
+        }
+
+        private IEnumerable<XamlNode> ParseInnerContentOfNestedProperty()
+        {
+            if (CurrentNodeType == NodeType.Text)
+            {
+                yield return Inject.Value(nodeStream.Current.Text);
+            }
+            else
+            {
+                foreach (var xamlNode in ParseElements())
+                {
+                    yield return xamlNode;
+                }
+            }
         }
 
         private IEnumerable<XamlNode> ParseMembersOfObject()
