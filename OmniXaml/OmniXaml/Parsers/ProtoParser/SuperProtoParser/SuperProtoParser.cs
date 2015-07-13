@@ -10,7 +10,7 @@
     {
         private readonly WiringContext wiringContext;
         private readonly ProtoNodeBuilder nodeBuilder;
-        private XmlReader reader;
+        private IXmlReader reader;
 
         public SuperProtoParser(WiringContext wiringContext)
         {
@@ -20,7 +20,7 @@
 
         public IEnumerable<ProtoXamlNode> Parse(string xml)
         {
-            reader = XmlReader.Create(new StringReader(xml));
+            reader = new XmlCompatibilityReader(new StringReader(xml));
             reader.Read();
 
             return ParseElement();

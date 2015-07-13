@@ -79,21 +79,11 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
-        ///  &lt;Grid&gt;
-        ///    &lt;Grid.RowDefinitions&gt;
-        ///      &lt;RowDefinition Height=&quot;Auto&quot;/&gt;
-        ///      &lt;RowDefinition /&gt;
-        ///    &lt;/Grid.RowDefinitions&gt;
-        ///    &lt;Menu&gt;
-        ///      &lt;MenuItem Header=&quot;File&quot;&gt;
-        ///        &lt;MenuItem Header=&quot;Open&quot;&gt;
-        ///          &lt;MenuItem.Icon&gt;
-        ///            &lt;Image Source=&quot;github_icon.png&quot;&gt;&lt;/Image&gt;
-        ///          &lt;/MenuItem.Icon&gt;
-        ///        &lt;/MenuItem&gt;
-        ///        &lt;MenuItem Header=&quot;Save&quot;&gt;
-        ///          &lt;MenuItem He [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;Menu xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+        ///  &lt;MenuItem Header=&quot;File&quot;&gt;
+        ///    &lt;MenuItem /&gt;
+        ///  &lt;/MenuItem&gt;
+        ///&lt;/Menu&gt;.
         /// </summary>
         public static string MicroShowCase {
             get {
@@ -143,6 +133,44 @@ namespace Xaml.Tests.Resources {
         public static string Stage1 {
             get {
                 return ResourceManager.GetString("Stage1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Window x:Class=&quot;WpfApplication_test1.MainWindow&quot;
+        ///        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        ///        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        ///        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        ///        xmlns:local=&quot;clr-namespace:WpfApplication_test1&quot;
+        ///        mc:Ignorable=&quot;d&quot;
+        ///        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
+        ///  &lt;Grid Background=&quot;BlueViolet&quot;&gt;
+        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Stage2 {
+            get {
+                return ResourceManager.GetString("Stage2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;UserControl
+        ///    x:Class=&quot;NcoreCpuMarkW8.UI.Controls.UcSpeedmeter&quot;
+        ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
+        ///    xmlns:local=&quot;using:NcoreCpuMarkW8.UI.Controls&quot;
+        ///    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        ///    xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        ///    mc:Ignorable=&quot;d&quot;
+        ///    d:DesignHeight=&quot;400&quot;
+        ///    d:DesignWidth=&quot;600&quot;&gt;
+        ///  &lt;Grid MinHeight=&quot;400&quot; MinWidth=&quot;600&quot;&gt;
+        ///    [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string Stage3 {
+            get {
+                return ResourceManager.GetString("Stage3", resourceCulture);
             }
         }
         

@@ -62,6 +62,17 @@
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual(Container.GetProperty(dummyClass), "Value");
-        }      
+        }
+
+        [TestMethod]
+        public void Ignorable()
+        {
+            var actualInstance = Loader.Load(Dummy.Ignorable);
+
+            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            var dummyClass = actualInstance as DummyClass;
+            Assert.IsNotNull(dummyClass);
+            Assert.AreEqual("Property!", dummyClass.SampleProperty);
+        }
     }
 }

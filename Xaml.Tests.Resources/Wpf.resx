@@ -130,6 +130,12 @@
   <data name="Stage1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\wpf\stage1.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
+  <data name="Stage2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\wpf\stage2.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="Stage3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\wpf\stage3.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
   <data name="Window" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\wpf\window.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>

@@ -169,9 +169,6 @@
   <data name="EnumProperty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\enumproperty.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
-  <data name="ExpectedStage1" xml:space="preserve">
-    <value>NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndMemberEndObjectEndMemberEndObject</value>
-  </data>
   <data name="ExpectedStage11" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\expectedstage1.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
@@ -226,18 +223,6 @@
   <data name="WithAttachableProperty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\withattachableproperty.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
-  <data name="XamlStage1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>xaml\dummy\xamlstage1.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
-  </data>
-  <data name="XamlStage1_Result" xml:space="preserve">
-    <value>NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndMemberEndObjectEndMemberEndObject</value>
-  </data>
-  <data name="XamlStage2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>xaml\dummy\xamlstage2.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
-  </data>
-  <data name="XamlStage2_Result" xml:space="preserve">
-    <value>NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndMemberEndObjectEndMemberEndObjectEndMemberEndObject</value>
-  </data>
   <data name="FourLevelsOfNesting" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\fourlevelsofnesting.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
@@ -252,5 +237,8 @@
   </data>
   <data name="InnerContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\innercontent.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="Ignorable" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\ignorable.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
 </root>

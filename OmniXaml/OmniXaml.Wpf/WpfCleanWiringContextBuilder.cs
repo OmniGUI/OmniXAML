@@ -3,6 +3,7 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Media;
     using Builder;
     using Typing;
 
@@ -12,7 +13,7 @@ namespace OmniXaml.Wpf
 
         public WpfCleanWiringContextBuilder()
         {
-            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
+            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new TypeFactory());
             ContentPropertyProvider = new WpfContentPropertyProvider();
             TypeConverterProvider = new WpfTypeConverterProvider();
@@ -22,16 +23,20 @@ namespace OmniXaml.Wpf
         {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
 
-            var windowType = typeof (Window);
-            var textBlockType = typeof (System.Windows.Controls.TextBlock);
-            var toggleButtonType = typeof (ToggleButton);
-
-            var bindingType = typeof (BindingExtension);
+            var windowType = typeof(Window);
+            var textBlockType = typeof(System.Windows.Controls.TextBlock);
+            var toggleButtonType = typeof(ToggleButton);
+            var rotateTransformType = typeof(RotateTransform);
+            var bindingType = typeof(BindingExtension);
 
             var rootNs = XamlNamespace.Map(WpfRootNs)
                 .With(
                     new[]
                     {
+                        Route.Assembly(bindingType.Assembly).WithNamespaces(
+                            new[] {bindingType.Namespace}),
+                        Route.Assembly(rotateTransformType.Assembly).WithNamespaces(
+                            new[] { rotateTransformType.Namespace}),
                         Route.Assembly(bindingType.Assembly).WithNamespaces(
                             new[] {bindingType.Namespace}),
                         Route.Assembly(windowType.Assembly).WithNamespaces(
@@ -43,7 +48,7 @@ namespace OmniXaml.Wpf
                             })
                     });
 
-            foreach (var ns in new List<XamlNamespace> {rootNs})
+            foreach (var ns in new List<XamlNamespace> { rootNs })
             {
                 xamlNamespaceRegistry.AddNamespace(ns);
             }

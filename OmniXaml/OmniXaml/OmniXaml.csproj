@@ -75,6 +75,8 @@
     <Compile Include="NewAssembler\SuperObjectAssembler.cs" />
     <Compile Include="NewAssembler\Commands\ValueCommand.cs" />
     <Compile Include="NewAssembler\ValuePipeline.cs" />
+    <Compile Include="Parsers\ProtoParser\SuperProtoParser\IXmlReader.cs" />
+    <Compile Include="Parsers\ProtoParser\SuperProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
     <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
     <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />

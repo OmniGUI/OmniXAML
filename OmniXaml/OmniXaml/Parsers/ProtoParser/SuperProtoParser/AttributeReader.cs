@@ -7,9 +7,9 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
 
     internal class AttributeReader
     {
-        private readonly XmlReader reader;
+        private readonly IXmlReader reader;
 
-        public AttributeReader(XmlReader reader)
+        public AttributeReader(IXmlReader reader)
         {
             this.reader = reader;
         }

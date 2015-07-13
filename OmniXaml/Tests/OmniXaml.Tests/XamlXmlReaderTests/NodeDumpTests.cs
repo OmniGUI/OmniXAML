@@ -99,27 +99,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
             };
 
             XamlNodesAssert.AreEssentiallyTheSame(expected, contents);
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void ReadRealXamlStage1()
-        {
-            var actualNodes = FlattenNodesFromXaml(Dummy.XamlStage1);
-            var expectedNodes = ParseResult(Dummy.XamlStage1_Result);
-
-            AssertNodesAreEqual(expectedNodes, actualNodes.Select(node => node.NodeType).ToList());
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void ReadRealXamlStage2()
-        {
-            var actualNodes = FlattenNodesFromXaml(Dummy.XamlStage2);
-            var expectedNodes = ParseResult(Dummy.XamlStage2_Result);
-
-            AssertNodesAreEqual(expectedNodes, actualNodes.Select(node => node.NodeType).ToList());
-        }
+        }      
 
         private static void AssertNodesAreEqual(IList<XamlNodeType> expectedNodes, IList<XamlNodeType> actualNodes)
         {

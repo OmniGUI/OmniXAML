@@ -11,7 +11,7 @@
     public class WpfLoaderViewModel : XamlVisualizerViewModel
     {
         private Snippet selectedSnippet;
-        
+
         public WpfLoaderViewModel()
         {
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
@@ -42,7 +42,8 @@
             {
                 var localLoader = new WpfXamlLoader();
 
-                var window = (Window)localLoader.Load(Xaml);
+                var visualTree = localLoader.Load(Xaml);
+                var window = GetVisualizerWindow(visualTree);
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 window.DataContext = new TestViewModel();
                 window.Show();
@@ -52,6 +53,18 @@
             {
                 ShowProblemLoadingError(e);
             }
+        }
+
+        private Window GetVisualizerWindow(object visualTree)
+        {
+            var tree = visualTree as Window;
+            if (tree != null)
+            {
+                return tree;
+            }
+
+            var window = new Window { Content = visualTree };
+            return window;
         }
 
         private static void ShowProblemLoadingError(Exception e)

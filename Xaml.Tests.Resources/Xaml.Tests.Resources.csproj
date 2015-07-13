@@ -34,16 +34,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Dummy.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Dummy.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProtoInputs1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProtoInputs.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Dummy.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Dummy.resx</DependentUpon>
     </Compile>
     <Compile Include="Wpf.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -54,6 +54,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Dummy.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
       <LastGenOutput>Dummy.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ProtoInputs.resx">
@@ -63,6 +64,7 @@
     <EmbeddedResource Include="Wpf.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Wpf.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -173,7 +175,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Xaml\Dummy\StringProperty.xaml">
+    <None Include="Xaml\Dummy\Ignorable.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -263,12 +265,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Xaml\Dummy\XamlStage2.xaml">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Xaml\Dummy\XamlStage1.xaml">
+    <None Include="Xaml\Wpf\Stage2.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
@@ -299,6 +296,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Xaml\Dummy\InnerContent.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xaml\Wpf\Stage3.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Xaml\Dummy\StringProperty.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

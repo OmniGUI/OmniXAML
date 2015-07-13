@@ -273,15 +273,6 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueE [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string ExpectedStage1 {
-            get {
-                return ResourceManager.GetString("ExpectedStage1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
         ///    &lt;ChildClass&gt;&lt;/ChildClass&gt;
@@ -316,8 +307,23 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
+        ///            xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+        ///            mc:Ignorable=&quot;d&quot;
+        ///            xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
+        ///            d:DesignWidth=&quot;300&quot;
+        ///            SampleProperty=&quot;Property!&quot;&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string Ignorable {
+            get {
+                return ResourceManager.GetString("Ignorable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
-        ///    &lt;SampleProperty&gt;Property!&lt;/SampleProperty&gt;
+        ///  &lt;DummyClass.SampleProperty&gt;Property!&lt;/DummyClass.SampleProperty&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
         public static string InnerContent {
@@ -549,63 +555,6 @@ namespace Xaml.Tests.Resources {
         public static string WithAttachableProperty {
             get {
                 return ResourceManager.GetString("WithAttachableProperty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;Window x:Class=&quot;WpfApplication_test1.MainWindow&quot;
-        ///        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        ///        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        ///        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
-        ///        xmlns:local=&quot;clr-namespace:WpfApplication_test1&quot;
-        ///        mc:Ignorable=&quot;d&quot;
-        ///        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
-        ///  &lt;Grid Background=&quot;BlueViolet&quot;&gt;
-        /// [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string XamlStage1 {
-            get {
-                return ResourceManager.GetString("XamlStage1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberEndObjectEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueE [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string XamlStage1_Result {
-            get {
-                return ResourceManager.GetString("XamlStage1_Result", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;UserControl
-        ///    x:Class=&quot;NcoreCpuMarkW8.UI.Controls.UcSpeedmeter&quot;
-        ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
-        ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        ///    xmlns:local=&quot;using:NcoreCpuMarkW8.UI.Controls&quot;
-        ///    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        ///    xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
-        ///    mc:Ignorable=&quot;d&quot;
-        ///    d:DesignHeight=&quot;400&quot;
-        ///    d:DesignWidth=&quot;600&quot;&gt;
-        ///
-        ///  &lt;Grid MinHeight=&quot;400&quot; MinWidth=&quot;600&quot;&gt;
-        ///  [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string XamlStage2 {
-            get {
-                return ResourceManager.GetString("XamlStage2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to NamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationNamespaceDeclarationStartObjectStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberStartObjectStartMemberValueEndMemberEndObjectValueStartObjectStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberValueEndMemberStartMemberStartObjectStartMemberValueEndMemberStartMemberValueEndMemberEndObjectEndM [rest of string was truncated]&quot;;.
-        /// </summary>
-        public static string XamlStage2_Result {
-            get {
-                return ResourceManager.GetString("XamlStage2_Result", resourceCulture);
             }
         }
     }

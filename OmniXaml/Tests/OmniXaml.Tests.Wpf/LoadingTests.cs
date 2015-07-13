@@ -32,15 +32,15 @@
         }
 
         [TestMethod]
-        [Ignore]
-        public void BindingTest()
+        public void DataTemplate()
         {
             var visualTree = LoadXaml(Resources.DataTemplate);            
         }
 
         [TestMethod]
+        [TestCategory("NeedsGraphics")]
 
-        public void ShowCaseTest()
+        public void ShowCase()
         {
             var visualTree = LoadXaml(Resources.ShowCase);
         }
@@ -50,6 +50,23 @@
         public void MicroShowCase()
         {
             var visualTree = LoadXaml(Resources.MicroShowCase);
+        }
+
+        [TestMethod]
+
+        public void Stage1()
+        {
+            var visualTree = LoadXaml(Resources.Stage1);
+        }
+
+        public void Stage2()
+        {
+            var visualTree = LoadXaml(Resources.Stage2);
+        }
+
+        public void Stage3()
+        {
+            var visualTree = LoadXaml(Resources.Stage3);
         }
     }
 }
