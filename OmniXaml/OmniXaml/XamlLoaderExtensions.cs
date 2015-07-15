@@ -5,12 +5,12 @@ namespace OmniXaml
 {
     public static class XamlLoaderExtensions
     {
-        public static object Load(this IXamlLoader xamlLoader, string xamlContent)
+        public static object Load(this IXamlLoader coreXamlLoader, string xamlContent, object rootInstance = null)
         {
             using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xamlContent)))
             {
-                return xamlLoader.Load(stream);
+                return coreXamlLoader.Load(stream, rootInstance);
             }
-        }        
+        }
     }
 }

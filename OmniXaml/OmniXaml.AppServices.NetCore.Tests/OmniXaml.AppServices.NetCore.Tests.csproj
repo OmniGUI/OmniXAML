@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4A7491E9-E218-45F5-BF42-430247765630}</ProjectGuid>
+    <ProjectGuid>{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.Tests</RootNamespace>
-    <AssemblyName>OmniXaml.Tests</AssemblyName>
+    <RootNamespace>OmniXaml.AppServices.NetCore.Tests</RootNamespace>
+    <AssemblyName>OmniXaml.AppServices.NetCore.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,7 +16,6 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,7 +25,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,16 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.2.1409.1722, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sprache.2.0.0.45\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,62 +50,43 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
-    <Compile Include="NewObjectAssemblerTests.cs" />
-    <Compile Include="ObjectAssemblerExtensions.cs" />
-    <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />
-    <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />
-    <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
-    <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
-    <Compile Include="RealObjectAssemblerTests.cs" />
-    <Compile Include="StackWithLinkedNodesTests.cs" />
-    <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
-    <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
-    <Compile Include="Parsers\XamlNodesPullParserTests\ParsingTests.cs" />
-    <Compile Include="Parsers\XamlNodesPullParserTests\SampleData.cs" />
-    <Compile Include="Parsers\XamlNodesPullParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
-    <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
-    <Compile Include="TestingExtensions.cs" />
-    <Compile Include="TypeTypeConverterTests.cs" />
-    <Compile Include="VisualizationTests.cs" />
-    <Compile Include="XamlXmlLoaderBuilderTests.cs" />
-    <Compile Include="ObjectAssemblerTests.cs" />
-    <Compile Include="Parsers\ProtoParserTests\ParseTests.cs" />
-    <Compile Include="XamlTypeRepositoryTests.cs" />
-    <Compile Include="XamlNamespaceRegistryTest.cs" />
-    <Compile Include="Parsers\XamlNodesPullParserTests\RealXmlParsing.cs" />
-    <Compile Include="XamlNodeBuilder.cs" />
-    <Compile Include="XamlNodesAssert.cs" />
-    <Compile Include="GivenAWiringContext.cs" />
-    <Compile Include="XamlXmlLoaderTests\ChildInstanceReadingTests.cs" />
-    <Compile Include="XamlXmlLoaderTests\PropertyReadingTests.cs" />
-    <Compile Include="XamlXmlLoaderTests\SingleInstantiationTests.cs" />
+    <Compile Include="TestModel\CustomWindow.cs" />
+    <Compile Include="TestModel\MyWindow.cs" />
+    <Compile Include="XamlWindowFactoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
-    <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
-    <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
-    <Compile Include="XamlXmlReaderTests\NodeDumpTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Glass\Glass.csproj">
-      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
-      <Name>Glass</Name>
+    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+      <Project>{E4FB7D33-20F4-46F8-B7C6-FC11EFF34CFB}</Project>
+      <Name>OmniXaml.AppServices.NetCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
+    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
+      <Name>OmniXaml.AppServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
+      <Project>{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}</Project>
+      <Name>OmniXaml.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
-      <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
-      <Name>OmniXaml.Tests.Classes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
-      <Project>{9B517520-4D99-4BF5-8219-A643F718F6DD}</Project>
-      <Name>Xaml.Tests.Resources</Name>
+    <ProjectReference Include="..\TestApplication\TestApplication.csproj">
+      <Project>{A49A57C4-6DB5-44A0-869B-39EED7884A0B}</Project>
+      <Name>TestApplication</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestModel\MyWindow.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

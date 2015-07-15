@@ -1,27 +1,30 @@
 ﻿namespace OmniXaml.Wpf
 {
+    using System;
     using System.IO;
+    using Assembler;
 
     public class WpfXamlLoader : IXamlLoader
     {
-        private readonly XamlXmlLoader xamlXmlLoader;
+        private readonly WiringContext wiringContext;
 
         public WpfXamlLoader()
         {
-            var wiringContext = WpfWiringContextFactory.Create();
-            var objectAssembler = new WpfObjectAssembler(wiringContext);
-
-            xamlXmlLoader = new XamlXmlLoader(objectAssembler, wiringContext);
+            wiringContext = WpfWiringContextFactory.Create();
         }
 
         public object Load(Stream stream)
         {
+            var objectAssembler = new WpfObjectAssembler(wiringContext);
+            var xamlXmlLoader = new CoreXamlXmlLoader(objectAssembler, wiringContext);
             return xamlXmlLoader.Load(stream);
         }
 
         public object Load(Stream stream, object rootInstance)
         {
-            return xamlXmlLoader.Load(stream, rootInstance);
+            var objectAssembler = new WpfObjectAssembler(wiringContext, new ObjectAssemblerSettings() { RootInstance = rootInstance });
+            var xamlXmlLoader = new CoreXamlXmlLoader(objectAssembler, wiringContext);
+            return xamlXmlLoader.Load(stream);
         }
     }
 }

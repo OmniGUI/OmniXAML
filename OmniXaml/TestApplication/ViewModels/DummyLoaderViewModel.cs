@@ -2,6 +2,7 @@
 {
     using System.Collections;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Assembler;
@@ -63,9 +64,9 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlXmlLoader(new SuperObjectAssembler(WiringContext), WiringContext);
+            var loader = new XamlXmlLoader(WiringContext);
 
-            var rootObject = loader.Load(Xaml);
+            var rootObject = XamlLoaderExtensions.Load(loader, Xaml);
             Representation = ConvertToViewNodes(rootObject);
         }
 
@@ -76,5 +77,5 @@
                 new InstanceNodeViewModel(result)
             };
         }
-    }
+    }    
 }

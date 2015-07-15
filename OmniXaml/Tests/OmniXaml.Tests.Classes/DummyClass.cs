@@ -19,4 +19,8 @@ namespace OmniXaml.Tests.Classes
         public int Number { get; set; }
         public Collection<Item> Items { get; set; }
     }
+
+    public class DummyChild : DummyClass
+    {
+    }
 }

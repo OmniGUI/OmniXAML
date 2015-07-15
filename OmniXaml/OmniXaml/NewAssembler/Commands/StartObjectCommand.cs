@@ -21,16 +21,18 @@ namespace OmniXaml.NewAssembler.Commands
             }
 
             StateCommuter.XamlType = xamlType;
-            OverrideCurrentInstanceOnFirstLevel();
+            OverrideInstanceAndTypeInLevel1();
         }
 
         private bool ConflictsWithObjectBeingConfigured => StateCommuter.HasCurrentInstance || StateCommuter.IsGetObject;
 
-        private void OverrideCurrentInstanceOnFirstLevel()
+        private void OverrideInstanceAndTypeInLevel1()
         {
             if (StateCommuter.Level == 1 && rootInstance != null)
             {
                 StateCommuter.Instance = rootInstance;
+                var xamlTypeOfInstance = this.Assembler.WiringContext.TypeContext.GetXamlType(rootInstance.GetType());
+                StateCommuter.XamlType = xamlTypeOfInstance;
             }
         }
     }

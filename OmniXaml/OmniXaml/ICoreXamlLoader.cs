@@ -2,6 +2,11 @@
 {
     using System.IO;
 
+    public interface ICoreXamlLoader
+    {
+        object Load(Stream stream);        
+    }
+
     public interface IXamlLoader
     {
         object Load(Stream stream);

@@ -3,10 +3,8 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    public abstract class SpecialTestsBase : GivenAWiringContext
+    public abstract class SpecialTests : GivenAWiringContext
     {
-        protected abstract IXamlLoader CreateLoaderWithRootInstance(DummyClass dummy);
-
         [TestMethod]
         public void LoadWithRootInstance()
         {
@@ -16,8 +14,8 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
                 SampleProperty = "Will be overwritten"
             };
 
-            var loader = CreateLoaderWithRootInstance(dummy);
-            var actual = loader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />");
+            var loader = new XamlXmlLoader(WiringContext);
+            var actual = loader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
 
             Assert.IsInstanceOfType(actual, dummy.GetType());
             Assert.AreEqual("Value", ((DummyClass)actual).SampleProperty);

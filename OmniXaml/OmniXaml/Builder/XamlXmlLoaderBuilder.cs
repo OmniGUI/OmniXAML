@@ -19,7 +19,7 @@
 
         public IEnumerable<ContentPropertyDefinition> ContentPropertyDefinitions => contentPropertyDefinitionDefinitions;
 
-        public XamlXmlLoader Build()
+        public CoreXamlXmlLoader Build()
         {
             var wiringContextBuilder = new WiringContextBuilder();
 
@@ -34,7 +34,7 @@
 
             var wiringContext = wiringContextBuilder.Build();
             var assembler = new SuperObjectAssembler(wiringContext);
-            return new XamlXmlLoader(assembler, wiringContext);
+            return new CoreXamlXmlLoader(assembler, wiringContext);
         }
 
         private void RegisterContentProperties(WiringContextBuilder wiringContextBuilder)

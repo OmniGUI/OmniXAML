@@ -88,7 +88,7 @@
     <Compile Include="ITypeFactory.cs" />
     <Compile Include="ITypeProvider.cs" />
     <Compile Include="IValueConverter.cs" />
-    <Compile Include="IXamlLoader.cs" />
+    <Compile Include="ICoreXamlLoader.cs" />
     <Compile Include="IObjectAssembler.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
@@ -179,8 +179,9 @@
     <Compile Include="XamlNodeType.cs" />
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
-    <Compile Include="XamlXmlLoader.cs" />
+    <Compile Include="CoreXamlXmlLoader.cs" />
     <Compile Include="Builder\XamlXmlLoaderBuilder.cs" />
+    <Compile Include="XamlXmlLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">

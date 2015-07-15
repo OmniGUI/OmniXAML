@@ -8,9 +8,9 @@
     {
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public WpfObjectAssembler(WiringContext wiringContext)
+        public WpfObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
-            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext));
+            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext, objectAssemblerSettings));
             objectAssembler.DeferredAssembler<DataTemplate>(template => template.AlternateTemplateContent, new DeferredObjectAssembler());
         }        
 

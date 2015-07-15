@@ -10,7 +10,7 @@
         {
             protected GivenAXamlXmlLoader()
             {
-                Loader = new XamlXmlLoader(new SuperObjectAssembler(WiringContext), WiringContext);
+                Loader = new XamlXmlLoader(WiringContext);
             }
 
             protected XamlXmlLoader Loader { get; }
