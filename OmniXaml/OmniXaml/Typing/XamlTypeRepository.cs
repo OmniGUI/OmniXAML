@@ -7,17 +7,19 @@ namespace OmniXaml.Typing
     public class XamlTypeRepository : IXamlTypeRepository
     {
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
+        private readonly ITypeFactory typeFactory;
 
-        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry)
+        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeFactory)
         {
             this.xamlNamespaceRegistry = xamlNamespaceRegistry;
+            this.typeFactory = typeFactory;
         }
 
         public virtual XamlType GetXamlType(Type type)
         {
             Guard.ThrowIfNull(type, nameof(type));
 
-            return XamlType.Builder.Create(type, this);
+            return XamlType.Builder.Create(type, this, typeFactory);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
@@ -61,7 +63,7 @@ namespace OmniXaml.Typing
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
             var owner = GetXamlType(propertyInfo.DeclaringType);
-            return new XamlMember(propertyInfo.Name, owner, this, false);
+            return new XamlMember(propertyInfo.Name, owner, this, typeFactory, false);
         }
 
         public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)

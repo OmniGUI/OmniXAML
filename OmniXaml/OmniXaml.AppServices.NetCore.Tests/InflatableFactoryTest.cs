@@ -42,7 +42,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void UserControlLoadingWithUri()
         {
             var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())

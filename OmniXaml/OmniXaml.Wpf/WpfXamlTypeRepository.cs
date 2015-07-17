@@ -6,15 +6,18 @@ namespace OmniXaml.Wpf
 
     public class WpfXamlTypeRepository : XamlTypeRepository
     {
-        public WpfXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry) : base(xamlNamespaceRegistry)
+        private readonly ITypeFactory typeFactory;
+
+        public WpfXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeFactory) : base(xamlNamespaceRegistry, typeFactory)
         {
+            this.typeFactory = typeFactory;
         }
 
         public override XamlType GetXamlType(Type type)
         {
             Guard.ThrowIfNull(type, nameof(type));
 
-            return new WpfXamlType(type, this);
+            return new WpfXamlType(type, this, typeFactory);
         }
     }
 }

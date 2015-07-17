@@ -14,7 +14,8 @@ namespace OmniXaml.Wpf
         public WpfCleanWiringContextBuilder()
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
-            TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new TypeFactory());
+            var typeFactory = new TypeFactory();
+            TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
             ContentPropertyProvider = new WpfContentPropertyProvider();
             TypeConverterProvider = new WpfTypeConverterProvider();
         }

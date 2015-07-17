@@ -8,13 +8,15 @@ namespace OmniXaml.Typing
     public class XamlType
     {
         private readonly IXamlTypeRepository typeRepository;
+        private readonly ITypeFactory typeFactory;
 
-        public XamlType(Type type, IXamlTypeRepository typeRepository)
+        public XamlType(Type type, IXamlTypeRepository typeRepository, ITypeFactory typeFactory)
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
 
             this.typeRepository = typeRepository;
+            this.typeFactory = typeFactory;
             UnderlyingType = type;
             Name = type.Name;
         }
@@ -89,7 +91,7 @@ namespace OmniXaml.Typing
 
         protected virtual XamlMember LookupMember(string name)
         {         
-            return XamlMember.Builder.Create(name, this, typeRepository);
+            return XamlMember.Builder.Create(name, this, typeRepository, typeFactory);
         }
 
         private PropertyInfo GetPropertyInfo(string name)
@@ -99,7 +101,7 @@ namespace OmniXaml.Typing
 
         public XamlMember GetAttachableMember(string name)
         {
-            return XamlMember.Builder.CreateAttached(name, this, typeRepository);
+            return XamlMember.Builder.CreateAttached(name, this, typeRepository, typeFactory);
         }
 
         public override string ToString()
@@ -109,18 +111,18 @@ namespace OmniXaml.Typing
 
         public static class Builder
         {
-            public static XamlType Create(Type underlyingType, IXamlTypeRepository mother)
+            public static XamlType Create(Type underlyingType, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
             {
-                Guard.ThrowIfNull(underlyingType, nameof(mother));
+                Guard.ThrowIfNull(underlyingType, nameof(xamlTypeRepository));
 
-                return new XamlType(underlyingType, mother);
+                return new XamlType(underlyingType, xamlTypeRepository, typeFactory);
             }
 
             public static XamlType CreateForBuiltInType(Type type)
             {
                 Guard.ThrowIfNull(type, nameof(type));
 
-                return new XamlType(type, new FrameworkBuiltInTypeRepository());
+                return new XamlType(type, new FrameworkBuiltInTypeRepository(), null);
             }
         }
 
@@ -137,7 +139,7 @@ namespace OmniXaml.Typing
 
         public object CreateInstance(object[] parameters)
         {
-            return Activator.CreateInstance(UnderlyingType, parameters);
+            return typeFactory.Create(UnderlyingType, parameters);
         }
     }
 }

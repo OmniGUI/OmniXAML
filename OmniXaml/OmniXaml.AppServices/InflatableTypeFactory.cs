@@ -41,18 +41,23 @@
 
         public object Create(Type type)
         {
-            if (IsInflatable(type))
-            {
-                var uri = typeToUriLocator.GetUriFor(type);
-                return CreateWithInflate(type, uri);
-            }
-
-            return coreTypeFactory.Create(type);
+            return Create(type, null);
         }
 
         public object Create(Type type, object[] args)
         {
-            throw new NotImplementedException();
+            if (IsInflatable(type))
+            {
+                var uri = typeToUriLocator.GetUriFor(type);
+                using (var stream = resourceProvider.GetStream(uri))
+                {
+                    var instance = coreTypeFactory.Create(type, args);
+                    var inflated = Loader.Load(stream, instance);
+                    return inflated;
+                }
+            }
+
+            return coreTypeFactory.Create(type, args);
         }
 
         public bool CanLocate(Type type)

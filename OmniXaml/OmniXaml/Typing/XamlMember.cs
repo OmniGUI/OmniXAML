@@ -14,24 +14,24 @@ namespace OmniXaml.Typing
             this.name = name;
         }
 
-        public XamlMember(string name, XamlType owner, IXamlTypeRepository mother, bool isAttachable) : this(name)
+        public XamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, bool isAttachable) : this(name)
         {
             IsAttachable = isAttachable;
             DeclaringType = owner;
 
-            Type = LookupType(name, owner, mother, isAttachable);
+            Type = LookupType(name, owner, xamlTypeRepository, typeFactory, isAttachable);
         }
 
-        private XamlType LookupType(string name, XamlType owner, IXamlTypeRepository mother, bool isAttachable)
+        private XamlType LookupType(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, bool isAttachable)
         {
             if (!isAttachable)
             {
                 var property = owner.UnderlyingType.GetRuntimeProperty(name);
-                return XamlType.Builder.Create(property.PropertyType, mother);
+                return XamlType.Builder.Create(property.PropertyType, xamlTypeRepository, typeFactory);
             }
 
             var getMethod = GetGetMethodForAttachable(owner, name);
-            return XamlType.Builder.Create(getMethod.ReturnType, mother);
+            return XamlType.Builder.Create(getMethod.ReturnType, xamlTypeRepository, typeFactory);
         }
 
         private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)
@@ -66,14 +66,14 @@ namespace OmniXaml.Typing
 
         public static class Builder
         {
-            public static XamlMember Create(string name, XamlType parent, IXamlTypeRepository mother)
+            public static XamlMember Create(string name, XamlType parent, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
             {
-                return new XamlMember(name, parent, mother, false);
+                return new XamlMember(name, parent, xamlTypeRepository, typeFactory, false);
             }
 
-            public static XamlMember CreateAttached(string name, XamlType parent, IXamlTypeRepository mother)
+            public static XamlMember CreateAttached(string name, XamlType parent, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
             {
-                return new XamlMember(name, parent, mother, true);
+                return new XamlMember(name, parent, xamlTypeRepository, typeFactory, true);
             }
         }
 

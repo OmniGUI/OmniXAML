@@ -19,13 +19,13 @@ namespace OmniXaml
         public TypeContextBuilder()
         {
             nsRegistry = new XamlNamespaceRegistry();
-            typeRepository = new XamlTypeRepository(nsRegistry);
+            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory);
         }
 
         public ITypeContext Build()
         {
             nsRegistry = new XamlNamespaceRegistry();
-            typeRepository = new XamlTypeRepository(nsRegistry);
+            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory);
 
             RegisterPrefixes(nsRegistry);
             RegisterNamespaces(nsRegistry);

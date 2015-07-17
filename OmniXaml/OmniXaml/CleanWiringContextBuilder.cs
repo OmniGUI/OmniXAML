@@ -12,7 +12,8 @@ namespace OmniXaml
         public CleanWiringContextBuilder()
         {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
-            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry), xamlNamespaceRegistry, new TypeFactory());
+            var typeFactory = new TypeFactory();
+            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
             ContentPropertyProvider = new ContentPropertyProvider();
             TypeConverterProvider = new TypeConverterProvider();
         }
