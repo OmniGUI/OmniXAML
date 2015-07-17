@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="ContentControl.cs" />
     <Compile Include="MyUserControl.cs" />
     <Compile Include="MyWindow.cs" />
     <Compile Include="Templates\DummyDeferredObjectAssembler.cs" />

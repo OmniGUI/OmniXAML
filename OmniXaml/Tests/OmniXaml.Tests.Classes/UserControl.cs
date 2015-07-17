@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
-    public class UserControl
+    public class UserControl : ContentControl
     {
-        public string Property { get; set; }
+        public string Property { get; set; }        
     }
 }

@@ -1,8 +1,7 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
-    public class Window
+    public class Window : ContentControl
     {
-        public string Title { get; set; }
-        public object Content { get; set; }
+        public string Title { get; set; }        
     }
 }

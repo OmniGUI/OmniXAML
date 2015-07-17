@@ -42,6 +42,7 @@
         }
 
         [TestMethod]
+        [Ignore]
         public void UserControlLoadingWithUri()
         {
             var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
@@ -55,7 +56,9 @@
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
             Assert.AreEqual(myWindow.Title, "Hello World :)");
             Assert.IsInstanceOfType(myWindow.Content, typeof(UserControl));
-            Assert.AreEqual("It's-a me, Mario", ((UserControl)myWindow.Content).Property);
+            var userControl = ((UserControl)myWindow.Content);
+            Assert.AreEqual("It's-a me, Mario", userControl.Property);
+            Assert.IsInstanceOfType(userControl.Content, typeof(ChildClass));
         }
     }
 }
