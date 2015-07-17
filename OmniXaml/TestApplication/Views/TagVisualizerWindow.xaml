@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TestApplication"         
+        xmlns:local="clr-namespace:TestApplication"
+        xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
         MinHeight="200"
         MinWidth="300"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="TagVisualizerWindow" Width="640" Height="480" d:DataContext="{d:DesignInstance local:TagVisualizerViewModel}">
+        Title="TagVisualizerWindow" Width="640" Height="480" d:DataContext="{d:DesignInstance viewModels:TagVisualizerViewModel}">
     <Window.Resources>
         <local:LevelConverter x:Key="LevelConverter" />
     </Window.Resources>

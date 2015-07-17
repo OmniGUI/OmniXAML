@@ -6,7 +6,7 @@
         {
             protected GivenAXamlXmlLoader()
             {
-                Loader = new XamlLoader(WiringContext);
+                Loader = new XamlLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
             }
 
             protected XamlLoader Loader { get; }

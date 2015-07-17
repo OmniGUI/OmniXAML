@@ -2,9 +2,11 @@
 {
     using System;
     using System.Collections;
+    using System.IO;
     using System.Windows;
     using System.Windows.Input;
     using OmniXaml;
+    using OmniXaml.Assembler;
     using OmniXaml.Wpf;
     using Xaml.Tests.Resources;
 
@@ -74,4 +76,5 @@
                 "Load problem");
         }
     }
+
 }

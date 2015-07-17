@@ -9,11 +9,6 @@
     using System.Reflection;
     using System.Resources;
 
-    public interface IXamlSnippetProvider
-    {
-        IList Snippets { get; }
-    }
-
     public class XamlSnippetProvider : IXamlSnippetProvider
     {
         private readonly ICollection<Snippet> snippets = new Collection<Snippet>();

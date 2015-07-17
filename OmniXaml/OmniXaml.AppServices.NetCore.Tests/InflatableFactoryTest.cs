@@ -14,10 +14,11 @@
         {
             var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
             {
-                Inflatables = new Collection<Type> {typeof (Window)}
+                Inflatables = new Collection<Type> { typeof(Window) }
             };
 
-            sut.Loader = new XamlLoader(DummyWiringContext.Create(sut));
+            var wiringContext = DummyWiringContext.Create(sut);
+            sut.Loader = new XamlLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
 
             var myWindow = sut.Create<MyWindow>();
             Assert.IsInstanceOfType(myWindow, typeof(MyWindow));
@@ -32,7 +33,8 @@
                 Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) }
             };
 
-            sut.Loader = new XamlLoader(DummyWiringContext.Create(sut));
+            var wiringContext = DummyWiringContext.Create(sut);
+            sut.Loader = new XamlLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
 
             var myWindow = sut.Create<WindowWithUserControl>();
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
@@ -49,9 +51,10 @@
                 Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) }
             };
 
-            sut.Loader = new XamlLoader(DummyWiringContext.Create(sut));
+            var wiringContext = DummyWiringContext.Create(sut);
+            sut.Loader = new XamlLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
 
-            var myWindow = (Window) sut.Create(new Uri("WindowWithUserControl.xaml", UriKind.Relative));
+            var myWindow = (Window)sut.Create(new Uri("WindowWithUserControl.xaml", UriKind.Relative));
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
             Assert.AreEqual(myWindow.Title, "Hello World :)");
             Assert.IsInstanceOfType(myWindow.Content, typeof(UserControl));

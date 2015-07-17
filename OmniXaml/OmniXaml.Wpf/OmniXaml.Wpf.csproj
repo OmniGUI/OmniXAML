@@ -54,8 +54,9 @@
     <Compile Include="TypeDescriptorContext.cs" />
     <Compile Include="DeferredObjectAssembler.cs" />
     <Compile Include="WpfObjectAssembler.cs" />
+    <Compile Include="WpfObjectFactory.cs" />
     <Compile Include="WpfTemplateContent.cs" />
-    <Compile Include="WpfXamlLoader.cs" />
+    <Compile Include="WpfLoader.cs" />
     <Compile Include="WpfCleanWiringContextBuilder.cs" />
     <Compile Include="WpfContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
