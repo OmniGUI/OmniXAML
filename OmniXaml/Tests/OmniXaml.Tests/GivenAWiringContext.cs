@@ -4,6 +4,6 @@ namespace OmniXaml.Tests
 
     public class GivenAWiringContext
     {
-        protected WiringContext WiringContext => DummyWiringContext.Create();
+        protected WiringContext WiringContext => DummyWiringContext.Create(new TypeFactory());
     }
 }

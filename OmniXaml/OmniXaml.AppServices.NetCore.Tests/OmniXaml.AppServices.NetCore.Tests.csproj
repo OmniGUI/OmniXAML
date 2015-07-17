@@ -36,6 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -50,9 +51,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TestModel\CustomWindow.cs" />
-    <Compile Include="TestModel\MyWindow.cs" />
-    <Compile Include="XamlWindowFactoryTests.cs" />
+    <Compile Include="InflatableFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +75,10 @@
       <Project>{A49A57C4-6DB5-44A0-869B-39EED7884A0B}</Project>
       <Name>TestApplication</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tests\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
+      <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
+      <Name>OmniXaml.Tests.Classes</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Test.txt">
@@ -83,10 +86,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestModel\MyWindow.xaml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="TestModel\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -7,7 +7,7 @@
 
     public static class DummyWiringContext
     {
-        public static WiringContext Create()
+        public static WiringContext Create(ITypeFactory typeFactory)
         {
             var rootType = typeof (DummyClass);
             var anotherType = typeof (Foreigner);
@@ -42,6 +42,8 @@
                         new PrefixRegistration(string.Empty, "root"),
                         new PrefixRegistration("x", "another")
                     });
+
+            builder.WithTypeFactory(typeFactory);
 
             return builder.Build();
         }

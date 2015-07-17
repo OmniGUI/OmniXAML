@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
     <Compile Include="Container.cs" />
+    <Compile Include="MyUserControl.cs" />
+    <Compile Include="MyWindow.cs" />
     <Compile Include="Templates\DummyDeferredObjectAssembler.cs" />
     <Compile Include="DummyWiringContext.cs" />
     <Compile Include="Grid.cs" />
@@ -58,12 +60,34 @@
     <Compile Include="Templates\Template.cs" />
     <Compile Include="Templates\TemplateContent.cs" />
     <Compile Include="TextBlock.cs" />
+    <Compile Include="UserControl.cs" />
+    <Compile Include="Window.cs" />
+    <Compile Include="WindowWithUserControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MyUserControl.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="MyWindow.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowWithUserControl.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ComplexLoading\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

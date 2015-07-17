@@ -4,11 +4,11 @@ namespace OmniXaml
     using Assembler;
     using NewAssembler;
 
-    public class XamlXmlLoader : IXamlLoader
+    public class XamlLoader : ILoader
     {
         private readonly WiringContext wiringContext;
 
-        public XamlXmlLoader(WiringContext wiringContext)
+        public XamlLoader(WiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
         }

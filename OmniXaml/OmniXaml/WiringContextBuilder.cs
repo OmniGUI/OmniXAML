@@ -88,5 +88,11 @@ namespace OmniXaml
             this.converterRegistrations = converterRegistrations;
             return this;
         }
+
+        public WiringContextBuilder WithTypeFactory(ITypeFactory typeFactory)
+        {
+            typingCoreBuilder.WithTypeFactory(typeFactory);
+            return this;
+        }
     }
 }

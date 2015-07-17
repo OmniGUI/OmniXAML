@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NetCoreResourceProvider.cs" />
-    <Compile Include="NetCoreXamlByTypeProvider.cs" />
+    <Compile Include="NetCoreTypeToUriLocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

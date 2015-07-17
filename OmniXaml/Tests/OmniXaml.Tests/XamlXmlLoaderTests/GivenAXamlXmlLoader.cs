@@ -1,19 +1,15 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    using global::OmniXaml.Assembler;
-
     namespace OmniXaml.Reader.Tests.Wpf
     {
-        using NewAssembler;
-
         public class GivenAXamlXmlLoader : GivenAWiringContext
         {
             protected GivenAXamlXmlLoader()
             {
-                Loader = new XamlXmlLoader(WiringContext);
+                Loader = new XamlLoader(WiringContext);
             }
 
-            protected XamlXmlLoader Loader { get; }
+            protected XamlLoader Loader { get; }
         }
     }
 }

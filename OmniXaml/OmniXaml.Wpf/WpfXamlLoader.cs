@@ -4,11 +4,11 @@
     using System.IO;
     using Assembler;
 
-    public class WpfXamlLoader : IXamlLoader
+    public class WpfLoader : ILoader
     {
         private readonly WiringContext wiringContext;
 
-        public WpfXamlLoader()
+        public WpfLoader()
         {
             wiringContext = WpfWiringContextFactory.Create();
         }

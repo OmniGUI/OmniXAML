@@ -7,7 +7,7 @@
         object Load(Stream stream);        
     }
 
-    public interface IXamlLoader
+    public interface ILoader
     {
         object Load(Stream stream);
         object Load(Stream stream, object rootInstance);

@@ -2,8 +2,9 @@
 {
     using System;
 
-    public interface IXamlByTypeProvider
+    public interface ITypeToUriLocator
     {
         Uri GetUriFor(Type type);
+        Type GetTypeFor(Uri uri);
     }
 }

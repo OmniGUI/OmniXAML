@@ -43,8 +43,8 @@
   <ItemGroup>
     <Compile Include="IResourceProvider.cs" />
     <Compile Include="IWindowFactory.cs" />
-    <Compile Include="IXamlByTypeProvider.cs" />
-    <Compile Include="XamlWindowFactory.cs" />
+    <Compile Include="ITypeToUriLocator.cs" />
+    <Compile Include="InflatableTypeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

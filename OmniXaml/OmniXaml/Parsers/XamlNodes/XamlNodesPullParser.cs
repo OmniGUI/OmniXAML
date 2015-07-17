@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Parsers.XamlNodes
 {
+    using System;
     using System.Collections.Generic;
     using MarkupExtensions;
     using ProtoParser;
@@ -119,6 +120,12 @@
         private XamlMember GetContentProperty(XamlType parentType)
         {
             var propertyName = wiringContext.ContentPropertyProvider.GetContentPropertyName(parentType.UnderlyingType);
+
+            if (propertyName == null)
+            {
+                return null;
+            }
+
             var member = wiringContext.TypeContext.GetXamlType(parentType.UnderlyingType).GetMember(propertyName);
             return member;
         }
@@ -147,7 +154,7 @@
                     }
                 }
 
-                // If we reach an end tag we find a direct element, we may be reading a content property!
+                // After and EndTag, there could be a ContentProperty! so we consider parsing it.
                 if (CurrentNodeType == NodeType.EndTag)
                 {
                     SetNextNode();
@@ -161,6 +168,10 @@
             if (IsNestedPropertyImplicit)
             {
                 var contentProperty = GetContentProperty(parentType);
+                if (contentProperty == null)
+                {
+                    throw new InvalidOperationException($"Cannot get the content property for the type {parentType}");
+                }
 
                 if (contentProperty.Type.IsCollection)
                 {

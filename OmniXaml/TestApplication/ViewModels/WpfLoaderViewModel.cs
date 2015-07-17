@@ -40,7 +40,7 @@
         {
             try
             {
-                var localLoader = new WpfXamlLoader();
+                var localLoader = new WpfLoader();
 
                 var visualTree = localLoader.Load(Xaml);
                 var window = GetVisualizerWindow(visualTree);

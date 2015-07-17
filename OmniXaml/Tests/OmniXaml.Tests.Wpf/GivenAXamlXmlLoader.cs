@@ -8,10 +8,10 @@ namespace OmniXaml.Tests.Wpf
     {
         protected GivenAXamlXmlLoader()
         {
-            Loader = new WpfXamlLoader();
+            Loader = new WpfLoader();
         }
 
-        private IXamlLoader Loader { get; }
+        private ILoader Loader { get; }
         
         protected object LoadXaml(string xamlContent)
         {
