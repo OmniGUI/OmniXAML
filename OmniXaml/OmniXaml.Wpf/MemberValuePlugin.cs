@@ -5,11 +5,11 @@ namespace OmniXaml.Wpf
     using System.Windows;
     using Typing;
 
-    public class WpfXamlMemberValueConnector : MemberValuePlugin
+    public class MemberValuePlugin : Typing.MemberValuePlugin
     {
         private readonly XamlMember xamlMember;
 
-        public WpfXamlMemberValueConnector(XamlMember xamlMember) : base(xamlMember)
+        public MemberValuePlugin(XamlMember xamlMember) : base(xamlMember)
         {
             this.xamlMember = xamlMember;
         }

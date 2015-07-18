@@ -3,12 +3,12 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Windows;
 
-    public class WpfTemplateContent
+    public class TemplateContent
     {
         public IEnumerable<XamlNode> Nodes { get; }
         public WiringContext Context { get; }
 
-        public WpfTemplateContent(IEnumerable<XamlNode> nodes, WiringContext context)
+        public TemplateContent(IEnumerable<XamlNode> nodes, WiringContext context)
         {
             this.Nodes = nodes;
             this.Context = context;
@@ -16,7 +16,7 @@ namespace OmniXaml.Wpf
 
         public FrameworkElement Load()
         {
-            var loader = new WpfObjectAssembler(Context);
+            var loader = new ObjectAssembler(Context);
             foreach (var xamlNode in Nodes)
             {
                 loader.Process(xamlNode);

@@ -4,11 +4,11 @@
     using Assembler;
     using NewAssembler;
 
-    public class WpfObjectAssembler : IObjectAssembler
+    public class ObjectAssembler : IObjectAssembler
     {
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public WpfObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
             objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext, objectAssemblerSettings));
             objectAssembler.DeferredAssembler<DataTemplate>(template => template.AlternateTemplateContent, new DeferredObjectAssembler());

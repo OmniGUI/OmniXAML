@@ -18,9 +18,9 @@
             nodeBuilder = new ProtoNodeBuilder(wiringContext.TypeContext);
         }
 
-        public IEnumerable<ProtoXamlNode> Parse(string xml)
+        public IEnumerable<ProtoXamlNode> Parse(Stream stream)
         {
-            reader = new XmlCompatibilityReader(new StringReader(xml));
+            reader = new XmlCompatibilityReader(stream);
             reader.Read();
 
             return ParseElement();

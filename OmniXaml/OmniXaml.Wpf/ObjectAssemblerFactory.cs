@@ -2,18 +2,18 @@
 {
     using Assembler;
 
-    internal class WpfObjectFactory : IObjectAssemblerFactory
+    internal class ObjectAssemblerFactory : IObjectAssemblerFactory
     {
         private readonly WiringContext wiringContext;
 
-        public WpfObjectFactory(WiringContext wiringContext)
+        public ObjectAssemblerFactory(WiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
         }
 
         public IObjectAssembler GetAssembler(ObjectAssemblerSettings settings)
         {
-            return new WpfObjectAssembler(wiringContext, settings);
+            return new ObjectAssembler(wiringContext, settings);
         }
     }
 }

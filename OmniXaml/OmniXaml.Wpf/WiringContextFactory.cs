@@ -1,10 +1,10 @@
 ﻿namespace OmniXaml.Wpf
 {
-    public static class WpfWiringContextFactory
+    public static class WiringContextFactory
     {
         public static WiringContext Create()
         {
-            var builder = new WpfCleanWiringContextBuilder();
+            var builder = new CleanWiringContextBuilder();
             return builder.Build();
         }
     }

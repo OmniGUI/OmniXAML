@@ -7,13 +7,13 @@
     using TypeConversion;
     using TypeConverterAttribute = System.ComponentModel.TypeConverterAttribute;
 
-    internal class WpfTypeConverterProvider : ITypeConverterProvider
+    internal class TypeConverterProvider : ITypeConverterProvider
     {
-        private readonly TypeConverterProvider fallback;
+        private readonly TypeConversion.TypeConverterProvider fallback;
 
-        public WpfTypeConverterProvider()
+        public TypeConverterProvider()
         {
-            fallback = new TypeConverterProvider();
+            fallback = new TypeConversion.TypeConverterProvider();
         }
 
         public ITypeConverter GetTypeConverter(Type type)

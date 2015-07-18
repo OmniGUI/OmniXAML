@@ -11,7 +11,7 @@
         [TestMethod]
         public void StringProperty()
         {
-            var actualInstance = Loader.Load(Dummy.StringProperty);
+            var actualInstance = XamlStreamLoader.Load(Dummy.StringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -22,7 +22,7 @@
         [TestMethod]
         public void ExpandedStringProperty()
         {
-            var actualInstance = Loader.Load(Dummy.InnerContent);
+            var actualInstance = XamlStreamLoader.Load(Dummy.InnerContent);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -33,7 +33,7 @@
         [TestMethod]
         public void NonStringProperty()
         {
-            var actualInstance = Loader.Load(Dummy.NonStringProperty);
+            var actualInstance = XamlStreamLoader.Load(Dummy.NonStringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -44,7 +44,7 @@
         [TestMethod]
         public void ChildCollection()
         {       
-            var actualInstance = Loader.Load(Dummy.ChildCollection);
+            var actualInstance = XamlStreamLoader.Load(Dummy.ChildCollection);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -56,7 +56,7 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualInstance = Loader.Load(Dummy.AttachedProperty);
+            var actualInstance = XamlStreamLoader.Load(Dummy.AttachedProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -67,7 +67,7 @@
         [TestMethod]
         public void Ignorable()
         {
-            var actualInstance = Loader.Load(Dummy.Ignorable);
+            var actualInstance = XamlStreamLoader.Load(Dummy.Ignorable);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;

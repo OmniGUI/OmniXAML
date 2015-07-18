@@ -6,7 +6,7 @@ namespace OmniXaml.Wpf
     {
         public object Load(IEnumerable<XamlNode> nodes, WiringContext context)
         {
-            return new WpfTemplateContent(nodes, context);
+            return new TemplateContent(nodes, context);
         }
     }
 }

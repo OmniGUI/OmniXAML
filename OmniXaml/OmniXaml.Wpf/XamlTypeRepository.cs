@@ -4,11 +4,11 @@ namespace OmniXaml.Wpf
     using Glass;
     using Typing;
 
-    public class WpfXamlTypeRepository : XamlTypeRepository
+    public class XamlTypeRepository : Typing.XamlTypeRepository
     {
         private readonly ITypeFactory typeFactory;
 
-        public WpfXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeFactory) : base(xamlNamespaceRegistry, typeFactory)
+        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeFactory) : base(xamlNamespaceRegistry, typeFactory)
         {
             this.typeFactory = typeFactory;
         }

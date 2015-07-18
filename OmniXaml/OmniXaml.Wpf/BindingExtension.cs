@@ -6,7 +6,7 @@
     {        
         public object ProvideValue(MarkupExtensionContext markupExtensionContext)
         {
-            return ProvideValue(new WpfServiceLocator(markupExtensionContext));
+            return ProvideValue(new ServiceLocator(markupExtensionContext));
         }
     }
 }

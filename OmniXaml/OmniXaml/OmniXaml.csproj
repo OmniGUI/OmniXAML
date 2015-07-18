@@ -63,7 +63,7 @@
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
-    <Compile Include="ILoader.cs" />
+    <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="NewAssembler\ConstructionArgument.cs" />
     <Compile Include="NewAssembler\StateCommuter.cs" />
@@ -79,6 +79,7 @@
     <Compile Include="NewAssembler\Commands\ValueCommand.cs" />
     <Compile Include="NewAssembler\ValuePipeline.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\IXmlReader.cs" />
+    <Compile Include="Parsers\ProtoParser\SuperProtoParser\SuperProtoParserExtensions.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
     <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
@@ -184,7 +185,7 @@
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="CoreXamlXmlLoader.cs" />
     <Compile Include="Builder\XamlXmlLoaderBuilder.cs" />
-    <Compile Include="XamlLoader.cs" />
+    <Compile Include="XamlStreamLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">

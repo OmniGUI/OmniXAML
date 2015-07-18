@@ -6,11 +6,11 @@ namespace OmniXaml.Wpf
     using System.Windows.Markup;
     using System.Xaml;
 
-    public class WpfServiceLocator : IServiceProvider, IProvideValueTarget
+    public class ServiceLocator : IServiceProvider, IProvideValueTarget
     {
         private readonly MarkupExtensionContext markupExtensionContext;
 
-        public WpfServiceLocator(MarkupExtensionContext markupExtensionContext)
+        public ServiceLocator(MarkupExtensionContext markupExtensionContext)
         {
             this.markupExtensionContext = markupExtensionContext;
         }

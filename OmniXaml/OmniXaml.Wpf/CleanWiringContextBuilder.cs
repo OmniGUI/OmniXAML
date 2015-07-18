@@ -7,17 +7,17 @@ namespace OmniXaml.Wpf
     using Builder;
     using Typing;
 
-    public class WpfCleanWiringContextBuilder : CleanWiringContextBuilder
+    public class CleanWiringContextBuilder : OmniXaml.CleanWiringContextBuilder
     {
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
-        public WpfCleanWiringContextBuilder()
+        public CleanWiringContextBuilder()
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             var typeFactory = new TypeFactory();
-            TypeContext = new TypeContext(new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
-            ContentPropertyProvider = new WpfContentPropertyProvider();
-            TypeConverterProvider = new WpfTypeConverterProvider();
+            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
+            ContentPropertyProvider = new ContentPropertyProvider();
+            TypeConverterProvider = new TypeConverterProvider();
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()

@@ -6,10 +6,10 @@
         {
             protected GivenAXamlXmlLoader()
             {
-                Loader = new XamlLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
+                XamlStreamLoader = new XamlStreamLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
             }
 
-            protected XamlLoader Loader { get; }
+            protected XamlStreamLoader XamlStreamLoader { get; }
         }
     }
 }

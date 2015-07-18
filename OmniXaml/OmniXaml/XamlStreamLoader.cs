@@ -3,12 +3,12 @@ namespace OmniXaml
     using System.IO;
     using Assembler;
 
-    public class XamlLoader : ILoader
+    public class XamlStreamLoader : IXamlStreamLoader
     {
         private readonly WiringContext wiringContext;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
-        public XamlLoader(WiringContext wiringContext, IObjectAssemblerFactory assemblerFactory)
+        public XamlStreamLoader(WiringContext wiringContext, IObjectAssemblerFactory assemblerFactory)
         {
             this.wiringContext = wiringContext;
             this.assemblerFactory = assemblerFactory;

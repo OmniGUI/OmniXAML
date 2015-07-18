@@ -15,6 +15,11 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
             xmlReader = XmlReader.Create(stringReader);
         }
 
+        public XmlCompatibilityReader(Stream stream)
+        {
+            xmlReader = XmlReader.Create(stream);
+        }
+
         public void Read()
         {
             xmlReader.Read();

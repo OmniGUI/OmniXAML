@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>OmniXaml.Wpf</RootNamespace>
     <AssemblyName>OmniXaml.Wpf</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,27 +48,27 @@
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
-    <Compile Include="MyReader.cs" />
+    <Compile Include="ObjectFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />
     <Compile Include="RootObjectProvider.cs" />
     <Compile Include="DataTemplate.cs" />
     <Compile Include="TypeDescriptorContext.cs" />
     <Compile Include="DeferredObjectAssembler.cs" />
-    <Compile Include="WpfObjectAssembler.cs" />
-    <Compile Include="WpfObjectFactory.cs" />
-    <Compile Include="WpfTemplateContent.cs" />
-    <Compile Include="WpfLoader.cs" />
-    <Compile Include="WpfCleanWiringContextBuilder.cs" />
-    <Compile Include="WpfContentPropertyProvider.cs" />
+    <Compile Include="ObjectAssembler.cs" />
+    <Compile Include="ObjectAssemblerFactory.cs" />
+    <Compile Include="TemplateContent.cs" />
+    <Compile Include="WpfXamlStreamLoader.cs" />
+    <Compile Include="CleanWiringContextBuilder.cs" />
+    <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
-    <Compile Include="WpfTypeConverterProvider.cs" />
+    <Compile Include="TypeConverterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WpfServiceLocator.cs" />
-    <Compile Include="WpfWiringContextFactory.cs" />
+    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="WiringContextFactory.cs" />
     <Compile Include="WpfXamlMember.cs" />
-    <Compile Include="WpfXamlMemberValueConnector.cs" />
+    <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
-    <Compile Include="WpfXamlTypeRepository.cs" />
+    <Compile Include="XamlTypeRepository.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlNodeExtensions.cs" />
   </ItemGroup>
@@ -75,6 +76,14 @@
     <ProjectReference Include="..\..\Glass\Glass.csproj">
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+      <Project>{e4fb7d33-20f4-46f8-b7c6-fc11eff34cfb}</Project>
+      <Name>OmniXaml.AppServices.NetCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
+      <Name>OmniXaml.AppServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>

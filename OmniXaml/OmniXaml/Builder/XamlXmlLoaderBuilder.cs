@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Reflection;
-    using Assembler;
     using NewAssembler;
     using Typing;
 
@@ -13,7 +12,6 @@
         private readonly IEnumerable<Assembly> lookupAssemblies = new Collection<Assembly>();
         private IEnumerable<PrefixRegistration> prefixes = new Collection<PrefixRegistration>();
         private IEnumerable<ContentPropertyDefinition> contentPropertyDefinitionDefinitions = new Collection<ContentPropertyDefinition>();
-        private IEnumerable<TypeConverterRegistration> converterRegistrations = new Collection<TypeConverterRegistration>();
 
         public IEnumerable<XamlNamespace> NamespaceRegistrations => namespaceRegistrations;
 
@@ -69,7 +67,6 @@
 
         public XamlXmlLoaderBuilder WithConverters(IEnumerable<TypeConverterRegistration> converterRegistrations)
         {
-            this.converterRegistrations = converterRegistrations;
             return this;
         }
     }

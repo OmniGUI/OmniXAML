@@ -9,14 +9,14 @@
     [ContentProperty("AlternateTemplateContent")]
     public class DataTemplate : System.Windows.DataTemplate
     {
-        private WpfTemplateContent alternateTemplateContent;
+        private TemplateContent alternateTemplateContent;
 
         // ReSharper disable once EmptyConstructor
         public DataTemplate()
         {
         }
 
-        public WpfTemplateContent AlternateTemplateContent
+        public TemplateContent AlternateTemplateContent
         {
             get { return alternateTemplateContent; }
             set
@@ -26,9 +26,9 @@
             }
         }
 
-        private static FrameworkElementFactory ConvertTemplateContentIntoElementFactory(WpfTemplateContent wpfTemplateContent)
+        private static FrameworkElementFactory ConvertTemplateContentIntoElementFactory(TemplateContent templateContent)
         {
-            var visualTree = (DependencyObject)wpfTemplateContent.Load();
+            var visualTree = (DependencyObject)templateContent.Load();
             var frameworkElementFactory = new FrameworkElementFactory(visualTree.GetType());
 
             foreach (var dependencyProperty in DependencyObjectHelper.GetDependencyProperties(visualTree))

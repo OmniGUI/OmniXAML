@@ -4,11 +4,11 @@ namespace OmniXaml.Wpf
 
     public static class XamlLoaderExtensions
     {
-        public static object LoadFromFile(this ILoader coreLoader, string path)
+        public static object LoadFromFile(this IXamlStreamLoader coreXamlStreamLoader, string path)
         {
             using (var stream = new FileStream(path, FileMode.Open))
             {
-                return coreLoader.Load(stream);
+                return coreXamlStreamLoader.Load(stream);
             }
         }
     }

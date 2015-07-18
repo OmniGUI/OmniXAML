@@ -11,7 +11,7 @@
 
         protected override IXamlMemberValuePlugin LookupXamlMemberValueConnector()
         {
-            return new WpfXamlMemberValueConnector(this);
+            return new MemberValuePlugin(this);
         }
     }
 }
