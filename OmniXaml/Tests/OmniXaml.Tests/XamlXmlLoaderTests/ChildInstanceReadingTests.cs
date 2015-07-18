@@ -12,7 +12,7 @@
         [TestMethod]
         public void ReadInstanceWithChild()
         {
-            var actualInstance = XamlStreamLoader.Load(Dummy.InstanceWithChild);
+            var actualInstance = BoostrappableXamlStreamLoader.Load(Dummy.InstanceWithChild);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -24,7 +24,7 @@
         [TestMethod]
         public void ReadInstanceWithThreeLevelsOfNesting()
         {
-            var root = XamlStreamLoader.Load(Dummy.ThreeLevelsOfNesting);
+            var root = BoostrappableXamlStreamLoader.Load(Dummy.ThreeLevelsOfNesting);
             
             var dummy = root as DummyClass;
             Assert.IsInstanceOfType(root, typeof(DummyClass), "The retrieved instance should be of type DummyClass");

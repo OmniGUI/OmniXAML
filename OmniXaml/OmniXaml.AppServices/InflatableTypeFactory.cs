@@ -8,7 +8,7 @@
 
     public class InflatableTypeFactory : ITypeFactory
     {
-        public IXamlStreamLoader XamlStreamLoader { get; set; }
+        public Func<IXamlStreamLoader> XamlStreamLoaderFactoryMethod { get; set; }
 
         private readonly ITypeFactory coreTypeFactory;
         private readonly IResourceProvider resourceProvider;
@@ -29,16 +29,6 @@
 
         private bool IsInflatable(Type type) => Inflatables.Any(t => t.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()));
 
-        public object CreateWithInflate(Type type, Uri uri) 
-        {
-            using (var stream = resourceProvider.GetStream(uri))
-            {
-                var instance = coreTypeFactory.Create(type);
-                var window = XamlStreamLoader.Load(stream, instance);
-                return window;
-            }
-        }
-
         public object Create(Type type)
         {
             return Create(type, null);
@@ -52,7 +42,8 @@
                 using (var stream = resourceProvider.GetStream(uri))
                 {
                     var instance = coreTypeFactory.Create(type, args);
-                    var inflated = XamlStreamLoader.Load(stream, instance);
+                    var loader = XamlStreamLoaderFactoryMethod();
+                    var inflated = loader.Load(stream, instance);
                     return inflated;
                 }
             }

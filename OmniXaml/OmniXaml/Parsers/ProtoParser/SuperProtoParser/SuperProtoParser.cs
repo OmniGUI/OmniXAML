@@ -6,7 +6,7 @@
     using System.Xml;
     using Typing;
 
-    internal class SuperProtoParser
+    public class SuperProtoParser
     {
         private readonly WiringContext wiringContext;
         private readonly ProtoNodeBuilder nodeBuilder;

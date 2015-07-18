@@ -4,8 +4,9 @@
     using System.Collections.ObjectModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes;
+    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.XamlNodes;
     using Wpf;
-    using XamlStreamLoader = OmniXaml.XamlStreamLoader;
 
     [TestClass]
     public class InflatableFactoryTest
@@ -19,7 +20,11 @@
             };
 
             var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoader = new XamlStreamLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
+            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
+                wiringContext,
+                new SuperProtoParser(wiringContext),
+                new XamlNodesPullParser(wiringContext),
+                new DefaultObjectAssemblerFactory(wiringContext));
 
             var myWindow = sut.Create<MyWindow>();
             Assert.IsInstanceOfType(myWindow, typeof(MyWindow));
@@ -35,7 +40,11 @@
             };
 
             var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoader = new XamlStreamLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
+            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
+                wiringContext,
+                new SuperProtoParser(wiringContext),
+                new XamlNodesPullParser(wiringContext),
+                new DefaultObjectAssemblerFactory(wiringContext));
 
             var myWindow = sut.Create<WindowWithUserControl>();
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
@@ -53,7 +62,11 @@
             };
 
             var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoader = new XamlStreamLoader(wiringContext, new DefaultObjectAssemblerFactory(wiringContext));
+            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
+                wiringContext,
+                new SuperProtoParser(wiringContext),
+                new XamlNodesPullParser(wiringContext),
+                new DefaultObjectAssemblerFactory(wiringContext));
 
             var myWindow = (Window)sut.Create(new Uri("WindowWithUserControl.xaml", UriKind.Relative));
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));

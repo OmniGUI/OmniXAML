@@ -2,15 +2,21 @@ namespace OmniXaml
 {
     using System.IO;
     using Assembler;
+    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.XamlNodes;
 
-    public class XamlStreamLoader : IXamlStreamLoader
+    public class BoostrappableXamlStreamLoader : IXamlStreamLoader
     {
         private readonly WiringContext wiringContext;
+        private readonly SuperProtoParser protoProtoParser;
+        private readonly XamlNodesPullParser pullParser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
-        public XamlStreamLoader(WiringContext wiringContext, IObjectAssemblerFactory assemblerFactory)
+        public BoostrappableXamlStreamLoader(WiringContext wiringContext, SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
         {
             this.wiringContext = wiringContext;
+            this.protoProtoParser = protoProtoParser;
+            this.pullParser = pullParser;
             this.assemblerFactory = assemblerFactory;
         }
 
@@ -24,9 +30,9 @@ namespace OmniXaml
             return LoadInternal(stream, assemblerFactory.GetAssembler(new ObjectAssemblerSettings {RootInstance = rootInstance}));
         }
 
-        private object LoadInternal(Stream stream, IObjectAssembler objectAsssembler)
+        private object LoadInternal(Stream stream, IObjectAssembler objectAssembler)
         {
-            var coreXamlXmlLoader = new CoreXamlXmlLoader(objectAsssembler, wiringContext);
+            var coreXamlXmlLoader = new CoreXamlXmlLoader(protoProtoParser, pullParser, objectAssembler);
             return coreXamlXmlLoader.Load(stream);
         }
     }

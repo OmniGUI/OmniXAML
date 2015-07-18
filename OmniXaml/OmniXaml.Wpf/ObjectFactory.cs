@@ -15,7 +15,7 @@
         {
 
             inflater = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator());
-            inflater.XamlStreamLoader = new WpfXamlStreamLoader();
+            inflater.XamlStreamLoaderFactoryMethod = () => new WpfXamlStreamLoader();
             inflater.Inflatables = new Collection<Type> { typeof(Window) };
         }
 

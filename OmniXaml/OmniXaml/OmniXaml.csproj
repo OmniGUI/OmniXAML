@@ -184,8 +184,7 @@
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="CoreXamlXmlLoader.cs" />
-    <Compile Include="Builder\XamlXmlLoaderBuilder.cs" />
-    <Compile Include="XamlStreamLoader.cs" />
+    <Compile Include="BoostrappableXamlStreamLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.45, Culture=neutral, processorArchitecture=MSIL">

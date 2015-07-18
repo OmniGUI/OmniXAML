@@ -80,7 +80,6 @@
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
-    <Compile Include="XamlXmlLoaderBuilderTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="Parsers\ProtoParserTests\ParseTests.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />

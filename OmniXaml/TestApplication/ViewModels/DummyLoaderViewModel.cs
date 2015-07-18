@@ -7,6 +7,8 @@
     using OmniXaml;
     using OmniXaml.Assembler;
     using OmniXaml.NewAssembler;
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
+    using OmniXaml.Parsers.XamlNodes;
     using OmniXaml.Tests.Classes;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
@@ -64,7 +66,11 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlStreamLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
+            var loader = new BoostrappableXamlStreamLoader(
+                WiringContext,
+                new SuperProtoParser(WiringContext),
+                new XamlNodesPullParser(WiringContext),
+                new DefaultObjectAssemblerFactory(WiringContext));
 
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);
@@ -77,5 +83,5 @@
                 new InstanceNodeViewModel(result)
             };
         }
-    }    
+    }
 }

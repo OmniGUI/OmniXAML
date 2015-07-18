@@ -11,7 +11,7 @@
         [TestMethod]
         public void SimpleExtension()
         {
-            var actualInstance = XamlStreamLoader.Load(XamlResources.SimpleExtension);
+            var actualInstance = BoostrappableXamlStreamLoader.Load(XamlResources.SimpleExtension);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -22,7 +22,7 @@
         [TestMethod]
         public void SimpleExtensionWithPropertyAssignment()
         {
-            var actualInstance = XamlStreamLoader.Load(XamlResources.SimpleExtensionWithOneAssignment);
+            var actualInstance = BoostrappableXamlStreamLoader.Load(XamlResources.SimpleExtensionWithOneAssignment);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -33,7 +33,7 @@
         [TestMethod]
         public void ExtensionThatRetrievesInteger()
         {
-            var actualInstance = XamlStreamLoader.Load("<DummyClass xmlns=\"root\" Number=\"{Int Number=123}\"/>");
+            var actualInstance = BoostrappableXamlStreamLoader.Load("<DummyClass xmlns=\"root\" Number=\"{Int Number=123}\"/>");
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -44,7 +44,7 @@
         [TestMethod]
         public void QuotedValue()
         {
-            var actualInstance = XamlStreamLoader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"{Dummy Property=\'Some Value\'}\"/>");
+            var actualInstance = BoostrappableXamlStreamLoader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"{Dummy Property=\'Some Value\'}\"/>");
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -57,7 +57,7 @@
         {
             
 
-            var actualInstance = XamlStreamLoader.Load(XamlResources.MarkupExtensionTwoQuotedValues);
+            var actualInstance = BoostrappableXamlStreamLoader.Load(XamlResources.MarkupExtensionTwoQuotedValues);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;

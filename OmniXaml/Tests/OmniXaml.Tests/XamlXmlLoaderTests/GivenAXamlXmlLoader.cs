@@ -2,14 +2,21 @@
 {
     namespace OmniXaml.Reader.Tests.Wpf
     {
+        using global::OmniXaml.Parsers.ProtoParser.SuperProtoParser;
+        using global::OmniXaml.Parsers.XamlNodes;
+
         public class GivenAXamlXmlLoader : GivenAWiringContext
         {
             protected GivenAXamlXmlLoader()
             {
-                XamlStreamLoader = new XamlStreamLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
+                BoostrappableXamlStreamLoader = new BoostrappableXamlStreamLoader(
+                    WiringContext,
+                    new SuperProtoParser(WiringContext),
+                    new XamlNodesPullParser(WiringContext),
+                    new DefaultObjectAssemblerFactory(WiringContext));
             }
 
-            protected XamlStreamLoader XamlStreamLoader { get; }
+            protected BoostrappableXamlStreamLoader BoostrappableXamlStreamLoader { get; }
         }
     }
 }

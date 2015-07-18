@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Glass;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
@@ -9,22 +10,22 @@
     public class CoreXamlXmlLoader : ICoreXamlLoader
     {
         private readonly IObjectAssembler objectAssembler;
-        private readonly WiringContext wiringContext;
+        private readonly SuperProtoParser protoParser;
+        private readonly XamlNodesPullParser pullParser;
 
-        public CoreXamlXmlLoader(IObjectAssembler objectAssembler, WiringContext wiringContext)            
+        public CoreXamlXmlLoader(SuperProtoParser protoParser, XamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
         {
             Guard.ThrowIfNull(objectAssembler, nameof(objectAssembler));
-            Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
 
-            this.objectAssembler = objectAssembler;
-            this.wiringContext = wiringContext;
+            this.objectAssembler = objectAssembler;        
+            this.protoParser = protoParser;
+            this.pullParser = pullParser;
         }
 
         public object Load(Stream stream)
         {
-            var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(stream);
-            var pullParser = new XamlNodesPullParser(wiringContext);
-            var xamlNodes = pullParser.Parse(protoXamlNodes);
+            var xamlProtoNodes = protoParser.Parse(stream);
+            var xamlNodes = pullParser.Parse(xamlProtoNodes);
             return Load(xamlNodes);
         }
 
