@@ -22,16 +22,8 @@
 
         public object Load(Stream stream)
         {
-            using (var t = new StreamReader(stream))
-            {
-                return Load(t.ReadToEnd());
-            }
-        }
-
-        private object Load(string xml)
-        {
+            var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(stream);
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoXamlNodes = new SuperProtoParser(wiringContext).Parse(xml);
             var xamlNodes = pullParser.Parse(protoXamlNodes);
             return Load(xamlNodes);
         }

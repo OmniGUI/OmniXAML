@@ -13,17 +13,19 @@ namespace OmniXaml
             this.wiringContext = wiringContext;
             this.assemblerFactory = assemblerFactory;
         }
-        
+
         public object Load(Stream stream)
         {
-            var objectAsssembler = assemblerFactory.GetAssembler(null);
-            var coreXamlXmlLoader = new CoreXamlXmlLoader(objectAsssembler, wiringContext);
-            return coreXamlXmlLoader.Load(stream);
+            return LoadInternal(stream, assemblerFactory.GetAssembler(null));
         }
 
         public object Load(Stream stream, object rootInstance)
         {
-            var objectAsssembler = assemblerFactory.GetAssembler(new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return LoadInternal(stream, assemblerFactory.GetAssembler(new ObjectAssemblerSettings {RootInstance = rootInstance}));
+        }
+
+        private object LoadInternal(Stream stream, IObjectAssembler objectAsssembler)
+        {
             var coreXamlXmlLoader = new CoreXamlXmlLoader(objectAsssembler, wiringContext);
             return coreXamlXmlLoader.Load(stream);
         }

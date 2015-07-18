@@ -66,7 +66,7 @@
         {
             var loader = new XamlStreamLoader(WiringContext, new DefaultObjectAssemblerFactory(WiringContext));
 
-            var rootObject = XamlLoaderExtensions.Load(loader, Xaml);
+            var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);
         }
 
