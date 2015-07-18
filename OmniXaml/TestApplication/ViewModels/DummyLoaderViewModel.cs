@@ -66,7 +66,7 @@
 
         private void LoadXaml()
         {
-            var loader = new BoostrappableXamlStreamLoader(
+            var loader = new BootstrappableXamlStreamLoader(
                 WiringContext,
                 new SuperProtoParser(WiringContext),
                 new XamlNodesPullParser(WiringContext),

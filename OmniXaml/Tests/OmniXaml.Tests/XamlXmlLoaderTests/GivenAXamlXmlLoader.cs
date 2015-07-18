@@ -9,14 +9,14 @@
         {
             protected GivenAXamlXmlLoader()
             {
-                BoostrappableXamlStreamLoader = new BoostrappableXamlStreamLoader(
+                BootstrappableXamlStreamLoader = new BootstrappableXamlStreamLoader(
                     WiringContext,
                     new SuperProtoParser(WiringContext),
                     new XamlNodesPullParser(WiringContext),
                     new DefaultObjectAssemblerFactory(WiringContext));
             }
 
-            protected BoostrappableXamlStreamLoader BoostrappableXamlStreamLoader { get; }
+            protected BootstrappableXamlStreamLoader BootstrappableXamlStreamLoader { get; }
         }
     }
 }

@@ -5,14 +5,14 @@ namespace OmniXaml
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
-    public class BoostrappableXamlStreamLoader : IXamlStreamLoader
+    public class BootstrappableXamlStreamLoader : IXamlStreamLoader
     {
         private readonly WiringContext wiringContext;
         private readonly SuperProtoParser protoProtoParser;
         private readonly XamlNodesPullParser pullParser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
-        public BoostrappableXamlStreamLoader(WiringContext wiringContext, SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
+        public BootstrappableXamlStreamLoader(WiringContext wiringContext, SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
         {
             this.wiringContext = wiringContext;
             this.protoProtoParser = protoProtoParser;

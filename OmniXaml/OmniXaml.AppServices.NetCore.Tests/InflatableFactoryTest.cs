@@ -14,37 +14,36 @@
         [TestMethod]
         public void Window()
         {
-            var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
-            {
-                Inflatables = new Collection<Type> { typeof(Window) }
-            };
-
-            var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
-                wiringContext,
-                new SuperProtoParser(wiringContext),
-                new XamlNodesPullParser(wiringContext),
-                new DefaultObjectAssemblerFactory(wiringContext));
+            var sut = CreateSut();
 
             var myWindow = sut.Create<MyWindow>();
             Assert.IsInstanceOfType(myWindow, typeof(MyWindow));
             Assert.AreEqual(myWindow.Title, "Hello World :)");
         }
 
+        private static InflatableTypeFactory CreateSut()
+        {
+            var inflatableTypeFactory = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
+            {
+                Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) },
+                XamlStreamLoaderFactoryMethod = typeFactory =>
+                {
+                    var wiringContext = DummyWiringContext.Create(typeFactory);
+                    return new BootstrappableXamlStreamLoader(
+                        wiringContext,
+                        new SuperProtoParser(wiringContext),
+                        new XamlNodesPullParser(wiringContext),
+                        new DefaultObjectAssemblerFactory(wiringContext));
+                }
+            };
+
+            return inflatableTypeFactory;
+        }
+
         [TestMethod]
         public void UserControl()
         {
-            var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
-            {
-                Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) }
-            };
-
-            var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
-                wiringContext,
-                new SuperProtoParser(wiringContext),
-                new XamlNodesPullParser(wiringContext),
-                new DefaultObjectAssemblerFactory(wiringContext));
+            var sut = CreateSut();
 
             var myWindow = sut.Create<WindowWithUserControl>();
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
@@ -56,17 +55,7 @@
         [TestMethod]
         public void UserControlLoadingWithUri()
         {
-            var sut = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
-            {
-                Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) }
-            };
-
-            var wiringContext = DummyWiringContext.Create(sut);
-            sut.XamlStreamLoaderFactoryMethod = () => new BoostrappableXamlStreamLoader(
-                wiringContext,
-                new SuperProtoParser(wiringContext),
-                new XamlNodesPullParser(wiringContext),
-                new DefaultObjectAssemblerFactory(wiringContext));
+            var sut = CreateSut();
 
             var myWindow = (Window)sut.Create(new Uri("WindowWithUserControl.xaml", UriKind.Relative));
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
@@ -76,5 +65,9 @@
             Assert.AreEqual("It's-a me, Mario", userControl.Property);
             Assert.IsInstanceOfType(userControl.Content, typeof(ChildClass));
         }
+    }
+
+    public class ContextProvider
+    {
     }
 }

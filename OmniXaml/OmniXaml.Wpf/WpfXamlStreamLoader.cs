@@ -6,13 +6,13 @@
 
     public class WpfXamlStreamLoader : IXamlStreamLoader
     {
-        private readonly BoostrappableXamlStreamLoader coreBoostrappableXamlStreamLoader;
+        private readonly BootstrappableXamlStreamLoader coreBootstrappableXamlStreamLoader;
 
         public WpfXamlStreamLoader()
         {
             var wiringContext = WiringContextFactory.Create();
             var factory = new ObjectAssemblerFactory(wiringContext);
-            coreBoostrappableXamlStreamLoader = new BoostrappableXamlStreamLoader(
+            coreBootstrappableXamlStreamLoader = new BootstrappableXamlStreamLoader(
                 wiringContext,
                 new SuperProtoParser(wiringContext),
                 new XamlNodesPullParser(wiringContext), 
@@ -21,12 +21,12 @@
 
         public object Load(Stream stream)
         {
-            return coreBoostrappableXamlStreamLoader.Load(stream);
+            return coreBootstrappableXamlStreamLoader.Load(stream);
         }
 
         public object Load(Stream stream, object rootInstance)
         {
-            return coreBoostrappableXamlStreamLoader.Load(stream, rootInstance);
+            return coreBootstrappableXamlStreamLoader.Load(stream, rootInstance);
         }
     }
 }
