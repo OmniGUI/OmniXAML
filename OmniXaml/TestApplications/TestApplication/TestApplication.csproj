@@ -98,20 +98,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="D:\Source\Repos\GitHub\OmniXAML\OmniXaml\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
-      <Project>{e4fb7d33-20f4-46f8-b7c6-fc11eff34cfb}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="D:\Source\Repos\GitHub\OmniXAML\OmniXaml\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
-      <Project>{b207c0cb-2bdf-4105-9e1d-1c5b98e98381}</Project>
+    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
       <Name>OmniXaml.AppServices</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Source\Repos\GitHub\OmniXAML\OmniXaml\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
-      <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>
+    <ProjectReference Include="..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
+      <Project>{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}</Project>
       <Name>OmniXaml.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Source\Repos\GitHub\OmniXAML\OmniXaml\OmniXaml\OmniXaml.csproj">
-      <Project>{0d9cc1de-84c3-40d7-9cc5-b7751e0b25d1}</Project>
+    <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
+      <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
   </ItemGroup>

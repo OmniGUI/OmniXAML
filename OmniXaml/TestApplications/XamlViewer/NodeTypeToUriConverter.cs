@@ -2,9 +2,7 @@ namespace TestApplication
 {
     using System;
     using System.Globalization;
-    using System.Windows;
     using System.Windows.Data;
-    using OmniXaml.Tests;
     using OmniXaml.Visualization;
 
     public class NodeTypeToUriConverter : IValueConverter

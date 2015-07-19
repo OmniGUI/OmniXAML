@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Tests.Resources", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Wpf", "Tests\OmniXaml.Tests.Wpf\OmniXaml.Tests.Wpf.csproj", "{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlViewer", "TestApplication\XamlViewer.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlViewer", "TestApplications\XamlViewer\XamlViewer.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Wpf", "OmniXaml.Wpf\OmniXaml.Wpf.csproj", "{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}"
 EndProject
@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.AppServices.NetCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.AppServices.NetCore.Tests", "OmniXaml.AppServices.NetCore.Tests\OmniXaml.AppServices.NetCore.Tests.csproj", "{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication2\TestApplication.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplications\TestApplication\TestApplication.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{2128C3CA-2925-494C-949B-93FDFF746516}"
 EndProject
