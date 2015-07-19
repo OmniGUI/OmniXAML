@@ -4,11 +4,11 @@ namespace OmniXaml.Tests.Wpf
     using System.Text;
     using OmniXaml.Wpf;
 
-    public class GivenAXamlXmlLoader : GivenAWiringContext
+    public class GivenAXamlXmlLoader
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlStreamLoader = new WpfXamlStreamLoader();
+            XamlStreamLoader = new WpfXamlStreamLoader(new TypeFactory());
         }
 
         private IXamlStreamLoader XamlStreamLoader { get; }

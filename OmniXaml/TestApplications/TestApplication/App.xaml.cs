@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using OmniXaml.Wpf;
+    using TestApplication;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -14,6 +15,7 @@
 
             var typeFactory = new WpfInflatableTypeFactory();
             var window = typeFactory.Create<MainWindow>();
+            window.DataContext = new MainViewModel();
             window.ShowDialog();
         }
     }

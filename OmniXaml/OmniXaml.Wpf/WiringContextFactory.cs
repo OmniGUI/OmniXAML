@@ -4,18 +4,15 @@
     {
         private static WiringContext context;
 
-        public static WiringContext Context
+        public static WiringContext GetContext(ITypeFactory factory)
         {
-            get
+            if (context == null)
             {
-                if (context == null)
-                {
-                    var builder = new CleanWiringContextBuilder();
-                    context = builder.Build();
-                }
-
-                return context;
+                var builder = new CleanWiringContextBuilder(factory);                  
+                context = builder.Build();
             }
+
+            return context;
         }
     }
 }

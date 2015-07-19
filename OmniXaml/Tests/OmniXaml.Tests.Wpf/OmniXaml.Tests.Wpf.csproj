@@ -55,7 +55,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GivenAWiringContext.cs" />
     <Compile Include="GivenAXamlXmlLoader.cs" />
     <Compile Include="LoadingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +63,10 @@
     <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
       <Project>{9B517520-4D99-4BF5-8219-A643F718F6DD}</Project>
       <Name>Xaml.Tests.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
+      <Name>OmniXaml.AppServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>

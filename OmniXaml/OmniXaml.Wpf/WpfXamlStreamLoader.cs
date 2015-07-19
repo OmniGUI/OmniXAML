@@ -1,14 +1,15 @@
 ﻿namespace OmniXaml.Wpf
 {
+    using AppServices;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
     public class WpfXamlStreamLoader : XamlStreamLoader
     {
-        public WpfXamlStreamLoader()
+        public WpfXamlStreamLoader(ITypeFactory typeFactory)
             : base(
-                assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WiringContextFactory.Context), new XamlNodesPullParser(WiringContextFactory.Context), assembler),
-                new ObjectAssemblerFactory(WiringContextFactory.Context))
+                assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WiringContextFactory.GetContext(typeFactory)), new XamlNodesPullParser(WiringContextFactory.GetContext(typeFactory)), assembler),
+                new ObjectAssemblerFactory(WiringContextFactory.GetContext(typeFactory)))
         {
         }
     }

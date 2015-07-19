@@ -11,10 +11,10 @@ namespace OmniXaml.Wpf
     {
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
-        public CleanWiringContextBuilder()
+        public CleanWiringContextBuilder(ITypeFactory factory)
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
-            var typeFactory = new TypeFactory();
+            var typeFactory = factory;
             TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
             ContentPropertyProvider = new ContentPropertyProvider();
             TypeConverterProvider = new TypeConverterProvider();

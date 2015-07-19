@@ -196,6 +196,10 @@
       <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
       <Name>Xaml.Tests.Resources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
+      <Name>OmniXaml.AppServices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}</Project>
       <Name>OmniXaml.Wpf</Name>
