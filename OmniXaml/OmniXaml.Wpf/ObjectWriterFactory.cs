@@ -11,7 +11,7 @@ namespace OmniXaml.Wpf
 
         public XamlObjectWriter GetXamlObjectWriter(XamlObjectWriterSettings settings)
         {
-            return new XamlObjectWriter(new XamlSchemaContext());
+            return new XamlObjectWriter(new XamlSchemaContext(), settings);
         }
     }
 }

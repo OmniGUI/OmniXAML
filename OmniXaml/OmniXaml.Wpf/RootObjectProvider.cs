@@ -7,7 +7,7 @@ namespace OmniXaml.Wpf
     {
         public RootObjectProvider()
         {
-            RootObject = new Button();
+            RootObject = null;
         }
 
         public object RootObject { get; }

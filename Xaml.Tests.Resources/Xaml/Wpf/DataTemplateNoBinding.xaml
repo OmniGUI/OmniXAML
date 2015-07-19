@@ -1,0 +1,9 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="Hello from OmniXaml!" Width="800" Height="600">
+  <ListBox ItemsSource="{Binding Path=Collection}">
+    <ListBox.ItemTemplate>
+      <DataTemplate>
+        <Button Content="Greetings!"/>
+      </DataTemplate>
+    </ListBox.ItemTemplate>
+  </ListBox>
+</Window>
