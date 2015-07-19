@@ -2,18 +2,17 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Linq;
     using Glass;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
-    public class CoreXamlXmlLoader : ICoreXamlLoader
+    public class ConfiguredXamlXmlLoader : IConfiguredXamlLoader
     {
         private readonly IObjectAssembler objectAssembler;
         private readonly SuperProtoParser protoParser;
         private readonly XamlNodesPullParser pullParser;
 
-        public CoreXamlXmlLoader(SuperProtoParser protoParser, XamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
+        public ConfiguredXamlXmlLoader(SuperProtoParser protoParser, XamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
         {
             Guard.ThrowIfNull(objectAssembler, nameof(objectAssembler));
 

@@ -9,12 +9,12 @@
         {
             protected GivenAXamlXmlLoader()
             {
-                BootstrappableXamlStreamLoader = new BootstrappableXamlStreamLoader(new SuperProtoParser(WiringContext),
+                XamlStreamLoader = new XamlStreamLoader(new SuperProtoParser(WiringContext),
                     new XamlNodesPullParser(WiringContext),
                     new DefaultObjectAssemblerFactory(WiringContext));
             }
 
-            protected BootstrappableXamlStreamLoader BootstrappableXamlStreamLoader { get; }
+            protected XamlStreamLoader XamlStreamLoader { get; }
         }
     }
 }

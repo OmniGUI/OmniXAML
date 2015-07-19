@@ -2,7 +2,7 @@
 {
     using System.IO;
 
-    public interface ICoreXamlLoader
+    public interface IConfiguredXamlLoader
     {
         object Load(Stream stream);        
     }

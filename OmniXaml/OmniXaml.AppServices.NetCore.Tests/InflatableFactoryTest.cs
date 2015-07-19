@@ -22,21 +22,16 @@
 
         private static InflatableTypeFactory CreateSut()
         {
-            var inflatableTypeFactory = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator(), GetLoader)
+            var inflatableTypeFactory = new InflatableTypeFactory(
+                new TypeFactory(),
+                new NetCoreResourceProvider(),
+                new NetCoreTypeToUriLocator(),
+                typeFactory => new DefaultXamlStreamLoader(DummyWiringContext.Create(typeFactory)))
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},
             };
 
             return inflatableTypeFactory;
-        }        
-
-        private static IXamlStreamLoader GetLoader(InflatableTypeFactory typeFactory)
-        {
-            var context = DummyWiringContext.Create(typeFactory);
-            Func<IObjectAssembler, ICoreXamlLoader> coreLoaderFactory =
-                objectAssembler => new CoreXamlXmlLoader(new SuperProtoParser(context), new XamlNodesPullParser(context), objectAssembler);
-
-            return new BootstrappableXamlStreamLoader(coreLoaderFactory, new DefaultObjectAssemblerFactory(context));
         }
 
         [TestMethod]

@@ -16,41 +16,41 @@
         [ExpectedException(typeof(XmlException))]
         public void EmptyStreamThrows()
         {
-            BootstrappableXamlStreamLoader.Load(Dummy.Empty);
+            XamlStreamLoader.Load(Dummy.Empty);
         }
 
         [TestMethod]
         [ExpectedException(typeof(TypeNotFoundException))]
         public void UnknownElementThrows()
         {
-            BootstrappableXamlStreamLoader.Load(Dummy.UnknownType);
+            XamlStreamLoader.Load(Dummy.UnknownType);
         }
 
         [TestMethod]
         [ExpectedException(typeof(XmlException))]
         public void BadFormatThrowsXamlReaderException()
         {
-            BootstrappableXamlStreamLoader.Load(Dummy.BadFormat);
+            XamlStreamLoader.Load(Dummy.BadFormat);
         }
 
         [TestMethod]
         public void NoPrefixMapsToNamespaceAndReturnsTheCorrectInstance()
         {
-            var actual = BootstrappableXamlStreamLoader.Load(Dummy.RootNamespace);
+            var actual = XamlStreamLoader.Load(Dummy.RootNamespace);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void SimpleXamlWithCollapsedTagsShouldReadLikeExplicitEndingTag()
         {
-            var actual = BootstrappableXamlStreamLoader.Load(Dummy.CollapsedTag);
+            var actual = XamlStreamLoader.Load(Dummy.CollapsedTag);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void DifferentNamespacesShouldReturnCorrectInstances()
         {
-            var actual = BootstrappableXamlStreamLoader.Load(Dummy.DifferentNamespaces);
+            var actual = XamlStreamLoader.Load(Dummy.DifferentNamespaces);
             Assert.IsInstanceOfType(actual, expectedType);
         }       
     }

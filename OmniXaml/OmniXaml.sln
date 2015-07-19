@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Tests.Resources", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Wpf", "Tests\OmniXaml.Tests.Wpf\OmniXaml.Tests.Wpf.csproj", "{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XamlViewer", "TestApplication\XamlViewer.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Wpf", "OmniXaml.Wpf\OmniXaml.Wpf.csproj", "{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}"
 EndProject
@@ -28,6 +28,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.AppServices.NetCore", "OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj", "{E4FB7D33-20F4-46F8-B7C6-FC11EFF34CFB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.AppServices.NetCore.Tests", "OmniXaml.AppServices.NetCore.Tests\OmniXaml.AppServices.NetCore.Tests.csproj", "{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication2\TestApplication.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{2128C3CA-2925-494C-949B-93FDFF746516}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +87,10 @@ Global
 		{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,7 +101,9 @@ Global
 		{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 		{9B517520-4D99-4BF5-8219-A643F718F6DD} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 		{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{A49A57C4-6DB5-44A0-869B-39EED7884A0B} = {2128C3CA-2925-494C-949B-93FDFF746516}
 		{6DC9D410-E8CA-48A4-8725-697D75F33388} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 		{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D} = {2128C3CA-2925-494C-949B-93FDFF746516}
 	EndGlobalSection
 EndGlobal

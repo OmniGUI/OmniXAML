@@ -2,10 +2,20 @@
 {
     public static class WiringContextFactory
     {
-        public static WiringContext Create()
+        private static WiringContext context;
+
+        public static WiringContext Context
         {
-            var builder = new CleanWiringContextBuilder();
-            return builder.Build();
+            get
+            {
+                if (context == null)
+                {
+                    var builder = new CleanWiringContextBuilder();
+                    context = builder.Build();
+                }
+
+                return context;
+            }
         }
     }
 }

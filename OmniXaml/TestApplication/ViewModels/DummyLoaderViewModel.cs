@@ -66,10 +66,8 @@
 
         private void LoadXaml()
         {
-            var loader = new BootstrappableXamlStreamLoader(new SuperProtoParser(WiringContext),
-                new XamlNodesPullParser(WiringContext),
-                new DefaultObjectAssemblerFactory(WiringContext));
-
+            var loader = new DefaultXamlStreamLoader(WiringContext);
+            
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);
         }

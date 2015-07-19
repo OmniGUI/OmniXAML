@@ -71,9 +71,9 @@
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestApplication\TestApplication.csproj">
+    <ProjectReference Include="..\TestApplication\XamlViewer.csproj">
       <Project>{A49A57C4-6DB5-44A0-869B-39EED7884A0B}</Project>
-      <Name>TestApplication</Name>
+      <Name>XamlViewer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Tests\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
