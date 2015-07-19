@@ -12,9 +12,14 @@ namespace OmniXaml
             this.wiringContext = wiringContext;
         }
 
-        public IObjectAssembler GetAssembler(ObjectAssemblerSettings objectAssemblerSettings)
+        public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
         {
             return new SuperObjectAssembler(wiringContext, objectAssemblerSettings);
+        }
+
+        public IObjectAssembler CreateAssembler()
+        {
+            return CreateAssembler(null);
         }
     }
 }

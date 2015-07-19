@@ -16,9 +16,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
                 SampleProperty = "Will be overwritten"
             };
 
-            var loader = new BootstrappableXamlStreamLoader(
-                WiringContext,
-                new SuperProtoParser(WiringContext),
+            var loader = new BootstrappableXamlStreamLoader(new SuperProtoParser(WiringContext),
                 new XamlNodesPullParser(WiringContext),
                 new DefaultObjectAssemblerFactory(WiringContext));
 

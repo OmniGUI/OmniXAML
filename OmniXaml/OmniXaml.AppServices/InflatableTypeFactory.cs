@@ -8,18 +8,22 @@
 
     public class InflatableTypeFactory : ITypeFactory
     {
-        public Func<InflatableTypeFactory, IXamlStreamLoader> XamlStreamLoaderFactoryMethod { get; set; }
-
         private readonly ITypeFactory coreTypeFactory;
         private readonly IResourceProvider resourceProvider;
         private readonly ITypeToUriLocator typeToUriLocator;
+        private readonly Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory;
+
         public IEnumerable<Type> Inflatables { get; set; } = new Collection<Type>();
 
-        public InflatableTypeFactory(ITypeFactory coreTypeFactory, IResourceProvider resourceProvider, ITypeToUriLocator typeToUriLocator)
+        public InflatableTypeFactory(ITypeFactory coreTypeFactory,
+            IResourceProvider resourceProvider,
+            ITypeToUriLocator typeToUriLocator,
+            Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory)
         {
             this.coreTypeFactory = coreTypeFactory;
             this.resourceProvider = resourceProvider;
             this.typeToUriLocator = typeToUriLocator;
+            this.loaderFactory = loaderFactory;
         }
 
         public T Create<T>()
@@ -27,7 +31,12 @@
             return (T) Create(typeof (T));
         }
 
-        private bool IsInflatable(Type type) => Inflatables.Any(t => t.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()));
+        private bool IsInflatable(Type type) => HasSomeInflatableThatIsCompatible(type);
+
+        private bool HasSomeInflatableThatIsCompatible(Type type)
+        {
+            return Inflatables.Any(t => t.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()));
+        }
 
         public object Create(Type type)
         {
@@ -42,7 +51,7 @@
                 using (var stream = resourceProvider.GetStream(uri))
                 {
                     var instance = coreTypeFactory.Create(type, args);
-                    var loader = XamlStreamLoaderFactoryMethod(this);
+                    var loader = loaderFactory(this);
                     var inflated = loader.Load(stream, instance);
                     return inflated;
                 }
@@ -54,11 +63,6 @@
         public bool CanLocate(Type type)
         {
             return coreTypeFactory.CanLocate(type);
-        }
-
-        public IList<Type> LookupUserInjectableParameters(Type type, int parameterCount)
-        {
-            throw new NotImplementedException();
         }
 
         public object Create(Uri uri)

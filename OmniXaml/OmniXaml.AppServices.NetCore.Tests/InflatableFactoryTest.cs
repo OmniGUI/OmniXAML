@@ -6,7 +6,6 @@
     using OmniXaml.Tests.Classes;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
-    using Wpf;
 
     [TestClass]
     public class InflatableFactoryTest
@@ -23,21 +22,21 @@
 
         private static InflatableTypeFactory CreateSut()
         {
-            var inflatableTypeFactory = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator())
+            var inflatableTypeFactory = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator(), GetLoader)
             {
-                Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) },
-                XamlStreamLoaderFactoryMethod = typeFactory =>
-                {
-                    var wiringContext = DummyWiringContext.Create(typeFactory);
-                    return new BootstrappableXamlStreamLoader(
-                        wiringContext,
-                        new SuperProtoParser(wiringContext),
-                        new XamlNodesPullParser(wiringContext),
-                        new DefaultObjectAssemblerFactory(wiringContext));
-                }
+                Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},
             };
 
             return inflatableTypeFactory;
+        }        
+
+        private static IXamlStreamLoader GetLoader(InflatableTypeFactory typeFactory)
+        {
+            var context = DummyWiringContext.Create(typeFactory);
+            Func<IObjectAssembler, ICoreXamlLoader> coreLoaderFactory =
+                objectAssembler => new CoreXamlXmlLoader(new SuperProtoParser(context), new XamlNodesPullParser(context), objectAssembler);
+
+            return new BootstrappableXamlStreamLoader(coreLoaderFactory, new DefaultObjectAssemblerFactory(context));
         }
 
         [TestMethod]
@@ -65,9 +64,5 @@
             Assert.AreEqual("It's-a me, Mario", userControl.Property);
             Assert.IsInstanceOfType(userControl.Content, typeof(ChildClass));
         }
-    }
-
-    public class ContextProvider
-    {
     }
 }

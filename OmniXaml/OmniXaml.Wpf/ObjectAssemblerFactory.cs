@@ -11,9 +11,14 @@
             this.wiringContext = wiringContext;
         }
 
-        public IObjectAssembler GetAssembler(ObjectAssemblerSettings settings)
+        public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
         {
             return new ObjectAssembler(wiringContext, settings);
+        }
+
+        public IObjectAssembler CreateAssembler()
+        {
+            return CreateAssembler(null);
         }
     }
 }

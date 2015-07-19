@@ -12,9 +12,7 @@
         {
             var wiringContext = WiringContextFactory.Create();
             var factory = new ObjectAssemblerFactory(wiringContext);
-            coreBootstrappableXamlStreamLoader = new BootstrappableXamlStreamLoader(
-                wiringContext,
-                new SuperProtoParser(wiringContext),
+            coreBootstrappableXamlStreamLoader = new BootstrappableXamlStreamLoader(new SuperProtoParser(wiringContext),
                 new XamlNodesPullParser(wiringContext), 
                 factory);
         }

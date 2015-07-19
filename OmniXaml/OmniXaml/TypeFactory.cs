@@ -1,7 +1,6 @@
 namespace OmniXaml
 {
     using System;
-    using System.Collections.Generic;
     using Glass;
 
     public class TypeFactory : ITypeFactory
@@ -21,11 +20,6 @@ namespace OmniXaml
         public bool CanLocate(Type type)
         {
             return true;
-        }
-
-        public IList<Type> LookupUserInjectableParameters(Type type, int parameterCount)
-        {
-            throw new NotImplementedException();
         }
     }
 }

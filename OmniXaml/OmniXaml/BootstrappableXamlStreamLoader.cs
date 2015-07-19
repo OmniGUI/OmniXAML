@@ -1,5 +1,6 @@
 namespace OmniXaml
 {
+    using System;
     using System.IO;
     using Assembler;
     using Parsers.ProtoParser.SuperProtoParser;
@@ -7,14 +8,19 @@ namespace OmniXaml
 
     public class BootstrappableXamlStreamLoader : IXamlStreamLoader
     {
-        private readonly WiringContext wiringContext;
+        private readonly Func<IObjectAssembler, ICoreXamlLoader> loaderFactory;
         private readonly SuperProtoParser protoProtoParser;
         private readonly XamlNodesPullParser pullParser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
-        public BootstrappableXamlStreamLoader(WiringContext wiringContext, SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
+        public BootstrappableXamlStreamLoader(Func<IObjectAssembler, ICoreXamlLoader> loaderFactory, IObjectAssemblerFactory assemblerFactory)
         {
-            this.wiringContext = wiringContext;
+            this.loaderFactory = loaderFactory;
+            this.assemblerFactory = assemblerFactory;
+        }
+
+        public BootstrappableXamlStreamLoader(SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
+        {
             this.protoProtoParser = protoProtoParser;
             this.pullParser = pullParser;
             this.assemblerFactory = assemblerFactory;
@@ -22,17 +28,18 @@ namespace OmniXaml
 
         public object Load(Stream stream)
         {
-            return LoadInternal(stream, assemblerFactory.GetAssembler(null));
+            return LoadInternal(stream, assemblerFactory.CreateAssembler());
         }
 
         public object Load(Stream stream, object rootInstance)
         {
-            return LoadInternal(stream, assemblerFactory.GetAssembler(new ObjectAssemblerSettings {RootInstance = rootInstance}));
+            var settings = new ObjectAssemblerSettings {RootInstance = rootInstance};
+            return LoadInternal(stream, assemblerFactory.CreateAssembler(settings));
         }
 
         private object LoadInternal(Stream stream, IObjectAssembler objectAssembler)
         {
-            var coreXamlXmlLoader = new CoreXamlXmlLoader(protoProtoParser, pullParser, objectAssembler);
+            var coreXamlXmlLoader = loaderFactory == null ? new CoreXamlXmlLoader(protoProtoParser, pullParser, objectAssembler) : loaderFactory(objectAssembler);
             return coreXamlXmlLoader.Load(stream);
         }
     }

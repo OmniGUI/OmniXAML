@@ -1,7 +1,6 @@
 namespace OmniXaml.Tests
 {
     using System;
-    using System.Collections.Generic;
 
     public class TypeFactoryDummy : ITypeFactory
     {
@@ -16,11 +15,6 @@ namespace OmniXaml.Tests
         }
 
         public bool CanLocate(Type type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<Type> LookupUserInjectableParameters(Type type, int parameterCount)
         {
             throw new NotImplementedException();
         }
