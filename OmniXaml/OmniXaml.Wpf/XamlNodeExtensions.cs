@@ -43,7 +43,7 @@ namespace OmniXaml.Wpf
 
         public static XamlMember ToWpf(this OmniXaml.Typing.XamlMember omniMember, XamlSchemaContext xamlSchemaContext)
         {
-            var declaringType = omniMember.DeclaringType.ToWpf(xamlSchemaContext);
+            var declaringType = ToWpf(omniMember.DeclaringType, xamlSchemaContext);
             return declaringType.GetMember(omniMember.Name);
         }
     }

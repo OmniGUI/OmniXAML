@@ -31,6 +31,7 @@ namespace OmniXaml.Wpf
             {
                 return new RootObjectProvider();
             }
+
             throw new InvalidOperationException($"Cannot locate the type {serviceType}");
         }
 
@@ -40,15 +41,18 @@ namespace OmniXaml.Wpf
         {
             get
             {
-                var dp = GetDependencyProperty(TargetObject.GetType(), markupExtensionContext.TargetProperty.Name);
+                var name = markupExtensionContext.TargetProperty.Name;
+                var type = TargetObject.GetType();
+                var dp = GetDependencyProperty(type, name);
                 return dp;
             }
         }
 
         public static DependencyProperty GetDependencyProperty(Type type, string name)
         {
-            FieldInfo fieldInfo = type.GetField(name + "Property", BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            return (fieldInfo != null) ? (DependencyProperty)fieldInfo.GetValue(null) : null;
+            var dpPropName = name + "Property";
+            FieldInfo fieldInfo = type.GetField(dpPropName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            return (DependencyProperty) fieldInfo?.GetValue(null);
         }
     }
 }

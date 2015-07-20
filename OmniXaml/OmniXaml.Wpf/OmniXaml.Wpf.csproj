@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
+    <Compile Include="SuperLoaderXamlXmlReader.cs" />
     <Compile Include="WpfInflatableTypeFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />
     <Compile Include="RootObjectProvider.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="WpfXamlMember.cs" />
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
+    <Compile Include="XamlTypeConversion.cs" />
     <Compile Include="XamlTypeRepository.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlNodeExtensions.cs" />

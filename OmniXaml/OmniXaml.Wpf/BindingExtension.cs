@@ -2,8 +2,9 @@
 {
     using System.Windows;
     using System.Windows.Data;
+    using System.Windows.Markup;
 
-    public class BindingExtension: Binding, IMarkupExtension
+    public class BindingExtension: Binding, IMarkupExtension, IProvideValueTarget
     {
         public BindingExtension()
         {            
@@ -18,5 +19,8 @@
         {
             return ProvideValue(new ServiceLocator(markupExtensionContext));
         }
+
+        public object TargetObject { get; }
+        public object TargetProperty { get; }
     }
 }
