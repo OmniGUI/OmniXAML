@@ -9,6 +9,14 @@
         
         Title="Test Application" Height="350" Width="525">
     <Grid>
-        <ListBox ItemsSource="{Binding People}" />
+        <ListBox ItemsSource="{Binding People}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="Chielito"></TextBlock>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>

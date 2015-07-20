@@ -53,9 +53,19 @@ namespace OmniXaml.Wpf
         private readonly object targetObject;
         private readonly object targetProperty;
 
-        public NastyXamlMember(XamlMember member, XamlSchemaContext context) : base(member.DeclaringType.UnderlyingType.GetProperty(member.Name), context)
+        public NastyXamlMember(XamlMember member, XamlSchemaContext context) : base(GetPropertyInfo(member), context)
         {
             this.member = member;
+        }
+
+        private static PropertyInfo GetPropertyInfo(XamlMember member)
+        {
+            if (member.IsDirective)
+            {
+                return null;
+            }
+
+            return member.DeclaringType.UnderlyingType.GetProperty(member.Name);
         }
 
         public object TargetObject

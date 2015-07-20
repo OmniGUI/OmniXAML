@@ -30,10 +30,27 @@ namespace OmniXaml.Wpf
 
         public static XamlMember ToWpf(this Typing.XamlMember member, XamlSchemaContext context)
         {
-            var declaringType = ToWpf(member.DeclaringType, context);
+            if (!member.IsDirective)
+            {
+                var declaringType = ToWpf(member.DeclaringType, context);
 
-            var xamlMember = member.IsAttachable == false ? declaringType.GetMember(member.Name) : declaringType.GetAttachableMember(member.Name);
-            return new NastyXamlMember(xamlMember, context);
+                var xamlMember = member.IsAttachable == false ? declaringType.GetMember(member.Name) : declaringType.GetAttachableMember(member.Name);
+                return new NastyXamlMember(xamlMember, context);
+            }
+            else
+            {
+                var xamlMember = context.GetXamlDirective("http://schemas.microsoft.com/winfx/2006/xaml", member.Name);
+                var nastyDirective = new NastyDirective(xamlMember);
+                return nastyDirective;
+            }
+        }
+    }
+
+    public class NastyDirective : XamlDirective
+    {
+        public NastyDirective(XamlDirective xamlMember)
+            : base(xamlMember.GetXamlNamespaces(), xamlMember.Name, xamlMember.Type, xamlMember.TypeConverter, xamlMember.AllowedLocation)
+        {
         }
     }
 }
