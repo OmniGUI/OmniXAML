@@ -5,6 +5,7 @@ namespace OmniXaml.Wpf
     using System.Linq;
     using System.Reflection;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Markup;
     using System.Xaml;
     using SystemXamlNsDeclaration = System.Xaml.NamespaceDeclaration;
@@ -16,13 +17,19 @@ namespace OmniXaml.Wpf
     {
         private readonly IEnumerator<XamlNode> nodeStream;
         private readonly TemplateContent templateContent;
+        private readonly WpfInflatableTypeFactory wpfInflatableTypeFactory;
         private bool hasReadSuccess;
 
-        public SuperLoaderXamlXmlReader(TemplateContent templateContent)
+        public SuperLoaderXamlXmlReader(TemplateContent templateContent, WpfInflatableTypeFactory wpfInflatableTypeFactory)
         {
             this.templateContent = templateContent;
+            this.wpfInflatableTypeFactory = wpfInflatableTypeFactory;
             SchemaContext = new XamlSchemaContext();
-            nodeStream = templateContent.Nodes.GetEnumerator();
+
+            var inflater = new Inflater(wpfInflatableTypeFactory.Inflatables, WiringContextFactory.GetContext(wpfInflatableTypeFactory));
+            var inflated = inflater.Inflate(templateContent.Nodes);
+
+            nodeStream = inflated.GetEnumerator();
         }
 
         public override SystemXamlNodeType NodeType => XamlTypeConversion.ToWpf(nodeStream.Current.NodeType);
@@ -89,7 +96,7 @@ namespace OmniXaml.Wpf
         private readonly object targetProperty;
 
         public MarkupExtensionXamlType(Type type, XamlSchemaContext schemaContext) : base(type, schemaContext)
-        {            
+        {
         }
 
         public object TargetObject

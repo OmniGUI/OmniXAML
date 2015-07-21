@@ -57,6 +57,7 @@
     <Compile Include="Builder\Converters.cs" />
     <Compile Include="Builder\Route.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
+    <Compile Include="Builder\XamlNodeBuilder.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
     <Compile Include="CleanWiringContextBuilder.cs" />

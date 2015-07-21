@@ -1,6 +1,7 @@
 namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
 {
     using System.Collections.Generic;
+    using Builder;
     using Classes;
 
     internal class SampleData

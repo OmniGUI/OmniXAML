@@ -5,6 +5,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using System.IO;
     using System.Linq;
     using System.Text;
+    using Builder;
     using Classes;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

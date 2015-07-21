@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.MarkupExtensions;

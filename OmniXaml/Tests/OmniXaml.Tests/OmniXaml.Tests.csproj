@@ -85,7 +85,6 @@
     <Compile Include="XamlTypeRepositoryTests.cs" />
     <Compile Include="XamlNamespaceRegistryTest.cs" />
     <Compile Include="Parsers\XamlNodesPullParserTests\RealXmlParsing.cs" />
-    <Compile Include="XamlNodeBuilder.cs" />
     <Compile Include="XamlNodesAssert.cs" />
     <Compile Include="GivenAWiringContext.cs" />
     <Compile Include="XamlXmlLoaderTests\ChildInstanceReadingTests.cs" />

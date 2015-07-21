@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
+    using Builder;
     using Classes;
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

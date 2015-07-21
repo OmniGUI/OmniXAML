@@ -2,6 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using System.Runtime.InteropServices;
+    using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Typing;

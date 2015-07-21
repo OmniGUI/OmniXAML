@@ -2,6 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

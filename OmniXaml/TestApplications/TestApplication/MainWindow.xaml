@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestApplication;assembly=TestApplication"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen"
-        
+        WindowStartupLocation="CenterScreen"        
         Title="Test Application" Height="350" Width="525">
     <Grid>
         <ListBox ItemsSource="{Binding People}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="Chielito"></TextBlock>
-                    </Grid>
+                    <StackPanel>
+                        <local:PersonControl />
+                        <TextBlock Text="Some text"></TextBlock>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

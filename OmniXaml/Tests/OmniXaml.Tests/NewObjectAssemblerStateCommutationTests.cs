@@ -2,6 +2,7 @@ namespace OmniXaml.Tests
 {
     using System.Collections;
     using System.Collections.ObjectModel;
+    using Builder;
     using Classes;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

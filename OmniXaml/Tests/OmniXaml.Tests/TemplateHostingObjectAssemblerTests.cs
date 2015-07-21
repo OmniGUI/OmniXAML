@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections.ObjectModel;
+    using Builder;
     using Classes;
     using Classes.Templates;
     using Classes.WpfLikeModel;

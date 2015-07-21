@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
+    <Compile Include="Inflater.cs" />
     <Compile Include="SuperLoaderXamlXmlReader.cs" />
     <Compile Include="WpfInflatableTypeFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />

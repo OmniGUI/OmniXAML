@@ -68,11 +68,6 @@ namespace OmniXaml.Typing
                 return true;
             }
 
-            if (obj.GetType() != GetType())
-            {
-                return false;
-            }
-
             return Equals((XamlType)obj);
         }
 

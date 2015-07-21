@@ -21,9 +21,9 @@
             set
             {
                 alternateTemplateContent = value;
-                var p = new TemplateContentLoader();
-                var load = p.Load(new SuperLoaderXamlXmlReader(value), new ServiceLocator(null));
-                Template = (System.Windows.TemplateContent)load;
+                var loader = new TemplateContentLoader();
+                var template = loader.Load(new SuperLoaderXamlXmlReader(value, new WpfInflatableTypeFactory()), new ServiceLocator(null));
+                Template = (System.Windows.TemplateContent)template;
                 LoadContent();
             }
         }

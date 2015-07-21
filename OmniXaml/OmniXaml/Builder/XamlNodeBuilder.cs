@@ -1,11 +1,11 @@
-﻿namespace OmniXaml.Tests
+﻿namespace OmniXaml.Builder
 {
     using System;
     using System.Linq.Expressions;
     using Glass;
     using Typing;
 
-    internal class XamlNodeBuilder
+    public class XamlNodeBuilder
     {
         private readonly IXamlTypeRepository registry;
 
