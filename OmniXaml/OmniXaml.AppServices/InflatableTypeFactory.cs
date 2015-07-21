@@ -9,20 +9,17 @@
     public class InflatableTypeFactory : ITypeFactory
     {
         private readonly ITypeFactory coreTypeFactory;
-        private readonly IResourceProvider resourceProvider;
-        private readonly ITypeToUriLocator typeToUriLocator;
+        private readonly IInflatableTranslator inflatableTranslator;
         private readonly Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory;
 
         public IEnumerable<Type> Inflatables { get; set; } = new Collection<Type>();
 
         public InflatableTypeFactory(ITypeFactory coreTypeFactory,
-            IResourceProvider resourceProvider,
-            ITypeToUriLocator typeToUriLocator,
+            IInflatableTranslator inflatableTranslator,
             Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory)
         {
             this.coreTypeFactory = coreTypeFactory;
-            this.resourceProvider = resourceProvider;
-            this.typeToUriLocator = typeToUriLocator;
+            this.inflatableTranslator = inflatableTranslator;
             this.loaderFactory = loaderFactory;
         }
 
@@ -46,9 +43,8 @@
         public object Create(Type type, object[] args)
         {
             if (IsInflatable(type))
-            {
-                var uri = typeToUriLocator.GetUriFor(type);
-                using (var stream = resourceProvider.GetStream(uri))
+            {                
+                using (var stream = inflatableTranslator.GetStream(type))
                 {
                     var instance = coreTypeFactory.Create(type, args);
                     var loader = loaderFactory(this);
@@ -67,7 +63,7 @@
 
         public object Create(Uri uri)
         {
-            var type = typeToUriLocator.GetTypeFor(uri);
+            var type = inflatableTranslator.GetTypeFor(uri);
             return Create(type);
         }
     }

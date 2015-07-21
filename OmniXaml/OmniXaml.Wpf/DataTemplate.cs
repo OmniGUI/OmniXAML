@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using System.Windows.Markup;
+    using System.Xaml;
 
     [ContentProperty("AlternateTemplateContent")]
     // ReSharper disable once ClassNeverInstantiated.Global
@@ -22,7 +23,8 @@
             {
                 alternateTemplateContent = value;
                 var loader = new TemplateContentLoader();
-                var template = loader.Load(new SuperLoaderXamlXmlReader(value, new WpfInflatableTypeFactory()), new ServiceLocator(null));
+                var reader = new TemplateContentToWpfXamlReaderAdapter(value, new WpfInflatableTypeFactory(), new XamlSchemaContext());
+                var template = loader.Load(reader, new ServiceLocator(null));
                 Template = (System.Windows.TemplateContent)template;
                 LoadContent();
             }

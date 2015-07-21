@@ -25,8 +25,7 @@
         {
             var inflatableTypeFactory = new InflatableTypeFactory(
                 new TypeFactory(),
-                new NetCoreResourceProvider(),
-                new NetCoreTypeToUriLocator(),
+                new InflatableTranslator(),
                 typeFactory => new DefaultXamlStreamLoader(DummyWiringContext.Create(typeFactory)))
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},

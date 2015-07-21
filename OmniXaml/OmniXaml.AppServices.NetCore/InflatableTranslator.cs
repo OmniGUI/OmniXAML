@@ -1,13 +1,13 @@
-﻿namespace OmniXaml.AppServices.NetCore
+namespace OmniXaml.AppServices.NetCore
 {
     using System;
     using System.IO;
     using System.Linq;
     using System.Reflection;
 
-    public class NetCoreTypeToUriLocator : ITypeToUriLocator
+    public class InflatableTranslator : IInflatableTranslator
     {
-        public Uri GetUriFor(Type type)
+        private Uri GetUriFor(Type type)
         {
             if (type.Namespace != null)
             {
@@ -22,6 +22,14 @@
             }
 
             return null;
+        }
+
+        public Stream GetStream(Type type)
+        {
+            var uri = GetUriFor(type);
+            var absoluteUri = new Uri(Assembly.GetExecutingAssembly().Location, UriKind.Absolute);
+            var finalUri = new Uri(absoluteUri, uri);
+            return new FileStream(finalUri.LocalPath, FileMode.Open);
         }
 
         public Type GetTypeFor(Uri uri)

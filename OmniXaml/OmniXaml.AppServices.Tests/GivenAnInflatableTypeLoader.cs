@@ -14,7 +14,7 @@ namespace OmniXaml.AppServices.Tests
 
         protected GivenAnInflatableTypeLoader()
         {
-            Inflatable = new InflatableTypeFactory(new TypeFactory(), new NetCoreResourceProvider(), new NetCoreTypeToUriLocator(), LoaderFactory)
+            Inflatable = new InflatableTypeFactory(new TypeFactory(), new InflatableTranslator(), LoaderFactory)
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)}
             };

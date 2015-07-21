@@ -10,13 +10,13 @@ namespace OmniXaml.Wpf
     using Parsers.XamlNodes;
     using Typing;
 
-    internal class Inflater
+    internal class NodeInflater
     {
         private readonly IEnumerable<Type> inflatables;
         private readonly WiringContext wiringContext;
         private readonly XamlNodeBuilder nodeBuilder;
 
-        public Inflater(IEnumerable<Type> inflatables, WiringContext wiringContext)
+        public NodeInflater(IEnumerable<Type> inflatables, WiringContext wiringContext)
         {
             this.inflatables = inflatables;
             this.wiringContext = wiringContext;
@@ -26,15 +26,15 @@ namespace OmniXaml.Wpf
         public IEnumerable<XamlNode> Inflate(IEnumerable<XamlNode> nodes)
         {
             var processedNodes = new Collection<XamlNode>();
-            bool skipNext = false;
+            var skipNext = false;
             foreach (var xamlNode in nodes)
             {
-                var inflatable = GetInflatable(xamlNode, inflatables);
-                    
-                if (inflatable != null)
+                var matchedInflatable = GetMatchedInflatable(xamlNode);
+
+                if (matchedInflatable != null)
                 {
                     var toAdd = ReadNodes(xamlNode.XamlType.UnderlyingType);
-                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, wiringContext.GetType(inflatable));
+                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, wiringContext.GetType(matchedInflatable));
 
                     foreach (var croppedNode in croppedNodes)
                     {
@@ -47,7 +47,8 @@ namespace OmniXaml.Wpf
                     if (skipNext)
                     {
                         skipNext = false;
-                    } else
+                    }
+                    else
                     {
                         processedNodes.Add(xamlNode);
                     }
@@ -78,28 +79,27 @@ namespace OmniXaml.Wpf
             return false;
         }
 
-        private IEnumerable<XamlNode> ReadNodes(Type underlyingType)
+        private static IEnumerable<XamlNode> ReadNodes(Type underlyingType)
         {
-            var resourceProvider = new NetCoreResourceProvider();
-            var uriBlaBla = new NetCoreTypeToUriLocator();
+            var resourceProvider = new InflatableTranslator();
 
-            using (var stream = resourceProvider.GetStream(uriBlaBla.GetUriFor(underlyingType)))
+            using (var stream = resourceProvider.GetStream(underlyingType))
             {
                 var wiringContext = WiringContextFactory.GetContext(new TypeFactory());
                 var loader = new XamlNodesPullParser(wiringContext);
                 var protoParser = new SuperProtoParser(wiringContext);
 
-                return loader.Parse(protoParser.Parse(stream)).ToList();
+                return loader.Parse(protoParser.Parse(stream));
             }
         }
 
-        private Type GetInflatable(XamlNode xamlNode, IEnumerable<Type> inflatables)
+        private Type GetMatchedInflatable(XamlNode xamlNode)
         {
             if (xamlNode.XamlType != null)
             {
                 var matches = from inflatable in inflatables
-                    where inflatable.IsAssignableFrom(xamlNode.XamlType.UnderlyingType)
-                    select inflatable;
+                              where inflatable.IsAssignableFrom(xamlNode.XamlType.UnderlyingType)
+                              select inflatable;
 
                 return matches.FirstOrDefault();
             }

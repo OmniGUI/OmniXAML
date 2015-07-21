@@ -48,11 +48,11 @@
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
-    <Compile Include="Inflater.cs" />
+    <Compile Include="NodeInflater.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
-    <Compile Include="SuperLoaderXamlXmlReader.cs" />
+    <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
     <Compile Include="WpfInflatableTypeFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />
     <Compile Include="RootObjectProvider.cs" />

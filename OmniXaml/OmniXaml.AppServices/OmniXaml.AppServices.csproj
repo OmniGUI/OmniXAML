@@ -41,9 +41,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IResourceProvider.cs" />
+    <Compile Include="IInflatableTranslator.cs" />
     <Compile Include="IWindowFactory.cs" />
-    <Compile Include="ITypeToUriLocator.cs" />
     <Compile Include="InflatableTypeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
