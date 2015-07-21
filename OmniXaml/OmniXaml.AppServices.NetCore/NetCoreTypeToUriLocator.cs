@@ -27,22 +27,26 @@
         public Type GetTypeFor(Uri uri)
         {
             var withExt = uri.OriginalString;
-            var idOfLastDot = withExt.LastIndexOf(".");
-            var name = withExt.Substring(0, idOfLastDot);
+            var lastSlash = withExt.LastIndexOf("/");
+            var innerNs = withExt.Substring(0, lastSlash);
+            var fileName = withExt.Substring(lastSlash + 1, withExt.Length - lastSlash - 1);
+
+            var className = fileName.Substring(0, fileName.LastIndexOf('.'));
+
 
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().ToList();
             var type = from assembly in assemblies
-                let t = assembly.GetType(GetName(assembly, name))
+                let t = assembly.GetType(GetName(assembly, innerNs, className))
                 where t != null
                 select t;
 
             return type.First();
         }
 
-        private static string GetName(Assembly assembly, string name)
+        private static string GetName(Assembly assembly, string innerNs, string className)
         {
-            var ns = assembly.GetName().Name;
-            var fullLocator = ns + "." + name;
+            var ns = assembly.GetName().Name + "." + innerNs;
+            var fullLocator = ns + "." + className;
             return fullLocator;
         }
     }

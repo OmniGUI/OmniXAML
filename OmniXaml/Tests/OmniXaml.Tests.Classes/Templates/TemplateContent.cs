@@ -1,6 +1,7 @@
 namespace OmniXaml.Tests.Classes.Templates
 {
     using System.Collections.Generic;
+    using WpfLikeModel;
 
     public class TemplateContent
     {

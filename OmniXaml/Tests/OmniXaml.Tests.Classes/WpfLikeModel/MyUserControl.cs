@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Classes
+﻿namespace OmniXaml.Tests.Classes.WpfLikeModel
 {
     class MyUserControl : UserControl
     {

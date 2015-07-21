@@ -1,5 +1,0 @@
-﻿    <Window xmlns="root" Title="Hello World :)">
-        <Window.Content>
-            <MyUserControl Property="It's-a me, Mario" />
-        </Window.Content>
-    </Window>

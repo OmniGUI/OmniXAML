@@ -4,7 +4,6 @@ namespace OmniXaml
 
     public interface IObjectAssemblerFactory
     {
-        IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings);
-        IObjectAssembler CreateAssembler();
+        IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings);        
     }
 }
