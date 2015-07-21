@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Reflection;
     using Classes;
+    using Classes.WpfLikeModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
 

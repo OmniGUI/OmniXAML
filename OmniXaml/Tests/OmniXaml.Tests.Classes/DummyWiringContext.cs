@@ -4,6 +4,7 @@
     using Another;
     using Builder;
     using Typing;
+    using WpfLikeModel;
 
     public static class DummyWiringContext
     {
@@ -20,7 +21,12 @@
                     new[]
                     {
                         Route.Assembly(rootType.Assembly)
-                            .WithNamespaces(new[] {rootType.Namespace})
+                            .WithNamespaces(
+                                new[]
+                                {
+                                    rootType.Namespace,
+                                    typeof (Window).Namespace,
+                                })
                     });
 
             var definitionForAnother = XamlNamespace
@@ -40,7 +46,7 @@
                     new List<PrefixRegistration>
                     {
                         new PrefixRegistration(string.Empty, "root"),
-                        new PrefixRegistration("x", "another")
+                        new PrefixRegistration("x", "another"),                        
                     });
 
             builder.WithTypeFactory(typeFactory);

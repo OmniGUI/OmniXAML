@@ -1,12 +1,11 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections.ObjectModel;
-    using Assembler;
     using Classes;
     using Classes.Templates;
+    using Classes.WpfLikeModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NewAssembler;
-    using Xaml.Tests.Resources;
 
     [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenAWiringContext
@@ -37,8 +36,8 @@
 
             var sut = new TemplateHostingObjectAssembler(new SuperObjectAssembler(WiringContext));
 
-            var assembler = new DummyDeferredObjectAssembler();
-            sut.DeferredAssembler<Template>(t => t.Content, assembler);
+            var assembler = new DummyDeferredLoader();
+            sut.AddDeferredLoader<Template>(t => t.Content, assembler);
 
             foreach (var xamlNode in input)
             {
@@ -55,5 +54,5 @@
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
             Assert.IsNotNull(((Item) sut.Result).Template.Content);
         }
-    }
+    }    
 }

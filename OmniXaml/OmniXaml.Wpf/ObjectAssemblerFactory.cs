@@ -15,10 +15,5 @@
         {
             return new ObjectAssembler(wiringContext, settings);
         }
-
-        public IObjectAssembler CreateAssembler()
-        {
-            return CreateAssembler(null);
-        }
     }
 }

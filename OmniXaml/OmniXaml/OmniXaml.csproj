@@ -63,6 +63,7 @@
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
+    <Compile Include="DefaultXamlStreamLoader.cs" />
     <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="NewAssembler\ConstructionArgument.cs" />
@@ -86,7 +87,7 @@
     <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />
     <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
-    <Compile Include="IDeferredObjectAssembler.cs" />
+    <Compile Include="IDeferredLoader.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="ITypeContext.cs" />
     <Compile Include="ITypeFactory.cs" />

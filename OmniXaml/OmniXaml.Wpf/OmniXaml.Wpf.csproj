@@ -53,7 +53,7 @@
     <Compile Include="RootObjectProvider.cs" />
     <Compile Include="DataTemplate.cs" />
     <Compile Include="TypeDescriptorContext.cs" />
-    <Compile Include="DeferredObjectAssembler.cs" />
+    <Compile Include="DeferredLoader.cs" />
     <Compile Include="ObjectAssembler.cs" />
     <Compile Include="ObjectAssemblerFactory.cs" />
     <Compile Include="TemplateContent.cs" />

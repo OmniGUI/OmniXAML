@@ -2,7 +2,7 @@ namespace OmniXaml.Wpf
 {
     using System.Collections.Generic;
 
-    public class DeferredObjectAssembler : IDeferredObjectAssembler
+    public class DeferredLoader : IDeferredLoader
     {
         public object Load(IEnumerable<XamlNode> nodes, WiringContext context)
         {

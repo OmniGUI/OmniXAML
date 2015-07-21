@@ -8,7 +8,6 @@
     using System.Reflection;
     using Assembler;
     using Glass;
-    using NewAssembler;
     using Typing;
 
     public class TemplateHostingObjectAssembler : IObjectAssembler
@@ -18,18 +17,15 @@
         private IList<XamlNode> nodeList;
         private int depth;
 
-        private readonly IDictionary<PropertyInfo, IDeferredObjectAssembler> deferredObjectAssemblers = new Dictionary<PropertyInfo, IDeferredObjectAssembler>();
-        private IDeferredObjectAssembler assembler;
+        private readonly IDictionary<PropertyInfo, IDeferredLoader> deferredObjectAssemblers = new Dictionary<PropertyInfo, IDeferredLoader>();
+        private IDeferredLoader assembler;
 
         public TemplateHostingObjectAssembler(IObjectAssembler objectAssembler)
         {
             this.objectAssembler = objectAssembler;
         }
 
-        public WiringContext WiringContext
-        {
-            get { return objectAssembler.WiringContext; }
-        }
+        public WiringContext WiringContext => objectAssembler.WiringContext;
 
         public void Process(XamlNode node)
         {
@@ -78,7 +74,7 @@
             }
         }
 
-        private bool TryGetDeferredAssembler(XamlMember xamlMember, out IDeferredObjectAssembler assembler)
+        private bool TryGetDeferredAssembler(XamlMember xamlMember, out IDeferredLoader assembler)
         {
             Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
 
@@ -104,14 +100,9 @@
         {            
         }
 
-        public void PushScope()
-        {
-            throw new NotImplementedException();
-        }
-
         public IList NodeList => new ReadOnlyCollection<XamlNode>(nodeList);
 
-        public void DeferredAssembler<TItem>(Expression<Func<TItem, object>> selector, IDeferredObjectAssembler assembler)
+        public void AddDeferredLoader<TItem>(Expression<Func<TItem, object>> selector, IDeferredLoader assembler)
         {
             var propInfo = typeof(TItem).GetRuntimeProperty(selector.GetFullPropertyName());
             deferredObjectAssemblers.Add(propInfo, assembler);

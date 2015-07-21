@@ -28,7 +28,7 @@ namespace OmniXaml
 
         public object Load(Stream stream)
         {
-            return LoadInternal(stream, assemblerFactory.CreateAssembler());
+            return LoadInternal(stream, assemblerFactory.CreateAssembler(new ObjectAssemblerSettings()));
         }
 
         public object Load(Stream stream, object rootInstance)
@@ -41,18 +41,6 @@ namespace OmniXaml
         {
             var coreXamlXmlLoader = loaderFactory == null ? new ConfiguredXamlXmlLoader(protoProtoParser, pullParser, objectAssembler) : loaderFactory(objectAssembler);
             return coreXamlXmlLoader.Load(stream);
-        }
-    }
-
-    public class DefaultXamlStreamLoader: XamlStreamLoader
-    {
-        public DefaultXamlStreamLoader(WiringContext wiringContext) : base(LoaderFactory(wiringContext), new DefaultObjectAssemblerFactory(wiringContext))
-        {
-        }
-
-        private static Func<IObjectAssembler, IConfiguredXamlLoader> LoaderFactory(WiringContext wiringContext)
-        {
-            return assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(wiringContext), new XamlNodesPullParser(wiringContext), assembler);
         }
     }
 }

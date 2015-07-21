@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes;
+    using OmniXaml.Tests.Classes.WpfLikeModel;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 
@@ -51,7 +52,7 @@
         {
             var sut = CreateSut();
 
-            var myWindow = (Window)sut.Create(new Uri("WindowWithUserControl.xaml", UriKind.Relative));
+            var myWindow = (Window)sut.Create(new Uri("WpfLikeModel/WindowWithUserControl.xaml", UriKind.Relative));
             Assert.IsInstanceOfType(myWindow, typeof(WindowWithUserControl));
             Assert.AreEqual(myWindow.Title, "Hello World :)");
             Assert.IsInstanceOfType(myWindow.Content, typeof(UserControl));
