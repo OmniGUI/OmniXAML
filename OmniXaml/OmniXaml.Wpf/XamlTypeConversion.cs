@@ -3,6 +3,7 @@ namespace OmniXaml.Wpf
     using System;
     using System.Windows.Data;
     using System.Xaml;
+    using System.Xaml.Schema;
     using NamespaceDeclaration = OmniXaml.NamespaceDeclaration;
     using XamlNodeType = OmniXaml.XamlNodeType;
 
@@ -22,10 +23,10 @@ namespace OmniXaml.Wpf
         {
             if (typeof (IMarkupExtension).IsAssignableFrom(xamlType.UnderlyingType))
             {
-                return new MarkupExtensionXamlType(typeof (Binding), context);
+                return new WpfSpecialXamlType(typeof(Binding), context);
             }
 
-            return new XamlType(xamlType.UnderlyingType, context);
+            return new WpfSpecialXamlType(xamlType.UnderlyingType, context);
         }
 
         public static XamlMember ToWpf(this Typing.XamlMember member, XamlSchemaContext context)
@@ -35,22 +36,27 @@ namespace OmniXaml.Wpf
                 var declaringType = ToWpf(member.DeclaringType, context);
 
                 var xamlMember = member.IsAttachable == false ? declaringType.GetMember(member.Name) : declaringType.GetAttachableMember(member.Name);
-                return new NastyXamlMember(xamlMember, context);
+                return new XamlMemberAdapter(xamlMember, context);
             }
             else
             {
                 var xamlMember = context.GetXamlDirective("http://schemas.microsoft.com/winfx/2006/xaml", member.Name);
-                var nastyDirective = new NastyDirective(xamlMember);
+                var nastyDirective = new DirectiveAdapter(xamlMember);
                 return nastyDirective;
             }
-        }
+        }        
     }
 
-    public class NastyDirective : XamlDirective
+    public class WpfSpecialXamlType : XamlType
     {
-        public NastyDirective(XamlDirective xamlMember)
-            : base(xamlMember.GetXamlNamespaces(), xamlMember.Name, xamlMember.Type, xamlMember.TypeConverter, xamlMember.AllowedLocation)
+        public WpfSpecialXamlType(Type underlyingType, XamlSchemaContext context) : base(underlyingType, context)
         {
+            
+        }
+
+        protected override XamlTypeInvoker LookupInvoker()
+        {
+            return base.LookupInvoker();
         }
     }
 }

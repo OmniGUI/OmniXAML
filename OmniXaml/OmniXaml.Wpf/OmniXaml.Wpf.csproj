@@ -49,6 +49,9 @@
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
     <Compile Include="Inflater.cs" />
+    <Compile Include="MarkupExtensionXamlType.cs" />
+    <Compile Include="DirectiveAdapter.cs" />
+    <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="SuperLoaderXamlXmlReader.cs" />
     <Compile Include="WpfInflatableTypeFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />
@@ -70,6 +73,7 @@
     <Compile Include="WpfXamlMember.cs" />
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
+    <Compile Include="XamlMemberInvokerAdapter.cs" />
     <Compile Include="XamlTypeConversion.cs" />
     <Compile Include="XamlTypeRepository.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />

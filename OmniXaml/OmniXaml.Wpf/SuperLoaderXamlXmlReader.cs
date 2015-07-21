@@ -1,12 +1,8 @@
 namespace OmniXaml.Wpf
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
-    using System.Windows;
     using System.Windows.Controls;
-    using System.Windows.Markup;
     using System.Xaml;
     using SystemXamlNsDeclaration = System.Xaml.NamespaceDeclaration;
     using SystemXamlType = System.Xaml.XamlType;
@@ -51,62 +47,6 @@ namespace OmniXaml.Wpf
             }
 
             return hasReadSuccess;
-        }
-    }
-
-    internal class NastyXamlMember : XamlMember, IProvideValueTarget
-    {
-        private readonly XamlMember member;
-        private readonly object targetObject;
-        private readonly object targetProperty;
-
-        public NastyXamlMember(XamlMember member, XamlSchemaContext context) : base(GetPropertyInfo(member), context)
-        {
-            this.member = member;
-        }
-
-        private static PropertyInfo GetPropertyInfo(XamlMember member)
-        {
-            if (member.IsDirective)
-            {
-                return null;
-            }
-
-            return member.DeclaringType.UnderlyingType.GetProperty(member.Name);
-        }
-
-        public object TargetObject
-        {
-            get { return targetObject; }
-        }
-
-        public object TargetProperty => GetDependencyProperty(member.DeclaringType.UnderlyingType, member.Name);
-
-        public static DependencyProperty GetDependencyProperty(Type type, string name)
-        {
-            var dpPropName = name + "Property";
-            FieldInfo fieldInfo = type.GetField(dpPropName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            return (DependencyProperty)fieldInfo?.GetValue(null);
-        }
-    }
-
-    internal class MarkupExtensionXamlType : SystemXamlType, IProvideValueTarget
-    {
-        private readonly object targetObject;
-        private readonly object targetProperty;
-
-        public MarkupExtensionXamlType(Type type, XamlSchemaContext schemaContext) : base(type, schemaContext)
-        {
-        }
-
-        public object TargetObject
-        {
-            get { return targetObject; }
-        }
-
-        public object TargetProperty
-        {
-            get { return targetProperty; }
         }
     }
 }
