@@ -6,17 +6,24 @@
         xmlns:local="clr-namespace:TestApplication;assembly=TestApplication"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"        
-        Title="Test Application" Height="350" Width="525">
+        Title="{Binding Title}" Height="350" Width="525">
     <Grid>
-        <ListBox ItemsSource="{Binding People}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <local:PersonControl />
-                        <TextBlock Text="Some text"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Contacts">
+            <ListBox ItemsSource="{Binding People}" SelectedItem="{Binding SelectedContact}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        <StackPanel Grid.Column="1">
+            <TextBox Text="{Binding SelectedName}" />
+            <TextBox Text="{Binding SelectedSurname}" />
+        </StackPanel>
     </Grid>
 </Window>

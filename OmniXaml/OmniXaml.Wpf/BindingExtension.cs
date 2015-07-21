@@ -20,6 +20,8 @@
             return ProvideValue(new ServiceLocator(markupExtensionContext));
         }
 
+        public RelativeSource RelativeSource { get; set; }
+
         public object TargetObject { get; }
         public object TargetProperty { get; }
     }

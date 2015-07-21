@@ -11,6 +11,12 @@ namespace OmniXaml.Wpf
     {
         private readonly XamlMember member;
 
+        public XamlMemberAdapter(XamlMember member, XamlSchemaContext context, string propName, MethodInfo getter, MethodInfo setter)
+            : base(attachablePropertyName: propName, getter: getter, setter: setter, schemaContext: context)
+        {
+            this.member = member;
+        }
+
         public XamlMemberAdapter(XamlMember member, XamlSchemaContext context) : base(GetPropertyInfo(member), context)
         {
             this.member = member;
@@ -18,11 +24,6 @@ namespace OmniXaml.Wpf
 
         private static PropertyInfo GetPropertyInfo(XamlMember member)
         {
-            if (member.IsDirective)
-            {
-                return null;
-            }
-
             return member.DeclaringType.UnderlyingType.GetProperty(member.Name);
         }
 

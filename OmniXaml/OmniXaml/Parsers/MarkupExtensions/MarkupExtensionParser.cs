@@ -22,8 +22,10 @@ namespace OmniXaml.Parsers.MarkupExtensions
             from rest in Parse.LetterOrDigit.Many()
             select new string(first.Concat(rest).ToArray());
 
-        private static readonly Parser<TreeNode> DirectValue = from value in Parse.LetterOrDigit.Or(Parse.Char(':')).Many()
+        private static readonly Parser<TreeNode> DirectValue = from value in ValidChars.Many()
                                                                select new StringNode(new string(value.ToArray()));
+
+        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.'));
 
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
 
@@ -32,7 +34,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
                                                                    from value in AssignmentSource
                                                                    select new AssignmentNode(prop, value);
 
-        private static readonly Parser<Option> Positional = from value in Parse.LetterOrDigit.Or(Parse.Char(':')).Many()
+        private static readonly Parser<Option> Positional = from value in ValidChars.Many()
                                                             select new PositionalOption(new string(value.ToArray()));
 
         private static readonly Parser<Option> Attribute = from identifier in Assignment

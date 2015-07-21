@@ -32,6 +32,14 @@
         }
 
         [TestMethod]
+        public void ExtensionWithDottedPositionalOption()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Direct.Value}");
+            var options = new OptionsCollection { new PositionalOption("Direct.Value"), };
+            Assert.AreEqual(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [TestMethod]
         public void DelimitedBy()
         {
             var identifier = from c in Parse.LetterOrDigit.Many() select new string(c.ToArray());
@@ -54,6 +62,13 @@
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Property=SomeValue");
             Assert.AreEqual(new AssignmentNode("Property", new StringNode("SomeValue")), actual);
+        }
+
+        [TestMethod]
+        public void AssignmentOfDottedDirectValue()
+        {
+            var actual = MarkupExtensionParser.Assignment.Parse("Property=Some.Value");
+            Assert.AreEqual(new AssignmentNode("Property", new StringNode("Some.Value")), actual);
         }
 
         [TestMethod]
