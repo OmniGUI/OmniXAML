@@ -16,7 +16,7 @@ namespace OmniXaml.NewAssembler.Commands
 
                 if (StateCommuter.Instance is IMarkupExtension)
                 {
-                    StateCommuter.Instance = StateCommuter.ReplaceInstanceByValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Instance);
+                    StateCommuter.Instance = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Instance);
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
                 else if (!StateCommuter.WasAssociatedRightAfterCreation)

@@ -1,5 +1,6 @@
 ﻿namespace TestApplication
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 
@@ -11,11 +12,14 @@
         {
             People = new Collection<PersonViewModel>()
             {
-                new PersonViewModel("Johnny", "Mnemonic"),
-                new PersonViewModel("Inspector", "Gadget"),
+                new PersonViewModel("Johnny", "Mnemonic", new Uri("Images/johnny_mnemonic.jpg", UriKind.Relative)),
+                new PersonViewModel("Inspector", "Gadget", new Uri("Images/inspector_gadget.jpg", UriKind.Relative)),
+                new PersonViewModel("Tom", "Jones", new Uri("Images/tom_jones.jpg", UriKind.Relative)),
+                new PersonViewModel("Soap", "MacTavish", new Uri("Images/soap_mactavish.jpg", UriKind.Relative)),
+                new PersonViewModel("Pino", "D'Angio", new Uri("Images/pino_dangio.jpg", UriKind.Relative))
             };
 
-            Title = "Title";
+            Title = "Main Window";
         }
 
         public ICollection<PersonViewModel> People { get; set; }
@@ -26,30 +30,10 @@
             set
             {
                 selectedContact = value; 
-                OnPropertyChanged();
+                OnPropertyChanged();        
             }
         }
-
-        public string SelectedName
-        {
-            get { return selectedContact?.Name; }
-            set
-            {
-                selectedContact.Name = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public string SelectedSurname
-        {
-            get { return selectedContact?.Surname; }
-            set
-            {
-                selectedContact.Surname = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
         public string Title { get; set; }
     }
 }

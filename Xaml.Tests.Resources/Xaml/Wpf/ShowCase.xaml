@@ -143,6 +143,7 @@
             </Image>
           </Border>
           <Button Grid.Row="1" Grid.Column="1" Content="{Binding Path=SampleString}" HorizontalAlignment="Center"></Button>
+          <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Path=SampleString}" HorizontalAlignment="Center"></TextBlock>
         </Grid>
       </TabItem>
       <TabItem Header="Extra">

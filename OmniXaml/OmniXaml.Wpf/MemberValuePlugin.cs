@@ -3,6 +3,7 @@ namespace OmniXaml.Wpf
     using System;
     using System.Reflection;
     using System.Windows;
+    using System.Windows.Data;
     using Typing;
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
@@ -36,7 +37,14 @@ namespace OmniXaml.Wpf
             }
 
             var dependencyObject = (DependencyObject) instance;
-            dependencyObject.SetValue(dp, value);
+            if (value is BindingExpression)
+            {
+                dependencyObject.SetValue(dp, value);
+            }
+            else
+            {
+                dependencyObject.SetValue(dp, value);
+            }
             return true;
         }
 

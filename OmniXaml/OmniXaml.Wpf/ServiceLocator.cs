@@ -43,16 +43,9 @@ namespace OmniXaml.Wpf
             {
                 var name = markupExtensionContext.TargetProperty.Name;
                 var type = TargetObject.GetType();
-                var dp = GetDependencyProperty(type, name);
+                var dp = type.GetDependencyProperty(name);
                 return dp;
             }
-        }
-
-        public static DependencyProperty GetDependencyProperty(Type type, string name)
-        {
-            var dpPropName = name + "Property";
-            FieldInfo fieldInfo = type.GetField(dpPropName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-            return (DependencyProperty) fieldInfo?.GetValue(null);
-        }
+        }      
     }
 }

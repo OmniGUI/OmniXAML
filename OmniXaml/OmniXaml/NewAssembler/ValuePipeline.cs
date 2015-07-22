@@ -32,8 +32,11 @@ namespace OmniXaml.NewAssembler
             if (typeConverter != null)
             {
                 var context = new XamlTypeConverterContext(WiringContext.TypeContext);
-                var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
-                return anotherValue;
+                if (typeConverter.CanConvertFrom(context, value.GetType()))
+                {
+                    var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
+                    return anotherValue;
+                }
             }
 
             return value;

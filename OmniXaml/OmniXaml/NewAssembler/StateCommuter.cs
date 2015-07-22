@@ -89,7 +89,7 @@ namespace OmniXaml.NewAssembler
             CurrentValue.Instance = instance;
         }
 
-        public object ReplaceInstanceByValueProvidedByMarkupExtension(IMarkupExtension instance)
+        public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
         {
             var markupExtensionContext = GetExtensionContext();
             return instance.ProvideValue(markupExtensionContext);

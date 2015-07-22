@@ -7,17 +7,12 @@
     {
         public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
         {
-            if (value == null)
-            {
-                return null;
-            }
-
             if (value is string)
             {
                 return value;
             }
 
-            return value.ToString();
+            return null;
         }
 
         public object ConvertTo(IXamlTypeConverterContext context, CultureInfo culture, object value, Type destinationType)
@@ -70,7 +65,7 @@
 
         public bool CanConvertFrom(IXamlTypeConverterContext context, Type sourceType)
         {
-            return true;
+            return sourceType == typeof(int) || sourceType == typeof(double) || sourceType == typeof(float);
         }
     }
 }

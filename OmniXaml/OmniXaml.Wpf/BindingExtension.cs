@@ -4,7 +4,7 @@
     using System.Windows.Data;
     using System.Windows.Markup;
 
-    public class BindingExtension: Binding, IMarkupExtension, IProvideValueTarget
+    public class BindingExtension: Binding, IMarkupExtension
     {
         public BindingExtension()
         {            
@@ -17,12 +17,15 @@
 
         public object ProvideValue(MarkupExtensionContext markupExtensionContext)
         {
-            return ProvideValue(new ServiceLocator(markupExtensionContext));
+            var provideValue = ProvideValue(new ServiceLocator(markupExtensionContext));
+            var be = provideValue as BindingExpression;
+            if (be != null)
+            {
+                var targetObject = be.Target;
+                var property = be.TargetProperty;
+
+            }
+            return provideValue;
         }
-
-        public RelativeSource RelativeSource { get; set; }
-
-        public object TargetObject { get; }
-        public object TargetProperty { get; }
     }
 }

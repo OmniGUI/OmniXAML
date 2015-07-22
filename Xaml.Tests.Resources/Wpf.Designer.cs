@@ -62,6 +62,17 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;{Binding Path=SampleString}&quot;&gt;
+        ///  &lt;Button Content=&quot;{Binding Path=SampleString}&quot; /&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string Bindings {
+            get {
+                return ResourceManager.GetString("Bindings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
         ///  &lt;ListBox ItemsSource=&quot;{Binding Path=Collection}&quot;&gt;
         ///    &lt;ListBox.ItemTemplate&gt;
