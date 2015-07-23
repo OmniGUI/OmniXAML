@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22823.1
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "OmniXaml\OmniXaml.csproj", "{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}"
 EndProject
@@ -32,6 +32,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplications\TestApplication\TestApplication.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApplications", "TestApplications", "{2128C3CA-2925-494C-949B-93FDFF746516}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.AppServices.Mvvm", "OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj", "{70B12EBB-E332-402E-BAF0-C55F38A6B753}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70B12EBB-E332-402E-BAF0-C55F38A6B753}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70B12EBB-E332-402E-BAF0-C55F38A6B753}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70B12EBB-E332-402E-BAF0-C55F38A6B753}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70B12EBB-E332-402E-BAF0-C55F38A6B753}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

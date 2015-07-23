@@ -1,8 +1,9 @@
 ﻿namespace RealTest
 {
     using System.Windows;
+    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.AppServices.NetCore;
     using OmniXaml.Wpf;
-    using TestApplication;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -14,10 +15,11 @@
             base.OnStartup(e);
 
             var typeFactory = new WpfInflatableTypeFactory();
-            var window = typeFactory.Create<MainWindow>();
-            window.DataContext = new MainViewModel();
-            window.ShowDialog();
-        }
-    }
+
+            var viewFactory = new ViewFactory(typeFactory);
+            viewFactory.RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAddDomain));            
+            viewFactory.Show("Main");
+        }     
+    }    
 }
 

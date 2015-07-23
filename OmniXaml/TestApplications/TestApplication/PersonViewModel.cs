@@ -1,6 +1,7 @@
 namespace TestApplication
 {
     using System;
+    using OmniXaml.AppServices.Mvvm;
 
     public class PersonViewModel : ViewModel
     {

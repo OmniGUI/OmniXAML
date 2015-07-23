@@ -1,6 +1,7 @@
 namespace TestApplication.ViewModels
 {
     using OmniXaml;
+    using OmniXaml.AppServices.Mvvm;
 
     public class XamlVisualizerViewModel : ViewModel
     {

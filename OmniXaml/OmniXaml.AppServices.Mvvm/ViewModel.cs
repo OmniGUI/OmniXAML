@@ -1,8 +1,8 @@
-﻿namespace TestApplication
+﻿namespace OmniXaml.AppServices.Mvvm
 {
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
-    using Properties;
+    using TestApplication.Properties;
 
     public abstract class ViewModel : INotifyPropertyChanged
     {

@@ -99,11 +99,9 @@
     <Compile Include="IXamlSnippetProvider.cs" />
     <Compile Include="LevelConverter.cs" />
     <Compile Include="NodeTypeToUriConverter.cs" />
-    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Snippet.cs" />
     <Compile Include="TestViewModel.cs" />
-    <Compile Include="ViewModel.cs" />
     <Compile Include="ViewModels\StringExtensions.cs" />
     <Compile Include="ViewModels\VisualizerNodeViewModel.cs" />
     <Compile Include="Views\DummyLoaderControl.cs">
@@ -195,6 +193,10 @@
     <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
       <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
       <Name>Xaml.Tests.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
+      <Name>OmniXaml.AppServices.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>

@@ -1,8 +1,10 @@
-﻿namespace RealTest
+﻿namespace TestApplication
 {
-    using System.Windows;
+    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.AppServices.NetCore;
 
-    public class MainWindow : Window
+    [ViewToken("Main", typeof(MainWindow))]
+    public class MainWindow : InflatableTranslator.CoreWindow
     {
-    }
+    }  
 }

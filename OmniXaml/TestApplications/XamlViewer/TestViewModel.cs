@@ -1,6 +1,7 @@
 ﻿namespace TestApplication
 {
     using System.Collections.ObjectModel;
+    using OmniXaml.AppServices.Mvvm;
 
     class TestViewModel : ViewModel
     {

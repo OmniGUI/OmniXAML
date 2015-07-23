@@ -1,6 +1,7 @@
 namespace TestApplication.ViewModels
 {
     using System.Collections.Generic;
+    using OmniXaml.AppServices.Mvvm;
     using OmniXaml.Visualization;
 
     public class TagVisualizerViewModel : ViewModel

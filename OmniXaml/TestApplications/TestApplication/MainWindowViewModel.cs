@@ -3,12 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using OmniXaml.AppServices.Mvvm;
 
-    public class MainViewModel : ViewModel
+    public class MainWindowViewModel : ViewModel
     {
         private PersonViewModel selectedContact;
 
-        public MainViewModel()
+        public MainWindowViewModel()
         {
             People = new Collection<PersonViewModel>()
             {

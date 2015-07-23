@@ -1,9 +1,12 @@
 namespace OmniXaml.AppServices.NetCore
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Windows;
+    using Mvvm;
 
     public class InflatableTranslator : IInflatableTranslator
     {
@@ -57,5 +60,18 @@ namespace OmniXaml.AppServices.NetCore
             var fullLocator = ns + "." + className;
             return fullLocator;
         }
+
+        public class CoreWindow : Window, IView
+        {
+            public void SetViewModel(object viewModel)
+            {
+                this.DataContext = viewModel;
+            }
+        }
     }
+
+    public class Types
+    {
+        public static IEnumerable<Type> FromCurrentAddDomain => AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.ExportedTypes);
+    }    
 }
