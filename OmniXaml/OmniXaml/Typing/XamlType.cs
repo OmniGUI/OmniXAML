@@ -86,7 +86,7 @@ namespace OmniXaml.Typing
 
         protected virtual XamlMember LookupMember(string name)
         {         
-            return XamlMember.Builder.Create(name, this, typeRepository, typeFactory);
+            return new XamlMember(name, this, typeRepository, typeFactory, false);
         }
 
         private PropertyInfo GetPropertyInfo(string name)
@@ -96,31 +96,14 @@ namespace OmniXaml.Typing
 
         public XamlMember GetAttachableMember(string name)
         {
-            return XamlMember.Builder.CreateAttached(name, this, typeRepository, typeFactory);
+            return new XamlMember(name, this, typeRepository, typeFactory, true);
         }
 
         public override string ToString()
         {
             return "XamlType: " + Name;
         }
-
-        public static class Builder
-        {
-            public static XamlType Create(Type underlyingType, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
-            {
-                Guard.ThrowIfNull(underlyingType, nameof(xamlTypeRepository));
-
-                return new XamlType(underlyingType, xamlTypeRepository, typeFactory);
-            }
-
-            public static XamlType CreateForBuiltInType(Type type)
-            {
-                Guard.ThrowIfNull(type, nameof(type));
-
-                return new XamlType(type, new FrameworkBuiltInTypeRepository(), null);
-            }
-        }
-
+        
         public bool CanAssignTo(XamlType type)
         {
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
@@ -135,6 +118,20 @@ namespace OmniXaml.Typing
         public object CreateInstance(object[] parameters)
         {
             return typeFactory.Create(UnderlyingType, parameters);
+        }
+
+        public static XamlType Create(Type underlyingType, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
+        {
+            Guard.ThrowIfNull(underlyingType, nameof(xamlTypeRepository));
+
+            return new XamlType(underlyingType, xamlTypeRepository, typeFactory);
+        }
+
+        public static XamlType CreateForBuiltInType(Type type)
+        {
+            Guard.ThrowIfNull(type, nameof(type));
+
+            return new XamlType(type, new FrameworkBuiltInTypeRepository(), null);
         }
     }
 }

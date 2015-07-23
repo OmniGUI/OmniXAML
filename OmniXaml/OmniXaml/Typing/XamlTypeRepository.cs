@@ -19,7 +19,7 @@ namespace OmniXaml.Typing
         {
             Guard.ThrowIfNull(type, nameof(type));
 
-            return XamlType.Builder.Create(type, this, typeFactory);
+            return XamlType.Create(type, this, typeFactory);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)

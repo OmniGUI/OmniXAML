@@ -56,7 +56,7 @@
             {
                 Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
                 Prefix = prefix ?? string.Empty,
-                XamlType = XamlType.Builder.Create(type, typeContext, typeFactory),
+                XamlType = XamlType.Create(type, typeContext, typeFactory),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }

@@ -1,12 +1,13 @@
 namespace OmniXaml.Typing
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
     public class XamlMember
     {
+        private readonly IXamlTypeRepository xamlTypeRepository;
+        private readonly ITypeFactory typeFactory;
         private readonly string name;
 
         protected XamlMember(string name)
@@ -16,22 +17,24 @@ namespace OmniXaml.Typing
 
         public XamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, bool isAttachable) : this(name)
         {
+            this.xamlTypeRepository = xamlTypeRepository;
+            this.typeFactory = typeFactory;
+
             IsAttachable = isAttachable;
             DeclaringType = owner;
-
-            Type = LookupType(name, owner, xamlTypeRepository, typeFactory, isAttachable);
+            Type = LookupType();
         }
 
-        private XamlType LookupType(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, bool isAttachable)
+        private XamlType LookupType()
         {
-            if (!isAttachable)
+            if (!IsAttachable)
             {
-                var property = owner.UnderlyingType.GetRuntimeProperty(name);
-                return XamlType.Builder.Create(property.PropertyType, xamlTypeRepository, typeFactory);
+                var property = DeclaringType.UnderlyingType.GetRuntimeProperty(name);
+                return XamlType.Create(property.PropertyType, xamlTypeRepository, typeFactory);
             }
 
-            var getMethod = GetGetMethodForAttachable(owner, name);
-            return XamlType.Builder.Create(getMethod.ReturnType, xamlTypeRepository, typeFactory);
+            var getMethod = GetGetMethodForAttachable(DeclaringType, name);
+            return XamlType.Create(getMethod.ReturnType, xamlTypeRepository, typeFactory);
         }
 
         private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)
@@ -64,22 +67,9 @@ namespace OmniXaml.Typing
             return IsDirective ? "XamlDirective:" : "XamlMember: " + Name;
         }
 
-        public static class Builder
-        {
-            public static XamlMember Create(string name, XamlType parent, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
-            {
-                return new XamlMember(name, parent, xamlTypeRepository, typeFactory, false);
-            }
-
-            public static XamlMember CreateAttached(string name, XamlType parent, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
-            {
-                return new XamlMember(name, parent, xamlTypeRepository, typeFactory, true);
-            }
-        }
-
         protected bool Equals(XamlMember other)
         {
-            return string.Equals(name, other.name) && IsAttachable.Equals(other.IsAttachable) && IsDirective.Equals(other.IsDirective) &&
+            return String.Equals(name, other.name) && IsAttachable.Equals(other.IsAttachable) && IsDirective.Equals(other.IsDirective) &&
                    Equals(DeclaringType, other.DeclaringType) && Equals(Type, other.Type);
         }
 
