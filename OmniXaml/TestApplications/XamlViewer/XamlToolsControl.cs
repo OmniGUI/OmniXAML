@@ -1,14 +1,12 @@
-﻿namespace TestApplication
+﻿namespace XamlViewer
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows;
-    using System.Windows.Controls;
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.XamlNodes;
-    using OmniXaml.Tests;
     using OmniXaml.Visualization;
     using ViewModels;
     using Views;

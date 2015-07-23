@@ -154,6 +154,7 @@
     <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
     <Compile Include="TypeNotFoundException.cs" />
+    <Compile Include="Typing\AttachableXamlMember.cs" />
     <Compile Include="Typing\ClrNamespace.cs" />
     <Compile Include="Typing\ClrNamespaceAddress.cs" />
     <Compile Include="Typing\FrameworkBuiltInTypeRepository.cs" />
@@ -162,10 +163,12 @@
     <Compile Include="Typing\IXamlTypeRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Typing\MemberValuePlugin.cs" />
+    <Compile Include="Typing\MutableXamlMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />
     <Compile Include="Typing\XamlDirective.cs" />
     <Compile Include="Typing\XamlMember.cs" />
+    <Compile Include="Typing\XamlMemberBase.cs" />
     <Compile Include="Typing\XamlName.cs" />
     <Compile Include="Typing\XamlNamespaceRegistry.cs" />
     <Compile Include="Typing\PropertyLocator.cs" />

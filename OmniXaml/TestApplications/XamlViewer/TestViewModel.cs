@@ -1,4 +1,4 @@
-﻿namespace TestApplication
+﻿namespace XamlViewer
 {
     using System.Collections.ObjectModel;
     using OmniXaml.AppServices.Mvvm;

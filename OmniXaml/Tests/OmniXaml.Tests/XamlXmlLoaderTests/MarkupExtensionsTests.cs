@@ -2,7 +2,6 @@
 {
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Reader.Tests.Wpf;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     [TestClass]

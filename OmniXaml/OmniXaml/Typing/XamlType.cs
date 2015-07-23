@@ -86,7 +86,7 @@ namespace OmniXaml.Typing
 
         protected virtual XamlMember LookupMember(string name)
         {         
-            return new XamlMember(name, this, typeRepository, typeFactory, false);
+            return new XamlMember(name, this, typeRepository, typeFactory);
         }
 
         private PropertyInfo GetPropertyInfo(string name)
@@ -110,7 +110,7 @@ namespace OmniXaml.Typing
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
         }
 
-        protected virtual XamlMember LookupAttachableMember(string name)
+        protected virtual AttachableXamlMember LookupAttachableMember(string name)
         {
             throw new NotImplementedException();
         }

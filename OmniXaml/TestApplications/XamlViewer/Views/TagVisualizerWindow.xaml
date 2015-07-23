@@ -1,17 +1,18 @@
-﻿<Window x:Class="TestApplication.Views.TagVisualizerWindow"
+﻿<Window x:Class="XamlViewer.Views.TagVisualizerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TestApplication"
-        xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
+        xmlns:local="clr-namespace:XamlViewer"
+        xmlns:xamlViewer="clr-namespace:XamlViewer"
+        xmlns:viewModels="clr-namespace:XamlViewer.ViewModels"
         MinHeight="200"
         MinWidth="300"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         Title="TagVisualizerWindow" Width="640" Height="480" d:DataContext="{d:DesignInstance viewModels:TagVisualizerViewModel}">
     <Window.Resources>
-        <local:LevelConverter x:Key="LevelConverter" />
+        <xamlViewer:LevelConverter x:Key="LevelConverter" />
     </Window.Resources>
     <Grid>
         <ListBox ItemsSource="{Binding Tags}">

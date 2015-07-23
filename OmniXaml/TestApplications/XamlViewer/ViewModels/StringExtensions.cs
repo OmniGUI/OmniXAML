@@ -1,4 +1,4 @@
-namespace TestApplication.ViewModels
+namespace XamlViewer.ViewModels
 {
     public static class StringExtensions
     {

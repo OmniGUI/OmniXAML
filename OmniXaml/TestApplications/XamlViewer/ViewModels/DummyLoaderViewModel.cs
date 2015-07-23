@@ -1,15 +1,11 @@
-﻿namespace TestApplication.ViewModels
+﻿namespace XamlViewer.ViewModels
 {
     using System.Collections;
     using System.Collections.ObjectModel;
-    using System.IO;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.Assembler;
-    using OmniXaml.NewAssembler;
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
-    using OmniXaml.Parsers.XamlNodes;
     using OmniXaml.Tests.Classes;
+    using XamlViewer;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel

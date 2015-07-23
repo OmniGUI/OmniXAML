@@ -4,8 +4,8 @@
 
     public class WpfXamlMember : XamlMember
     {
-        public WpfXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, bool isAttachable)
-            : base(name, owner, xamlTypeRepository, typeFactory, isAttachable)
+        public WpfXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
+            : base(name, owner, xamlTypeRepository, typeFactory)
         {
         }
 
@@ -13,5 +13,8 @@
         {
             return new MemberValuePlugin(this);
         }
+
+        public override bool IsDirective => false;
+        public override bool IsAttachable => false;
     }
 }

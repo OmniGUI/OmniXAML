@@ -53,6 +53,7 @@
     <Compile Include="NodeInflater.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
+    <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
     <Compile Include="WpfInflatableTypeFactory.cs" />

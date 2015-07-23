@@ -1,4 +1,4 @@
-﻿namespace RealTest
+﻿namespace TestApplication
 {
     using System.Windows;
     using OmniXaml.AppServices.Mvvm;

@@ -3,7 +3,6 @@
     using System.Diagnostics;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Reader.Tests.Wpf;
     using Xaml.Tests.Resources;
 
     [TestClass]

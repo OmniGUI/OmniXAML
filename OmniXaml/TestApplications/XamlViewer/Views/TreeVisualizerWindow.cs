@@ -1,4 +1,4 @@
-﻿namespace TestApplication.Views
+﻿namespace XamlViewer.Views
 {
     using System.Windows;
 

@@ -1,4 +1,4 @@
-﻿namespace TestApplication
+﻿namespace XamlViewer
 {
     using System;
     using System.Collections;
@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Resources;
+    using XamlViewer;
 
     public class XamlSnippetProvider : IXamlSnippetProvider
     {

@@ -1,41 +1,43 @@
-﻿<Window x:Class="TestApplication.Views.TreeVisualizerWindow"
+﻿<Window x:Class="XamlViewer.Views.TreeVisualizerWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
-        xmlns:testApplication="clr-namespace:TestApplication"      
+        xmlns:xamlViewer="clr-namespace:XamlViewer"
+        xmlns:viewModels="clr-namespace:XamlViewer.ViewModels"
         MinHeight="200"
         MinWidth="300"
-        
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="Tree Visualizer" Width="640" Height="480"
         d:DataContext="{d:DesignInstance viewModels:TreeVisualizerViewModel}">
     <Window.Resources>
 
-        <testApplication:NodeTypeToUriConverter x:Key="NodeTypeToUriConverter" />
+        <xamlViewer:NodeTypeToUriConverter x:Key="NodeTypeToUriConverter" />
 
-        <HierarchicalDataTemplate x:Key="HierarchicalDataTemplate" DataType="{x:Type viewModels:VisualizerNodeViewModel}" ItemsSource="{Binding Children}">
+        <HierarchicalDataTemplate x:Key="HierarchicalDataTemplate"
+                                  DataType="{x:Type viewModels:VisualizerNodeViewModel}"
+                                  ItemsSource="{Binding Children}">
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Width="18" VerticalAlignment="Center" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality">
+                <Image Grid.Column="0" Width="18" VerticalAlignment="Center" Stretch="Uniform"
+                       RenderOptions.BitmapScalingMode="HighQuality">
                     <Image.Source>
                         <Binding Path="NodeType" Converter="{StaticResource NodeTypeToUriConverter}"
-                                 ConverterParameter="..\Images">
-                        </Binding>
+                                 ConverterParameter="..\Images" />
                     </Image.Source>
                 </Image>
-                <TextBlock Margin="2,0,0,0"  VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}" ToolTip="{Binding Name}"
-                                   Style="{StaticResource TextBlockStyle}" />
+                <TextBlock Margin="2,0,0,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"
+                           ToolTip="{Binding Name}"
+                           Style="{StaticResource TextBlockStyle}" />
             </Grid>
         </HierarchicalDataTemplate>
     </Window.Resources>
     <Grid>
-        <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource HierarchicalDataTemplate}">                       
+        <TreeView ItemsSource="{Binding Nodes}" ItemTemplate="{StaticResource HierarchicalDataTemplate}">
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

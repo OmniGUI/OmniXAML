@@ -1,11 +1,9 @@
-﻿namespace TestApplication.Views
+﻿namespace XamlViewer.Views
 {
-    using System.Windows;
-
     /// <summary>
     /// Interaction logic for NodeVisualizerWindow.xaml
     /// </summary>
-    public partial class TagVisualizerWindow : Window
+    public partial class TagVisualizerWindow
     {
         public TagVisualizerWindow()
         {

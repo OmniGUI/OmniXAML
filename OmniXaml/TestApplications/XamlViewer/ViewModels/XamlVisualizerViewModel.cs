@@ -1,4 +1,4 @@
-namespace TestApplication.ViewModels
+namespace XamlViewer.ViewModels
 {
     using OmniXaml;
     using OmniXaml.AppServices.Mvvm;

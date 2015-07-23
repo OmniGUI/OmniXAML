@@ -1,16 +1,18 @@
 ﻿<UserControl
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TestApplication"
-             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-    xmlns:views="clr-namespace:TestApplication.Views"
-    xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
-    x:Class="TestApplication.Views.DummyLoaderControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="450.496" d:DesignWidth="653.407" d:DataContext="{d:DesignInstance viewModels:DummyLoaderViewModel}">
-    <UserControl.Resources>        
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:views="clr-namespace:XamlViewer.Views"
+    xmlns:xamlViewer="clr-namespace:XamlViewer"
+    xmlns:viewModels="clr-namespace:XamlViewer.ViewModels"
+    x:Class="XamlViewer.Views.DummyLoaderControl"
+    mc:Ignorable="d"
+    d:DesignHeight="450.496" d:DesignWidth="653.407" d:DataContext="{d:DesignInstance viewModels:DummyLoaderViewModel}">
+    <UserControl.Resources>
         <CollectionViewSource x:Key="SortedSnippets" Source="{Binding Snippets}">
             <CollectionViewSource.SortDescriptions>
                 <componentModel:SortDescription Direction="Ascending" PropertyName="Name" />
@@ -19,20 +21,20 @@
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid local:GridExpanderSizeBehavior.SizeRowsToExpanderState="True">
+        <Grid xamlViewer:GridExpanderSizeBehavior.SizeRowsToExpanderState="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Expander Grid.Row="0" Header="XAML" IsExpanded="True">
                 <DockPanel>
-                    <StackPanel DockPanel.Dock="Bottom">                        
+                    <StackPanel DockPanel.Dock="Bottom">
                         <Button VerticalAlignment="Bottom" IsDefault="True" Content="Load"
-    						Command="{Binding LoadCommand}" Style="{StaticResource LoadButtonStyle}" />
+                                Command="{Binding LoadCommand}" Style="{StaticResource LoadButtonStyle}" />
                     </StackPanel>
                     <views:XamlTextBox WiringContext="{Binding WiringContext}" Xaml="{Binding Xaml}" />
                 </DockPanel>
@@ -40,14 +42,13 @@
             <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" IsExpanded="True">
                 <ListBox ItemsSource="{Binding Source={StaticResource SortedSnippets}}"
                          Style="{StaticResource ListBoxStyle}"
-    				SelectedItem="{Binding SelectedSnippet}">
-                </ListBox>
+                         SelectedItem="{Binding SelectedSnippet}" />
             </Expander>
         </Grid>
 
-        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"  />
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch" />
 
-        <GroupBox Header="Structure"  Grid.Column="2" >
+        <GroupBox Header="Structure" Grid.Column="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="3*" />
@@ -59,17 +60,18 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectedItemChanged">
                             <i:InvokeCommandAction Command="{Binding SetSelectedItemCommand}"
-    							CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeView}}}" />
+                                                   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TreeView}}}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate DataType="{x:Type local:InstanceNodeViewModel}"
-    						ItemsSource="{Binding Children}">
+                        <HierarchicalDataTemplate DataType="{x:Type xamlViewer:InstanceNodeViewModel}"
+                                                  ItemsSource="{Binding Children}">
 
                             <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
 
                             <HierarchicalDataTemplate.ItemTemplate>
-                                <HierarchicalDataTemplate DataType="{x:Type local:InstanceNodeViewModel}" ItemsSource="{Binding Children}">
+                                <HierarchicalDataTemplate DataType="{x:Type xamlViewer:InstanceNodeViewModel}"
+                                                          ItemsSource="{Binding Children}">
                                     <TextBlock Text="{Binding TypeName}" ToolTip="{Binding Tag}" />
                                 </HierarchicalDataTemplate>
                             </HierarchicalDataTemplate.ItemTemplate>
@@ -84,7 +86,7 @@
 
                 <GridSplitter Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="5" />
                 <xctk:PropertyGrid ShowTitle="True" Grid.Row="2" SelectedObject="{Binding SelectedItem.Data}"
-    				IsReadOnly="True" />
+                                   IsReadOnly="True" />
             </Grid>
         </GroupBox>
 

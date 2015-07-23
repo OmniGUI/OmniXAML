@@ -1,8 +1,6 @@
-﻿<Application x:Class="TestApplication.App"
+﻿<Application x:Class="XamlViewer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:testApplication="clr-namespace:TestApplication"
-             xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <Style x:Key="XamlTextBoxStyle" TargetType="TextBox">

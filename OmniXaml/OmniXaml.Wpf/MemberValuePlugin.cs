@@ -8,9 +8,9 @@ namespace OmniXaml.Wpf
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
     {
-        private readonly XamlMember xamlMember;
+        private readonly MutableXamlMember xamlMember;
 
-        public MemberValuePlugin(XamlMember xamlMember) : base(xamlMember)
+        public MemberValuePlugin(MutableXamlMember xamlMember) : base(xamlMember)
         {
             this.xamlMember = xamlMember;
         }

@@ -1,4 +1,4 @@
-namespace TestApplication.ViewModels
+namespace XamlViewer.ViewModels
 {
     using System.Collections.Generic;
     using OmniXaml.AppServices.Mvvm;

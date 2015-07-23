@@ -1,8 +1,7 @@
-namespace TestApplication
+namespace XamlViewer
 {
     using System;
     using System.Windows;
-    using ViewModels;
 
     public static class Execute
     {

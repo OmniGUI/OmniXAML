@@ -1,4 +1,4 @@
-﻿namespace TestApplication
+﻿namespace XamlViewer
 {
     public class Snippet
     {

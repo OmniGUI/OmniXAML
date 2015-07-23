@@ -1,20 +1,18 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    namespace OmniXaml.Reader.Tests.Wpf
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
+    using OmniXaml.Parsers.XamlNodes;
+    using Tests;
+
+    public class GivenAXamlXmlLoader : GivenAWiringContext
     {
-        using global::OmniXaml.Parsers.ProtoParser.SuperProtoParser;
-        using global::OmniXaml.Parsers.XamlNodes;
-
-        public class GivenAXamlXmlLoader : GivenAWiringContext
+        protected GivenAXamlXmlLoader()
         {
-            protected GivenAXamlXmlLoader()
-            {
-                XamlStreamLoader = new XamlStreamLoader(new SuperProtoParser(WiringContext),
-                    new XamlNodesPullParser(WiringContext),
-                    new DefaultObjectAssemblerFactory(WiringContext));
-            }
-
-            protected XamlStreamLoader XamlStreamLoader { get; }
+            XamlStreamLoader = new XamlStreamLoader(new SuperProtoParser(WiringContext),
+                new XamlNodesPullParser(WiringContext),
+                new DefaultObjectAssemblerFactory(WiringContext));
         }
+
+        protected XamlStreamLoader XamlStreamLoader { get; }
     }
 }

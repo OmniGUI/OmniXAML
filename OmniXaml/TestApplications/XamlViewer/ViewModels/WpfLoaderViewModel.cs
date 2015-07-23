@@ -1,13 +1,12 @@
-﻿namespace TestApplication.ViewModels
+﻿namespace XamlViewer.ViewModels
 {
     using System;
     using System.Collections;
-    using System.IO;
     using System.Windows;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.Assembler;
     using OmniXaml.Wpf;
+    using XamlViewer;
     using Xaml.Tests.Resources;
 
     public class WpfLoaderViewModel : XamlVisualizerViewModel

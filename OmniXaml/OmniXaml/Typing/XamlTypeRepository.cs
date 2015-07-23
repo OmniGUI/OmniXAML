@@ -63,7 +63,7 @@ namespace OmniXaml.Typing
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
             var owner = GetXamlType(propertyInfo.DeclaringType);
-            return new XamlMember(propertyInfo.Name, owner, this, typeFactory, false);
+            return new XamlMember(propertyInfo.Name, owner, this, typeFactory);
         }
 
         public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)

@@ -1,23 +1,23 @@
-﻿<Window x:Class="TestApplication.MainWindow"
+﻿<Window x:Class="XamlViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:testApplication="clr-namespace:TestApplication"
-        xmlns:views="clr-namespace:TestApplication.Views"
-        xmlns:viewModels="clr-namespace:TestApplication.ViewModels"
+        xmlns:xamlViewer="clr-namespace:XamlViewer"
+        xmlns:views="clr-namespace:XamlViewer.Views"        
+        xmlns:viewModels="clr-namespace:XamlViewer.ViewModels"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"        
         Title="OmniXAML Tester" Height="648.456" Width="742.407">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type testApplication:Snippet}">
+        <DataTemplate DataType="{x:Type xamlViewer:Snippet}">
             <Grid d:DesignWidth="159.113" d:DesignHeight="50.25" x:Name="Tools" Background="Transparent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                <testApplication:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" WiringContext="{Binding Path=DataContext.WiringContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                <xamlViewer:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" WiringContext="{Binding Path=DataContext.WiringContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
             </Grid>
         </DataTemplate>
 

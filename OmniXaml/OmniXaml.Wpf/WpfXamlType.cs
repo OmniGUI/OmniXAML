@@ -16,12 +16,12 @@
 
         protected override XamlMember LookupMember(string name)
         {
-            return new WpfXamlMember(name, this, wiringContext, typeFactory, false);
+            return new WpfXamlMember(name, this, wiringContext, typeFactory);
         }
 
-        protected override XamlMember LookupAttachableMember(string name)
+        protected override AttachableXamlMember LookupAttachableMember(string name)
         {
-            return new WpfXamlMember(name, this, wiringContext, typeFactory, true);
+            return new WpfXamlAttachableMember(name, this, wiringContext, typeFactory);
         }
     }
 }
