@@ -16,13 +16,13 @@ namespace OmniXaml.Assembler.NodeWriters
             bag = objectAssembler.Bag;
         }
 
-        public void WriteStartMember(XamlMember property)
+        public void WriteStartMember(XamlMemberBase property)
         {
             bag.Current.Property = property;
 
             if (bag.Current.Instance == null)
             {
-                if (!IsConstructionDirective(property))
+                if (property.IsDirective && !IsConstructionDirective((XamlDirective) property))
                 {
                     objectAssembler.PrepareNewInstanceBecauseWeWantToConfigureIt(bag);
                 }
@@ -34,7 +34,7 @@ namespace OmniXaml.Assembler.NodeWriters
             
         }
 
-        private bool IsConstructionDirective(XamlMember xamlMember)
+        private bool IsConstructionDirective(XamlDirective xamlMember)
         {
             return Equals(xamlMember, CoreTypes.MarkupExtensionArguments);
         }

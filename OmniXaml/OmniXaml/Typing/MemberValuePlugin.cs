@@ -4,9 +4,9 @@ namespace OmniXaml.Typing
 
     public class MemberValuePlugin : IXamlMemberValuePlugin
     {
-        private readonly XamlMember xamlMember;
+        private readonly MutableXamlMember xamlMember;
 
-        public MemberValuePlugin(XamlMember xamlMember)
+        public MemberValuePlugin(MutableXamlMember xamlMember)
         {
             this.xamlMember = xamlMember;
         }

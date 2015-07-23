@@ -94,9 +94,9 @@ namespace OmniXaml.Typing
             return UnderlyingType.GetRuntimeProperty(name);
         }
 
-        public XamlMember GetAttachableMember(string name)
+        public AttachableXamlMember GetAttachableMember(string name)
         {
-            return new XamlMember(name, this, typeRepository, typeFactory, true);
+            return new AttachableXamlMember(name, this, typeRepository, typeFactory);
         }
 
         public override string ToString()

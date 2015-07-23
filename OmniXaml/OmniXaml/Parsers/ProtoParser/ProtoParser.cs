@@ -41,7 +41,7 @@
         private NodeType NodeType => currentNode.NodeType;
         private string Namespace => currentNode.TypeNamespace;
         private string Prefix => currentNode.Prefix;
-        private XamlMember PropertyAttribute => currentNode.PropertyAttribute;
+        private MutableXamlMember PropertyAttribute => currentNode.PropertyAttribute;
         private TextBuffer PropertyAttributeText => currentNode.PropertyAttributeText;
         private XamlMember PropertyElement => currentNode.PropertyElement;
 

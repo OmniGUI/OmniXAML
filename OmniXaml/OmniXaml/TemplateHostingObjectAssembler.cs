@@ -57,7 +57,7 @@
             {
                 if (node.NodeType == XamlNodeType.StartMember && !node.Member.IsDirective)
                 {                    
-                    var hasAssembler = TryGetDeferredAssembler(node.Member, out assembler);
+                    var hasAssembler = TryGetDeferredAssembler((MutableXamlMember) node.Member, out assembler);
                     if (hasAssembler)
                     {
                         recording = true;
@@ -74,7 +74,7 @@
             }
         }
 
-        private bool TryGetDeferredAssembler(XamlMember xamlMember, out IDeferredLoader assembler)
+        private bool TryGetDeferredAssembler(MutableXamlMember xamlMember, out IDeferredLoader assembler)
         {
             Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
 

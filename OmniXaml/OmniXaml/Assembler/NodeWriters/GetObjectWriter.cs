@@ -29,25 +29,25 @@ namespace OmniXaml.Assembler.NodeWriters
             var valueOfProperty = GetValueOfMemberFromParentInstance(property);
 
             bag.Current.Instance = valueOfProperty;
-            bag.Current.Type = property.Type;
+            bag.Current.Type = property.XamlType;
 
-            if (property.Type.IsContainer)
+            if (property.XamlType.IsContainer)
             {
                 bag.Current.Collection = valueOfProperty;
             }
         }
 
-        private XamlMember GetPropertyForGetObject()
+        private MutableXamlMember GetPropertyForGetObject()
         {
             if (bag.Current.Type != null || bag.Depth <= 1)
             {
-                return bag.Current.Property;
+                return (MutableXamlMember)bag.Current.Property;
             }
 
-            return bag.Parent.Property;
+            return (MutableXamlMember) bag.Parent.Property;
         }
 
-        private object GetValueOfMemberFromParentInstance(XamlMember property)
+        private object GetValueOfMemberFromParentInstance(MutableXamlMember property)
         {
             var parentInstance = bag.Parent.Instance;
             var valueOfProperty = TypeOperations.GetValue(parentInstance, property);

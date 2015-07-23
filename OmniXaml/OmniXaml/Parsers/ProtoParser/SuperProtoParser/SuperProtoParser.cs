@@ -130,7 +130,7 @@
 
         private ProtoXamlNode ConvertAttributeToNode(XamlType containingType, UnprocessedAttribute rawAttribute)
         {
-            XamlMember member;
+            MutableXamlMember member;
 
             if (rawAttribute.Locator.IsDotted)
             {

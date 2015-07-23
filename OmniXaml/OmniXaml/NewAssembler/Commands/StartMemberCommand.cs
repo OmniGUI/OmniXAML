@@ -4,9 +4,9 @@ namespace OmniXaml.NewAssembler.Commands
 
     public class StartMemberCommand : Command
     {
-        private readonly XamlMember member;
+        private readonly XamlMemberBase member;
 
-        public StartMemberCommand(SuperObjectAssembler assembler, XamlMember member) : base(assembler)
+        public StartMemberCommand(SuperObjectAssembler assembler, XamlMemberBase member) : base(assembler)
         {
             this.member = member;
         }

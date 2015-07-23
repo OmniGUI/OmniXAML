@@ -19,19 +19,19 @@ namespace OmniXaml.Parsers.ProtoParser
 
         public PropertyLocator Locator { get; }
 
-        public XamlMember Property { get; private set; }
+        public MutableXamlMember Property { get; private set; }
 
-        private XamlMember GetProperty(PropertyLocator propLocator, XamlType xamType, IXamlTypeRepository typingCore)
+        private MutableXamlMember GetProperty(PropertyLocator propLocator, XamlType xamType, IXamlTypeRepository typingCore)
         {
             return propLocator.IsDotted ? GetAttachableMember(propLocator, typingCore) : GetRegularMember(xamType, typingCore);
         }
 
-        private XamlMember GetRegularMember(XamlType tagType, IXamlTypeRepository typeRepository)
+        private MutableXamlMember GetRegularMember(XamlType tagType, IXamlTypeRepository typeRepository)
         {
             return typeRepository.GetXamlType(tagType.UnderlyingType).GetMember(Locator.PropertyName);
         }
 
-        private XamlMember GetAttachableMember(PropertyLocator memberLocator, IXamlTypeRepository typeRepository)
+        private AttachableXamlMember GetAttachableMember(PropertyLocator memberLocator, IXamlTypeRepository typeRepository)
         {
             var owner = memberLocator.OwnerName;
             var ownerType = typeRepository.GetByPrefix(memberLocator.Prefix, owner);

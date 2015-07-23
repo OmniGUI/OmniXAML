@@ -14,7 +14,7 @@ namespace OmniXaml.Parsers.ProtoParser
 
         public string TypeNamespace { get; set; }
 
-        public XamlMember PropertyAttribute { get; set; }
+        public MutableXamlMember PropertyAttribute { get; set; }
 
         public TextBuffer PropertyAttributeText { get; set; }
 

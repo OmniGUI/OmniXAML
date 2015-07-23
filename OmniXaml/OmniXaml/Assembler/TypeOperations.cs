@@ -20,12 +20,12 @@ namespace OmniXaml.Assembler
             list.Add(instance);
         }
 
-        public static object GetValue(object parentInstance, XamlMember property)
+        public static object GetValue(object parentInstance, MutableXamlMember property)
         {
             return property.XamlMemberValueConnector.GetValue(parentInstance);            
         }
 
-        public static void SetValue(object instance, XamlMember parentProperty, object value)
+        public static void SetValue(object instance, MutableXamlMember parentProperty, object value)
         {
             parentProperty.XamlMemberValueConnector.SetValue(instance, value);          
         }

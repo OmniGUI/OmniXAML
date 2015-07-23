@@ -6,6 +6,7 @@ namespace TestApplication.ViewModels
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Typing;
     using OmniXaml.Visualization;
 
     public class VisualizerNodeViewModel : ViewModel
@@ -73,7 +74,7 @@ namespace TestApplication.ViewModels
 
         private static string GetMemberName(VisualizationNode visualizationNode)
         {
-            var xamlMember = visualizationNode.XamlNode.Member;
+            var xamlMember = (MutableXamlMember) visualizationNode.XamlNode.Member;
 
             if (!xamlMember.IsAttachable)
             {

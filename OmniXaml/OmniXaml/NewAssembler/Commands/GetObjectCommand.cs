@@ -2,6 +2,8 @@ using System.Collections;
 
 namespace OmniXaml.NewAssembler.Commands
 {
+    using Typing;
+
     public class GetObjectCommand : Command
     {
         public GetObjectCommand(SuperObjectAssembler superObjectAssembler) : base(superObjectAssembler)
@@ -17,7 +19,8 @@ namespace OmniXaml.NewAssembler.Commands
 
         private ICollection GetCollection()
         {
-            return (ICollection) StateCommuter.PreviousMember.GetValue(StateCommuter.PreviousInstance);
+            var xamlMemberBase = (MutableXamlMember) StateCommuter.PreviousMember;
+            return (ICollection) xamlMemberBase.GetValue(StateCommuter.PreviousInstance);
         }
     }
 }

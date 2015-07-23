@@ -37,13 +37,13 @@ namespace OmniXaml
 
         public XamlNodeType NodeType => nodeType;
 
-        public XamlMember Member
+        public XamlMemberBase Member
         {
             get
             {
                 if (NodeType == XamlNodeType.StartMember)
                 {
-                    return (XamlMember)data;
+                    return (XamlMemberBase)data;
                 }
                 return null;
             }

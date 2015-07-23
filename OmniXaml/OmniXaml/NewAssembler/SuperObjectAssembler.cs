@@ -64,7 +64,7 @@ namespace OmniXaml.NewAssembler
             command.Execute();
         }
 
-        private XamlMember GetMember(XamlMember member)
+        private XamlMemberBase GetMember(XamlMemberBase member)
         {
             if (IsLevelOneAndThereIsRootInstance)
             {

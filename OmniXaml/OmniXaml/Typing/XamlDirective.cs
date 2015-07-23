@@ -1,16 +1,20 @@
 namespace OmniXaml.Typing
 {
-    public class XamlDirective : XamlMember
+    using System;
+
+    public class XamlDirective : XamlMemberBase
     {
-        public XamlDirective(string name)
-            : base(name)
+        public XamlDirective(string name) : base(name)
         {
-            IsDirective = true;
+            XamlType = XamlType.CreateForBuiltInType(typeof(object));
         }
 
-        public XamlDirective(string name, XamlType xamlType) : this(name)
+        public XamlDirective(string name, XamlType xamlType) : base(name)
         {
-            Type = xamlType;
+            XamlType = xamlType;
         }
+
+        public override bool IsDirective => true;
+        public override bool IsAttachable => false;
     }
 }

@@ -8,7 +8,7 @@ namespace OmniXaml.NewAssembler
     {
         public object Instance { get; set; }
         public XamlType XamlType { get; set; }
-        public XamlMember XamlMember { get; set; }
+        public XamlMemberBase XamlMember { get; set; }
         public bool IsCollectionHolderObject { get; set; }
         public bool IsMemberHostingChildren { get; set; }
         public ICollection Collection { get; set; }

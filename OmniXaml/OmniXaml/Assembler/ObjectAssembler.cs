@@ -150,7 +150,7 @@
                         Bag.Current.Instance = markupExtension;
                         var xamlType = XamlTypeRepository.GetXamlType(currentInstance.GetType());
 
-                        if (!xamlType.CanAssignTo(xamlMember.Type))
+                        if (!xamlType.CanAssignTo(xamlMember.XamlType))
                         {
                             AssignValueFromMarkupExtension(Bag);
                             valueWasAssigned = false;
@@ -161,10 +161,10 @@
                         var xamlTypeOfCurrentInstance = XamlTypeRepository.GetXamlType(currentInstance.GetType());
 
                         var isString = Equals(xamlTypeOfCurrentInstance, CoreTypes.String);
-                        var canAssign = xamlTypeOfCurrentInstance.CanAssignTo(xamlMember.Type);
+                        var canAssign = xamlTypeOfCurrentInstance.CanAssignTo(xamlMember.XamlType);
                         if (isString || !canAssign)
                         {
-                            valueWasAssigned = TryCreateCompatibleInstanceForCurrentMember(Bag, Bag.Current.Instance, xamlMember.Type.UnderlyingType);
+                            valueWasAssigned = TryCreateCompatibleInstanceForCurrentMember(Bag, Bag.Current.Instance, xamlMember.XamlType.UnderlyingType);
                         }
                     }
                 }
@@ -215,9 +215,9 @@
 
         internal void AssignCurrentInstanceToParent(StateBag bag)
         {
-            var parentProperty = bag.Parent.Property;
+            var parentProperty = (MutableXamlMember)bag.Parent.Property;
             var currentInstance = bag.Current.Instance;
-            var parentPropertyType = parentProperty.Type;
+            var parentPropertyType = parentProperty.XamlType;
 
             if (IsAssignmentBeingMadeToContainer(parentProperty, parentPropertyType))
             {
@@ -293,7 +293,7 @@
             return meType.IsAssignableFrom(underlyingType);
         }
 
-        private static bool IsAssignmentBeingMadeToContainer(XamlMember parentProperty, XamlType type)
+        private static bool IsAssignmentBeingMadeToContainer(XamlMemberBase parentProperty, XamlType type)
         {
             return parentProperty.IsDirective && type.IsContainer;
         }
@@ -304,7 +304,7 @@
             TypeOperations.Add(parentCollection, Bag.Current.Instance);
         }
 
-        private void ApplyPropertyValue(StateBag bag, XamlMember parentProperty, object value, bool onParent)
+        private void ApplyPropertyValue(StateBag bag, MutableXamlMember parentProperty, object value, bool onParent)
         {
             var instance = onParent ? bag.Parent.Instance : bag.Current.Instance;
 
@@ -316,7 +316,7 @@
             }
         }
 
-        private bool OnSetValue(object instance, XamlMember parentProperty, object value)
+        private bool OnSetValue(object instance, MutableXamlMember parentProperty, object value)
         {
             if (XamlSetValueHandler == null)
             {

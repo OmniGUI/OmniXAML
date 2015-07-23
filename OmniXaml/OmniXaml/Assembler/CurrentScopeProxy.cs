@@ -37,7 +37,7 @@ namespace OmniXaml.Assembler
             }
         }
 
-        public XamlMember Property
+        public XamlMemberBase Property
         {
             get
             {

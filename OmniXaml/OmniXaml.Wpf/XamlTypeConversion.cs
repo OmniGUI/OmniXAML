@@ -4,8 +4,12 @@ namespace OmniXaml.Wpf
     using System.Linq;
     using System.Windows.Data;
     using System.Xaml;
+    using Typing;
     using NamespaceDeclaration = NamespaceDeclaration;
+    using XamlDirective = System.Xaml.XamlDirective;
+    using XamlMember = System.Xaml.XamlMember;
     using XamlNodeType = XamlNodeType;
+    using XamlType = System.Xaml.XamlType;
 
     public static class XamlTypeConversion
     {
@@ -29,17 +33,17 @@ namespace OmniXaml.Wpf
             return new XamlType(xamlType.UnderlyingType, context);
         }
 
-        public static XamlMember ToWpf(this Typing.XamlMember member, XamlSchemaContext context)
+        public static XamlMember ToWpf(this XamlMemberBase member, XamlSchemaContext context)
         {
             if (member.IsDirective)
             {
                 return GetDirective(member, context);
             }
 
-            return GetMember(member, context);
+            return GetMember((MutableXamlMember) member, context);
         }
 
-        private static XamlMember GetMember(Typing.XamlMember member, XamlSchemaContext context)
+        private static XamlMember GetMember(MutableXamlMember member, XamlSchemaContext context)
         {
             var declaringType = ToWpf(member.DeclaringType, context);
 
@@ -55,19 +59,19 @@ namespace OmniXaml.Wpf
             }
         }
 
-        private static XamlMember GetDirective(Typing.XamlMember member, XamlSchemaContext context)
+        private static XamlMember GetDirective(XamlMemberBase directive, XamlSchemaContext context)
         {
-            var directive = TranslateDirectiveName(member);
+            var directiveName = TranslateDirectiveName(directive);
 
             var xamlMember = from ns in context.GetAllXamlNamespaces()
-                let dir = context.GetXamlDirective(ns, directive)
+                let dir = context.GetXamlDirective(ns, directiveName)
                 where dir != null
                 select dir;
 
             return new DirectiveAdapter(xamlMember.First());
         }
 
-        private static string TranslateDirectiveName(Typing.XamlMember member)
+        private static string TranslateDirectiveName(XamlMemberBase member)
         {
             if (member.Name == "_MarkupExtensionParameters")
             {

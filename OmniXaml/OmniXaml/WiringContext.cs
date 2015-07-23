@@ -27,7 +27,7 @@ namespace OmniXaml
             return xamlType.GetMember(name);
         }
 
-        public XamlMember GetAttachableMember(XamlType xamlType, string name)
+        public AttachableXamlMember GetAttachableMember(XamlType xamlType, string name)
         {
             return xamlType.GetAttachableMember(name);
         }

@@ -138,7 +138,7 @@
             while (CurrentNodeType == NodeType.PropertyElement || CurrentNodeType == NodeType.EmptyPropertyElement)
             {
                 var member = nodeStream.Current.PropertyElement;
-                if (member.Type.IsCollection)
+                if (member.XamlType.IsCollection)
                 {
                     SetNextNode();
                     foreach (var xamlNode in ParseCollectionInsideThisProperty(member))
@@ -173,7 +173,7 @@
                     throw new InvalidOperationException($"Cannot get the content property for the type {parentType}");
                 }
 
-                if (contentProperty.Type.IsCollection)
+                if (contentProperty.XamlType.IsCollection)
                 {
                     foreach (var xamlNode in ParseCollectionInsideThisProperty(contentProperty)) { yield return xamlNode; }
                 }

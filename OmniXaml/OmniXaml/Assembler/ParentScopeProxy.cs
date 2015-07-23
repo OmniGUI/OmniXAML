@@ -14,7 +14,7 @@ namespace OmniXaml.Assembler
 
         public object Instance => stackingLinkedList.PeekPrevious().Instance;
 
-        public XamlMember Property => stackingLinkedList.PeekPrevious().Member;
+        public XamlMemberBase Property => stackingLinkedList.PeekPrevious().Member;
 
         public XamlType Type => stackingLinkedList.PeekPrevious().XamlType;
 

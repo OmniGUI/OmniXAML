@@ -23,7 +23,7 @@ namespace OmniXaml.Parsers
             return new XamlNode(XamlNodeType.NamespaceDeclaration, namespaceDeclaration);
         }
 
-        public static XamlNode StartOfMember(XamlMember member)
+        public static XamlNode StartOfMember(MutableXamlMember member)
         {
             return new XamlNode(XamlNodeType.StartMember, member);
         }

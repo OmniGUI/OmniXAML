@@ -5,13 +5,13 @@
 
     public class XamlSetValueEventArgs : EventArgs
     {
-        public XamlSetValueEventArgs(XamlMember member, object value)
+        public XamlSetValueEventArgs(MutableXamlMember member, object value)
         {
             Value = value;
             Member = member;
         }
 
-        public XamlMember Member { get; private set; }
+        public MutableXamlMember Member { get; private set; }
 
         public object Value { get; private set; }
 

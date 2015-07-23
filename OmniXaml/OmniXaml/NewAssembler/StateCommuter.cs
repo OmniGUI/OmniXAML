@@ -26,10 +26,12 @@ namespace OmniXaml.NewAssembler
 
         public void AssignChildToParentProperty()
         {
-            var underlyingType = PreviousMember.Type.UnderlyingType;
+            var previousMember = (MutableXamlMember) PreviousMember;
+
+            var underlyingType = previousMember.XamlType.UnderlyingType;
             var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, underlyingType);
 
-            PreviousValue.XamlMember.SetValue(PreviousInstance, compatibleValue);
+            previousMember.SetValue(PreviousInstance, compatibleValue);
         }
 
         public bool HasCurrentInstance => CurrentValue.Instance != null;
@@ -50,7 +52,7 @@ namespace OmniXaml.NewAssembler
 
         private Level PreviousValue => stack.PreviousValue;
 
-        public XamlMember Member
+        public XamlMemberBase Member
         {
             get { return CurrentValue.XamlMember; }
             set { CurrentValue.XamlMember = value; }
@@ -130,7 +132,7 @@ namespace OmniXaml.NewAssembler
             set { CurrentValue.Collection = value; }
         }
 
-        public XamlMember PreviousMember => PreviousValue.XamlMember;
+        public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
         public object PreviousInstance => PreviousValue.Instance;
         public bool PreviousIsHostingChildren => PreviousValue.Collection != null;
 
