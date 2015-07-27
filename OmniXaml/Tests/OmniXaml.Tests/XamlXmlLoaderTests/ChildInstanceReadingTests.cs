@@ -1,5 +1,7 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,6 +36,16 @@
 
             var level3Instance = level2Instance.Child;
             Assert.IsNotNull(level3Instance);
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void KeyDirective()
+        {
+            var actual = XamlStreamLoader.Load(Dummy.KeyDirective);
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            var dictionary = (IDictionary)((DummyClass)actual).Resources;
+            Assert.IsTrue(dictionary.Count > 0);
         }
     }
 }

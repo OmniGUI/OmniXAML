@@ -357,6 +357,21 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
+        ///            xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;DummyClass.Resources&gt;
+        ///    &lt;ChildClass x:Key=&quot;One&quot; /&gt;
+        ///    &lt;ChildClass x:Key=&quot;Two&quot; /&gt;
+        ///  &lt;/DummyClass.Resources&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string KeyDirective {
+            get {
+                return ResourceManager.GetString("KeyDirective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; SampleProperty=&quot;{Parameterized Parameter}&quot;/&gt;.
         /// </summary>
         public static string MarkupExtensionCtorWith1StringArgument {
