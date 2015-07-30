@@ -358,10 +358,8 @@
             {
                 nodeBuilder.NamespacePrefixDeclaration("root", ""),
                 nodeBuilder.StartObject(typeof(ChildClass)),
-                //nodeBuilder.None(),
                 nodeBuilder.StartMember<ChildClass>(d => d.Content),
                 nodeBuilder.StartObject(typeof(Item)),
-                //nodeBuilder.None(),
                 nodeBuilder.EndObject(),
                 nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
@@ -376,6 +374,37 @@
         {
             var pullParser = new XamlNodesPullParser(WiringContext);
             return pullParser.Parse(new SuperProtoParser(WiringContext).Parse(xml)).ToList();
+        }
+
+        [TestMethod]
+        [Ignore]
+        public void KeyDirective()
+        {
+            var expectedNodes = new List<XamlNode>
+            {
+                nodeBuilder.NamespacePrefixDeclaration("root", ""),
+                nodeBuilder.NamespacePrefixDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"),
+                nodeBuilder.StartObject(typeof (DummyClass)),
+                nodeBuilder.StartMember<DummyClass>(d => d.Resources),
+
+                nodeBuilder.StartObject(typeof(ChildClass)),
+                nodeBuilder.StartDirective("x:Key"),
+                nodeBuilder.Value("One"),
+                nodeBuilder.EndMember(),
+                nodeBuilder.EndObject(),
+
+                nodeBuilder.StartObject(typeof(ChildClass)),
+                nodeBuilder.StartDirective("x:Key"),
+                nodeBuilder.Value("Two"),
+                nodeBuilder.EndMember(),
+                nodeBuilder.EndObject(),
+
+                nodeBuilder.EndObject(),
+            };
+
+            var actualNodes = ExtractNodesFromPullParser(Dummy.KeyDirective);
+
+            XamlNodesAssert.AreEssentiallyTheSame(expectedNodes, actualNodes);
         }
     }
 }

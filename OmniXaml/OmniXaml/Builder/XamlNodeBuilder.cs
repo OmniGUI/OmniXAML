@@ -70,5 +70,10 @@
         {
             return new XamlNode(XamlNodeType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
+
+        public XamlNode StartDirective(string directive)
+        {            
+            return new XamlNode(XamlNodeType.StartMember, new XamlDirective(directive));
+        }
     }
 }

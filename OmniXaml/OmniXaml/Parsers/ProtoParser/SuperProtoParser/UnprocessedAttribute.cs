@@ -2,15 +2,22 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
 {
     using Typing;
 
-    internal class UnprocessedAttribute 
+    internal class UnprocessedAttributeBase
     {
         public PropertyLocator Locator { get; }
         public string Value { get; }
 
-        public UnprocessedAttribute(PropertyLocator locator, string value)
+        protected UnprocessedAttributeBase(PropertyLocator locator, string value)
         {
             Locator = locator;
             Value = value;
+        }
+    }
+
+    internal class UnprocessedAttribute : UnprocessedAttributeBase
+    {
+        public UnprocessedAttribute(PropertyLocator locator, string value) : base(locator, value)
+        {
         }
     }
 }

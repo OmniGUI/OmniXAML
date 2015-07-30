@@ -7,11 +7,13 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
     {
         private readonly Collection<NsPrefix> prefixDefinitions;
         private readonly Collection<UnprocessedAttribute> attributes;
+        public Collection<RawDirective> Directives { get; }
 
-        public AttributeFeed(Collection<NsPrefix> prefixDefinitions, Collection<UnprocessedAttribute> attributes)
+        public AttributeFeed(Collection<NsPrefix> prefixDefinitions, Collection<UnprocessedAttribute> attributes, Collection<RawDirective> directives)
         {
             this.prefixDefinitions = prefixDefinitions;
             this.attributes = attributes;
+            this.Directives = directives;
         }
 
         public IEnumerable<UnprocessedAttribute> RawAttributes => new ReadOnlyCollection<UnprocessedAttribute>(attributes);

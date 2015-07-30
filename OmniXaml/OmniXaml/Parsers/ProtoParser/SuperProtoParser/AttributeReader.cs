@@ -18,6 +18,7 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
         {
             var prefixDefinitions = new Collection<NsPrefix>();
             var attributes = new Collection<UnprocessedAttribute>();
+            var directives = new Collection<RawDirective>();
 
             if (reader.MoveToFirstAttribute())
             {
@@ -29,6 +30,10 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
                     {
                         prefixDefinitions.Add(GetPrefixDefinition());
                     }
+                    else if (longDescriptor.Contains("x:Key"))
+                    {
+                        directives.Add(GetDirective());
+                    }
                     else
                     {
                         attributes.Add(GetAttribute());
@@ -39,7 +44,12 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
                 reader.MoveToElement();
             }
 
-            return new AttributeFeed(prefixDefinitions, attributes);
+            return new AttributeFeed(prefixDefinitions, attributes, directives);
+        }
+
+        private RawDirective GetDirective()
+        {
+            return new RawDirective(PropertyLocator.Parse(reader.Name), reader.Value);
         }
 
         private UnprocessedAttribute GetAttribute()
