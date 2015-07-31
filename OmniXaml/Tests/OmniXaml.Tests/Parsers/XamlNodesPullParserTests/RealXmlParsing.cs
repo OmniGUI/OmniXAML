@@ -377,7 +377,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void KeyDirective()
         {
             var expectedNodes = new List<XamlNode>
@@ -391,16 +390,10 @@
                 nodeBuilder.Items(),
 
                 nodeBuilder.StartObject(typeof(ChildClass)),
-                nodeBuilder.StartDirective("x:Key"),
+                nodeBuilder.StartDirective("Key"),
                 nodeBuilder.Value("One"),
                 nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
-
-                //nodeBuilder.StartObject(typeof(ChildClass)),
-                //nodeBuilder.StartDirective("x:Key"),
-                //nodeBuilder.Value("Two"),
-                //nodeBuilder.EndMember(),
-                //nodeBuilder.EndObject(),
 
                 nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
