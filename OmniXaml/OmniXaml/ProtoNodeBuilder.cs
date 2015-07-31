@@ -169,9 +169,9 @@
             return Attribute(xamlMember, value, prefix);
         }
 
-        public ProtoXamlNode Key(string somekey)
+        public ProtoXamlNode Key(string value)
         {
-            return Attribute(CoreTypes.Key, "SomeKey", "x");
+            return Attribute(CoreTypes.Key, value, "x");
         }
     }
 }
