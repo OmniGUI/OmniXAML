@@ -10,6 +10,7 @@
     using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using ProtoParserTests;
+    using Typing;
     using Xaml.Tests.Resources;
 
     [TestClass]
@@ -138,6 +139,27 @@
                 builder.NamespacePrefixDeclaration("", "root"),
                 builder.NonEmptyElement(typeof(DummyClass), string.Empty),
                 builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
+                builder.EndTag(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void KeyDirective()
+        {
+            var actualNodes = sut.Parse(Dummy.KeyDirective).ToList();
+
+            var expectedNodes = new Collection<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration("", "root"),
+                builder.NamespacePrefixDeclaration("x", "http://schemas.microsoft.com/winfx/2006/xaml"),
+                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Resources, string.Empty),
+                builder.EmptyElement(typeof(ChildClass), string.Empty),
+                builder.Key("SomeKey"),
+                builder.Text(),
+                builder.EndTag(),
                 builder.EndTag(),
             };
 

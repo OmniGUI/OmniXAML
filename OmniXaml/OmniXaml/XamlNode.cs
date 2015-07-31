@@ -45,6 +45,7 @@ namespace OmniXaml
                 {
                     return (XamlMemberBase)data;
                 }
+
                 return null;
             }
         }
@@ -59,6 +60,7 @@ namespace OmniXaml
                 {
                     return (NamespaceDeclaration)data;
                 }
+
                 return null;
             }
         }
@@ -74,6 +76,7 @@ namespace OmniXaml
             {
                 return false;
             }
+
             return obj is XamlNode && Equals((XamlNode) obj);
         }
 

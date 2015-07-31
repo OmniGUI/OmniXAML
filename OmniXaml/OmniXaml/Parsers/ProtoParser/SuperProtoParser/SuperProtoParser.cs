@@ -37,10 +37,10 @@
             var attributes = attributeFeed;
 
             foreach (var node in attributes.PrefixRegistrations.Select(ConvertAttributeToNsPrefixDefinition)) yield return node;
-            foreach (var node in attributes.Directives.Select(ConvertDirective)) yield return node;
-
+            
             yield return elementToInject;
 
+            foreach (var node in attributes.Directives.Select(ConvertDirective)) yield return node;
             foreach (var node in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return node;
         }
 
@@ -201,15 +201,7 @@
 
         private ProtoXamlNode ConvertDirective(RawDirective directive)
         {
-            var node = new ProtoXamlNode
-            {
-                NodeType = NodeType.Attribute,
-                PropertyAttributeText = directive.Value,
-                Prefix = "x",
-                Text = directive.Value,
-            };
-
-            return node;
+            return nodeBuilder.Attribute(CoreTypes.Key, directive.Value, "x");
         }
 
         private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)

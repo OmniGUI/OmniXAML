@@ -152,7 +152,7 @@
             return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, Text = text };
         }
 
-        public ProtoXamlNode Attribute(MutableXamlMember member, string value, string prefix)
+        public ProtoXamlNode Attribute(XamlMemberBase member, string value, string prefix)
         {
             return new ProtoXamlNode
             {
@@ -167,6 +167,11 @@
         {
             var xamlMember = typeContext.GetXamlType(typeof(T)).GetMember(selector.GetFullPropertyName());
             return Attribute(xamlMember, value, prefix);
+        }
+
+        public ProtoXamlNode Key(string somekey)
+        {
+            return Attribute(CoreTypes.Key, "SomeKey", "x");
         }
     }
 }

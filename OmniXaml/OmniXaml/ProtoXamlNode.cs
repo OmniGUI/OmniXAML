@@ -8,7 +8,7 @@
         public XamlType XamlType { get; set; }
         public string Namespace { get; set; }
         public NodeType NodeType { get; set; }
-        public MutableXamlMember PropertyAttribute { get; set; }
+        public XamlMemberBase PropertyAttribute { get; set; }
         public string Prefix { get; set; }
         public XamlMember PropertyElement { get; set; }
         public string PropertyAttributeText { get; set; }

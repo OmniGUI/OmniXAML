@@ -387,18 +387,24 @@
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.Resources),
 
+                nodeBuilder.GetObject(),
+                nodeBuilder.Items(),
+
                 nodeBuilder.StartObject(typeof(ChildClass)),
                 nodeBuilder.StartDirective("x:Key"),
                 nodeBuilder.Value("One"),
                 nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
 
-                nodeBuilder.StartObject(typeof(ChildClass)),
-                nodeBuilder.StartDirective("x:Key"),
-                nodeBuilder.Value("Two"),
+                //nodeBuilder.StartObject(typeof(ChildClass)),
+                //nodeBuilder.StartDirective("x:Key"),
+                //nodeBuilder.Value("Two"),
+                //nodeBuilder.EndMember(),
+                //nodeBuilder.EndObject(),
+
                 nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
-
+                nodeBuilder.EndMember(),
                 nodeBuilder.EndObject(),
             };
 

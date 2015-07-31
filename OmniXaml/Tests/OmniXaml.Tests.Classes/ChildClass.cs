@@ -9,5 +9,6 @@ namespace OmniXaml.Tests.Classes
     {
         public ChildClass Child { get; set; }
         public Item Content { get; set; }
+        public string Name { get; set; }
     }
 }
