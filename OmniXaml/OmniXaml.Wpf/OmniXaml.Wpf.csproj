@@ -53,6 +53,7 @@
     <Compile Include="NodeInflater.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
+    <Compile Include="StaticResourceExtension.cs" />
     <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
     <Compile Include="XamlMemberInvokerAdapter.cs" />
+    <Compile Include="XamlSchemaContentProvider.cs" />
     <Compile Include="XamlTypeConversion.cs" />
     <Compile Include="XamlTypeRepository.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />

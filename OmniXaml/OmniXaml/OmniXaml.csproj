@@ -68,6 +68,8 @@
     <Compile Include="DefaultXamlStreamLoader.cs" />
     <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
+    <Compile Include="NewAssembler\AmbientProvider.cs" />
+    <Compile Include="NewAssembler\Commands\ITopDownMemberValueContext.cs" />
     <Compile Include="NewAssembler\ConstructionArgument.cs" />
     <Compile Include="NewAssembler\StateCommuter.cs" />
     <Compile Include="NewAssembler\Command.cs" />

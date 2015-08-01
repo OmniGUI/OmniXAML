@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
@@ -38,6 +39,18 @@
         public static Stream ToStream(this string str)
         {
             return new MemoryStream(Encoding.UTF8.GetBytes(str));
+        }
+
+        public static void AddOrReplace<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if (dictionary.ContainsKey(key))
+            {
+                dictionary[key] = value;
+            }
+            else
+            {
+                dictionary.Add(key, value);
+            }
         }
     }
 }

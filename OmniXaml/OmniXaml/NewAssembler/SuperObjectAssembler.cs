@@ -8,20 +8,25 @@ namespace OmniXaml.NewAssembler
 
     public class SuperObjectAssembler : IObjectAssembler
     {
+        private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private readonly Type rootInstanceType;
         private readonly object rootInstance;
-
-        public SuperObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext)
+        
+        public SuperObjectAssembler(WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
         {
+            Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
+            Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
+
+            this.topDownMemberValueContext = topDownMemberValueContext;
             StateCommuter.RaiseLevel();
             rootInstance = settings?.RootInstance;
             rootInstanceType = settings?.RootInstance?.GetType();            
         }
 
-        public SuperObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext)
+        public SuperObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
         {
             WiringContext = wiringContext;          
-            StateCommuter = new StateCommuter(state, wiringContext);
+            StateCommuter = new StateCommuter(state, wiringContext, topDownMemberValueContext);
         }
 
         public object Result { get; set; }
@@ -52,7 +57,7 @@ namespace OmniXaml.NewAssembler
                     command = new EndObjectCommand(this);
                     break;
                 case XamlNodeType.EndMember:
-                    command = new EndMemberCommand(this);
+                    command = new EndMemberCommand(this, topDownMemberValueContext);
                     break;
                 case XamlNodeType.GetObject:
                     command = new GetObjectCommand(this);

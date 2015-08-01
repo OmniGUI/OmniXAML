@@ -7,10 +7,12 @@ namespace OmniXaml.NewAssembler.Commands
 
     public class EndMemberCommand : Command
     {
+        private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private readonly ITypeContext typeContext;
 
-        public EndMemberCommand(SuperObjectAssembler assembler) : base(assembler)
+        public EndMemberCommand(SuperObjectAssembler assembler, ITopDownMemberValueContext topDownMemberValueContext) : base(assembler)
         {
+            this.topDownMemberValueContext = topDownMemberValueContext;
             typeContext = Assembler.WiringContext.TypeContext;
         }
 
@@ -25,6 +27,19 @@ namespace OmniXaml.NewAssembler.Commands
             {
                 StateCommuter.AssociateCurrentInstanceToParent();
                 StateCommuter.DecreaseLevel();
+            }
+
+            SaveMemberValueToTopDownEnvironment();
+        }
+
+        private void SaveMemberValueToTopDownEnvironment()
+        {
+            var member = StateCommuter.Member as MutableXamlMember;
+
+            if (member != null && StateCommuter.Member.XamlType.IsCollection)
+            {
+                var instance = member.GetValue(StateCommuter.Instance);
+                topDownMemberValueContext.SetMemberValue(StateCommuter.Member.XamlType, instance);
             }
         }
 

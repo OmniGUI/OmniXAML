@@ -27,7 +27,7 @@ namespace OmniXaml.NewAssembler.Commands
                 }
             }
             else
-            {
+            {                
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
                 if (!StateCommuter.WasAssociatedRightAfterCreation)
                 {

@@ -8,7 +8,7 @@
     {
         protected override IObjectAssembler CreateObjectAssembler()
         {
-            return new SuperObjectAssembler(WiringContext);
+            return new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext());
         }
     }
 }

@@ -26,7 +26,7 @@ namespace OmniXaml.Tests
             state.Push(new Level());
 
             var type = typeof(DummyClass);
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.StartObject(type));
 
@@ -56,7 +56,7 @@ namespace OmniXaml.Tests
                     Instance = childClass,
                 });
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.EndObject());
 
@@ -81,7 +81,7 @@ namespace OmniXaml.Tests
 
             var xamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Items");
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.StartMember<DummyClass>(d => d.Items));
 
@@ -103,7 +103,7 @@ namespace OmniXaml.Tests
 
             var xamlMember = WiringContext.GetMember(WiringContext.GetType(type), "Items");
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.StartMember<DummyClass>(d => d.Items));
 
@@ -127,7 +127,7 @@ namespace OmniXaml.Tests
                     XamlMember = xamlMember,                    
                 });
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.GetObject());
 
@@ -151,7 +151,7 @@ namespace OmniXaml.Tests
 
             state.Push(new Level());
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.StartObject<Item>());
             sut.Process(builder.EndObject());
@@ -174,7 +174,7 @@ namespace OmniXaml.Tests
 
             state.Push(new Level {XamlType = WiringContext.GetType(typeof (Item))});
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.EndObject());
             sut.Process(builder.EndObject());
@@ -194,7 +194,7 @@ namespace OmniXaml.Tests
                 });
            
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.MarkupExtensionArguments());
             Assert.IsTrue(state.CurrentValue.IsProcessingValuesAsCtorArguments);
@@ -213,7 +213,7 @@ namespace OmniXaml.Tests
                 });
 
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
             sut.Process(builder.Value("Value"));
             Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
@@ -234,7 +234,7 @@ namespace OmniXaml.Tests
                 });
 
 
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
             sut.Process(builder.EndMember());
 
             Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
@@ -268,7 +268,7 @@ namespace OmniXaml.Tests
                     CtorArguments = constructionArguments,
                 });
             
-            var sut = new SuperObjectAssembler(state, WiringContext);
+            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
             sut.Process(builder.EndObject());
 
             Assert.AreEqual("Value", sut.Result);

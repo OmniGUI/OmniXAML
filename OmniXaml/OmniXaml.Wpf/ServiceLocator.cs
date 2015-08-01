@@ -32,6 +32,11 @@ namespace OmniXaml.Wpf
                 return new RootObjectProvider();
             }
 
+            if (serviceType == typeof (IXamlSchemaContextProvider))
+            {
+                return new XamlSchemaContentProvider(new XamlSchemaContextAdapter());
+            }
+            
             throw new InvalidOperationException($"Cannot locate the type {serviceType}");
         }
 
@@ -47,5 +52,13 @@ namespace OmniXaml.Wpf
                 return dp;
             }
         }      
+    }
+
+    public class XamlSchemaContextAdapter : XamlSchemaContext
+    {
+        public override XamlType GetXamlType(Type type)
+        {
+            return base.GetXamlType(type);
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace OmniXaml.NewAssembler.Commands
         {            
             StateCommuter.RaiseLevel();
             StateCommuter.IsGetObject = true;
-            StateCommuter.Collection = GetCollection();
+            StateCommuter.Collection = GetCollection();            
         }
 
         private ICollection GetCollection()

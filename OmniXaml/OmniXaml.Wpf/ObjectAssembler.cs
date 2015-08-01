@@ -10,7 +10,7 @@
 
         public ObjectAssembler(WiringContext wiringContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
-            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext, objectAssemblerSettings));
+            objectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext, new NewAssembler.TopDownMemberValueContext(), objectAssemblerSettings));
             objectAssembler.AddDeferredLoader<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
         }        
 

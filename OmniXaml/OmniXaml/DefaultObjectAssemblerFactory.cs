@@ -14,7 +14,7 @@ namespace OmniXaml
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
         {
-            return new SuperObjectAssembler(wiringContext, objectAssemblerSettings);
+            return new SuperObjectAssembler(wiringContext, new TopDownMemberValueContext(), objectAssemblerSettings);
         }
     }
 }

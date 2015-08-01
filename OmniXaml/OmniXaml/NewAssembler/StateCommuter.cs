@@ -7,17 +7,24 @@ namespace OmniXaml.NewAssembler
     using System.Linq;
     using System.Reflection;
     using Assembler;
+    using Commands;
     using Glass;
     using Typing;
 
     public class StateCommuter
     {
         private readonly StackingLinkedList<Level> stack;
+        private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private object key;
 
-        public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext)
-        {
+        public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        {            
+            Guard.ThrowIfNull(stack, nameof(stack));
+            Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
+            Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
+
             this.stack = stack;
+            this.topDownMemberValueContext = topDownMemberValueContext;
             ValuePipeline = new ValuePipeline(wiringContext);
         }
 
@@ -128,7 +135,8 @@ namespace OmniXaml.NewAssembler
             {
                 TargetObject = PreviousInstance,
                 TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
-                TypeRepository = ValuePipeline.WiringContext.TypeContext
+                TypeRepository = ValuePipeline.WiringContext.TypeContext,
+                TopDownMemberValueContext = topDownMemberValueContext,
             };
 
             return inflationContext;
@@ -169,7 +177,7 @@ namespace OmniXaml.NewAssembler
         public void AssociateCurrentInstanceToParent()
         {
             if (HasParentToAssociate && InstanceCanBeAssociated)
-            {
+            {                
                 if (IsParentOneToMany)
                 {
                     AssignInstanceToHost();
