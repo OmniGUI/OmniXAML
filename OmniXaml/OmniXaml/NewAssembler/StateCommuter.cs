@@ -1,6 +1,3 @@
-using System.Globalization;
-using OmniXaml.TypeConversion;
-
 namespace OmniXaml.NewAssembler
 {
     using System;
@@ -16,23 +13,12 @@ namespace OmniXaml.NewAssembler
     public class StateCommuter
     {
         private readonly StackingLinkedList<Level> stack;
-        private readonly ValuePipeline valuePipeline;
-        private bool isReadingKey;
+        private object key;
 
         public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext)
         {
             this.stack = stack;
-            valuePipeline = new ValuePipeline(wiringContext);
-        }
-
-        public void AssignChildToParentProperty()
-        {
-            var previousMember = (MutableXamlMember) PreviousMember;
-
-            var underlyingType = previousMember.XamlType.UnderlyingType;
-            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, underlyingType);
-
-            previousMember.SetValue(PreviousInstance, compatibleValue);
+            ValuePipeline = new ValuePipeline(wiringContext);
         }
 
         public bool HasCurrentInstance => CurrentValue.Instance != null;
@@ -50,7 +36,6 @@ namespace OmniXaml.NewAssembler
         }
 
         private Level CurrentValue => stack.CurrentValue;
-
         private Level PreviousValue => stack.PreviousValue;
 
         public XamlMemberBase Member
@@ -60,6 +45,45 @@ namespace OmniXaml.NewAssembler
         }
 
         public int Level => stack.Count;
+
+        public bool IsGetObject
+        {
+            get { return CurrentValue.IsGetObject; }
+            set { CurrentValue.IsGetObject = value; }
+        }
+
+        public ICollection Collection
+        {
+            get { return CurrentValue.Collection; }
+            set { CurrentValue.Collection = value; }
+        }
+
+        public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
+        public object PreviousInstance => PreviousValue.Instance;
+        private bool IsParentOneToMany => PreviousValue.Collection != null;
+        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
+        public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
+        private bool IsParentDictionary => PreviousValue.Collection is IDictionary;
+        private bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
+        private bool HasParentToAssociate => Level > 1;
+        public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
+        public ValuePipeline ValuePipeline { get; }
+        public bool IsWaitingValueAsKey { get; set; }
+
+        public void SetKey(object value)
+        {
+            key = value;
+        }
+
+        public void AssignChildToParentProperty()
+        {
+            var previousMember = (MutableXamlMember) PreviousMember;
+
+            var underlyingType = previousMember.XamlType.UnderlyingType;
+            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, underlyingType);
+
+            previousMember.SetValue(PreviousInstance, compatibleValue);
+        }
 
         public void RaiseLevel()
         {
@@ -88,7 +112,7 @@ namespace OmniXaml.NewAssembler
             }
             var parameters = GatherConstructionArguments();
             var instance = xamlType.CreateInstance(parameters);
-           
+
             CurrentValue.Instance = instance;
         }
 
@@ -104,7 +128,7 @@ namespace OmniXaml.NewAssembler
             {
                 TargetObject = PreviousInstance,
                 TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
-                TypeRepository = ValuePipeline.WiringContext.TypeContext,
+                TypeRepository = ValuePipeline.WiringContext.TypeContext
             };
 
             return inflationContext;
@@ -121,26 +145,7 @@ namespace OmniXaml.NewAssembler
             return arguments.Any() ? arguments : null;
         }
 
-        public bool IsGetObject
-        {
-            get { return CurrentValue.IsGetObject; }
-            set { CurrentValue.IsGetObject = value; }
-        }
-
-        public ICollection Collection
-        {
-            get { return CurrentValue.Collection; }
-            set { CurrentValue.Collection = value; }
-        }
-
-        public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
-        public object PreviousInstance => PreviousValue.Instance;
-        public bool PreviousIsHostingChildren => PreviousValue.Collection != null;
-
-        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
-        public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
-
-        public void AssignChildToCurrentCollection()
+        private void AssignChildToCurrentCollection()
         {
             TypeOperations.Add(PreviousValue.Collection, Instance);
         }
@@ -156,11 +161,6 @@ namespace OmniXaml.NewAssembler
             CurrentValue.IsProcessingValuesAsCtorArguments = true;
         }
 
-        public void StopProcessingValuesAsCtorArguments()
-        {
-            CurrentValue.IsProcessingValuesAsCtorArguments = false;
-        }
-
         public void ResetCtorArguments()
         {
             CurrentValue.CtorArguments = null;
@@ -170,9 +170,9 @@ namespace OmniXaml.NewAssembler
         {
             if (HasParentToAssociate && InstanceCanBeAssociated)
             {
-                if (PreviousIsHostingChildren)
+                if (IsParentOneToMany)
                 {
-                    AssignInstanceToHost();                    
+                    AssignInstanceToHost();
                 }
                 else
                 {
@@ -183,7 +183,7 @@ namespace OmniXaml.NewAssembler
 
         private void AssignInstanceToHost()
         {
-            if (HostingIsDictionary)
+            if (IsParentDictionary)
             {
                 AssignChildToDictionary();
             }
@@ -195,20 +195,14 @@ namespace OmniXaml.NewAssembler
 
         private void AssignChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary) PreviousValue.Collection, Key, Instance);
-            Key = null;
+            TypeOperations.AddToDictionary((IDictionary) PreviousValue.Collection, key, Instance);
+            ClearKey();
         }
 
-        public bool HostingIsDictionary => PreviousValue.Collection is IDictionary;
-
-        public bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
-
-        private bool HasParentToAssociate => Level > 1;
-        public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
-
-        public ValuePipeline ValuePipeline => valuePipeline;
-        public bool IsWaitingValueAsKey { get; set; }
-        public object Key { get; set; }
+        private void ClearKey()
+        {   
+            SetKey(null);
+        }
 
         public void AssociateCurrentInstanceToParentForCreation()
         {

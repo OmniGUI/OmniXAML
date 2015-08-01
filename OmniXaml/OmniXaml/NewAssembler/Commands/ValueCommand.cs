@@ -15,7 +15,7 @@ namespace OmniXaml.NewAssembler.Commands
         {
             if (StateCommuter.IsWaitingValueAsKey)
             {
-                StateCommuter.Key = value;
+                StateCommuter.SetKey(value);
                 StateCommuter.IsWaitingValueAsKey = false;
             }
             else if (!StateCommuter.IsProcessingValuesAsCtorArguments)
