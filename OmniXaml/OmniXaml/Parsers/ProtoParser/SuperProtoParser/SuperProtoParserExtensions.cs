@@ -1,8 +1,6 @@
 namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
 {
     using System.Collections.Generic;
-    using System.IO;
-    using System.Text;
     using Glass;
 
     internal static class SuperProtoParserExtensions

@@ -1,6 +1,5 @@
 ﻿namespace OmniXaml.Wpf
 {
-    using AppServices;
     using Parsers.ProtoParser.SuperProtoParser;
     using Parsers.XamlNodes;
 

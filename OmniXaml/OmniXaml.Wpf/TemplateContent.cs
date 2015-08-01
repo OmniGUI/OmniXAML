@@ -1,7 +1,6 @@
 namespace OmniXaml.Wpf
 {
     using System.Collections.Generic;
-    using System.Windows;
 
     public class TemplateContent
     {
@@ -10,19 +9,8 @@ namespace OmniXaml.Wpf
 
         public TemplateContent(IEnumerable<XamlNode> nodes, WiringContext context)
         {
-            this.Nodes = nodes;
-            this.Context = context;
-        }
-
-        public FrameworkElement Load()
-        {
-            var loader = new ObjectAssembler(Context);
-            foreach (var xamlNode in Nodes)
-            {
-                loader.Process(xamlNode);
-            }
-
-            return (FrameworkElement) loader.Result;
+            Nodes = nodes;
+            Context = context;
         }
     }
 }
