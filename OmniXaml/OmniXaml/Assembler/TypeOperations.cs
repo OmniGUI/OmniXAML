@@ -3,6 +3,7 @@ namespace OmniXaml.Assembler
     using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
+    using NewAssembler;
     using Typing;
 
     public class TypeOperations
@@ -33,6 +34,11 @@ namespace OmniXaml.Assembler
         public object Create(XamlType xamlType, object[] parameters = null)
         {
             return typeFactory.Create(xamlType.UnderlyingType, parameters);            
+        }
+
+        public static void AddToDictionary(IDictionary collection, object key, object value)
+        {
+            collection.Add(key, value);
         }
     }
 }

@@ -4,7 +4,7 @@ namespace OmniXaml.Tests
     using NewAssembler;
 
     [TestClass]
-    public class NewObjectAssemblerTests : ObjectAssemblerTests
+    public class SuperObjectAssemblerTests : ObjectAssemblerTests
     {
         protected override IObjectAssembler CreateObjectAssembler()
         {

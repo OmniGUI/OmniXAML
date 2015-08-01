@@ -62,7 +62,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
-    <Compile Include="NewObjectAssemblerTests.cs" />
+    <Compile Include="SuperObjectAssemblerTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />

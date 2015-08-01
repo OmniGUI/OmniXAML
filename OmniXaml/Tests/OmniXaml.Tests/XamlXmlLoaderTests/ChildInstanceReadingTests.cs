@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -39,7 +38,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void KeyDirective()
         {
             var actual = XamlStreamLoader.Load(Dummy.KeyDirective);

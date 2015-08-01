@@ -1,5 +1,7 @@
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System.Runtime.InteropServices.ComTypes;
+
     public class ValueCommand : Command
     {
         private readonly string value;
@@ -11,13 +13,19 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (!StateCommuter.IsProcessingValuesAsCtorArguments)
+            if (StateCommuter.IsWaitingValueAsKey)
+            {
+                StateCommuter.Key = value;
+                StateCommuter.IsWaitingValueAsKey = false;
+            }
+            else if (!StateCommuter.IsProcessingValuesAsCtorArguments)
             {
                 StateCommuter.RaiseLevel();
                 StateCommuter.Instance = value;
                 StateCommuter.AssignChildToParentProperty();
                 StateCommuter.DecreaseLevel();
             }
+
             else
             {
                 StateCommuter.AddCtorArgument(value);

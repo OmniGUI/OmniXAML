@@ -21,6 +21,10 @@ namespace OmniXaml.NewAssembler.Commands
                 {
                     StateCommuter.BeginProcessingValuesAsCtorArguments();
                 }
+                else if (IsKey)
+                {
+                    StateCommuter.IsWaitingValueAsKey = true;
+                }
             }
             else
             {
@@ -31,6 +35,8 @@ namespace OmniXaml.NewAssembler.Commands
                 }
             }
         }
+
+        private bool IsKey => member.Equals(CoreTypes.Key);
 
         private bool IsMarkupExtensionArguments => member.Equals(CoreTypes.MarkupExtensionArguments);
     }

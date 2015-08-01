@@ -1,5 +1,7 @@
 ﻿namespace OmniXaml.Tests
 {
+    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using Builder;
@@ -295,6 +297,33 @@
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(123, property);
+        }
+
+        [TestMethod]
+        public void KeyDirective()
+        {
+
+            sut.PumpNodes(new Collection<XamlNode>
+                {
+                    builder.StartObject<DummyClass>(),
+                    builder.StartMember<DummyClass>(d => d.Resources),
+                    builder.GetObject(),
+                    builder.Items(),
+                    builder.StartObject<ChildClass>(),
+                    builder.StartDirective("Key"),
+                    builder.Value("SomeKey"),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var actual = sut.Result;
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            var dictionary = (IDictionary)((DummyClass)actual).Resources;
+            Assert.IsTrue(dictionary.Count > 0);
         }
     }
 }

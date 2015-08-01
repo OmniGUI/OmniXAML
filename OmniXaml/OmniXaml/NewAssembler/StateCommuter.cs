@@ -17,6 +17,7 @@ namespace OmniXaml.NewAssembler
     {
         private readonly StackingLinkedList<Level> stack;
         private readonly ValuePipeline valuePipeline;
+        private bool isReadingKey;
 
         public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext)
         {
@@ -171,7 +172,7 @@ namespace OmniXaml.NewAssembler
             {
                 if (PreviousIsHostingChildren)
                 {
-                    AssignChildToCurrentCollection();
+                    AssignInstanceToHost();                    
                 }
                 else
                 {
@@ -180,12 +181,34 @@ namespace OmniXaml.NewAssembler
             }
         }
 
+        private void AssignInstanceToHost()
+        {
+            if (HostingIsDictionary)
+            {
+                AssignChildToDictionary();
+            }
+            else
+            {
+                AssignChildToCurrentCollection();
+            }
+        }
+
+        private void AssignChildToDictionary()
+        {
+            TypeOperations.AddToDictionary((IDictionary) PreviousValue.Collection, Key, Instance);
+            Key = null;
+        }
+
+        public bool HostingIsDictionary => PreviousValue.Collection is IDictionary;
+
         public bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
 
         private bool HasParentToAssociate => Level > 1;
         public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
 
         public ValuePipeline ValuePipeline => valuePipeline;
+        public bool IsWaitingValueAsKey { get; set; }
+        public object Key { get; set; }
 
         public void AssociateCurrentInstanceToParentForCreation()
         {
