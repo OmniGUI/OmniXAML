@@ -53,7 +53,7 @@ namespace XamlViewer.ViewModels
                 case NodeType.Member:
                     return GetMemberName(visualizationNode);
 
-               case NodeType.Object:
+                case NodeType.Object:
                     return visualizationNode.XamlNode.XamlType.Name;
 
                 case NodeType.GetObject:
@@ -74,14 +74,21 @@ namespace XamlViewer.ViewModels
 
         private static string GetMemberName(VisualizationNode visualizationNode)
         {
-            var xamlMember = (MutableXamlMember) visualizationNode.XamlNode.Member;
+            var mutableXamlMember = visualizationNode.XamlNode.Member as MutableXamlMember;
 
-            if (!xamlMember.IsAttachable)
+            if (mutableXamlMember != null)
             {
-                return xamlMember.Name;
+                if (!mutableXamlMember.IsAttachable)
+                {
+                    return mutableXamlMember.Name;
+                }
+
+                return mutableXamlMember.DeclaringType.Name + "." + mutableXamlMember.Name;
             }
 
-            return xamlMember.DeclaringType.Name + "." + xamlMember.Name;
+            var member = visualizationNode.XamlNode.Member;
+
+            return member.IsDirective ? "[(" + member.Name + ") Directive]": member.Name;
         }
 
         public IEnumerable<VisualizerNodeViewModel> Children => children;
