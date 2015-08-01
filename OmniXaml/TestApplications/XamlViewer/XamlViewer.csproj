@@ -196,6 +196,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Glass\Glass.csproj">
+      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
       <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
       <Name>Xaml.Tests.Resources</Name>

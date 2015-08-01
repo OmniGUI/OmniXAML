@@ -2,6 +2,7 @@ namespace OmniXaml.Tests.Wpf
 {
     using System.IO;
     using System.Text;
+    using Glass;
     using OmniXaml.Wpf;
 
     public class GivenAXamlXmlLoader
@@ -15,7 +16,7 @@ namespace OmniXaml.Tests.Wpf
         
         protected object LoadXaml(string xamlContent)
         {
-            using (var stream = new MemoryStream(Encoding.UTF8.GetBytes(xamlContent)))
+            using (var stream = xamlContent.ToStream())
             {
                 return XamlStreamLoader.Load(stream);
             }

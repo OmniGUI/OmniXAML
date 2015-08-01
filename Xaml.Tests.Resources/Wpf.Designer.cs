@@ -62,8 +62,10 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;{Binding Path=SampleString}&quot;&gt;
-        ///  &lt;Button Content=&quot;{Binding Path=SampleString}&quot; /&gt;
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+        ///  &lt;StackPanel&gt;      
+        ///    &lt;TextBlock Text=&quot;{Binding Path=SampleString}&quot; /&gt;
+        ///  &lt;/StackPanel&gt;
         ///&lt;/Window&gt;.
         /// </summary>
         public static string Bindings {
@@ -103,6 +105,20 @@ namespace Xaml.Tests.Resources {
         public static string DataTemplateNoBinding {
             get {
                 return ResourceManager.GetString("DataTemplateNoBinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;Window.Resources&gt;
+        ///    &lt;Style x:Key=&quot;MyStyle&quot;/&gt;
+        ///  &lt;/Window.Resources&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string KeyDirective {
+            get {
+                return ResourceManager.GetString("KeyDirective", resourceCulture);
             }
         }
         

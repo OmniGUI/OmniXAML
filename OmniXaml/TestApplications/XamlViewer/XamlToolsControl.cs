@@ -1,11 +1,15 @@
 ﻿namespace XamlViewer
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Windows;
     using System.Windows.Input;
+    using Glass;
     using OmniXaml;
     using OmniXaml.Parsers.ProtoParser;
+    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using OmniXaml.Visualization;
     using ViewModels;
@@ -20,8 +24,8 @@
         {
             InitializeComponent();
 
-            VisualizeTagsCommand = new RelayCommand(Execute.Safely(_ => OpenTagVisualizer(NodeVisualizer.ToTags(ConvertToNodes(Xaml)))));
-            VisualizeTreeCommand = new RelayCommand(Execute.Safely(_ => OpenTreeVisualizer(NodeVisualizer.ToTree(ConvertToNodes(Xaml)))));
+            VisualizeTagsCommand = new RelayCommand(Execute.Safely(_ => OpenTagVisualizer(NodeVisualizer.ToTags(ConvertToNodes(Xaml.ToStream())))));
+            VisualizeTreeCommand = new RelayCommand(Execute.Safely(_ => OpenTreeVisualizer(NodeVisualizer.ToTree(ConvertToNodes(Xaml.ToStream())))));
         }
 
         #region Xaml        
@@ -80,11 +84,11 @@
             visualizerWindow.Show();
         }
 
-        private IEnumerable<XamlNode> ConvertToNodes(string xaml)
+        private IEnumerable<XamlNode> ConvertToNodes(Stream xaml)
         {
             var wiringContext = WiringContext;
             var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoParser = new ProtoParser(wiringContext.TypeContext);
+            var protoParser = new SuperProtoParser(wiringContext);
             return pullParser.Parse(protoParser.Parse(xaml)).ToList();
         }
     }

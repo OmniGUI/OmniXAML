@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.IO;
     using System.Text;
 
     public static class Extensions
@@ -32,6 +33,11 @@
             var rightPart = str.Substring(indexOfChar, str.Length - indexOfChar);
 
             return new Tuple<string, string>(leftPart, rightPart);
+        }
+
+        public static Stream ToStream(this string str)
+        {
+            return new MemoryStream(Encoding.UTF8.GetBytes(str));
         }
     }
 }

@@ -60,6 +60,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Glass\Glass.csproj">
+      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
       <Project>{9B517520-4D99-4BF5-8219-A643F718F6DD}</Project>
       <Name>Xaml.Tests.Resources</Name>

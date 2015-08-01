@@ -118,7 +118,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
             var nodeTypes = Enum.GetNames(typeof(XamlNodeType));
 
-            using (var reader = new StreamReader(new MemoryStream(Encoding.UTF8.GetBytes(str))))
+            using (var reader = new StreamReader(str.ToStream()))
             {
                 var builder = new StringBuilder();
 
