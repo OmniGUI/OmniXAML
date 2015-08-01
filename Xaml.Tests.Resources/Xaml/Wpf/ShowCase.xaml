@@ -24,7 +24,7 @@
       <MenuItem Header="Edit">
         <MenuItem Header="Cut" />
         <MenuItem Header="Copy" />
-        <MenuItem Header="Past" />
+        <MenuItem Header="Paste" />
       </MenuItem>
     </Menu>
     <TabControl Grid.Row="1">

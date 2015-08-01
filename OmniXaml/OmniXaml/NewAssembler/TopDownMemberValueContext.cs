@@ -7,7 +7,7 @@ namespace OmniXaml.NewAssembler
 
     public class TopDownMemberValueContext : ITopDownMemberValueContext
     {
-        public IDictionary<XamlType, object> Context { get; } = new Dictionary<XamlType, object>();
+        private IDictionary<XamlType, object> Context { get; } = new Dictionary<XamlType, object>();
         public void SetMemberValue(XamlType member, object instance)
         {
             Context.AddOrReplace(member, instance);
