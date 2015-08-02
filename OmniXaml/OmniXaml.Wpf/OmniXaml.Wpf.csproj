@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="BindingExtension.cs" />
     <Compile Include="DependencyObjectHelper.cs" />
+    <Compile Include="DynamicResourceExtension.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="NodeInflater.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />

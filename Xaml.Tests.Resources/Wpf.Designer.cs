@@ -112,8 +112,24 @@ namespace Xaml.Tests.Resources {
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;Window.Resources&gt;
-        ///    &lt;Style x:Key=&quot;MyStyle&quot;/&gt;
+        ///    &lt;Button x:Key=&quot;MyButton&quot; Content=&quot;Hohoho&quot; /&gt;
         ///  &lt;/Window.Resources&gt;
+        ///  &lt;ContentControl Content=&quot;{DynamicResource MyButton}&quot; /&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string DynamicResource {
+            get {
+                return ResourceManager.GetString("DynamicResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;Window.Resources&gt;
+        ///    &lt;Button x:Key=&quot;MyButton&quot; Content=&quot;Hohoho&quot; /&gt;
+        ///  &lt;/Window.Resources&gt;
+        ///  &lt;ContentControl Content=&quot;{StaticResource MyButton}&quot; /&gt;
         ///&lt;/Window&gt;.
         /// </summary>
         public static string KeyDirective {
