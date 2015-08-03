@@ -17,17 +17,17 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (StateCommuter.IsWaitingValueAsInitializationParameter)
+            if (StateCommuter.ValueProcessingMode == ValueProcessingMode.InitializationValue)
             {
                 var underlyingType = StateCommuter.XamlType.UnderlyingType;
                 StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, underlyingType);
             }
-            else if (StateCommuter.IsWaitingValueAsKey)
+            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.Key)
             {
                 StateCommuter.SetKey(value);
-                StateCommuter.IsWaitingValueAsKey = false;
+                StateCommuter.ValueProcessingMode = false ?  ValueProcessingMode.Key : ValueProcessingMode.AssignToMember;
             }
-            else if (StateCommuter.IsProcessingValuesAsCtorArguments)
+            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.ConstructionParameter)
             {
                 StateCommuter.AddCtorArgument(value);                
             }

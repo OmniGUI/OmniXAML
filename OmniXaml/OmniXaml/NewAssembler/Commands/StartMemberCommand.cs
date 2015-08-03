@@ -1,5 +1,6 @@
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System.Collections.ObjectModel;
     using Typing;
 
     public class StartMemberCommand : Command
@@ -21,11 +22,16 @@ namespace OmniXaml.NewAssembler.Commands
             }
             else
             {
-                StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-                if (!StateCommuter.WasAssociatedRightAfterCreation)
-                {
-                    StateCommuter.AssociateCurrentInstanceToParentForCreation();
-                }
+                CreateInstanceOfCurrentTypeAndAssociateIfPossible();
+            }
+        }
+
+        private void CreateInstanceOfCurrentTypeAndAssociateIfPossible()
+        {
+            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
+            if (!StateCommuter.WasAssociatedRightAfterCreation)
+            {
+                StateCommuter.AssociateCurrentInstanceToParentForCreation();
             }
         }
 
@@ -33,19 +39,20 @@ namespace OmniXaml.NewAssembler.Commands
         {
             if (IsMarkupExtensionArguments)
             {
-                StateCommuter.BeginProcessingValuesAsCtorArguments();
+                StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
             }
             else if (IsKey)
             {
-                StateCommuter.IsWaitingValueAsKey = true;
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.Key;
             }
             else if (IsInitialization)
             {
-                StateCommuter.IsWaitingValueAsInitializationParameter = true;
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
             }
         }
 
-        public bool IsInitialization => member.Equals(CoreTypes.Initialization);
+        private bool IsInitialization => member.Equals(CoreTypes.Initialization);
 
         private bool IsKey => member.Equals(CoreTypes.Key);
 

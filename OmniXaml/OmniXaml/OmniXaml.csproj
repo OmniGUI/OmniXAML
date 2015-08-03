@@ -83,6 +83,7 @@
     <Compile Include="NewAssembler\SuperObjectAssembler.cs" />
     <Compile Include="NewAssembler\Commands\ValueCommand.cs" />
     <Compile Include="NewAssembler\ValuePipeline.cs" />
+    <Compile Include="NewAssembler\ValueProcessingMode.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\IXmlReader.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\RawDirective.cs" />
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\SuperProtoParserExtensions.cs" />
