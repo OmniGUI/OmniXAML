@@ -33,7 +33,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -48,7 +48,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -67,7 +67,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -83,7 +83,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -114,7 +114,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@
                 builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@
             };
 
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -332,7 +332,7 @@
                                          builder.None()
             };
 
-            ProtoXamlNodeAssert.AreEqualWithLooseXamlTypeComparison(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
     }
 }
