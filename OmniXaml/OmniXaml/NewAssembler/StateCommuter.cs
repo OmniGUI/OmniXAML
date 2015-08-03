@@ -68,14 +68,15 @@ namespace OmniXaml.NewAssembler
         public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
         public object PreviousInstance => PreviousValue.Instance;
         private bool IsParentOneToMany => PreviousValue.Collection != null;
-        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
         public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
         private bool IsParentDictionary => PreviousValue.Collection is IDictionary;
         private bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
         private bool HasParentToAssociate => Level > 1;
         public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
         public ValuePipeline ValuePipeline { get; }
+        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
         public bool IsWaitingValueAsKey { get; set; }
+        public bool IsWaitingValueAsInitializationParameter { get; set; }
 
         public void SetKey(object value)
         {

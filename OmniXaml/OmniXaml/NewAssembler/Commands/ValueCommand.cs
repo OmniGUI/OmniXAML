@@ -13,22 +13,25 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (StateCommuter.IsWaitingValueAsKey)
+            if (StateCommuter.IsWaitingValueAsInitializationParameter)
+            {
+                StateCommuter.Instance = value;
+            }
+            else if (StateCommuter.IsWaitingValueAsKey)
             {
                 StateCommuter.SetKey(value);
                 StateCommuter.IsWaitingValueAsKey = false;
             }
-            else if (!StateCommuter.IsProcessingValuesAsCtorArguments)
+            else if (StateCommuter.IsProcessingValuesAsCtorArguments)
+            {
+                StateCommuter.AddCtorArgument(value);                
+            }
+            else
             {
                 StateCommuter.RaiseLevel();
                 StateCommuter.Instance = value;
                 StateCommuter.AssignChildToParentProperty();
                 StateCommuter.DecreaseLevel();
-            }
-
-            else
-            {
-                StateCommuter.AddCtorArgument(value);
             }
         }
     }

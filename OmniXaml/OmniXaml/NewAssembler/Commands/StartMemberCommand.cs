@@ -17,17 +17,10 @@ namespace OmniXaml.NewAssembler.Commands
 
             if (member.IsDirective)
             {
-                if (IsMarkupExtensionArguments)
-                {
-                    StateCommuter.BeginProcessingValuesAsCtorArguments();
-                }
-                else if (IsKey)
-                {
-                    StateCommuter.IsWaitingValueAsKey = true;
-                }
+                SetCommuterStateAccordingToDirective();
             }
             else
-            {                
+            {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
                 if (!StateCommuter.WasAssociatedRightAfterCreation)
                 {
@@ -35,6 +28,24 @@ namespace OmniXaml.NewAssembler.Commands
                 }
             }
         }
+
+        private void SetCommuterStateAccordingToDirective()
+        {
+            if (IsMarkupExtensionArguments)
+            {
+                StateCommuter.BeginProcessingValuesAsCtorArguments();
+            }
+            else if (IsKey)
+            {
+                StateCommuter.IsWaitingValueAsKey = true;
+            }
+            else if (IsInitialization)
+            {
+                StateCommuter.IsWaitingValueAsInitializationParameter = true;
+            }
+        }
+
+        public bool IsInitialization => member.Equals(CoreTypes.Initialization);
 
         private bool IsKey => member.Equals(CoreTypes.Key);
 

@@ -326,7 +326,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
