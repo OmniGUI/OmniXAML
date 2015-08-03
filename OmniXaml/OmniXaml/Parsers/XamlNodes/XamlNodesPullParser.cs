@@ -91,9 +91,9 @@
             yield return Inject.StartOfObject(nodeStream.Current.XamlType);
             var parentType = nodeStream.Current.XamlType;
 
-            if (HasToBeInstantiatedUsingValue(parentType))
+            if (parentType.NeedsConstructionParameters)
             {
-                foreach (var node in InjectNodesForNonConstructiveType()) yield return node;
+                foreach (var node in InjectNodesForTypeThatRequiresInitialization()) yield return node;
             }
             else
             {
@@ -111,17 +111,12 @@
             ReadEndTag();
         }
 
-        private IEnumerable<XamlNode> InjectNodesForNonConstructiveType()
+        private IEnumerable<XamlNode> InjectNodesForTypeThatRequiresInitialization()
         {
             yield return Inject.Initialization();
             SetNextNode();
             yield return Inject.Value(CurrentText);
             yield return Inject.EndOfMember();
-        }
-
-        private bool HasToBeInstantiatedUsingValue(XamlType xamlType)
-        {
-            return xamlType.Equals(CoreTypes.String) || xamlType.Equals(CoreTypes.Int32);
         }
 
         private void ReadEndTag()

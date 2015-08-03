@@ -2,6 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Collections;
+    using System.Linq;
     using System.Reflection;
     using Glass;
 
@@ -133,5 +134,7 @@ namespace OmniXaml.Typing
 
             return new XamlType(type, new FrameworkBuiltInTypeRepository(), null);
         }
+
+        public bool NeedsConstructionParameters => UnderlyingType.GetTypeInfo().DeclaredConstructors.All(info => info.GetParameters().Any());
     }
 }
