@@ -29,8 +29,8 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", ""),
+                p.EmptyElement(typeof (DummyClass), rootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -55,8 +55,8 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", ""),
+                p.EmptyElement(typeof (DummyClass), rootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", rootNs),
             };
 
             var expectedNodes = new List<XamlNode>

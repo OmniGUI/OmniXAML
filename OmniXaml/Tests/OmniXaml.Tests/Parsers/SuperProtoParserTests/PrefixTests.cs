@@ -31,8 +31,8 @@
             var actualNodes = sut.Parse("<x:Foreigner xmlns:x=\"another\"/>").ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("x", "another"),
-                builder.EmptyElement(typeof (Foreigner), "x"),
+                builder.NamespacePrefixDeclaration(anotherNs),
+                builder.EmptyElement(typeof (Foreigner), anotherNs),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -49,8 +49,8 @@
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
-                builder.AttachableProperty<Foreigner>("Property", "Value", "x"),
+                builder.NonEmptyElement(typeof (DummyClass), rootNs),
+                builder.AttachableProperty<Foreigner>("Property", "Value", anotherNs),
                 builder.EndTag(),
             };
 
@@ -60,14 +60,14 @@
         [TestMethod]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
-            var actualNodes = sut.Parse(@"<custom:DummyClass xmlns:custom=""root""></custom:DummyClass>").ToList();
+            var actualNodes = sut.Parse(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
 
             var ns = "root";
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("custom", ns),
-                builder.NonEmptyElement(typeof (DummyClass), "custom"),
+                builder.NamespacePrefixDeclaration(anotherNs),
+                builder.NonEmptyElement(typeof (DummyClass), anotherNs),
                 builder.EndTag(),
             };
 

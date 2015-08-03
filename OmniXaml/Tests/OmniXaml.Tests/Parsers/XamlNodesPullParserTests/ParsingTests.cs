@@ -31,7 +31,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration("", "root"),
+                p.NamespacePrefixDeclaration(rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -50,7 +50,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.EmptyElement(typeof(DummyClass), ""),
+                p.EmptyElement(typeof(DummyClass), rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -69,7 +69,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof(DummyClass),  string.Empty),
+                p.NonEmptyElement(typeof(DummyClass), rootNs),
                 p.EndTag(),
             };
 
@@ -90,13 +90,13 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
+                p.EmptyElement(typeof (DummyClass), rootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", string.Empty),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<DummyClass>(),
                 x.StartMember<DummyClass>(c => c.SampleProperty),
                 x.Value("Property!"),
@@ -115,14 +115,14 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), ""),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
-                p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", ""),
+                p.EmptyElement(typeof (DummyClass), rootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", rootNs),
+                p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", string.Empty),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<DummyClass>(),
                 x.StartMember<DummyClass>(c => c.SampleProperty),
                 x.Value("Property!"),
@@ -144,7 +144,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof(DummyClass), ""),
+                p.EmptyElement(typeof(DummyClass), rootNs),
                 p.None()
             };
 
@@ -163,20 +163,17 @@
         [TestMethod]
         public void ElementWith2NsDeclarations()
         {
-            const string oneNamespace = "root";
-            const string anotherNamespace = "another";
-
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration("", oneNamespace),
-                p.NamespacePrefixDeclaration("a", anotherNamespace),
-                p.EmptyElement(typeof(DummyClass), ""),
+                p.NamespacePrefixDeclaration(rootNs),
+                p.NamespacePrefixDeclaration(anotherNs),
+                p.EmptyElement(typeof(DummyClass), rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(oneNamespace, ""),
-                x.NamespacePrefixDeclaration(anotherNamespace, "a"),
+                x.NamespacePrefixDeclaration(rootNs),
+                x.NamespacePrefixDeclaration(anotherNs),
                 x.StartObject<DummyClass>(),
                 x.EndObject(),
             };
@@ -191,9 +188,9 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
-                        p.EmptyElement(typeof (ChildClass), ""),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                        p.EmptyElement(typeof (ChildClass), rootNs),
                         p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -220,13 +217,13 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
-                    p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", ""),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
-                        p.NonEmptyElement(typeof (ChildClass),  string.Empty),
-                            p.NonEmptyPropertyElement<ChildClass>(d => d.Content, ""),
-                                p.EmptyElement(typeof (Item), ""),
-                                    p.Attribute<Item>(@class => @class.Text, "Value!", ""),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
+                    p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                        p.NonEmptyElement(typeof (ChildClass), rootNs),
+                            p.NonEmptyPropertyElement<ChildClass>(d => d.Content, rootNs),
+                                p.EmptyElement(typeof (Item), rootNs),
+                                    p.Attribute<Item>(@class => @class.Text, "Value!", rootNs),
                                 p.Text(),
                             p.EndTag(),
                         p.EndTag(),
@@ -237,7 +234,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", string.Empty),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<DummyClass>(),
                     x.StartMember<DummyClass>(c => c.SampleProperty),
                         x.Value("Sample"),
@@ -264,17 +261,17 @@
         [TestMethod]
         public void ChildCollection()
         {
-            
+
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (DummyClass),  string.Empty),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
-                        p.EmptyElement<Item>(""),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Items, rootNs),
+                        p.EmptyElement<Item>(rootNs),
                             p.Text(),
-                        p.EmptyElement<Item>(""),
+                        p.EmptyElement<Item>(rootNs),
                             p.Text(),
-                        p.EmptyElement<Item>(""),
+                        p.EmptyElement<Item>(rootNs),
                             p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -307,12 +304,12 @@
         [TestMethod]
         public void NestedChildWithContentProperty()
         {
-            
+
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (ChildClass),  string.Empty),
-                    p.EmptyElement(typeof (Item), ""),
+                p.NonEmptyElement(typeof (ChildClass), rootNs),
+                    p.EmptyElement(typeof (Item), rootNs),
                     p.Text(),
                 p.EndTag(),
             };
@@ -339,12 +336,12 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (DummyClass), string.Empty),
-                    p.EmptyElement<Item>(""),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
+                    p.EmptyElement<Item>(rootNs),
                         p.Text(),
-                    p.EmptyElement<Item>(""),
+                    p.EmptyElement<Item>(rootNs),
                         p.Text(),
-                    p.EmptyElement<Item>(""),
+                    p.EmptyElement<Item>(rootNs),
                         p.Text(),
                 p.EndTag(),
             };
@@ -396,22 +393,22 @@
         [TestMethod]
         public void TwoNestedPropertiesUsingContentProperty()
         {
-            
+
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (DummyClass), string.Empty),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
 
-                    p.EmptyElement(typeof (Item), ""),
-                    p.Attribute<Item>(d => d.Title, "Main1", ""),
+                    p.EmptyElement(typeof (Item), rootNs),
+                    p.Attribute<Item>(d => d.Title, "Main1", rootNs),
                     p.Text(),
 
-                    p.EmptyElement(typeof (Item), ""),
-                    p.Attribute<Item>(d => d.Title, "Main2", ""),
+                    p.EmptyElement(typeof (Item), rootNs),
+                    p.Attribute<Item>(d => d.Title, "Main2", rootNs),
                     p.Text(),
 
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
-                        p.NonEmptyElement(typeof(ChildClass), string.Empty),
+                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, rootNs),
+                        p.NonEmptyElement(typeof(ChildClass), rootNs),
                         p.EndTag(),
                         p.Text(),
                     p.EndTag(),
@@ -453,7 +450,7 @@
         [TestMethod]
         public void TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem()
         {
-            
+
             var input = sampleData.CreateInputForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(rootNs);
 
             var actualNodes = sut.Parse(input).ToList();
@@ -469,11 +466,11 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
-                        p.EmptyElement(typeof (RowDefinition), ""),
+                p.NonEmptyElement(typeof (Grid), rootNs),
+                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
+                        p.EmptyElement(typeof (RowDefinition), rootNs),
                     p.EndTag(),
-                    p.EmptyElement<TextBlock>(""),
+                    p.EmptyElement<TextBlock>(rootNs),
                 p.EndTag(),
             };
 
@@ -511,12 +508,12 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.NonEmptyPropertyElement<Grid>(g => g.Children, ""),
-                        p.NonEmptyElement(typeof (TextBlock), string.Empty),
+                p.NonEmptyElement(typeof (Grid), rootNs),
+                    p.NonEmptyPropertyElement<Grid>(g => g.Children, rootNs),
+                        p.NonEmptyElement(typeof (TextBlock), rootNs),
                         p.EndTag(),
                         p.Text(),
-                        p.EmptyElement(typeof (TextBlock), ""),
+                        p.EmptyElement(typeof (TextBlock), rootNs),
                         p.Text(),
                     p.EndTag(),
                 p.EndTag(),
@@ -537,7 +534,7 @@
                                 x.EndObject(),
                             x.EndMember(),
                         x.EndObject(),
-                    x.EndMember(),                    
+                    x.EndMember(),
                 x.EndObject(),
             };
 
@@ -550,10 +547,10 @@
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(rootNs),
-                p.NonEmptyElement(typeof (Grid), string.Empty),
-                    p.EmptyElement<TextBlock>(""),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
-                        p.EmptyElement(typeof (RowDefinition), ""),
+                p.NonEmptyElement(typeof (Grid), rootNs),
+                    p.EmptyElement<TextBlock>(rootNs),
+                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, rootNs),
+                        p.EmptyElement(typeof (RowDefinition), rootNs),
                     p.EndTag(),
                 p.EndTag(),
             };
@@ -607,7 +604,7 @@
             var input = new List<ProtoXamlNode>
             {
                 p.NamespacePrefixDeclaration(prefix, clrNamespace),
-                p.EmptyElement(type, prefix),
+                p.EmptyElement(type, rootNs),
             };
 
             var expectedNodes = new List<XamlNode>
@@ -627,9 +624,9 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration("", "root"),
-                p.NonEmptyElement(typeof (DummyClass), string.Empty),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, ""),
+                p.NamespacePrefixDeclaration(rootNs),
+                p.NonEmptyElement(typeof (DummyClass), rootNs),
+                p.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, rootNs),
                 p.Text("Property!"),
                 p.EndTag(),
                 p.EndTag(),
@@ -637,7 +634,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", string.Empty),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<DummyClass>(),
                 x.StartMember<DummyClass>(c => c.SampleProperty),
                 x.Value("Property!"),
