@@ -15,20 +15,20 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             this.x = x;
         }
 
-        public List<XamlNode> CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem()
+        public List<XamlNode> CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(NamespaceDeclaration rootNs)
         {
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""), x.StartObject(typeof (ChildClass)), x.StartMember<ChildClass>(d => d.Content), x.StartObject(typeof (Item)), x.StartMember<Item>(item => item.Children), x.GetObject(), x.Items(), x.StartObject(typeof (Item)), x.StartMember<Item>(i => i.Title), x.Value("Item1"), x.EndMember(), x.EndObject(), x.EndMember(), x.EndObject(), x.EndMember(), x.EndObject(), x.EndMember(), x.StartMember<DummyClass>(d => d.Child), x.StartObject(typeof (ChildClass)), x.EndObject(), x.EndMember(), x.EndObject(),
+                x.NamespacePrefixDeclaration(rootNs), x.StartObject(typeof (ChildClass)), x.StartMember<ChildClass>(d => d.Content), x.StartObject(typeof (Item)), x.StartMember<Item>(item => item.Children), x.GetObject(), x.Items(), x.StartObject(typeof (Item)), x.StartMember<Item>(i => i.Title), x.Value("Item1"), x.EndMember(), x.EndObject(), x.EndMember(), x.EndObject(), x.EndMember(), x.EndObject(), x.EndMember(), x.StartMember<DummyClass>(d => d.Child), x.StartObject(typeof (ChildClass)), x.EndObject(), x.EndMember(), x.EndObject(),
             };
             return expectedNodes;
         }
 
-        public IEnumerable<ProtoXamlNode> CreateInputForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(string rootNs)
+        public IEnumerable<ProtoXamlNode> CreateInputForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(NamespaceDeclaration ns)
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(ns),
                 p.NonEmptyElement(typeof (ChildClass),  string.Empty),
                 p.NonEmptyElement(typeof (Item), string.Empty),
                 p.EmptyElement(typeof (Item), ""),
@@ -45,11 +45,11 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             return input;
         }
 
-        public List<XamlNode> CreateExpectedNodesForTwoNestedProperties()
+        public List<XamlNode> CreateExpectedNodesForTwoNestedProperties(NamespaceDeclaration rootNs)
         {
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof (DummyClass)),
                 x.StartMember<DummyClass>(d => d.Items),
                 x.GetObject(),
@@ -76,11 +76,11 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             return expectedNodes;
         }
 
-        public List<XamlNode> CreateExpectedNodesCollectionsContentPropertyNesting()
+        public List<XamlNode> CreateExpectedNodesCollectionsContentPropertyNesting(NamespaceDeclaration rootNs)
         {
             return new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof (DummyClass)),
                 x.StartMember<DummyClass>(d => d.Items),
                 x.GetObject(),
@@ -138,12 +138,12 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             };
         }
 
-        public IEnumerable<ProtoXamlNode> CreateInputForCollectionsContentPropertyNesting()
+        public IEnumerable<ProtoXamlNode> CreateInputForCollectionsContentPropertyNesting(NamespaceDeclaration rootNs)
         {
-            const string rootNs = "root";
+            
             return new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
                 p.EmptyElement(typeof (Item), ""),
                 p.Attribute<Item>(d => d.Title, "Main1", ""),
@@ -176,11 +176,11 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             };
         }
 
-        public IEnumerable<ProtoXamlNode> CreateInputForTwoNestedProperties()
+        public IEnumerable<ProtoXamlNode> CreateInputForTwoNestedProperties(NamespaceDeclaration rootNs)
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
                 p.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
                 p.EmptyElement(typeof (Item), ""),
@@ -200,11 +200,11 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             return input;
         }
 
-        public List<XamlNode> CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection()
+        public List<XamlNode> CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection(NamespaceDeclaration rootNs)
         {
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof (ChildClass)),
                 x.StartMember<ChildClass>(d => d.Content),
                 x.StartObject(typeof (Item)),
@@ -226,12 +226,12 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
             return expectedNodes;
         }
 
-        public IEnumerable<ProtoXamlNode> CreateInputForImplicitContentPropertyWithImplicityCollection()
+        public IEnumerable<ProtoXamlNode> CreateInputForImplicitContentPropertyWithImplicityCollection(NamespaceDeclaration rootNs)
         {
-            const string rootNs = "root";
+            
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (ChildClass), string.Empty),
                 p.NonEmptyElement(typeof (Item), string.Empty),
                 p.EmptyElement(typeof (Item), ""),

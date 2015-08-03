@@ -30,6 +30,11 @@
             };
         }
 
+        public ProtoXamlNode NamespacePrefixDeclaration(NamespaceDeclaration ns)
+        {
+            return NamespacePrefixDeclaration(ns.Prefix, ns.Namespace);
+        }
+
         public ProtoXamlNode NamespacePrefixDeclaration(string prefix, string ns)
         {
             if (PrefixRegistrationMode == PrefixRegistrationMode.Automatic)

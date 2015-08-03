@@ -13,7 +13,7 @@
         private XamlNodesPullParser sut;
         private ProtoNodeBuilder p;
         private readonly XamlNodeBuilder x;
-
+        
         public MarkupExtensionsParsingFromProtoToXaml()
         {
             p = new ProtoNodeBuilder(WiringContext.TypeContext);
@@ -24,16 +24,18 @@
         [TestMethod]
         public void SimpleExtension()
         {
+            
+
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", ""),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(DummyClass)),
                 x.StartMember<DummyClass>(d => d.SampleProperty),
                 x.StartObject(typeof(DummyExtension)),
@@ -52,14 +54,14 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", ""),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof (DummyClass)),
                 x.StartMember<DummyClass>(d => d.SampleProperty),
                 x.StartObject(typeof (DummyExtension)),

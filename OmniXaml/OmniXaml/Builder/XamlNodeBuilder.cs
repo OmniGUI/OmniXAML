@@ -19,6 +19,11 @@
             return new XamlNode(XamlNodeType.None);
         }
 
+        public XamlNode NamespacePrefixDeclaration(NamespaceDeclaration ns)
+        {
+            return NamespacePrefixDeclaration(ns.Namespace, ns.Prefix);
+        }
+
         public XamlNode NamespacePrefixDeclaration(string ns, string prefix)
         {
             return new XamlNode(XamlNodeType.NamespaceDeclaration, new NamespaceDeclaration(ns, prefix));

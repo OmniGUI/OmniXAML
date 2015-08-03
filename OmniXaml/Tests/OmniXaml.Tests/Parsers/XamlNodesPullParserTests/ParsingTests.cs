@@ -36,7 +36,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
             };
 
 
@@ -89,7 +89,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
             };
@@ -114,7 +114,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.EmptyElement(typeof (DummyClass), ""),
                 p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
                 p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", ""),
@@ -141,17 +141,16 @@
         [TestMethod]
         public void SingleCollapsedWithNs()
         {
-            const string rootNs = "root";
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration("", rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.EmptyElement(typeof(DummyClass), ""),
                 p.None()
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<DummyClass>(),
                 x.EndObject(),
             };
@@ -220,7 +219,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", ""),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
@@ -265,10 +264,10 @@
         [TestMethod]
         public void ChildCollection()
         {
-            const string rootNs = "root";
+            
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass),  string.Empty),
                     p.NonEmptyPropertyElement<DummyClass>(d => d.Items, ""),
                         p.EmptyElement<Item>(""),
@@ -283,7 +282,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(DummyClass)),
                     x.StartMember<DummyClass>(d => d.Items),
                         x.GetObject(),
@@ -308,10 +307,10 @@
         [TestMethod]
         public void NestedChildWithContentProperty()
         {
-            const string rootNs = "root";
+            
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (ChildClass),  string.Empty),
                     p.EmptyElement(typeof (Item), ""),
                     p.Text(),
@@ -320,7 +319,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(rootNs, string.Empty),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject<ChildClass>(),
                     x.StartMember<ChildClass>(c => c.Content),
                         x.StartObject<Item>(),
@@ -339,7 +338,7 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
                     p.EmptyElement<Item>(""),
                         p.Text(),
@@ -352,7 +351,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(DummyClass)),
                     x.StartMember<DummyClass>(d => d.Items),
                         x.GetObject(),
@@ -377,9 +376,9 @@
         [TestMethod]
         public void CollectionsContentPropertyNesting()
         {
-            var input = sampleData.CreateInputForCollectionsContentPropertyNesting();
+            var input = sampleData.CreateInputForCollectionsContentPropertyNesting(rootNs);
             var actualNodes = sut.Parse(input).ToList();
-            var expectedNodes = sampleData.CreateExpectedNodesCollectionsContentPropertyNesting();
+            var expectedNodes = sampleData.CreateExpectedNodesCollectionsContentPropertyNesting(rootNs);
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
@@ -387,9 +386,9 @@
         [TestMethod]
         public void TwoNestedProperties()
         {
-            var input = sampleData.CreateInputForTwoNestedProperties();
+            var input = sampleData.CreateInputForTwoNestedProperties(rootNs);
             var actualNodes = sut.Parse(input).ToList();
-            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedProperties();
+            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedProperties(rootNs);
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
@@ -397,10 +396,10 @@
         [TestMethod]
         public void TwoNestedPropertiesUsingContentProperty()
         {
-            const string rootNs = "root";
+            
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, rootNs),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (DummyClass), string.Empty),
 
                     p.EmptyElement(typeof (Item), ""),
@@ -423,7 +422,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(DummyClass)),
                     x.StartMember<DummyClass>(d => d.Items),
                         x.GetObject(),
@@ -454,12 +453,12 @@
         [TestMethod]
         public void TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem()
         {
-            const string rootNs = "root";
+            
             var input = sampleData.CreateInputForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(rootNs);
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem();
+            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(rootNs);
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
@@ -469,7 +468,7 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
                         p.EmptyElement(typeof (RowDefinition), ""),
@@ -482,7 +481,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(Grid)),
                     x.StartMember<Grid>(d => d.RowDefinitions),
                         x.GetObject(),
@@ -511,7 +510,7 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.NonEmptyPropertyElement<Grid>(g => g.Children, ""),
                         p.NonEmptyElement(typeof (TextBlock), string.Empty),
@@ -527,7 +526,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(Grid)),
                     x.StartMember<Grid>(d => d.Children),
                         x.GetObject(),
@@ -550,7 +549,7 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(string.Empty, "root"),
+                p.NamespacePrefixDeclaration(rootNs),
                 p.NonEmptyElement(typeof (Grid), string.Empty),
                     p.EmptyElement<TextBlock>(""),
                     p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, ""),
@@ -563,7 +562,7 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration("root", ""),
+                x.NamespacePrefixDeclaration(rootNs),
                 x.StartObject(typeof(Grid)),
                     x.StartMember<Grid>(d => d.Children),
                         x.GetObject(),
@@ -590,11 +589,11 @@
         [TestMethod]
         public void ImplicitContentPropertyWithImplicityCollection()
         {
-            var input = sampleData.CreateInputForImplicitContentPropertyWithImplicityCollection();
+            var input = sampleData.CreateInputForImplicitContentPropertyWithImplicityCollection(rootNs);
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = sampleData.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection();
+            var expectedNodes = sampleData.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection(rootNs);
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }

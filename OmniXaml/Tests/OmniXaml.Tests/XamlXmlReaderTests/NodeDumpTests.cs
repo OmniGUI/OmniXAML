@@ -33,7 +33,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
             var expected = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration("root", ""),
+                nodeBuilder.NamespacePrefixDeclaration(rootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.EndObject(),
             };
@@ -49,7 +49,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
             var expected = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration("root", ""),
+                nodeBuilder.NamespacePrefixDeclaration(rootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.Child),
                 nodeBuilder.StartObject(typeof(ChildClass)),
@@ -68,7 +68,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
             var expected = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration("root", ""),
+                nodeBuilder.NamespacePrefixDeclaration(rootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
                 nodeBuilder.Value("Property!"),
@@ -86,7 +86,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
 
             var expected = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration("root", ""),
+                nodeBuilder.NamespacePrefixDeclaration(rootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
                 nodeBuilder.GetObject(),
