@@ -45,5 +45,13 @@
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
         }
+
+        [TestMethod]
+        public void String()
+        {
+            var actual = XamlStreamLoader.Load(Dummy.String);
+            Assert.IsInstanceOfType(actual, typeof(string));
+            Assert.AreEqual("Text", actual);
+        }
     }
 }
