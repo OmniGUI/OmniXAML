@@ -62,13 +62,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
-    <Compile Include="SuperObjectAssemblerTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
-    <Compile Include="RealObjectAssemblerTests.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
