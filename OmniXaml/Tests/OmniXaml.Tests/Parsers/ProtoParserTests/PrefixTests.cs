@@ -27,8 +27,8 @@
             
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(anotherNs),
-                builder.EmptyElement(typeof (Foreigner), anotherNs),
+                builder.NamespacePrefixDeclaration(AnotherNs),
+                builder.EmptyElement(typeof (Foreigner), AnotherNs),
                 builder.None()
             };
 
@@ -42,10 +42,10 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(rootNs),
-                builder.NamespacePrefixDeclaration(anotherNs),
-                builder.NonEmptyElement(typeof (DummyClass), rootNs),
-                builder.AttachableProperty<Foreigner>("Property", "Value", anotherNs),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NamespacePrefixDeclaration(AnotherNs),
+                builder.NonEmptyElement(typeof (DummyClass), RootNs),
+                builder.AttachableProperty<Foreigner>("Property", "Value", AnotherNs),
                 builder.EndTag(),
                 builder.None()
             };
@@ -60,8 +60,8 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(anotherNs),
-                builder.NonEmptyElement(typeof (DummyClass), anotherNs),
+                builder.NamespacePrefixDeclaration(AnotherNs),
+                builder.NonEmptyElement(typeof (DummyClass), AnotherNs),
                 builder.EndTag(),
                 builder.None()
             };

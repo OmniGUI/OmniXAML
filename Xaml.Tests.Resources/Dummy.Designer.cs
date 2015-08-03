@@ -360,8 +360,7 @@ namespace Xaml.Tests.Resources {
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
         ///            xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;DummyClass.Resources&gt;
-        ///    &lt;ChildClass x:Key=&quot;One&quot; /&gt;
-        ///    &lt;ChildClass x:Key=&quot;Two&quot; /&gt;
+        ///    &lt;ChildClass x:Key=&quot;SomeKey&quot; /&gt;    
         ///  &lt;/DummyClass.Resources&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -462,6 +461,15 @@ namespace Xaml.Tests.Resources {
         public static string SingleInstance {
             get {
                 return ResourceManager.GetString("SingleInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;sys:String xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;Text&lt;/sys:String&gt;.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

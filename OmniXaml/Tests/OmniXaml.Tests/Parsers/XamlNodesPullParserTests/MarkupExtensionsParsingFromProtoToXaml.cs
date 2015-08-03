@@ -28,14 +28,14 @@
 
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), rootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", rootNs),
+                p.NamespacePrefixDeclaration(RootNs),
+                p.EmptyElement(typeof (DummyClass), RootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(rootNs),
+                x.NamespacePrefixDeclaration(RootNs),
                 x.StartObject(typeof(DummyClass)),
                 x.StartMember<DummyClass>(d => d.SampleProperty),
                 x.StartObject(typeof(DummyExtension)),
@@ -54,14 +54,14 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(rootNs),
-                p.EmptyElement(typeof (DummyClass), rootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", rootNs),
+                p.NamespacePrefixDeclaration(RootNs),
+                p.EmptyElement(typeof (DummyClass), RootNs),
+                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(rootNs),
+                x.NamespacePrefixDeclaration(RootNs),
                 x.StartObject(typeof (DummyClass)),
                 x.StartMember<DummyClass>(d => d.SampleProperty),
                 x.StartObject(typeof (DummyExtension)),

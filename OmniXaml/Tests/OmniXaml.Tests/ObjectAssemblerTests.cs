@@ -228,7 +228,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
                     builder.StartObject(typeof (DummyExtension)),
@@ -253,7 +253,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
                     builder.StartObject(typeof (DummyExtension)),
@@ -279,7 +279,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.Number),
                     builder.StartObject(typeof (IntExtension)),

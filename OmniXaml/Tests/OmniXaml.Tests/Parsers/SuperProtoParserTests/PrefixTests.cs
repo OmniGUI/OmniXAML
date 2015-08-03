@@ -31,8 +31,8 @@
             var actualNodes = sut.Parse("<x:Foreigner xmlns:x=\"another\"/>").ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(anotherNs),
-                builder.EmptyElement(typeof (Foreigner), anotherNs),
+                builder.NamespacePrefixDeclaration(AnotherNs),
+                builder.EmptyElement(typeof (Foreigner), AnotherNs),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -49,8 +49,8 @@
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
-                builder.NonEmptyElement(typeof (DummyClass), rootNs),
-                builder.AttachableProperty<Foreigner>("Property", "Value", anotherNs),
+                builder.NonEmptyElement(typeof (DummyClass), RootNs),
+                builder.AttachableProperty<Foreigner>("Property", "Value", AnotherNs),
                 builder.EndTag(),
             };
 
@@ -66,8 +66,8 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(anotherNs),
-                builder.NonEmptyElement(typeof (DummyClass), anotherNs),
+                builder.NamespacePrefixDeclaration(AnotherNs),
+                builder.NonEmptyElement(typeof (DummyClass), AnotherNs),
                 builder.EndTag(),
             };
 

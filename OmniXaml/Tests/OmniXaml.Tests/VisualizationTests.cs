@@ -23,7 +23,7 @@
         {
             var col = new Collection<XamlNode>()
             {
-                builder.NamespacePrefixDeclaration(rootNs),
+                builder.NamespacePrefixDeclaration(RootNs),
                 builder.StartObject<DummyClass>(),
                 builder.StartMember<DummyClass>(@class => @class.Child),
                 builder.StartObject<ChildClass>(),
@@ -40,7 +40,7 @@
         {
             var col = new Collection<XamlNode>()
             {
-                builder.NamespacePrefixDeclaration(rootNs),
+                builder.NamespacePrefixDeclaration(RootNs),
                 builder.StartObject<DummyClass>(),
                 builder.StartMember<DummyClass>(@class => @class.Child),
                 builder.StartObject<ChildClass>(),

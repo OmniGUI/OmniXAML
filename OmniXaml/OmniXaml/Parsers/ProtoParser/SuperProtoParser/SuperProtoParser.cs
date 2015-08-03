@@ -51,6 +51,7 @@
 
             reader.Read();
 
+            foreach (var node in ParseInnerTextIfAny()) yield return node; 
             foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
 
             yield return nodeBuilder.EndTag();
@@ -171,10 +172,11 @@
             RegisterPrefixes(prefixRegistrations);
 
             var prefix = reader.Prefix;
-            var ns = wiringContext.TypeContext.GetNamespaceByPrefix(prefix);
+            var ns = reader.Namespace;
+            var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
-            var childType = wiringContext.TypeContext.GetByPrefix(prefix, reader.LocalName);
-            var namespaceDeclaration = new NamespaceDeclaration(ns.Name, prefix);
+            var childType = wiringContext.TypeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
+            
 
             if (reader.IsEmptyElement)
             {                
