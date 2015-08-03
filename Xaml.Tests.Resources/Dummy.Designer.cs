@@ -474,6 +474,19 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///  &lt;DummyClass.SampleProperty&gt;
+        ///    &lt;sys:String &gt;Text&lt;/sys:String&gt;
+        ///  &lt;/DummyClass.SampleProperty&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string StringAsProperty {
+            get {
+                return ResourceManager.GetString("StringAsProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; SampleProperty=&quot;Property!&quot;&gt;&lt;/DummyClass&gt;.
         /// </summary>
         public static string StringProperty {

@@ -53,5 +53,13 @@
             Assert.IsInstanceOfType(actual, typeof(string));
             Assert.AreEqual("Text", actual);
         }
+
+        [TestMethod]
+        public void StringAsProperty()
+        {
+            var actual = XamlStreamLoader.Load(Dummy.StringAsProperty);
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            Assert.AreEqual("Text", ((DummyClass)actual).SampleProperty);
+        }
     }
 }
