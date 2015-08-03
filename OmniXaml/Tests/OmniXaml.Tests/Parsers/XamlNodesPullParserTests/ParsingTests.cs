@@ -647,5 +647,33 @@
 
             CollectionAssert.AreEqual(expectedNodes, xamlNodes);
         }
+
+        [TestMethod]
+        public void String()
+        {
+            var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+            var input = new List<ProtoXamlNode>
+            {
+                p.NamespacePrefixDeclaration(sysNs),
+                p.NonEmptyElement(typeof (string), sysNs),
+                p.Text("Text"),
+                p.EndTag(),
+            };
+
+            var expectedNodes = new List<XamlNode>
+            {
+                x.NamespacePrefixDeclaration(sysNs),
+                x.StartObject<string>(),
+                x.StartDirective("_Initialization"),
+                x.Value("Text"), 
+                x.EndMember(),               
+                x.EndObject(),
+            };
+
+            var actualNodes = sut.Parse(input);
+            var xamlNodes = actualNodes.ToList();
+
+            CollectionAssert.AreEqual(expectedNodes, xamlNodes);
+        }
     }
 }
