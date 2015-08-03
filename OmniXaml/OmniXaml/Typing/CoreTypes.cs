@@ -12,7 +12,8 @@
         public static XamlDirective Items => ItemsField;
         public static XamlDirective Initialization => InitializationField;
         public static XamlType String => XamlType.CreateForBuiltInType(typeof(string));
+        public static XamlType Int32 => XamlType.CreateForBuiltInType(typeof(int));
         public static object MarkupExtensionArguments => MarkupExtensionArgumentsField;
-
+        
     }
 }

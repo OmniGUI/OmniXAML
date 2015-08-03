@@ -1,7 +1,5 @@
 namespace OmniXaml.NewAssembler.Commands
 {
-    using System.Reflection;
-
     public class EndObjectCommand : Command
     {
         public EndObjectCommand(SuperObjectAssembler assembler) : base(assembler)

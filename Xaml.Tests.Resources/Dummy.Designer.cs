@@ -357,6 +357,15 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;sys:Int xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;123&lt;/sys:Int&gt;.
+        /// </summary>
+        public static string Int {
+            get {
+                return ResourceManager.GetString("Int", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
         ///            xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;DummyClass.Resources&gt;

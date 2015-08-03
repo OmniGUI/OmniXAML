@@ -61,5 +61,13 @@
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             Assert.AreEqual("Text", ((DummyClass)actual).SampleProperty);
         }
+
+        [TestMethod]
+        public void Int()
+        {
+            var actual = XamlStreamLoader.Load(Dummy.Int);
+            Assert.IsInstanceOfType(actual, typeof(int));
+            Assert.AreEqual(123, actual);
+        }
     }
 }

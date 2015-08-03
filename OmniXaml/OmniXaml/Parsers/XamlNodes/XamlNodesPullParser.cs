@@ -121,7 +121,7 @@
 
         private bool HasToBeInstantiatedUsingValue(XamlType xamlType)
         {
-            return xamlType.Equals(CoreTypes.String);
+            return xamlType.Equals(CoreTypes.String) || xamlType.Equals(CoreTypes.Int32);
         }
 
         private void ReadEndTag()

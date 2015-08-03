@@ -1,5 +1,6 @@
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System;
     using System.Runtime.InteropServices.ComTypes;
 
     public class ValueCommand : Command
@@ -9,13 +10,17 @@ namespace OmniXaml.NewAssembler.Commands
         public ValueCommand(SuperObjectAssembler superObjectAssembler, string value) : base(superObjectAssembler)
         {
             this.value = value;
+            ValuePipeLine = new ValuePipeline(superObjectAssembler.WiringContext);
         }
+
+        private ValuePipeline ValuePipeLine { get; set; }
 
         public override void Execute()
         {
             if (StateCommuter.IsWaitingValueAsInitializationParameter)
             {
-                StateCommuter.Instance = value;
+                var underlyingType = StateCommuter.XamlType.UnderlyingType;
+                StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, underlyingType);
             }
             else if (StateCommuter.IsWaitingValueAsKey)
             {
