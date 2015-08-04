@@ -64,7 +64,6 @@
     <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\ProtoParserTests\PrefixTests.cs" />
-    <Compile Include="Parsers\ProtoParserTests\ProtoXamlNodeAssert.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
