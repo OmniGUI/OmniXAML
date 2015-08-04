@@ -1,26 +1,19 @@
 namespace OmniXaml
 {
     using System;
-    using TypeConversion;
     using Typing;
 
     public class WiringContext
     {
-        private readonly ITypeFeatureProvider typeFeatureProvider;
-
         public WiringContext(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {
-            this.typeFeatureProvider = typeFeatureProvider;
+            FeatureProvider = typeFeatureProvider;
             TypeContext = typeContext;            
         }
 
         public ITypeContext TypeContext { get; }
-        public ITypeConverterProvider ConverterProvider => typeFeatureProvider;
 
-        public ITypeFeatureProvider FeatureProvider
-        {
-            get { return typeFeatureProvider; }
-        }
+        public ITypeFeatureProvider FeatureProvider { get; }
 
         public XamlType GetType(Type type)
         {

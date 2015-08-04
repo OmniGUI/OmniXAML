@@ -5,12 +5,9 @@ namespace OmniXaml.Typing
 
     public class AttachableXamlMember : MutableXamlMember
     {
-        private readonly ITypeFeatureProvider featureProvider;
-
         public AttachableXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, ITypeFeatureProvider featureProvider)
-            : base(name, owner, xamlTypeRepository, typeFactory)
+            : base(name, owner, xamlTypeRepository, typeFactory, featureProvider)
         {
-            this.featureProvider = featureProvider;
         }
 
         public override bool IsAttachable => true;
@@ -18,7 +15,7 @@ namespace OmniXaml.Typing
         protected override XamlType LookupType()
         {
             var getMethod = GetGetMethodForAttachable(DeclaringType, Name);            
-            return XamlType.Create(getMethod.ReturnType, TypeRepository, TypeFactory, featureProvider);
+            return XamlType.Create(getMethod.ReturnType, TypeRepository, TypeFactory, FeatureProvider);
         }
 
         private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)

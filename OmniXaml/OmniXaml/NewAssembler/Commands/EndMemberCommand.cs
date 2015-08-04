@@ -55,7 +55,7 @@ namespace OmniXaml.NewAssembler.Commands
             foreach (var ctorArg in arguments)
             {
                 var targetType = xamlTypes[i];
-                var compatibleValue = StateCommuter.ValuePipeline.ConvertValueIfNecessary(ctorArg.StringValue, targetType.UnderlyingType);
+                var compatibleValue = StateCommuter.ValuePipeline.ConvertValueIfNecessary(ctorArg.StringValue, targetType);
                 ctorArg.Value = compatibleValue;
             }
         }

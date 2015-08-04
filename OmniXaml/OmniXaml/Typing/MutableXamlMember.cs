@@ -5,11 +5,13 @@ namespace OmniXaml.Typing
 
     public abstract class MutableXamlMember : XamlMemberBase
     {
+        private readonly ITypeFeatureProvider typeFeatureProvider;
         public IXamlTypeRepository TypeRepository { get; }
         public ITypeFactory TypeFactory { get; }
 
-        protected MutableXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory) : base(name)
+        protected MutableXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, ITypeFeatureProvider featureProvider) : base(name)
         {
+            typeFeatureProvider = featureProvider;
             TypeRepository = xamlTypeRepository;
             TypeFactory = typeFactory;
 
@@ -20,6 +22,8 @@ namespace OmniXaml.Typing
         public XamlType DeclaringType { get; }
         
         public IXamlMemberValuePlugin XamlMemberValueConnector => LookupXamlMemberValueConnector();
+
+        public ITypeFeatureProvider FeatureProvider => typeFeatureProvider;
 
         protected abstract XamlType LookupType();             
 

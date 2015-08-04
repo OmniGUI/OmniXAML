@@ -5,6 +5,7 @@ namespace OmniXaml.Typing
     using System.Linq;
     using System.Reflection;
     using Glass;
+    using TypeConversion;
 
     public class XamlType
     {
@@ -16,6 +17,7 @@ namespace OmniXaml.Typing
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
+            Guard.ThrowIfNull(featureProvider, nameof(featureProvider));
 
             this.typeRepository = typeRepository;
             this.typeTypeFactory = typeTypeFactory;
@@ -165,5 +167,7 @@ namespace OmniXaml.Typing
                 return member;
             }
         }
+
+        public ITypeConverter TypeConverter => featureProvider.GetTypeConverter(UnderlyingType);
     }
 }

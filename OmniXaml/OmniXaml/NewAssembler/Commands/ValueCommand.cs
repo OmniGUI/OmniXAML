@@ -19,8 +19,7 @@ namespace OmniXaml.NewAssembler.Commands
         {
             if (StateCommuter.ValueProcessingMode == ValueProcessingMode.InitializationValue)
             {
-                var underlyingType = StateCommuter.XamlType.UnderlyingType;
-                StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, underlyingType);
+                StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.XamlType);
             }
             else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.Key)
             {

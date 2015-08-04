@@ -90,8 +90,7 @@ namespace OmniXaml.NewAssembler
         {
             var previousMember = (MutableXamlMember) PreviousMember;
 
-            var underlyingType = previousMember.XamlType.UnderlyingType;
-            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, underlyingType);
+            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, previousMember.XamlType);
 
             previousMember.SetValue(PreviousInstance, compatibleValue);
         }
