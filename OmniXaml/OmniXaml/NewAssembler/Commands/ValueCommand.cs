@@ -1,7 +1,6 @@
 namespace OmniXaml.NewAssembler.Commands
 {
     using System;
-    using System.Runtime.InteropServices.ComTypes;
 
     public class ValueCommand : Command
     {
@@ -17,27 +16,31 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (StateCommuter.ValueProcessingMode == ValueProcessingMode.InitializationValue)
+            switch (StateCommuter.ValueProcessingMode)
             {
-                var underlyingType = StateCommuter.XamlType.UnderlyingType;
-                StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, underlyingType);
-            }
-            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.Key)
-            {
-                StateCommuter.SetKey(value);
-                StateCommuter.ValueProcessingMode = false ?  ValueProcessingMode.Key : ValueProcessingMode.AssignToMember;
-            }
-            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.ConstructionParameter)
-            {
-                StateCommuter.AddCtorArgument(value);                
-            }
-            else
-            {
-                StateCommuter.RaiseLevel();
-                StateCommuter.Instance = value;
-                StateCommuter.AssignChildToParentProperty();
-                StateCommuter.DecreaseLevel();
-            }
+                case ValueProcessingMode.InitializationValue:
+                    StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.XamlType);
+                    break;
+
+                case ValueProcessingMode.Key:
+                    StateCommuter.SetKey(value);
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.AssignToMember;
+                    break;
+
+                case ValueProcessingMode.ConstructionParameter:
+                    StateCommuter.AddCtorArgument(value);
+                    break;
+
+                case ValueProcessingMode.AssignToMember:
+                    StateCommuter.RaiseLevel();
+                    StateCommuter.Instance = value;
+                    StateCommuter.AssignChildToParentProperty();
+                    StateCommuter.DecreaseLevel();
+                    break;
+
+                default:
+                    throw new InvalidOperationException($"{StateCommuter.ValueProcessingMode} has a value that is not expected.");
+            }            
         }
     }
 }

@@ -4,18 +4,23 @@ namespace OmniXaml.Typing
 
     public class XamlMember : MutableXamlMember
     {
-        public XamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
-            : base(name, owner, xamlTypeRepository, typeFactory)
+        public XamlMember(string name, XamlType declaringType, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
+            : base(name, declaringType, xamlTypeRepository, featureProvider)
         {
+            XamlType = LookupType();
         }
 
         public override bool IsAttachable => false;
 
         public override bool IsDirective => false;
-        protected override XamlType LookupType()
+
+        public override MethodInfo Getter => DeclaringType.UnderlyingType.GetRuntimeProperty(Name).GetMethod;
+        public override MethodInfo Setter => DeclaringType.UnderlyingType.GetRuntimeProperty(Name).SetMethod;
+
+        private XamlType LookupType()
         {
-            var property = RuntimeReflectionExtensions.GetRuntimeProperty(DeclaringType.UnderlyingType, Name);
-            return XamlType.Create(property.PropertyType, TypeRepository, TypeFactory);
+            var property = DeclaringType.UnderlyingType.GetRuntimeProperty(Name);
+            return TypeRepository.GetXamlType(property.PropertyType);
         }
     }
 }

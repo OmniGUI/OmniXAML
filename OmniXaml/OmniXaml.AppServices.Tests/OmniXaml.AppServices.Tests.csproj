@@ -61,6 +61,10 @@
     <Compile Include="InflatableTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Glass\Glass.csproj">
+      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
       <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
       <Name>Xaml.Tests.Resources</Name>

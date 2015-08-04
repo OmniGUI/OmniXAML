@@ -15,9 +15,8 @@ namespace OmniXaml.Wpf
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             var typeFactory = factory;
-            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory), xamlNamespaceRegistry, typeFactory);
-            ContentPropertyProvider = new ContentPropertyProvider();
-            TypeConverterProvider = new TypeConverterProvider();
+            TypeFeatureProvider = new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
+            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, TypeFeatureProvider), xamlNamespaceRegistry, typeFactory);
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()

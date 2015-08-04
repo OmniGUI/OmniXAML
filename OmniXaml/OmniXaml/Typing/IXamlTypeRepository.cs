@@ -10,6 +10,6 @@
         XamlType GetByPrefix(string prefix, string typeName);
         XamlType GetWithFullAddress(XamlTypeName xamlTypeName);
         XamlMember GetMember(PropertyInfo propertyInfo);
-        XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter);
+        AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter);
     }
 }

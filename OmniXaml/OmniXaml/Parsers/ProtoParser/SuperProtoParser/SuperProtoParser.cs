@@ -15,7 +15,7 @@
         public SuperProtoParser(WiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
-            nodeBuilder = new ProtoNodeBuilder(wiringContext.TypeContext);
+            nodeBuilder = new ProtoNodeBuilder(wiringContext.TypeContext, wiringContext.FeatureProvider);
         }
 
         public IEnumerable<ProtoXamlNode> Parse(Stream stream)

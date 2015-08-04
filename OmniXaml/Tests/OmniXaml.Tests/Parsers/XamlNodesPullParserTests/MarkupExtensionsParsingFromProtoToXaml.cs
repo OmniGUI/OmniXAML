@@ -16,7 +16,7 @@
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {
-            p = new ProtoNodeBuilder(WiringContext.TypeContext);
+            p = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
             x = new XamlNodeBuilder(WiringContext.TypeContext);
             sut = new XamlNodesPullParser(WiringContext);
         }

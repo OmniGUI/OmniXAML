@@ -1,9 +1,6 @@
 namespace OmniXaml.Assembler
 {
     using System.Collections;
-    using System.Collections.Generic;
-    using System.Reflection;
-    using NewAssembler;
     using Typing;
 
     public class TypeOperations

@@ -10,11 +10,13 @@
     internal class ProtoNodeBuilder
     {
         private readonly ITypeContext typeContext;
+        private readonly ITypeFeatureProvider typeFeatureProvider;
         private readonly ITypeFactory typeFactory;
 
-        public ProtoNodeBuilder(ITypeContext typeContext)
+        public ProtoNodeBuilder(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {
             this.typeContext = typeContext;
+            this.typeFeatureProvider = typeFeatureProvider;
             this.typeFactory = typeContext.TypeFactory;
         }
 
@@ -61,7 +63,7 @@
             {
                 Namespace = nsDecl.Namespace,
                 Prefix = nsDecl.Prefix,
-                XamlType = XamlType.Create(type, typeContext, typeFactory),
+                XamlType = XamlType.Create(type, typeContext, typeFactory, typeFeatureProvider),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }

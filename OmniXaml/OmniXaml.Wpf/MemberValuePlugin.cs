@@ -15,11 +15,6 @@ namespace OmniXaml.Wpf
             this.xamlMember = xamlMember;
         }
 
-        public override object GetValue(object instance)
-        {
-            return base.GetValue(instance);
-        }
-
         public override void SetValue(object instance, object value)
         {
             if (!TrySetDependencyProperty(instance, value))

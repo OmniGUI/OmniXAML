@@ -13,7 +13,6 @@ namespace OmniXaml.NewAssembler
         public bool IsMemberHostingChildren { get; set; }
         public ICollection Collection { get; set; }
         public bool IsGetObject { get; set; }
-        public bool IsProcessingValuesAsCtorArguments { get; set; }
         public Collection<ConstructionArgument> CtorArguments { get; set; }
         public bool WasAssociatedRightAfterCreation { get; set; }
 
@@ -21,8 +20,7 @@ namespace OmniXaml.NewAssembler
         {
             return Equals(Instance, other.Instance) && Equals(XamlType, other.XamlType) && Equals(XamlMember, other.XamlMember) &&
                    IsCollectionHolderObject == other.IsCollectionHolderObject && IsMemberHostingChildren == other.IsMemberHostingChildren &&
-                   IsGetObject == other.IsGetObject && IsProcessingValuesAsCtorArguments == other.IsProcessingValuesAsCtorArguments &&
-                   Equals(Collection, other.Collection) && Equals(CtorArguments, other.CtorArguments);
+                   IsGetObject == other.IsGetObject && Equals(Collection, other.Collection) && Equals(CtorArguments, other.CtorArguments);
         }
 
         public override bool Equals(object obj)
@@ -51,8 +49,7 @@ namespace OmniXaml.NewAssembler
                 hashCode = (hashCode * 397) ^ (XamlMember != null ? XamlMember.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ IsCollectionHolderObject.GetHashCode();
                 hashCode = (hashCode * 397) ^ IsMemberHostingChildren.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsGetObject.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsProcessingValuesAsCtorArguments.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsGetObject.GetHashCode();                
                 hashCode = (hashCode * 397) ^ (Collection != null ? Collection.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (CtorArguments != null ? CtorArguments.GetHashCode() : 0);
                 return hashCode;

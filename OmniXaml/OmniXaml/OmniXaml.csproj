@@ -66,6 +66,7 @@
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
     <Compile Include="DefaultXamlStreamLoader.cs" />
+    <Compile Include="ITypeFeatureProvider.cs" />
     <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="NewAssembler\TopDownMemberValueContext.cs" />
@@ -105,15 +106,10 @@
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Assembler\LinkedListStackExtensions.cs" />
     <Compile Include="Assembler\CurrentScopeProxy.cs" />
-    <Compile Include="Assembler\NodeWriters\GetObjectWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\StartMemberWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\StartObjectWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\ValueWriter.cs" />
     <Compile Include="Assembler\Scope.cs" />
     <Compile Include="Assembler\ParentScopeProxy.cs" />
     <Compile Include="Assembler\StateBag.cs" />
     <Compile Include="Assembler\TypeOperations.cs" />
-    <Compile Include="Assembler\ObjectAssembler.cs" />
     <Compile Include="Parsers\MarkupExtensions\AssignmentNode.cs" />
     <Compile Include="Parsers\MarkupExtensions\IdentifierNode.cs" />
     <Compile Include="Parsers\MarkupExtensions\MarkupExtensionNodeToXamlNodesConverter.cs" />
@@ -157,6 +153,7 @@
     <Compile Include="TypeConversion\BuiltInConverters\StringTypeConverter.cs" />
     <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
+    <Compile Include="TypeFeatureProvider.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\AttachableXamlMember.cs" />
     <Compile Include="Typing\ClrNamespace.cs" />

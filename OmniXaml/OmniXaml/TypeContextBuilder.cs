@@ -2,9 +2,8 @@ namespace OmniXaml
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using Builder;
-    using Catalogs;
+    using TypeConversion;
     using Typing;
 
     public class TypeContextBuilder
@@ -12,6 +11,7 @@ namespace OmniXaml
         private IXamlTypeRepository typeRepository;
         private IXamlNamespaceRegistry nsRegistry;
         private ITypeFactory typeFactory = new TypeFactory();
+        private ITypeFeatureProvider featureProvider = new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
 
         private IEnumerable<XamlNamespace> namespaceRegistrations = new Collection<XamlNamespace>();
         private IEnumerable<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();
@@ -19,13 +19,14 @@ namespace OmniXaml
         public TypeContextBuilder()
         {
             nsRegistry = new XamlNamespaceRegistry();
-            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory);
+            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory, featureProvider);
         }
 
         public ITypeContext Build()
         {
             nsRegistry = new XamlNamespaceRegistry();
-            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory);
+            
+            typeRepository = new XamlTypeRepository(nsRegistry, typeFactory, featureProvider);
 
             RegisterPrefixes(nsRegistry);
             RegisterNamespaces(nsRegistry);

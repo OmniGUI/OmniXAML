@@ -1,7 +1,5 @@
 namespace OmniXaml.Parsers.MarkupExtensions
 {
-    using System;
-
     public class IdentifierNode
     {
         public string Prefix { get; }

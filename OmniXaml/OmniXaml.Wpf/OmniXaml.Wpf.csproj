@@ -82,7 +82,6 @@
     <Compile Include="XamlSchemaContentProvider.cs" />
     <Compile Include="XamlTypeConversion.cs" />
     <Compile Include="XamlTypeRepository.cs" />
-    <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlNodeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

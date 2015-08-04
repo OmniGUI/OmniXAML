@@ -1,7 +1,6 @@
-using System.Collections;
-
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System.Collections;
     using Typing;
 
     public class GetObjectCommand : Command

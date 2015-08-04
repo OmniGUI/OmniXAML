@@ -1,35 +1,29 @@
 namespace OmniXaml
 {
     using System;
-    using TypeConversion;
+    using System.Reflection;
     using Typing;
 
     public class WiringContext
     {
-        public WiringContext(ITypeContext typeContext, IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
+        public WiringContext(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {
-            TypeContext = typeContext;
-            ContentPropertyProvider = contentPropertyProvider;
-            ConverterProvider = converterProvider;
+            FeatureProvider = typeFeatureProvider;
+            TypeContext = typeContext;            
         }
 
         public ITypeContext TypeContext { get; }
-        public IContentPropertyProvider ContentPropertyProvider { get; private set; }
-        public ITypeConverterProvider ConverterProvider { get; private set; }
+
+        public ITypeFeatureProvider FeatureProvider { get; }
 
         public XamlType GetType(Type type)
         {
             return TypeContext.GetXamlType(type);
         }
 
-        public XamlMember GetMember(XamlType xamlType, string name)
+        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
         {
-            return xamlType.GetMember(name);
-        }
-
-        public AttachableXamlMember GetAttachableMember(XamlType xamlType, string name)
-        {
-            return xamlType.GetAttachableMember(name);
+            return new AttachableXamlMember(name, getter, setter, xamlTypeRepository, featureProvider);
         }
     }
 }

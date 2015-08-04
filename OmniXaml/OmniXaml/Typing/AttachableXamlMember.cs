@@ -1,20 +1,35 @@
 namespace OmniXaml.Typing
 {
+    using System;
     using System.Linq;
     using System.Reflection;
 
     public class AttachableXamlMember : MutableXamlMember
     {
-        public AttachableXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory) : base(name, owner, xamlTypeRepository, typeFactory)
+        private readonly MethodInfo setter;
+        private readonly MethodInfo getter;
+
+        public AttachableXamlMember(string name,
+            MethodInfo getter,
+            MethodInfo setter,
+            IXamlTypeRepository xamlTypeRepository,
+            ITypeFeatureProvider featureProvider) : base(name, xamlTypeRepository.GetXamlType(getter.DeclaringType), xamlTypeRepository, featureProvider)
         {
+            this.getter = getter;
+            this.setter = setter;
+            XamlType = LookupType();
         }
 
         public override bool IsAttachable => true;
         public override bool IsDirective => false;
-        protected override XamlType LookupType()
+
+        public override MethodInfo Getter => getter;
+
+        public override MethodInfo Setter => setter;
+
+        private XamlType LookupType()
         {
-            var getMethod = GetGetMethodForAttachable(DeclaringType, Name);
-            return XamlType.Create(getMethod.ReturnType, TypeRepository, TypeFactory);
+            return TypeRepository.GetXamlType(getter.ReturnType);
         }
 
         private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)

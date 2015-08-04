@@ -4,6 +4,7 @@ namespace OmniXaml.NewAssembler
     using System.Globalization;
     using System.Reflection;
     using TypeConversion;
+    using Typing;
 
     public class ValuePipeline
     {
@@ -14,21 +15,21 @@ namespace OmniXaml.NewAssembler
 
         public WiringContext WiringContext { get; }
 
-        public object ConvertValueIfNecessary(object value, Type targetType)
+        public object ConvertValueIfNecessary(object value, XamlType targetType)
         {
-            if (IsAlreadyCompatible(value, targetType))
+            if (IsAlreadyCompatible(value, targetType.UnderlyingType))
             {
                 return value;
             }
 
             object converted;
-            var success = TrySpecialConversion(value, targetType, out converted);
+            var success = TrySpecialConversion(value, targetType.UnderlyingType, out converted);
             if (success)
             {
                 return converted;
             }
 
-            var typeConverter = WiringContext.ConverterProvider.GetTypeConverter(targetType);
+            var typeConverter = targetType.TypeConverter;
             if (typeConverter != null)
             {
                 var context = new XamlTypeConverterContext(WiringContext.TypeContext);

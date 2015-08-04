@@ -7,19 +7,35 @@ namespace OmniXaml.Typing
     public class XamlTypeRepository : IXamlTypeRepository
     {
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
-        private readonly ITypeFactory typeFactory;
+        private readonly ITypeFactory typeTypeFactory;
+        private readonly ITypeFeatureProvider featureProvider;
 
-        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeFactory)
+        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
+            Guard.ThrowIfNull(xamlNamespaceRegistry, nameof(xamlNamespaceRegistry));
+            Guard.ThrowIfNull(typeTypeFactory, nameof(typeTypeFactory));
+            Guard.ThrowIfNull(featureProvider, nameof(featureProvider));
+
             this.xamlNamespaceRegistry = xamlNamespaceRegistry;
-            this.typeFactory = typeFactory;
+            this.typeTypeFactory = typeTypeFactory;
+            this.featureProvider = featureProvider;
+        }
+
+        public ITypeFeatureProvider FeatureProvider
+        {
+            get { return featureProvider; }
+        }
+
+        public ITypeFactory TypeFactory
+        {
+            get { return typeTypeFactory; }
         }
 
         public virtual XamlType GetXamlType(Type type)
         {
             Guard.ThrowIfNull(type, nameof(type));
 
-            return XamlType.Create(type, this, typeFactory);
+            return XamlType.Create(type, this, TypeFactory, featureProvider);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
@@ -63,12 +79,12 @@ namespace OmniXaml.Typing
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
             var owner = GetXamlType(propertyInfo.DeclaringType);
-            return new XamlMember(propertyInfo.Name, owner, this, typeFactory);
+            return new XamlMember(propertyInfo.Name, owner, this, featureProvider);
         }
 
-        public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
-            throw new NotImplementedException();
+            return new AttachableXamlMember(name, getter, setter, this, featureProvider);
         }
     }
 }

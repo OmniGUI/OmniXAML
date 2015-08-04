@@ -1,7 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System;
-
     public class XamlDirective : XamlMemberBase
     {
         public XamlDirective(string name) : base(name)

@@ -46,7 +46,7 @@ namespace OmniXaml.Tests
                 new Level
                 {
                     Instance = dummyClass,
-                    XamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Child"),
+                    XamlMember = WiringContext.GetType(dummyClass.GetType()).GetMember("Child"),
                 });
 
             var childClass = new ChildClass();
@@ -79,7 +79,7 @@ namespace OmniXaml.Tests
                     Instance = dummyClass,
                 });
 
-            var xamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Items");
+            var xamlMember = WiringContext.GetType(dummyClass.GetType()).GetMember("Items");
 
             var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
@@ -101,7 +101,7 @@ namespace OmniXaml.Tests
                     XamlType = WiringContext.GetType(type)
                 });
 
-            var xamlMember = WiringContext.GetMember(WiringContext.GetType(type), "Items");
+            var xamlMember = WiringContext.GetType(type).GetMember("Items");
 
             var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
@@ -118,7 +118,7 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var type = typeof(DummyClass);
-            var xamlMember = WiringContext.GetMember(WiringContext.GetType(type), "Items");
+            var xamlMember = WiringContext.GetType(type).GetMember("Items");
 
             state.Push(
                 new Level

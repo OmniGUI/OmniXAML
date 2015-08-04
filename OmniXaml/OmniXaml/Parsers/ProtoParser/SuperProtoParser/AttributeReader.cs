@@ -1,7 +1,6 @@
 namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
 {
     using System.Collections.ObjectModel;
-    using System.Xml;
     using Glass;
     using Typing;
 
