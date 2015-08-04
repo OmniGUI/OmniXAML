@@ -76,6 +76,7 @@
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TestingExtensions.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
+    <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />

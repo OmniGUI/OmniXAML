@@ -30,7 +30,7 @@
         [TestMethod]
         public void GetWithFullAddressReturnsCorrectType()
         {          
-            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy());
+            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("root", "DummyClass"));
 
@@ -40,7 +40,7 @@
         [TestMethod]
         public void GetWithFullAddressOfClrNamespaceReturnsTheCorrectType()
         {
-            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy());
+            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
 
@@ -51,7 +51,7 @@
         [ExpectedException(typeof(TypeNotFoundException))]
         public void FullAddressOfUnknownThrowNotFound()
         {
-            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy());
+            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             const string unreachableTypeName = "UnreachableType";
             sut.GetWithFullAddress(new XamlTypeName("root", unreachableTypeName));

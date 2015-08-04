@@ -6,16 +6,22 @@ namespace OmniXaml
 
     public class WiringContext
     {
-        public WiringContext(ITypeContext typeContext, TypeFeatureProvider typeFeatureProvider)
+        private readonly ITypeFeatureProvider typeFeatureProvider;
+
+        public WiringContext(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {
-            TypeContext = typeContext;
-            ContentPropertyProvider = typeFeatureProvider.ContentPropertyProvider;
-            ConverterProvider = typeFeatureProvider.ConverterProvider;
+            this.typeFeatureProvider = typeFeatureProvider;
+            TypeContext = typeContext;            
         }
 
         public ITypeContext TypeContext { get; }
-        public IContentPropertyProvider ContentPropertyProvider { get; private set; }
-        public ITypeConverterProvider ConverterProvider { get; private set; }
+        public IContentPropertyProvider ContentPropertyProvider => typeFeatureProvider;
+        public ITypeConverterProvider ConverterProvider => typeFeatureProvider;
+
+        public ITypeFeatureProvider FeatureProvider
+        {
+            get { return typeFeatureProvider; }
+        }
 
         public XamlType GetType(Type type)
         {

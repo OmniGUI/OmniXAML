@@ -19,7 +19,7 @@
 
             var typeLocator = "type locator";
 
-            var xamlType = new XamlType(typeof (DummyClass), typeRepoMock.Object, new TypeFactoryDummy());
+            var xamlType = new XamlType(typeof (DummyClass), typeRepoMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
             typeContextMock.Setup(context => context.GetByQualifiedName(It.Is<string>(s => s.Equals(typeLocator))))
                 .Returns(xamlType);
 

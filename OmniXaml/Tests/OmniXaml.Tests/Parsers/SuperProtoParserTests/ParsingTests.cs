@@ -21,7 +21,7 @@
 
         public ParsingTests()
         {
-            builder = new ProtoNodeBuilder(WiringContext.TypeContext);
+            builder = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
         }
 
         [TestInitialize]

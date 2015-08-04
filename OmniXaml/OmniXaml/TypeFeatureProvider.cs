@@ -5,7 +5,7 @@ namespace OmniXaml
     using Catalogs;
     using TypeConversion;
 
-    public class TypeFeatureProvider : ITypeConverterProvider, IContentPropertyProvider
+    public class TypeFeatureProvider : ITypeFeatureProvider
     {
         public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
         {

@@ -5,23 +5,19 @@
 
     public class WpfXamlType : XamlType
     {
-        private readonly IXamlTypeRepository wiringContext;
-        private readonly ITypeFactory typeFactory;
-
-        public WpfXamlType(Type type, IXamlTypeRepository wiringContext, ITypeFactory typeFactory) : base(type, wiringContext, typeFactory)
-        {
-            this.wiringContext = wiringContext;
-            this.typeFactory = typeFactory;
+        public WpfXamlType(Type type, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+            : base(type, xamlTypeRepository, typeTypeFactory, featureProvider)
+        {           
         }
 
         protected override XamlMember LookupMember(string name)
         {
-            return new WpfXamlMember(name, this, wiringContext, typeFactory);
+            return new WpfXamlMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
         }
 
         protected override AttachableXamlMember LookupAttachableMember(string name)
         {
-            return new WpfXamlAttachableMember(name, this, wiringContext, typeFactory);
+            return new WpfXamlAttachableMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
         }
     }
 }

@@ -4,8 +4,8 @@
 
     public class WpfXamlMember : XamlMember
     {
-        public WpfXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory)
-            : base(name, owner, xamlTypeRepository, typeFactory)
+        public WpfXamlMember(string name, XamlType owner, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, ITypeFeatureProvider typeFeatureProvider)
+            : base(name, owner, xamlTypeRepository, typeFactory, typeFeatureProvider)
         {
         }
 
