@@ -131,19 +131,6 @@
             SetNextNode();
         }
 
-        private XamlMember GetContentProperty(XamlType parentType)
-        {
-            var propertyName = wiringContext.ContentPropertyProvider.GetContentPropertyName(parentType.UnderlyingType);
-
-            if (propertyName == null)
-            {
-                return null;
-            }
-
-            var member = wiringContext.TypeContext.GetXamlType(parentType.UnderlyingType).GetMember(propertyName);
-            return member;
-        }
-
         private bool IsNestedPropertyImplicit => CurrentNodeType != NodeType.PropertyElement && CurrentNodeType != NodeType.EmptyPropertyElement &&
                                                  CurrentNodeType != NodeType.EndTag;
 
@@ -181,7 +168,7 @@
         {
             if (IsNestedPropertyImplicit)
             {
-                var contentProperty = GetContentProperty(parentType);
+                var contentProperty = parentType.ContentProperty;
                 if (contentProperty == null)
                 {
                     throw new InvalidOperationException($"Cannot get the content property for the type {parentType}");

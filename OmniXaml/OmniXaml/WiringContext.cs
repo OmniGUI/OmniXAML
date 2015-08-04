@@ -15,7 +15,6 @@ namespace OmniXaml
         }
 
         public ITypeContext TypeContext { get; }
-        public IContentPropertyProvider ContentPropertyProvider => typeFeatureProvider;
         public ITypeConverterProvider ConverterProvider => typeFeatureProvider;
 
         public ITypeFeatureProvider FeatureProvider

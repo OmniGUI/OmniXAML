@@ -40,10 +40,10 @@ namespace OmniXaml.Typing
             get
             {
                 var typeInfo = UnderlyingType.GetTypeInfo();
-                var isCollection = typeof (ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isCollection = typeof(ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
                 var isEnumerable = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
 
-                return UnderlyingType != typeof(string) && (isCollection || isEnumerable) ;
+                return UnderlyingType != typeof(string) && (isCollection || isEnumerable);
             }
         }
 
@@ -93,7 +93,7 @@ namespace OmniXaml.Typing
         }
 
         protected virtual XamlMember LookupMember(string name)
-        {         
+        {
             return new XamlMember(name, this, typeRepository, typeTypeFactory, featureProvider);
         }
 
@@ -111,7 +111,7 @@ namespace OmniXaml.Typing
         {
             return "XamlType: " + Name;
         }
-        
+
         public bool CanAssignTo(XamlType type)
         {
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
@@ -149,5 +149,21 @@ namespace OmniXaml.Typing
         public ITypeFactory TypeFactory => typeTypeFactory;
 
         public ITypeFeatureProvider FeatureProvider => featureProvider;
+
+        public XamlMember ContentProperty
+        {
+            get
+            {
+                var propertyName = featureProvider.GetContentPropertyName(UnderlyingType);
+
+                if (propertyName == null)
+                {
+                    return null;
+                }
+
+                var member = typeRepository.GetXamlType(UnderlyingType).GetMember(propertyName);
+                return member;
+            }
+        }
     }
 }

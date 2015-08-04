@@ -106,15 +106,10 @@
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Assembler\LinkedListStackExtensions.cs" />
     <Compile Include="Assembler\CurrentScopeProxy.cs" />
-    <Compile Include="Assembler\NodeWriters\GetObjectWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\StartMemberWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\StartObjectWriter.cs" />
-    <Compile Include="Assembler\NodeWriters\ValueWriter.cs" />
     <Compile Include="Assembler\Scope.cs" />
     <Compile Include="Assembler\ParentScopeProxy.cs" />
     <Compile Include="Assembler\StateBag.cs" />
     <Compile Include="Assembler\TypeOperations.cs" />
-    <Compile Include="Assembler\ObjectAssembler.cs" />
     <Compile Include="Parsers\MarkupExtensions\AssignmentNode.cs" />
     <Compile Include="Parsers\MarkupExtensions\IdentifierNode.cs" />
     <Compile Include="Parsers\MarkupExtensions\MarkupExtensionNodeToXamlNodesConverter.cs" />
