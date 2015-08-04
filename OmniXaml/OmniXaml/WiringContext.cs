@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System;
+    using System.Reflection;
     using Typing;
 
     public class WiringContext
@@ -20,14 +21,9 @@ namespace OmniXaml
             return TypeContext.GetXamlType(type);
         }
 
-        public XamlMember GetMember(XamlType xamlType, string name)
+        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
         {
-            return xamlType.GetMember(name);
-        }
-
-        public AttachableXamlMember GetAttachableMember(XamlType xamlType, string name)
-        {
-            return xamlType.GetAttachableMember(name);
+            return new AttachableXamlMember(name, getter, setter, xamlTypeRepository, featureProvider);
         }
     }
 }

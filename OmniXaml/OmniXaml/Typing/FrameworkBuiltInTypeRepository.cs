@@ -30,7 +30,7 @@ namespace OmniXaml.Typing
             throw new NotImplementedException();
         }
 
-        public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             throw new NotImplementedException();
         }

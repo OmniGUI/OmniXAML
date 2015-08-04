@@ -115,12 +115,12 @@ namespace OmniXaml.Typing
 
         protected virtual XamlMember LookupMember(string name)
         {
-            return new XamlMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
+            return new XamlMember(name, this, TypeRepository, FeatureProvider);
         }
 
         public AttachableXamlMember GetAttachableMember(string name)
         {
-            return new AttachableXamlMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
+            return LookupAttachableMember(name);
         }
 
         public override string ToString()
@@ -132,13 +132,6 @@ namespace OmniXaml.Typing
         {
             var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
-        }
-
-        // ReSharper disable once UnusedMember.Global
-        protected virtual AttachableXamlMember LookupAttachableMember(string name)
-        {
-            // TODO: Review this!
-            throw new NotImplementedException();
         }
 
         public object CreateInstance(object[] parameters)
@@ -161,6 +154,13 @@ namespace OmniXaml.Typing
             Guard.ThrowIfNull(type, nameof(type));
 
             return new XamlType(type);
+        }
+
+        protected virtual AttachableXamlMember LookupAttachableMember(string name)
+        {
+            var getter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
+            var setter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Set" + name);
+            return TypeRepository.GetAttachableMember(name, getter, setter);            
         }
     }
 }

@@ -6,7 +6,8 @@ namespace OmniXaml.Wpf
 
     public class XamlTypeRepository : Typing.XamlTypeRepository
     {
-        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider) : base(xamlNamespaceRegistry, typeTypeFactory, featureProvider)
+        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+            : base(xamlNamespaceRegistry, typeTypeFactory, featureProvider)
         {
         }
 

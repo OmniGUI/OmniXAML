@@ -35,7 +35,7 @@ namespace OmniXaml.Typing
         {
             Guard.ThrowIfNull(type, nameof(type));
 
-            return XamlType.Create(type, this, typeTypeFactory, featureProvider);
+            return XamlType.Create(type, this, TypeFactory, featureProvider);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
@@ -79,12 +79,12 @@ namespace OmniXaml.Typing
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
             var owner = GetXamlType(propertyInfo.DeclaringType);
-            return new XamlMember(propertyInfo.Name, owner, this, typeTypeFactory, featureProvider);
+            return new XamlMember(propertyInfo.Name, owner, this, featureProvider);
         }
 
-        public XamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
-            throw new NotImplementedException();
+            return new AttachableXamlMember(name, getter, setter, this, featureProvider);
         }
     }
 }
