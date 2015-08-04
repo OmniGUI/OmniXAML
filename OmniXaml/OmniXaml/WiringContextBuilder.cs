@@ -53,7 +53,7 @@ namespace OmniXaml
                 }
             }
             
-            return new WiringContext(typingCore, contentPropertyProvider, converterProvider);
+            return new WiringContext(typingCore, new TypeFeatureProvider(contentPropertyProvider, converterProvider));
         }
 
         public WiringContextBuilder WithContentProperty(ContentPropertyDefinition contentPropertyDefinition)

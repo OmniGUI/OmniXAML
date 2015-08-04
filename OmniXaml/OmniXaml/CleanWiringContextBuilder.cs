@@ -20,7 +20,7 @@ namespace OmniXaml
 
         public WiringContext Build()
         {
-            return new WiringContext(TypeContext, ContentPropertyProvider, TypeConverterProvider);
+            return new WiringContext(TypeContext, new TypeFeatureProvider(ContentPropertyProvider, TypeConverterProvider));
         }
     }
 }

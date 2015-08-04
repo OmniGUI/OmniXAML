@@ -6,11 +6,11 @@ namespace OmniXaml
 
     public class WiringContext
     {
-        public WiringContext(ITypeContext typeContext, IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
+        public WiringContext(ITypeContext typeContext, TypeFeatureProvider typeFeatureProvider)
         {
             TypeContext = typeContext;
-            ContentPropertyProvider = contentPropertyProvider;
-            ConverterProvider = converterProvider;
+            ContentPropertyProvider = typeFeatureProvider.ContentPropertyProvider;
+            ConverterProvider = typeFeatureProvider.ConverterProvider;
         }
 
         public ITypeContext TypeContext { get; }
