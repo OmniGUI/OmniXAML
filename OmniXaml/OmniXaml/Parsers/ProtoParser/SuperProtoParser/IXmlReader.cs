@@ -11,6 +11,7 @@ namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
         string LocalName { get; }
         string Name { get; }
         string Value { get; }
+        string Namespace { get; }
         bool MoveToFirstAttribute();
         bool MoveToNextAttribute();
         void MoveToElement();

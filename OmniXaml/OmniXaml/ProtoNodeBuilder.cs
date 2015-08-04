@@ -55,25 +55,25 @@
             };
         }
 
-        private ProtoXamlNode Element(Type type, string prefix, bool isEmpty)
+        private ProtoXamlNode Element(Type type, NamespaceDeclaration nsDecl, bool isEmpty)
         {
             return new ProtoXamlNode
             {
-                Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
-                Prefix = prefix ?? string.Empty,
+                Namespace = nsDecl.Namespace,
+                Prefix = nsDecl.Prefix,
                 XamlType = XamlType.Create(type, typeContext, typeFactory),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }
 
-        public ProtoXamlNode NonEmptyElement(Type type, string prefix = null)
+        public ProtoXamlNode NonEmptyElement(Type type, NamespaceDeclaration nsDecl = null)
         {
-            return Element(type, prefix, false);
+            return Element(type, nsDecl, false);
         }
 
-        public ProtoXamlNode EmptyElement(Type type, string prefix)
+        public ProtoXamlNode EmptyElement(Type type, NamespaceDeclaration nsDecl)
         {
-            return Element(type, prefix, true);
+            return Element(type, nsDecl, true);
         }
 
         internal ProtoXamlNode EmptyElement<T>()
@@ -81,12 +81,12 @@
             return EmptyElement<T>(null);
         }
 
-        internal ProtoXamlNode EmptyElement<T>(string prefix)
+        internal ProtoXamlNode EmptyElement<T>(NamespaceDeclaration namespaceDeclaration)
         {
-            return EmptyElement(typeof(T), prefix);
+            return EmptyElement(typeof(T), namespaceDeclaration);
         }
 
-        public ProtoXamlNode AttachableProperty<TParent>(string name, string value, string prefix)
+        public ProtoXamlNode AttachableProperty<TParent>(string name, string value, NamespaceDeclaration namespaceDeclaration)
         {
             var type = typeof(TParent);
             var xamlType = typeContext.GetXamlType(type);
@@ -100,35 +100,35 @@
                 XamlType = null,
                 PropertyAttribute = member,
                 PropertyAttributeText = value,
-                Prefix = prefix,
+                Prefix = namespaceDeclaration.Prefix,
             };
         }
 
         // ReSharper disable once UnusedMember.Global
-        public ProtoXamlNode EmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix)
+        public ProtoXamlNode EmptyPropertyElement<T>(Expression<Func<T, object>> selector, NamespaceDeclaration namespaceDeclaration)
         {
-            return PropertyElement(selector, prefix, isCollapsed: true);
+            return PropertyElement(selector, namespaceDeclaration, isCollapsed: true);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, string prefix = null)
+        public ProtoXamlNode NonEmptyPropertyElement<T>(Expression<Func<T, object>> selector, NamespaceDeclaration namespaceDeclaration = null)
         {
-            return PropertyElement(selector, prefix, isCollapsed: false);
+            return PropertyElement(selector, namespaceDeclaration, isCollapsed: false);
         }
 
-        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName, string prefix)
+        public ProtoXamlNode NonEmptyPropertyElement(Type type, string memberName, NamespaceDeclaration namespaceDeclaration)
         {
-            return PropertyElement(type, memberName, prefix, isCollapsed: false);
+            return PropertyElement(type, memberName, namespaceDeclaration, isCollapsed: false);
         }
 
-        private ProtoXamlNode PropertyElement(Type type, string memberName, string prefix, bool isCollapsed)
+        private ProtoXamlNode PropertyElement(Type type, string memberName, NamespaceDeclaration namespaceDeclaration, bool isCollapsed)
         {
             var property = typeContext.GetXamlType(type).GetMember(memberName);
 
             return new ProtoXamlNode
             {
                 PropertyElement = property,
-                Prefix = prefix,
-                Namespace = prefix != null ? typeContext.GetNamespaceByPrefix(prefix).Name : string.Empty,
+                Prefix = namespaceDeclaration.Prefix,
+                Namespace = namespaceDeclaration.Namespace,
                 XamlType = null,
                 NodeType =
                     isCollapsed
@@ -137,9 +137,9 @@
             };
         }
 
-        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, string prefix, bool isCollapsed)
+        private ProtoXamlNode PropertyElement<T>(Expression<Func<T, object>> selector, NamespaceDeclaration namespaceDeclaration, bool isCollapsed)
         {
-            return PropertyElement(typeof(T), selector.GetFullPropertyName(), prefix, isCollapsed);
+            return PropertyElement(typeof(T), selector.GetFullPropertyName(), namespaceDeclaration, isCollapsed);
         }
 
         public ProtoXamlNode EndTag()
@@ -157,26 +157,26 @@
             return new ProtoXamlNode { Namespace = null, NodeType = NodeType.Text, XamlType = null, Text = text };
         }
 
-        public ProtoXamlNode Attribute(XamlMemberBase member, string value, string prefix)
+        public ProtoXamlNode Attribute(XamlMemberBase member, string value, NamespaceDeclaration namespaceDeclaration)
         {
             return new ProtoXamlNode
             {
                 PropertyAttribute = member,
                 NodeType = NodeType.Attribute,
                 PropertyAttributeText = value,
-                Prefix = prefix,
+                Prefix = namespaceDeclaration.Prefix,
             };
         }
 
-        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
+        public ProtoXamlNode Attribute<T>(Expression<Func<T, object>> selector, string value, NamespaceDeclaration namespaceDeclaration)
         {
             var xamlMember = typeContext.GetXamlType(typeof(T)).GetMember(selector.GetFullPropertyName());
-            return Attribute(xamlMember, value, prefix);
+            return Attribute(xamlMember, value, namespaceDeclaration);
         }
 
         public ProtoXamlNode Key(string value)
         {
-            return Attribute(CoreTypes.Key, value, "x");
+            return Attribute(CoreTypes.Key, value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
         }
     }
 }

@@ -1,0 +1,5 @@
+﻿<DummyClass xmlns="root" xmlns:sys="clr-namespace:System;assembly=mscorlib">
+  <DummyClass.SampleProperty>
+    <sys:String >Text</sys:String>
+  </DummyClass.SampleProperty>
+</DummyClass>

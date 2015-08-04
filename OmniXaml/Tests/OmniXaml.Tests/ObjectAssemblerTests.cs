@@ -6,19 +6,19 @@
     using Builder;
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NewAssembler;
 
-    public abstract class ObjectAssemblerTests : GivenAWiringContext
+    [TestClass]
+    public class ObjectAssemblerTests : GivenAWiringContext
     {
         private readonly XamlNodeBuilder builder;
         private readonly IObjectAssembler sut;
 
-        protected ObjectAssemblerTests()
+        public ObjectAssemblerTests()
         {
             builder = new XamlNodeBuilder(WiringContext.TypeContext);
-            sut = CreateObjectAssembler();
+            sut = new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext());
         }
-
-        protected abstract IObjectAssembler CreateObjectAssembler();
 
         [TestMethod]
         public void OneObject()
@@ -228,7 +228,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
                     builder.StartObject(typeof (DummyExtension)),
@@ -253,7 +253,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
                     builder.StartObject(typeof (DummyExtension)),
@@ -279,7 +279,7 @@
             sut.PumpNodes(
                 new Collection<XamlNode>
                 {
-                    builder.NamespacePrefixDeclaration(rootNs),
+                    builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
                     builder.StartMember<DummyClass>(d => d.Number),
                     builder.StartObject(typeof (IntExtension)),
@@ -323,6 +323,27 @@
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
+        }
+
+        [TestMethod]
+        public void String()
+        {
+            var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+
+            sut.PumpNodes(
+                new Collection<XamlNode>
+                {
+                    builder.NamespacePrefixDeclaration(sysNs),
+                    builder.StartObject<string>(),
+                    builder.StartDirective("_Initialization"),
+                    builder.Value("Text"),
+                    builder.EndMember(),
+                    builder.EndObject(),
+                });
+
+            var actual = sut.Result;
+            Assert.IsInstanceOfType(actual, typeof(string));
+            Assert.AreEqual("Text", actual);
         }
     }
 }

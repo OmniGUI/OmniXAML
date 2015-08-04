@@ -52,5 +52,10 @@ namespace OmniXaml.Parsers
         {
             return new XamlNode(XamlNodeType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
+
+        public static XamlNode Initialization()
+        {
+            return new XamlNode(XamlNodeType.StartMember, CoreTypes.Initialization);
+        }
     }
 }

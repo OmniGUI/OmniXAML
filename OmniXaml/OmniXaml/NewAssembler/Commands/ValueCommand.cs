@@ -1,5 +1,6 @@
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System;
     using System.Runtime.InteropServices.ComTypes;
 
     public class ValueCommand : Command
@@ -9,26 +10,33 @@ namespace OmniXaml.NewAssembler.Commands
         public ValueCommand(SuperObjectAssembler superObjectAssembler, string value) : base(superObjectAssembler)
         {
             this.value = value;
+            ValuePipeLine = new ValuePipeline(superObjectAssembler.WiringContext);
         }
+
+        private ValuePipeline ValuePipeLine { get; set; }
 
         public override void Execute()
         {
-            if (StateCommuter.IsWaitingValueAsKey)
+            if (StateCommuter.ValueProcessingMode == ValueProcessingMode.InitializationValue)
+            {
+                var underlyingType = StateCommuter.XamlType.UnderlyingType;
+                StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, underlyingType);
+            }
+            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.Key)
             {
                 StateCommuter.SetKey(value);
-                StateCommuter.IsWaitingValueAsKey = false;
+                StateCommuter.ValueProcessingMode = false ?  ValueProcessingMode.Key : ValueProcessingMode.AssignToMember;
             }
-            else if (!StateCommuter.IsProcessingValuesAsCtorArguments)
+            else if (StateCommuter.ValueProcessingMode == ValueProcessingMode.ConstructionParameter)
+            {
+                StateCommuter.AddCtorArgument(value);                
+            }
+            else
             {
                 StateCommuter.RaiseLevel();
                 StateCommuter.Instance = value;
                 StateCommuter.AssignChildToParentProperty();
                 StateCommuter.DecreaseLevel();
-            }
-
-            else
-            {
-                StateCommuter.AddCtorArgument(value);
             }
         }
     }

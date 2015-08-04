@@ -37,8 +37,8 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-               builder.EmptyElement<DummyClass>(""),
+                builder.NamespacePrefixDeclaration(RootNs),
+               builder.EmptyElement<DummyClass>(RootNs),
             };
 
             Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -51,8 +51,8 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
                 builder.EndTag(),
             };
 
@@ -66,10 +66,10 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(rootNs),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, ""),
-                builder.EmptyElement(typeof(ChildClass), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                builder.EmptyElement(typeof(ChildClass), RootNs),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -85,8 +85,8 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(rootNs),
-                builder.EmptyElement<DummyClass>(""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.EmptyElement<DummyClass>(RootNs),
             };
 
             Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -99,9 +99,9 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration(rootNs),
+                builder.NamespacePrefixDeclaration(RootNs),
                 builder.NamespacePrefixDeclaration("a", "another"),
-                builder.EmptyElement<DummyClass>(""),
+                builder.EmptyElement<DummyClass>(RootNs),
             };
 
             Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -114,8 +114,8 @@
 
             var expectedStates = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass),  string.Empty),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass),  RootNs),
                 builder.EndTag(),
             };
 
@@ -136,9 +136,9 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!", ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
                 builder.EndTag(),
             };
 
@@ -152,11 +152,11 @@
 
             var expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
+                builder.NamespacePrefixDeclaration(RootNs),
                 builder.NamespacePrefixDeclaration("x", "http://schemas.microsoft.com/winfx/2006/xaml"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Resources, string.Empty),
-                builder.EmptyElement(typeof(ChildClass), string.Empty),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Resources, RootNs),
+                builder.EmptyElement(typeof(ChildClass), RootNs),
                 builder.Key("SomeKey"),
                 builder.Text(),
                 builder.EndTag(),
@@ -176,8 +176,8 @@
             var expectedNodes = new Collection<ProtoXamlNode>
             {
                 builder.NamespacePrefixDeclaration("", prefix),
-                builder.NonEmptyElement(typeof(DummyClass),  string.Empty),
-                builder.AttachableProperty<Container>("Property", "Value", ""),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.AttachableProperty<Container>("Property", "Value", RootNs),
                 builder.EndTag(),
             };
 
@@ -191,12 +191,12 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
-                builder.NonEmptyElement(typeof (ChildClass),  string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, string.Empty),
-                builder.EmptyElement(typeof (ChildClass), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof (DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                builder.NonEmptyElement(typeof (ChildClass), RootNs),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, RootNs),
+                builder.EmptyElement(typeof (ChildClass), RootNs),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -215,14 +215,14 @@
 
             ICollection expectedNodes = new Collection<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
-                builder.NonEmptyElement(typeof(ChildClass),  string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, string.Empty),
-                builder.NonEmptyElement(typeof(ChildClass), string.Empty),
-                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, string.Empty),
-                builder.EmptyElement(typeof(ChildClass), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                builder.NonEmptyElement(typeof(ChildClass), RootNs),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, RootNs),
+                builder.NonEmptyElement(typeof(ChildClass), RootNs),
+                builder.NonEmptyPropertyElement<ChildClass>(d => d.Child, RootNs),
+                builder.EmptyElement(typeof(ChildClass), RootNs),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -243,14 +243,14 @@
             var actualNodes = sut.Parse(Dummy.ChildCollection).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
+                builder.EmptyElement(typeof(Item), RootNs),
                 builder.Text(),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.EmptyElement(typeof(Item), RootNs),
                 builder.Text(),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.EmptyElement(typeof(Item), RootNs),
                 builder.Text(),
                 builder.EndTag(),
                 builder.EndTag(),
@@ -265,9 +265,9 @@
             var actualNodes = sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.EmptyElement(typeof(Item), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.EmptyElement(typeof(Item), RootNs),
                 builder.Text(),
                 builder.EndTag(),
             };
@@ -281,8 +281,8 @@
             var actualNodes = sut.Parse(Dummy.CollapsedTag).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.EmptyElement(typeof(DummyClass), ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.EmptyElement(typeof(DummyClass), RootNs),
             };
 
             Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -294,11 +294,11 @@
             var actualNodes = sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
                 builder.EndTag(),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
                 builder.EndTag(),
                 builder.EndTag(),
             };
@@ -312,18 +312,18 @@
             var actualNodes = sut.Parse(Dummy.TwoNestedProperties).ToList();
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof(DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, string.Empty),
-                builder.EmptyElement<Item>(""),
-                builder.Attribute<Item>(i => i.Title, "Main1", ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof(DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
+                builder.EmptyElement<Item>(RootNs),
+                builder.Attribute<Item>(i => i.Title, "Main1", RootNs),
                 builder.Text(),
-                builder.EmptyElement<Item>(""),
-                builder.Attribute<Item>(i => i.Title, "Main2", ""),
+                builder.EmptyElement<Item>(RootNs),
+                builder.Attribute<Item>(i => i.Title, "Main2", RootNs),
                 builder.Text(),
                 builder.EndTag(),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, string.Empty),
-                builder.NonEmptyElement(typeof(ChildClass), string.Empty),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                builder.NonEmptyElement(typeof(ChildClass), RootNs),
                 builder.EndTag(),
                 builder.Text(),
                 builder.EndTag(),
@@ -340,15 +340,32 @@
 
             var expectedNodes = new List<ProtoXamlNode>
             {
-                builder.NamespacePrefixDeclaration("", "root"),
-                builder.NonEmptyElement(typeof (DummyClass), string.Empty),
-                builder.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, ""),
+                builder.NamespacePrefixDeclaration(RootNs),
+                builder.NonEmptyElement(typeof (DummyClass), RootNs),
+                builder.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, RootNs),
                 builder.Text("Property!"),
                 builder.EndTag(),
                 builder.EndTag(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        [TestMethod]
+        public void String()
+        {
+            var actualStates = sut.Parse(Dummy.String).ToList();
+
+            var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+            var expectedStates = new List<ProtoXamlNode>
+            {
+                builder.NamespacePrefixDeclaration(sysNs),
+                builder.NonEmptyElement(typeof (string), sysNs),
+                builder.Text("Text"),
+                builder.EndTag(),
+            };
+
+            CollectionAssert.AreEqual(expectedStates, actualStates);
         }
     }
 }

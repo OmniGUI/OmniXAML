@@ -83,7 +83,7 @@
             if (CurrentNodeType == NodeType.Text)
             {
                 SetNextNode();
-            }            
+            }
         }
 
         private IEnumerable<XamlNode> ParseNonEmptyElement()
@@ -91,18 +91,32 @@
             yield return Inject.StartOfObject(nodeStream.Current.XamlType);
             var parentType = nodeStream.Current.XamlType;
 
-            SetNextNode();
+            if (parentType.NeedsConstructionParameters)
+            {
+                foreach (var node in InjectNodesForTypeThatRequiresInitialization()) yield return node;
+            }
+            else
+            {
+                SetNextNode();
 
-            foreach (var xamlNode in ParseMembersOfObject()) { yield return xamlNode; }
-            foreach (var xamlNode in ParseContentPropertyIfAny(parentType)) { yield return xamlNode; }
+                foreach (var node in ParseMembersOfObject()) { yield return node; }
+                foreach (var node in ParseContentPropertyIfAny(parentType)) { yield return node; }
 
-            SkipTextNodes();
+                SkipTextNodes();
 
-            foreach (var xamlNode in ParseNestedProperties(parentType)) { yield return xamlNode; }
+                foreach (var xamlNode in ParseNestedProperties(parentType)) { yield return xamlNode; }               
+            }
 
             yield return Inject.EndOfObject();
-
             ReadEndTag();
+        }
+
+        private IEnumerable<XamlNode> InjectNodesForTypeThatRequiresInitialization()
+        {
+            yield return Inject.Initialization();
+            SetNextNode();
+            yield return Inject.Value(CurrentText);
+            yield return Inject.EndOfMember();
         }
 
         private void ReadEndTag()
@@ -191,7 +205,7 @@
                 throw new XamlParseException("The end of the stream has already been reached!");
             }
 
-            EndOfStream = !nodeStream.MoveNext();           
+            EndOfStream = !nodeStream.MoveNext();
         }
 
         private IEnumerable<XamlNode> ParseCollectionInsideThisProperty(XamlMember member)
@@ -233,14 +247,18 @@
             }
         }
 
+        private ProtoXamlNode Current => nodeStream.Current;
+        private string CurrentText => nodeStream.Current.Text;
+        private string CurrentPropertyText => Current.PropertyAttributeText;
+        private XamlMemberBase CurrentMember => Current.PropertyAttribute;
+
         private IEnumerable<XamlNode> ParseMembersOfObject()
         {
             while (CurrentNodeType == NodeType.Attribute && !EndOfStream)
             {
-                var protoXamlNode = nodeStream.Current;
-                var valueOfMember = protoXamlNode.PropertyAttributeText;
+                var valueOfMember = CurrentPropertyText;
 
-                yield return Inject.StartOfMember(protoXamlNode.PropertyAttribute);
+                yield return Inject.StartOfMember(CurrentMember);
 
                 if (IsMarkupExtension(valueOfMember))
                 {

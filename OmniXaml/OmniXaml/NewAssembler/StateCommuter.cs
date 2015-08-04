@@ -65,17 +65,21 @@ namespace OmniXaml.NewAssembler
             set { CurrentValue.Collection = value; }
         }
 
+        public Collection<ConstructionArgument> CurrentCtorParameters
+        {
+            get { return CurrentValue.CtorArguments; }
+            set { CurrentValue.CtorArguments = value; }
+        }
+
         public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
         public object PreviousInstance => PreviousValue.Instance;
         private bool IsParentOneToMany => PreviousValue.Collection != null;
-        public bool IsProcessingValuesAsCtorArguments => CurrentValue.IsProcessingValuesAsCtorArguments;
         public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
         private bool IsParentDictionary => PreviousValue.Collection is IDictionary;
         private bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
         private bool HasParentToAssociate => Level > 1;
         public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
         public ValuePipeline ValuePipeline { get; }
-        public bool IsWaitingValueAsKey { get; set; }
 
         public void SetKey(object value)
         {
@@ -163,12 +167,6 @@ namespace OmniXaml.NewAssembler
             CurrentValue.CtorArguments.Add(new ConstructionArgument(stringValue));
         }
 
-        public void BeginProcessingValuesAsCtorArguments()
-        {
-            CurrentValue.CtorArguments = new Collection<ConstructionArgument>();
-            CurrentValue.IsProcessingValuesAsCtorArguments = true;
-        }
-
         public void ResetCtorArguments()
         {
             CurrentValue.CtorArguments = null;
@@ -217,5 +215,7 @@ namespace OmniXaml.NewAssembler
             AssociateCurrentInstanceToParent();
             CurrentValue.WasAssociatedRightAfterCreation = true;
         }
+
+        public ValueProcessingMode ValueProcessingMode { get; set; }
     }
 }

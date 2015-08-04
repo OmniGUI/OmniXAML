@@ -34,7 +34,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.EndObject(),
@@ -50,7 +50,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.EndObject(),
@@ -66,7 +66,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
                 nodeBuilder.Value("Property!"),
@@ -86,7 +86,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Child),
@@ -157,7 +157,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
@@ -182,7 +182,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
@@ -213,7 +213,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
                 nodeBuilder.Value("Property!"),
@@ -232,7 +232,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
@@ -260,7 +260,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
                 nodeBuilder.StartObject(typeof(DummyExtension)),
@@ -280,7 +280,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
                 nodeBuilder.StartObject(typeof(DummyExtension)),
@@ -303,7 +303,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
@@ -328,7 +328,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
                 //nodeBuilder.None(),
                 nodeBuilder.StartMember<DummyClass>(d => d.Items),
@@ -356,7 +356,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(ChildClass)),
                 nodeBuilder.StartMember<ChildClass>(d => d.Content),
                 nodeBuilder.StartObject(typeof(Item)),
@@ -381,7 +381,7 @@
         {
             var expectedNodes = new List<XamlNode>
             {
-                nodeBuilder.NamespacePrefixDeclaration(rootNs),
+                nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.NamespacePrefixDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"),
                 nodeBuilder.StartObject(typeof (DummyClass)),
                 nodeBuilder.StartMember<DummyClass>(d => d.Resources),

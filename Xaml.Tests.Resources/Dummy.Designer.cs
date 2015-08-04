@@ -357,11 +357,19 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;sys:Int xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;123&lt;/sys:Int&gt;.
+        /// </summary>
+        public static string Int {
+            get {
+                return ResourceManager.GetString("Int", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
         ///            xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;DummyClass.Resources&gt;
-        ///    &lt;ChildClass x:Key=&quot;One&quot; /&gt;
-        ///    &lt;ChildClass x:Key=&quot;Two&quot; /&gt;
+        ///    &lt;ChildClass x:Key=&quot;SomeKey&quot; /&gt;    
         ///  &lt;/DummyClass.Resources&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -462,6 +470,28 @@ namespace Xaml.Tests.Resources {
         public static string SingleInstance {
             get {
                 return ResourceManager.GetString("SingleInstance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;sys:String xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;Text&lt;/sys:String&gt;.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///  &lt;DummyClass.SampleProperty&gt;
+        ///    &lt;sys:String &gt;Text&lt;/sys:String&gt;
+        ///  &lt;/DummyClass.SampleProperty&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string StringAsProperty {
+            get {
+                return ResourceManager.GetString("StringAsProperty", resourceCulture);
             }
         }
         

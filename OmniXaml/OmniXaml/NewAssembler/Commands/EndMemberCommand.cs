@@ -18,9 +18,10 @@ namespace OmniXaml.NewAssembler.Commands
 
         public override void Execute()
         {
-            if (StateCommuter.IsProcessingValuesAsCtorArguments)
+            if (StateCommuter.ValueProcessingMode == ValueProcessingMode.ConstructionParameter)
             {
                 AdaptCurrentCtorArgumentsToCurrentType();
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.AssignToMember;
             }
 
             if (IsTherePendingInstanceWaitingToBeAssigned)

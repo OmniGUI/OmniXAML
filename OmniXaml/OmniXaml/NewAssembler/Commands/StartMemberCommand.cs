@@ -1,5 +1,6 @@
 namespace OmniXaml.NewAssembler.Commands
 {
+    using System.Collections.ObjectModel;
     using Typing;
 
     public class StartMemberCommand : Command
@@ -17,24 +18,41 @@ namespace OmniXaml.NewAssembler.Commands
 
             if (member.IsDirective)
             {
-                if (IsMarkupExtensionArguments)
-                {
-                    StateCommuter.BeginProcessingValuesAsCtorArguments();
-                }
-                else if (IsKey)
-                {
-                    StateCommuter.IsWaitingValueAsKey = true;
-                }
+                SetCommuterStateAccordingToDirective();
             }
             else
-            {                
-                StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-                if (!StateCommuter.WasAssociatedRightAfterCreation)
-                {
-                    StateCommuter.AssociateCurrentInstanceToParentForCreation();
-                }
+            {
+                CreateInstanceOfCurrentTypeAndAssociateIfPossible();
             }
         }
+
+        private void CreateInstanceOfCurrentTypeAndAssociateIfPossible()
+        {
+            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
+            if (!StateCommuter.WasAssociatedRightAfterCreation)
+            {
+                StateCommuter.AssociateCurrentInstanceToParentForCreation();
+            }
+        }
+
+        private void SetCommuterStateAccordingToDirective()
+        {
+            if (IsMarkupExtensionArguments)
+            {
+                StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
+            }
+            else if (IsKey)
+            {
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.Key;
+            }
+            else if (IsInitialization)
+            {
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
+            }
+        }
+
+        private bool IsInitialization => member.Equals(CoreTypes.Initialization);
 
         private bool IsKey => member.Equals(CoreTypes.Key);
 

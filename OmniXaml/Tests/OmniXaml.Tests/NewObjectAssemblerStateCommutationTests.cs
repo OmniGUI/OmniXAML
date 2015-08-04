@@ -46,7 +46,7 @@ namespace OmniXaml.Tests
                 new Level
                 {
                     Instance = dummyClass,
-                    XamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Child"),                    
+                    XamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Child"),
                 });
 
             var childClass = new ChildClass();
@@ -64,7 +64,7 @@ namespace OmniXaml.Tests
             var expectedInstance = state.CurrentValue.Instance;
 
             Assert.AreSame(expectedInstance, dummyClass);
-            Assert.AreSame(((DummyClass) expectedInstance).Child, childClass);
+            Assert.AreSame(((DummyClass)expectedInstance).Child, childClass);
         }
 
         [TestMethod]
@@ -76,7 +76,7 @@ namespace OmniXaml.Tests
             state.Push(
                 new Level
                 {
-                    Instance = dummyClass,                    
+                    Instance = dummyClass,
                 });
 
             var xamlMember = WiringContext.GetMember(WiringContext.GetType(dummyClass.GetType()), "Items");
@@ -94,7 +94,7 @@ namespace OmniXaml.Tests
         {
             var state = new StackingLinkedList<Level>();
 
-            var type = typeof (DummyClass);
+            var type = typeof(DummyClass);
             state.Push(
                 new Level
                 {
@@ -117,14 +117,14 @@ namespace OmniXaml.Tests
         {
             var state = new StackingLinkedList<Level>();
 
-            var type = typeof (DummyClass);
+            var type = typeof(DummyClass);
             var xamlMember = WiringContext.GetMember(WiringContext.GetType(type), "Items");
 
             state.Push(
                 new Level
                 {
                     Instance = new DummyClass(),
-                    XamlMember = xamlMember,                    
+                    XamlMember = xamlMember,
                 });
 
             var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
@@ -132,7 +132,7 @@ namespace OmniXaml.Tests
             sut.Process(builder.GetObject());
 
             Assert.AreEqual(2, state.Count);
-            Assert.IsTrue(state.CurrentValue.Collection != null);            
+            Assert.IsTrue(state.CurrentValue.Collection != null);
             Assert.IsTrue(state.CurrentValue.IsGetObject);
         }
 
@@ -172,7 +172,7 @@ namespace OmniXaml.Tests
                     IsGetObject = true,
                 });
 
-            state.Push(new Level {XamlType = WiringContext.GetType(typeof (Item))});
+            state.Push(new Level { XamlType = WiringContext.GetType(typeof(Item)) });
 
             var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
 
@@ -180,78 +180,14 @@ namespace OmniXaml.Tests
             sut.Process(builder.EndObject());
 
             Assert.AreEqual(0, state.Count);
-        }
-
-        [TestMethod]
-        public void GivenStateToStartMarkupeExtension_WritingMarkupExtensionArgumentsDirectiveSetsTheModeToReceiveValuesAsCtorArugments()
-        {
-            var state = new StackingLinkedList<Level>();
-
-            state.Push(
-                new Level
-                {
-                    XamlType = WiringContext.GetType(typeof(DummyExtension)),
-                });
-           
-
-            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
-
-            sut.Process(builder.MarkupExtensionArguments());
-            Assert.IsTrue(state.CurrentValue.IsProcessingValuesAsCtorArguments);
-        }
-
-        [TestMethod]
-        public void GivenNodeThatWantsValuesAsCtorArguments_WritingValueAddsCtorArgument()
-        {
-            var state = new StackingLinkedList<Level>();
-
-            state.Push(
-                new Level
-                {
-                    IsProcessingValuesAsCtorArguments = true,
-                    CtorArguments = new Collection<ConstructionArgument>()
-                });
-
-
-            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
-
-            sut.Process(builder.Value("Value"));
-            Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
-        }
-
-        [TestMethod]
-        public void GivenCtorArguments_WritingEndMemberCreatesProperExtensionArguments()
-        {
-            var state = new StackingLinkedList<Level>();
-
-            var constructionArguments = new Collection<ConstructionArgument> {new ConstructionArgument("Value")};
-            state.Push(
-                new Level
-                {
-                    XamlType = WiringContext.GetType(typeof(DummyExtension)),
-                    CtorArguments = constructionArguments,
-                    IsProcessingValuesAsCtorArguments = true,
-                });
-
-
-            var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
-            sut.Process(builder.EndMember());
-
-            Assert.AreEqual(1, state.CurrentValue.CtorArguments.Count);
-            var expectedCollection = new Collection<ConstructionArgument>()
-            {
-                new ConstructionArgument("Value", "Value"),
-            };
-
-            CollectionAssert.AreEqual(expectedCollection, state.CurrentValue.CtorArguments);
-        }
+        }    
 
         [TestMethod]
         public void GivenCtorArguments_WritingEndObjectMakesResultTheProvidedValueOfTheMarkupExtension()
         {
             var state = new StackingLinkedList<Level>();
 
-            var xamlType = WiringContext.GetType(typeof (DummyClass));
+            var xamlType = WiringContext.GetType(typeof(DummyClass));
             state.Push(
                 new Level
                 {
@@ -267,7 +203,7 @@ namespace OmniXaml.Tests
                     XamlType = WiringContext.GetType(typeof(DummyExtension)),
                     CtorArguments = constructionArguments,
                 });
-            
+
             var sut = new SuperObjectAssembler(state, WiringContext, new TopDownMemberValueContext());
             sut.Process(builder.EndObject());
 

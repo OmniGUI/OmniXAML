@@ -26,9 +26,9 @@
             return ParseElement();
         }
 
-        private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType, string prefix, AttributeFeed attributes)
+        private IEnumerable<ProtoXamlNode> ParseEmptyElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
-            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, prefix);
+            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             return CommonNodesOfElement(xamlType, emptyElement, attributes);
         }
 
@@ -44,13 +44,14 @@
             foreach (var node in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return node;
         }
 
-        private IEnumerable<ProtoXamlNode> ParseExpandedElement(XamlType xamlType, string prefix, AttributeFeed attributes)
+        private IEnumerable<ProtoXamlNode> ParseExpandedElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
-            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, prefix);
+            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             foreach (var node in CommonNodesOfElement(xamlType, element, attributes)) yield return node;
 
             reader.Read();
 
+            foreach (var node in ParseInnerTextIfAny()) yield return node; 
             foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
 
             yield return nodeBuilder.EndTag();
@@ -79,7 +80,8 @@
         private IEnumerable<ProtoXamlNode> ParseNestedProperty(XamlType xamlType)
         {
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
-            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, propertyLocator.Prefix);
+            var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
+            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
             reader.Read();
 
             foreach (var p in ParseInnerTextIfAny()) yield return p;
@@ -147,7 +149,8 @@
                 member = containingType.GetMember(rawAttribute.Locator.PropertyName);
             }
 
-            return nodeBuilder.Attribute(member, rawAttribute.Value, rawAttribute.Locator.Prefix);
+            var namespaceDeclaration = new NamespaceDeclaration(rawAttribute.Locator.Namespace, rawAttribute.Locator.Prefix);
+            return nodeBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration);
         }
 
         private AttributeFeed GetAttributes()
@@ -169,16 +172,19 @@
             RegisterPrefixes(prefixRegistrations);
 
             var prefix = reader.Prefix;
+            var ns = reader.Namespace;
+            var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
-            var childType = wiringContext.TypeContext.GetByPrefix(prefix, reader.LocalName);
+            var childType = wiringContext.TypeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
+            
 
             if (reader.IsEmptyElement)
-            {
-                foreach (var node in ParseEmptyElement(childType, prefix, attributes)) yield return node;
+            {                
+                foreach (var node in ParseEmptyElement(childType, namespaceDeclaration, attributes)) yield return node;
             }
             else
             {
-                foreach (var node in ParseExpandedElement(childType, prefix, attributes)) yield return node;
+                foreach (var node in ParseExpandedElement(childType, namespaceDeclaration, attributes)) yield return node;
             }
         }
 
@@ -201,7 +207,7 @@
 
         private ProtoXamlNode ConvertDirective(RawDirective directive)
         {
-            return nodeBuilder.Attribute(CoreTypes.Key, directive.Value, "x");
+            return nodeBuilder.Attribute(CoreTypes.Key, directive.Value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
         }
 
         private ProtoXamlNode ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
