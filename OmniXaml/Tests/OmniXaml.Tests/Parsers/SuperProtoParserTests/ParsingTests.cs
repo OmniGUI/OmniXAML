@@ -41,7 +41,7 @@
                builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@
                 builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -104,7 +104,7 @@
                 builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -119,7 +119,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedStates, actualStates);
+            CollectionAssert.AreEqual(expectedStates, actualStates);
         }
 
         [TestMethod]
@@ -142,7 +142,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -205,7 +205,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -234,7 +234,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -285,7 +285,7 @@
                 builder.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -303,7 +303,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
@@ -330,7 +330,7 @@
                 builder.EndTag(),
             };
 
-            Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
         [TestMethod]
