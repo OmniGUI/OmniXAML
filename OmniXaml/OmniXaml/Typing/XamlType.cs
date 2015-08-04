@@ -9,19 +9,15 @@ namespace OmniXaml.Typing
 
     public class XamlType
     {
-        private readonly IXamlTypeRepository typeRepository;
-        private readonly ITypeFactory typeTypeFactory;
-        private readonly ITypeFeatureProvider featureProvider;
-
         public XamlType(Type type, IXamlTypeRepository typeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
             Guard.ThrowIfNull(featureProvider, nameof(featureProvider));
 
-            this.typeRepository = typeRepository;
-            this.typeTypeFactory = typeTypeFactory;
-            this.featureProvider = featureProvider;
+            TypeRepository = typeRepository;
+            TypeFactory = typeTypeFactory;
+            FeatureProvider = featureProvider;
             UnderlyingType = type;
             Name = type.Name;
         }
@@ -32,20 +28,17 @@ namespace OmniXaml.Typing
         }
 
         public Type UnderlyingType { get; }
-
-        public string Name { get; private set; }
-
-        public XamlType BaseType { get; private set; }
+        public string Name { get; }
 
         public bool IsCollection
         {
             get
             {
                 var typeInfo = UnderlyingType.GetTypeInfo();
-                var isCollection = typeof(ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
-                var isEnumerable = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isCollection = typeof (ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isEnumerable = typeof (IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
 
-                return UnderlyingType != typeof(string) && (isCollection || isEnumerable);
+                return UnderlyingType != typeof (string) && (isCollection || isEnumerable);
             }
         }
 
@@ -56,10 +49,36 @@ namespace OmniXaml.Typing
             get
             {
                 var typeInfo = UnderlyingType.GetTypeInfo();
-                var isDictionary = typeof(IDictionary).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isDictionary = typeof (IDictionary).GetTypeInfo().IsAssignableFrom(typeInfo);
                 return isDictionary;
             }
         }
+
+        public bool NeedsConstructionParameters => UnderlyingType.GetTypeInfo().DeclaredConstructors.All(info => info.GetParameters().Any());
+        // ReSharper disable once MemberCanBeProtected.Global
+        public IXamlTypeRepository TypeRepository { get; }
+        // ReSharper disable once MemberCanBeProtected.Global
+        public ITypeFactory TypeFactory { get; }
+        // ReSharper disable once MemberCanBeProtected.Global
+        public ITypeFeatureProvider FeatureProvider { get; }
+
+        public XamlMember ContentProperty
+        {
+            get
+            {
+                var propertyName = FeatureProvider.GetContentPropertyName(UnderlyingType);
+
+                if (propertyName == null)
+                {
+                    return null;
+                }
+
+                var member = TypeRepository.GetXamlType(UnderlyingType).GetMember(propertyName);
+                return member;
+            }
+        }
+
+        public ITypeConverter TypeConverter => FeatureProvider.GetTypeConverter(UnderlyingType);
 
         protected bool Equals(XamlType other)
         {
@@ -78,14 +97,14 @@ namespace OmniXaml.Typing
                 return true;
             }
 
-            return Equals((XamlType)obj);
+            return Equals((XamlType) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((UnderlyingType?.GetHashCode() ?? 0) * 397);
+                return ((UnderlyingType?.GetHashCode() ?? 0)*397);
             }
         }
 
@@ -96,17 +115,12 @@ namespace OmniXaml.Typing
 
         protected virtual XamlMember LookupMember(string name)
         {
-            return new XamlMember(name, this, typeRepository, typeTypeFactory, featureProvider);
-        }
-
-        private PropertyInfo GetPropertyInfo(string name)
-        {
-            return UnderlyingType.GetRuntimeProperty(name);
+            return new XamlMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
         }
 
         public AttachableXamlMember GetAttachableMember(string name)
         {
-            return new AttachableXamlMember(name, this, typeRepository, typeTypeFactory, featureProvider);
+            return new AttachableXamlMember(name, this, TypeRepository, TypeFactory, FeatureProvider);
         }
 
         public override string ToString()
@@ -120,17 +134,22 @@ namespace OmniXaml.Typing
             return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
         }
 
+        // ReSharper disable once UnusedMember.Global
         protected virtual AttachableXamlMember LookupAttachableMember(string name)
         {
+            // TODO: Review this!
             throw new NotImplementedException();
         }
 
         public object CreateInstance(object[] parameters)
         {
-            return typeTypeFactory.Create(UnderlyingType, parameters);
+            return TypeFactory.Create(UnderlyingType, parameters);
         }
 
-        public static XamlType Create(Type underlyingType, IXamlTypeRepository xamlTypeRepository, ITypeFactory typeFactory, ITypeFeatureProvider featureProvider)
+        public static XamlType Create(Type underlyingType,
+            IXamlTypeRepository xamlTypeRepository,
+            ITypeFactory typeFactory,
+            ITypeFeatureProvider featureProvider)
         {
             Guard.ThrowIfNull(underlyingType, nameof(xamlTypeRepository));
 
@@ -143,31 +162,5 @@ namespace OmniXaml.Typing
 
             return new XamlType(type);
         }
-
-        public bool NeedsConstructionParameters => UnderlyingType.GetTypeInfo().DeclaredConstructors.All(info => info.GetParameters().Any());
-
-        public IXamlTypeRepository TypeRepository => typeRepository;
-
-        public ITypeFactory TypeFactory => typeTypeFactory;
-
-        public ITypeFeatureProvider FeatureProvider => featureProvider;
-
-        public XamlMember ContentProperty
-        {
-            get
-            {
-                var propertyName = featureProvider.GetContentPropertyName(UnderlyingType);
-
-                if (propertyName == null)
-                {
-                    return null;
-                }
-
-                var member = typeRepository.GetXamlType(UnderlyingType).GetMember(propertyName);
-                return member;
-            }
-        }
-
-        public ITypeConverter TypeConverter => featureProvider.GetTypeConverter(UnderlyingType);
     }
 }

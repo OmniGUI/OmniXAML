@@ -2,9 +2,7 @@ namespace OmniXaml
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq;
     using Builder;
-    using Catalogs;
     using TypeConversion;
     using Typing;
 

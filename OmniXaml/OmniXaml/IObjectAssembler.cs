@@ -2,7 +2,6 @@
 {
     using System;
     using Assembler;
-    using NewAssembler;
 
     public interface IObjectAssembler
     {

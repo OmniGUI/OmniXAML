@@ -1,8 +1,5 @@
 namespace OmniXaml
 {
-    using TypeConversion;
-    using Typing;
-
     public class CleanWiringContextBuilder
     {
         public ITypeContext TypeContext { get; protected set; }

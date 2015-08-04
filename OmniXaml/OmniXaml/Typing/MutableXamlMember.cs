@@ -1,8 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System.Linq;
-    using System.Reflection;
-
     public abstract class MutableXamlMember : XamlMemberBase
     {
         private readonly ITypeFeatureProvider typeFeatureProvider;
