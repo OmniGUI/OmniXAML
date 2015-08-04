@@ -13,7 +13,7 @@ namespace OmniXaml.Typing
 
         public virtual object GetValue(object instance)
         {
-            return ValueGetter.Invoke(instance, null);
+            return xamlMember.Getter.Invoke(instance, null);
         }
 
         public virtual void SetValue(object instance, object value)
@@ -29,7 +29,7 @@ namespace OmniXaml.Typing
             }
             else
             {
-                ValueSetter.Invoke(instance, new[] { value });
+                xamlMember.Setter.Invoke(instance, new[] { value });
             }
         }
 

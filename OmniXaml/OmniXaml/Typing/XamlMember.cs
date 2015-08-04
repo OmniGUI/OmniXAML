@@ -14,8 +14,8 @@ namespace OmniXaml.Typing
 
         public override bool IsDirective => false;
 
-        public override MethodInfo Getter => DeclaringType.UnderlyingType.GetTypeInfo().GetDeclaredProperty(Name).GetMethod;
-        public override MethodInfo Setter => DeclaringType.UnderlyingType.GetTypeInfo().GetDeclaredProperty(Name).SetMethod;
+        public override MethodInfo Getter => DeclaringType.UnderlyingType.GetRuntimeProperty(Name).GetMethod;
+        public override MethodInfo Setter => DeclaringType.UnderlyingType.GetRuntimeProperty(Name).SetMethod;
 
         private XamlType LookupType()
         {
