@@ -7,10 +7,7 @@
     using Classes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers;
-    using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
-    using ProtoParserTests;
-    using Typing;
     using Xaml.Tests.Resources;
 
     [TestClass]
@@ -126,7 +123,8 @@
         [ExpectedException(typeof(XamlParseException))]
         public void PropertyTagOpen()
         {
-            var actualStates = sut.Parse(ProtoInputs.PropertyTagOpen).ToList();
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+            sut.Parse(ProtoInputs.PropertyTagOpen).ToList();
         }
 
         [TestMethod]
