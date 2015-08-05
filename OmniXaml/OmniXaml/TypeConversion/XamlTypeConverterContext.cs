@@ -1,11 +1,13 @@
 namespace OmniXaml.TypeConversion
 {
+    using Typing;
+
     public class XamlTypeConverterContext : IXamlTypeConverterContext
     {
-        public XamlTypeConverterContext(ITypeContext typeContext)
+        public XamlTypeConverterContext(IXamlTypeRepository typeRepository)
         {
-            TypeContext = typeContext;
+            TypeRepository = typeRepository;
         }
-        public ITypeContext TypeContext { get;  }
+        public IXamlTypeRepository TypeRepository { get;  }
     }
 }

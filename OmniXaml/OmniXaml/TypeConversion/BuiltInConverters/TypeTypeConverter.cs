@@ -13,7 +13,7 @@
         public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
         {
             var qualifiedTypeName = value as string;
-            return context.TypeContext.GetByQualifiedName(qualifiedTypeName).UnderlyingType;            
+            return context.TypeRepository.GetByQualifiedName(qualifiedTypeName).UnderlyingType;            
         }
 
         public bool CanConvertTo(IXamlTypeConverterContext context, Type destinationType)

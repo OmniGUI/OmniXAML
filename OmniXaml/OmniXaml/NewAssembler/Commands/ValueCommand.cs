@@ -9,7 +9,7 @@ namespace OmniXaml.NewAssembler.Commands
         public ValueCommand(SuperObjectAssembler superObjectAssembler, string value) : base(superObjectAssembler)
         {
             this.value = value;
-            ValuePipeLine = new ValuePipeline(superObjectAssembler.WiringContext);
+            ValuePipeLine = new ValuePipeline(superObjectAssembler.WiringContext.TypeContext);
         }
 
         private ValuePipeline ValuePipeLine { get; set; }

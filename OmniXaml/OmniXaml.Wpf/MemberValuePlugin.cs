@@ -4,6 +4,7 @@ namespace OmniXaml.Wpf
     using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
+    using NewAssembler;
     using Typing;
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
@@ -17,10 +18,21 @@ namespace OmniXaml.Wpf
 
         public override void SetValue(object instance, object value)
         {
-            if (!TrySetDependencyProperty(instance, value))
+            if (xamlMember.Name == "Value" && instance is Setter)
             {
-                base.SetValue(instance, value);
-            }                      
+                var setter = (Setter) instance;                
+                var targetType = setter.Property.PropertyType;
+                var valuePipeline = new ValuePipeline(this.xamlMember.TypeRepository);
+                var xamlType = xamlMember.TypeRepository.GetXamlType(targetType);
+                base.SetValue(instance, valuePipeline.ConvertValueIfNecessary(value, xamlType));
+            }
+            else
+            {
+                if (!TrySetDependencyProperty(instance, value))
+                {
+                    base.SetValue(instance, value);
+                }
+            }
         }
 
         private bool TrySetDependencyProperty(object instance, object value)

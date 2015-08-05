@@ -24,7 +24,7 @@
                 .Returns(xamlType);
 
             var contextMock = new Mock<IXamlTypeConverterContext>();
-            contextMock.Setup(context => context.TypeContext).Returns(typeContextMock.Object);
+            contextMock.Setup(context => context.TypeRepository).Returns(typeContextMock.Object);
 
 
             var sut = new TypeTypeConverter();

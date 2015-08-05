@@ -25,7 +25,7 @@ namespace OmniXaml.NewAssembler
 
             this.stack = stack;
             this.topDownMemberValueContext = topDownMemberValueContext;
-            ValuePipeline = new ValuePipeline(wiringContext);
+            ValuePipeline = new ValuePipeline(wiringContext.TypeContext);
         }
 
         public bool HasCurrentInstance => CurrentValue.Instance != null;
@@ -138,7 +138,7 @@ namespace OmniXaml.NewAssembler
             {
                 TargetObject = PreviousInstance,
                 TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
-                TypeRepository = ValuePipeline.WiringContext.TypeContext,
+                TypeRepository = ValuePipeline.TypeRepository,
                 TopDownMemberValueContext = topDownMemberValueContext,
             };
 

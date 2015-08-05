@@ -47,6 +47,12 @@ namespace OmniXaml.Typing
         public XamlType GetByPrefix(string prefix, string typeName)
         {
             var ns = xamlNamespaceRegistry.GetNamespaceByPrefix(prefix);
+
+            if (ns == null)
+            {
+                throw new InvalidOperationException($"Cannot find a namespace with the prefix \"{prefix}\"");
+            }
+
             var type = ns.Get(typeName);
 
             if (type == null)

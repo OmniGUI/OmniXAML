@@ -1,7 +1,9 @@
 namespace OmniXaml.TypeConversion
 {
+    using Typing;
+
     public interface IXamlTypeConverterContext
     {
-        ITypeContext TypeContext { get; }
+        IXamlTypeRepository TypeRepository { get; }
     }
 }

@@ -8,12 +8,14 @@ namespace OmniXaml.NewAssembler
 
     public class ValuePipeline
     {
-        public ValuePipeline(WiringContext wiringContext)
+        private readonly IXamlTypeRepository typeRepository;
+
+        public ValuePipeline(IXamlTypeRepository typeRepository)
         {
-            WiringContext = wiringContext;
+            this.typeRepository = typeRepository;
         }
 
-        public WiringContext WiringContext { get; }
+        public IXamlTypeRepository TypeRepository => typeRepository;
 
         public object ConvertValueIfNecessary(object value, XamlType targetType)
         {
@@ -32,7 +34,7 @@ namespace OmniXaml.NewAssembler
             var typeConverter = targetType.TypeConverter;
             if (typeConverter != null)
             {
-                var context = new XamlTypeConverterContext(WiringContext.TypeContext);
+                var context = new XamlTypeConverterContext(typeRepository);
                 if (typeConverter.CanConvertFrom(context, value.GetType()))
                 {
                     var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);

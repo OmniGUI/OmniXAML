@@ -7,11 +7,20 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"        
         Title="{Binding Title}" Height="350" Width="525">
+    <Window.Resources>
+        <Style x:Key="Style">
+            <Setter Value="12" Property="Margin"  />
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition />            
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <GroupBox Header="Contacts">
             <ListBox ItemsSource="{Binding People}" SelectedItem="{Binding SelectedContact}">
                 <ListBox.ItemTemplate>
@@ -33,5 +42,8 @@
                 <Image Margin="8"  Grid.Row="2"  Source="{Binding SelectedContact.Picture}" />
             </Grid>
         </GroupBox>
+        <ToolBar Grid.ColumnSpan="2" Grid.Row="1">
+            <Button Style="{StaticResource Style}" Content="Saludos cordiales" />
+        </ToolBar>
     </Grid>
 </Window>
