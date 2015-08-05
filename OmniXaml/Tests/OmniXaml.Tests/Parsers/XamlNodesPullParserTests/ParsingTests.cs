@@ -2,13 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Builder;
     using Classes;
     using Classes.WpfLikeModel;
+    using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
+    using Typing;
 
     [TestClass]
     public class ParsingTests : GivenAWiringContext
@@ -665,8 +668,8 @@
                 x.NamespacePrefixDeclaration(sysNs),
                 x.StartObject<string>(),
                 x.StartDirective("_Initialization"),
-                x.Value("Text"), 
-                x.EndMember(),               
+                x.Value("Text"),
+                x.EndMember(),
                 x.EndObject(),
             };
 
@@ -674,6 +677,100 @@
             var xamlNodes = actualNodes.ToList();
 
             CollectionAssert.AreEqual(expectedNodes, xamlNodes);
+        }
+
+        [TestMethod]
+        public void SortMembers()
+        {
+            var input = new List<XamlNode>
+            {
+                x.StartMember<Setter>(c => c.Value),
+                x.Value("Value"),
+                x.EndMember(),
+                x.StartMember<Setter>(c => c.Property),
+                x.Value("Property"),
+                x.EndMember(),
+            };
+
+            var expectedNodes = new List<XamlNode>
+            {
+                x.StartMember<Setter>(c => c.Property),
+                x.Value("Property"),
+                x.EndMember(),
+                x.StartMember<Setter>(c => c.Value),
+                x.Value("Value"),
+                x.EndMember(),
+
+            };
+
+            var actualNodes = ParserMierda(input).ToList();
+            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+        }
+
+        private IEnumerable<XamlNode> ParserMierda(List<XamlNode> expectedNodes)
+        {
+            var enumerator = expectedNodes.GetEnumerator();
+            var queues = new Collection<MemberNodesBlock>();
+            var isRecording = false;
+            MemberNodesBlock currentBlock = null;
+            while (enumerator.MoveNext())
+            {
+                var xamlNode = enumerator.Current;
+
+                if (IsStartOfMember(xamlNode))
+                {
+                    isRecording = true;
+                    currentBlock = new MemberNodesBlock(xamlNode);
+                    queues.Add(currentBlock);
+                }
+                else if (IsEndOfMember(xamlNode))
+                {
+                    isRecording = false;
+                }
+
+                if (isRecording)
+                {
+                    currentBlock.AddNode(xamlNode);
+                }
+            }
+
+            foreach (var xamlNode1 in YieldOrderedQueues(queues)) yield return xamlNode1;
+        }
+
+        public class MemberNodesBlock : IDependency<XamlMember>
+        {
+            private readonly XamlNode headingNode;
+            private readonly Queue<XamlNode> nodes = new Queue<XamlNode>();
+            private readonly MutableXamlMember member;
+
+            public MemberNodesBlock(XamlNode headingNode)
+            {
+                this.member = (MutableXamlMember)headingNode.Member;
+            }
+
+            public void AddNode(XamlNode node)
+            {
+                nodes.Enqueue(node);
+            }
+
+            public IEnumerable<XamlMember> Dependencies => member.Dependencies;
+
+            public Queue<XamlNode> Nodes => nodes;
+        }
+
+        private static IEnumerable<XamlNode> YieldOrderedQueues(IEnumerable<MemberNodesBlock> queues)
+        {
+            return queues.Reverse().SelectMany(queue => queue.Nodes);
+        }
+
+        private bool IsEndOfMember(XamlNode xamlNode)
+        {
+            return xamlNode.NodeType == XamlNodeType.EndMember && xamlNode.Member is MutableXamlMember;
+        }
+
+        private static bool IsStartOfMember(XamlNode xamlNode)
+        {
+            return xamlNode.NodeType == XamlNodeType.StartMember && xamlNode.Member is MutableXamlMember;
         }
     }
 }

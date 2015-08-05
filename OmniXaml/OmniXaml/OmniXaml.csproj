@@ -66,6 +66,7 @@
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
     <Compile Include="DefaultXamlStreamLoader.cs" />
+    <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
     <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
