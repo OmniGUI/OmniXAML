@@ -11,12 +11,12 @@
         public Node(string name, IEnumerable<Node> collection)
         {
             Name = name;
-            Edges = collection;
+            Dependencies = collection;
         }
 
         public string Name { get; set; }
 
-        public IEnumerable<Node> Edges { get; set; }
+        public IEnumerable<Node> Dependencies { get; set; }
 
         public override string ToString()
         {

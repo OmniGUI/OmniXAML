@@ -1,6 +1,8 @@
 namespace OmniXaml.Typing
 {
+    using System.Collections.Generic;
     using System.Reflection;
+    using Glass;
 
     public class XamlMember : MutableXamlMember
     {
@@ -21,6 +23,6 @@ namespace OmniXaml.Typing
         {
             var property = DeclaringType.UnderlyingType.GetRuntimeProperty(Name);
             return TypeRepository.GetXamlType(property.PropertyType);
-        }
+        }              
     }
 }

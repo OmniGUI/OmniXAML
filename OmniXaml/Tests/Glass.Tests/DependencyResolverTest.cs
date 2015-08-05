@@ -20,9 +20,9 @@
             var d = new Node("D");
             var e = new Node("E");
 
-            a.Edges = new Collection<Node> { b, d };
-            b.Edges = new Collection<Node> { c, e };
-            c.Edges = new Collection<Node> { d, e };
+            a.Dependencies = new Collection<Node> { b, d };
+            b.Dependencies = new Collection<Node> { c, e };
+            c.Dependencies = new Collection<Node> { d, e };
 
             var expected = new List<Node> { d, e, c, b, a };
 
@@ -40,10 +40,10 @@
             var d = new Node("D");
             var e = new Node("E");
 
-            a.Edges = new Collection<Node> { b, d };
-            b.Edges = new Collection<Node> { c, e };
-            c.Edges = new Collection<Node> { d, e };
-            e.Edges = new Collection<Node> { a };
+            a.Dependencies = new Collection<Node> { b, d };
+            b.Dependencies = new Collection<Node> { c, e };
+            c.Dependencies = new Collection<Node> { d, e };
+            e.Dependencies = new Collection<Node> { a };
 
             DependencySorter.Sort(a);            
         }

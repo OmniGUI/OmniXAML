@@ -1,36 +1,35 @@
 namespace OmniXaml.Typing
 {
+    using System.Collections.Generic;
     using System.Reflection;
+    using Glass;
 
-    public abstract class MutableXamlMember : XamlMemberBase
+    public abstract class MutableXamlMember : XamlMemberBase, IDependency<XamlMember>
     {
-        private readonly ITypeFeatureProvider typeFeatureProvider;
-        public IXamlTypeRepository TypeRepository { get; }
-
         protected MutableXamlMember(string name,
             XamlType declaringType,
             IXamlTypeRepository xamlTypeRepository,
             ITypeFeatureProvider typeFeatureProvider) : base(name)
         {
-            this.typeFeatureProvider = typeFeatureProvider;
+            this.FeatureProvider = typeFeatureProvider;
             TypeRepository = xamlTypeRepository;
-            DeclaringType = declaringType;            
+            DeclaringType = declaringType;
         }
 
+        public IXamlTypeRepository TypeRepository { get; }
         public XamlType DeclaringType { get; }
-        
         public IXamlMemberValuePlugin XamlMemberValueConnector => LookupXamlMemberValueConnector();
-
-        public ITypeFeatureProvider FeatureProvider => typeFeatureProvider;
+        public ITypeFeatureProvider FeatureProvider { get; }
 
         public abstract MethodInfo Getter { get; }
         public abstract MethodInfo Setter { get; }
+        public IEnumerable<XamlMember> Dependencies => new List<XamlMember>();
 
         public override string ToString()
         {
             return IsDirective ? "XamlDirective:" : "XamlMember: " + Name;
         }
-       
+
         protected virtual IXamlMemberValuePlugin LookupXamlMemberValueConnector()
         {
             return new MemberValuePlugin(this);
@@ -61,7 +60,7 @@ namespace OmniXaml.Typing
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
@@ -72,7 +71,7 @@ namespace OmniXaml.Typing
         {
             unchecked
             {
-                int hashCode = base.GetHashCode();
+                var hashCode = base.GetHashCode();
                 hashCode = (hashCode*397) ^ (DeclaringType != null ? DeclaringType.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (XamlType?.GetHashCode() ?? 0);
                 return hashCode;
