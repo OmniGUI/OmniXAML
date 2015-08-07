@@ -4,7 +4,7 @@ namespace OmniXaml.Visualization
     using System.Linq;
     using Typing;
 
-    public class MemberReverserVisitor
+    public class MemberReverserVisitor : IVisitor
     {
         public void Visit(HierarchizedXamlNode hierarchizedXamlNode)
         {

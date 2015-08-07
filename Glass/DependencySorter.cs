@@ -1,4 +1,4 @@
-﻿namespace Glass.Tests
+﻿namespace Glass
 {
     using System;
     using System.Collections.Generic;

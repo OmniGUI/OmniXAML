@@ -119,5 +119,38 @@ namespace OmniXaml.Tests
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
         }
+
+        [TestMethod]
+        public void DependencySorting()
+        {
+            var input = new List<XamlNode>
+            {
+                x.StartMember<Setter>(c => c.Value),
+                x.Value("Value"),
+                x.EndMember(),
+                x.StartMember<Setter>(c => c.Property),
+                x.Value("Property"),
+                x.EndMember(),
+            };
+
+            var sut = new NodeHierarchizer();
+            var actual = sut.CreateHierarchy(input);
+
+            var h = new HierarchizedXamlNode { Children = new Sequence<HierarchizedXamlNode>(actual.ToList()) };
+            h.AcceptVisitor(new DependencySortingVisitor());
+
+            var actualNodes = h.Children.SelectMany(node => node.Dump());
+            var expectedNodes = new List<XamlNode>
+            {
+                x.StartMember<Setter>(c => c.Property),
+                x.Value("Property"),
+                x.EndMember(),
+                x.StartMember<Setter>(c => c.Value),
+                x.Value("Value"),
+                x.EndMember(),
+            };
+
+            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+        }
     }
 }

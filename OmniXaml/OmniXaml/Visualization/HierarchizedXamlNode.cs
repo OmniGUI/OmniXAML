@@ -67,9 +67,14 @@ namespace OmniXaml.Visualization
             }
         }
 
-        public void AcceptVisitor(MemberReverserVisitor visitor)
+        public void AcceptVisitor(IVisitor visitor)
         {
             visitor.Visit(this);
         }
+    }
+
+    public interface IVisitor
+    {
+        void Visit(HierarchizedXamlNode hierarchizedXamlNode);
     }
 }

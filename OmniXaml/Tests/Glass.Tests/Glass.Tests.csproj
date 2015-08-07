@@ -50,7 +50,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DependencySorter.cs" />
     <Compile Include="DependencyResolverTest.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -8,6 +8,7 @@
     using Builder;
     using Classes;
     using Classes.WpfLikeModel;
+    using Glass;
     using Glass.Tests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;

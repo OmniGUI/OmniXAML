@@ -180,6 +180,7 @@
     <Compile Include="Typing\XamlTypeName.cs" />
     <Compile Include="Typing\XamlTypeRepository.cs" />
     <Compile Include="ValueConversionException.cs" />
+    <Compile Include="Visualization\DependencySortingVisitor.cs" />
     <Compile Include="Visualization\HierarchizedXamlNode.cs" />
     <Compile Include="Visualization\HierarchizedXamlNodeCollection.cs" />
     <Compile Include="Visualization\MemberReverserVisitor.cs" />

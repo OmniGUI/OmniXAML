@@ -34,6 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DependencySorter.cs" />
     <Compile Include="IDependency.cs" />
     <Compile Include="StackingLinkedList.cs" />
     <Compile Include="Guard.cs" />
