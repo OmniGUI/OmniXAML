@@ -1,8 +1,11 @@
 namespace OmniXaml.Typing
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using Glass;
+    using Tests.Classes;
 
     public abstract class MutableXamlMember : XamlMemberBase, IDependency<XamlMember>
     {
@@ -23,7 +26,24 @@ namespace OmniXaml.Typing
 
         public abstract MethodInfo Getter { get; }
         public abstract MethodInfo Setter { get; }
-        public IEnumerable<XamlMember> Dependencies => new List<XamlMember>();
+        public IEnumerable<XamlMember> Dependencies
+        {
+            get
+            {
+                var underlyingType = DeclaringType.UnderlyingType;
+                var dependsOnAttributes = underlyingType.GetRuntimeProperty(Name).GetCustomAttributes<DependsOnAttribute>();
+                return dependsOnAttributes.Select(attr => DeclaringType.GetMember(attr.PropertyName));
+            }
+        }
+
+        private static IEnumerable<DependsOnAttribute> GetAttributes(IEnumerable<MemberInfo> properties)
+        {
+            var runtimeProperties = properties;
+            return from prop in runtimeProperties
+                let attr = prop.GetCustomAttribute<DependsOnAttribute>()
+                where attr != null
+                select attr;
+        }
 
         public override string ToString()
         {

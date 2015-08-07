@@ -66,6 +66,6 @@ namespace OmniXaml.Visualization
             }
 
             return stack.Peek();
-        }       
+        }
     }
 }

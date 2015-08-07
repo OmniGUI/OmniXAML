@@ -8,7 +8,7 @@
     using Builder;
     using Classes;
     using Classes.WpfLikeModel;
-    using Glass;
+    using Glass.Tests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
     using Typing;
@@ -707,12 +707,20 @@
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
-        private IEnumerable<XamlNode> ParserMierda(List<XamlNode> expectedNodes)
+        private IEnumerable<XamlNode> ParserMierda(List<XamlNode> xamlNodes)
+        {
+            var blocks = CollectBlocks(xamlNodes);
+            LinkBlocks(blocks);
+            return SortQueues(blocks);
+        }
+
+        private Collection<MemberNodesBlock> CollectBlocks(List<XamlNode> expectedNodes)
         {
             var enumerator = expectedNodes.GetEnumerator();
             var queues = new Collection<MemberNodesBlock>();
             var isRecording = false;
             MemberNodesBlock currentBlock = null;
+
             while (enumerator.MoveNext())
             {
                 var xamlNode = enumerator.Current;
@@ -734,33 +742,23 @@
                 }
             }
 
-            foreach (var xamlNode1 in YieldOrderedQueues(queues)) yield return xamlNode1;
+            return queues;
         }
 
-        public class MemberNodesBlock : IDependency<XamlMember>
+        private void LinkBlocks(Collection<MemberNodesBlock> blocks)
         {
-            private readonly XamlNode headingNode;
-            private readonly Queue<XamlNode> nodes = new Queue<XamlNode>();
-            private readonly MutableXamlMember member;
-
-            public MemberNodesBlock(XamlNode headingNode)
+            foreach (var block in blocks)
             {
-                this.member = (MutableXamlMember)headingNode.Member;
+                block.Link(blocks);
             }
-
-            public void AddNode(XamlNode node)
-            {
-                nodes.Enqueue(node);
-            }
-
-            public IEnumerable<XamlMember> Dependencies => member.Dependencies;
-
-            public Queue<XamlNode> Nodes => nodes;
         }
 
-        private static IEnumerable<XamlNode> YieldOrderedQueues(IEnumerable<MemberNodesBlock> queues)
+        private static IEnumerable<XamlNode> SortQueues(IEnumerable<MemberNodesBlock> queues)
         {
-            return queues.Reverse().SelectMany(queue => queue.Nodes);
+            var memberNodesBlock = queues.First();
+            var sortedBlocks = memberNodesBlock.Sort();
+
+            return sortedBlocks.SelectMany(sortedBlock => sortedBlock.Nodes);
         }
 
         private bool IsEndOfMember(XamlNode xamlNode)

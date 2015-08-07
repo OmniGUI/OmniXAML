@@ -67,6 +67,7 @@
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
+    <Compile Include="Parsers\XamlNodesPullParserTests\MemberNodesBlock.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
+    <Compile Include="NodeHierarchizerTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />
@@ -102,6 +104,10 @@
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Glass.Tests\Glass.Tests.csproj">
+      <Project>{6387E8C7-C9ED-4237-97C9-741A4FC56E59}</Project>
+      <Name>Glass.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
