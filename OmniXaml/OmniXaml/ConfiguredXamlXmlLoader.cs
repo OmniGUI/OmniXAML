@@ -10,9 +10,9 @@
     {
         private readonly IObjectAssembler objectAssembler;
         private readonly SuperProtoParser protoParser;
-        private readonly XamlNodesPullParser pullParser;
+        private readonly IXamlNodesPullParser pullParser;
 
-        public ConfiguredXamlXmlLoader(SuperProtoParser protoParser, XamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
+        public ConfiguredXamlXmlLoader(SuperProtoParser protoParser, IXamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
         {
             Guard.ThrowIfNull(objectAssembler, nameof(objectAssembler));
 

@@ -10,7 +10,7 @@
     [TestClass]
     public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContext
     {
-        private XamlNodesPullParser sut;
+        private IXamlNodesPullParser sut;
         private ProtoNodeBuilder p;
         private readonly XamlNodeBuilder x;
         

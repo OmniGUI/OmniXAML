@@ -7,7 +7,7 @@
     using Parsers.ProtoParser;
     using Typing;
 
-    internal class ProtoNodeBuilder
+    public class ProtoNodeBuilder
     {
         private readonly ITypeContext typeContext;
         private readonly ITypeFeatureProvider typeFeatureProvider;
@@ -66,6 +66,11 @@
                 XamlType = XamlType.Create(type, typeContext, typeFactory, typeFeatureProvider),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
+        }
+
+        public ProtoXamlNode NonEmptyElement<T>(NamespaceDeclaration nsDecl = null)
+        {
+            return Element(typeof(T), nsDecl, false);
         }
 
         public ProtoXamlNode NonEmptyElement(Type type, NamespaceDeclaration nsDecl = null)

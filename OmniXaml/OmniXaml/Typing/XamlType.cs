@@ -2,6 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using Glass;
@@ -161,6 +162,11 @@ namespace OmniXaml.Typing
             var getter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
             var setter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Set" + name);
             return TypeRepository.GetAttachableMember(name, getter, setter);            
+        }
+
+        public IEnumerable<XamlMemberBase> GetAllMembers()
+        {
+            return UnderlyingType.GetRuntimeProperties().Select(props => GetMember(props.Name));
         }
     }
 }

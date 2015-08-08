@@ -47,6 +47,7 @@
     <Compile Include="ContentControl.cs" />
     <Compile Include="DummyChild.cs" />
     <Compile Include="Setter.cs" />
+    <Compile Include="WpfLikeModel\Style.cs" />
     <Compile Include="WpfLikeModel\DataTemplate.cs" />
     <Compile Include="WpfLikeModel\ListBox.cs" />
     <Compile Include="WpfLikeModel\MyUserControl.cs" />

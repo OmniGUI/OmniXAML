@@ -7,7 +7,7 @@
     using Sprache;
     using Typing;
 
-    public class XamlNodesPullParser
+    public class XamlNodesPullParser : IXamlNodesPullParser
     {
         private readonly WiringContext wiringContext;
         private IEnumerator<ProtoXamlNode> nodeStream;

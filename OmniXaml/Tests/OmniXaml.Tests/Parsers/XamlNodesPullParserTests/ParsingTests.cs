@@ -19,7 +19,7 @@
     {
         private readonly ProtoNodeBuilder p;
         private readonly XamlNodeBuilder x;
-        private readonly XamlNodesPullParser sut;
+        private readonly IXamlNodesPullParser sut;
         private readonly SampleData sampleData;
 
         public ParsingTests()

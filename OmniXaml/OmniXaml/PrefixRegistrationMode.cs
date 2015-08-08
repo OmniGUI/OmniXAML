@@ -1,6 +1,6 @@
 namespace OmniXaml
 {
-    internal enum PrefixRegistrationMode
+    public enum PrefixRegistrationMode
     {        
         Automatic,
         DontRegister

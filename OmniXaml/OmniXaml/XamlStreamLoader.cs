@@ -10,7 +10,7 @@ namespace OmniXaml
     {
         private readonly Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory;
         private readonly SuperProtoParser protoProtoParser;
-        private readonly XamlNodesPullParser pullParser;
+        private readonly IXamlNodesPullParser pullParser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
         public XamlStreamLoader(Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory, IObjectAssemblerFactory assemblerFactory)
@@ -19,7 +19,7 @@ namespace OmniXaml
             this.assemblerFactory = assemblerFactory;
         }
 
-        public XamlStreamLoader(SuperProtoParser protoProtoParser, XamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
+        public XamlStreamLoader(SuperProtoParser protoProtoParser, IXamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
         {
             this.protoProtoParser = protoProtoParser;
             this.pullParser = pullParser;
