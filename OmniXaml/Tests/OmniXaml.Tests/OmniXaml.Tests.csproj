@@ -68,6 +68,7 @@
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\XamlNodesPullParserTests\MemberNodesBlock.cs" />
+    <Compile Include="Skimmer.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
