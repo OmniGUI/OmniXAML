@@ -1,14 +1,11 @@
 namespace OmniXaml.Parsers.XamlNodes
 {
     using System.Collections.Generic;
+    using Tests;
 
     public class OrderAwareXamlNodesPullParser : IXamlNodesPullParser
     {
         private readonly IXamlNodesPullParser pullParser;
-
-        public OrderAwareXamlNodesPullParser()
-        {
-        }
 
         public OrderAwareXamlNodesPullParser(IXamlNodesPullParser pullParser)
         {
@@ -17,7 +14,10 @@ namespace OmniXaml.Parsers.XamlNodes
 
         public IEnumerable<XamlNode> Parse(IEnumerable<ProtoXamlNode> protoNodes)
         {
-            return pullParser.Parse(protoNodes);
+            var nodeSorter = new MemberDependencyNodeSorter();
+            var originalNodes = pullParser.Parse(protoNodes);
+            var enumerator = originalNodes.GetEnumerator();
+            return nodeSorter.Sort(enumerator);
         }
     }
 }

@@ -46,6 +46,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="ContentControl.cs" />
     <Compile Include="DummyChild.cs" />
+    <Compile Include="DummyWiringContext.cs" />
     <Compile Include="Setter.cs" />
     <Compile Include="WpfLikeModel\Style.cs" />
     <Compile Include="WpfLikeModel\DataTemplate.cs" />
@@ -53,7 +54,6 @@
     <Compile Include="WpfLikeModel\MyUserControl.cs" />
     <Compile Include="WpfLikeModel\MyWindow.cs" />
     <Compile Include="Templates\DummyDeferredLoader.cs" />
-    <Compile Include="DummyWiringContext.cs" />
     <Compile Include="WpfLikeModel\Grid.cs" />
     <Compile Include="IntExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

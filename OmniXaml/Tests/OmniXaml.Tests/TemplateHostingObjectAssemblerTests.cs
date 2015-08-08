@@ -9,7 +9,7 @@
     using NewAssembler;
 
     [TestClass]
-    public class TemplateHostingObjectAssemblerTests : GivenAWiringContext
+    public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuilders
     {
         private XamlNodeBuilder x;
 
@@ -23,16 +23,16 @@
         {
             var input = new Collection<XamlNode>
             {
-                x.StartObject<Item>(),
-                x.StartMember<Item>(i => i.Template),
-                x.StartObject<Template>(),
-                x.StartMember<Template>(i => i.Content),
-                x.StartObject<Grid>(),
-                x.EndObject(),
-                x.EndMember(),
-                x.EndObject(),
-                x.EndMember(),
-                x.EndObject(),
+                X.StartObject<Item>(),
+                X.StartMember<Item>(i => i.Template),
+                X.StartObject<Template>(),
+                X.StartMember<Template>(i => i.Content),
+                X.StartObject<Grid>(),
+                X.EndObject(),
+                X.EndMember(),
+                X.EndObject(),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var sut = new TemplateHostingObjectAssembler(new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext()));
@@ -48,8 +48,8 @@
             var actualNodes = sut.NodeList;
             var expectedNodes = new Collection<XamlNode>
             {
-                x.StartObject<Grid>(),
-                x.EndObject(),                
+                X.StartObject<Grid>(),
+                X.EndObject(),                
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);

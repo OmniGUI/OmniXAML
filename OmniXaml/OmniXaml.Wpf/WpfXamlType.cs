@@ -13,6 +13,11 @@
         protected override XamlMember LookupMember(string name)
         {
             return new WpfXamlMember(name, this, TypeRepository, FeatureProvider);
-        }        
+        }
+
+        public override string ToString()
+        {
+            return "WPF "+ base.ToString();
+        }
     }
 }

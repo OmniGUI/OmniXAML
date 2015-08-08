@@ -166,7 +166,8 @@ namespace OmniXaml.Typing
 
         public IEnumerable<XamlMemberBase> GetAllMembers()
         {
-            return UnderlyingType.GetRuntimeProperties().Select(props => GetMember(props.Name));
+            var properties = UnderlyingType.GetRuntimeProperties().Where(info => info.GetMethod.IsPublic).ToList();
+            return properties.Select(props => GetMember(props.Name));
         }
     }
 }

@@ -21,7 +21,7 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            WiringContext = DummyWiringContext.Create(new TypeFactory());
+            WiringContext = new DummyWiringContext(new TypeFactory());
         }
 
         public IList Snippets { get; set; }

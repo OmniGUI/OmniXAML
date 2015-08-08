@@ -85,7 +85,7 @@ namespace OmniXaml.Wpf
 
             using (var stream = resourceProvider.GetStream(underlyingType))
             {
-                var wiringContext = WiringContextFactory.GetContext(new TypeFactory());
+                var wiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
                 var loader = new XamlNodesPullParser(wiringContext);
                 var protoParser = new SuperProtoParser(wiringContext);
 

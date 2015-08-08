@@ -63,12 +63,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
     <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\XamlNodesPullParserTests\MemberNodesBlock.cs" />
-    <Compile Include="Skimmer.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
@@ -81,7 +81,7 @@
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
     <Compile Include="NodeHierarchizerTests.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="SkimmerTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />

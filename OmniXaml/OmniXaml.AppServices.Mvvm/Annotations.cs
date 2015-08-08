@@ -19,7 +19,7 @@ namespace TestApplication.Properties
   /// [CanBeNull] public object Test() { return null; }
   /// public void UseTest() {
   ///   var p = Test();
-  ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
+  ///   var s = P.ToString(); // Warning: Possible 'System.NullReferenceException'
   /// }
   /// </code></example>
   [AttributeUsage(
@@ -145,7 +145,7 @@ namespace TestApplication.Properties
   /// <list>
   /// <item><c>NotifyChanged("Property")</c></item>
   /// <item><c>NotifyChanged(() =&gt; Property)</c></item>
-  /// <item><c>NotifyChanged((VM x) =&gt; x.Property)</c></item>
+  /// <item><c>NotifyChanged((VM x) =&gt; X.Property)</c></item>
   /// <item><c>SetProperty(ref myField, value, "Property")</c></item>
   /// </list>
   /// </example>

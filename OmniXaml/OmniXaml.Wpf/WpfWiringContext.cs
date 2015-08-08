@@ -1,5 +1,6 @@
-namespace OmniXaml.Wpf
+﻿namespace OmniXaml.Wpf
 {
+    using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls.Primitives;
@@ -7,16 +8,12 @@ namespace OmniXaml.Wpf
     using Builder;
     using Typing;
 
-    public class CleanWiringContextBuilder : OmniXaml.CleanWiringContextBuilder
+    public class WpfWiringContext : WiringContext
     {
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
-        public CleanWiringContextBuilder(ITypeFactory factory)
-        {
-            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
-            var typeFactory = factory;
-            TypeFeatureProvider = new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
-            TypeContext = new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, TypeFeatureProvider), xamlNamespaceRegistry, typeFactory);
+        public WpfWiringContext(ITypeFactory factory) : base(GetTypeContext(factory), GetFeatureProvider())
+        {           
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
@@ -57,5 +54,22 @@ namespace OmniXaml.Wpf
 
             return xamlNamespaceRegistry;
         }
+
+        private static ITypeFeatureProvider GetFeatureProvider()
+        {
+            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
+        }
+
+        private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
+        {
+            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
+            var xamlTypeRepository = new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider());
+            return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry, typeFactory);
+        }
+
+        public override XamlType GetType(Type type)
+        {
+            return new WpfXamlType(type, TypeContext, TypeContext.TypeFactory, FeatureProvider);
+        }        
     }
 }

@@ -45,8 +45,8 @@
             var identifier = from c in Parse.LetterOrDigit.Many() select new string(c.ToArray());
 
             var parser = from id in identifier.DelimitedBy(Parse.Char(',').Token()) select id;
-            var p = parser.Parse("SomeValue   ,  AnotherValue");
-            CollectionAssert.AreEqual(new[] { "SomeValue", "AnotherValue" }, p.ToList());
+            var parsed = parser.Parse("SomeValue   ,  AnotherValue");
+            CollectionAssert.AreEqual(new[] { "SomeValue", "AnotherValue" }, parsed.ToList());
         }
 
         [TestMethod]

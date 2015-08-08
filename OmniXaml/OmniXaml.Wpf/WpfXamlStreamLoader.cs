@@ -7,9 +7,15 @@
     {
         public WpfXamlStreamLoader(ITypeFactory typeFactory)
             : base(
-                assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WiringContextFactory.GetContext(typeFactory)), new XamlNodesPullParser(WiringContextFactory.GetContext(typeFactory)), assembler),
-                new ObjectAssemblerFactory(WiringContextFactory.GetContext(typeFactory)))
+                assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WpfWiringContextFactory.GetContext(typeFactory)), GetPullParser(typeFactory), assembler),
+                new ObjectAssemblerFactory(WpfWiringContextFactory.GetContext(typeFactory)))
         {
+        }
+
+        private static IXamlNodesPullParser GetPullParser(ITypeFactory typeFactory)
+        {
+            var xamlNodesPullParser = new XamlNodesPullParser(WpfWiringContextFactory.GetContext(typeFactory));
+            return new OrderAwareXamlNodesPullParser(xamlNodesPullParser);
         }
     }
 }

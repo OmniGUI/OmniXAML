@@ -63,7 +63,7 @@ namespace OmniXaml.NewAssembler.Commands
         private IList<XamlType> GetTypesOfBestCtorMatch(XamlType xamlType, int count)
         {
             var constructor = SelectConstructor(xamlType, count);
-            return constructor.GetParameters().Select(p => typeContext.GetXamlType(p.ParameterType)).ToList();
+            return constructor.GetParameters().Select(arg => typeContext.GetXamlType(arg.ParameterType)).ToList();
         }
 
         private ConstructorInfo SelectConstructor(XamlType xamlType, int count)

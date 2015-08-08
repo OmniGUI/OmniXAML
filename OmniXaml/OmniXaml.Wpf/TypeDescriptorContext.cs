@@ -21,7 +21,7 @@ namespace OmniXaml.Wpf
                 return new AmbientProvider();
             }
 
-            return this;
+            return null;
         }
 
         public bool OnComponentChanging()

@@ -2,7 +2,6 @@ namespace OmniXaml
 {
     using System;
     using Builder;
-    using Catalogs;
     using TypeConversion;
 
     public class TypeFeatureProvider : ITypeFeatureProvider
@@ -29,11 +28,6 @@ namespace OmniXaml
         public string GetContentPropertyName(Type type)
         {
             return ContentPropertyProvider.GetContentPropertyName(type);
-        }
-
-        public void AddCatalog(ContentPropertyCatalog catalog)
-        {
-            ContentPropertyProvider.AddCatalog(catalog);
         }
 
         public void Add(ContentPropertyDefinition contentPropertyDefinition)

@@ -9,7 +9,7 @@
     using OmniXaml.Parsers.MarkupExtensions;
 
     [TestClass]
-    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContext
+    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContextWithNodeBuilders
     {
         private XamlNodeBuilder x;
 
@@ -26,8 +26,8 @@
             var actualNodes = sut.Convert(tree).ToList();
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyExtension>(),
-                x.EndObject(),
+                X.StartObject<DummyExtension>(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -42,11 +42,11 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyExtension>(),
-                x.StartMember<DummyExtension>(d => d.Property),
-                x.Value("Value"),
-                x.EndMember(),
-                x.EndObject(),
+                X.StartObject<DummyExtension>(),
+                X.StartMember<DummyExtension>(d => d.Property),
+                X.Value("Value"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -65,14 +65,14 @@
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyExtension>(),
-                x.StartMember<DummyExtension>(d => d.Property),
-                x.Value("Value"),
-                x.EndMember(),
-                x.StartMember<DummyExtension>(d => d.AnotherProperty),
-                x.Value("AnotherValue"),
-                x.EndMember(),
-                x.EndObject(),
+                X.StartObject<DummyExtension>(),
+                X.StartMember<DummyExtension>(d => d.Property),
+                X.Value("Value"),
+                X.EndMember(),
+                X.StartMember<DummyExtension>(d => d.AnotherProperty),
+                X.Value("AnotherValue"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -90,11 +90,11 @@
 
             var expectedNodes = new Collection<XamlNode>
             {
-                x.StartObject<DummyExtension>(),
-                x.MarkupExtensionArguments(),
-                x.Value("Option"),
-                x.EndMember(),
-                x.EndObject(),
+                X.StartObject<DummyExtension>(),
+                X.MarkupExtensionArguments(),
+                X.Value("Option"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);

@@ -1,8 +1,6 @@
 namespace OmniXaml.Typing
 {
-    using System.Collections.Generic;
     using System.Reflection;
-    using Glass;
 
     public class XamlMember : MutableXamlMember
     {

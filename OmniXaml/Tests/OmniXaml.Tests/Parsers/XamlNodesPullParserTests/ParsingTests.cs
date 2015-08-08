@@ -15,19 +15,15 @@
     using Typing;
 
     [TestClass]
-    public class ParsingTests : GivenAWiringContext
+    public class ParsingTests : GivenAWiringContextWithNodeBuilders
     {
-        private readonly ProtoNodeBuilder p;
-        private readonly XamlNodeBuilder x;
         private readonly IXamlNodesPullParser sut;
         private readonly SampleData sampleData;
 
         public ParsingTests()
-        {
-            p = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
+        {          
             sut = new XamlNodesPullParser(WiringContext);
-            sampleData = new SampleData(p, x);
+            sampleData = new SampleData(P, X);
         }
 
         [TestMethod]
@@ -35,12 +31,12 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
+                X.NamespacePrefixDeclaration(RootNs),
             };
 
 
@@ -54,13 +50,13 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.EmptyElement(typeof(DummyClass), RootNs),
+                P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyClass>(),
-                x.EndObject(),
+                X.StartObject<DummyClass>(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -73,14 +69,14 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof(DummyClass), RootNs),
-                p.EndTag(),
+                P.NonEmptyElement(typeof(DummyClass), RootNs),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyClass>(),
-                x.EndObject(),
+                X.StartObject<DummyClass>(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -93,19 +89,19 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.EmptyElement(typeof (DummyClass), RootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.EmptyElement(typeof (DummyClass), RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<DummyClass>(),
-                x.StartMember<DummyClass>(c => c.SampleProperty),
-                x.Value("Property!"),
-                x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<DummyClass>(),
+                X.StartMember<DummyClass>(c => c.SampleProperty),
+                X.Value("Property!"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -118,23 +114,23 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.EmptyElement(typeof (DummyClass), RootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
-                p.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.EmptyElement(typeof (DummyClass), RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
+                P.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<DummyClass>(),
-                x.StartMember<DummyClass>(c => c.SampleProperty),
-                x.Value("Property!"),
-                x.EndMember(),
-                x.StartMember<DummyClass>(c => c.AnotherProperty),
-                x.Value("Come on!"),
-                x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<DummyClass>(),
+                X.StartMember<DummyClass>(c => c.SampleProperty),
+                X.Value("Property!"),
+                X.EndMember(),
+                X.StartMember<DummyClass>(c => c.AnotherProperty),
+                X.Value("Come on!"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -147,16 +143,16 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.EmptyElement(typeof(DummyClass), RootNs),
-                p.None()
+                P.NamespacePrefixDeclaration(RootNs),
+                P.EmptyElement(typeof(DummyClass), RootNs),
+                P.None()
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<DummyClass>(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<DummyClass>(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -169,17 +165,17 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NamespacePrefixDeclaration(AnotherNs),
-                p.EmptyElement(typeof(DummyClass), RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NamespacePrefixDeclaration(AnotherNs),
+                P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.NamespacePrefixDeclaration(AnotherNs),
-                x.StartObject<DummyClass>(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.NamespacePrefixDeclaration(AnotherNs),
+                X.StartObject<DummyClass>(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -192,22 +188,22 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
-                        p.EmptyElement(typeof (ChildClass), RootNs),
-                        p.Text(),
-                    p.EndTag(),
-                p.EndTag(),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                    P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                        P.EmptyElement(typeof (ChildClass), RootNs),
+                        P.Text(),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartObject<DummyClass>(),
-                    x.StartMember<DummyClass>(c => c.Child),
-                        x.StartObject<ChildClass>(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(c => c.Child),
+                        X.StartObject<ChildClass>(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -220,41 +216,41 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
-                    p.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", RootNs),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
-                        p.NonEmptyElement(typeof (ChildClass), RootNs),
-                            p.NonEmptyPropertyElement<ChildClass>(d => d.Content, RootNs),
-                                p.EmptyElement(typeof (Item), RootNs),
-                                    p.Attribute<Item>(@class => @class.Text, "Value!", RootNs),
-                                p.Text(),
-                            p.EndTag(),
-                        p.EndTag(),
-                        p.Text(),
-                    p.EndTag(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                    P.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", RootNs),
+                    P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                        P.NonEmptyElement(typeof (ChildClass), RootNs),
+                            P.NonEmptyPropertyElement<ChildClass>(d => d.Content, RootNs),
+                                P.EmptyElement(typeof (Item), RootNs),
+                                    P.Attribute<Item>(@class => @class.Text, "Value!", RootNs),
+                                P.Text(),
+                            P.EndTag(),
+                        P.EndTag(),
+                        P.Text(),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<DummyClass>(),
-                    x.StartMember<DummyClass>(c => c.SampleProperty),
-                        x.Value("Sample"),
-                    x.EndMember(),
-                    x.StartMember<DummyClass>(c => c.Child),
-                        x.StartObject<ChildClass>(),
-                            x.StartMember<ChildClass>(c => c.Content),
-                                x.StartObject<Item>(),
-                                    x.StartMember<Item>(d => d.Text),
-                                        x.Value("Value!"),
-                                    x.EndMember(),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(c => c.SampleProperty),
+                        X.Value("Sample"),
+                    X.EndMember(),
+                    X.StartMember<DummyClass>(c => c.Child),
+                        X.StartObject<ChildClass>(),
+                            X.StartMember<ChildClass>(c => c.Content),
+                                X.StartObject<Item>(),
+                                    X.StartMember<Item>(d => d.Text),
+                                        X.Value("Value!"),
+                                    X.EndMember(),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
@@ -268,36 +264,36 @@
 
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
-                        p.EmptyElement<Item>(RootNs),
-                            p.Text(),
-                        p.EmptyElement<Item>(RootNs),
-                            p.Text(),
-                        p.EmptyElement<Item>(RootNs),
-                            p.Text(),
-                    p.EndTag(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                    P.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
+                        P.EmptyElement<Item>(RootNs),
+                            P.Text(),
+                        P.EmptyElement<Item>(RootNs),
+                            P.Text(),
+                        P.EmptyElement<Item>(RootNs),
+                            P.Text(),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(DummyClass)),
-                    x.StartMember<DummyClass>(d => d.Items),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(DummyClass)),
+                    X.StartMember<DummyClass>(d => d.Items),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
@@ -311,22 +307,22 @@
 
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (ChildClass), RootNs),
-                    p.EmptyElement(typeof (Item), RootNs),
-                    p.Text(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (ChildClass), RootNs),
+                    P.EmptyElement(typeof (Item), RootNs),
+                    P.Text(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<ChildClass>(),
-                    x.StartMember<ChildClass>(c => c.Content),
-                        x.StartObject<Item>(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<ChildClass>(),
+                    X.StartMember<ChildClass>(c => c.Content),
+                        X.StartObject<Item>(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
@@ -339,34 +335,34 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
-                    p.EmptyElement<Item>(RootNs),
-                        p.Text(),
-                    p.EmptyElement<Item>(RootNs),
-                        p.Text(),
-                    p.EmptyElement<Item>(RootNs),
-                        p.Text(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                    P.EmptyElement<Item>(RootNs),
+                        P.Text(),
+                    P.EmptyElement<Item>(RootNs),
+                        P.Text(),
+                    P.EmptyElement<Item>(RootNs),
+                        P.Text(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(DummyClass)),
-                    x.StartMember<DummyClass>(d => d.Items),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                                x.StartObject(typeof(Item)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(DummyClass)),
+                    X.StartMember<DummyClass>(d => d.Items),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                                X.StartObject(typeof(Item)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
@@ -400,52 +396,52 @@
 
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
 
-                    p.EmptyElement(typeof (Item), RootNs),
-                    p.Attribute<Item>(d => d.Title, "Main1", RootNs),
-                    p.Text(),
+                    P.EmptyElement(typeof (Item), RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main1", RootNs),
+                    P.Text(),
 
-                    p.EmptyElement(typeof (Item), RootNs),
-                    p.Attribute<Item>(d => d.Title, "Main2", RootNs),
-                    p.Text(),
+                    P.EmptyElement(typeof (Item), RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main2", RootNs),
+                    P.Text(),
 
-                    p.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
-                        p.NonEmptyElement(typeof(ChildClass), RootNs),
-                        p.EndTag(),
-                        p.Text(),
-                    p.EndTag(),
-                p.EndTag(),
+                    P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
+                        P.NonEmptyElement(typeof(ChildClass), RootNs),
+                        P.EndTag(),
+                        P.Text(),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(DummyClass)),
-                    x.StartMember<DummyClass>(d => d.Items),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(Item)),
-                                    x.StartMember<Item>(i => i.Title),
-                                        x.Value("Main1"),
-                                    x.EndMember(),
-                                x.EndObject(),
-                                x.StartObject(typeof(Item)),
-                                    x.StartMember<Item>(i => i.Title),
-                                        x.Value("Main2"),
-                                    x.EndMember(),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                    x.StartMember<DummyClass>(d => d.Child),
-                        x.StartObject(typeof(ChildClass)),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(DummyClass)),
+                    X.StartMember<DummyClass>(d => d.Items),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(Item)),
+                                    X.StartMember<Item>(i => i.Title),
+                                        X.Value("Main1"),
+                                    X.EndMember(),
+                                X.EndObject(),
+                                X.StartObject(typeof(Item)),
+                                    X.StartMember<Item>(i => i.Title),
+                                        X.Value("Main2"),
+                                    X.EndMember(),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                    X.StartMember<DummyClass>(d => d.Child),
+                        X.StartObject(typeof(ChildClass)),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -469,38 +465,38 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (Grid), RootNs),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, RootNs),
-                        p.EmptyElement(typeof (RowDefinition), RootNs),
-                    p.EndTag(),
-                    p.EmptyElement<TextBlock>(RootNs),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (Grid), RootNs),
+                    P.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, RootNs),
+                        P.EmptyElement(typeof (RowDefinition), RootNs),
+                    P.EndTag(),
+                    P.EmptyElement<TextBlock>(RootNs),
+                P.EndTag(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(Grid)),
-                    x.StartMember<Grid>(d => d.RowDefinitions),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(RowDefinition)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                     x.StartMember<Grid>(d => d.Children),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(TextBlock)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(Grid)),
+                    X.StartMember<Grid>(d => d.RowDefinitions),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(RowDefinition)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                     X.StartMember<Grid>(d => d.Children),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(TextBlock)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -511,35 +507,35 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (Grid), RootNs),
-                    p.NonEmptyPropertyElement<Grid>(g => g.Children, RootNs),
-                        p.NonEmptyElement(typeof (TextBlock), RootNs),
-                        p.EndTag(),
-                        p.Text(),
-                        p.EmptyElement(typeof (TextBlock), RootNs),
-                        p.Text(),
-                    p.EndTag(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (Grid), RootNs),
+                    P.NonEmptyPropertyElement<Grid>(g => g.Children, RootNs),
+                        P.NonEmptyElement(typeof (TextBlock), RootNs),
+                        P.EndTag(),
+                        P.Text(),
+                        P.EmptyElement(typeof (TextBlock), RootNs),
+                        P.Text(),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(Grid)),
-                    x.StartMember<Grid>(d => d.Children),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(TextBlock)),
-                                x.EndObject(),
-                                 x.StartObject(typeof(TextBlock)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(Grid)),
+                    X.StartMember<Grid>(d => d.Children),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(TextBlock)),
+                                X.EndObject(),
+                                 X.StartObject(typeof(TextBlock)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -550,38 +546,38 @@
         {
             var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (Grid), RootNs),
-                    p.EmptyElement<TextBlock>(RootNs),
-                    p.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, RootNs),
-                        p.EmptyElement(typeof (RowDefinition), RootNs),
-                    p.EndTag(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (Grid), RootNs),
+                    P.EmptyElement<TextBlock>(RootNs),
+                    P.NonEmptyPropertyElement<Grid>(g => g.RowDefinitions, RootNs),
+                        P.EmptyElement(typeof (RowDefinition), RootNs),
+                    P.EndTag(),
+                P.EndTag(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(Grid)),
-                    x.StartMember<Grid>(d => d.Children),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(TextBlock)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                    x.StartMember<Grid>(d => d.RowDefinitions),
-                        x.GetObject(),
-                            x.Items(),
-                                x.StartObject(typeof(RowDefinition)),
-                                x.EndObject(),
-                            x.EndMember(),
-                        x.EndObject(),
-                    x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(Grid)),
+                    X.StartMember<Grid>(d => d.Children),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(TextBlock)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                    X.StartMember<Grid>(d => d.RowDefinitions),
+                        X.GetObject(),
+                            X.Items(),
+                                X.StartObject(typeof(RowDefinition)),
+                                X.EndObject(),
+                            X.EndMember(),
+                        X.EndObject(),
+                    X.EndMember(),
+                X.EndObject(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
@@ -607,15 +603,15 @@
             var prefix = "prefix";
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(prefix, clrNamespace),
-                p.EmptyElement(type, RootNs),
+                P.NamespacePrefixDeclaration(prefix, clrNamespace),
+                P.EmptyElement(type, RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(clrNamespace, prefix),
-                x.StartObject<DummyClass>(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(clrNamespace, prefix),
+                X.StartObject<DummyClass>(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -628,22 +624,22 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.NonEmptyElement(typeof (DummyClass), RootNs),
-                p.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, RootNs),
-                p.Text("Property!"),
-                p.EndTag(),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                P.NonEmptyPropertyElement<DummyClass>(d => d.SampleProperty, RootNs),
+                P.Text("Property!"),
+                P.EndTag(),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject<DummyClass>(),
-                x.StartMember<DummyClass>(c => c.SampleProperty),
-                x.Value("Property!"),
-                x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject<DummyClass>(),
+                X.StartMember<DummyClass>(c => c.SampleProperty),
+                X.Value("Property!"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -658,20 +654,20 @@
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(sysNs),
-                p.NonEmptyElement(typeof (string), sysNs),
-                p.Text("Text"),
-                p.EndTag(),
+                P.NamespacePrefixDeclaration(sysNs),
+                P.NonEmptyElement(typeof (string), sysNs),
+                P.Text("Text"),
+                P.EndTag(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(sysNs),
-                x.StartObject<string>(),
-                x.StartDirective("_Initialization"),
-                x.Value("Text"),
-                x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(sysNs),
+                X.StartObject<string>(),
+                X.StartDirective("_Initialization"),
+                X.Value("Text"),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input);
@@ -685,22 +681,22 @@
         {
             var input = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Value),
-                x.Value("Value"),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Property),
-                x.Value("Property"),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.Value("Value"),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                X.Value("Property"),
+                X.EndMember(),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Property),
-                x.Value("Property"),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Value),
-                x.Value("Value"),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                X.Value("Property"),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.Value("Value"),
+                X.EndMember(),
 
             };
 

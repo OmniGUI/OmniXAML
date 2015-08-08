@@ -55,6 +55,7 @@
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
     <Compile Include="StaticResourceExtension.cs" />
+    <Compile Include="WpfWiringContext.cs" />
     <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
@@ -68,21 +69,20 @@
     <Compile Include="ObjectAssemblerFactory.cs" />
     <Compile Include="TemplateContent.cs" />
     <Compile Include="WpfXamlStreamLoader.cs" />
-    <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="TypeConverterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceLocator.cs" />
-    <Compile Include="WiringContextFactory.cs" />
+    <Compile Include="WpfWiringContextFactory.cs" />
     <Compile Include="WpfXamlMember.cs" />
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
     <Compile Include="XamlMemberInvokerAdapter.cs" />
     <Compile Include="XamlSchemaContentProvider.cs" />
     <Compile Include="XamlTypeConversion.cs" />
-    <Compile Include="XamlTypeRepository.cs" />
     <Compile Include="XamlNodeExtensions.cs" />
+    <Compile Include="WpfXamlTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Glass\Glass.csproj">

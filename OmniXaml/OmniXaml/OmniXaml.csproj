@@ -61,7 +61,6 @@
     <Compile Include="Builder\XamlNodeBuilder.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
-    <Compile Include="CleanWiringContextBuilder.cs" />
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
@@ -70,6 +69,7 @@
     <Compile Include="ITypeFeatureProvider.cs" />
     <Compile Include="IXamlStreamLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
+    <Compile Include="LookaheadBuffer.cs" />
     <Compile Include="NewAssembler\TopDownMemberValueContext.cs" />
     <Compile Include="NewAssembler\Commands\ITopDownMemberValueContext.cs" />
     <Compile Include="NewAssembler\ConstructionArgument.cs" />
@@ -92,6 +92,7 @@
     <Compile Include="Parsers\ProtoParser\SuperProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="Parsers\XamlNodes\IXamlNodesPullParser.cs" />
     <Compile Include="Parsers\XamlNodes\OrderAwareXamlNodesPullParser.cs" />
+    <Compile Include="MemberDependencyNodeSorter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
     <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
     <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />
@@ -183,7 +184,7 @@
     <Compile Include="Typing\XamlTypeRepository.cs" />
     <Compile Include="ValueConversionException.cs" />
     <Compile Include="Visualization\DependencySortingVisitor.cs" />
-    <Compile Include="Visualization\HierarchizedXamlNode.cs" />
+    <Compile Include="Visualization\XamlInstruction.cs" />
     <Compile Include="Visualization\HierarchizedXamlNodeCollection.cs" />
     <Compile Include="Visualization\MemberReverserVisitor.cs" />
     <Compile Include="Visualization\NodeHierarchizer.cs" />
@@ -192,7 +193,6 @@
     <Compile Include="Visualization\VisualizationNode.cs" />
     <Compile Include="Visualization\VisualizationTag.cs" />
     <Compile Include="WiringContext.cs" />
-    <Compile Include="WiringContextBuilder.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlNode.cs" />
     <Compile Include="XamlNodeType.cs" />

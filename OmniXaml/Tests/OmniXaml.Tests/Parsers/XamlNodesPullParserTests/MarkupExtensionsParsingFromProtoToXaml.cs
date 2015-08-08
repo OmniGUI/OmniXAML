@@ -8,16 +8,13 @@
     using OmniXaml.Parsers.XamlNodes;
 
     [TestClass]
-    public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContext
+    public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuilders
     {
         private IXamlNodesPullParser sut;
-        private ProtoNodeBuilder p;
-        private readonly XamlNodeBuilder x;
+
         
         public MarkupExtensionsParsingFromProtoToXaml()
-        {
-            p = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
+        {            
             sut = new XamlNodesPullParser(WiringContext);
         }
 
@@ -28,20 +25,20 @@
 
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.EmptyElement(typeof (DummyClass), RootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.EmptyElement(typeof (DummyClass), RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof(DummyClass)),
-                x.StartMember<DummyClass>(d => d.SampleProperty),
-                x.StartObject(typeof(DummyExtension)),
-                x.EndObject(),
-                x.EndMember(),                
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof(DummyClass)),
+                X.StartMember<DummyClass>(d => d.SampleProperty),
+                X.StartObject(typeof(DummyExtension)),
+                X.EndObject(),
+                X.EndMember(),                
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();
@@ -54,23 +51,23 @@
         {
             var input = new List<ProtoXamlNode>
             {
-                p.NamespacePrefixDeclaration(RootNs),
-                p.EmptyElement(typeof (DummyClass), RootNs),
-                p.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
+                P.NamespacePrefixDeclaration(RootNs),
+                P.EmptyElement(typeof (DummyClass), RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
             };
 
             var expectedNodes = new List<XamlNode>
             {
-                x.NamespacePrefixDeclaration(RootNs),
-                x.StartObject(typeof (DummyClass)),
-                x.StartMember<DummyClass>(d => d.SampleProperty),
-                x.StartObject(typeof (DummyExtension)),
-                x.MarkupExtensionArguments(),
-                x.Value("Option"),
-                x.EndMember(),
-                x.EndObject(),
-                x.EndMember(),
-                x.EndObject(),
+                X.NamespacePrefixDeclaration(RootNs),
+                X.StartObject(typeof (DummyClass)),
+                X.StartMember<DummyClass>(d => d.SampleProperty),
+                X.StartObject(typeof (DummyExtension)),
+                X.MarkupExtensionArguments(),
+                X.Value("Option"),
+                X.EndMember(),
+                X.EndObject(),
+                X.EndMember(),
+                X.EndObject(),
             };
 
             var actualNodes = sut.Parse(input).ToList();

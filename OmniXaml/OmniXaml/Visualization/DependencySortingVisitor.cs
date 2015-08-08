@@ -37,7 +37,9 @@ namespace OmniXaml.Visualization
             var xamlNode = members.First();
             var sortedList = xamlNode.Sort();
 
-            var sortedNodes = SortNodesAccordingTo(list, sortedList);
+            var finalDeps = sortedList.Where(sr => members.Contains(sr));
+
+            var sortedNodes = SortNodesAccordingTo(list, finalDeps);
             return sortedNodes;
         }
 

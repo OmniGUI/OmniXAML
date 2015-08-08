@@ -4,9 +4,9 @@ namespace OmniXaml.Wpf
     using Glass;
     using Typing;
 
-    public class XamlTypeRepository : Typing.XamlTypeRepository
+    public class WpfXamlTypeRepository : Typing.XamlTypeRepository
     {
-        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+        public WpfXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
             : base(xamlNamespaceRegistry, typeTypeFactory, featureProvider)
         {
         }

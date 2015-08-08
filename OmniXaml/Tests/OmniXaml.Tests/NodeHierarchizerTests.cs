@@ -10,7 +10,7 @@ namespace OmniXaml.Tests
     using Visualization;
 
     [TestClass]
-    public class NodeHierarchizerTests : GivenAWiringContext
+    public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuilders
     {
         private readonly XamlNodeBuilder x;
 
@@ -24,12 +24,12 @@ namespace OmniXaml.Tests
         {
             var input = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Value),
-                x.Value("Value"),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Property),
-                x.Value("Property"),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.Value("Value"),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                X.Value("Property"),
+                X.EndMember(),
             };
 
             var sut = new NodeHierarchizer();
@@ -41,8 +41,8 @@ namespace OmniXaml.Tests
         {
             var input = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Value),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.EndMember(),
             };
 
             var sut = new NodeHierarchizer();
@@ -51,8 +51,8 @@ namespace OmniXaml.Tests
             {
                 new HierarchizedXamlNode
                 {
-                    Leading = x.StartMember<Setter>(c => c.Value),
-                    Trailing = x.EndMember(),
+                    Leading = X.StartMember<Setter>(c => c.Value),
+                    Trailing = X.EndMember(),
                 }
             };
 
@@ -64,26 +64,26 @@ namespace OmniXaml.Tests
         {
             var input = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Value),
-                    x.StartObject(typeof(DummyClass)),
-                        x.StartMember<ChildClass>(c => c.Name),
-                            x.Value("Hola"),
-                        x.EndMember(),
-                        x.StartMember<ChildClass>(c => c.Content),
-                            x.Value("Tío"),
-                        x.EndMember(),
-                    x.EndObject(),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Property),
-                    x.StartObject(typeof(DummyClass)),
-                        x.StartMember<ChildClass>(c => c.Name),
-                            x.Value("Hola"),
-                        x.EndMember(),
-                        x.StartMember<ChildClass>(c => c.Content),
-                            x.Value("Tío"),
-                        x.EndMember(),
-                    x.EndObject(),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                    X.StartObject(typeof(DummyClass)),
+                        X.StartMember<ChildClass>(c => c.Name),
+                            X.Value("Hola"),
+                        X.EndMember(),
+                        X.StartMember<ChildClass>(c => c.Content),
+                            X.Value("Tío"),
+                        X.EndMember(),
+                    X.EndObject(),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                    X.StartObject(typeof(DummyClass)),
+                        X.StartMember<ChildClass>(c => c.Name),
+                            X.Value("Hola"),
+                        X.EndMember(),
+                        X.StartMember<ChildClass>(c => c.Content),
+                            X.Value("Tío"),
+                        X.EndMember(),
+                    X.EndObject(),
+                X.EndMember(),
             };
 
             var sut = new NodeHierarchizer();
@@ -95,26 +95,26 @@ namespace OmniXaml.Tests
             var actualNodes = h.Children.SelectMany(node => node.Dump());
             var expectedNodes = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Property),
-                    x.StartObject(typeof(DummyClass)),
-                        x.StartMember<ChildClass>(c => c.Content),
-                            x.Value("Tío"),
-                        x.EndMember(),
-                        x.StartMember<ChildClass>(c => c.Name),
-                            x.Value("Hola"),
-                        x.EndMember(),
-                    x.EndObject(),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Value),
-                    x.StartObject(typeof(DummyClass)),                       
-                        x.StartMember<ChildClass>(c => c.Content),
-                            x.Value("Tío"),
-                        x.EndMember(),
-                        x.StartMember<ChildClass>(c => c.Name),
-                            x.Value("Hola"),
-                        x.EndMember(),
-                    x.EndObject(),
-                x.EndMember(),              
+                X.StartMember<Setter>(c => c.Property),
+                    X.StartObject(typeof(DummyClass)),
+                        X.StartMember<ChildClass>(c => c.Content),
+                            X.Value("Tío"),
+                        X.EndMember(),
+                        X.StartMember<ChildClass>(c => c.Name),
+                            X.Value("Hola"),
+                        X.EndMember(),
+                    X.EndObject(),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                    X.StartObject(typeof(DummyClass)),                       
+                        X.StartMember<ChildClass>(c => c.Content),
+                            X.Value("Tío"),
+                        X.EndMember(),
+                        X.StartMember<ChildClass>(c => c.Name),
+                            X.Value("Hola"),
+                        X.EndMember(),
+                    X.EndObject(),
+                X.EndMember(),              
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
@@ -125,12 +125,12 @@ namespace OmniXaml.Tests
         {
             var input = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Value),
-                x.Value("Value"),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Property),
-                x.Value("Property"),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.Value("Value"),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                X.Value("Property"),
+                X.EndMember(),
             };
 
             var sut = new NodeHierarchizer();
@@ -142,12 +142,12 @@ namespace OmniXaml.Tests
             var actualNodes = h.Children.SelectMany(node => node.Dump());
             var expectedNodes = new List<XamlNode>
             {
-                x.StartMember<Setter>(c => c.Property),
-                x.Value("Property"),
-                x.EndMember(),
-                x.StartMember<Setter>(c => c.Value),
-                x.Value("Value"),
-                x.EndMember(),
+                X.StartMember<Setter>(c => c.Property),
+                X.Value("Property"),
+                X.EndMember(),
+                X.StartMember<Setter>(c => c.Value),
+                X.Value("Value"),
+                X.EndMember(),
             };
 
             CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());

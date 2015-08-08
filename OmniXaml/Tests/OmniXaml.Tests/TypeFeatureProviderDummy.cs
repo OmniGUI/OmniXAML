@@ -2,7 +2,6 @@
 {
     using System;
     using Builder;
-    using Catalogs;
     using TypeConversion;
 
     public class TypeFeatureProviderDummy : ITypeFeatureProvider
@@ -18,11 +17,6 @@
         }
 
         public string GetContentPropertyName(Type type)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void AddCatalog(ContentPropertyCatalog catalog)
         {
             throw new NotImplementedException();
         }

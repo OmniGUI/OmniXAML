@@ -3,17 +3,22 @@
     using System.Collections.Generic;
     using Another;
     using Builder;
+    using TypeConversion;
     using Typing;
     using WpfLikeModel;
 
-    public static class DummyWiringContext
+    public class DummyWiringContext : WiringContext
     {
-        public static WiringContext Create(ITypeFactory typeFactory)
+        public DummyWiringContext(ITypeFactory factory) : base(GetTypeContext(factory), GetFeatureProvider())
         {
-            var rootType = typeof (DummyClass);
-            var anotherType = typeof (Foreigner);
+        }
 
-            var builder = new WiringContextBuilder();
+        private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
+        {
+            var xamlNamespaceRegistry = new XamlNamespaceRegistry();
+
+            var rootType = typeof(DummyClass);
+            var anotherType = typeof(Foreigner);
 
             var definitionForRoot = XamlNamespace
                 .Map("root")
@@ -38,20 +43,33 @@
                             .WithNamespaces(new[] {anotherType.Namespace})
                     });
 
-            var contentProperties = ContentProperties.DefinedInAssemblies(new[] {rootType.Assembly});
+            foreach (var ns in new List<XamlNamespace> { definitionForRoot, definitionForAnother })
+            {
+                xamlNamespaceRegistry.AddNamespace(ns);
+            }
 
-            builder.WithNamespaces(new List<XamlNamespace> {definitionForRoot, definitionForAnother})
-                .WithContentProperties(contentProperties)
-                .WithNsPrefixes(
-                    new List<PrefixRegistration>
-                    {
-                        new PrefixRegistration(string.Empty, "root"),
-                        new PrefixRegistration("x", "another"),                        
-                    });
+            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("", "root"));
+            xamlNamespaceRegistry.RegisterPrefix(new PrefixRegistration("x", "another"));
 
-            builder.WithTypeFactory(typeFactory);
+            return xamlNamespaceRegistry;
+        }
 
-            return builder.Build();
+        private static ITypeFeatureProvider GetFeatureProvider()
+        {
+            var contentPropertyProvider = new ContentPropertyProvider();
+            var contentProperties = ContentProperties.DefinedInAssemblies(new[] { typeof(DummyClass).Assembly });
+            foreach (var contentPropertyDefinition in contentProperties)
+            {
+                contentPropertyProvider.Add(contentPropertyDefinition);
+            }
+
+            return new TypeFeatureProvider(contentPropertyProvider, new TypeConverterProvider());
+        }
+
+        private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
+        {
+            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
+            return new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider()), xamlNamespaceRegistry, typeFactory);
         }
     }
 }

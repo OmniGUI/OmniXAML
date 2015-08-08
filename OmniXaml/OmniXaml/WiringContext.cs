@@ -16,12 +16,12 @@ namespace OmniXaml
 
         public ITypeFeatureProvider FeatureProvider { get; }
 
-        public XamlType GetType(Type type)
+        public virtual XamlType GetType(Type type)
         {
             return TypeContext.GetXamlType(type);
         }
 
-        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
+        public virtual AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
         {
             return new AttachableXamlMember(name, getter, setter, xamlTypeRepository, featureProvider);
         }

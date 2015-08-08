@@ -1,6 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -14,7 +13,7 @@ namespace OmniXaml.Typing
             IXamlTypeRepository xamlTypeRepository,
             ITypeFeatureProvider typeFeatureProvider) : base(name)
         {
-            this.FeatureProvider = typeFeatureProvider;
+            FeatureProvider = typeFeatureProvider;
             TypeRepository = xamlTypeRepository;
             DeclaringType = declaringType;
         }
@@ -26,14 +25,13 @@ namespace OmniXaml.Typing
 
         public abstract MethodInfo Getter { get; }
         public abstract MethodInfo Setter { get; }
-        public IEnumerable<XamlMember> Dependencies
+        public IEnumerable<XamlMember> Dependencies => LookupDependencies();
+
+        protected virtual IEnumerable<XamlMember> LookupDependencies()
         {
-            get
-            {
-                var underlyingType = DeclaringType.UnderlyingType;
-                var dependsOnAttributes = underlyingType.GetRuntimeProperty(Name).GetCustomAttributes<DependsOnAttribute>();
-                return dependsOnAttributes.Select(attr => DeclaringType.GetMember(attr.PropertyName));
-            }
+            var underlyingType = DeclaringType.UnderlyingType;
+            var dependsOnAttributes = underlyingType.GetRuntimeProperty(Name)?.GetCustomAttributes<DependsOnAttribute>();
+            return dependsOnAttributes.Select(attr => DeclaringType.GetMember(attr.PropertyName));
         }
 
         private static IEnumerable<DependsOnAttribute> GetAttributes(IEnumerable<MemberInfo> properties)

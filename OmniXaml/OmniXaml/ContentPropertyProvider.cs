@@ -4,7 +4,6 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
-    using Catalogs;
 
     public class ContentPropertyProvider : IContentPropertyProvider
     {
@@ -39,21 +38,6 @@ namespace OmniXaml
 
             var typeToLookFor = type.GetTypeInfo().BaseType;
             return ResolveFromHierarchy(typeToLookFor);
-        }
-
-        public void AddCatalog(ContentPropertyCatalog catalog)
-        {
-            try
-            {
-                foreach (var propertyInfo in catalog.Mappings)
-                {
-                    registeredContentProperties.Add(propertyInfo);
-                }
-            }
-            catch (ArgumentException ex)
-            {
-                throw new InvalidOperationException(string.Format("There has been a problem adding the catalog: {0}", ex));
-            }
         }
 
         public void Add(ContentPropertyDefinition contentPropertyDefinition)

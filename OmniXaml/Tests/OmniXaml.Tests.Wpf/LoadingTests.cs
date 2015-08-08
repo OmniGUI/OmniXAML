@@ -39,7 +39,6 @@
 
         [TestMethod]
         [TestCategory("NeedsGraphics")]
-        [Ignore]
 
         public void ShowCase()
         {

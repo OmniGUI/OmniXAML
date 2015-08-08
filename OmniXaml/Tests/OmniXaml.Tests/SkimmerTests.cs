@@ -5,16 +5,14 @@
     using Classes;
     using Classes.WpfLikeModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Typing;
-    using Visualization;
 
     [TestClass]
-    public class OrderAwareXamlNodesPullParserTests : GivenAWiringContextWithNodeBuilders
+    public class SkimmerTests : GivenAWiringContextWithNodeBuilders
     {
-        private readonly Skimmer skimmer = new Skimmer();
+        private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
 
         [TestMethod]
-        public void FilterOutput()
+        public void Sort()
         {
             var input = new List<XamlNode>
             {
@@ -32,7 +30,7 @@
                 X.EndObject()
             };
 
-            var actualNodes = skimmer.FilterInput(input.GetEnumerator()).ToList();
+            var actualNodes = memberDependencyNodeSorter.Sort(input.GetEnumerator()).ToList();
             var expectedNodes = new List<XamlNode>
             {
                 X.StartObject<Style>(),
@@ -69,7 +67,7 @@
 
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
-            var count = Skimmer.LookAhead(enumerator).Count();
+            var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(8, count);
         }
 
@@ -80,7 +78,7 @@
 
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
-            var count = Skimmer.LookAhead(enumerator).Count();
+            var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(0, count);
         }
 
@@ -95,7 +93,7 @@
 
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
-            var count = Skimmer.LookAhead(enumerator).Count();
+            var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(2, count);
         }
 
@@ -118,7 +116,7 @@
 
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
-            var count = Skimmer.LookAhead(enumerator).Count();
+            var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(10, count);
         }
     }

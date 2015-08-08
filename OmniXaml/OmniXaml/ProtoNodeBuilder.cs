@@ -63,7 +63,7 @@
             {
                 Namespace = nsDecl.Namespace,
                 Prefix = nsDecl.Prefix,
-                XamlType = XamlType.Create(type, typeContext, typeFactory, typeFeatureProvider),
+                XamlType = typeContext.GetXamlType(type),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }
