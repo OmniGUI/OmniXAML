@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Diagnostics;
     using System.Linq;
 
     public static class DependencySorter
@@ -17,7 +16,6 @@
 
         private static void ResolveDependenciesRecursive<T>(T node, ICollection<T> resolved, ICollection<T> notResolved) where T : IDependency<T>
         {
-            Debug.WriteLine(node);
             notResolved.Add(node);
             foreach (var edge in node.Dependencies.Where(edge => !resolved.Contains(edge)))
             {
