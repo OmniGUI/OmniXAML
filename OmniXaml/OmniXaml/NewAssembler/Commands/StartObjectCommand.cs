@@ -31,7 +31,8 @@ namespace OmniXaml.NewAssembler.Commands
             if (StateCommuter.Level == 1 && rootInstance != null)
             {
                 StateCommuter.Instance = rootInstance;
-                var xamlTypeOfInstance = this.Assembler.WiringContext.TypeContext.GetXamlType(rootInstance.GetType());
+                var typeContext = Assembler.WiringContext.TypeContext;
+                var xamlTypeOfInstance = typeContext.GetXamlType(rootInstance.GetType());
                 StateCommuter.XamlType = xamlTypeOfInstance;
             }
         }

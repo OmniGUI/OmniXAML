@@ -18,7 +18,7 @@ namespace OmniXaml.NewAssembler
         private object key;
 
         public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
-        {            
+        {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
             Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
@@ -39,7 +39,16 @@ namespace OmniXaml.NewAssembler
         public object Instance
         {
             get { return CurrentValue.Instance; }
-            set { CurrentValue.Instance = value; }
+            set
+            {
+                CurrentValue.Instance = value;
+
+                var collection = value as ICollection;
+                if (collection != null)
+                {
+                    Collection = collection;
+                }
+            }
         }
 
         private Level CurrentValue => stack.CurrentValue;
@@ -88,7 +97,7 @@ namespace OmniXaml.NewAssembler
 
         public void AssignChildToParentProperty()
         {
-            var previousMember = (MutableXamlMember) PreviousMember;
+            var previousMember = (MutableXamlMember)PreviousMember;
 
             var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, previousMember.XamlType);
 
@@ -174,7 +183,7 @@ namespace OmniXaml.NewAssembler
         public void AssociateCurrentInstanceToParent()
         {
             if (HasParentToAssociate && InstanceCanBeAssociated)
-            {                
+            {
                 if (IsParentOneToMany)
                 {
                     AssignInstanceToHost();
@@ -200,12 +209,12 @@ namespace OmniXaml.NewAssembler
 
         private void AssignChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary) PreviousValue.Collection, key, Instance);
+            TypeOperations.AddToDictionary((IDictionary)PreviousValue.Collection, key, Instance);
             ClearKey();
         }
 
         private void ClearKey()
-        {   
+        {
             SetKey(null);
         }
 
@@ -216,5 +225,16 @@ namespace OmniXaml.NewAssembler
         }
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
+
+        public object ValueOfPreviousInstanceAndItsMember()
+        {
+            return GetValueTuple(PreviousInstance, (MutableXamlMember) PreviousMember);
+        }
+
+        private static object GetValueTuple(object instance, MutableXamlMember member)
+        {
+            var xamlMemberBase = member;
+            return xamlMemberBase.GetValue(instance);
+        }
     }
 }

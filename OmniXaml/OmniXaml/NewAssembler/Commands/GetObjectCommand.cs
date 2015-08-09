@@ -13,13 +13,7 @@ namespace OmniXaml.NewAssembler.Commands
         {            
             StateCommuter.RaiseLevel();
             StateCommuter.IsGetObject = true;
-            StateCommuter.Collection = GetCollection();            
-        }
-
-        private ICollection GetCollection()
-        {
-            var xamlMemberBase = (MutableXamlMember) StateCommuter.PreviousMember;
-            return (ICollection) xamlMemberBase.GetValue(StateCommuter.PreviousInstance);
-        }
+            StateCommuter.Instance = StateCommuter.ValueOfPreviousInstanceAndItsMember();
+        }       
     }
 }
