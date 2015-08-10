@@ -34,7 +34,7 @@ namespace OmniXaml.Wpf
                 if (matchedInflatable != null)
                 {
                     var toAdd = ReadNodes(xamlNode.XamlType.UnderlyingType);
-                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, wiringContext.GetType(matchedInflatable));
+                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, wiringContext.TypeContext.GetXamlType((matchedInflatable)));
 
                     foreach (var croppedNode in croppedNodes)
                     {

@@ -7,9 +7,14 @@
     {
         public WpfXamlStreamLoader(ITypeFactory typeFactory)
             : base(
-                assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WpfWiringContextFactory.GetContext(typeFactory)), GetPullParser(typeFactory), assembler),
+                assembler => new ConfiguredXamlXmlLoader(GetProtoParser(typeFactory), GetPullParser(typeFactory), assembler),
                 new ObjectAssemblerFactory(WpfWiringContextFactory.GetContext(typeFactory)))
         {
+        }
+
+        private static SuperProtoParser GetProtoParser(ITypeFactory typeFactory)
+        {
+            return new SuperProtoParser(WpfWiringContextFactory.GetContext(typeFactory));
         }
 
         private static IXamlNodesPullParser GetPullParser(ITypeFactory typeFactory)

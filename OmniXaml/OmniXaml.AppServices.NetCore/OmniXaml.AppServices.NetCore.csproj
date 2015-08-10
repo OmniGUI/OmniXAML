@@ -35,7 +35,7 @@
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
-      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
+      <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
       <Name>OmniXaml.AppServices.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">

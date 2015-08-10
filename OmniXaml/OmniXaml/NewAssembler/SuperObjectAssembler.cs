@@ -73,7 +73,7 @@ namespace OmniXaml.NewAssembler
         {
             if (IsLevelOneAndThereIsRootInstance)
             {
-                var xamlMember = WiringContext.GetType(rootInstanceType).GetMember(member.Name);
+                var xamlMember = WiringContext.TypeContext.GetXamlType(rootInstanceType).GetMember(member.Name);
                 return rootInstanceType == null ? member : xamlMember;
             }
 

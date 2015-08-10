@@ -65,11 +65,6 @@
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             var xamlTypeRepository = new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider());
             return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry, typeFactory);
-        }
-
-        public override XamlType GetType(Type type)
-        {
-            return new WpfXamlType(type, TypeContext, TypeContext.TypeFactory, FeatureProvider);
         }        
     }
 }
