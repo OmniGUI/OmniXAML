@@ -32,12 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Glass, Version=0.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Glass\Glass\bin\Debug\Glass.dll</HintPath>
+    <Reference Include="Glass, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glass.1.3.0.0\lib\portable-net451+win81+wpa81\Glass.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="OmniXaml, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OmniXAML.1.3.0.0\lib\portable-net451+win81\OmniXaml.dll</HintPath>
+      <HintPath>..\packages\OmniXAML.1.3.0.1\lib\portable-net451+win81\OmniXaml.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OmniXaml.AppServices, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
