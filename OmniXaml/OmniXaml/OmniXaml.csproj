@@ -35,13 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\Glass\Glass.csproj">
-      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Assembler\MarkupExtensionArgument.cs" />
     <Compile Include="Assembler\ObjectAssemblerSettings.cs" />
     <Compile Include="Assembler\XamlSetValueEventArgs.cs" />
@@ -159,7 +155,6 @@
     <Compile Include="Typing\IXamlMemberValuePlugin.cs" />
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Typing\MemberValuePlugin.cs" />
     <Compile Include="Typing\MutableXamlMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
@@ -195,12 +190,17 @@
     <Compile Include="XamlLoader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Glass, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glass.1.3.0.0\lib\portable-net451+win81+wpa81\Glass.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Sprache, Version=2.0.0.46, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\Perspex-OmniXAMLed\packages\Sprache.2.0.0.46\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="OmniXaml.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

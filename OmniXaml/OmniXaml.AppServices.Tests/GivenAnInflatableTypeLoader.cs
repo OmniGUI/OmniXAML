@@ -5,6 +5,7 @@ namespace OmniXaml.AppServices.Tests
     using NetCore;
     using OmniXaml.Tests;
     using OmniXaml.Tests.Classes.WpfLikeModel;
+    using OmniXaml.Tests.Common;
     using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 

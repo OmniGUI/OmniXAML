@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}</ProjectGuid>
+    <ProjectGuid>{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.AppServices.NetCore.Tests</RootNamespace>
-    <AssemblyName>OmniXaml.AppServices.NetCore.Tests</AssemblyName>
+    <RootNamespace>OmniXaml.Tests.Wpf</RootNamespace>
+    <AssemblyName>OmniXaml.Tests.Wpf</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -16,6 +16,7 @@
     <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,8 +36,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Glass, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Glass.1.3.0.0\lib\portable-net451+win81+wpa81\Glass.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="OmniXaml, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\OmniXAML.1.3.0.0\lib\portable-net451+win81\OmniXaml.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="Sprache, Version=2.0.0.46, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sprache.2.0.0.46\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -51,38 +67,25 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="InflatableFactoryTest.cs" />
+    <Compile Include="GivenAXamlXmlLoader.cs" />
+    <Compile Include="LoadingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
-      <Project>{E4FB7D33-20F4-46F8-B7C6-FC11EFF34CFB}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+    <ProjectReference Include="..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
+      <Project>{9B517520-4D99-4BF5-8219-A643F718F6DD}</Project>
+      <Name>Xaml.Tests.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
-      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
-      <Project>{e6fda529-90c2-4dda-9080-7e7eef64b2ca}</Project>
-      <Name>OmniXaml.Tests.Classes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj">
-      <Project>{03efd393-33d1-43e6-8835-1450459697f3}</Project>
-      <Name>OmniXaml.Tests.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
-      <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
-      <Name>OmniXaml</Name>
+    <ProjectReference Include="..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
+      <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>
+      <Name>OmniXaml.Wpf</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Test.txt">
+    <None Include="github_icon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="TestModel\" />
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

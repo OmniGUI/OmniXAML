@@ -88,7 +88,7 @@
             return EmptyElement<T>(null);
         }
 
-        internal ProtoXamlInstruction EmptyElement<T>(NamespaceDeclaration namespaceDeclaration)
+        public ProtoXamlInstruction EmptyElement<T>(NamespaceDeclaration namespaceDeclaration)
         {
             return EmptyElement(typeof(T), namespaceDeclaration);
         }
