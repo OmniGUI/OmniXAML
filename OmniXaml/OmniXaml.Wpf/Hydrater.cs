@@ -10,20 +10,20 @@ namespace OmniXaml.Wpf
     using Parsers.XamlNodes;
     using Typing;
 
-    internal class NodeInflater
+    internal class Hydrater
     {
         private readonly IEnumerable<Type> inflatables;
         private readonly WiringContext wiringContext;
-        private readonly XamlNodeBuilder nodeBuilder;
+        private readonly XamlInstructionBuilder instructionBuilder;
 
-        public NodeInflater(IEnumerable<Type> inflatables, WiringContext wiringContext)
+        public Hydrater(IEnumerable<Type> inflatables, WiringContext wiringContext)
         {
             this.inflatables = inflatables;
             this.wiringContext = wiringContext;
-            nodeBuilder = new XamlNodeBuilder(wiringContext.TypeContext);
+            instructionBuilder = new XamlInstructionBuilder(wiringContext.TypeContext);
         }
 
-        public IEnumerable<XamlInstruction> Inflate(IEnumerable<XamlInstruction> nodes)
+        public IEnumerable<XamlInstruction> Hydrate(IEnumerable<XamlInstruction> nodes)
         {
             var processedNodes = new Collection<XamlInstruction>();
             var skipNext = false;
@@ -63,7 +63,7 @@ namespace OmniXaml.Wpf
             var list = original.ToList();
             var nodeToReplace = list.First(node => NodeHasSameType(oldType, node));
             var id = list.IndexOf(nodeToReplace);
-            list[id] = nodeBuilder.StartObject(newType.UnderlyingType);
+            list[id] = instructionBuilder.StartObject(newType.UnderlyingType);
             return list;
         }
 

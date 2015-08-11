@@ -58,7 +58,7 @@
     <Compile Include="Builder\Converters.cs" />
     <Compile Include="Builder\Route.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
-    <Compile Include="Builder\XamlNodeBuilder.cs" />
+    <Compile Include="Builder\XamlInstructionBuilder.cs" />
     <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
     <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
     <Compile Include="ClrMapping.cs" />
@@ -137,7 +137,7 @@
     <Compile Include="Parsers\ProtoParser\NodeType.cs" />
     <Compile Include="Parsers\XamlParseException.cs" />
     <Compile Include="PrefixRegistrationMode.cs" />
-    <Compile Include="ProtoNodeBuilder.cs" />
+    <Compile Include="ProtoInstructionBuilder.cs" />
     <Compile Include="ProtoXamlInstruction.cs" />
     <Compile Include="TemplateHostingObjectAssembler.cs" />
     <Compile Include="TypeContext.cs" />
@@ -180,7 +180,7 @@
     <Compile Include="Visualization\XamlInstruction.cs" />
     <Compile Include="Visualization\HierarchizedXamlNodeCollection.cs" />
     <Compile Include="Visualization\MemberReverserVisitor.cs" />
-    <Compile Include="Visualization\NodeHierarchizer.cs" />
+    <Compile Include="Visualization\InstructionTreeBuilder.cs" />
     <Compile Include="Visualization\NodeType.cs" />
     <Compile Include="Visualization\NodeVisualizer.cs" />
     <Compile Include="Visualization\VisualizationNode.cs" />

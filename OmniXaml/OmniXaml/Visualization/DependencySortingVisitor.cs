@@ -7,30 +7,30 @@ namespace OmniXaml.Visualization
 
     public class DependencySortingVisitor : IVisitor
     {
-        public void Visit(HierarchizedXamlNode hierarchizedXamlNode)
+        public void Visit(InstructionNode instructionNode)
         {
-            var mutable = GetMutableMembers(hierarchizedXamlNode).ToList();
+            var mutable = GetMutableMembers(instructionNode).ToList();
             var sorted = ShortByDependencies(mutable);
-            var others = GetOthers(hierarchizedXamlNode);
+            var others = GetOthers(instructionNode);
 
-            var newList = new List<HierarchizedXamlNode>();
+            var newList = new List<InstructionNode>();
 
             newList.AddRange(sorted);
             newList.AddRange(others);
 
-            hierarchizedXamlNode.Children = new Sequence<HierarchizedXamlNode>(newList);
+            instructionNode.Children = new Sequence<InstructionNode>(newList);
 
-            foreach (var xamlNode in hierarchizedXamlNode.Children)
+            foreach (var xamlNode in instructionNode.Children)
             {
                 xamlNode.AcceptVisitor(this);
             }
         }
 
-        private IEnumerable<HierarchizedXamlNode> ShortByDependencies(List<HierarchizedXamlNode> list)
+        private IEnumerable<InstructionNode> ShortByDependencies(List<InstructionNode> list)
         {
             if (!list.Any())
             {
-                return new List<HierarchizedXamlNode>();
+                return new List<InstructionNode>();
             }
 
             var members = list.Select(node => (MutableXamlMember) node.Leading.Member);
@@ -43,9 +43,9 @@ namespace OmniXaml.Visualization
             return sortedNodes;
         }
 
-        private static IEnumerable<HierarchizedXamlNode> SortNodesAccordingTo(List<HierarchizedXamlNode> list, IEnumerable<MutableXamlMember> sortedList)
+        private static IEnumerable<InstructionNode> SortNodesAccordingTo(List<InstructionNode> list, IEnumerable<MutableXamlMember> sortedList)
         {
-            var sorted = new List<HierarchizedXamlNode>();
+            var sorted = new List<InstructionNode>();
 
             foreach (var mutableXamlMember in sortedList)
             {
@@ -55,14 +55,14 @@ namespace OmniXaml.Visualization
             return sorted;
         }
 
-        private static IEnumerable<HierarchizedXamlNode> GetMutableMembers(HierarchizedXamlNode hierarchizedXamlNode)
+        private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
         {
-            return hierarchizedXamlNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
         }
 
-        private static IEnumerable<HierarchizedXamlNode> GetOthers(HierarchizedXamlNode hierarchizedXamlNode)
+        private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return hierarchizedXamlNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
         }
     }
 }

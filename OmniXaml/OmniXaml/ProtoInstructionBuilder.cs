@@ -7,13 +7,13 @@
     using Parsers.ProtoParser;
     using Typing;
 
-    public class ProtoNodeBuilder
+    public class ProtoInstructionBuilder
     {
         private readonly ITypeContext typeContext;
         private readonly ITypeFeatureProvider typeFeatureProvider;
         private readonly ITypeFactory typeFactory;
 
-        public ProtoNodeBuilder(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
+        public ProtoInstructionBuilder(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {
             this.typeContext = typeContext;
             this.typeFeatureProvider = typeFeatureProvider;

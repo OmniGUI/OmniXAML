@@ -28,8 +28,8 @@
         private IEnumerable<XamlInstruction> SortNodes(IEnumerator<XamlInstruction> enumerator)
         {
             var subSet = LookaheadBuffer.GetUntilEndOfRoot(enumerator);
-            var nodes = new NodeHierarchizer().CreateHierarchy(subSet);
-            var root = new HierarchizedXamlNode { Children = new Sequence<HierarchizedXamlNode>(nodes.ToList()) };
+            var nodes = new InstructionTreeBuilder().CreateHierarchy(subSet);
+            var root = new InstructionNode { Children = new Sequence<InstructionNode>(nodes.ToList()) };
             root.AcceptVisitor(new DependencySortingVisitor());
 
             foreach (var xamlNode in root.Children.SelectMany(node => node.Dump()))

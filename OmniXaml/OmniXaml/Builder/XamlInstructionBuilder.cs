@@ -5,11 +5,11 @@
     using Glass;
     using Typing;
 
-    public class XamlNodeBuilder
+    public class XamlInstructionBuilder
     {
         private readonly IXamlTypeRepository registry;
 
-        public XamlNodeBuilder(IXamlTypeRepository registry)
+        public XamlInstructionBuilder(IXamlTypeRepository registry)
         {
             this.registry = registry;
         }

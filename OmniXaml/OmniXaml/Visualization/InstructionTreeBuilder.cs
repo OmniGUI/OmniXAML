@@ -1,32 +1,29 @@
 namespace OmniXaml.Visualization
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
 
-    public class NodeHierarchizer
+    public class InstructionTreeBuilder
     {
-        public IEnumerable<HierarchizedXamlNode> CreateHierarchy(IEnumerable<XamlInstruction> xamlNodes)
+        public IEnumerable<InstructionNode> CreateHierarchy(IEnumerable<XamlInstruction> xamlNodes)
         {
             var stream = xamlNodes.GetEnumerator();
             stream.MoveNext();
-            return HierarchizedXamlNodes(stream);
+            return Create(stream);
         }
 
-        private Sequence<HierarchizedXamlNode> HierarchizedXamlNodes(IEnumerator<XamlInstruction> stream)
-        {            
-            var nodes = new Sequence<HierarchizedXamlNode>();
+        private Sequence<InstructionNode> Create(IEnumerator<XamlInstruction> stream)
+        {
+            var nodes = new Sequence<InstructionNode>();
 
             while (IsLeading(stream.Current))
             {
-                var currentNode = new HierarchizedXamlNode();
-                currentNode.Leading = stream.Current;
+                var currentNode = new InstructionNode { Leading = stream.Current };
                 var continueWorking = true;
                 while (stream.MoveNext() && continueWorking)
                 {
                     if (IsLeading(stream.Current))
                     {
-                        currentNode.Children = HierarchizedXamlNodes(stream);
+                        currentNode.Children = Create(stream);
                     }
 
                     var xamlNode = stream.Current;
@@ -40,7 +37,7 @@ namespace OmniXaml.Visualization
                     {
                         currentNode.Body.Add(stream.Current);
                     }
-                }                
+                }
 
                 nodes.Add(currentNode);
             }
@@ -50,11 +47,10 @@ namespace OmniXaml.Visualization
 
         private static bool IsTrailing(XamlInstruction xamlInstruction)
         {
-            IEnumerator<XamlInstruction> stream;
             return xamlInstruction.NodeType == XamlNodeType.EndMember || xamlInstruction.NodeType == XamlNodeType.EndObject;
         }
 
-        private bool IsLeading(XamlInstruction current)
+        private static bool IsLeading(XamlInstruction current)
         {
             return current.NodeType == XamlNodeType.StartMember || current.NodeType == XamlNodeType.StartObject;
         }

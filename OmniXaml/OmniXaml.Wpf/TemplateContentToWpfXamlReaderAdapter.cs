@@ -21,10 +21,10 @@ namespace OmniXaml.Wpf
             this.templateContent = templateContent;
             this.SchemaContext = xamlSchemaContext;
 
-            var inflater = new NodeInflater(inflatableTypeFactory.Inflatables, templateContent.Context);
-            var inflatedNodes = inflater.Inflate(templateContent.Nodes);
+            var hydrater = new Hydrater(inflatableTypeFactory.Inflatables, templateContent.Context);
+            var hydratedNodes = hydrater.Hydrate(templateContent.Nodes);
 
-            nodeStream = inflatedNodes.GetEnumerator();
+            nodeStream = hydratedNodes.GetEnumerator();
         }
 
         public override SystemXamlNodeType NodeType => XamlTypeConversion.ToWpf(Current.NodeType);

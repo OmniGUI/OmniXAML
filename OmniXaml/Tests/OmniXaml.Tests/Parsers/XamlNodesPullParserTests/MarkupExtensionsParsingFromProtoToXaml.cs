@@ -30,7 +30,7 @@
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -43,7 +43,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -56,7 +56,7 @@
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof (DummyClass)),
@@ -72,7 +72,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
     }
 }

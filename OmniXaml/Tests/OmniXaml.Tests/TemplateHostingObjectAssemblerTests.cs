@@ -11,11 +11,11 @@
     [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuilders
     {
-        private XamlNodeBuilder x;
+        private XamlInstructionBuilder x;
 
         public TemplateHostingObjectAssemblerTests()
         {
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
+            x = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]
@@ -46,13 +46,13 @@
             }
 
             var actualNodes = sut.NodeList;
-            var expectedNodes = new Collection<XamlInstruction>
+            var expectedInstructions = new Collection<XamlInstruction>
             {
                 X.StartObject<Grid>(),
                 X.EndObject(),                
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
             Assert.IsNotNull(((Item) sut.Result).Template.Content);
         }
     }    

@@ -6,33 +6,33 @@ namespace OmniXaml.Visualization
 
     public class MemberReverserVisitor : IVisitor
     {
-        public void Visit(HierarchizedXamlNode hierarchizedXamlNode)
+        public void Visit(InstructionNode instructionNode)
         {
-            var list = GetMutableMembers(hierarchizedXamlNode).ToList();
+            var list = GetMutableMembers(instructionNode).ToList();
             list.Reverse();
-            var others = GetOthers(hierarchizedXamlNode);
+            var others = GetOthers(instructionNode);
 
-            var newList = new List<HierarchizedXamlNode>();
+            var newList = new List<InstructionNode>();
 
             newList.AddRange(list);
             newList.AddRange(others);
 
-            hierarchizedXamlNode.Children = new Sequence<HierarchizedXamlNode>(newList);
+            instructionNode.Children = new Sequence<InstructionNode>(newList);
 
-            foreach (var xamlNode in hierarchizedXamlNode.Children)
+            foreach (var xamlNode in instructionNode.Children)
             {
                 xamlNode.AcceptVisitor(this);
             }
         }
 
-        private static IEnumerable<HierarchizedXamlNode> GetMutableMembers(HierarchizedXamlNode hierarchizedXamlNode)
+        private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
         {
-            return hierarchizedXamlNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
         }
 
-        private static IEnumerable<HierarchizedXamlNode> GetOthers(HierarchizedXamlNode hierarchizedXamlNode)
+        private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return hierarchizedXamlNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
         }
     }
 }

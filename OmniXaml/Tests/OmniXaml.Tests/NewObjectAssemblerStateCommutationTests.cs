@@ -12,11 +12,11 @@ namespace OmniXaml.Tests
     [TestClass]
     public class NewObjectAssemblerStateCommutationTests : GivenAWiringContext
     {
-        private readonly XamlNodeBuilder builder;
+        private readonly XamlInstructionBuilder builder;
 
         public NewObjectAssemblerStateCommutationTests()
         {
-            builder = new XamlNodeBuilder(WiringContext.TypeContext);
+            builder = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]

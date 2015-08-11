@@ -9,13 +9,13 @@
     public class XamlProtoInstructionParser : IProtoParser
     {
         private readonly WiringContext wiringContext;
-        private readonly ProtoNodeBuilder nodeBuilder;
+        private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
 
         public XamlProtoInstructionParser(WiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
-            nodeBuilder = new ProtoNodeBuilder(wiringContext.TypeContext, wiringContext.FeatureProvider);
+            instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext, wiringContext.FeatureProvider);
         }
 
         public IEnumerable<ProtoXamlInstruction> Parse(Stream stream)
@@ -28,7 +28,7 @@
 
         private IEnumerable<ProtoXamlInstruction> ParseEmptyElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
-            var emptyElement = nodeBuilder.EmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
+            var emptyElement = instructionBuilder.EmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             return CommonNodesOfElement(xamlType, emptyElement, attributes);
         }
 
@@ -46,7 +46,7 @@
 
         private IEnumerable<ProtoXamlInstruction> ParseExpandedElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
-            var element = nodeBuilder.NonEmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
+            var element = instructionBuilder.NonEmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             foreach (var node in CommonNodesOfElement(xamlType, element, attributes)) yield return node;
 
             reader.Read();
@@ -54,7 +54,7 @@
             foreach (var node in ParseInnerTextIfAny()) yield return node; 
             foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
 
-            yield return nodeBuilder.EndTag();
+            yield return instructionBuilder.EndTag();
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseNestedElements(XamlType xamlType)
@@ -81,7 +81,7 @@
         {
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
             var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
-            yield return nodeBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
+            yield return instructionBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
             reader.Read();
 
             foreach (var p in ParseInnerTextIfAny()) yield return p;
@@ -95,14 +95,14 @@
                 }
             }
 
-            yield return nodeBuilder.EndTag();
+            yield return instructionBuilder.EndTag();
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseInnerTextIfAny()
         {
             if (reader.NodeType == XmlNodeType.Text)
             {
-                yield return nodeBuilder.Text(reader.Value);
+                yield return instructionBuilder.Text(reader.Value);
                 reader.Read();
             }
         }
@@ -116,7 +116,7 @@
                     yield return p;
                 }
 
-                yield return nodeBuilder.Text();
+                yield return instructionBuilder.Text();
 
                 reader.Read();
                 SkipWhitespaces();
@@ -150,7 +150,7 @@
             }
 
             var namespaceDeclaration = new NamespaceDeclaration(rawAttribute.Locator.Namespace, rawAttribute.Locator.Prefix);
-            return nodeBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration);
+            return instructionBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration);
         }
 
         private AttributeFeed GetAttributes()
@@ -207,12 +207,12 @@
 
         private ProtoXamlInstruction ConvertDirective(RawDirective directive)
         {
-            return nodeBuilder.Attribute(CoreTypes.Key, directive.Value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
+            return instructionBuilder.Attribute(CoreTypes.Key, directive.Value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
         }
 
         private ProtoXamlInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {
-            return nodeBuilder.NamespacePrefixDeclaration(prefix.Prefix, prefix.Namespace);
+            return instructionBuilder.NamespacePrefixDeclaration(prefix.Prefix, prefix.Namespace);
         }
     }
 }

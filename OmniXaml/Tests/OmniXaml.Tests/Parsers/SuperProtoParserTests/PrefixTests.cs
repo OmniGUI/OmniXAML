@@ -12,12 +12,12 @@
     [TestClass]
     public class PrefixTests : GivenAWiringContext
     {
-        private readonly ProtoNodeBuilder builder;
+        private readonly ProtoInstructionBuilder builder;
         private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
 
         public PrefixTests()
         {
-            builder = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
+            builder = new ProtoInstructionBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
         }
 
         [TestInitialize]
@@ -30,13 +30,13 @@
         public void SingleCollapsed()
         {
             var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>("<x:Foreigner xmlns:x=\"another\"/>").ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(AnotherNs),
                 builder.EmptyElement(typeof (Foreigner), AnotherNs),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@
 
             var ns = "root";
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
@@ -55,7 +55,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -65,14 +65,14 @@
 
             var ns = "root";
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(AnotherNs),
                 builder.NonEmptyElement(typeof (DummyClass), AnotherNs),
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
     }
 }

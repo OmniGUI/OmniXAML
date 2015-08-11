@@ -11,11 +11,11 @@
     [TestClass]
     public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContextWithNodeBuilders
     {
-        private XamlNodeBuilder x;
+        private XamlInstructionBuilder x;
 
         public MarkupExtensionNodeToXamlNodesConverterTests()
         {
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
+            x = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]
@@ -24,13 +24,13 @@
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -49,7 +49,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -75,7 +75,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new Collection<XamlInstruction>
+            var expectedInstructions = new Collection<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.MarkupExtensionArguments(),
@@ -97,7 +97,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
     }
 

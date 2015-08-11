@@ -64,6 +64,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
+    <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
@@ -81,7 +82,7 @@
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
     <Compile Include="NodeHierarchizerTests.cs" />
-    <Compile Include="SkimmerTests.cs" />
+    <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />
@@ -96,7 +97,7 @@
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
     <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
     <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
-    <Compile Include="XamlXmlReaderTests\NodeDumpTests.cs" />
+    <Compile Include="XamlXmlReaderTests\InstructionDumpTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Glass\Glass.csproj">

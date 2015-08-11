@@ -14,27 +14,25 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class NodeDumpTests : GivenAWiringContext
+    public class InstructionDumpTests : GivenAWiringContext
     {
-        private readonly XamlNodeBuilder nodeBuilder;
+        private readonly XamlInstructionBuilder instructionBuilder;
 
-        public NodeDumpTests()
-        {
-      
-
-            nodeBuilder = new XamlNodeBuilder(WiringContext.TypeContext);
+        public InstructionDumpTests()
+        {     
+            instructionBuilder = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]
         public void ReadSingleInstance()
         {
-            var contents = FlattenNodesFromXaml(Dummy.SingleInstance);
+            var contents = ParseInstructions(Dummy.SingleInstance);
 
             var expected = new List<XamlInstruction>
             {
-                nodeBuilder.NamespacePrefixDeclaration(RootNs),
-                nodeBuilder.StartObject(typeof (DummyClass)),
-                nodeBuilder.EndObject(),
+                instructionBuilder.NamespacePrefixDeclaration(RootNs),
+                instructionBuilder.StartObject(typeof (DummyClass)),
+                instructionBuilder.EndObject(),
             };
 
             XamlNodesAssert.AreEssentiallyTheSame(expected, contents);
@@ -44,17 +42,17 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         [Description("With no namespace, it fails")]
         public void ReadWithChild()
         {
-            var contents = FlattenNodesFromXaml(Dummy.InstanceWithChild);
+            var contents = ParseInstructions(Dummy.InstanceWithChild);
 
             var expected = new List<XamlInstruction>
             {
-                nodeBuilder.NamespacePrefixDeclaration(RootNs),
-                nodeBuilder.StartObject(typeof (DummyClass)),
-                nodeBuilder.StartMember<DummyClass>(d => d.Child),
-                nodeBuilder.StartObject(typeof(ChildClass)),
-                nodeBuilder.EndObject(),
-                nodeBuilder.EndMember(),
-                nodeBuilder.EndObject(),
+                instructionBuilder.NamespacePrefixDeclaration(RootNs),
+                instructionBuilder.StartObject(typeof (DummyClass)),
+                instructionBuilder.StartMember<DummyClass>(d => d.Child),
+                instructionBuilder.StartObject(typeof(ChildClass)),
+                instructionBuilder.EndObject(),
+                instructionBuilder.EndMember(),
+                instructionBuilder.EndObject(),
             };
 
             XamlNodesAssert.AreEssentiallyTheSame(expected, contents);
@@ -63,16 +61,16 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
-            var contents = FlattenNodesFromXaml(Dummy.StringProperty);
+            var contents = ParseInstructions(Dummy.StringProperty);
 
             var expected = new List<XamlInstruction>
             {
-                nodeBuilder.NamespacePrefixDeclaration(RootNs),
-                nodeBuilder.StartObject(typeof (DummyClass)),
-                nodeBuilder.StartMember<DummyClass>(d => d.SampleProperty),
-                nodeBuilder.Value("Property!"),
-                nodeBuilder.EndMember(),
-                nodeBuilder.EndObject(),
+                instructionBuilder.NamespacePrefixDeclaration(RootNs),
+                instructionBuilder.StartObject(typeof (DummyClass)),
+                instructionBuilder.StartMember<DummyClass>(d => d.SampleProperty),
+                instructionBuilder.Value("Property!"),
+                instructionBuilder.EndMember(),
+                instructionBuilder.EndObject(),
             };
 
             XamlNodesAssert.AreEssentiallyTheSame(expected, contents);
@@ -81,33 +79,33 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         [TestMethod]
         public void ClassWithInnerCollection()
         {
-            var contents = FlattenNodesFromXaml(Dummy.ClassWithInnerCollection);
+            var contents = ParseInstructions(Dummy.ClassWithInnerCollection);
 
             var expected = new List<XamlInstruction>
             {
-                nodeBuilder.NamespacePrefixDeclaration(RootNs),
-                nodeBuilder.StartObject(typeof (DummyClass)),
-                nodeBuilder.StartMember<DummyClass>(d => d.Items),
-                nodeBuilder.GetObject(),
-                nodeBuilder.Items(),
-                nodeBuilder.StartObject(typeof (Item)),
-                nodeBuilder.EndObject(),
-                nodeBuilder.EndMember(),
-                nodeBuilder.EndObject(),
-                nodeBuilder.EndMember(),
-                nodeBuilder.EndObject(),
+                instructionBuilder.NamespacePrefixDeclaration(RootNs),
+                instructionBuilder.StartObject(typeof (DummyClass)),
+                instructionBuilder.StartMember<DummyClass>(d => d.Items),
+                instructionBuilder.GetObject(),
+                instructionBuilder.Items(),
+                instructionBuilder.StartObject(typeof (Item)),
+                instructionBuilder.EndObject(),
+                instructionBuilder.EndMember(),
+                instructionBuilder.EndObject(),
+                instructionBuilder.EndMember(),
+                instructionBuilder.EndObject(),
             };
 
             XamlNodesAssert.AreEssentiallyTheSame(expected, contents);
         }      
 
-        private static void AssertNodesAreEqual(IList<XamlNodeType> expectedNodes, IList<XamlNodeType> actualNodes)
+        private static void AssertNodesAreEqual(IList<XamlNodeType> expectedInstructions, IList<XamlNodeType> actualNodes)
         {
             CollectionAssert.AreEqual(
-                expectedNodes.ToList(),
+                expectedInstructions.ToList(),
                 actualNodes.ToList(),
                 "\nExpected:\n{0}\n\nActual:\n{1}",
-                Extensions.ToString(expectedNodes),
+                Extensions.ToString(expectedInstructions),
                 Extensions.ToString(actualNodes));
         }
 
@@ -144,10 +142,10 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
             return nodes;
         }
 
-        private IList<XamlInstruction> FlattenNodesFromXaml(string xaml)
+        private IList<XamlInstruction> ParseInstructions(string xaml)
         {
             var pullParser = new XamlInstructionParser(WiringContext);
-            var protoNodes = new XamlProtoInstructionParser(WiringContext).Parse<IEnumerable<ProtoXamlInstruction>>(xaml);
+            var protoNodes = new XamlProtoInstructionParser(WiringContext).Parse(xaml);
             return pullParser.Parse(protoNodes).ToList();         
         }
     }

@@ -11,12 +11,12 @@
     [TestClass]
     public class ObjectAssemblerTests : GivenAWiringContext
     {
-        private readonly XamlNodeBuilder builder;
+        private readonly XamlInstructionBuilder builder;
         private readonly IObjectAssembler sut;
 
         public ObjectAssemblerTests()
         {
-            builder = new XamlNodeBuilder(WiringContext.TypeContext);
+            builder = new XamlInstructionBuilder(WiringContext.TypeContext);
             sut = new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext());
         }
 

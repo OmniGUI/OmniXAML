@@ -4,22 +4,22 @@ namespace OmniXaml.Tests
 
     public class GivenAWiringContextWithNodeBuilders : GivenAWiringContext
     {
-        private XamlNodeBuilder x;
-        private ProtoNodeBuilder p;
+        private XamlInstructionBuilder x;
+        private ProtoInstructionBuilder p;
 
         protected GivenAWiringContextWithNodeBuilders()
         {
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
-            p = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
+            x = new XamlInstructionBuilder(WiringContext.TypeContext);
+            p = new ProtoInstructionBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
         }
 
-        protected XamlNodeBuilder X
+        protected XamlInstructionBuilder X
         {
             get { return x; }
             set { x = value; }
         }
 
-        public ProtoNodeBuilder P
+        public ProtoInstructionBuilder P
         {
             get { return p; }
             set { p = value; }

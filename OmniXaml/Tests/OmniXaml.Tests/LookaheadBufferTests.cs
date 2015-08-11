@@ -7,49 +7,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class SkimmerTests : GivenAWiringContextWithNodeBuilders
+    public class LookaheadBufferTests : GivenAWiringContextWithNodeBuilders
     {
-        private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
-
-        [TestMethod]
-        public void Sort()
-        {
-            var input = new List<XamlInstruction>
-            {
-                X.StartObject<Style>(),
-                    X.StartMember<Style>(c => c.Setter),
-                        X.StartObject<Setter>(),
-                            X.StartMember<Setter>(c => c.Value),
-                                X.Value("Value"),
-                            X.EndMember(),
-                            X.StartMember<Setter>(c => c.Property),
-                                X.Value("Property"),
-                            X.EndMember(),
-                        X.EndObject(),
-                    X.EndMember(),
-                X.EndObject()
-            };
-
-            var actualNodes = memberDependencyNodeSorter.Sort(input.GetEnumerator()).ToList();
-            var expectedNodes = new List<XamlInstruction>
-            {
-                X.StartObject<Style>(),
-                    X.StartMember<Style>(c => c.Setter),
-                        X.StartObject<Setter>(),
-                            X.StartMember<Setter>(c => c.Property),
-                                X.Value("Property"),
-                            X.EndMember(),
-                            X.StartMember<Setter>(c => c.Value),
-                                X.Value("Value"),
-                            X.EndMember(),
-                        X.EndObject(),
-                    X.EndMember(),
-                X.EndObject()
-            };
-
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
-        }
-
         [TestMethod]
         public void LookAheadTest()
         {
@@ -74,9 +33,9 @@
         [TestMethod]
         public void LookAheadTestStartZero()
         {
-            var look = new List<XamlInstruction>();
+            var instructions = new List<XamlInstruction>();
 
-            var enumerator = look.GetEnumerator();
+            var enumerator = instructions.GetEnumerator();
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(0, count);
@@ -87,7 +46,7 @@
         {
             var look = new List<XamlInstruction>
             {
-                X.StartObject<Style>(),                
+                X.StartObject<Style>(),
                 X.EndObject()
             };
 

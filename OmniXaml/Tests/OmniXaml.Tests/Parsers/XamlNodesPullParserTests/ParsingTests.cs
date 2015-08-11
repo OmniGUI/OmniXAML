@@ -34,7 +34,7 @@
                 P.NamespacePrefixDeclaration(RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
             };
@@ -42,7 +42,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@
                 P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                 X.EndObject(),
@@ -61,7 +61,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                 X.EndObject(),
@@ -81,7 +81,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -94,7 +94,7 @@
                 P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -106,7 +106,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@
                 P.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -135,7 +135,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -148,7 +148,7 @@
                 P.None()
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -157,7 +157,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@
                 P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.NamespacePrefixDeclaration(AnotherNs),
@@ -180,7 +180,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -196,7 +196,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(c => c.Child),
@@ -208,7 +208,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -232,7 +232,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -255,7 +255,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -277,7 +277,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -298,7 +298,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -314,7 +314,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<ChildClass>(),
@@ -327,7 +327,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -346,7 +346,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -367,7 +367,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -375,9 +375,9 @@
         {
             var input = sampleData.CreateInputForCollectionsContentPropertyNesting(RootNs);
             var actualNodes = sut.Parse(input).ToList();
-            var expectedNodes = sampleData.CreateExpectedNodesCollectionsContentPropertyNesting(RootNs);
+            var expectedInstructions = sampleData.CreateExpectedNodesCollectionsContentPropertyNesting(RootNs);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -385,9 +385,9 @@
         {
             var input = sampleData.CreateInputForTwoNestedProperties(RootNs);
             var actualNodes = sut.Parse(input).ToList();
-            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedProperties(RootNs);
+            var expectedInstructions = sampleData.CreateExpectedNodesForTwoNestedProperties(RootNs);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -417,7 +417,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -444,7 +444,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -455,9 +455,9 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = sampleData.CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(RootNs);
+            var expectedInstructions = sampleData.CreateExpectedNodesForTwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem(RootNs);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -476,7 +476,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -499,7 +499,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -521,7 +521,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -538,7 +538,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -557,7 +557,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -580,7 +580,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -590,9 +590,9 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = sampleData.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection(RootNs);
+            var expectedInstructions = sampleData.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection(RootNs);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -607,7 +607,7 @@
                 P.EmptyElement(type, RootNs),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(clrNamespace, prefix),
                 X.StartObject<DummyClass>(),
@@ -616,7 +616,7 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -632,7 +632,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -645,7 +645,7 @@
             var actualNodes = sut.Parse(input);
             var xamlNodes = actualNodes.ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, xamlNodes);
+            CollectionAssert.AreEqual(expectedInstructions, xamlNodes);
         }
 
         [TestMethod]
@@ -660,7 +660,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(sysNs),
                 X.StartObject<string>(),
@@ -673,7 +673,7 @@
             var actualNodes = sut.Parse(input);
             var xamlNodes = actualNodes.ToList();
 
-            CollectionAssert.AreEqual(expectedNodes, xamlNodes);
+            CollectionAssert.AreEqual(expectedInstructions, xamlNodes);
         }
 
         [TestMethod]
@@ -689,7 +689,7 @@
                 X.EndMember(),
             };
 
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                 X.Value("Property"),
@@ -701,7 +701,7 @@
             };
 
             var actualNodes = ParserMierda(input).ToList();
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         private IEnumerable<XamlInstruction> ParserMierda(List<XamlInstruction> xamlNodes)
@@ -711,9 +711,9 @@
             return SortQueues(blocks);
         }
 
-        private Collection<MemberNodesBlock> CollectBlocks(List<XamlInstruction> expectedNodes)
+        private Collection<MemberNodesBlock> CollectBlocks(List<XamlInstruction> expectedInstructions)
         {
-            var enumerator = expectedNodes.GetEnumerator();
+            var enumerator = expectedInstructions.GetEnumerator();
             var queues = new Collection<MemberNodesBlock>();
             var isRecording = false;
             MemberNodesBlock currentBlock = null;

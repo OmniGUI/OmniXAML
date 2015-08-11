@@ -12,11 +12,11 @@ namespace OmniXaml.Tests
     [TestClass]
     public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuilders
     {
-        private readonly XamlNodeBuilder x;
+        private readonly XamlInstructionBuilder x;
 
         public NodeHierarchizerTests()
         {
-            x = new XamlNodeBuilder(WiringContext.TypeContext);
+            x = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]
@@ -32,7 +32,7 @@ namespace OmniXaml.Tests
                 X.EndMember(),
             };
 
-            var sut = new NodeHierarchizer();
+            var sut = new InstructionTreeBuilder();
             var actual = sut.CreateHierarchy(input);
         }
 
@@ -45,11 +45,11 @@ namespace OmniXaml.Tests
                 X.EndMember(),
             };
 
-            var sut = new NodeHierarchizer();
+            var sut = new InstructionTreeBuilder();
             var actual = sut.CreateHierarchy(input);
-            var expected = new Sequence<HierarchizedXamlNode>
+            var expected = new Sequence<InstructionNode>
             {
-                new HierarchizedXamlNode
+                new InstructionNode
                 {
                     Leading = X.StartMember<Setter>(c => c.Value),
                     Trailing = X.EndMember(),
@@ -86,14 +86,14 @@ namespace OmniXaml.Tests
                 X.EndMember(),
             };
 
-            var sut = new NodeHierarchizer();
+            var sut = new InstructionTreeBuilder();
             var actual = sut.CreateHierarchy(input);
 
-            var h = new HierarchizedXamlNode {Children = new Sequence<HierarchizedXamlNode>(actual.ToList())};
+            var h = new InstructionNode {Children = new Sequence<InstructionNode>(actual.ToList())};
             h.AcceptVisitor(new MemberReverserVisitor());
 
             var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                     X.StartObject(typeof(DummyClass)),
@@ -117,7 +117,7 @@ namespace OmniXaml.Tests
                 X.EndMember(),              
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
 
         [TestMethod]
@@ -133,14 +133,14 @@ namespace OmniXaml.Tests
                 X.EndMember(),
             };
 
-            var sut = new NodeHierarchizer();
+            var sut = new InstructionTreeBuilder();
             var actual = sut.CreateHierarchy(input);
 
-            var h = new HierarchizedXamlNode { Children = new Sequence<HierarchizedXamlNode>(actual.ToList()) };
+            var h = new InstructionNode { Children = new Sequence<InstructionNode>(actual.ToList()) };
             h.AcceptVisitor(new DependencySortingVisitor());
 
             var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedNodes = new List<XamlInstruction>
+            var expectedInstructions = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                 X.Value("Property"),
@@ -150,7 +150,7 @@ namespace OmniXaml.Tests
                 X.EndMember(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
         }
     }
 }

@@ -11,11 +11,11 @@
     [TestClass]
     public class VisualizationTests : GivenAWiringContext
     {
-        private readonly XamlNodeBuilder builder;
+        private readonly XamlInstructionBuilder builder;
 
         public VisualizationTests()
         {
-            builder = new XamlNodeBuilder(WiringContext.TypeContext);
+            builder = new XamlInstructionBuilder(WiringContext.TypeContext);
         }
 
         [TestMethod]

@@ -3,15 +3,15 @@ namespace OmniXaml.Visualization
     using System.Collections.Generic;
     using System.Linq;
 
-    public class HierarchizedXamlNode
+    public class InstructionNode
     {
-        public HierarchizedXamlNode()
+        public InstructionNode()
         {
-            Children = new Sequence<HierarchizedXamlNode>();
+            Children = new Sequence<InstructionNode>();
             Body = new Sequence<XamlInstruction>();
         }
         public XamlInstruction Leading { get; set; }
-        public Sequence<HierarchizedXamlNode> Children { get; set; }
+        public Sequence<InstructionNode> Children { get; set; }
         public XamlInstruction Trailing { get; set; }
         public Sequence<XamlInstruction> Body { get; }
 
@@ -32,7 +32,7 @@ namespace OmniXaml.Visualization
             yield return Trailing;
         }
 
-        protected bool Equals(HierarchizedXamlNode other)
+        protected bool Equals(InstructionNode other)
         {
             var eq = Equals(Body, other.Body);
             return Leading.Equals(other.Leading) && Equals(Children, other.Children) && Trailing.Equals(other.Trailing) && eq;
@@ -52,7 +52,7 @@ namespace OmniXaml.Visualization
             {
                 return false;
             }
-            return Equals((HierarchizedXamlNode) obj);
+            return Equals((InstructionNode) obj);
         }
 
         public override int GetHashCode()
@@ -75,6 +75,6 @@ namespace OmniXaml.Visualization
 
     public interface IVisitor
     {
-        void Visit(HierarchizedXamlNode hierarchizedXamlNode);
+        void Visit(InstructionNode instructionNode);
     }
 }

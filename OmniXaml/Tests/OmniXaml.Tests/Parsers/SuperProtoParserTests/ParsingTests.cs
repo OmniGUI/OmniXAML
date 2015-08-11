@@ -14,12 +14,12 @@
     [TestClass]
     public class ParsingTests : GivenAWiringContext
     {
-        private readonly ProtoNodeBuilder builder;
+        private readonly ProtoInstructionBuilder builder;
         private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
 
         public ParsingTests()
         {
-            builder = new ProtoNodeBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
+            builder = new ProtoInstructionBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
         }
 
         [TestInitialize]
@@ -33,13 +33,13 @@
         {
             var actualNodes = sut.Parse(ProtoInputs.SingleCollapsed).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -47,14 +47,14 @@
         {
             var actualNodes = sut.Parse(ProtoInputs.SingleOpenAndClose).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@
         {
             var actualNodes = sut.Parse(ProtoInputs.ElementWithChild).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -73,7 +73,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -81,13 +81,13 @@
         {
             var actualNodes = sut.Parse(ProtoInputs.SingleCollapsedWithNs).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -95,14 +95,14 @@
         {
             var actualNodes = sut.Parse(ProtoInputs.ElementWith2NsDeclarations).ToList();
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NamespacePrefixDeclaration("a", "another"),
                 builder.EmptyElement<DummyClass>(RootNs),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -133,7 +133,7 @@
         {
             var actualNodes = sut.Parse(Dummy.StringProperty).ToList();
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -141,7 +141,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -149,7 +149,7 @@
         {
             var actualNodes = sut.Parse(Dummy.KeyDirective).ToList();
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NamespacePrefixDeclaration("x", "http://schemas.microsoft.com/winfx/2006/xaml"),
@@ -162,7 +162,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@
 
             var prefix = "root";
 
-            var expectedNodes = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration("", prefix),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -180,7 +180,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -188,7 +188,7 @@
         {
             var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -204,7 +204,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -212,7 +212,7 @@
         {
             var actualNodes = sut.Parse(Dummy.FourLevelsOfNesting).ToList();
 
-            ICollection expectedNodes = new Collection<ProtoXamlInstruction>
+            ICollection expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -233,14 +233,14 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
         public void ChildCollection()
         {
             var actualNodes = sut.Parse(Dummy.ChildCollection).ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -255,14 +255,14 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
         public void ContentPropertyForCollectionOneElement()
         {
             var actualNodes = sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -271,27 +271,27 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
         public void CollapsedTag()
         {
             var actualNodes = sut.Parse(Dummy.CollapsedTag).ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
         public void TwoNestedPropertiesEmpty()
         {
             var actualNodes = sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -302,14 +302,14 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
         public void TwoNestedProperties()
         {
             var actualNodes = sut.Parse(Dummy.TwoNestedProperties).ToList();
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -329,7 +329,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
@@ -337,7 +337,7 @@
         {
             var actualNodes = sut.Parse(Dummy.InnerContent).ToList();
 
-            var expectedNodes = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -347,7 +347,7 @@
                 builder.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedNodes, actualNodes);
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
 
         [TestMethod]
