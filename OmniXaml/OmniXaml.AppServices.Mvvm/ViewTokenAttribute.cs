@@ -9,8 +9,8 @@
 
         public ViewTokenAttribute(string token, Type viewType)
         {
-            this.Token = token;
-            this.ViewType = viewType;
+            Token = token;
+            ViewType = viewType;
         }
     }
 }

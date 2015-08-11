@@ -4,7 +4,7 @@
     using OmniXaml.AppServices.NetCore;
 
     [ViewToken("Main", typeof(MainWindow))]
-    public class MainWindow : InflatableTranslator.CoreWindow
+    public class MainWindow : CoreWindow
     {
     }  
 }

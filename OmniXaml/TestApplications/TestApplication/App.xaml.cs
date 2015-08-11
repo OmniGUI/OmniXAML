@@ -17,9 +17,8 @@
             var typeFactory = new WpfInflatableTypeFactory();
 
             var viewFactory = new ViewFactory(typeFactory);
-            viewFactory.RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAddDomain));            
+            viewFactory.RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAddDomain));
             viewFactory.Show("Main");
         }     
     }    
 }
-

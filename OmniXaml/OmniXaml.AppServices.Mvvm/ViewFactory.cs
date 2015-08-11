@@ -59,6 +59,20 @@
             {
                 RegisterView(viewRegistration);
             }
-        }      
+        }
+
+        public void ShowDialog(string token)
+        {
+            var view = CreateUsingToken(token);
+            TryInjectViewModel(view);
+            view.ShowDialog();
+        }
+
+        public IView GetWindow(string token)
+        {
+            var view = CreateUsingToken(token);
+            TryInjectViewModel(view);
+            return view;
+        }
     }
 }

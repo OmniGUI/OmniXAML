@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IInflatableTranslator.cs" />
-    <Compile Include="IWindowFactory.cs" />
     <Compile Include="InflatableTypeFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
