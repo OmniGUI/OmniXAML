@@ -55,6 +55,7 @@
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
     <Compile Include="StaticResourceExtension.cs" />
+    <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWiringContext.cs" />
     <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
@@ -68,7 +69,7 @@
     <Compile Include="ObjectAssembler.cs" />
     <Compile Include="ObjectAssemblerFactory.cs" />
     <Compile Include="TemplateContent.cs" />
-    <Compile Include="WpfXamlStreamLoader.cs" />
+    <Compile Include="WpfXamlLoader.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="TypeConverterProvider.cs" />
@@ -88,6 +89,10 @@
     <ProjectReference Include="..\..\Glass\Glass.csproj">
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
+      <Name>OmniXaml.AppServices.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
       <Project>{e4fb7d33-20f4-46f8-b7c6-fc11eff34cfb}</Project>

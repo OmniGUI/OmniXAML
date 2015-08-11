@@ -8,11 +8,11 @@
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlStreamLoader = new XamlStreamLoader(new XamlProtoInstructionParser(WiringContext),
+            XamlLoader = new XamlLoader(new XamlProtoInstructionParser(WiringContext),
                 new XamlInstructionParser(WiringContext),
                 new DefaultObjectAssemblerFactory(WiringContext));
         }
 
-        protected XamlStreamLoader XamlStreamLoader { get; }
+        protected XamlLoader XamlLoader { get; }
     }
 }

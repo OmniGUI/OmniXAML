@@ -10,13 +10,13 @@
     {
         private readonly ITypeFactory coreTypeFactory;
         private readonly IInflatableTranslator inflatableTranslator;
-        private readonly Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory;
+        private readonly Func<InflatableTypeFactory, IXamlLoader> loaderFactory;
 
         public IEnumerable<Type> Inflatables { get; set; } = new Collection<Type>();
 
         public InflatableTypeFactory(ITypeFactory coreTypeFactory,
             IInflatableTranslator inflatableTranslator,
-            Func<InflatableTypeFactory, IXamlStreamLoader> loaderFactory)
+            Func<InflatableTypeFactory, IXamlLoader> loaderFactory)
         {
             this.coreTypeFactory = coreTypeFactory;
             this.inflatableTranslator = inflatableTranslator;

@@ -6,10 +6,10 @@ namespace OmniXaml.NewAssembler.Commands
     {
         private readonly string value;
 
-        public ValueCommand(SuperObjectAssembler superObjectAssembler, string value) : base(superObjectAssembler)
+        public ValueCommand(ObjectAssembler objectAssembler, string value) : base(objectAssembler)
         {
             this.value = value;
-            ValuePipeLine = new ValuePipeline(superObjectAssembler.WiringContext.TypeContext);
+            ValuePipeLine = new ValuePipeline(objectAssembler.WiringContext.TypeContext);
         }
 
         private ValuePipeline ValuePipeLine { get; set; }

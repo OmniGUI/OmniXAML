@@ -65,7 +65,7 @@
   <ItemGroup>
     <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
-    <Compile Include="NewObjectAssemblerStateCommutationTests.cs" />
+    <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\SuperProtoParserTests\PrefixTests.cs" />

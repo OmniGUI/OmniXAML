@@ -10,7 +10,7 @@ namespace OmniXaml.NewAssembler.Commands
         private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private readonly ITypeContext typeContext;
 
-        public EndMemberCommand(SuperObjectAssembler assembler, ITopDownMemberValueContext topDownMemberValueContext) : base(assembler)
+        public EndMemberCommand(ObjectAssembler assembler, ITopDownMemberValueContext topDownMemberValueContext) : base(assembler)
         {
             this.topDownMemberValueContext = topDownMemberValueContext;
             typeContext = Assembler.WiringContext.TypeContext;

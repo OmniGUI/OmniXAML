@@ -5,16 +5,16 @@
     using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
-    public class WpfXamlStreamLoader : XamlStreamLoader
+    public class WpfXamlLoader : XamlLoader
     {
-        public WpfXamlStreamLoader(ITypeFactory typeFactory)
+        public WpfXamlLoader(ITypeFactory typeFactory)
             : base(
-                assembler => new ConfiguredXamlXmlLoader(GetProtoParser(typeFactory), GetPullParser(typeFactory), assembler),
+                assembler => new XamlXmlParser(GetProtoParser(typeFactory), GetPullParser(typeFactory), assembler),
                 new ObjectAssemblerFactory(WpfWiringContextFactory.GetContext(typeFactory)))
         {
         }
 
-        private static IParser<Stream, IEnumerable<ProtoXamlInstruction>> GetProtoParser(ITypeFactory typeFactory)
+        private static IProtoParser GetProtoParser(ITypeFactory typeFactory)
         {
             return new XamlProtoInstructionParser(WpfWiringContextFactory.GetContext(typeFactory));
         }

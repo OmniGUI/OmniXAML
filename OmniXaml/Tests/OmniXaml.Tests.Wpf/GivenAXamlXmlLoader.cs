@@ -9,16 +9,16 @@ namespace OmniXaml.Tests.Wpf
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlStreamLoader = new WpfXamlStreamLoader(new TypeFactory());
+            XamlLoader = new WpfXamlLoader(new TypeFactory());
         }
 
-        private IXamlStreamLoader XamlStreamLoader { get; }
+        private IXamlLoader XamlLoader { get; }
         
         protected object LoadXaml(string xamlContent)
         {
             using (var stream = xamlContent.ToStream())
             {
-                return XamlStreamLoader.Load(stream);
+                return XamlLoader.Load(stream);
             }
         }
     }

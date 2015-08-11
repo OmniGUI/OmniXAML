@@ -4,11 +4,11 @@ namespace OmniXaml
 
     public static class XamlLoaderExtensions
     {
-        public static object Load(this IXamlStreamLoader coreXamlStreamLoader, string xamlContent, object rootInstance = null)
+        public static object Load(this IXamlLoader coreXamlLoader, string xamlContent, object rootInstance = null)
         {
             using (var stream = xamlContent.ToStream())
             {
-                return coreXamlStreamLoader.Load(stream, rootInstance);
+                return coreXamlLoader.Load(stream, rootInstance);
             }
         }
     }

@@ -2,7 +2,7 @@ namespace OmniXaml
 {
     using System.IO;
 
-    public interface IXamlStreamLoader
+    public interface IXamlLoader
     {
         object Load(Stream stream);
         object Load(Stream stream, object rootInstance);

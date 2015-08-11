@@ -1,28 +1,27 @@
 namespace OmniXaml
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using Assembler;
     using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
-    public class XamlStreamLoader : IXamlStreamLoader
+    public class XamlLoader : IXamlLoader
     {
-        private readonly Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory;
-        private readonly IParser<Stream, IEnumerable<ProtoXamlInstruction>> xamlProtoInstructionXamlProtoInstructionParser;
+        private readonly Func<IObjectAssembler, IXamlParser> loaderFactory;
+        private readonly IProtoParser protoInstructionParser;
         private readonly IXamlInstructionParser parser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
-        public XamlStreamLoader(Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory, IObjectAssemblerFactory assemblerFactory)
+        public XamlLoader(Func<IObjectAssembler, IXamlParser> loaderFactory, IObjectAssemblerFactory assemblerFactory)
         {
             this.loaderFactory = loaderFactory;
             this.assemblerFactory = assemblerFactory;
         }
 
-        public XamlStreamLoader(IParser<Stream, IEnumerable<ProtoXamlInstruction>> xamlProtoInstructionXamlProtoInstructionParser, IXamlInstructionParser parser, IObjectAssemblerFactory assemblerFactory)
+        public XamlLoader(IProtoParser protoInstructionParser, IXamlInstructionParser parser, IObjectAssemblerFactory assemblerFactory)
         {
-            this.xamlProtoInstructionXamlProtoInstructionParser = xamlProtoInstructionXamlProtoInstructionParser;
+            this.protoInstructionParser = protoInstructionParser;
             this.parser = parser;
             this.assemblerFactory = assemblerFactory;
         }
@@ -40,8 +39,11 @@ namespace OmniXaml
 
         private object LoadInternal(Stream stream, IObjectAssembler objectAssembler)
         {
-            var coreXamlXmlLoader = loaderFactory == null ? new ConfiguredXamlXmlLoader(xamlProtoInstructionXamlProtoInstructionParser, parser, objectAssembler) : loaderFactory(objectAssembler);
-            return coreXamlXmlLoader.Load(stream);
+            var coreXamlXmlLoader = loaderFactory == null
+                ? new XamlXmlParser(protoInstructionParser, parser, objectAssembler)
+                : loaderFactory(objectAssembler);
+
+            return coreXamlXmlLoader.Parse(stream);
         }
     }
 }

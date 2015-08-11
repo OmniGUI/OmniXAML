@@ -20,11 +20,11 @@ namespace OmniXaml.AppServices.Tests
             };
         }
 
-        private IXamlStreamLoader LoaderFactory(InflatableTypeFactory inflatableTypeFactory)
+        private IXamlLoader LoaderFactory(InflatableTypeFactory inflatableTypeFactory)
         {
             return
-                new XamlStreamLoader(
-                    assembler => new ConfiguredXamlXmlLoader(new XamlProtoInstructionParser(WiringContext), new XamlInstructionParser(WiringContext), assembler),
+                new XamlLoader(
+                    assembler => new XamlXmlParser(new XamlProtoInstructionParser(WiringContext), new XamlInstructionParser(WiringContext), assembler),
                     new DummyAssemblerFactory(WiringContext));
         }
     }

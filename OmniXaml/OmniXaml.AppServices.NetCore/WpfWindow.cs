@@ -4,12 +4,12 @@ namespace OmniXaml.AppServices.NetCore
     using System.Windows;
     using Mvvm;
 
-    public class CoreWindow : Window, IView
+    public class WpfWindow : Window, IView
     {
         public Task ShowDialog()
         {
-            throw new System.NotImplementedException();
-        }
+            return new Task(() => this.ShowDialog());
+        }        
 
         public void SetViewModel(object viewModel)
         {

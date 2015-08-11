@@ -7,7 +7,7 @@ namespace OmniXaml.NewAssembler.Commands
         private readonly XamlType xamlType;
         private readonly object rootInstance;
 
-        public StartObjectCommand(SuperObjectAssembler assembler, XamlType xamlType, object rootInstance) : base(assembler)
+        public StartObjectCommand(ObjectAssembler assembler, XamlType xamlType, object rootInstance) : base(assembler)
         {
             this.xamlType = xamlType;
             this.rootInstance = rootInstance;

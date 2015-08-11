@@ -4,7 +4,7 @@ namespace OmniXaml.NewAssembler.Commands
     {
         private readonly NamespaceDeclaration namespaceDeclaration;
 
-        public NamespaceDeclarationCommand(SuperObjectAssembler assembler, NamespaceDeclaration namespaceDeclaration) : base(assembler)
+        public NamespaceDeclarationCommand(ObjectAssembler assembler, NamespaceDeclaration namespaceDeclaration) : base(assembler)
         {
             this.namespaceDeclaration = namespaceDeclaration;
         }

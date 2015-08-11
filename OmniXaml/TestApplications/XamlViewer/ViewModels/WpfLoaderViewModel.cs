@@ -41,7 +41,7 @@
         {
             try
             {
-                var localLoader = new WpfXamlStreamLoader(new TypeFactory());
+                var localLoader = new WpfXamlLoader(new TypeFactory());
 
                 var visualTree = localLoader.Load(Xaml);
                 var window = GetVisualizerWindow(visualTree);
@@ -56,7 +56,7 @@
             }
         }
 
-        private Window GetVisualizerWindow(object visualTree)
+        private static Window GetVisualizerWindow(object visualTree)
         {
             var tree = visualTree as Window;
             if (tree != null)

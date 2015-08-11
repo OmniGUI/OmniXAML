@@ -17,7 +17,7 @@
         public ObjectAssemblerTests()
         {
             builder = new XamlInstructionBuilder(WiringContext.TypeContext);
-            sut = new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext());
+            sut = new ObjectAssembler(WiringContext, new TopDownMemberValueContext());
         }
 
         [TestMethod]

@@ -6,13 +6,13 @@ namespace OmniXaml.NewAssembler
     using Glass;
     using Typing;
 
-    public class SuperObjectAssembler : IObjectAssembler
+    public class ObjectAssembler : IObjectAssembler
     {
         private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private readonly Type rootInstanceType;
         private readonly object rootInstance;
         
-        public SuperObjectAssembler(WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
+        public ObjectAssembler(WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
         {
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
             Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
@@ -23,7 +23,7 @@ namespace OmniXaml.NewAssembler
             rootInstanceType = settings?.RootInstance?.GetType();            
         }
 
-        public SuperObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
         {
             WiringContext = wiringContext;          
             StateCommuter = new StateCommuter(state, wiringContext, topDownMemberValueContext);

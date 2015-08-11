@@ -24,7 +24,7 @@
             var inflatableTypeFactory = new InflatableTypeFactory(
                 new TypeFactory(),
                 new InflatableTranslator(),
-                typeFactory => new DefaultXamlStreamLoader(new DummyWiringContext(typeFactory)))
+                typeFactory => new DefaultXamlLoader(new DummyWiringContext(typeFactory)))
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},
             };

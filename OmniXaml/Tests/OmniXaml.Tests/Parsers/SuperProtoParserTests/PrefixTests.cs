@@ -7,6 +7,7 @@
     using Classes;
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
 
     [TestClass]

@@ -2,7 +2,7 @@ namespace OmniXaml.NewAssembler.Commands
 {
     public class EndObjectCommand : Command
     {
-        public EndObjectCommand(SuperObjectAssembler assembler) : base(assembler)
+        public EndObjectCommand(ObjectAssembler assembler) : base(assembler)
         {
         }
 

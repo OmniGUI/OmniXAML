@@ -9,9 +9,9 @@
 
     public class WpfInflatableTypeFactory : InflatableTypeFactory
     {
-        public WpfInflatableTypeFactory() : base(new TypeFactory(), new InflatableTranslator(), typeFactory => new WpfXamlStreamLoader(typeFactory))
-        {            
-            Inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) };
-        }     
+        public WpfInflatableTypeFactory() : base(new TypeFactory(), new InflatableTranslator(), typeFactory => new WpfXamlLoader(typeFactory))
+        {
+            Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)};
+        }
     }
 }

@@ -64,10 +64,10 @@
     <Compile Include="ClrMapping.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
-    <Compile Include="DefaultXamlStreamLoader.cs" />
+    <Compile Include="DefaultXamlLoader.cs" />
     <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
-    <Compile Include="IXamlStreamLoader.cs" />
+    <Compile Include="IXamlLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="LookaheadBuffer.cs" />
     <Compile Include="NewAssembler\TopDownMemberValueContext.cs" />
@@ -82,7 +82,7 @@
     <Compile Include="NewAssembler\Commands\NamespaceDeclarationCommand.cs" />
     <Compile Include="NewAssembler\Commands\StartMemberCommand.cs" />
     <Compile Include="NewAssembler\Commands\StartObjectCommand.cs" />
-    <Compile Include="NewAssembler\SuperObjectAssembler.cs" />
+    <Compile Include="NewAssembler\ObjectAssembler.cs" />
     <Compile Include="NewAssembler\Commands\ValueCommand.cs" />
     <Compile Include="NewAssembler\ValuePipeline.cs" />
     <Compile Include="NewAssembler\ValueProcessingMode.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="ITypeFactory.cs" />
     <Compile Include="ITypeProvider.cs" />
     <Compile Include="IValueConverter.cs" />
-    <Compile Include="IConfiguredXamlLoader.cs" />
+    <Compile Include="IXamlParser.cs" />
     <Compile Include="IObjectAssembler.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
@@ -191,8 +191,8 @@
     <Compile Include="XamlNodeType.cs" />
     <Compile Include="XamlReaderException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
-    <Compile Include="ConfiguredXamlXmlLoader.cs" />
-    <Compile Include="XamlStreamLoader.cs" />
+    <Compile Include="XamlXmlParser.cs" />
+    <Compile Include="XamlLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Sprache, Version=2.0.0.46, Culture=neutral, processorArchitecture=MSIL">

@@ -62,7 +62,7 @@
 
         private void LoadXaml()
         {
-            var loader = new DefaultXamlStreamLoader(WiringContext);
+            var loader = new DefaultXamlLoader(WiringContext);
             
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);

@@ -1,4 +1,4 @@
-namespace OmniXaml.Parsers.ProtoParser
+namespace OmniXaml.Parsers
 {
     public interface IParser<in TInput, out TOutput>
     {

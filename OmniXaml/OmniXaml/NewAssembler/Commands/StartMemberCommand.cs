@@ -7,7 +7,7 @@ namespace OmniXaml.NewAssembler.Commands
     {
         private readonly XamlMemberBase member;
 
-        public StartMemberCommand(SuperObjectAssembler assembler, XamlMemberBase member) : base(assembler)
+        public StartMemberCommand(ObjectAssembler assembler, XamlMemberBase member) : base(assembler)
         {
             this.member = member;
         }

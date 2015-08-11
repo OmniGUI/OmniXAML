@@ -35,7 +35,7 @@
                 X.EndObject(),
             };
 
-            var sut = new TemplateHostingObjectAssembler(new SuperObjectAssembler(WiringContext, new TopDownMemberValueContext()));
+            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext()));
 
             var assembler = new DummyDeferredLoader();
             sut.AddDeferredLoader<Template>(t => t.Content, assembler);

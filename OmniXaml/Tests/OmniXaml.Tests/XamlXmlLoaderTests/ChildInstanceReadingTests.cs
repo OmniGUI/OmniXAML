@@ -12,7 +12,7 @@
         [TestMethod]
         public void ReadInstanceWithChild()
         {
-            var actualInstance = XamlStreamLoader.Load(Dummy.InstanceWithChild);
+            var actualInstance = XamlLoader.Load(Dummy.InstanceWithChild);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -24,7 +24,7 @@
         [TestMethod]
         public void ReadInstanceWithThreeLevelsOfNesting()
         {
-            var root = XamlStreamLoader.Load(Dummy.ThreeLevelsOfNesting);
+            var root = XamlLoader.Load(Dummy.ThreeLevelsOfNesting);
             
             var dummy = root as DummyClass;
             Assert.IsInstanceOfType(root, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
@@ -40,7 +40,7 @@
         [TestMethod]
         public void KeyDirective()
         {
-            var actual = XamlStreamLoader.Load(Dummy.KeyDirective);
+            var actual = XamlLoader.Load(Dummy.KeyDirective);
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
@@ -49,7 +49,7 @@
         [TestMethod]
         public void String()
         {
-            var actual = XamlStreamLoader.Load(Dummy.String);
+            var actual = XamlLoader.Load(Dummy.String);
             Assert.IsInstanceOfType(actual, typeof(string));
             Assert.AreEqual("Text", actual);
         }
@@ -57,7 +57,7 @@
         [TestMethod]
         public void StringAsProperty()
         {
-            var actual = XamlStreamLoader.Load(Dummy.StringAsProperty);
+            var actual = XamlLoader.Load(Dummy.StringAsProperty);
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             Assert.AreEqual("Text", ((DummyClass)actual).SampleProperty);
         }
@@ -65,7 +65,7 @@
         [TestMethod]
         public void Int()
         {
-            var actual = XamlStreamLoader.Load(Dummy.Int);
+            var actual = XamlLoader.Load(Dummy.Int);
             Assert.IsInstanceOfType(actual, typeof(int));
             Assert.AreEqual(123, actual);
         }

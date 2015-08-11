@@ -17,7 +17,7 @@
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
         {
-            var templateHostingObjectAssembler = new TemplateHostingObjectAssembler(new SuperObjectAssembler(wiringContext, new TopDownMemberValueContext(), settings));
+            var templateHostingObjectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), settings));
             templateHostingObjectAssembler.AddDeferredLoader<DataTemplate>(template => template.Content, new DummyDeferredLoader());
             return templateHostingObjectAssembler;
         }
