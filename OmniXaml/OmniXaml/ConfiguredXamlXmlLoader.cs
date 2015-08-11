@@ -3,32 +3,32 @@
     using System.Collections.Generic;
     using System.IO;
     using Glass;
-    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
     public class ConfiguredXamlXmlLoader : IConfiguredXamlLoader
     {
         private readonly IObjectAssembler objectAssembler;
-        private readonly SuperProtoParser protoParser;
-        private readonly IXamlNodesPullParser pullParser;
+        private readonly IParser<Stream, IEnumerable<ProtoXamlInstruction>> protoParser;
+        private readonly IXamlInstructionParser parser;
 
-        public ConfiguredXamlXmlLoader(SuperProtoParser protoParser, IXamlNodesPullParser pullParser, IObjectAssembler objectAssembler)  
+        public ConfiguredXamlXmlLoader(IParser<Stream, IEnumerable<ProtoXamlInstruction>> protoParser, IXamlInstructionParser parser, IObjectAssembler objectAssembler)  
         {
             Guard.ThrowIfNull(objectAssembler, nameof(objectAssembler));
 
             this.objectAssembler = objectAssembler;        
             this.protoParser = protoParser;
-            this.pullParser = pullParser;
+            this.parser = parser;
         }
 
         public object Load(Stream stream)
         {
             var xamlProtoNodes = protoParser.Parse(stream);
-            var xamlNodes = pullParser.Parse(xamlProtoNodes);
+            var xamlNodes = parser.Parse(xamlProtoNodes);
             return Load(xamlNodes);
         }
 
-        private object Load(IEnumerable<XamlNode> xamlNodes)
+        private object Load(IEnumerable<XamlInstruction> xamlNodes)
         {
             foreach (var xamlNode in xamlNodes)
             {

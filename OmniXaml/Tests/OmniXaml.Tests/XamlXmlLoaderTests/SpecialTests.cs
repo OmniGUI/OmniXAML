@@ -1,9 +1,9 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using global::OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using global::OmniXaml.Parsers.XamlNodes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using OmniXaml.Parsers.ProtoParser;
 
     public abstract class SpecialTests : GivenAWiringContext
     {
@@ -16,8 +16,8 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
                 SampleProperty = "Will be overwritten"
             };
 
-            var loader = new XamlStreamLoader(new SuperProtoParser(WiringContext),
-                new XamlNodesPullParser(WiringContext),
+            var loader = new XamlStreamLoader(new XamlProtoInstructionParser(WiringContext),
+                new XamlInstructionParser(WiringContext),
                 new DefaultObjectAssemblerFactory(WiringContext));
 
             var actual = loader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);

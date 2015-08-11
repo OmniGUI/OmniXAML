@@ -3,7 +3,7 @@
     using Parsers.ProtoParser;
     using Typing;
 
-    public class ProtoXamlNode
+    public class ProtoXamlInstruction
     {
         public XamlType XamlType { get; set; }
         public string Namespace { get; set; }
@@ -14,7 +14,7 @@
         public string PropertyAttributeText { get; set; }
         public string Text { get; set; }
 
-        protected bool Equals(ProtoXamlNode other)
+        protected bool Equals(ProtoXamlInstruction other)
         {
             return Equals(XamlType, other.XamlType) && string.Equals(Namespace, other.Namespace) && NodeType == other.NodeType &&
                    Equals(PropertyAttribute, other.PropertyAttribute) && string.Equals(Prefix, other.Prefix) && Equals(PropertyElement, other.PropertyElement) &&
@@ -35,7 +35,7 @@
             {
                 return false;
             }
-            return Equals((ProtoXamlNode)obj);
+            return Equals((ProtoXamlInstruction)obj);
         }
 
         public override int GetHashCode()

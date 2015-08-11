@@ -14,7 +14,7 @@
         [TestMethod]
         public void Sort()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartObject<Style>(),
                     X.StartMember<Style>(c => c.Setter),
@@ -31,7 +31,7 @@
             };
 
             var actualNodes = memberDependencyNodeSorter.Sort(input.GetEnumerator()).ToList();
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<Style>(),
                     X.StartMember<Style>(c => c.Setter),
@@ -53,7 +53,7 @@
         [TestMethod]
         public void LookAheadTest()
         {
-            var look = new List<XamlNode>
+            var look = new List<XamlInstruction>
             {
                 X.StartObject<Style>(),
                 X.StartMember<Setter>(c => c.Value),
@@ -74,7 +74,7 @@
         [TestMethod]
         public void LookAheadTestStartZero()
         {
-            var look = new List<XamlNode>();
+            var look = new List<XamlInstruction>();
 
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
@@ -85,7 +85,7 @@
         [TestMethod]
         public void LookAheadTestStartMiniumLength()
         {
-            var look = new List<XamlNode>
+            var look = new List<XamlInstruction>
             {
                 X.StartObject<Style>(),                
                 X.EndObject()
@@ -100,7 +100,7 @@
         [TestMethod]
         public void LookAheadTest10()
         {
-            var look = new List<XamlNode>
+            var look = new List<XamlInstruction>
             {
                 X.StartObject<Setter>(),
                 X.StartObject<Setter>(),

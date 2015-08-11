@@ -7,18 +7,18 @@
     using Sprache;
     using Typing;
 
-    public class XamlNodesPullParser : IXamlNodesPullParser
+    public class XamlInstructionParser : IXamlInstructionParser
     {
         private readonly WiringContext wiringContext;
-        private IEnumerator<ProtoXamlNode> nodeStream;
+        private IEnumerator<ProtoXamlInstruction> nodeStream;
         private bool EndOfStream { get; set; }
 
-        public XamlNodesPullParser(WiringContext wiringContext)
+        public XamlInstructionParser(WiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
         }
 
-        public IEnumerable<XamlNode> Parse(IEnumerable<ProtoXamlNode> protoNodes)
+        public IEnumerable<XamlInstruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
         {
             nodeStream = protoNodes.GetEnumerator();
             SetNextNode();
@@ -27,7 +27,7 @@
             foreach (var element in ParseElements()) yield return element;
         }
 
-        private IEnumerable<XamlNode> ParseElements(XamlMember hostingProperty = null)
+        private IEnumerable<XamlInstruction> ParseElements(XamlMember hostingProperty = null)
         {
             SkipTextNodes();
             if (hostingProperty != null)
@@ -70,7 +70,7 @@
 
         private NodeType CurrentNodeType => nodeStream.Current?.NodeType ?? NodeType.None;
 
-        private IEnumerable<XamlNode> ParseEmptyElement()
+        private IEnumerable<XamlInstruction> ParseEmptyElement()
         {
             yield return Inject.StartOfObject(nodeStream.Current.XamlType);
 
@@ -86,7 +86,7 @@
             }
         }
 
-        private IEnumerable<XamlNode> ParseNonEmptyElement()
+        private IEnumerable<XamlInstruction> ParseNonEmptyElement()
         {
             yield return Inject.StartOfObject(nodeStream.Current.XamlType);
             var parentType = nodeStream.Current.XamlType;
@@ -111,7 +111,7 @@
             ReadEndTag();
         }
 
-        private IEnumerable<XamlNode> InjectNodesForTypeThatRequiresInitialization()
+        private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()
         {
             yield return Inject.Initialization();
             SetNextNode();
@@ -134,7 +134,7 @@
         private bool IsNestedPropertyImplicit => CurrentNodeType != NodeType.PropertyElement && CurrentNodeType != NodeType.EmptyPropertyElement &&
                                                  CurrentNodeType != NodeType.EndTag;
 
-        private IEnumerable<XamlNode> ParseNestedProperties(XamlType parentType)
+        private IEnumerable<XamlInstruction> ParseNestedProperties(XamlType parentType)
         {
             while (CurrentNodeType == NodeType.PropertyElement || CurrentNodeType == NodeType.EmptyPropertyElement)
             {
@@ -164,7 +164,7 @@
             }
         }
 
-        private IEnumerable<XamlNode> ParseContentPropertyIfAny(XamlType parentType)
+        private IEnumerable<XamlInstruction> ParseContentPropertyIfAny(XamlType parentType)
         {
             if (IsNestedPropertyImplicit)
             {
@@ -195,7 +195,7 @@
             EndOfStream = !nodeStream.MoveNext();
         }
 
-        private IEnumerable<XamlNode> ParseCollectionInsideThisProperty(XamlMember member)
+        private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMember member)
         {
             yield return Inject.StartOfMember(member);
             yield return Inject.GetObject();
@@ -208,7 +208,7 @@
             yield return Inject.EndOfMember();
         }
 
-        private IEnumerable<XamlNode> ParseNestedProperty(XamlMember member)
+        private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMember member)
         {
             yield return Inject.StartOfMember(member);
 
@@ -219,7 +219,7 @@
             yield return Inject.EndOfMember();
         }
 
-        private IEnumerable<XamlNode> ParseInnerContentOfNestedProperty()
+        private IEnumerable<XamlInstruction> ParseInnerContentOfNestedProperty()
         {
             if (CurrentNodeType == NodeType.Text)
             {
@@ -234,12 +234,12 @@
             }
         }
 
-        private ProtoXamlNode Current => nodeStream.Current;
+        private ProtoXamlInstruction Current => nodeStream.Current;
         private string CurrentText => nodeStream.Current.Text;
         private string CurrentPropertyText => Current.PropertyAttributeText;
         private XamlMemberBase CurrentMember => Current.PropertyAttribute;
 
-        private IEnumerable<XamlNode> ParseMembersOfObject()
+        private IEnumerable<XamlInstruction> ParseMembersOfObject()
         {
             while (CurrentNodeType == NodeType.Attribute && !EndOfStream)
             {
@@ -262,14 +262,14 @@
             }
         }
 
-        private IEnumerable<XamlNode> ParseMarkupExtension(string valueOfMember)
+        private IEnumerable<XamlInstruction> ParseMarkupExtension(string valueOfMember)
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
             var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(wiringContext);
             return markupExtensionConverter.Convert(tree);
         }
 
-        private IEnumerable<XamlNode> ParsePrefixDefinitions()
+        private IEnumerable<XamlInstruction> ParsePrefixDefinitions()
         {
             while (CurrentNodeType == NodeType.PrefixDefinition)
             {

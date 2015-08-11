@@ -4,6 +4,6 @@ namespace OmniXaml
 
     public interface IDeferredLoader
     {
-        object Load(IEnumerable<XamlNode> nodes, WiringContext wiringContext);
+        object Load(IEnumerable<XamlInstruction> nodes, WiringContext wiringContext);
     }
 }

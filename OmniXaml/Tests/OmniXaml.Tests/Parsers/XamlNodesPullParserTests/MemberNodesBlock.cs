@@ -8,22 +8,22 @@ namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
 
     public class MemberNodesBlock : IDependency<MemberNodesBlock>
     {
-        private readonly Queue<XamlNode> nodes = new Queue<XamlNode>();
+        private readonly Queue<XamlInstruction> nodes = new Queue<XamlInstruction>();
         private readonly MutableXamlMember member;
 
-        public MemberNodesBlock(XamlNode headingNode)
+        public MemberNodesBlock(XamlInstruction headingInstruction)
         {
-            member = (MutableXamlMember)headingNode.Member;
+            member = (MutableXamlMember)headingInstruction.Member;
         }
 
-        public void AddNode(XamlNode node)
+        public void AddNode(XamlInstruction instruction)
         {
-            nodes.Enqueue(node);
+            nodes.Enqueue(instruction);
         }
 
         public IEnumerable<MemberNodesBlock> Dependencies { get; set; }
 
-        public Queue<XamlNode> Nodes => nodes;
+        public Queue<XamlInstruction> Nodes => nodes;
 
         public void Link(Collection<MemberNodesBlock> queues)
         {

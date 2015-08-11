@@ -35,23 +35,23 @@ namespace OmniXaml.NewAssembler
 
         public StateCommuter StateCommuter { get; }
 
-        public void Process(XamlNode node)
+        public void Process(XamlInstruction instruction)
         {
             Command command;
 
-            switch (node.NodeType)
+            switch (instruction.NodeType)
             {
                 case XamlNodeType.NamespaceDeclaration:
-                    command = new NamespaceDeclarationCommand(this, node.NamespaceDeclaration);
+                    command = new NamespaceDeclarationCommand(this, instruction.NamespaceDeclaration);
                     break;
                 case XamlNodeType.StartObject:
-                    command = new StartObjectCommand(this, node.XamlType, rootInstance);
+                    command = new StartObjectCommand(this, instruction.XamlType, rootInstance);
                     break;
                 case XamlNodeType.StartMember:
-                    command = new StartMemberCommand(this, GetMember(node.Member));
+                    command = new StartMemberCommand(this, GetMember(instruction.Member));
                     break;
                 case XamlNodeType.Value:
-                    command = new ValueCommand(this, (string)node.Value);
+                    command = new ValueCommand(this, (string)instruction.Value);
                     break;
                 case XamlNodeType.EndObject:
                     command = new EndObjectCommand(this);

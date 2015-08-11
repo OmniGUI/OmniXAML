@@ -10,12 +10,12 @@
     [TestClass]
     public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuilders
     {
-        private IXamlNodesPullParser sut;
+        private IXamlInstructionParser sut;
 
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {            
-            sut = new XamlNodesPullParser(WiringContext);
+            sut = new XamlInstructionParser(WiringContext);
         }
 
         [TestMethod]
@@ -23,14 +23,14 @@
         {
             
 
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -49,14 +49,14 @@
         [TestMethod]
         public void ExtensionWithOption()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof (DummyClass)),

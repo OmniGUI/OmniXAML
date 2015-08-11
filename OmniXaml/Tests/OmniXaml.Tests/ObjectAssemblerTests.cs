@@ -23,7 +23,7 @@
         [TestMethod]
         public void OneObject()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.EndObject(),
@@ -37,7 +37,7 @@
         [TestMethod]
         public void ObjectWithMember()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
@@ -56,7 +56,7 @@
         [TestMethod]
         public void ObjectWithTwoMembers()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.SampleProperty),
@@ -80,7 +80,7 @@
         [TestMethod]
         public void ObjectWithChild()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Child),
@@ -100,7 +100,7 @@
         [TestMethod]
         public void WithCollection()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Items),
@@ -130,7 +130,7 @@
         public void CollectionWithInnerCollection()
         {
             sut.PumpNodes(
-                new Collection<XamlNode>
+                new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Items),
@@ -176,7 +176,7 @@
         [TestMethod]
         public void WithCollectionAndInnerAttribute()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Items),
@@ -206,7 +206,7 @@
         [TestMethod]
         public void MemberWithIncompatibleTypes()
         {
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Number),
@@ -226,7 +226,7 @@
         public void ExtensionWithArgument()
         {
             sut.PumpNodes(
-                new Collection<XamlNode>
+                new Collection<XamlInstruction>
                 {
                     builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
@@ -251,7 +251,7 @@
         public void ExtensionWithTwoArguments()
         {
             sut.PumpNodes(
-                new Collection<XamlNode>
+                new Collection<XamlInstruction>
                 {
                     builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
@@ -277,7 +277,7 @@
         public void ExtensionWithNonStringArgument()
         {
             sut.PumpNodes(
-                new Collection<XamlNode>
+                new Collection<XamlInstruction>
                 {
                     builder.NamespacePrefixDeclaration(RootNs),
                     builder.StartObject(typeof (DummyClass)),
@@ -302,7 +302,7 @@
         public void KeyDirective()
         {
 
-            sut.PumpNodes(new Collection<XamlNode>
+            sut.PumpNodes(new Collection<XamlInstruction>
                 {
                     builder.StartObject<DummyClass>(),
                     builder.StartMember<DummyClass>(d => d.Resources),
@@ -331,7 +331,7 @@
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
             sut.PumpNodes(
-                new Collection<XamlNode>
+                new Collection<XamlInstruction>
                 {
                     builder.NamespacePrefixDeclaration(sysNs),
                     builder.StartObject<string>(),

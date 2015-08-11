@@ -17,24 +17,24 @@
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuilders
     {
-        private readonly IXamlNodesPullParser sut;
+        private readonly IXamlInstructionParser sut;
         private readonly SampleData sampleData;
 
         public ParsingTests()
         {          
-            sut = new XamlNodesPullParser(WiringContext);
+            sut = new XamlInstructionParser(WiringContext);
             sampleData = new SampleData(P, X);
         }
 
         [TestMethod]
         public void NamespaceDeclarationOnly()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
             };
@@ -48,12 +48,12 @@
         [TestMethod]
         public void SingleInstanceCollapsed()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                 X.EndObject(),
@@ -67,13 +67,13 @@
         [TestMethod]
         public void SingleOpenAndClose()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NonEmptyElement(typeof(DummyClass), RootNs),
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                 X.EndObject(),
@@ -87,14 +87,14 @@
         [TestMethod]
         public void EmptyElementWithStringProperty()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
                 P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -112,7 +112,7 @@
         [TestMethod]
         public void EmptyElementWithTwoStringProperties()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
@@ -120,7 +120,7 @@
                 P.Attribute<DummyClass>(d => d.AnotherProperty, "Come on!", RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -141,14 +141,14 @@
         [TestMethod]
         public void SingleCollapsedWithNs()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof(DummyClass), RootNs),
                 P.None()
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -163,14 +163,14 @@
         [TestMethod]
         public void ElementWith2NsDeclarations()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NamespacePrefixDeclaration(AnotherNs),
                 P.EmptyElement(typeof(DummyClass), RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.NamespacePrefixDeclaration(AnotherNs),
@@ -186,7 +186,7 @@
         [TestMethod]
         public void ElementWithNestedChild()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
@@ -196,7 +196,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(c => c.Child),
@@ -214,7 +214,7 @@
         [TestMethod]
         public void ComplexNesting()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -232,7 +232,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -262,7 +262,7 @@
         public void ChildCollection()
         {
 
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -277,7 +277,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -305,7 +305,7 @@
         public void NestedChildWithContentProperty()
         {
 
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (ChildClass), RootNs),
@@ -314,7 +314,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<ChildClass>(),
@@ -333,7 +333,7 @@
         [TestMethod]
         public void NestedCollectionWithContentProperty()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -346,7 +346,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -394,7 +394,7 @@
         public void TwoNestedPropertiesUsingContentProperty()
         {
 
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -417,7 +417,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -463,7 +463,7 @@
         [TestMethod]
         public void MixedPropertiesWithContentPropertyAfter()
         {
-            var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
+            var input = (IEnumerable<ProtoXamlInstruction>)new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (Grid), RootNs),
@@ -476,7 +476,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -505,7 +505,7 @@
         [TestMethod]
         public void CollectionWithMixedEmptyAndNotEmptyNestedElements()
         {
-            var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
+            var input = (IEnumerable<ProtoXamlInstruction>)new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (Grid), RootNs),
@@ -521,7 +521,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -544,7 +544,7 @@
         [TestMethod]
         public void MixedPropertiesWithContentPropertyBefore()
         {
-            var input = (IEnumerable<ProtoXamlNode>)new List<ProtoXamlNode>
+            var input = (IEnumerable<ProtoXamlInstruction>)new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (Grid), RootNs),
@@ -557,7 +557,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(Grid)),
@@ -601,13 +601,13 @@
             var type = typeof(DummyClass);
             string clrNamespace = $"clr-namespace:{type.Namespace};Assembly={type.GetTypeInfo().Assembly.GetName().Name}";
             var prefix = "prefix";
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(prefix, clrNamespace),
                 P.EmptyElement(type, RootNs),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(clrNamespace, prefix),
                 X.StartObject<DummyClass>(),
@@ -622,7 +622,7 @@
         [TestMethod]
         public void ExpandedStringProperty()
         {
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -632,7 +632,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -652,7 +652,7 @@
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
-            var input = new List<ProtoXamlNode>
+            var input = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(sysNs),
                 P.NonEmptyElement(typeof (string), sysNs),
@@ -660,7 +660,7 @@
                 P.EndTag(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.NamespacePrefixDeclaration(sysNs),
                 X.StartObject<string>(),
@@ -679,7 +679,7 @@
         [TestMethod]
         public void SortMembers()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.Value("Value"),
@@ -689,7 +689,7 @@
                 X.EndMember(),
             };
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                 X.Value("Property"),
@@ -704,14 +704,14 @@
             CollectionAssert.AreEqual(expectedNodes, actualNodes);
         }
 
-        private IEnumerable<XamlNode> ParserMierda(List<XamlNode> xamlNodes)
+        private IEnumerable<XamlInstruction> ParserMierda(List<XamlInstruction> xamlNodes)
         {
             var blocks = CollectBlocks(xamlNodes);
             LinkBlocks(blocks);
             return SortQueues(blocks);
         }
 
-        private Collection<MemberNodesBlock> CollectBlocks(List<XamlNode> expectedNodes)
+        private Collection<MemberNodesBlock> CollectBlocks(List<XamlInstruction> expectedNodes)
         {
             var enumerator = expectedNodes.GetEnumerator();
             var queues = new Collection<MemberNodesBlock>();
@@ -750,7 +750,7 @@
             }
         }
 
-        private static IEnumerable<XamlNode> SortQueues(IEnumerable<MemberNodesBlock> queues)
+        private static IEnumerable<XamlInstruction> SortQueues(IEnumerable<MemberNodesBlock> queues)
         {
             var memberNodesBlock = queues.First();
             var sortedBlocks = memberNodesBlock.Sort();
@@ -758,14 +758,14 @@
             return sortedBlocks.SelectMany(sortedBlock => sortedBlock.Nodes);
         }
 
-        private bool IsEndOfMember(XamlNode xamlNode)
+        private bool IsEndOfMember(XamlInstruction xamlInstruction)
         {
-            return xamlNode.NodeType == XamlNodeType.EndMember && xamlNode.Member is MutableXamlMember;
+            return xamlInstruction.NodeType == XamlNodeType.EndMember && xamlInstruction.Member is MutableXamlMember;
         }
 
-        private static bool IsStartOfMember(XamlNode xamlNode)
+        private static bool IsStartOfMember(XamlInstruction xamlInstruction)
         {
-            return xamlNode.NodeType == XamlNodeType.StartMember && xamlNode.Member is MutableXamlMember;
+            return xamlInstruction.NodeType == XamlNodeType.StartMember && xamlInstruction.Member is MutableXamlMember;
         }
     }
 }

@@ -5,57 +5,57 @@ namespace OmniXaml.Parsers
 
     internal static class Inject
     {
-        public static XamlNode StartOfObject(XamlType xamlType)
+        public static XamlInstruction StartOfObject(XamlType xamlType)
         {
             Guard.ThrowIfNull(xamlType, nameof(xamlType));
 
-            return new XamlNode(XamlNodeType.StartObject, xamlType);
+            return new XamlInstruction(XamlNodeType.StartObject, xamlType);
         }
 
-        public static XamlNode EndOfObject()
+        public static XamlInstruction EndOfObject()
         {
-            return new XamlNode(XamlNodeType.EndObject);
+            return new XamlInstruction(XamlNodeType.EndObject);
         }
 
-        public static XamlNode PrefixDefinitionOfNamespace(ProtoXamlNode protoXamlNode)
+        public static XamlInstruction PrefixDefinitionOfNamespace(ProtoXamlInstruction protoXamlInstruction)
         {
-            var namespaceDeclaration = new NamespaceDeclaration(protoXamlNode.Namespace, protoXamlNode.Prefix);
-            return new XamlNode(XamlNodeType.NamespaceDeclaration, namespaceDeclaration);
+            var namespaceDeclaration = new NamespaceDeclaration(protoXamlInstruction.Namespace, protoXamlInstruction.Prefix);
+            return new XamlInstruction(XamlNodeType.NamespaceDeclaration, namespaceDeclaration);
         }
 
-        public static XamlNode StartOfMember(XamlMemberBase member)
+        public static XamlInstruction StartOfMember(XamlMemberBase member)
         {
-            return new XamlNode(XamlNodeType.StartMember, member);
+            return new XamlInstruction(XamlNodeType.StartMember, member);
         }
 
-        public static XamlNode Value(string value)
+        public static XamlInstruction Value(string value)
         {
-            return new XamlNode(XamlNodeType.Value, value);
+            return new XamlInstruction(XamlNodeType.Value, value);
         }
 
-        public static XamlNode EndOfMember()
+        public static XamlInstruction EndOfMember()
         {
-            return new XamlNode(XamlNodeType.EndMember);
+            return new XamlInstruction(XamlNodeType.EndMember);
         }
 
-        public static XamlNode GetObject()
+        public static XamlInstruction GetObject()
         {
-            return new XamlNode(XamlNodeType.GetObject);
+            return new XamlInstruction(XamlNodeType.GetObject);
         }
 
-        public static XamlNode Items()
+        public static XamlInstruction Items()
         {
-            return new XamlNode(XamlNodeType.StartMember, CoreTypes.Items);
+            return new XamlInstruction(XamlNodeType.StartMember, CoreTypes.Items);
         }
 
-        public static XamlNode MarkupExtensionArguments()
+        public static XamlInstruction MarkupExtensionArguments()
         {
-            return new XamlNode(XamlNodeType.StartMember, CoreTypes.MarkupExtensionArguments);
+            return new XamlInstruction(XamlNodeType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
 
-        public static XamlNode Initialization()
+        public static XamlInstruction Initialization()
         {
-            return new XamlNode(XamlNodeType.StartMember, CoreTypes.Initialization);
+            return new XamlInstruction(XamlNodeType.StartMember, CoreTypes.Initialization);
         }
     }
 }

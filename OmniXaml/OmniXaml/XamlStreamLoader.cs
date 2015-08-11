@@ -1,16 +1,17 @@
 namespace OmniXaml
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using Assembler;
-    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
     public class XamlStreamLoader : IXamlStreamLoader
     {
         private readonly Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory;
-        private readonly SuperProtoParser protoProtoParser;
-        private readonly IXamlNodesPullParser pullParser;
+        private readonly IParser<Stream, IEnumerable<ProtoXamlInstruction>> xamlProtoInstructionXamlProtoInstructionParser;
+        private readonly IXamlInstructionParser parser;
         private readonly IObjectAssemblerFactory assemblerFactory;
 
         public XamlStreamLoader(Func<IObjectAssembler, IConfiguredXamlLoader> loaderFactory, IObjectAssemblerFactory assemblerFactory)
@@ -19,10 +20,10 @@ namespace OmniXaml
             this.assemblerFactory = assemblerFactory;
         }
 
-        public XamlStreamLoader(SuperProtoParser protoProtoParser, IXamlNodesPullParser pullParser, IObjectAssemblerFactory assemblerFactory)
+        public XamlStreamLoader(IParser<Stream, IEnumerable<ProtoXamlInstruction>> xamlProtoInstructionXamlProtoInstructionParser, IXamlInstructionParser parser, IObjectAssemblerFactory assemblerFactory)
         {
-            this.protoProtoParser = protoProtoParser;
-            this.pullParser = pullParser;
+            this.xamlProtoInstructionXamlProtoInstructionParser = xamlProtoInstructionXamlProtoInstructionParser;
+            this.parser = parser;
             this.assemblerFactory = assemblerFactory;
         }
 
@@ -39,7 +40,7 @@ namespace OmniXaml
 
         private object LoadInternal(Stream stream, IObjectAssembler objectAssembler)
         {
-            var coreXamlXmlLoader = loaderFactory == null ? new ConfiguredXamlXmlLoader(protoProtoParser, pullParser, objectAssembler) : loaderFactory(objectAssembler);
+            var coreXamlXmlLoader = loaderFactory == null ? new ConfiguredXamlXmlLoader(xamlProtoInstructionXamlProtoInstructionParser, parser, objectAssembler) : loaderFactory(objectAssembler);
             return coreXamlXmlLoader.Load(stream);
         }
     }

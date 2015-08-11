@@ -13,7 +13,7 @@
             this.wiringContext = wiringContext;
         }
 
-        public IEnumerable<XamlNode> Convert(MarkupExtensionNode tree)
+        public IEnumerable<XamlInstruction> Convert(MarkupExtensionNode tree)
         {
             var identifierNode = tree.Identifier;
             var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
@@ -25,7 +25,7 @@
             yield return Inject.EndOfObject();
         }
 
-        private static IEnumerable<XamlNode> ParseArguments(IEnumerable<PositionalOption> options)
+        private static IEnumerable<XamlInstruction> ParseArguments(IEnumerable<PositionalOption> options)
         {
             var positionalOptions = options.ToList();
             if (positionalOptions.Any())
@@ -39,7 +39,7 @@
             }
         }
 
-        private static IEnumerable<XamlNode> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
+        private static IEnumerable<XamlInstruction> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
         {
             foreach (var option in options)
             {

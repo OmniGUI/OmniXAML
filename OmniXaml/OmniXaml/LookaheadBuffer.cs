@@ -4,12 +4,12 @@ namespace OmniXaml
 
     public static class LookaheadBuffer
     {
-        public static IEnumerable<XamlNode> GetUntilEndOfRoot(IEnumerator<XamlNode> enumerator)
+        public static IEnumerable<XamlInstruction> GetUntilEndOfRoot(IEnumerator<XamlInstruction> enumerator)
         {
             var count = 0;
             var isEndOfRootObject = false;
 
-            if (enumerator.Current.Equals(default(XamlNode)))
+            if (enumerator.Current.Equals(default(XamlInstruction)))
             {
                 yield break;
             }

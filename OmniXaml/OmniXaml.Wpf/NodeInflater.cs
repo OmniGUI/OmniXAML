@@ -6,7 +6,7 @@ namespace OmniXaml.Wpf
     using System.Linq;
     using AppServices.NetCore;
     using Builder;
-    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
     using Typing;
 
@@ -23,9 +23,9 @@ namespace OmniXaml.Wpf
             nodeBuilder = new XamlNodeBuilder(wiringContext.TypeContext);
         }
 
-        public IEnumerable<XamlNode> Inflate(IEnumerable<XamlNode> nodes)
+        public IEnumerable<XamlInstruction> Inflate(IEnumerable<XamlInstruction> nodes)
         {
-            var processedNodes = new Collection<XamlNode>();
+            var processedNodes = new Collection<XamlInstruction>();
             var skipNext = false;
             foreach (var xamlNode in nodes)
             {
@@ -58,7 +58,7 @@ namespace OmniXaml.Wpf
             return processedNodes;
         }
 
-        private IEnumerable<XamlNode> Crop(IEnumerable<XamlNode> original, XamlType newType, XamlType oldType)
+        private IEnumerable<XamlInstruction> Crop(IEnumerable<XamlInstruction> original, XamlType newType, XamlType oldType)
         {
             var list = original.ToList();
             var nodeToReplace = list.First(node => NodeHasSameType(oldType, node));
@@ -67,9 +67,9 @@ namespace OmniXaml.Wpf
             return list;
         }
 
-        private static bool NodeHasSameType(XamlType oldType, XamlNode node)
+        private static bool NodeHasSameType(XamlType oldType, XamlInstruction instruction)
         {
-            var xamlType = node.XamlType;
+            var xamlType = instruction.XamlType;
             if (xamlType != null)
             {
                 var nodeHasSameType = xamlType.Equals(oldType);
@@ -79,26 +79,26 @@ namespace OmniXaml.Wpf
             return false;
         }
 
-        private static IEnumerable<XamlNode> ReadNodes(Type underlyingType)
+        private static IEnumerable<XamlInstruction> ReadNodes(Type underlyingType)
         {
             var resourceProvider = new InflatableTranslator();
 
             using (var stream = resourceProvider.GetStream(underlyingType))
             {
                 var wiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
-                var loader = new XamlNodesPullParser(wiringContext);
-                var protoParser = new SuperProtoParser(wiringContext);
+                var loader = new XamlInstructionParser(wiringContext);
+                var protoParser = new XamlProtoInstructionParser(wiringContext);
 
                 return loader.Parse(protoParser.Parse(stream));
             }
         }
 
-        private Type GetMatchedInflatable(XamlNode xamlNode)
+        private Type GetMatchedInflatable(XamlInstruction xamlInstruction)
         {
-            if (xamlNode.XamlType != null)
+            if (xamlInstruction.XamlType != null)
             {
                 var matches = from inflatable in inflatables
-                              where inflatable.IsAssignableFrom(xamlNode.XamlType.UnderlyingType)
+                              where inflatable.IsAssignableFrom(xamlInstruction.XamlType.UnderlyingType)
                               select inflatable;
 
                 return matches.FirstOrDefault();

@@ -6,14 +6,14 @@ namespace OmniXaml.Visualization
 
     public class NodeHierarchizer
     {
-        public IEnumerable<HierarchizedXamlNode> CreateHierarchy(IEnumerable<XamlNode> xamlNodes)
+        public IEnumerable<HierarchizedXamlNode> CreateHierarchy(IEnumerable<XamlInstruction> xamlNodes)
         {
             var stream = xamlNodes.GetEnumerator();
             stream.MoveNext();
             return HierarchizedXamlNodes(stream);
         }
 
-        private Sequence<HierarchizedXamlNode> HierarchizedXamlNodes(IEnumerator<XamlNode> stream)
+        private Sequence<HierarchizedXamlNode> HierarchizedXamlNodes(IEnumerator<XamlInstruction> stream)
         {            
             var nodes = new Sequence<HierarchizedXamlNode>();
 
@@ -48,13 +48,13 @@ namespace OmniXaml.Visualization
             return nodes;
         }
 
-        private static bool IsTrailing(XamlNode xamlNode)
+        private static bool IsTrailing(XamlInstruction xamlInstruction)
         {
-            IEnumerator<XamlNode> stream;
-            return xamlNode.NodeType == XamlNodeType.EndMember || xamlNode.NodeType == XamlNodeType.EndObject;
+            IEnumerator<XamlInstruction> stream;
+            return xamlInstruction.NodeType == XamlNodeType.EndMember || xamlInstruction.NodeType == XamlNodeType.EndObject;
         }
 
-        private bool IsLeading(XamlNode current)
+        private bool IsLeading(XamlInstruction current)
         {
             return current.NodeType == XamlNodeType.StartMember || current.NodeType == XamlNodeType.StartObject;
         }

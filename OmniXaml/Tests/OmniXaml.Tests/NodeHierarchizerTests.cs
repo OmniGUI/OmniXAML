@@ -22,7 +22,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void TestMethod1()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.Value("Value"),
@@ -39,7 +39,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void TestMethod2()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.EndMember(),
@@ -62,7 +62,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void TestReverseMembers()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                     X.StartObject(typeof(DummyClass)),
@@ -93,7 +93,7 @@ namespace OmniXaml.Tests
             h.AcceptVisitor(new MemberReverserVisitor());
 
             var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                     X.StartObject(typeof(DummyClass)),
@@ -123,7 +123,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void DependencySorting()
         {
-            var input = new List<XamlNode>
+            var input = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.Value("Value"),
@@ -140,7 +140,7 @@ namespace OmniXaml.Tests
             h.AcceptVisitor(new DependencySortingVisitor());
 
             var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartMember<Setter>(c => c.Property),
                 X.Value("Property"),

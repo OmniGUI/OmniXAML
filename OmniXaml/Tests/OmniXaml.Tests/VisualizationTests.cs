@@ -21,7 +21,7 @@
         [TestMethod]
         public void ConvertToTags()
         {
-            var col = new Collection<XamlNode>()
+            var col = new Collection<XamlInstruction>()
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.StartObject<DummyClass>(),
@@ -38,7 +38,7 @@
         [TestMethod]
         public void ConvertToNodes()
         {
-            var col = new Collection<XamlNode>()
+            var col = new Collection<XamlInstruction>()
             {
                 builder.NamespacePrefixDeclaration(RootNs),
                 builder.StartObject<DummyClass>(),

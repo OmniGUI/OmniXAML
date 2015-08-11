@@ -8,7 +8,6 @@
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Xaml.Tests.Resources;
 
@@ -32,7 +31,7 @@
         [TestMethod]
         public void SingleInstance()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
@@ -48,7 +47,7 @@
         [TestMethod]
         public void RootNamespace()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -64,7 +63,7 @@
         [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -84,7 +83,7 @@
         [Description("Se queda tronchado")]
         public void InstanceWithChild()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -105,7 +104,7 @@
         [TestMethod]
         public void DifferentNamespaces()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration("root", string.Empty),
                 nodeBuilder.NamespacePrefixDeclaration("another", "x"),
@@ -127,7 +126,7 @@
         [TestMethod]
         public void DifferentNamespacesAndMoreThanOneProperty()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration("root", string.Empty),
                 nodeBuilder.NamespacePrefixDeclaration("another", "x"),
@@ -155,7 +154,7 @@
         [TestMethod]
         public void ClassWithInnerCollection()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -180,7 +179,7 @@
         [TestMethod]
         public void CollectionWithMoreThanOneItem()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -211,7 +210,7 @@
         [TestMethod]
         public void CollapsedTagWithProperty()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -230,7 +229,7 @@
         [TestMethod]
         public void CollectionWithClosedItemAndProperty()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -258,7 +257,7 @@
         [TestMethod]
         public void SimpleExtension()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -278,7 +277,7 @@
         [TestMethod]        
         public void SimpleExtensionWithOneAssignment()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -301,7 +300,7 @@
         [TestMethod]
         public void ContentPropertyForCollectionOneElement()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -326,7 +325,7 @@
         [TestMethod]
         public void ContentPropertyForCollectionMoreThanOneElement()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(DummyClass)),
@@ -354,7 +353,7 @@
         [TestMethod]
         public void ContentPropertyForSingleProperty()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof(ChildClass)),
@@ -370,16 +369,16 @@
             XamlNodesAssert.AreEssentiallyTheSame(expectedNodes, actualNodes);
         }
 
-        private ICollection<XamlNode> ExtractNodesFromPullParser(string xml)
+        private ICollection<XamlInstruction> ExtractNodesFromPullParser(string xml)
         {
-            var pullParser = new XamlNodesPullParser(WiringContext);
-            return pullParser.Parse(new SuperProtoParser(WiringContext).Parse(xml)).ToList();
+            var pullParser = new XamlInstructionParser(WiringContext);
+            return pullParser.Parse(new XamlProtoInstructionParser(WiringContext).Parse<IEnumerable<ProtoXamlInstruction>>(xml)).ToList();
         }
 
         [TestMethod]
         public void KeyDirective()
         {
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.NamespacePrefixDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"),

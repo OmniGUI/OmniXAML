@@ -54,27 +54,27 @@ namespace XamlViewer.ViewModels
                     return GetMemberName(visualizationNode);
 
                 case NodeType.Object:
-                    return visualizationNode.XamlNode.XamlType.Name;
+                    return visualizationNode.XamlInstruction.XamlType.Name;
 
                 case NodeType.GetObject:
                     return "Collection";
 
                 case NodeType.NamespaceDeclaration:
-                    return "Namespace Declaration: Mapping " + visualizationNode.XamlNode.NamespaceDeclaration;
+                    return "Namespace Declaration: Mapping " + visualizationNode.XamlInstruction.NamespaceDeclaration;
 
                 case NodeType.Value:
-                    return $"\"{visualizationNode.XamlNode.Value}\"";
+                    return $"\"{visualizationNode.XamlInstruction.Value}\"";
 
                 case NodeType.Root:
                     return "Root";
             }
 
-            throw new InvalidOperationException("The node type {NodeType} cannot be handled.");
+            throw new InvalidOperationException("The instruction type {NodeType} cannot be handled.");
         }
 
         private static string GetMemberName(VisualizationNode visualizationNode)
         {
-            var mutableXamlMember = visualizationNode.XamlNode.Member as MutableXamlMember;
+            var mutableXamlMember = visualizationNode.XamlInstruction.Member as MutableXamlMember;
 
             if (mutableXamlMember != null)
             {
@@ -86,7 +86,7 @@ namespace XamlViewer.ViewModels
                 return mutableXamlMember.DeclaringType.Name + "." + mutableXamlMember.Name;
             }
 
-            var member = visualizationNode.XamlNode.Member;
+            var member = visualizationNode.XamlInstruction.Member;
 
             return member.IsDirective ? "[(" + member.Name + ") Directive]": member.Name;
         }
@@ -103,7 +103,7 @@ namespace XamlViewer.ViewModels
             }
         }
 
-        private static NodeType GetNodeType(XamlNode current)
+        private static NodeType GetNodeType(XamlInstruction current)
         {
             switch (current.NodeType)
             {
@@ -131,7 +131,7 @@ namespace XamlViewer.ViewModels
             throw new InvalidOperationException("Cannont translate the type");
         }
 
-        public NodeType NodeType => GetNodeType(model.XamlNode);
+        public NodeType NodeType => GetNodeType(model.XamlInstruction);
 
         public ICommand CollapseBranchCommand { get; private set; }
         public ICommand ExpandBranchCommand { get; private set; }

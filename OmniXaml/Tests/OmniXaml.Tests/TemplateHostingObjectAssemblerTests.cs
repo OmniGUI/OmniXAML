@@ -21,7 +21,7 @@
         [TestMethod]
         public void SimpleTest()
         {
-            var input = new Collection<XamlNode>
+            var input = new Collection<XamlInstruction>
             {
                 X.StartObject<Item>(),
                 X.StartMember<Item>(i => i.Template),
@@ -46,7 +46,7 @@
             }
 
             var actualNodes = sut.NodeList;
-            var expectedNodes = new Collection<XamlNode>
+            var expectedNodes = new Collection<XamlInstruction>
             {
                 X.StartObject<Grid>(),
                 X.EndObject(),                

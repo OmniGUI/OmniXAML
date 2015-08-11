@@ -4,20 +4,20 @@ namespace OmniXaml
     using Typing;
 
     [DebuggerDisplay("{ToString()}")]
-    public struct XamlNode
+    public struct XamlInstruction
     {
         private readonly XamlNodeType nodeType;
         private readonly object data;
         private readonly InternalNodeType internalNodeType;
 
-        public XamlNode(XamlNodeType nodeType)
+        public XamlInstruction(XamlNodeType nodeType)
         {
             this.nodeType = nodeType;
             internalNodeType = InternalNodeType.None;
             data = null;
         }
 
-        public XamlNode(XamlNodeType nodeType, object data)
+        public XamlInstruction(XamlNodeType nodeType, object data)
             : this(nodeType)
         {
             this.data = data;
@@ -65,7 +65,7 @@ namespace OmniXaml
             }
         }
 
-        public bool Equals(XamlNode other)
+        public bool Equals(XamlInstruction other)
         {
             return nodeType == other.nodeType && Equals(data, other.data) && internalNodeType == other.internalNodeType;
         }
@@ -77,7 +77,7 @@ namespace OmniXaml
                 return false;
             }
 
-            return obj is XamlNode && Equals((XamlNode) obj);
+            return obj is XamlInstruction && Equals((XamlInstruction) obj);
         }
 
         public override int GetHashCode()

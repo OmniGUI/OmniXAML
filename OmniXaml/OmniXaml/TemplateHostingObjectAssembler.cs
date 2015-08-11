@@ -14,7 +14,7 @@
     {
         private readonly IObjectAssembler objectAssembler;
         private bool recording;
-        private IList<XamlNode> nodeList;
+        private IList<XamlInstruction> nodeList;
         private int depth;
 
         private readonly IDictionary<PropertyInfo, IDeferredLoader> deferredObjectAssemblers = new Dictionary<PropertyInfo, IDeferredLoader>();
@@ -27,49 +27,49 @@
 
         public WiringContext WiringContext => objectAssembler.WiringContext;
 
-        public void Process(XamlNode node)
+        public void Process(XamlInstruction instruction)
         {
             if (recording)
             {
-                if (node.NodeType == XamlNodeType.StartMember)
+                if (instruction.NodeType == XamlNodeType.StartMember)
                 {
                     depth++;
                 }
 
-                if (node.NodeType == XamlNodeType.EndMember)
+                if (instruction.NodeType == XamlNodeType.EndMember)
                 {
                     depth--;
                     if (depth == 0)
                     {
                         recording = false;
-                        var loaded = assembler.Load(new ReadOnlyCollection<XamlNode>(nodeList), WiringContext);
+                        var loaded = assembler.Load(new ReadOnlyCollection<XamlInstruction>(nodeList), WiringContext);
                         objectAssembler.OverrideInstance(loaded);
-                        objectAssembler.Process(node);
+                        objectAssembler.Process(instruction);
                     }
                 }
 
                 if (depth > 0)
                 {
-                    nodeList.Add(node);
+                    nodeList.Add(instruction);
                 }
             }
             else
             {
-                if (node.NodeType == XamlNodeType.StartMember && !node.Member.IsDirective)
+                if (instruction.NodeType == XamlNodeType.StartMember && !instruction.Member.IsDirective)
                 {                    
-                    var hasAssembler = TryGetDeferredAssembler((MutableXamlMember) node.Member, out assembler);
+                    var hasAssembler = TryGetDeferredAssembler((MutableXamlMember) instruction.Member, out assembler);
                     if (hasAssembler)
                     {
                         recording = true;
-                        nodeList = new Collection<XamlNode>();
+                        nodeList = new Collection<XamlInstruction>();
                         depth++;
-                        objectAssembler.Process(node);
+                        objectAssembler.Process(instruction);
                     }
                 }
 
                 if (!recording)
                 {
-                    objectAssembler.Process(node);
+                    objectAssembler.Process(instruction);
                 }                
             }
         }
@@ -100,7 +100,7 @@
         {            
         }
 
-        public IList NodeList => new ReadOnlyCollection<XamlNode>(nodeList);
+        public IList NodeList => new ReadOnlyCollection<XamlInstruction>(nodeList);
 
         public void AddDeferredLoader<TItem>(Expression<Func<TItem, object>> selector, IDeferredLoader assembler)
         {

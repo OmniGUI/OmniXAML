@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.Wpf
 {
-    using Parsers.ProtoParser.SuperProtoParser;
+    using System.Collections.Generic;
+    using System.IO;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
     public class WpfXamlStreamLoader : XamlStreamLoader
@@ -12,15 +14,15 @@
         {
         }
 
-        private static SuperProtoParser GetProtoParser(ITypeFactory typeFactory)
+        private static IParser<Stream, IEnumerable<ProtoXamlInstruction>> GetProtoParser(ITypeFactory typeFactory)
         {
-            return new SuperProtoParser(WpfWiringContextFactory.GetContext(typeFactory));
+            return new XamlProtoInstructionParser(WpfWiringContextFactory.GetContext(typeFactory));
         }
 
-        private static IXamlNodesPullParser GetPullParser(ITypeFactory typeFactory)
+        private static IXamlInstructionParser GetPullParser(ITypeFactory typeFactory)
         {
-            var xamlNodesPullParser = new XamlNodesPullParser(WpfWiringContextFactory.GetContext(typeFactory));
-            return new OrderAwareXamlNodesPullParser(xamlNodesPullParser);
+            var xamlNodesPullParser = new XamlInstructionParser(WpfWiringContextFactory.GetContext(typeFactory));
+            return new OrderAwareXamlInstructionParser(xamlNodesPullParser);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
+    using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Tests;
 
@@ -8,8 +8,8 @@
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlStreamLoader = new XamlStreamLoader(new SuperProtoParser(WiringContext),
-                new XamlNodesPullParser(WiringContext),
+            XamlStreamLoader = new XamlStreamLoader(new XamlProtoInstructionParser(WiringContext),
+                new XamlInstructionParser(WiringContext),
                 new DefaultObjectAssemblerFactory(WiringContext));
         }
 

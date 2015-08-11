@@ -24,7 +24,7 @@
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.EndObject(),
@@ -40,7 +40,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -63,7 +63,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new List<XamlNode>
+            var expectedNodes = new List<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -88,7 +88,7 @@
             var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
             var actualNodes = sut.Convert(tree).ToList();
 
-            var expectedNodes = new Collection<XamlNode>
+            var expectedNodes = new Collection<XamlInstruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.MarkupExtensionArguments(),

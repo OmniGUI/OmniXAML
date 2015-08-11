@@ -7,7 +7,7 @@
 
     public class MemberDependencyNodeSorter
     {
-        public IEnumerable<XamlNode> Sort(IEnumerator<XamlNode> enumerator)
+        public IEnumerable<XamlInstruction> Sort(IEnumerator<XamlInstruction> enumerator)
         {
             while (enumerator.MoveNext())
             {
@@ -25,7 +25,7 @@
             }
         }
 
-        private IEnumerable<XamlNode> SortNodes(IEnumerator<XamlNode> enumerator)
+        private IEnumerable<XamlInstruction> SortNodes(IEnumerator<XamlInstruction> enumerator)
         {
             var subSet = LookaheadBuffer.GetUntilEndOfRoot(enumerator);
             var nodes = new NodeHierarchizer().CreateHierarchy(subSet);

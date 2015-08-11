@@ -5,7 +5,7 @@ namespace OmniXaml.AppServices.Tests
     using NetCore;
     using OmniXaml.Tests;
     using OmniXaml.Tests.Classes.WpfLikeModel;
-    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
     public class GivenAnInflatableTypeLoader : GivenAWiringContext
@@ -24,7 +24,7 @@ namespace OmniXaml.AppServices.Tests
         {
             return
                 new XamlStreamLoader(
-                    assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(WiringContext), new XamlNodesPullParser(WiringContext), assembler),
+                    assembler => new ConfiguredXamlXmlLoader(new XamlProtoInstructionParser(WiringContext), new XamlInstructionParser(WiringContext), assembler),
                     new DummyAssemblerFactory(WiringContext));
         }
     }

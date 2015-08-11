@@ -5,8 +5,6 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Tests.Classes.WpfLikeModel;
-    using Parsers.ProtoParser.SuperProtoParser;
-    using Parsers.XamlNodes;
 
     [TestClass]
     public class InflatableFactoryTest

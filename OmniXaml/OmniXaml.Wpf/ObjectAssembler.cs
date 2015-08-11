@@ -19,9 +19,9 @@
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public WiringContext WiringContext => objectAssembler.WiringContext;
-        public void Process(XamlNode node)
+        public void Process(XamlInstruction instruction)
         {
-            objectAssembler.Process(node);
+            objectAssembler.Process(instruction);
         }
 
         public void OverrideInstance(object instance)

@@ -1,4 +1,4 @@
-namespace OmniXaml.Parsers.ProtoParser.SuperProtoParser
+namespace OmniXaml.Parsers.ProtoParser
 {
     using System.Collections.ObjectModel;
     using Glass;

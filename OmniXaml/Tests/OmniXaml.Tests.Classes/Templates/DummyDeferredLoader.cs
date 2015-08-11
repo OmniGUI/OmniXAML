@@ -4,7 +4,7 @@ namespace OmniXaml.Tests.Classes.Templates
 
     public class DummyDeferredLoader : IDeferredLoader
     {
-        public object Load(IEnumerable<XamlNode> nodes, WiringContext wiringContext)
+        public object Load(IEnumerable<XamlInstruction> nodes, WiringContext wiringContext)
         {
             return new TemplateContent(nodes, wiringContext);
         }

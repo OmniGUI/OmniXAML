@@ -5,10 +5,10 @@ namespace OmniXaml.Tests.Classes.Templates
 
     public class TemplateContent
     {
-        private readonly IEnumerable<XamlNode> nodes;
+        private readonly IEnumerable<XamlInstruction> nodes;
         private readonly WiringContext wiringContext;
 
-        public TemplateContent(IEnumerable<XamlNode> nodes, WiringContext wiringContext)
+        public TemplateContent(IEnumerable<XamlInstruction> nodes, WiringContext wiringContext)
         {
             this.nodes = nodes;
             this.wiringContext = wiringContext;

@@ -9,7 +9,6 @@
     using Glass;
     using OmniXaml;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using OmniXaml.Visualization;
     using ViewModels;
@@ -84,11 +83,11 @@
             visualizerWindow.Show();
         }
 
-        private IEnumerable<XamlNode> ConvertToNodes(Stream xaml)
+        private IEnumerable<XamlInstruction> ConvertToNodes(Stream xaml)
         {
             var wiringContext = WiringContext;
-            var pullParser = new XamlNodesPullParser(wiringContext);
-            var protoParser = new SuperProtoParser(wiringContext);
+            var pullParser = new XamlInstructionParser(wiringContext);
+            var protoParser = new XamlProtoInstructionParser(wiringContext);
             return pullParser.Parse(protoParser.Parse(xaml)).ToList();
         }
     }

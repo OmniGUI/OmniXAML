@@ -1,7 +1,7 @@
 namespace OmniXaml
 {
     using System;
-    using Parsers.ProtoParser.SuperProtoParser;
+    using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
     public class DefaultXamlStreamLoader: XamlStreamLoader
@@ -12,7 +12,7 @@ namespace OmniXaml
 
         private static Func<IObjectAssembler, IConfiguredXamlLoader> LoaderFactory(WiringContext wiringContext)
         {
-            return assembler => new ConfiguredXamlXmlLoader(new SuperProtoParser(wiringContext), new XamlNodesPullParser(wiringContext), assembler);
+            return assembler => new ConfiguredXamlXmlLoader(new XamlProtoInstructionParser(wiringContext), new XamlInstructionParser(wiringContext), assembler);
         }
     }
 }

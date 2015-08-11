@@ -7,7 +7,7 @@
 
     internal static class XamlNodesAssert
     {
-        public static void AreEssentiallyTheSame(ICollection<XamlNode> expectedNodes, ICollection<XamlNode> actualNodes)
+        public static void AreEssentiallyTheSame(ICollection<XamlInstruction> expectedNodes, ICollection<XamlInstruction> actualNodes)
         {
             CollectionAssert.AreEqual(
                 expectedNodes.ToList(),
@@ -33,8 +33,8 @@
 
             public int Compare(object x, object y)
             {
-                var nodeA = (XamlNode)x;
-                var nodeB = (XamlNode)y;
+                var nodeA = (XamlInstruction)x;
+                var nodeB = (XamlInstruction)y;
 
                 var areXamlTypesConsideredEqual = nodeA.XamlType == nodeB.XamlType;
                 if (nodeA.XamlType != null && nodeB.XamlType != null)

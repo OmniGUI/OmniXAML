@@ -18,7 +18,7 @@
 
             var viewFactory = new ViewFactory(typeFactory);
             viewFactory.RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAddDomain));
-            viewFactory.Show("Main");
+            viewFactory.Show("Main");            
         }     
     }    
 }

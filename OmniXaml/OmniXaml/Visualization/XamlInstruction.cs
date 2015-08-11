@@ -8,14 +8,14 @@ namespace OmniXaml.Visualization
         public HierarchizedXamlNode()
         {
             Children = new Sequence<HierarchizedXamlNode>();
-            Body = new Sequence<XamlNode>();
+            Body = new Sequence<XamlInstruction>();
         }
-        public XamlNode Leading { get; set; }
+        public XamlInstruction Leading { get; set; }
         public Sequence<HierarchizedXamlNode> Children { get; set; }
-        public XamlNode Trailing { get; set; }
-        public Sequence<XamlNode> Body { get; }
+        public XamlInstruction Trailing { get; set; }
+        public Sequence<XamlInstruction> Body { get; }
 
-        public IEnumerable<XamlNode> Dump()
+        public IEnumerable<XamlInstruction> Dump()
         {
             yield return Leading;
 

@@ -10,7 +10,6 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Xaml.Tests.Resources;
 
@@ -31,7 +30,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         {
             var contents = FlattenNodesFromXaml(Dummy.SingleInstance);
 
-            var expected = new List<XamlNode>
+            var expected = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
@@ -47,7 +46,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         {
             var contents = FlattenNodesFromXaml(Dummy.InstanceWithChild);
 
-            var expected = new List<XamlNode>
+            var expected = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
@@ -66,7 +65,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         {
             var contents = FlattenNodesFromXaml(Dummy.StringProperty);
 
-            var expected = new List<XamlNode>
+            var expected = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
@@ -84,7 +83,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
         {
             var contents = FlattenNodesFromXaml(Dummy.ClassWithInnerCollection);
 
-            var expected = new List<XamlNode>
+            var expected = new List<XamlInstruction>
             {
                 nodeBuilder.NamespacePrefixDeclaration(RootNs),
                 nodeBuilder.StartObject(typeof (DummyClass)),
@@ -145,10 +144,10 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
             return nodes;
         }
 
-        private IList<XamlNode> FlattenNodesFromXaml(string xaml)
+        private IList<XamlInstruction> FlattenNodesFromXaml(string xaml)
         {
-            var pullParser = new XamlNodesPullParser(WiringContext);
-            var protoNodes = new SuperProtoParser(WiringContext).Parse(xaml);
+            var pullParser = new XamlInstructionParser(WiringContext);
+            var protoNodes = new XamlProtoInstructionParser(WiringContext).Parse<IEnumerable<ProtoXamlInstruction>>(xaml);
             return pullParser.Parse(protoNodes).ToList();         
         }
     }

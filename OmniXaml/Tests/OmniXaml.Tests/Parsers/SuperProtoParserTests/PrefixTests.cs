@@ -2,17 +2,18 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.IO;
     using System.Linq;
     using Classes;
     using Classes.Another;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.ProtoParser.SuperProtoParser;
+    using OmniXaml.Parsers.ProtoParser;
 
     [TestClass]
     public class PrefixTests : GivenAWiringContext
     {
         private readonly ProtoNodeBuilder builder;
-        private SuperProtoParser sut;
+        private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
 
         public PrefixTests()
         {
@@ -22,14 +23,14 @@
         [TestInitialize]
         public void Initialize()
         {
-            sut = new SuperProtoParser(WiringContext);
+            sut = new XamlProtoInstructionParser(WiringContext);
         }
 
         [TestMethod]
         public void SingleCollapsed()
         {
-            var actualNodes = sut.Parse("<x:Foreigner xmlns:x=\"another\"/>").ToList();
-            var expectedNodes = new List<ProtoXamlNode>
+            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>("<x:Foreigner xmlns:x=\"another\"/>").ToList();
+            var expectedNodes = new List<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(AnotherNs),
                 builder.EmptyElement(typeof (Foreigner), AnotherNs),
@@ -41,11 +42,11 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualNodes = sut.Parse(@"<DummyClass xmlns=""root"" xmlns:x=""another"" x:Foreigner.Property=""Value""></DummyClass>").ToList();
+            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>(@"<DummyClass xmlns=""root"" xmlns:x=""another"" x:Foreigner.Property=""Value""></DummyClass>").ToList();
 
             var ns = "root";
 
-            var expectedNodes = new Collection<ProtoXamlNode>
+            var expectedNodes = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration("", ns),
                 builder.NamespacePrefixDeclaration("x", "another"),
@@ -60,11 +61,11 @@
         [TestMethod]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
-            var actualNodes = sut.Parse(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
+            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
 
             var ns = "root";
 
-            var expectedNodes = new Collection<ProtoXamlNode>
+            var expectedNodes = new Collection<ProtoXamlInstruction>
             {
                 builder.NamespacePrefixDeclaration(AnotherNs),
                 builder.NonEmptyElement(typeof (DummyClass), AnotherNs),
