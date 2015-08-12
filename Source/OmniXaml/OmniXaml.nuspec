@@ -15,4 +15,9 @@
         <language>en-US</language>
         <tags>XAML, MVVM, WPF, UI, Perspex</tags>        
     </metadata>
+  <dependencies>
+    <dependencies>
+      <dependency id="Glass" version="$version$" />
+    </dependencies>
+  </dependencies>
 </package>

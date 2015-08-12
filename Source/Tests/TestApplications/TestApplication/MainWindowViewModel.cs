@@ -1,4 +1,4 @@
-﻿namespace TestApplication
+﻿namespace SampleWpfApp
 {
     using System;
     using System.Collections.Generic;
@@ -11,7 +11,7 @@
 
         public MainWindowViewModel()
         {
-            People = new Collection<PersonViewModel>()
+            People = new Collection<PersonViewModel>
             {
                 new PersonViewModel("Johnny", "Mnemonic", new Uri("Images/johnny_mnemonic.jpg", UriKind.Relative)),
                 new PersonViewModel("Inspector", "Gadget", new Uri("Images/inspector_gadget.png", UriKind.Relative)),

@@ -1,7 +1,6 @@
-﻿namespace TestApplication
+﻿namespace SampleWpfApp
 {
     using System.Windows;
-    using OmniXaml.AppServices.NetCore;
     using OmniXaml.Wpf;
 
     /// <summary>

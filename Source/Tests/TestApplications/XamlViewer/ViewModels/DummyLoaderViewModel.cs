@@ -4,8 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.Tests.Classes;
-    using XamlViewer;
+    using OmniXaml.Tests.Common;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel

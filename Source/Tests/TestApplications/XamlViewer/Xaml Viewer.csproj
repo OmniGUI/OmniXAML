@@ -52,7 +52,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Reflection" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -65,27 +64,27 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.DataGrid, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xceed.Wpf.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Extended.Wpf.Toolkit.2.5\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -146,8 +145,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\DummyLoaderControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\TreeVisualizerWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -200,29 +199,33 @@
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
-      <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
-      <Name>Xaml.Tests.Resources</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
-      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+      <Project>{7784da26-90c9-402e-8aae-6d4d59c22d74}</Project>
       <Name>OmniXaml.AppServices.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+      <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
+      <Name>OmniXaml.AppServices.NetCore</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
+      <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>
+      <Name>OmniXaml.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
       <Name>OmniXaml.AppServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tests\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
-      <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
-      <Name>OmniXaml.Tests.Classes</Name>
+    <ProjectReference Include="..\..\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj">
+      <Project>{03efd393-33d1-43e6-8835-1450459697f3}</Project>
+      <Name>OmniXaml.Tests.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Tests\OmniXaml.Tests\OmniXaml.Tests.csproj">
-      <Project>{4A7491E9-E218-45F5-BF42-430247765630}</Project>
-      <Name>OmniXaml.Tests</Name>
+    <ProjectReference Include="..\..\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj">
+      <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
+      <Name>Xaml.Tests.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

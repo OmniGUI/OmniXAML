@@ -1,4 +1,4 @@
-namespace TestApplication
+namespace SampleWpfApp
 {
     using System;
     using OmniXaml.AppServices.Mvvm;
