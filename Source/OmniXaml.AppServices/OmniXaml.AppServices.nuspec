@@ -8,5 +8,8 @@
         <owners>José Manuel Nieto (@SuperJMN)</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Provides services for applications using OmniXAML</description>
+      <dependencies>
+        <dependency id="OmniXaml" version="$version$" />
+      </dependencies>
     </metadata>
 </package>
