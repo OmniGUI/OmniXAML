@@ -13,14 +13,14 @@ namespace OmniXaml.Wpf
     internal class Hydrater
     {
         private readonly IEnumerable<Type> inflatables;
-        private readonly IWiringContext IWiringContext;
+        private readonly IWiringContext wiringContext;
         private readonly XamlInstructionBuilder instructionBuilder;
 
-        public Hydrater(IEnumerable<Type> inflatables, IWiringContext IWiringContext)
+        public Hydrater(IEnumerable<Type> inflatables, IWiringContext wiringContext)
         {
             this.inflatables = inflatables;
-            this.IWiringContext = IWiringContext;
-            instructionBuilder = new XamlInstructionBuilder(IWiringContext.TypeContext);
+            this.wiringContext = wiringContext;
+            instructionBuilder = new XamlInstructionBuilder(wiringContext.TypeContext);
         }
 
         public IEnumerable<XamlInstruction> Hydrate(IEnumerable<XamlInstruction> nodes)
@@ -34,7 +34,7 @@ namespace OmniXaml.Wpf
                 if (matchedInflatable != null)
                 {
                     var toAdd = ReadNodes(xamlNode.XamlType.UnderlyingType);
-                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, IWiringContext.TypeContext.GetXamlType((matchedInflatable)));
+                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, wiringContext.TypeContext.GetXamlType((matchedInflatable)));
 
                     foreach (var croppedNode in croppedNodes)
                     {
@@ -85,9 +85,9 @@ namespace OmniXaml.Wpf
 
             using (var stream = resourceProvider.GetStream(underlyingType))
             {
-                var IWiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
-                var loader = new XamlInstructionParser(IWiringContext);
-                var protoParser = new XamlProtoInstructionParser(IWiringContext);
+                var wiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
+                var loader = new XamlInstructionParser(wiringContext);
+                var protoParser = new XamlProtoInstructionParser(wiringContext);
 
                 return loader.Parse(protoParser.Parse(stream));
             }

@@ -5,16 +5,16 @@ namespace OmniXaml
 
     public class DefaultObjectAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly IWiringContext IWiringContext;
+        private readonly IWiringContext wiringContext;
 
-        public DefaultObjectAssemblerFactory(IWiringContext IWiringContext)
+        public DefaultObjectAssemblerFactory(IWiringContext wiringContext)
         {
-            this.IWiringContext = IWiringContext;
+            this.wiringContext = wiringContext;
         }
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
         {
-            return new ObjectAssembler(IWiringContext, new TopDownMemberValueContext(), objectAssemblerSettings);
+            return new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), objectAssemblerSettings);
         }
     }
 }

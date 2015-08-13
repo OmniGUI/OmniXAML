@@ -6,17 +6,17 @@
 
     public class MarkupExtensionNodeToXamlNodesConverter
     {
-        private readonly IWiringContext IWiringContext;
+        private readonly IWiringContext wiringContext;
 
-        public MarkupExtensionNodeToXamlNodesConverter(IWiringContext IWiringContext)
+        public MarkupExtensionNodeToXamlNodesConverter(IWiringContext wiringContext)
         {
-            this.IWiringContext = IWiringContext;
+            this.wiringContext = wiringContext;
         }
 
         public IEnumerable<XamlInstruction> Convert(MarkupExtensionNode tree)
         {
             var identifierNode = tree.Identifier;
-            var xamlType = IWiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
+            var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
             yield return Inject.StartOfObject(xamlType);
 
             foreach (var xamlNode in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return xamlNode;

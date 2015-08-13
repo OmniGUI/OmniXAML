@@ -6,13 +6,13 @@ namespace OmniXaml
 
     public class DefaultXamlLoader: XamlLoader
     {
-        public DefaultXamlLoader(IWiringContext IWiringContext) : base(LoaderFactory(IWiringContext), new DefaultObjectAssemblerFactory(IWiringContext))
+        public DefaultXamlLoader(IWiringContext wiringContext) : base(LoaderFactory(wiringContext), new DefaultObjectAssemblerFactory(wiringContext))
         {
         }
 
-        private static Func<IObjectAssembler, IXamlParser> LoaderFactory(IWiringContext IWiringContext)
+        private static Func<IObjectAssembler, IXamlParser> LoaderFactory(IWiringContext wiringContext)
         {
-            return assembler => new XamlXmlParser(new XamlProtoInstructionParser(IWiringContext), new XamlInstructionParser(IWiringContext), assembler);
+            return assembler => new XamlXmlParser(new XamlProtoInstructionParser(wiringContext), new XamlInstructionParser(wiringContext), assembler);
         }
     }
 }

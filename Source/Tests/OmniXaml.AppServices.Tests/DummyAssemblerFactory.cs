@@ -8,16 +8,16 @@
 
     internal class DummyAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly IWiringContext WiringContext;
+        private readonly IWiringContext wiringContext;
 
         public DummyAssemblerFactory(IWiringContext wiringContext)
         {
-            this.WiringContext = wiringContext;
+            this.wiringContext = wiringContext;
         }
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
         {
-            var templateHostingObjectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext(), settings));
+            var templateHostingObjectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), settings));
             templateHostingObjectAssembler.AddDeferredLoader<DataTemplate>(template => template.Content, new DummyDeferredLoader());
             return templateHostingObjectAssembler;
         }

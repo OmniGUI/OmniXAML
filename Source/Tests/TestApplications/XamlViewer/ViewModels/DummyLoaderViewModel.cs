@@ -21,7 +21,7 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            IWiringContext = new DummyWiringContext(new TypeFactory(), Assemblies.AssembliesInAppFolder);
+            WiringContext = new DummyWiringContext(new TypeFactory(), Assemblies.AssembliesInAppFolder);
         }
 
         public IList Snippets { get; set; }
@@ -62,7 +62,7 @@
 
         private void LoadXaml()
         {
-            var loader = new DefaultXamlLoader(IWiringContext);
+            var loader = new DefaultXamlLoader(WiringContext);
             
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);
