@@ -9,7 +9,7 @@
         [TestMethod]
         public void InflatableInDataTemplateTest()
         {
-            var actualInstance = this.Inflatable.Create<WindowWithTemplateAndUserControl>();
+            var actualInstance = Inflatable.Create<WindowWithTemplateAndUserControl>();
             Assert.IsInstanceOfType(actualInstance, typeof(WindowWithTemplateAndUserControl));
         }      
     }    

@@ -58,6 +58,7 @@
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
     <Compile Include="StaticResourceExtension.cs" />
+    <Compile Include="WpfParserFactory.cs" />
     <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWindow.cs" />
     <Compile Include="WpfWiringContext.cs" />
@@ -71,7 +72,6 @@
     <Compile Include="TypeDescriptorContext.cs" />
     <Compile Include="DeferredLoader.cs" />
     <Compile Include="ObjectAssembler.cs" />
-    <Compile Include="ObjectAssemblerFactory.cs" />
     <Compile Include="TemplateContent.cs" />
     <Compile Include="WpfXamlLoader.cs" />
     <Compile Include="ContentPropertyProvider.cs" />

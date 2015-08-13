@@ -9,9 +9,7 @@
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlLoader = new XamlLoader(new XamlProtoInstructionParser(WiringContext),
-                new XamlInstructionParser(WiringContext),
-                new DefaultObjectAssemblerFactory(WiringContext));
+            XamlLoader = new XamlLoader(new DummyXamlParserFactory(WiringContext));
         }
 
         protected XamlLoader XamlLoader { get; }

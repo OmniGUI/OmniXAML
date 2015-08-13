@@ -8,7 +8,7 @@
     using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NewAssembler;
+    using ObjectAssembler;
 
     [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -37,10 +37,11 @@
                 X.EndObject(),
             };
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext()));
-
+            var mapping = new DeferredLoaderMapping();
             var assembler = new DummyDeferredLoader();
-            sut.AddDeferredLoader<Template>(t => t.Content, assembler);
+            mapping.Map<Template>(t => t.Content, assembler);
+
+            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext()), mapping);                       
 
             foreach (var xamlNode in input)
             {

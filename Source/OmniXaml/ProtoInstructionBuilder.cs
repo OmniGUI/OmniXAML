@@ -1,26 +1,25 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
     using Glass;
     using Parsers.ProtoParser;
     using Typing;
 
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class ProtoInstructionBuilder
     {
         private readonly ITypeContext typeContext;
-        private readonly ITypeFeatureProvider typeFeatureProvider;
-        private readonly ITypeFactory typeFactory;
 
-        public ProtoInstructionBuilder(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
+        public ProtoInstructionBuilder(ITypeContext typeContext)
         {
             this.typeContext = typeContext;
-            this.typeFeatureProvider = typeFeatureProvider;
-            this.typeFactory = typeContext.TypeFactory;
         }
 
-        public PrefixRegistrationMode PrefixRegistrationMode { get; set; } = PrefixRegistrationMode.Automatic;
+        // ReSharper disable once MemberCanBePrivate.Global
+        public PrefixRegistrationMode PrefixRegistrationMode { get; } = PrefixRegistrationMode.Automatic;
 
         public ProtoXamlInstruction None()
         {

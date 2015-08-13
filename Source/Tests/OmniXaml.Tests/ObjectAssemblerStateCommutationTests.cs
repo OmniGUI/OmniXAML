@@ -6,7 +6,7 @@ namespace OmniXaml.Tests
     using Common.NetCore;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NewAssembler;
+    using ObjectAssembler;
 
     [TestClass]
     public class ObjectAssemblerStateCommutationTests : GivenAWiringContextWithNodeBuildersNetCore

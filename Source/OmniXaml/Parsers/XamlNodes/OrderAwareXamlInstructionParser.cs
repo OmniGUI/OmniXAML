@@ -1,7 +1,6 @@
 namespace OmniXaml.Parsers.XamlNodes
 {
     using System.Collections.Generic;
-    using Tests;
 
     public class OrderAwareXamlInstructionParser : IXamlInstructionParser
     {

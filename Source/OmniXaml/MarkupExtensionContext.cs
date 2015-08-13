@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System.Reflection;
-    using NewAssembler.Commands;
+    using ObjectAssembler.Commands;
     using Typing;
 
     public class MarkupExtensionContext

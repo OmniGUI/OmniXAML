@@ -171,7 +171,7 @@
                 var contentProperty = parentType.ContentProperty;
                 if (contentProperty == null)
                 {
-                    throw new InvalidOperationException($"Cannot get the content property for the type {parentType}");
+                    throw new XamlParsingException($"Cannot get the content property for the type {parentType}");
                 }
 
                 if (contentProperty.XamlType.IsCollection)

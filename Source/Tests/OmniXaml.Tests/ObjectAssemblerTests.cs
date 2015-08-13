@@ -7,7 +7,7 @@
     using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NewAssembler;
+    using ObjectAssembler;
 
     [TestClass]
     public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore

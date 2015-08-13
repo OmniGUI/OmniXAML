@@ -1,8 +1,7 @@
 ﻿namespace OmniXaml.AppServices.Tests
 {
     using System;
-    using Assembler;
-    using NewAssembler;
+    using ObjectAssembler;
     using OmniXaml.Tests.Classes.Templates;
     using OmniXaml.Tests.Classes.WpfLikeModel;
 
@@ -17,9 +16,11 @@
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
         {
-            var templateHostingObjectAssembler = new TemplateHostingObjectAssembler(new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), settings));
-            templateHostingObjectAssembler.AddDeferredLoader<DataTemplate>(template => template.Content, new DummyDeferredLoader());
-            return templateHostingObjectAssembler;
+            var mapping = new DeferredLoaderMapping();
+            mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
+
+            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), settings);
+            return new TemplateHostingObjectAssembler(objectAssembler, mapping);
         }
 
         public IObjectAssembler CreateAssembler()

@@ -4,7 +4,7 @@ namespace OmniXaml.Wpf
     using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
-    using NewAssembler;
+    using OmniXaml.ObjectAssembler;
     using Typing;
 
     public class MemberValuePlugin : Typing.MemberValuePlugin

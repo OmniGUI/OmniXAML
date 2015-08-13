@@ -5,8 +5,6 @@ namespace OmniXaml.AppServices.Tests
     using NetCore;
     using OmniXaml.Tests.Classes.WpfLikeModel;
     using OmniXaml.Tests.Common.NetCore;
-    using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
 
     public class GivenAnInflatableTypeLoader : GivenAWiringContextNetCore
     {
@@ -14,18 +12,16 @@ namespace OmniXaml.AppServices.Tests
 
         protected GivenAnInflatableTypeLoader()
         {
-            Inflatable = new InflatableTypeFactory(new TypeFactory(), new InflatableTranslator(), LoaderFactory)
+            Func<InflatableTypeFactory, IXamlLoader> loaderFactory = inflatableTypeFactory =>
+            {
+                var parserFactory = new DummyXamlParserFactory(WiringContext);
+                return new XamlLoader(parserFactory);
+            };
+
+            Inflatable = new InflatableTypeFactory(new TypeFactory(), new InflatableTranslator(), loaderFactory)
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)}
             };
-        }
-
-        private IXamlLoader LoaderFactory(InflatableTypeFactory inflatableTypeFactory)
-        {
-            return
-                new XamlLoader(
-                    assembler => new XamlXmlParser(new XamlProtoInstructionParser(WiringContext), new XamlInstructionParser(WiringContext), assembler),
-                    new DummyAssemblerFactory(WiringContext));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Classes
+﻿namespace OmniXaml.Attributes
 {
     using System;
 

@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.Common
         protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base(assemblies)
         {
             x = new XamlInstructionBuilder(WiringContext.TypeContext);
-            p = new ProtoInstructionBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);
+            p = new ProtoInstructionBuilder(WiringContext.TypeContext);
         }
 
         protected XamlInstructionBuilder X

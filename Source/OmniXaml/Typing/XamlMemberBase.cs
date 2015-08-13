@@ -3,7 +3,7 @@ namespace OmniXaml.Typing
     public abstract class XamlMemberBase
     {
         public string Name { get; }
-        public XamlType XamlType { get; set; }
+        public XamlType XamlType { get; protected set; }
         public abstract bool IsDirective { get;  }
         public abstract bool IsAttachable { get; }
 

@@ -12,13 +12,13 @@
         private readonly IProtoParser protoParser;
         private readonly IXamlInstructionParser parser;
 
-        public XamlXmlParser(IProtoParser protoParser, IXamlInstructionParser parser, IObjectAssembler objectAssembler)  
+        public XamlXmlParser(PhaseParserKit phaseParserKit)  
         {
-            Guard.ThrowIfNull(objectAssembler, nameof(objectAssembler));
+            Guard.ThrowIfNull(phaseParserKit, nameof(phaseParserKit));
 
-            this.objectAssembler = objectAssembler;        
-            this.protoParser = protoParser;
-            this.parser = parser;
+            objectAssembler = phaseParserKit.ObjectAssembler;        
+            protoParser = phaseParserKit.ProtoParser;
+            parser = phaseParserKit.Parser;
         }
 
         public object Parse(Stream stream)

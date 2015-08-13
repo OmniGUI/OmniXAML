@@ -4,25 +4,24 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.Linq.Expressions;
     using System.Reflection;
-    using Assembler;
     using Glass;
+    using ObjectAssembler;
     using Typing;
 
     public class TemplateHostingObjectAssembler : IObjectAssembler
     {
         private readonly IObjectAssembler objectAssembler;
+        private readonly DeferredLoaderMapping mapping;
         private bool recording;
         private IList<XamlInstruction> nodeList;
         private int depth;
-
-        private readonly IDictionary<PropertyInfo, IDeferredLoader> deferredObjectAssemblers = new Dictionary<PropertyInfo, IDeferredLoader>();
         private IDeferredLoader assembler;
 
-        public TemplateHostingObjectAssembler(IObjectAssembler objectAssembler)
+        public TemplateHostingObjectAssembler(IObjectAssembler objectAssembler, DeferredLoaderMapping mapping)
         {
             this.objectAssembler = objectAssembler;
+            this.mapping = mapping;
         }
 
         public IWiringContext WiringContext => objectAssembler.WiringContext;
@@ -74,18 +73,18 @@
             }
         }
 
-        private bool TryGetDeferredAssembler(MutableXamlMember xamlMember, out IDeferredLoader assembler)
+        private bool TryGetDeferredAssembler(MutableXamlMember xamlMember, out IDeferredLoader loader)
         {
             Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
 
             var propInfo = xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name);
             if  (propInfo!=null)
             {
-                var success = deferredObjectAssemblers.TryGetValue(propInfo, out assembler);
+                var success = mapping.TryGetMapping(propInfo, out loader);
                 return success;
             }
 
-            assembler = null;
+            loader = null;
             return false;
         }
 
@@ -100,13 +99,6 @@
         {            
         }
 
-        public IList NodeList => new ReadOnlyCollection<XamlInstruction>(nodeList);
-
-        public void AddDeferredLoader<TItem>(Expression<Func<TItem, object>> selector, IDeferredLoader assembler)
-        {
-            var propInfo = typeof(TItem).GetRuntimeProperty(selector.GetFullPropertyName());
-            deferredObjectAssemblers.Add(propInfo, assembler);
-        }
+        public IList NodeList => new ReadOnlyCollection<XamlInstruction>(nodeList);     
     }
-
 }

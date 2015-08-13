@@ -19,7 +19,7 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TypeNotFoundException))]
+        [ExpectedException(typeof(XamlParsingException))]
         public void UnknownElementThrows()
         {
             XamlLoader.Load(Dummy.UnknownType);

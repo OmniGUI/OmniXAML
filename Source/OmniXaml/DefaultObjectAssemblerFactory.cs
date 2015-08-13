@@ -1,7 +1,6 @@
 namespace OmniXaml
 {
-    using Assembler;
-    using NewAssembler;
+    using ObjectAssembler;
 
     public class DefaultObjectAssemblerFactory : IObjectAssemblerFactory
     {
@@ -14,7 +13,7 @@ namespace OmniXaml
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
         {
-            return new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), objectAssemblerSettings);
+            return new ObjectAssembler.ObjectAssembler(wiringContext, new TopDownMemberValueContext(), objectAssemblerSettings);
         }
     }
 }

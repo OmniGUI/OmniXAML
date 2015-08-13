@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
-    using Assembler;
+    using ObjectAssembler;
 
     public interface IObjectAssembler
     {

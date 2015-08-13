@@ -6,6 +6,7 @@
     using OmniXaml;
     using OmniXaml.AppServices.NetCore;
     using OmniXaml.Tests.Common;
+    using OmniXaml.Tests.Common.NetCore;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel
@@ -62,7 +63,7 @@
 
         private void LoadXaml()
         {
-            var loader = new DefaultXamlLoader(WiringContext);
+            var loader = new XamlLoader(new DummyXamlParserFactory(WiringContext));
             
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);

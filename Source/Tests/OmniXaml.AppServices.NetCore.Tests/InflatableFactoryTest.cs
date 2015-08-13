@@ -6,6 +6,7 @@
     using OmniXaml.Tests.Classes;
     using OmniXaml.Tests.Classes.WpfLikeModel;
     using OmniXaml.Tests.Common;
+    using OmniXaml.Tests.Common.NetCore;
 
     [TestClass]
     public class InflatableFactoryTest
@@ -25,7 +26,7 @@
             var inflatableTypeFactory = new InflatableTypeFactory(
                 new TypeFactory(),
                 new InflatableTranslator(),
-                typeFactory => new DefaultXamlLoader(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder)))
+                typeFactory => new XamlLoader(new DummyXamlParserFactory(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder))))
             {
                 Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},
             };

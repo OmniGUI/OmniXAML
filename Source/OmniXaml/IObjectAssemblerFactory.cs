@@ -1,6 +1,6 @@
 namespace OmniXaml
 {
-    using Assembler;
+    using ObjectAssembler;
 
     public interface IObjectAssemblerFactory
     {

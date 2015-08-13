@@ -62,6 +62,10 @@
     <Folder Include="TestModel\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
+      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
+      <Name>OmniXaml.Tests.Common.NetCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.AppServices.NetCore</Name>

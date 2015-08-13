@@ -1,19 +1,19 @@
 ﻿namespace OmniXaml.Wpf
 {
     using System;
-    using Assembler;
-    using NewAssembler;
+    using OmniXaml.ObjectAssembler;
+    using OmniXaml.ObjectAssembler.Commands;
 
     public class ObjectAssembler : IObjectAssembler
     {
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(IWiringContext wiringContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
-            objectAssembler =
-                new TemplateHostingObjectAssembler(new NewAssembler.ObjectAssembler(wiringContext, new TopDownMemberValueContext(), objectAssemblerSettings));
+            var mapping = new DeferredLoaderMapping();
+            mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler.AddDeferredLoader<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
+            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(wiringContext, topDownMemberValueContext, objectAssemblerSettings), mapping);            
         }        
 
         public object Result => objectAssembler.Result;

@@ -21,15 +21,9 @@ namespace OmniXaml.Typing
             this.featureProvider = featureProvider;
         }
 
-        public ITypeFeatureProvider FeatureProvider
-        {
-            get { return featureProvider; }
-        }
+        public ITypeFeatureProvider FeatureProvider => featureProvider;
 
-        public ITypeFactory TypeFactory
-        {
-            get { return typeTypeFactory; }
-        }
+        public ITypeFactory TypeFactory => typeTypeFactory;
 
         public virtual XamlType GetXamlType(Type type)
         {
@@ -50,14 +44,14 @@ namespace OmniXaml.Typing
 
             if (ns == null)
             {
-                throw new InvalidOperationException($"Cannot find a namespace with the prefix \"{prefix}\"");
+                throw new XamlParsingException($"Cannot find a namespace with the prefix \"{prefix}\"");
             }
 
             var type = ns.Get(typeName);
 
             if (type == null)
             {
-                throw new TypeNotFoundException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
+                throw new XamlParsingException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
             }
 
             return GetXamlType(type);                       

@@ -15,7 +15,7 @@
         public XamlProtoInstructionParser(IWiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
-            instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext, wiringContext.FeatureProvider);
+            instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext);
         }
 
         public IEnumerable<ProtoXamlInstruction> Parse(Stream stream)
