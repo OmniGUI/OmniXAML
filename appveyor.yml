@@ -4,7 +4,6 @@ install:
     - rd /s /q C:\Tools\nuget
     - md C:\Tools\nuget
     - ps: (New-Object Net.WebClient).DownloadFile('https://bitbucket.org/patsissons/nugetpclissue/raw/38fbf6c953292449e6765d3e0ce02ebfbef4832b/.nuget-patched/NuGet.exe', 'C:\Tools\nuget\nuget.exe')
-    - nuget
 nuget:
   account_feed: true
   project_feed: true
