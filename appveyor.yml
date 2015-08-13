@@ -1,10 +1,6 @@
 version: 1.0.{build}
 os: Visual Studio 2015
 install:
-- set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
-- rd /s /q C:\Tools\nuget
-- md C:\Tools\nuget
-- ps (New-Object Net.WebClient).DownloadFile('http://dist.nuget.org/win-x86-commandline/v3.1.0-beta/nuget.exe', 'C:\Tools\nuget\nuget.exe')
 nuget:
   account_feed: true
   project_feed: true
