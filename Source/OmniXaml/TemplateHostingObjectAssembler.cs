@@ -25,7 +25,7 @@
             this.objectAssembler = objectAssembler;
         }
 
-        public WiringContext WiringContext => objectAssembler.WiringContext;
+        public IWiringContext WiringContext => objectAssembler.WiringContext;
 
         public void Process(XamlInstruction instruction)
         {

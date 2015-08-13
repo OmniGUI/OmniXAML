@@ -5,9 +5,9 @@ namespace OmniXaml.Wpf
     public class TemplateContent
     {
         public IEnumerable<XamlInstruction> Nodes { get; }
-        public WiringContext Context { get; }
+        public IWiringContext Context { get; }
 
-        public TemplateContent(IEnumerable<XamlInstruction> nodes, WiringContext context)
+        public TemplateContent(IEnumerable<XamlInstruction> nodes, IWiringContext context)
         {
             Nodes = nodes;
             Context = context;

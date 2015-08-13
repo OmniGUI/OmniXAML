@@ -4,11 +4,12 @@
     using System.Linq;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
 
     [TestClass]
-    public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuilders
+    public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly IXamlInstructionParser sut;
         

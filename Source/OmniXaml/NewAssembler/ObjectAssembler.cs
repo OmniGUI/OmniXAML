@@ -11,8 +11,9 @@ namespace OmniXaml.NewAssembler
         private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private readonly Type rootInstanceType;
         private readonly object rootInstance;
-        
-        public ObjectAssembler(WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null) : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
+
+        public ObjectAssembler(IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null)
+            : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
         {
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
             Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
@@ -20,10 +21,10 @@ namespace OmniXaml.NewAssembler
             this.topDownMemberValueContext = topDownMemberValueContext;
             StateCommuter.RaiseLevel();
             rootInstance = settings?.RootInstance;
-            rootInstanceType = settings?.RootInstance?.GetType();            
+            rootInstanceType = settings?.RootInstance?.GetType();
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
         {
             WiringContext = wiringContext;          
             StateCommuter = new StateCommuter(state, wiringContext, topDownMemberValueContext);
@@ -31,7 +32,7 @@ namespace OmniXaml.NewAssembler
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        public WiringContext WiringContext { get; }
+        public IWiringContext WiringContext { get; }
 
         public StateCommuter StateCommuter { get; }
 

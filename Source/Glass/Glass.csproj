@@ -38,6 +38,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DependencySorter.cs" />
+    <Compile Include="IAdd.cs" />
     <Compile Include="IDependency.cs" />
     <Compile Include="StackingLinkedList.cs" />
     <Compile Include="Guard.cs" />

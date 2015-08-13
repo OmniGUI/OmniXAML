@@ -201,12 +201,12 @@ namespace Xaml.Tests.Resources {
         ///        xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
         ///        xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
-        ///        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
-        ///        xmlns:local=&quot;clr-namespace:WpfApplication_test1&quot;
+        ///        xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;        
         ///        mc:Ignorable=&quot;d&quot;
         ///        Title=&quot;MainWindow&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
         ///  &lt;Grid Background=&quot;BlueViolet&quot;&gt;
-        /// [rest of string was truncated]&quot;;.
+        ///    &lt;Grid.RowDefinitions&gt;
+        ///      &lt;RowDefinition He [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Stage2 {
             get {
@@ -219,14 +219,15 @@ namespace Xaml.Tests.Resources {
         ///    x:Class=&quot;NcoreCpuMarkW8.UI.Controls.UcSpeedmeter&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;
-        ///    xmlns:local=&quot;using:NcoreCpuMarkW8.UI.Controls&quot;
         ///    xmlns:d=&quot;http://schemas.microsoft.com/expression/blend/2008&quot;
         ///    xmlns:mc=&quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
         ///    mc:Ignorable=&quot;d&quot;
         ///    d:DesignHeight=&quot;400&quot;
         ///    d:DesignWidth=&quot;600&quot;&gt;
         ///  &lt;Grid MinHeight=&quot;400&quot; MinWidth=&quot;600&quot;&gt;
-        ///    [rest of string was truncated]&quot;;.
+        ///    &lt;Canvas&gt;
+        ///      &lt;Image&gt;&lt;/Image&gt;
+        ///      &lt;Image x:Nam [rest of string was truncated]&quot;;.
         /// </summary>
         public static string Stage3 {
             get {

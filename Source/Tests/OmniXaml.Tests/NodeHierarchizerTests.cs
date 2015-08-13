@@ -5,11 +5,12 @@
     using Builder;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Visualization;
 
     [TestClass]
-    public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuilders
+    public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionBuilder x;
 

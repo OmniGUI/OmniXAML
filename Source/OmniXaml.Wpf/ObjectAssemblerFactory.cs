@@ -4,9 +4,9 @@
 
     internal class ObjectAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly WiringContext wiringContext;
+        private readonly IWiringContext wiringContext;
 
-        public ObjectAssemblerFactory(WiringContext wiringContext)
+        public ObjectAssemblerFactory(IWiringContext wiringContext)
         {
             this.wiringContext = wiringContext;
         }

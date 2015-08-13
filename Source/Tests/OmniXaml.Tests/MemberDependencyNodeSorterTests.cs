@@ -5,10 +5,11 @@
     using Classes;
     using Classes.WpfLikeModel;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class MemberDependencyNodeSorterTests : GivenAWiringContextWithNodeBuilders
+    public class MemberDependencyNodeSorterTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
 

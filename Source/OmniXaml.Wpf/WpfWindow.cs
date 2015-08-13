@@ -6,7 +6,7 @@ namespace OmniXaml.Wpf
 
     public class WpfWindow : Window, IView
     {
-        public Task ShowDialog()
+        public new Task ShowDialog()
         {
             return new Task(() => this.ShowDialog());
         }        

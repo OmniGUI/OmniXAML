@@ -1,6 +1,5 @@
 ﻿namespace OmniXaml.Wpf
 {
-    using System;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Controls.Primitives;
@@ -8,12 +7,14 @@
     using Builder;
     using Typing;
 
-    public class WpfWiringContext : WiringContext
+    public class WpfWiringContext : IWiringContext
     {
+        private readonly IWiringContext wiringContext;
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
 
-        public WpfWiringContext(ITypeFactory factory) : base(GetTypeContext(factory), GetFeatureProvider())
+        public WpfWiringContext(ITypeFactory factory) 
         {           
+            wiringContext = new WiringContext(GetTypeContext(factory), GetFeatureProvider());
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
@@ -65,6 +66,9 @@
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             var xamlTypeRepository = new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider());
             return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry, typeFactory);
-        }        
+        }
+
+        public ITypeContext TypeContext => wiringContext.TypeContext;
+        public ITypeFeatureProvider FeatureProvider => wiringContext.FeatureProvider;
     }
 }

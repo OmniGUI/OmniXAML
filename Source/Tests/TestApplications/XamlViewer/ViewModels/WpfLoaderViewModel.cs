@@ -18,7 +18,7 @@
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
             Snippets = snippetsProvider.Snippets;
             LoadCommand = new RelayCommand(o => LoadXamlForWpf(), o => Xaml != string.Empty);
-            WiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
+            IWiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
         }
 
 

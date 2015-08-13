@@ -1,6 +1,6 @@
 namespace OmniXaml
 {
-    public class WiringContext
+    public class WiringContext : IWiringContext
     {
         public WiringContext(ITypeContext typeContext, ITypeFeatureProvider typeFeatureProvider)
         {

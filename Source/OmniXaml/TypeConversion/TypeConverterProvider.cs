@@ -1,9 +1,13 @@
 ﻿namespace OmniXaml.TypeConversion
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
+    using Attributes;
     using Builder;
     using BuiltInConverters;
+    using Glass;
 
     public class TypeConverterProvider : ITypeConverterProvider
     {
@@ -42,14 +46,42 @@
             return converters.TryGetValue(type, out converter) ? converter : null;
         }
 
-        public void RegisterConverter(TypeConverterRegistration typeConverterRegistration)
-        {
-            Register(typeConverterRegistration.TargetType, typeConverterRegistration.TypeConverter);
-        }
-
         static bool IsNullable(Type type)
         {            
             return Nullable.GetUnderlyingType(type) != null;
         }
+
+        public static ITypeConverterProvider FromAttributes(IEnumerable<Type> types)
+        {
+            var converterProvider = new TypeConverterProvider();
+
+            var defs = Extensions.GatherAttributes<TypeConverterAttribute, TypeConverterRegistration>(
+                types,
+                (type, attribute) => new TypeConverterRegistration(type, CreanteConverterInstance(attribute)));
+
+            converterProvider.AddAll(defs);
+            return converterProvider;
+        }
+
+        private static ITypeConverter CreanteConverterInstance(TypeConverterAttribute attribute)
+        {
+            return (ITypeConverter) Activator.CreateInstance(attribute.Converter, null);
+        }
+
+        public IEnumerator<TypeConverterRegistration> GetEnumerator()
+        {
+            var typeConverterRegistrations = converters.Select(pair => new TypeConverterRegistration(pair.Key, GetTypeConverter(pair.Key)));
+            return typeConverterRegistrations.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public void Add(TypeConverterRegistration item)
+        {
+            converters.Add(item.TargetType, item.TypeConverter);
+        }        
     }
 }

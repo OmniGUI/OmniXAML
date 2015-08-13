@@ -31,5 +31,10 @@ namespace OmniXaml.Visualization
 
             return hierarchizedXamlNodeCollection.SequenceEqual(Items);
         }
+
+        public override int GetHashCode()
+        {
+            return Items.GetHashCode();
+        }
     }
 }

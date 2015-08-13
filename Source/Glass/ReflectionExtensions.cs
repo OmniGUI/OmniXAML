@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -167,6 +168,11 @@
             }
 
             return fieldInfo?.GetValue(null);
+        }
+
+        public static IEnumerable<Type> AllExportedTypes(this IEnumerable<Assembly> assemblies)
+        {
+            return assemblies.SelectMany(assembly => assembly.ExportedTypes);
         }
     }
 }

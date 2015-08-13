@@ -1,5 +1,7 @@
 namespace OmniXaml.Tests.Common
 {
+    using System.Collections.Generic;
+    using System.Reflection;
     using Builder;
 
     public class GivenAWiringContextWithNodeBuilders : GivenAWiringContext
@@ -7,7 +9,7 @@ namespace OmniXaml.Tests.Common
         private XamlInstructionBuilder x;
         private ProtoInstructionBuilder p;
 
-        protected GivenAWiringContextWithNodeBuilders()
+        protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base(assemblies)
         {
             x = new XamlInstructionBuilder(WiringContext.TypeContext);
             p = new ProtoInstructionBuilder(WiringContext.TypeContext, WiringContext.FeatureProvider);

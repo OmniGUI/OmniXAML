@@ -6,13 +6,14 @@
     using Classes;
     using Classes.Another;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.XamlNodes;
     using Xaml.Tests.Resources;
 
     [TestClass]    
-    public class RealXmlParsing : GivenAWiringContextWithNodeBuilders
+    public class RealXmlParsing : GivenAWiringContextWithNodeBuildersNetCore
     {
         [TestMethod]
         [ExpectedException(typeof(XmlException))]

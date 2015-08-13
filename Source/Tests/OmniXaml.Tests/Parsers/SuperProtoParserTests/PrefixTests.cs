@@ -7,12 +7,13 @@
     using Classes;
     using Classes.Another;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
 
     [TestClass]
-    public class PrefixTests : GivenAWiringContextWithNodeBuilders
+    public class PrefixTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
 
@@ -57,9 +58,7 @@
         [TestMethod]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
-            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
-
-            var ns = "root";
+            var actualNodes = sut.Parse(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
 
             var expectedInstructions = new Collection<ProtoXamlInstruction>
             {

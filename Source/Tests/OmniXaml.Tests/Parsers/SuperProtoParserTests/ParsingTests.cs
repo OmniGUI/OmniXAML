@@ -7,13 +7,14 @@
     using System.Linq;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class ParsingTests : GivenAWiringContextWithNodeBuilders
+    public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
 

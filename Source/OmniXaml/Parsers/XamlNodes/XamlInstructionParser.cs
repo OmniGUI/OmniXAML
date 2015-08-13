@@ -9,13 +9,13 @@
 
     public class XamlInstructionParser : IXamlInstructionParser
     {
-        private readonly WiringContext wiringContext;
+        private readonly IWiringContext IWiringContext;
         private IEnumerator<ProtoXamlInstruction> nodeStream;
         private bool EndOfStream { get; set; }
 
-        public XamlInstructionParser(WiringContext wiringContext)
+        public XamlInstructionParser(IWiringContext IWiringContext)
         {
-            this.wiringContext = wiringContext;
+            this.IWiringContext = IWiringContext;
         }
 
         public IEnumerable<XamlInstruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
@@ -265,7 +265,7 @@
         private IEnumerable<XamlInstruction> ParseMarkupExtension(string valueOfMember)
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
-            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(wiringContext);
+            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(IWiringContext);
             return markupExtensionConverter.Convert(tree);
         }
 

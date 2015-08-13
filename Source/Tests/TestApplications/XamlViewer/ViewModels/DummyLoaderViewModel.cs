@@ -4,6 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using OmniXaml;
+    using OmniXaml.AppServices.NetCore;
     using OmniXaml.Tests.Common;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
@@ -20,7 +21,7 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            WiringContext = new DummyWiringContext(new TypeFactory());
+            IWiringContext = new DummyWiringContext(new TypeFactory(), Assemblies.AssembliesInAppFolder);
         }
 
         public IList Snippets { get; set; }
@@ -61,7 +62,7 @@
 
         private void LoadXaml()
         {
-            var loader = new DefaultXamlLoader(WiringContext);
+            var loader = new DefaultXamlLoader(IWiringContext);
             
             var rootObject = loader.Load(Xaml);
             Representation = ConvertToViewNodes(rootObject);

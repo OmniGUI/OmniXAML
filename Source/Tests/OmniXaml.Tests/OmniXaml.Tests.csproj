@@ -41,8 +41,8 @@
       <HintPath>..\..\..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sprache, Version=2.0.0.46, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Sprache.2.0.0.46\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+    <Reference Include="Sprache, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Sprache.SuperJMN.2.0.0.46\lib\portable-net451+win81+wpa81\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -63,6 +63,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
@@ -98,9 +99,17 @@
     <Compile Include="XamlXmlReaderTests\InstructionDumpTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
+      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
+      <Name>OmniXaml.Tests.Common.NetCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Glass\Glass.csproj">
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
+      <Name>OmniXaml.AppServices.NetCore</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>

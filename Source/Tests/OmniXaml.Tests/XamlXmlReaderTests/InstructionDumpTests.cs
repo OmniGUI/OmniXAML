@@ -7,6 +7,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using System.Text;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
@@ -14,7 +15,7 @@ namespace OmniXaml.Tests.XamlXmlReaderTests
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class InstructionDumpTests : GivenAWiringContextWithNodeBuilders
+    public class InstructionDumpTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         [TestMethod]
         public void ReadSingleInstance()

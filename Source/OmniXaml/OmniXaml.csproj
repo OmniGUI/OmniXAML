@@ -63,6 +63,7 @@
     <Compile Include="DefaultXamlLoader.cs" />
     <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
+    <Compile Include="IWiringContext.cs" />
     <Compile Include="IXamlLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="LookaheadBuffer.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
     <Compile Include="TypeFeatureProvider.cs" />
+    <Compile Include="TypeFeatureProviderBuilder.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\AttachableXamlMember.cs" />
     <Compile Include="Typing\ClrNamespace.cs" />
@@ -196,8 +198,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Sprache, Version=2.0.0.46, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sprache.2.0.0.46\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+    <Reference Include="Sprache, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sprache.SuperJMN.2.0.0.46\lib\portable-net451+win81+wpa81\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

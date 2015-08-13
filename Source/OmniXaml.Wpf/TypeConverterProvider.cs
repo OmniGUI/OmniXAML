@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.Wpf
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Reflection;
     using Builder;
@@ -36,7 +38,17 @@
             return converter;
         }
 
-        public void RegisterConverter(TypeConverterRegistration typeConverterRegistration)
+        public void Add(TypeConverterRegistration typeConverterRegistration)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<TypeConverterRegistration> GetEnumerator()
         {
             throw new NotImplementedException();
         }

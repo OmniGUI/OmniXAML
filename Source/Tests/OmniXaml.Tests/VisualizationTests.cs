@@ -3,11 +3,12 @@
     using System.Collections.ObjectModel;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Visualization;
 
     [TestClass]
-    public class VisualizationTests : GivenAWiringContextWithNodeBuilders
+    public class VisualizationTests : GivenAWiringContextWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void ConvertToTags()

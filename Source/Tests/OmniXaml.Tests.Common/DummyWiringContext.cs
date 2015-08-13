@@ -1,18 +1,26 @@
 ﻿namespace OmniXaml.Tests.Common
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using Builder;
     using Classes;
     using Classes.Another;
     using Classes.WpfLikeModel;
+    using Glass;
     using TypeConversion;
     using Typing;
 
-    public class DummyWiringContext : WiringContext
+    public class DummyWiringContext : IWiringContext
     {
-        public DummyWiringContext(ITypeFactory factory) : base(GetTypeContext(factory), GetFeatureProvider())
+        private readonly IWiringContext wiringContext;
+
+        public DummyWiringContext(ITypeFactory factory, IEnumerable<Assembly> assembliesToScan)
         {
+            var assemblies = assembliesToScan.ToList();
+            var featureProvider = GetFeatureProvider(assemblies);
+            var typeContext = GetTypeContext(factory, featureProvider);
+            wiringContext = new WiringContext(typeContext, featureProvider);
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
@@ -56,22 +64,19 @@
             return xamlNamespaceRegistry;
         }
 
-        private static ITypeFeatureProvider GetFeatureProvider()
+        private static ITypeFeatureProvider GetFeatureProvider(IEnumerable<Assembly> assembliesToScan)
         {
-            var contentPropertyProvider = new ContentPropertyProvider();
-            var contentProperties = ContentProperties.DefinedInAssemblies(new[] { typeof(DummyClass).GetTypeInfo().Assembly });
-            foreach (var contentPropertyDefinition in contentProperties)
-            {
-                contentPropertyProvider.Add(contentPropertyDefinition);
-            }
-
-            return new TypeFeatureProvider(contentPropertyProvider, new TypeConverterProvider());
+            var builder = new TypeFeatureProviderBuilder().FromAttributes(assembliesToScan.AllExportedTypes());
+            return builder.Build();
         }
 
-        private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
+        private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider)
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
-            return new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider()), xamlNamespaceRegistry, typeFactory);
+            return new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider), xamlNamespaceRegistry, typeFactory);
         }
+
+        public ITypeContext TypeContext => wiringContext.TypeContext;
+        public ITypeFeatureProvider FeatureProvider => wiringContext.FeatureProvider;
     }
 }

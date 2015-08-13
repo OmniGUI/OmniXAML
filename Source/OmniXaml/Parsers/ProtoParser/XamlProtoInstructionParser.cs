@@ -8,14 +8,14 @@
 
     public class XamlProtoInstructionParser : IProtoParser
     {
-        private readonly WiringContext wiringContext;
+        private readonly IWiringContext IWiringContext;
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
 
-        public XamlProtoInstructionParser(WiringContext wiringContext)
+        public XamlProtoInstructionParser(IWiringContext IWiringContext)
         {
-            this.wiringContext = wiringContext;
-            instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext, wiringContext.FeatureProvider);
+            this.IWiringContext = IWiringContext;
+            instructionBuilder = new ProtoInstructionBuilder(IWiringContext.TypeContext, IWiringContext.FeatureProvider);
         }
 
         public IEnumerable<ProtoXamlInstruction> Parse(Stream stream)
@@ -140,7 +140,7 @@
                 var ownerName = rawAttribute.Locator.Owner.PropertyName;
                 var ownerPrefix = rawAttribute.Locator.Owner.Prefix;
 
-                var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
+                var owner = IWiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
 
                 member = owner.GetAttachableMember(rawAttribute.Locator.PropertyName);
             }
@@ -175,7 +175,7 @@
             var ns = reader.Namespace;
             var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
-            var childType = wiringContext.TypeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
+            var childType = IWiringContext.TypeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
             
 
             if (reader.IsEmptyElement)
@@ -193,7 +193,7 @@
             foreach (var prefixRegistration in prefixRegistrations)
             {
                 var registration = new PrefixRegistration(prefixRegistration.Prefix, prefixRegistration.Namespace);
-                wiringContext.TypeContext.RegisterPrefix(registration);
+                IWiringContext.TypeContext.RegisterPrefix(registration);
             }
         }
 

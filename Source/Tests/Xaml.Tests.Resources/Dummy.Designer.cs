@@ -357,7 +357,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;sys:Int xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;123&lt;/sys:Int&gt;.
+        ///   Looks up a localized string similar to &lt;sys:Int32 xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;123&lt;/sys:Int32&gt;.
         /// </summary>
         public static string Int {
             get {

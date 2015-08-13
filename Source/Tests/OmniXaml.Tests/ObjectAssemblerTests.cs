@@ -5,11 +5,12 @@
     using System.Linq;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NewAssembler;
 
     [TestClass]
-    public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuilders
+    public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly IObjectAssembler sut;
 

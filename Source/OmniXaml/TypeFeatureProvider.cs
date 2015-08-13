@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using System;
+    using System.Collections.Generic;
     using Builder;
     using TypeConversion;
 
@@ -20,9 +21,9 @@ namespace OmniXaml
             return ConverterProvider.GetTypeConverter(type);
         }
 
-        public void RegisterConverter(TypeConverterRegistration typeConverterRegistration)
+        public void AddTypeConverter(TypeConverterRegistration typeConverterRegistration)
         {
-            ConverterProvider.RegisterConverter(typeConverterRegistration);
+            ConverterProvider.Add(typeConverterRegistration);
         }
 
         public string GetContentPropertyName(Type type)
@@ -30,9 +31,12 @@ namespace OmniXaml
             return ContentPropertyProvider.GetContentPropertyName(type);
         }
 
-        public void Add(ContentPropertyDefinition contentPropertyDefinition)
+        public void AddContentProperty(ContentPropertyDefinition item)
         {
-            ContentPropertyProvider.Add(contentPropertyDefinition);
+            ContentPropertyProvider.Add(item);
         }
+
+        public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
+        public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
     }
 }

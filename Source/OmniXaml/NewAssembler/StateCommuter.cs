@@ -17,7 +17,7 @@ namespace OmniXaml.NewAssembler
         private readonly ITopDownMemberValueContext topDownMemberValueContext;
         private object key;
 
-        public StateCommuter(StackingLinkedList<Level> stack, WiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));

@@ -6,14 +6,14 @@
     using System.Reflection;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common;
+    using Common.NetCore;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
     using Typing;
 
     [TestClass]
-    public class ParsingTests : GivenAWiringContextWithNodeBuilders
+    public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly IXamlInstructionParser sut;
         private readonly SampleData sampleData;

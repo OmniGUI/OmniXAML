@@ -7,7 +7,7 @@
     {
         public WpfViewFactory() : base(new WpfInflatableTypeFactory())
         {
-            RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAddDomain));
+            RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAppDomain));
         }
     }
 }

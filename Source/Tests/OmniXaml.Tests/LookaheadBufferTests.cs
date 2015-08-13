@@ -4,11 +4,11 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class LookaheadBufferTests : GivenAWiringContextWithNodeBuilders
+    public class LookaheadBufferTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         [TestMethod]
         public void LookAheadTest()

@@ -2,9 +2,9 @@
 {
     public static class WpfWiringContextFactory
     {
-        private static WiringContext context;
+        private static IWiringContext context;
 
-        public static WiringContext GetContext(ITypeFactory factory)
+        public static IWiringContext GetContext(ITypeFactory factory)
         {
             if (context == null)
             {                

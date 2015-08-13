@@ -5,11 +5,12 @@
     using System.Linq;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.MarkupExtensions;
 
     [TestClass]
-    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContextWithNodeBuilders
+    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContextWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void NameOnly()

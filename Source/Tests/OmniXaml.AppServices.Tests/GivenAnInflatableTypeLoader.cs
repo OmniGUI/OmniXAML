@@ -3,13 +3,12 @@ namespace OmniXaml.AppServices.Tests
     using System;
     using System.Collections.ObjectModel;
     using NetCore;
-    using OmniXaml.Tests;
     using OmniXaml.Tests.Classes.WpfLikeModel;
-    using OmniXaml.Tests.Common;
+    using OmniXaml.Tests.Common.NetCore;
     using Parsers.ProtoParser;
     using Parsers.XamlNodes;
 
-    public class GivenAnInflatableTypeLoader : GivenAWiringContext
+    public class GivenAnInflatableTypeLoader : GivenAWiringContextNetCore
     {
         protected InflatableTypeFactory Inflatable { get; }
 

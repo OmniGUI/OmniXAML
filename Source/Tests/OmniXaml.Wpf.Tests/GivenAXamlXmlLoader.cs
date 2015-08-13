@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.Wpf
+namespace OmniXaml.Wpf.Tests
 {
     using Glass;
     using OmniXaml.Wpf;

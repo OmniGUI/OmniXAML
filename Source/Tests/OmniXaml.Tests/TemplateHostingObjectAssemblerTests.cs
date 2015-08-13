@@ -6,11 +6,12 @@
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using Common;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NewAssembler;
 
     [TestClass]
-    public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuilders
+    public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private XamlInstructionBuilder x;
 

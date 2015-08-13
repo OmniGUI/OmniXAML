@@ -4,7 +4,10 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
+    using OmniXaml;
 
     public static class Extensions
     {
@@ -18,6 +21,14 @@
             }
 
             return builder.ToString();
+        }
+
+        public static void AddAll<T>(this IAdd<T> collection, IEnumerable<T> items)
+        {
+            foreach (var item in items)
+            {
+                collection.Add(item);
+            }
         }
 
         public static Tuple<string, string> Dicotomize(this string str, char ch)
@@ -51,6 +62,16 @@
             {
                 dictionary.Add(key, value);
             }
+        }
+
+
+        public static IEnumerable<TResult> GatherAttributes<TAttribute, TResult>(IEnumerable<Type> types, Func<Type, TAttribute, TResult> converter)
+            where TAttribute : Attribute
+        {
+            return from type in types
+                let att = type.GetTypeInfo().GetCustomAttribute<TAttribute>()
+                where att != null
+                select converter(type, att);
         }
     }
 }

@@ -3,12 +3,13 @@ namespace OmniXaml.Tests
     using System.Collections.ObjectModel;
     using Classes;
     using Common;
+    using Common.NetCore;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using NewAssembler;
 
     [TestClass]
-    public class ObjectAssemblerStateCommutationTests : GivenAWiringContextWithNodeBuilders
+    public class ObjectAssemblerStateCommutationTests : GivenAWiringContextWithNodeBuildersNetCore
     {  
         [TestMethod]
         public void StartObjectShouldSetTheXamlType()

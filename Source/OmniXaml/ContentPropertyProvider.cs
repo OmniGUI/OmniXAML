@@ -1,17 +1,20 @@
 namespace OmniXaml
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
+    using Attributes;
     using Builder;
+    using Glass;
 
     public class ContentPropertyProvider : IContentPropertyProvider
     {
-        private readonly IDictionary<Type, string> registeredContentProperties = new Dictionary<Type, string>();
+        private readonly IDictionary<Type, ContentPropertyDefinition> registeredContentProperties = new Dictionary<Type, ContentPropertyDefinition>();
 
         public string GetContentPropertyName(Type type)
         {
-            string member;
+            ContentPropertyDefinition member;
             var explictRegistration = registeredContentProperties.TryGetValue(type, out member) ? member : null;
 
             if (explictRegistration == null)
@@ -19,30 +22,55 @@ namespace OmniXaml
                 return ResolveFromHierarchy(type);
             }
 
-            return explictRegistration;
+            return explictRegistration.Name;
         }
 
         private string ResolveFromHierarchy(Type type)
         {
-            if (type == null)
+            while (true)
             {
-                return null;
-            }
+                if (type == null)
+                {
+                    return null;
+                }
 
-            string member;
-            var baseRegistration = registeredContentProperties.TryGetValue(type, out member) ? member : null;
-            if (baseRegistration != null)
-            {
-                return baseRegistration;
-            }
+                ContentPropertyDefinition member;
+                var baseRegistration = registeredContentProperties.TryGetValue(type, out member) ? member : null;
+                if (baseRegistration != null)
+                {
+                    return baseRegistration.Name;
+                }
 
-            var typeToLookFor = type.GetTypeInfo().BaseType;
-            return ResolveFromHierarchy(typeToLookFor);
+                var typeToLookFor = type.GetTypeInfo().BaseType;
+                type = typeToLookFor;
+            }
         }
 
-        public void Add(ContentPropertyDefinition contentPropertyDefinition)
+        public void Add(ContentPropertyDefinition item)
         {
-            registeredContentProperties.Add(contentPropertyDefinition.OwnerType, contentPropertyDefinition.Name);
+            registeredContentProperties.Add(item.OwnerType, item);
+        }
+
+        public static IContentPropertyProvider FromAttributes(IEnumerable<Type> types)
+        {
+            var contentPropertyProvider = new ContentPropertyProvider();
+
+            var defs = Extensions.GatherAttributes<ContentPropertyAttribute, ContentPropertyDefinition>(
+                types,
+                (type, attribute) => new ContentPropertyDefinition(type, attribute.Name));
+
+            contentPropertyProvider.AddAll(defs);
+            return contentPropertyProvider;
+        }
+
+        public IEnumerator<ContentPropertyDefinition> GetEnumerator()
+        {
+            return registeredContentProperties.Values.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
