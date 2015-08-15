@@ -166,8 +166,16 @@ namespace OmniXaml.Typing
 
         public IEnumerable<XamlMemberBase> GetAllMembers()
         {
-            var properties = UnderlyingType.GetRuntimeProperties().Where(info => info.GetMethod.IsPublic).ToList();
+            var properties = UnderlyingType.GetRuntimeProperties().Where(IsValidMember).ToList();
             return properties.Select(props => GetMember(props.Name));
+        }
+
+        private static bool IsValidMember(PropertyInfo info)
+        {
+            var isIndexer = info.GetIndexParameters().Any();
+            var hasValidSetter = info.SetMethod != null && info.SetMethod.IsPublic;
+            var hasValidGetter = info.GetMethod != null && info.GetMethod.IsPublic;
+            return hasValidGetter && hasValidSetter && !isIndexer;
         }
     }
 }
