@@ -18,23 +18,34 @@ namespace OmniXaml.AppServices.NetCore
                 var entryAssembly = Assembly.GetExecutingAssembly();
                 var path = entryAssembly.Location;
                 var folder = Path.GetDirectoryName(path);
-                var directory = new DirectoryInfo(folder);
-
                 var assemblies = new Collection<Assembly>();
 
-                foreach (var file in directory.GetFiles("*.dll"))
+                var fileNames = FilterFiles(folder, ".dll", ".exe");
+
+                foreach (var fileName in fileNames)
                 {
                     try
                     {
-                        assemblies.Add(Assembly.LoadFile(file.FullName));
+                        assemblies.Add(Assembly.LoadFile(fileName));
                     }
-                    catch
+                    catch (FileLoadException)
+                    {
+                    }
+                    catch (BadImageFormatException)
                     {                        
                     }
                 }
 
                 return assemblies;
             }
+        }
+
+        public static IEnumerable<string> FilterFiles(string path, params string[] exts)
+        {
+            return
+                Directory
+                .EnumerateFiles(path, "*.*")
+                .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }
