@@ -79,7 +79,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:a=&quot;another&quot;  /&gt;.
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:x=&quot;another&quot;  /&gt;.
         /// </summary>
         public static string ElementWith2NsDeclarations {
             get {

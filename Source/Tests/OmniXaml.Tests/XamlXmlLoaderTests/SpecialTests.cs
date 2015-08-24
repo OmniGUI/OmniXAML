@@ -1,11 +1,8 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlNodes;
 
     public abstract class SpecialTests : GivenAWiringContextNetCore
     {

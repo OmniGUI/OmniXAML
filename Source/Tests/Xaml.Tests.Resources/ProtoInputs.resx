@@ -151,7 +151,7 @@
     <value>&lt;DummyClass xmlns="root"&gt;&lt;/DummyClass&gt;</value>
   </data>
   <data name="ElementWith2NsDeclarations" xml:space="preserve">
-    <value>&lt;DummyClass xmlns="root" xmlns:a="another"  /&gt;</value>
+    <value>&lt;DummyClass xmlns="root" xmlns:x="another"  /&gt;</value>
   </data>
   <data name="ComplexNesting" xml:space="preserve">
     <value>&lt;DummyClass xmlns="root" SampleProperty="Sample"&gt;

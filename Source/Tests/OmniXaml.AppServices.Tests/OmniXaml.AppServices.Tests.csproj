@@ -58,7 +58,7 @@
     <Compile Include="InflatableTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
+    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
       <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
       <Name>OmniXaml.Tests.Common.NetCore</Name>
     </ProjectReference>

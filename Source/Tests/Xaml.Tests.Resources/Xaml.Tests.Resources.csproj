@@ -40,7 +40,7 @@
       <DependentUpon>Dummy.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ProtoInputs1.Designer.cs">
+    <Compile Include="ProtoInputs.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ProtoInputs.resx</DependentUpon>
@@ -59,7 +59,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProtoInputs.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>ProtoInputs1.Designer.cs</LastGenOutput>
+      <LastGenOutput>ProtoInputs.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Wpf.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

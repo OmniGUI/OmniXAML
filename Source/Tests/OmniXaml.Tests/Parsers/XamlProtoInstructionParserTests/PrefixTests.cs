@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Parsers.SuperProtoParserTests
+﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -6,7 +6,6 @@
     using System.Linq;
     using Classes;
     using Classes.Another;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers;

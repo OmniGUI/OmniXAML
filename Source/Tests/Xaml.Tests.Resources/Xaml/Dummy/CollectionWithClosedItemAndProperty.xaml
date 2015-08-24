@@ -1,5 +1,5 @@
 ﻿<DummyClass xmlns="root">
   <DummyClass.Items>
-    <Item Title="SomeTitle" />
+    <Item Title="SomeText" />
   </DummyClass.Items>
 </DummyClass>

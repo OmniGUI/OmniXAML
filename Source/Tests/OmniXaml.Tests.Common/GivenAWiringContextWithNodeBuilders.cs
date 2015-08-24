@@ -6,25 +6,14 @@ namespace OmniXaml.Tests.Common
 
     public class GivenAWiringContextWithNodeBuilders : GivenAWiringContext
     {
-        private XamlInstructionBuilder x;
-        private ProtoInstructionBuilder p;
-
         protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base(assemblies)
         {
-            x = new XamlInstructionBuilder(WiringContext.TypeContext);
-            p = new ProtoInstructionBuilder(WiringContext.TypeContext);
+            X = new XamlInstructionBuilder(WiringContext.TypeContext);
+            P = new ProtoInstructionBuilder(WiringContext.TypeContext);
         }
 
-        protected XamlInstructionBuilder X
-        {
-            get { return x; }
-            set { x = value; }
-        }
+        public XamlInstructionBuilder X { get; }
 
-        public ProtoInstructionBuilder P
-        {
-            get { return p; }
-            set { p = value; }
-        }
+        public ProtoInstructionBuilder P { get; }
     }
 }

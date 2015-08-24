@@ -10,7 +10,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         {            
             StateCommuter.RaiseLevel();
             StateCommuter.IsGetObject = true;
-            StateCommuter.Instance = StateCommuter.ValueOfPreviousInstanceAndItsMember();
+            StateCommuter.Instance = StateCommuter.ValueOfPreviousInstanceAndItsMember;
         }       
     }
 }

@@ -225,10 +225,7 @@ namespace OmniXaml.ObjectAssembler
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember()
-        {
-            return GetValueTuple(PreviousInstance, (MutableXamlMember) PreviousMember);
-        }
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember) PreviousMember);
 
         private static object GetValueTuple(object instance, MutableXamlMember member)
         {

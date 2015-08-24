@@ -1,9 +1,6 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    using Common;
     using Common.NetCore;
-    using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlNodes;
 
     public class GivenAXamlXmlLoader : GivenAWiringContextNetCore
     {

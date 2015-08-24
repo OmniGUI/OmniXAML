@@ -1,43 +1,26 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Builder;
     using Classes;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Visualization;
+    using ParsingSources;
 
     [TestClass]
     public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionBuilder x;
+        private readonly XamlInstructionPack source;
 
         public NodeHierarchizerTests()
         {
-            x = new XamlInstructionBuilder(WiringContext.TypeContext);
+            source = new XamlInstructionPack(this);
         }
 
         [TestMethod]
-        public void TestMethod1()
-        {
-            var input = new List<XamlInstruction>
-            {
-                X.StartMember<Setter>(c => c.Value),
-                X.Value("Value"),
-                X.EndMember(),
-                X.StartMember<Setter>(c => c.Property),
-                X.Value("Property"),
-                X.EndMember(),
-            };
-
-            var sut = new InstructionTreeBuilder();
-            var actual = sut.CreateHierarchy(input);
-        }
-
-        [TestMethod]
-        public void TestMethod2()
+        public void InstructionToNodeConversionWithLeadingAndTrailing()
         {
             var input = new List<XamlInstruction>
             {
@@ -46,7 +29,7 @@
             };
 
             var sut = new InstructionTreeBuilder();
-            var actual = sut.CreateHierarchy(input);
+            var actual = sut.CreateHierarchy(input).ToList();
             var expected = new Sequence<InstructionNode>
             {
                 new InstructionNode
@@ -56,72 +39,11 @@
                 }
             };
 
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestReverseMembers()
-        {
-            var input = new List<XamlInstruction>
-            {
-                X.StartMember<Setter>(c => c.Value),
-                    X.StartObject(typeof(DummyClass)),
-                        X.StartMember<ChildClass>(c => c.Name),
-                            X.Value("Hola"),
-                        X.EndMember(),
-                        X.StartMember<ChildClass>(c => c.Content),
-                            X.Value("Tío"),
-                        X.EndMember(),
-                    X.EndObject(),
-                X.EndMember(),
-                X.StartMember<Setter>(c => c.Property),
-                    X.StartObject(typeof(DummyClass)),
-                        X.StartMember<ChildClass>(c => c.Name),
-                            X.Value("Hola"),
-                        X.EndMember(),
-                        X.StartMember<ChildClass>(c => c.Content),
-                            X.Value("Tío"),
-                        X.EndMember(),
-                    X.EndObject(),
-                X.EndMember(),
-            };
-
-            var sut = new InstructionTreeBuilder();
-            var actual = sut.CreateHierarchy(input);
-
-            var h = new InstructionNode {Children = new Sequence<InstructionNode>(actual.ToList())};
-            h.AcceptVisitor(new MemberReverserVisitor());
-
-            var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedInstructions = new List<XamlInstruction>
-            {
-                X.StartMember<Setter>(c => c.Property),
-                    X.StartObject(typeof(DummyClass)),
-                        X.StartMember<ChildClass>(c => c.Content),
-                            X.Value("Tío"),
-                        X.EndMember(),
-                        X.StartMember<ChildClass>(c => c.Name),
-                            X.Value("Hola"),
-                        X.EndMember(),
-                    X.EndObject(),
-                X.EndMember(),
-                X.StartMember<Setter>(c => c.Value),
-                    X.StartObject(typeof(DummyClass)),                       
-                        X.StartMember<ChildClass>(c => c.Content),
-                            X.Value("Tío"),
-                        X.EndMember(),
-                        X.StartMember<ChildClass>(c => c.Name),
-                            X.Value("Hola"),
-                        X.EndMember(),
-                    X.EndObject(),
-                X.EndMember(),              
-            };
-
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
-        }
-
-        [TestMethod]
-        public void DependencySorting()
+        public void InstructionToNodeConversionWithLeadingBodyAndTrailing()
         {
             var input = new List<XamlInstruction>
             {
@@ -132,6 +54,50 @@
                 X.Value("Property"),
                 X.EndMember(),
             };
+
+            var sut = new InstructionTreeBuilder();
+            var actual = sut.CreateHierarchy(input).ToList();
+
+            var expected = new Collection<InstructionNode>
+            {
+                new InstructionNode
+                {
+                    Leading = X.StartMember<Setter>(setter => setter.Value),
+                    Body = { X.Value( "Value") },
+                    Trailing = X.EndMember(),
+                },
+                new InstructionNode
+                {
+                    Leading = X.StartMember<Setter>(setter => setter.Property),
+                    Body = { X.Value( "Property") },
+                    Trailing = X.EndMember(),
+                }
+            };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestReverseMembers()
+        {
+            var input = source.TestReverseMembers;
+
+            var sut = new InstructionTreeBuilder();
+            var actual = sut.CreateHierarchy(input);
+
+            var h = new InstructionNode { Children = new Sequence<InstructionNode>(actual.ToList()) };
+            h.AcceptVisitor(new MemberReverserVisitor());
+
+            var actualNodes = h.Children.SelectMany(node => node.Dump());
+            var expectedInstructions = source.TestReverseMembersReverted;
+
+            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+        }
+
+        [TestMethod]
+        public void DependencySorting()
+        {
+            var input = source.TwoMembers;
 
             var sut = new InstructionTreeBuilder();
             var actual = sut.CreateHierarchy(input);
@@ -140,17 +106,9 @@
             h.AcceptVisitor(new DependencySortingVisitor());
 
             var actualNodes = h.Children.SelectMany(node => node.Dump());
-            var expectedInstructions = new List<XamlInstruction>
-            {
-                X.StartMember<Setter>(c => c.Property),
-                X.Value("Property"),
-                X.EndMember(),
-                X.StartMember<Setter>(c => c.Value),
-                X.Value("Value"),
-                X.EndMember(),
-            };
+            var expectedInstructions = source.TwoMembersReversed;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes.ToList());
+            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
         }
     }
 }
