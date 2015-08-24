@@ -38,8 +38,6 @@
         }
 
         [TestMethod]
-        [TestCategory("NeedsGraphics")]
-
         public void ShowCase()
         {
             var visualTree = LoadXaml(Resources.ShowCase);

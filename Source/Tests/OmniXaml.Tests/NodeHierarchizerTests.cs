@@ -7,16 +7,16 @@
     using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using ParsingSources;
+    using Resources;
 
     [TestClass]
     public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionPack source;
+        private readonly XamlInstructionResources source;
 
         public NodeHierarchizerTests()
         {
-            source = new XamlInstructionPack(this);
+            source = new XamlInstructionResources(this);
         }
 
         [TestMethod]

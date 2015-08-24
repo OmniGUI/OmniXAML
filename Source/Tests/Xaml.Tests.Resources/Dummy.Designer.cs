@@ -152,7 +152,7 @@ namespace Xaml.Tests.Resources {
         /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Items&gt;
-        ///    &lt;Item Title=&quot;SomeTitle&quot; /&gt;
+        ///    &lt;Item Title=&quot;SomeText&quot; /&gt;
         ///  &lt;/DummyClass.Items&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -189,6 +189,17 @@ namespace Xaml.Tests.Resources {
         public static string CollectionWithMoreThanOneItem {
             get {
                 return ResourceManager.GetString("CollectionWithMoreThanOneItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
+        ///  &lt;!--This is a comment--&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string Comment {
+            get {
+                return ResourceManager.GetString("Comment", resourceCulture);
             }
         }
         

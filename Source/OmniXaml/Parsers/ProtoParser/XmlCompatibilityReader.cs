@@ -17,7 +17,8 @@ namespace OmniXaml.Parsers.ProtoParser
 
         public XmlCompatibilityReader(Stream stream)
         {
-            xmlReader = XmlReader.Create(stream);
+            var xmlReaderSettings = new XmlReaderSettings { IgnoreComments = true };
+            xmlReader = XmlReader.Create(stream, xmlReaderSettings);
         }
 
         public void Read()

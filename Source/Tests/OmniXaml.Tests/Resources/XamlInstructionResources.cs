@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.ParsingSources
+namespace OmniXaml.Tests.Resources
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -8,9 +8,9 @@ namespace OmniXaml.Tests.ParsingSources
     using Classes.WpfLikeModel;
     using Common;
 
-    public class XamlInstructionPack
+    public class XamlInstructionResources
     {
-        public XamlInstructionPack(GivenAWiringContextWithNodeBuilders context)
+        public XamlInstructionResources(GivenAWiringContextWithNodeBuilders context)
         {
             RootNs = context.RootNs;
             AnotherNs = context.AnotherNs;
@@ -761,22 +761,6 @@ namespace OmniXaml.Tests.ParsingSources
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
-                    X.EndObject(),
-                };
-            }
-        }
-
-        public IEnumerable<XamlInstruction> InstanceWithStringPropertyAndNsDeclaration
-        {
-            get
-            {
-                return new List<XamlInstruction>
-                {
-                    X.NamespacePrefixDeclaration(RootNs),
-                    X.StartObject<DummyClass>(),
-                    X.StartMember<DummyClass>(d => d.SampleProperty),
-                    X.Value("Property!"),
-                    X.EndMember(),
                     X.EndObject(),
                 };
             }

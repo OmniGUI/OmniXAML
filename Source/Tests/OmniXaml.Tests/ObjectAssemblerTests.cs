@@ -8,18 +8,18 @@
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
-    using ParsingSources;
+    using Resources;
 
     [TestClass]
     public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionPack source;
+        private readonly XamlInstructionResources source;
         private readonly IObjectAssembler sut;
 
         public ObjectAssemblerTests()
         {
             sut = new ObjectAssembler(WiringContext, new TopDownMemberValueContext());
-            source = new XamlInstructionPack(this);
+            source = new XamlInstructionResources(this);
         }
 
         [TestMethod]

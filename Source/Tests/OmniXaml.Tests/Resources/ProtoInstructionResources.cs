@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.ParsingSources
+namespace OmniXaml.Tests.Resources
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -6,9 +6,9 @@ namespace OmniXaml.Tests.ParsingSources
     using Classes.WpfLikeModel;
     using Common;
 
-    internal class ProtoInstructionPack
+    internal class ProtoInstructionResources
     {
-        public ProtoInstructionPack(GivenAWiringContextWithNodeBuilders context)
+        public ProtoInstructionResources(GivenAWiringContextWithNodeBuilders context)
         {
             RootNs = context.RootNs;
             AnotherNs = context.AnotherNs;

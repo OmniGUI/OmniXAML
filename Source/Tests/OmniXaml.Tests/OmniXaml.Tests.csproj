@@ -74,7 +74,7 @@
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
     <Compile Include="Parsers\XamlInstructionParserTests\ParsingTests.cs" />
-    <Compile Include="ParsingSources\ProtoInstructionPack.cs" />
+    <Compile Include="Resources\ProtoInstructionResources.cs" />
     <Compile Include="Parsers\XamlInstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TestingExtensions.cs" />
@@ -85,17 +85,16 @@
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
-    <Compile Include="ParsingSources\XamlInstructionPack.cs" />
+    <Compile Include="Resources\XamlInstructionResources.cs" />
     <Compile Include="XamlTypeRepositoryTests.cs" />
     <Compile Include="XamlNamespaceRegistryTest.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\RealXmlParsing.cs" />
+    <Compile Include="Parsers\Integration\FromXamlToInstructions.cs" />
     <Compile Include="XamlNodesAssert.cs" />
     <Compile Include="XamlXmlLoaderTests\ParsingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
     <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
     <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
-    <Compile Include="XamlXmlReaderTests\InstructionDumpTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Glass\Glass.csproj">

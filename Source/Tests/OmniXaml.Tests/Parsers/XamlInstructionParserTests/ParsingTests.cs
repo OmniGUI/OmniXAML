@@ -8,20 +8,20 @@
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;
-    using ParsingSources;
+    using Resources;
 
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly IXamlInstructionParser sut;
-        private readonly ProtoInstructionPack protoPack;
-        private readonly XamlInstructionPack source;
+        private readonly ProtoInstructionResources protoResources;
+        private readonly XamlInstructionResources source;
 
         public ParsingTests()
         {          
             sut = new XamlInstructionParser(WiringContext);
-            protoPack = new ProtoInstructionPack(this);
-            source = new XamlInstructionPack(this);
+            protoResources = new ProtoInstructionResources(this);
+            source = new XamlInstructionResources(this);
         }
 
         [TestMethod]
@@ -46,7 +46,7 @@
         [TestMethod]
         public void SingleInstanceCollapsed()
         {
-            var input = protoPack.SingleCollapsed;
+            var input = protoResources.SingleCollapsed;
 
             var expectedInstructions = source.OneObject;
 
@@ -58,7 +58,7 @@
         [TestMethod]
         public void SingleOpenAndClose()
         {
-            var input = protoPack.SingleOpenAndClose;
+            var input = protoResources.SingleOpenAndClose;
 
             var expectedInstructions = source.OneObject;
 
@@ -70,7 +70,7 @@
         [TestMethod]
         public void EmptyElementWithStringProperty()
         {
-            var input = protoPack.EmptyElementWithStringProperty;
+            var input = protoResources.EmptyElementWithStringProperty;
 
             var actualNodes = sut.Parse(input);
 
@@ -80,7 +80,7 @@
         [TestMethod]
         public void EmptyElementWithTwoStringProperties()
         {
-            var input = protoPack.EmptyElementWithTwoStringProperties;
+            var input = protoResources.EmptyElementWithTwoStringProperties;
 
             var actualNodes = sut.Parse(input);
 
@@ -90,7 +90,7 @@
         [TestMethod]
         public void ElementWith2NsDeclarations()
         {
-            var input = protoPack.ElementWith2NsDeclarations2;
+            var input = protoResources.ElementWith2NsDeclarations2;
 
             var actualNodes = sut.Parse(input);
 
@@ -102,7 +102,7 @@
         [TestMethod]
         public void ElementWithNestedChild()
         {
-            var input = protoPack.ElementWithNestedChild;
+            var input = protoResources.ElementWithNestedChild;
 
             var actualNodes = sut.Parse(input);
 
@@ -112,7 +112,7 @@
         [TestMethod]
         public void ComplexNesting()
         {
-            var input = protoPack.ComplexNesting;
+            var input = protoResources.ComplexNesting;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -122,7 +122,7 @@
         [TestMethod]
         public void ChildCollection()
         {
-            var input = protoPack.CollectionWithMoreThanOneItem;
+            var input = protoResources.CollectionWithMoreThanOneItem;
             var actualNodes = sut.Parse(input).ToList();
 
             CollectionAssert.AreEqual(source.CollectionWithMoreThanOneItem.ToList(), actualNodes);
@@ -133,7 +133,7 @@
         public void NestedChildWithContentProperty()
         {
 
-            var input = protoPack.NestedChildWithContentProperty;
+            var input = protoResources.NestedChildWithContentProperty;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -143,7 +143,7 @@
         [TestMethod]
         public void NestedCollectionWithContentProperty()
         {
-            var input = protoPack.NestedCollectionWithContentProperty;
+            var input = protoResources.NestedCollectionWithContentProperty;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -153,7 +153,7 @@
         [TestMethod]
         public void CollectionsContentPropertyNesting()
         {
-            var input = protoPack.ContentPropertyNesting;
+            var input = protoResources.ContentPropertyNesting;
             var actualNodes = sut.Parse(input).ToList();
             var expectedInstructions = source.ContentPropertyNesting;
 
@@ -163,7 +163,7 @@
         [TestMethod]
         public void TwoNestedProperties()
         {
-            var input = protoPack.TwoNestedProperties;
+            var input = protoResources.TwoNestedProperties;
             var actualNodes = sut.Parse(input).ToList();
             var expectedInstructions = source.TwoNestedProperties;
 
@@ -173,7 +173,7 @@
         [TestMethod]
         public void TwoNestedPropertiesUsingContentProperty()
         {
-            var input = protoPack.TwoNestedPropertiesUsingContentProperty;
+            var input = protoResources.TwoNestedPropertiesUsingContentProperty;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -184,7 +184,7 @@
         public void TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem()
         {
 
-            var input = protoPack.TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem;
+            var input = protoResources.TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -196,7 +196,7 @@
         {
             CollectionAssert.AreEqual(
                 source.MixedPropertiesWithContentPropertyAfter.ToList(),
-                sut.Parse(protoPack.MixedPropertiesWithContentPropertyAfter).ToList());
+                sut.Parse(protoResources.MixedPropertiesWithContentPropertyAfter).ToList());
         }
 
         [TestMethod]
@@ -204,13 +204,13 @@
         {
             CollectionAssert.AreEqual(
                 source.CollectionWithMixedEmptyAndNotEmptyNestedElements.ToList(),
-                sut.Parse(protoPack.CollectionWithMixedEmptyAndNotEmptyNestedElements).ToList());
+                sut.Parse(protoResources.CollectionWithMixedEmptyAndNotEmptyNestedElements).ToList());
         }
 
         [TestMethod]
         public void MixedPropertiesWithContentPropertyBefore()
         {
-            var input = protoPack.MixedPropertiesWithContentPropertyBefore;
+            var input = protoResources.MixedPropertiesWithContentPropertyBefore;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -220,7 +220,7 @@
         [TestMethod]
         public void ImplicitContentPropertyWithImplicityCollection()
         {
-            var input = protoPack.ImplicitContentPropertyWithImplicityCollection;
+            var input = protoResources.ImplicitContentPropertyWithImplicityCollection;
 
             var actualNodes = sut.Parse(input).ToList();
 
@@ -254,7 +254,7 @@
         [TestMethod]
         public void ExpandedStringProperty()
         {
-            var input = protoPack.ExpandedStringProperty;
+            var input = protoResources.ExpandedStringProperty;
 
             var expectedInstructions = source.ExpandedStringProperty;
 
@@ -268,7 +268,7 @@
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
-            var input = protoPack.GetString(sysNs);
+            var input = protoResources.GetString(sysNs);
 
             var expectedInstructions = source.GetString(sysNs);
 

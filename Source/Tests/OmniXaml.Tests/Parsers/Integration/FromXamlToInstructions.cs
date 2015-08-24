@@ -1,24 +1,23 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlInstructionParserTests
+﻿namespace OmniXaml.Tests.Parsers.Integration
 {
     using System.Collections.Generic;
     using System.Linq;
     using System.Xml;
-    using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
     using OmniXaml.Parsers.XamlNodes;
-    using ParsingSources;
+    using Resources;
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class RealXmlParsing : GivenAWiringContextWithNodeBuildersNetCore
+    public class FromXamlToInstructions : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionPack source;
+        private readonly XamlInstructionResources source;
 
-        public RealXmlParsing()
+        public FromXamlToInstructions()
         {
-            source = new XamlInstructionPack(this);
+            source = new XamlInstructionResources(this);
         }
 
         [TestMethod]
@@ -53,7 +52,7 @@
         [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
-            var expectedInstructions = source.InstanceWithStringPropertyAndNsDeclaration;
+            var expectedInstructions = source.ObjectWithMember;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.StringProperty);
 
@@ -99,7 +98,6 @@
 
             CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
         }
-
 
         [TestMethod]
         public void CollectionWithMoreThanOneItem()

@@ -1,9 +1,8 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
+﻿namespace OmniXaml.Tests.Parsers.XamlInstructionParserTests
 {
     using System.Collections.Generic;
     using System.Linq;
     using Classes;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlNodes;

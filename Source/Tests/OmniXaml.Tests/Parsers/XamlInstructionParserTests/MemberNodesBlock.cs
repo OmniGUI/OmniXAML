@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.Parsers.XamlNodesPullParserTests
+namespace OmniXaml.Tests.Parsers.XamlInstructionParserTests
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
