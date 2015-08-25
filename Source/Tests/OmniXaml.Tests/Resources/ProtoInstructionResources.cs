@@ -581,5 +581,19 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<ProtoXamlInstruction> ContentPropertyInInnerContent
+        {
+            get
+            {
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NonEmptyElement(typeof (TextBlock), RootNs),                    
+                    P.Text("Hi all!!"),
+                    P.EndTag(),                                        
+                };
+            }
+        }
     }
 }

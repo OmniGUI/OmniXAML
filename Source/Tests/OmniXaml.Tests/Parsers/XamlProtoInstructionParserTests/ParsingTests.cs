@@ -148,5 +148,11 @@
         {
             CollectionAssert.AreEqual(source.SingleOpenAndClose.ToList(), sut.Parse(Dummy.Comment).ToList());
         }
+
+        [TestMethod]
+        public void TextInsideTextBlockIsAssignedAsTextProperty()
+        {
+            CollectionAssert.AreEqual(source.ContentPropertyInInnerContent.ToList(), sut.Parse(Dummy.ContentPropertyInInnerContent).ToList());
+        }
     }
 }

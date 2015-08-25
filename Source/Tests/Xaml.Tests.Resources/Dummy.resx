@@ -256,4 +256,7 @@
   <data name="Comment" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\comment.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
+  <data name="ContentPropertyInInnerContent" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\contentpropertyininnercontent.xaml;System.String, System.Runtime, Version=4.0.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
 </root>

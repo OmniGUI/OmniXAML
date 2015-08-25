@@ -238,6 +238,15 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;TextBlock xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;Hi all&lt;/TextBlock&gt;  .
+        /// </summary>
+        public static string ContentPropertyInInnerContent {
+            get {
+                return ResourceManager.GetString("ContentPropertyInInnerContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
         ///            xmlns:x=&quot;another&quot; &gt;
         ///  &lt;DummyClass.ChildFromAnotherNamespace&gt;

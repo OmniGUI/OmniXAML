@@ -265,6 +265,14 @@
         }
 
         [TestMethod]
+        public void TextInInnerContent()
+        {
+            var actual = sut.Parse(protoResources.ContentPropertyInInnerContent).ToList();
+            var expected = source.TextBlockWithText.ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");

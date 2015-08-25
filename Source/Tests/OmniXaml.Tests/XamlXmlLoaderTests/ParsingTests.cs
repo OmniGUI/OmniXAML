@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Xml;
     using Classes;
+    using Classes.WpfLikeModel;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
 
@@ -135,6 +136,17 @@
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
+        }
+
+        [TestMethod]
+        public void InnerContentIsContentProperty()
+        {
+            var actualInstance = XamlLoader.Load(Dummy.ContentPropertyInInnerContent);
+
+            Assert.IsInstanceOfType(actualInstance, typeof(TextBlock), $"The retrieved instance should be of type {typeof(TextBlock)}");
+            var dummyClass = actualInstance as TextBlock;
+            Assert.IsNotNull(dummyClass);
+            Assert.AreEqual("Hi all!!", dummyClass.Text);
         }
 
         [TestMethod]

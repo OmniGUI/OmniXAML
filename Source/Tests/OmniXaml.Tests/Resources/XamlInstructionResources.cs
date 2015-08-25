@@ -994,5 +994,21 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> TextBlockWithText
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<TextBlock>(),
+                    X.StartMember<TextBlock>(c => c.Text),
+                    X.Value("Hi all!!"),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }            
+        }
     }
 }
