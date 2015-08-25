@@ -125,7 +125,7 @@ namespace OmniXaml.ObjectAssembler
             var xamlType = CurrentValue.XamlType;
             if (xamlType == null)
             {
-                throw new XamlParsingException("A type must be set before invoking MaterializeInstanceOfCurrentType");
+                throw new XamlParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
             }
             var parameters = GatherConstructionArguments();
             var instance = xamlType.CreateInstance(parameters);

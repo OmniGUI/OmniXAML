@@ -7,7 +7,15 @@ namespace OmniXaml.AppServices.NetCore
 
     public class InflatableTranslator : IInflatableTranslator
     {
-        private Uri GetUriFor(Type type)
+        public Stream GetStream(Type type)
+        {
+            var uri = GetUriFor(type);
+            var absoluteUri = new Uri(Assembly.GetExecutingAssembly().Location, UriKind.Absolute);
+            var finalUri = new Uri(absoluteUri, uri);
+            return new FileStream(finalUri.LocalPath, FileMode.Open);
+        }
+
+        private static Uri GetUriFor(Type type)
         {
             if (type.Namespace != null)
             {
@@ -24,18 +32,10 @@ namespace OmniXaml.AppServices.NetCore
             return null;
         }
 
-        public Stream GetStream(Type type)
-        {
-            var uri = GetUriFor(type);
-            var absoluteUri = new Uri(Assembly.GetExecutingAssembly().Location, UriKind.Absolute);
-            var finalUri = new Uri(absoluteUri, uri);
-            return new FileStream(finalUri.LocalPath, FileMode.Open);
-        }
-
         public Type GetTypeFor(Uri uri)
         {
             var withExt = uri.OriginalString;
-            var lastSlash = withExt.LastIndexOf("/");
+            var lastSlash = withExt.LastIndexOf("/", StringComparison.Ordinal);
             var innerNs = withExt.Substring(0, lastSlash);
             var fileName = withExt.Substring(lastSlash + 1, withExt.Length - lastSlash - 1);
 

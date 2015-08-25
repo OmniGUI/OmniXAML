@@ -44,14 +44,14 @@ namespace OmniXaml.Typing
 
             if (ns == null)
             {
-                throw new XamlParsingException($"Cannot find a namespace with the prefix \"{prefix}\"");
+                throw new XamlParseException($"Cannot find a namespace with the prefix \"{prefix}\"");
             }
 
             var type = ns.Get(typeName);
 
             if (type == null)
             {
-                throw new XamlParsingException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
+                throw new XamlParseException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
             }
 
             return GetXamlType(type);                       

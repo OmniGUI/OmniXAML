@@ -37,7 +37,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     break;
 
                 default:
-                    throw new XamlParsingException($"{StateCommuter.ValueProcessingMode} has a value that is not expected.");
+                    throw new XamlParseException($"{StateCommuter.ValueProcessingMode} has a value that is not expected.");
             }            
         }
     }

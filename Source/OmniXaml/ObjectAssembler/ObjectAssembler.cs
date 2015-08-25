@@ -63,7 +63,7 @@ namespace OmniXaml.ObjectAssembler
                     command = new GetObjectCommand(this);
                     break;
                 default:
-                    throw new XamlParsingException($"The node type {instruction.NodeType} has an unexpected value");
+                    throw new XamlParseException($"The node type {instruction.NodeType} has an unexpected value");
             }
 
             command.Execute();

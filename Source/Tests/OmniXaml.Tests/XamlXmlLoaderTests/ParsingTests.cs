@@ -22,7 +22,7 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParsingException))]
+        [ExpectedException(typeof(XamlParseException))]
         public void UnknownElementThrows()
         {
             XamlLoader.Load(Dummy.UnknownType);

@@ -53,8 +53,6 @@
     <Compile Include="Builder\Route.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
     <Compile Include="Builder\XamlInstructionBuilder.cs" />
-    <Compile Include="Catalogs\AttributeBasedContentPropertyCatalog.cs" />
-    <Compile Include="Catalogs\ContentPropertyCatalog.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
     <Compile Include="Attributes\DependsOnAttribute.cs" />
@@ -126,7 +124,6 @@
     <Compile Include="Parsers\ProtoParser\UnprocessedAttribute.cs" />
     <Compile Include="Parsers\XamlNodes\XamlInstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\NodeType.cs" />
-    <Compile Include="Parsers\XamlParseException.cs" />
     <Compile Include="PrefixRegistrationMode.cs" />
     <Compile Include="ProtoInstructionBuilder.cs" />
     <Compile Include="ProtoXamlInstruction.cs" />
@@ -180,7 +177,7 @@
     <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlInstruction.cs" />
     <Compile Include="XamlNodeType.cs" />
-    <Compile Include="XamlParsingException.cs" />
+    <Compile Include="XamlParseException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="XamlXmlParser.cs" />
     <Compile Include="XamlLoader.cs" />

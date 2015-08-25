@@ -238,7 +238,7 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;TextBlock xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;Hi all&lt;/TextBlock&gt;  .
+        ///   Looks up a localized string similar to &lt;TextBlock xmlns=&quot;root&quot;&gt;Hi all!!&lt;/TextBlock&gt;  .
         /// </summary>
         public static string ContentPropertyInInnerContent {
             get {
@@ -436,6 +436,15 @@ namespace Xaml.Tests.Resources {
         public static string NestedChildWithoutPropertyName {
             get {
                 return ResourceManager.GetString("NestedChildWithoutPropertyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; NonExisting=&quot;Something&quot; /&gt;.
+        /// </summary>
+        public static string NonExistingProperty {
+            get {
+                return ResourceManager.GetString("NonExistingProperty", resourceCulture);
             }
         }
         

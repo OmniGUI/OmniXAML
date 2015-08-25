@@ -5,6 +5,7 @@
     using ProtoParser;
     using Sprache;
     using Typing;
+    using XamlParseException = OmniXaml.XamlParseException;
 
     public class XamlInstructionParser : IXamlInstructionParser
     {
@@ -212,7 +213,7 @@
                 var contentProperty = parentType.ContentProperty;
                 if (contentProperty == null)
                 {
-                    throw new XamlParsingException($"Cannot get the content property for the type {parentType}");
+                    throw new XamlParseException($"Cannot get the content property for the type {parentType}");
                 }
 
                 if (contentProperty.XamlType.IsCollection)

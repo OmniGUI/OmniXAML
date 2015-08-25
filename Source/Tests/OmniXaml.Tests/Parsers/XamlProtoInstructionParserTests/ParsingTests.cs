@@ -9,6 +9,7 @@
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
+    using XamlParseException = OmniXaml.XamlParseException;
 
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -153,6 +154,14 @@
         public void TextInsideTextBlockIsAssignedAsTextProperty()
         {
             CollectionAssert.AreEqual(source.ContentPropertyInInnerContent.ToList(), sut.Parse(Dummy.ContentPropertyInInnerContent).ToList());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(XamlParseException))]
+        public void NonExistingProperty()
+        {
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+            sut.Parse(Dummy.NonExistingProperty).ToList();
         }
     }
 }
