@@ -14,5 +14,10 @@ namespace OmniXaml.Typing
 
         public override bool IsDirective => true;
         public override bool IsAttachable => false;
+
+        public override string ToString()
+        {
+            return $"{{{Name}}}";
+        }
     }
 }

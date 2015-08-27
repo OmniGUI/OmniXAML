@@ -6,5 +6,6 @@ namespace OmniXaml.ObjectAssembler
         ConstructionParameter,
         Key,
         InitializationValue,
+        Name
     }
 }

@@ -38,6 +38,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="INameScope.cs" />
     <Compile Include="ObjectAssembler\ObjectAssemblerSettings.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />

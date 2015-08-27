@@ -50,7 +50,17 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
             }
+            else if (IsName)
+            {
+                StateCommuter.ValueProcessingMode = ValueProcessingMode.Name;
+            }
+            else
+            {
+                throw new XamlParseException($"Unexpected XAML directive. The directive {member} has been found and we don't know how to handle it.");
+            }
         }
+
+        public bool IsName => member.Equals(CoreTypes.Name);
 
         private bool IsInitialization => member.Equals(CoreTypes.Initialization);
 

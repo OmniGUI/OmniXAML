@@ -36,8 +36,13 @@ namespace OmniXaml.ObjectAssembler.Commands
                     StateCommuter.DecreaseLevel();
                     break;
 
+                case ValueProcessingMode.Name:
+                    StateCommuter.SetNameForCurrentInstance(value);
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.AssignToMember;
+                    break;
+
                 default:
-                    throw new XamlParseException($"{StateCommuter.ValueProcessingMode} has a value that is not expected.");
+                    throw new XamlParseException($"Unexpected mode was set trying to process a Value XAML instruction. We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
             }            
         }
     }

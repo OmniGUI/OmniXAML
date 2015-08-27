@@ -1010,5 +1010,25 @@ namespace OmniXaml.Tests.Resources
                 };
             }            
         }
+
+        public IEnumerable<XamlInstruction> ChildInNameScope
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.Child),
+                    X.StartObject(typeof (ChildClass)),
+                    X.StartDirective("Name"),
+                    X.Value("MyObject"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

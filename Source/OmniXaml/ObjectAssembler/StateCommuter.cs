@@ -231,5 +231,10 @@ namespace OmniXaml.ObjectAssembler
             var xamlMemberBase = member;
             return xamlMemberBase.GetValue(instance);
         }
+
+        public void SetNameForCurrentInstance(string value)
+        {
+            // TODO: Implement!            
+        }
     }
 }

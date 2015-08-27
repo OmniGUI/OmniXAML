@@ -184,5 +184,12 @@
             Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
         }
+
+        [TestMethod]
+        public void RegisterOneChildInNameScope()
+        {
+            sut.PumpNodes(source.ChildInNameScope);
+            var actual = sut.Result;
+        }
     }
 }
