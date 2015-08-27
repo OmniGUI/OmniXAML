@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}</ProjectGuid>
+    <ProjectGuid>{6DC9D410-E8CA-48A4-8725-697D75F33388}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.AppServices.Tests</RootNamespace>
-    <AssemblyName>OmniXaml.AppServices.Tests</AssemblyName>
+    <RootNamespace>OmniXaml.AppServices.NetCore.Tests</RootNamespace>
+    <AssemblyName>OmniXaml.AppServices.NetCore.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,38 +45,38 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
-          <Private>False</Private>
-        </Reference>
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DummyAssemblerFactory.cs" />
-    <Compile Include="GivenAnInflatableTypeLoader.cs" />
+    <Compile Include="InflatableFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="InflatableTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
-      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
-      <Name>OmniXaml.Tests.Common.NetCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+    <Content Include="Test.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestModel\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+      <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\..\OmniXaml.AppServices\OmniXaml.Services.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
+      <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
+      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
+      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>

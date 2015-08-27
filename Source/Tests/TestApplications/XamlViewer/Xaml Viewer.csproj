@@ -199,29 +199,29 @@
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.Services.Mvvm.csproj">
       <Project>{7784da26-90c9-402e-8aae-6d4d59c22d74}</Project>
-      <Name>OmniXaml.AppServices.Mvvm</Name>
+      <Name>OmniXaml.Services.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+      <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>
       <Name>OmniXaml.Wpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.Services.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
+      <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.NetCore.csproj">
+    <ProjectReference Include="..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
       <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
-      <Name>OmniXaml.Tests.Common.NetCore</Name>
+      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj">
       <Project>{03efd393-33d1-43e6-8835-1450459697f3}</Project>

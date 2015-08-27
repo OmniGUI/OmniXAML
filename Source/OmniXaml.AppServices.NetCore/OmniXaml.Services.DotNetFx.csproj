@@ -48,9 +48,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.Services.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
+      <Name>OmniXaml.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

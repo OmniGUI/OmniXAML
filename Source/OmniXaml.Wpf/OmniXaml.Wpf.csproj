@@ -89,17 +89,17 @@
     <Compile Include="WpfXamlTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+    <ProjectReference Include="..\OmniXaml.AppServices.Mvvm\OmniXaml.Services.Mvvm.csproj">
       <Project>{7784DA26-90C9-402E-8AAE-6D4D59C22D74}</Project>
-      <Name>OmniXaml.AppServices.Mvvm</Name>
+      <Name>OmniXaml.Services.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+      <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.Services.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
+      <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
