@@ -63,7 +63,7 @@
             {
                 SkipWhitespaces();
 
-                var isPropertyElement = reader.LocalName.Contains('.');
+                var isPropertyElement = reader.LocalName.Contains(".");
                 if (isPropertyElement)
                 {
                     foreach (var node in ParseNestedProperty(xamlType)) yield return node;
