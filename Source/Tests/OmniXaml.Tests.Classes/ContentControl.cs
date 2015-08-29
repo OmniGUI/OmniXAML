@@ -3,7 +3,7 @@
     using Attributes;
 
     [ContentProperty("Content")]
-    public class ContentControl
+    public class ContentControl : DummyObject
     {
         public object Content { get; set; }
     }

@@ -37,7 +37,11 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         private void SetCommuterStateAccordingToDirective()
         {
-            if (IsMarkupExtensionArguments)
+            if (IsItemsDirective)
+            {
+                // TODO: Maybe it's right here where we should change the state to one that indicates that we're about to to process children
+            }
+            else if (IsMarkupExtensionArguments)
             {
                 StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
                 StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
@@ -59,6 +63,8 @@ namespace OmniXaml.ObjectAssembler.Commands
                 throw new XamlParseException($"Unexpected XAML directive. The directive {member} has been found and we don't know how to handle it.");
             }
         }
+
+        public bool IsItemsDirective => member.Equals(CoreTypes.Items);
 
         public bool IsName => member.Equals(CoreTypes.Name);
 

@@ -6,7 +6,7 @@ namespace OmniXaml.Tests.Classes
     using Attributes;
 
     [ContentProperty("Items")]
-    public class DummyClass
+    public class DummyClass : DummyObject
     {
         public DummyClass()
         {

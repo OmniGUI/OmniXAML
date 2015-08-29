@@ -190,7 +190,26 @@ namespace OmniXaml.ObjectAssembler
                 {
                     AssignChildToParentProperty();
                 }
+
+                TryAddIntanceToNameScope();
             }
+        }
+
+        private void TryAddIntanceToNameScope()
+        {
+            var nameScope = LookupParentNamescope();
+            if (Name != null)
+            {
+                nameScope?.Register(Name, Instance);
+            }
+
+            Name = null;
+        }
+
+        private INameScope LookupParentNamescope()
+        {
+            var node = stack.ReverseLookup(level => !(level.Instance is INameScope));
+            return node?.Instance as INameScope;
         }
 
         private void AssignInstanceToHost()
@@ -224,7 +243,7 @@ namespace OmniXaml.ObjectAssembler
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember) PreviousMember);
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember)PreviousMember);
 
         private static object GetValueTuple(object instance, MutableXamlMember member)
         {
@@ -234,7 +253,9 @@ namespace OmniXaml.ObjectAssembler
 
         public void SetNameForCurrentInstance(string value)
         {
-            // TODO: Implement!            
+            this.Name = value;
         }
+
+        public string Name { get; set; }
     }
 }

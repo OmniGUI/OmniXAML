@@ -346,7 +346,7 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    X.StartObject(typeof(DummyClass)),
+                    X.StartObject(typeof (DummyClass)),
                     X.StartMember<DummyClass>(d => d.Items),
                     X.GetObject(),
                     X.Items(),
@@ -364,7 +364,7 @@ namespace OmniXaml.Tests.Resources
                     X.EndObject(),
                     X.EndMember(),
                     X.StartMember<DummyClass>(d => d.Child),
-                    X.StartObject(typeof(ChildClass)),
+                    X.StartObject(typeof (ChildClass)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -379,11 +379,11 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    X.StartObject(typeof(Grid)),
+                    X.StartObject(typeof (Grid)),
                     X.StartMember<Grid>(d => d.RowDefinitions),
                     X.GetObject(),
                     X.Items(),
-                    X.StartObject(typeof(RowDefinition)),
+                    X.StartObject(typeof (RowDefinition)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -391,7 +391,7 @@ namespace OmniXaml.Tests.Resources
                     X.StartMember<Grid>(d => d.Children),
                     X.GetObject(),
                     X.Items(),
-                    X.StartObject(typeof(TextBlock)),
+                    X.StartObject(typeof (TextBlock)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -408,13 +408,13 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    X.StartObject(typeof(Grid)),
+                    X.StartObject(typeof (Grid)),
                     X.StartMember<Grid>(d => d.Children),
                     X.GetObject(),
                     X.Items(),
-                    X.StartObject(typeof(TextBlock)),
+                    X.StartObject(typeof (TextBlock)),
                     X.EndObject(),
-                    X.StartObject(typeof(TextBlock)),
+                    X.StartObject(typeof (TextBlock)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -431,11 +431,11 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    X.StartObject(typeof(Grid)),
+                    X.StartObject(typeof (Grid)),
                     X.StartMember<Grid>(d => d.Children),
                     X.GetObject(),
                     X.Items(),
-                    X.StartObject(typeof(TextBlock)),
+                    X.StartObject(typeof (TextBlock)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -443,7 +443,7 @@ namespace OmniXaml.Tests.Resources
                     X.StartMember<Grid>(d => d.RowDefinitions),
                     X.GetObject(),
                     X.Items(),
-                    X.StartObject(typeof(RowDefinition)),
+                    X.StartObject(typeof (RowDefinition)),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
@@ -852,7 +852,7 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.StartMember<Setter>(c => c.Property),
-                    X.StartObject(typeof(DummyClass)),
+                    X.StartObject(typeof (DummyClass)),
                     X.StartMember<ChildClass>(c => c.Content),
                     X.Value("Tío"),
                     X.EndMember(),
@@ -862,7 +862,7 @@ namespace OmniXaml.Tests.Resources
                     X.EndObject(),
                     X.EndMember(),
                     X.StartMember<Setter>(c => c.Value),
-                    X.StartObject(typeof(DummyClass)),
+                    X.StartObject(typeof (DummyClass)),
                     X.StartMember<ChildClass>(c => c.Content),
                     X.Value("Tío"),
                     X.EndMember(),
@@ -882,7 +882,7 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.StartMember<Setter>(c => c.Value),
-                    X.StartObject(typeof(DummyClass)),
+                    X.StartObject(typeof (DummyClass)),
                     X.StartMember<ChildClass>(c => c.Name),
                     X.Value("Hola"),
                     X.EndMember(),
@@ -892,7 +892,7 @@ namespace OmniXaml.Tests.Resources
                     X.EndObject(),
                     X.EndMember(),
                     X.StartMember<Setter>(c => c.Property),
-                    X.StartObject(typeof(DummyClass)),
+                    X.StartObject(typeof (DummyClass)),
                     X.StartMember<ChildClass>(c => c.Name),
                     X.Value("Hola"),
                     X.EndMember(),
@@ -1008,7 +1008,7 @@ namespace OmniXaml.Tests.Resources
                     X.EndMember(),
                     X.EndObject(),
                 };
-            }            
+            }
         }
 
         public IEnumerable<XamlInstruction> ChildInNameScope
@@ -1020,13 +1020,82 @@ namespace OmniXaml.Tests.Resources
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Child),
-                    X.StartObject(typeof (ChildClass)),
+                    X.StartObject<ChildClass>(),
                     X.StartDirective("Name"),
                     X.Value("MyObject"),
                     X.EndMember(),
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> ChildInDeeperNameScope
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<Window>(),
+                    X.StartMember<Window>(d => d.Content),
+                    X.StartObject<Grid>(),
+
+                    X.StartMember<Grid>(g => g.Children),
+                    X.GetObject(),
+
+                    X.StartObject<TextBlock>(),
+                    X.StartDirective("Name"),
+                    X.Value("MyTextBlock"),
+                    X.EndMember(),
+                    X.EndObject(),
+
+                    X.StartObject<TextBlock>(),
+                    X.StartDirective("Name"),
+                    X.Value("MyOtherTextBlock"),
+                    X.EndMember(),
+                    X.EndObject(),
+
+                    X.StartObject<TextBlock>(),
+                    X.EndObject(),
+
+                    X.EndObject(),
+                    X.EndMember(),
+
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> NameWithNoNamescopesToRegisterTo
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    
+                    X.StartObject<Grid>(),
+
+                    X.StartMember<Grid>(g => g.Children),
+                    X.GetObject(),
+
+                    X.StartObject<TextBlock>(),
+                    X.StartDirective("Name"),
+                    X.Value("MyTextBlock"),
+                    X.EndMember(),
+                    X.EndObject(),
+
+                    X.StartObject<TextBlock>(),
+                    X.EndObject(),
+
+                    X.EndObject(),
+                    X.EndMember(),
+
+                    X.EndObject(),                    
                 };
             }
         }

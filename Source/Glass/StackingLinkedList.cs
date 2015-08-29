@@ -29,6 +29,6 @@
         {
             get { return Previous.Value; }
             set { Previous.Value = value; }
-        }  
+        }
     }  
 }
