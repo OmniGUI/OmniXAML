@@ -2,7 +2,6 @@ namespace OmniXaml.ObjectAssembler
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Commands;
@@ -11,9 +10,9 @@ namespace OmniXaml.ObjectAssembler
 
     public class StateCommuter
     {
-        private readonly StackingLinkedList<Level> stack;
+        private StackingLinkedList<Level> stack;
         private readonly ITopDownMemberValueContext topDownMemberValueContext;
-        private object key;
+        private readonly InstanceProperties instanceProperties;
 
         public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
         {
@@ -21,9 +20,10 @@ namespace OmniXaml.ObjectAssembler
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
             Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
 
-            this.stack = stack;
+            Stack = stack;
             this.topDownMemberValueContext = topDownMemberValueContext;
             ValuePipeline = new ValuePipeline(wiringContext.TypeContext);
+            instanceProperties = new InstanceProperties();
         }
 
         public CurrentLevelWrapper Current => new CurrentLevelWrapper(stack.CurrentValue);
@@ -38,11 +38,19 @@ namespace OmniXaml.ObjectAssembler
 
         public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember)Previous.XamlMember);
 
-        private string Name { get; set; }
+        private StackingLinkedList<Level> Stack
+        {
+            get { return stack; }
+            set
+            {
+                stack = value;
+                UpdateLevelWrappers();
+            }
+        }
 
         public void SetKey(object value)
         {
-            key = value;
+            instanceProperties.Key = value;
         }
 
         public void AssignChildToParentProperty()
@@ -57,11 +65,19 @@ namespace OmniXaml.ObjectAssembler
         public void RaiseLevel()
         {
             stack.Push(new Level());
+            UpdateLevelWrappers();
+        }
+
+        private void UpdateLevelWrappers()
+        {            
+            new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());            
         }
 
         public void DecreaseLevel()
         {
             stack.Pop();
+            UpdateLevelWrappers();
         }
 
         public void CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore()
@@ -145,12 +161,12 @@ namespace OmniXaml.ObjectAssembler
         private void TryAddInstanceToNameScope()
         {
             var nameScope = LookupParentNamescope();
-            if (Name != null)
+            if (instanceProperties.Name != null)
             {
-                nameScope?.Register(Name, Current.Instance);
+                nameScope?.Register(instanceProperties.Name, Current.Instance);
             }
 
-            Name = null;
+            instanceProperties.Name = null;
         }
 
         private INameScope LookupParentNamescope()
@@ -173,7 +189,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void AssignChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, key, Current.Instance);
+            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, instanceProperties.Key, Current.Instance);
             ClearKey();
         }
 
@@ -196,93 +212,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void SetNameForCurrentInstance(string value)
         {
-            Name = value;
-        }
-
-        public class CurrentLevelWrapper
-        {
-            private readonly Level level;
-
-            public CurrentLevelWrapper(Level level)
-            {
-                this.level = level;
-            }
-
-            public XamlMemberBase XamlMember
-            {
-                get { return level.XamlMember; }
-                set { level.XamlMember = value; }
-            }
-
-            public bool IsGetObject
-            {
-                get { return level.IsGetObject; }
-                set { level.IsGetObject = value; }
-            }
-
-            public ICollection Collection
-            {
-                get { return level.Collection; }
-                set { level.Collection = value; }
-            }
-
-            public object Instance
-            {
-                get { return level.Instance; }
-                set { level.Instance = value; }
-            }
-
-            public bool WasInstanceAssignedRightAfterBeingCreated
-            {
-                get { return level.WasInstanceAssignedRightAfterBeingCreated; }
-                set { level.WasInstanceAssignedRightAfterBeingCreated = value; }
-            }
-
-            public XamlType XamlType
-            {
-                get { return level.XamlType; }
-                set { level.XamlType = value; }
-            }
-
-            public Collection<ConstructionArgument> CtorArguments
-            {
-                get { return level.CtorArguments; }
-                set { level.CtorArguments = value; }
-            }
-
-            public bool HasInstance => Instance != null;
-            public bool IsMarkupExtension => Instance is IMarkupExtension;
-        }
-
-        private class PreviousLevelWrapper
-        {
-            private readonly Level level;
-
-            public PreviousLevelWrapper(Level level)
-            {
-                this.level = level;
-            }
-
-            public XamlMemberBase XamlMember
-            {
-                get { return level.XamlMember; }
-                set { level.XamlMember = value; }
-            }
-
-            public object Instance
-            {
-                get { return level.Instance; }
-                set { level.Instance = value; }
-            }
-
-            public ICollection Collection
-            {
-                get { return level.Collection; }
-                set { level.Collection = value; }
-            }
-
-            public bool IsOneToMany => Collection != null;
-            public bool IsDictionary => Collection is IDictionary;
+            instanceProperties.Name = value;
         }
     }
 }

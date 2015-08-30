@@ -39,7 +39,11 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="INameScope.cs" />
+    <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
+    <Compile Include="ObjectAssembler\InstanceProperties.cs" />
+    <Compile Include="ObjectAssembler\NullLevel.cs" />
     <Compile Include="ObjectAssembler\ObjectAssemblerSettings.cs" />
+    <Compile Include="ObjectAssembler\PreviousLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />

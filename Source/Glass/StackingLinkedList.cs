@@ -12,7 +12,7 @@
         }
 
         public LinkedListNode<T> Current => linkedList.Last;
-        public LinkedListNode<T> Previous => Current.Previous;
+        public LinkedListNode<T> Previous => Current?.Previous;
         public T CurrentValue
         {
             get { return Current.Value; }
