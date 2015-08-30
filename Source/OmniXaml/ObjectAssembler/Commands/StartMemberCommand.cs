@@ -1,5 +1,6 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using System;
     using System.Collections.ObjectModel;
     using Typing;
 
@@ -12,6 +13,32 @@ namespace OmniXaml.ObjectAssembler.Commands
             this.member = member;
         }
 
+        private static DirectiveKind GetDirectiveKind(XamlMemberBase xamlMember)
+        {
+            if (xamlMember.Equals(CoreTypes.Initialization))
+            {
+                return DirectiveKind.Initialization;
+            }
+            if (xamlMember.Equals(CoreTypes.Items))
+            {
+                return DirectiveKind.Items;
+            }
+            if (xamlMember.Equals(CoreTypes.Key))
+            {
+                return DirectiveKind.Key;
+            }
+            if (xamlMember.Equals(CoreTypes.MarkupExtensionArguments))
+            {
+                return DirectiveKind.MarkupExtensionArguments;
+            }
+            if (xamlMember.Equals(CoreTypes.Name))
+            {
+                return DirectiveKind.Name;
+            }
+
+            throw new InvalidOperationException($"Unexpected XAML directive. The directive {xamlMember} has been found and we don't know how to handle it.");
+        }
+
         public override void Execute()
         {
             StateCommuter.Member = member;
@@ -22,56 +49,49 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
             else
             {
-                CreateInstanceOfCurrentTypeAndAssociateIfPossible();
+                ForceInstanceCreationOfCurrentTypeAndAssociateIfPossible();
             }
         }
 
-        private void CreateInstanceOfCurrentTypeAndAssociateIfPossible()
+        private void ForceInstanceCreationOfCurrentTypeAndAssociateIfPossible()
         {
             StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-            if (!StateCommuter.WasAssociatedRightAfterCreation)
+            if (!StateCommuter.WasInstanceAssignedRightAfterBeingCreated)
             {
-                StateCommuter.AssociateCurrentInstanceToParentForCreation();
+                StateCommuter.AssociateCurrentInstanceToParentRightAfterCreation();
             }
         }
 
         private void SetCommuterStateAccordingToDirective()
         {
-            if (IsItemsDirective)
-            {
-                // TODO: Maybe it's right here where we should change the state to one that indicates that we're about to to process children
-            }
-            else if (IsMarkupExtensionArguments)
-            {
-                StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
-                StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
-            }
-            else if (IsKey)
-            {
-                StateCommuter.ValueProcessingMode = ValueProcessingMode.Key;
-            }
-            else if (IsInitialization)
-            {
-                StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
-            }
-            else if (IsName)
-            {
-                StateCommuter.ValueProcessingMode = ValueProcessingMode.Name;
-            }
-            else
-            {
-                throw new XamlParseException($"Unexpected XAML directive. The directive {member} has been found and we don't know how to handle it.");
+            switch (GetDirectiveKind(member))
+            {               
+                case DirectiveKind.Initialization:
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
+                    break;
+
+                case DirectiveKind.Key:
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.Key;
+                    break;
+
+                case DirectiveKind.MarkupExtensionArguments:
+                    StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
+                    break;
+
+                case DirectiveKind.Name:
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.Name;
+                    break;
             }
         }
 
-        public bool IsItemsDirective => member.Equals(CoreTypes.Items);
-
-        public bool IsName => member.Equals(CoreTypes.Name);
-
-        private bool IsInitialization => member.Equals(CoreTypes.Initialization);
-
-        private bool IsKey => member.Equals(CoreTypes.Key);
-
-        private bool IsMarkupExtensionArguments => member.Equals(CoreTypes.MarkupExtensionArguments);
+        private enum DirectiveKind
+        {
+            Key,
+            Items,
+            Name,
+            MarkupExtensionArguments,
+            Initialization
+        }
     }
 }

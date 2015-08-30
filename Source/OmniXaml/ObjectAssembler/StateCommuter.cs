@@ -66,7 +66,7 @@ namespace OmniXaml.ObjectAssembler
             set { CurrentValue.IsGetObject = value; }
         }
 
-        public ICollection Collection
+        private ICollection Collection
         {
             get { return CurrentValue.Collection; }
             set { CurrentValue.Collection = value; }
@@ -78,15 +78,21 @@ namespace OmniXaml.ObjectAssembler
             set { CurrentValue.CtorArguments = value; }
         }
 
-        public XamlMemberBase PreviousMember => PreviousValue.XamlMember;
-        public object PreviousInstance => PreviousValue.Instance;
+        private XamlMemberBase PreviousMember => PreviousValue.XamlMember;
+        private object PreviousInstance => PreviousValue.Instance;
         private bool IsParentOneToMany => PreviousValue.Collection != null;
         public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
         private bool IsParentDictionary => PreviousValue.Collection is IDictionary;
         private bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
         private bool HasParentToAssociate => Level > 1;
-        public bool WasAssociatedRightAfterCreation => CurrentValue.WasAssociatedRightAfterCreation;
+        public bool WasInstanceAssignedRightAfterBeingCreated => CurrentValue.WasInstanceAssignedRightAfterBeingCreated;
         public ValuePipeline ValuePipeline { get; }
+
+        public ValueProcessingMode ValueProcessingMode { get; set; }
+
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember)PreviousMember);
+
+        private string Name { get; set; }
 
         public void SetKey(object value)
         {
@@ -146,7 +152,7 @@ namespace OmniXaml.ObjectAssembler
                 TargetObject = PreviousInstance,
                 TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
                 TypeRepository = ValuePipeline.TypeRepository,
-                TopDownMemberValueContext = topDownMemberValueContext,
+                TopDownMemberValueContext = topDownMemberValueContext
             };
 
             return inflationContext;
@@ -191,11 +197,11 @@ namespace OmniXaml.ObjectAssembler
                     AssignChildToParentProperty();
                 }
 
-                TryAddIntanceToNameScope();
+                TryAddInstanceToNameScope();
             }
         }
 
-        private void TryAddIntanceToNameScope()
+        private void TryAddInstanceToNameScope()
         {
             var nameScope = LookupParentNamescope();
             if (Name != null)
@@ -235,15 +241,11 @@ namespace OmniXaml.ObjectAssembler
             SetKey(null);
         }
 
-        public void AssociateCurrentInstanceToParentForCreation()
+        public void AssociateCurrentInstanceToParentRightAfterCreation()
         {
             AssociateCurrentInstanceToParent();
-            CurrentValue.WasAssociatedRightAfterCreation = true;
+            CurrentValue.WasInstanceAssignedRightAfterBeingCreated = true;
         }
-
-        public ValueProcessingMode ValueProcessingMode { get; set; }
-
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember)PreviousMember);
 
         private static object GetValueTuple(object instance, MutableXamlMember member)
         {
@@ -253,9 +255,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void SetNameForCurrentInstance(string value)
         {
-            this.Name = value;
+            Name = value;
         }
-
-        public string Name { get; set; }
     }
 }

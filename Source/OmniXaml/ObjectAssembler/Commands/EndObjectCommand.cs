@@ -17,7 +17,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     StateCommuter.Instance = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Instance);
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
-                else if (!StateCommuter.WasAssociatedRightAfterCreation)
+                else if (!StateCommuter.WasInstanceAssignedRightAfterBeingCreated)
                 {
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
