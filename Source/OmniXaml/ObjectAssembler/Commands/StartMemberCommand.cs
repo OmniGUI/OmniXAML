@@ -41,7 +41,7 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         public override void Execute()
         {
-            StateCommuter.Member = member;
+            StateCommuter.Current.XamlMember = member;
 
             if (member.IsDirective)
             {
@@ -56,7 +56,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         private void ForceInstanceCreationOfCurrentTypeAndAssociateIfPossible()
         {
             StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-            if (!StateCommuter.WasInstanceAssignedRightAfterBeingCreated)
+            if (!StateCommuter.Current.WasInstanceAssignedRightAfterBeingCreated)
             {
                 StateCommuter.AssociateCurrentInstanceToParentRightAfterCreation();
             }
@@ -75,7 +75,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     break;
 
                 case DirectiveKind.MarkupExtensionArguments:
-                    StateCommuter.CurrentCtorParameters = new Collection<ConstructionArgument>();
+                    StateCommuter.Current.CtorArguments = new Collection<ConstructionArgument>();
                     StateCommuter.ValueProcessingMode = ValueProcessingMode.ConstructionParameter;
                     break;
 

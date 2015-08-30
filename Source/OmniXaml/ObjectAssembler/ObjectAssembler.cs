@@ -1,6 +1,7 @@
 namespace OmniXaml.ObjectAssembler
 {
     using System;
+    using System.Collections;
     using Commands;
     using Glass;
     using Typing;
@@ -85,7 +86,14 @@ namespace OmniXaml.ObjectAssembler
         public void OverrideInstance(object instance)
         {
             StateCommuter.RaiseLevel();
-            StateCommuter.Instance = instance;
+            StateCommuter tempQualifier = StateCommuter;
+            tempQualifier.Current.Instance = instance;
+
+            var collection = instance as ICollection;
+            if (collection != null)
+            {
+                tempQualifier.Current.Collection = collection;
+            }
         }
     }
 }

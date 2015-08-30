@@ -26,71 +26,17 @@ namespace OmniXaml.ObjectAssembler
             ValuePipeline = new ValuePipeline(wiringContext.TypeContext);
         }
 
-        public bool HasCurrentInstance => CurrentValue.Instance != null;
-
-        public XamlType XamlType
-        {
-            get { return CurrentValue.XamlType; }
-            set { CurrentValue.XamlType = value; }
-        }
-
-        public object Instance
-        {
-            get { return CurrentValue.Instance; }
-            set
-            {
-                CurrentValue.Instance = value;
-
-                var collection = value as ICollection;
-                if (collection != null)
-                {
-                    Collection = collection;
-                }
-            }
-        }
-
-        private Level CurrentValue => stack.CurrentValue;
-        private Level PreviousValue => stack.PreviousValue;
-
-        public XamlMemberBase Member
-        {
-            get { return CurrentValue.XamlMember; }
-            set { CurrentValue.XamlMember = value; }
-        }
+        public CurrentLevelWrapper Current => new CurrentLevelWrapper(stack.CurrentValue);
+        private PreviousLevelWrapper Previous => new PreviousLevelWrapper(stack.PreviousValue);
 
         public int Level => stack.Count;
 
-        public bool IsGetObject
-        {
-            get { return CurrentValue.IsGetObject; }
-            set { CurrentValue.IsGetObject = value; }
-        }
-
-        private ICollection Collection
-        {
-            get { return CurrentValue.Collection; }
-            set { CurrentValue.Collection = value; }
-        }
-
-        public Collection<ConstructionArgument> CurrentCtorParameters
-        {
-            get { return CurrentValue.CtorArguments; }
-            set { CurrentValue.CtorArguments = value; }
-        }
-
-        private XamlMemberBase PreviousMember => PreviousValue.XamlMember;
-        private object PreviousInstance => PreviousValue.Instance;
-        private bool IsParentOneToMany => PreviousValue.Collection != null;
-        public IList<ConstructionArgument> CtorArguments => CurrentValue.CtorArguments;
-        private bool IsParentDictionary => PreviousValue.Collection is IDictionary;
-        private bool InstanceCanBeAssociated => !(Instance is IMarkupExtension);
         private bool HasParentToAssociate => Level > 1;
-        public bool WasInstanceAssignedRightAfterBeingCreated => CurrentValue.WasInstanceAssignedRightAfterBeingCreated;
         public ValuePipeline ValuePipeline { get; }
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(PreviousInstance, (MutableXamlMember)PreviousMember);
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember)Previous.XamlMember);
 
         private string Name { get; set; }
 
@@ -101,11 +47,11 @@ namespace OmniXaml.ObjectAssembler
 
         public void AssignChildToParentProperty()
         {
-            var previousMember = (MutableXamlMember)PreviousMember;
+            var previousMember = (MutableXamlMember)Previous.XamlMember;
 
-            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Instance, previousMember.XamlType);
+            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
 
-            previousMember.SetValue(PreviousInstance, compatibleValue);
+            previousMember.SetValue(Previous.Instance, compatibleValue);
         }
 
         public void RaiseLevel()
@@ -120,7 +66,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore()
         {
-            if (!HasCurrentInstance)
+            if (!Current.HasInstance)
             {
                 MaterializeInstanceOfCurrentType();
             }
@@ -128,7 +74,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void MaterializeInstanceOfCurrentType()
         {
-            var xamlType = CurrentValue.XamlType;
+            var xamlType = Current.XamlType;
             if (xamlType == null)
             {
                 throw new XamlParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
@@ -136,7 +82,7 @@ namespace OmniXaml.ObjectAssembler
             var parameters = GatherConstructionArguments();
             var instance = xamlType.CreateInstance(parameters);
 
-            CurrentValue.Instance = instance;
+            Current.Instance = instance;
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -149,8 +95,8 @@ namespace OmniXaml.ObjectAssembler
         {
             var inflationContext = new MarkupExtensionContext
             {
-                TargetObject = PreviousInstance,
-                TargetProperty = PreviousInstance.GetType().GetRuntimeProperty(PreviousMember.Name),
+                TargetObject = Previous.Instance,
+                TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.XamlMember.Name),
                 TypeRepository = ValuePipeline.TypeRepository,
                 TopDownMemberValueContext = topDownMemberValueContext
             };
@@ -160,35 +106,30 @@ namespace OmniXaml.ObjectAssembler
 
         private object[] GatherConstructionArguments()
         {
-            if (CtorArguments == null)
+            if (Current.CtorArguments == null)
             {
                 return null;
             }
 
-            var arguments = CtorArguments.Select(argument => argument.Value).ToArray();
+            var arguments = Current.CtorArguments.Select(argument => argument.Value).ToArray();
             return arguments.Any() ? arguments : null;
         }
 
         private void AssignChildToCurrentCollection()
         {
-            TypeOperations.AddToCollection(PreviousValue.Collection, Instance);
+            TypeOperations.AddToCollection(Previous.Collection, Current.Instance);
         }
 
         public void AddCtorArgument(string stringValue)
         {
-            CurrentValue.CtorArguments.Add(new ConstructionArgument(stringValue));
-        }
-
-        public void ResetCtorArguments()
-        {
-            CurrentValue.CtorArguments = null;
+            Current.CtorArguments.Add(new ConstructionArgument(stringValue));
         }
 
         public void AssociateCurrentInstanceToParent()
         {
-            if (HasParentToAssociate && InstanceCanBeAssociated)
+            if (HasParentToAssociate && !(Current.IsMarkupExtension))
             {
-                if (IsParentOneToMany)
+                if (Previous.IsOneToMany)
                 {
                     AssignInstanceToHost();
                 }
@@ -206,7 +147,7 @@ namespace OmniXaml.ObjectAssembler
             var nameScope = LookupParentNamescope();
             if (Name != null)
             {
-                nameScope?.Register(Name, Instance);
+                nameScope?.Register(Name, Current.Instance);
             }
 
             Name = null;
@@ -220,7 +161,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void AssignInstanceToHost()
         {
-            if (IsParentDictionary)
+            if (Previous.IsDictionary)
             {
                 AssignChildToDictionary();
             }
@@ -232,7 +173,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void AssignChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary)PreviousValue.Collection, key, Instance);
+            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, key, Current.Instance);
             ClearKey();
         }
 
@@ -244,7 +185,7 @@ namespace OmniXaml.ObjectAssembler
         public void AssociateCurrentInstanceToParentRightAfterCreation()
         {
             AssociateCurrentInstanceToParent();
-            CurrentValue.WasInstanceAssignedRightAfterBeingCreated = true;
+            Current.WasInstanceAssignedRightAfterBeingCreated = true;
         }
 
         private static object GetValueTuple(object instance, MutableXamlMember member)
@@ -256,6 +197,92 @@ namespace OmniXaml.ObjectAssembler
         public void SetNameForCurrentInstance(string value)
         {
             Name = value;
+        }
+
+        public class CurrentLevelWrapper
+        {
+            private readonly Level level;
+
+            public CurrentLevelWrapper(Level level)
+            {
+                this.level = level;
+            }
+
+            public XamlMemberBase XamlMember
+            {
+                get { return level.XamlMember; }
+                set { level.XamlMember = value; }
+            }
+
+            public bool IsGetObject
+            {
+                get { return level.IsGetObject; }
+                set { level.IsGetObject = value; }
+            }
+
+            public ICollection Collection
+            {
+                get { return level.Collection; }
+                set { level.Collection = value; }
+            }
+
+            public object Instance
+            {
+                get { return level.Instance; }
+                set { level.Instance = value; }
+            }
+
+            public bool WasInstanceAssignedRightAfterBeingCreated
+            {
+                get { return level.WasInstanceAssignedRightAfterBeingCreated; }
+                set { level.WasInstanceAssignedRightAfterBeingCreated = value; }
+            }
+
+            public XamlType XamlType
+            {
+                get { return level.XamlType; }
+                set { level.XamlType = value; }
+            }
+
+            public Collection<ConstructionArgument> CtorArguments
+            {
+                get { return level.CtorArguments; }
+                set { level.CtorArguments = value; }
+            }
+
+            public bool HasInstance => Instance != null;
+            public bool IsMarkupExtension => Instance is IMarkupExtension;
+        }
+
+        private class PreviousLevelWrapper
+        {
+            private readonly Level level;
+
+            public PreviousLevelWrapper(Level level)
+            {
+                this.level = level;
+            }
+
+            public XamlMemberBase XamlMember
+            {
+                get { return level.XamlMember; }
+                set { level.XamlMember = value; }
+            }
+
+            public object Instance
+            {
+                get { return level.Instance; }
+                set { level.Instance = value; }
+            }
+
+            public ICollection Collection
+            {
+                get { return level.Collection; }
+                set { level.Collection = value; }
+            }
+
+            public bool IsOneToMany => Collection != null;
+            public bool IsDictionary => Collection is IDictionary;
         }
     }
 }

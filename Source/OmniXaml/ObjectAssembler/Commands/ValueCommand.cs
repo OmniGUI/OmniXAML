@@ -17,7 +17,8 @@ namespace OmniXaml.ObjectAssembler.Commands
             switch (StateCommuter.ValueProcessingMode)
             {
                 case ValueProcessingMode.InitializationValue:
-                    StateCommuter.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.XamlType);
+                    StateCommuter.Current.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.Current.XamlType);
+            
                     break;
 
                 case ValueProcessingMode.Key:
@@ -31,7 +32,7 @@ namespace OmniXaml.ObjectAssembler.Commands
 
                 case ValueProcessingMode.AssignToMember:
                     StateCommuter.RaiseLevel();
-                    StateCommuter.Instance = value;
+                    StateCommuter.Current.Instance = value;
                     StateCommuter.AssignChildToParentProperty();
                     StateCommuter.DecreaseLevel();
                     break;
