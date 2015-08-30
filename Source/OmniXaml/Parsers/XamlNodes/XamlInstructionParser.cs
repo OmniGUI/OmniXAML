@@ -48,13 +48,8 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseElements(XamlMember hostingProperty = null)
+        private IEnumerable<XamlInstruction> ParseElements()
         {
-            if (hostingProperty != null)
-            {
-                yield return Inject.StartOfMember(hostingProperty);
-            }
-
             if (CurrentNodeIsText)
             {
                 yield return Inject.Value(CurrentText);
@@ -81,12 +76,7 @@
 
                 // There may be text nodes after each element. Skip all of them.
                 SkipTextNodes();
-            }
-
-            if (hostingProperty != null)
-            {
-                yield return Inject.EndOfMember();
-            }
+            }         
         }
 
         private void SkipTextNodes()
@@ -225,10 +215,9 @@
                 }
                 else
                 {
-                    foreach (var xamlNode in ParseElements(contentProperty))
-                    {
-                        yield return xamlNode;
-                    }
+                    yield return Inject.StartOfMember(contentProperty);
+                    foreach (var instruction in ParseElements()) { yield return instruction; }
+                    yield return Inject.EndOfMember();                    
                 }
             }
         }
