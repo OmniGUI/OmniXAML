@@ -11,12 +11,12 @@
         {
             while (enumerator.MoveNext())
             {
-                if (enumerator.Current.NodeType == XamlNodeType.StartObject)
+                if (enumerator.Current.InstructionType == XamlInstructionType.StartObject)
                 {
                     var hasMembersWithDependencies = GetSomeMemberHasDependencies(enumerator.Current.XamlType);
                     if (hasMembersWithDependencies)
                     {
-                        foreach (var xamlNode in SortNodes(enumerator)) yield return xamlNode;
+                        foreach (var instruction in SortNodes(enumerator)) yield return instruction;
                     }
 
                 }
@@ -32,9 +32,9 @@
             var root = new InstructionNode { Children = new Sequence<InstructionNode>(nodes.ToList()) };
             root.AcceptVisitor(new DependencySortingVisitor());
 
-            foreach (var xamlNode in root.Children.SelectMany(node => node.Dump()))
+            foreach (var instruction in root.Children.SelectMany(node => node.Dump()))
             {
-                yield return xamlNode;
+                yield return instruction;
             }
         }
 

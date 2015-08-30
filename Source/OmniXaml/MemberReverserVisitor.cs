@@ -20,20 +20,20 @@ namespace OmniXaml
 
             instructionNode.Children = new Sequence<InstructionNode>(newList);
 
-            foreach (var xamlNode in instructionNode.Children)
+            foreach (var node in instructionNode.Children)
             {
-                xamlNode.AcceptVisitor(this);
+                node.AcceptVisitor(this);
             }
         }
 
         private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(node => node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember);
         }
 
         private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(node => !(node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember));
         }
     }
 }

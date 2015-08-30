@@ -91,8 +91,8 @@
     <Compile Include="Parsers\ProtoParser\UnprocessedAttributeBase.cs" />
     <Compile Include="Parsers\ProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="Parsers\ProtoParser\IProtoParser.cs" />
-    <Compile Include="Parsers\XamlNodes\IXamlInstructionParser.cs" />
-    <Compile Include="Parsers\XamlNodes\OrderAwareXamlInstructionParser.cs" />
+    <Compile Include="Parsers\XamlInstructions\IXamlInstructionParser.cs" />
+    <Compile Include="Parsers\XamlInstructions\OrderAwareXamlInstructionParser.cs" />
     <Compile Include="MemberDependencyNodeSorter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
     <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
@@ -127,7 +127,7 @@
     <Compile Include="Parsers\ProtoParser\NsPrefix.cs" />
     <Compile Include="Parsers\ProtoParser\XamlProtoInstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\UnprocessedAttribute.cs" />
-    <Compile Include="Parsers\XamlNodes\XamlInstructionParser.cs" />
+    <Compile Include="Parsers\XamlInstructions\XamlInstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\NodeType.cs" />
     <Compile Include="PrefixRegistrationMode.cs" />
     <Compile Include="ProtoInstructionBuilder.cs" />
@@ -181,7 +181,7 @@
     <Compile Include="PhaseParserKit.cs" />
     <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlInstruction.cs" />
-    <Compile Include="XamlNodeType.cs" />
+    <Compile Include="XamlInstructionType.cs" />
     <Compile Include="XamlParseException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="XamlXmlParser.cs" />

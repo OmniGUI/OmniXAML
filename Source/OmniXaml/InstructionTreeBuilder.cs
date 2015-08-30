@@ -47,12 +47,12 @@ namespace OmniXaml
 
         private static bool IsTrailing(XamlInstruction xamlInstruction)
         {
-            return xamlInstruction.NodeType == XamlNodeType.EndMember || xamlInstruction.NodeType == XamlNodeType.EndObject;
+            return xamlInstruction.InstructionType == XamlInstructionType.EndMember || xamlInstruction.InstructionType == XamlInstructionType.EndObject;
         }
 
         private static bool IsLeading(XamlInstruction current)
         {
-            return current.NodeType == XamlNodeType.StartMember || current.NodeType == XamlNodeType.StartObject;
+            return current.InstructionType == XamlInstructionType.StartMember || current.InstructionType == XamlInstructionType.StartObject;
         }
     }
 }

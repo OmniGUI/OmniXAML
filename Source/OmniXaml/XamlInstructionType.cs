@@ -1,6 +1,6 @@
 namespace OmniXaml
 {
-    public enum XamlNodeType
+    public enum XamlInstructionType
     {
         None,
         StartObject,

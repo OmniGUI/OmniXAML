@@ -171,8 +171,8 @@ namespace OmniXaml.ObjectAssembler
 
         private INameScope LookupParentNamescope()
         {
-            var node = stack.ReverseLookup(level => !(level.Instance is INameScope));
-            return node?.Instance as INameScope;
+            var level = stack.ReverseLookup(l => !(l.Instance is INameScope));
+            return level?.Instance as INameScope;
         }
 
         private void AssignInstanceToHost()

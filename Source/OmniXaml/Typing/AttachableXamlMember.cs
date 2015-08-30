@@ -1,6 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System.Linq;
     using System.Reflection;
 
     public class AttachableXamlMember : MutableXamlMember
@@ -29,21 +28,6 @@ namespace OmniXaml.Typing
         private XamlType LookupType()
         {
             return TypeRepository.GetXamlType(getter.ReturnType);
-        }
-
-        private static MethodInfo GetGetMethodForAttachable(XamlType owner, string name)
-        {
-            return owner.UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
-        }
-
-        private static MethodInfo GetSetMethodForAttachable(XamlType owner, string name)
-        {
-            var runtimeMethods = owner.UnderlyingType.GetRuntimeMethods();
-            return runtimeMethods.First(info =>
-            {
-                var nameOfSetMethod = "Set" + name;
-                return info.Name == nameOfSetMethod && info.GetParameters().Length == 2;
-            });
         }
     }
 }

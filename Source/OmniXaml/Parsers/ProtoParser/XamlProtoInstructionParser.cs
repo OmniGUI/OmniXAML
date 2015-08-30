@@ -36,23 +36,23 @@
         {
             var attributes = attributeFeed;
 
-            foreach (var node in attributes.PrefixRegistrations.Select(ConvertAttributeToNsPrefixDefinition)) yield return node;
+            foreach (var instruction in attributes.PrefixRegistrations.Select(ConvertAttributeToNsPrefixDefinition)) yield return instruction;
             
             yield return elementToInject;
 
-            foreach (var node in attributes.Directives.Select(ConvertDirective)) yield return node;
-            foreach (var node in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return node;
+            foreach (var instruction in attributes.Directives.Select(ConvertDirective)) yield return instruction;
+            foreach (var instruction in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return instruction;
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseExpandedElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
             var element = instructionBuilder.NonEmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
-            foreach (var node in CommonNodesOfElement(xamlType, element, attributes)) yield return node;
+            foreach (var instruction in CommonNodesOfElement(xamlType, element, attributes)) yield return instruction;
 
             reader.Read();
 
-            foreach (var node in ParseInnerTextIfAny()) yield return node; 
-            foreach (var protoXamlNode in ParseNestedElements(xamlType)) yield return protoXamlNode;
+            foreach (var instruction in ParseInnerTextIfAny()) yield return instruction; 
+            foreach (var instruction in ParseNestedElements(xamlType)) yield return instruction;
 
             yield return instructionBuilder.EndTag();
         }
@@ -66,13 +66,13 @@
                 var isPropertyElement = reader.LocalName.Contains('.');
                 if (isPropertyElement)
                 {
-                    foreach (var node in ParseNestedProperty(xamlType)) yield return node;
+                    foreach (var instruction in ParseNestedProperty(xamlType)) yield return instruction;
 
                     reader.Read();
                 }
                 else
                 {
-                    foreach (var node in ParseChildren()) yield return node;
+                    foreach (var instruction in ParseChildren()) yield return instruction;
                 }
             }
         }
@@ -82,17 +82,16 @@
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
             var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
             yield return instructionBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
+
             reader.Read();
 
             foreach (var p in ParseInnerTextIfAny()) yield return p;
 
             SkipWhitespaces();
+
             if (reader.NodeType != XmlNodeType.EndElement)
             {
-                foreach (var protoXamlNode in ParseChildren())
-                {
-                    yield return protoXamlNode;
-                }
+                foreach (var instruction in ParseChildren()) { yield return instruction; }
             }
 
             yield return instructionBuilder.EndTag();
@@ -111,10 +110,7 @@
         {
             while (reader.NodeType != XmlNodeType.EndElement)
             {
-                foreach (var p in ParseElement())
-                {
-                    yield return p;
-                }
+                foreach (var instruction in ParseElement()) { yield return instruction; }
 
                 yield return instructionBuilder.Text();
 
@@ -180,11 +176,11 @@
 
             if (reader.IsEmptyElement)
             {                
-                foreach (var node in ParseEmptyElement(childType, namespaceDeclaration, attributes)) yield return node;
+                foreach (var instruction in ParseEmptyElement(childType, namespaceDeclaration, attributes)) yield return instruction;
             }
             else
             {
-                foreach (var node in ParseExpandedElement(childType, namespaceDeclaration, attributes)) yield return node;
+                foreach (var instruction in ParseExpandedElement(childType, namespaceDeclaration, attributes)) yield return instruction;
             }
         }
 

@@ -7,7 +7,7 @@ namespace OmniXaml.Visualization
     {
         public XamlInstruction XamlInstruction { get; }
 
-        public VisualizationNode(string name) : this(new XamlInstruction(XamlNodeType.None))
+        public VisualizationNode(string name) : this(new XamlInstruction(XamlInstructionType.None))
         {
 
         }

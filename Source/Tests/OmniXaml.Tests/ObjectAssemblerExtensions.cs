@@ -4,11 +4,10 @@ namespace OmniXaml.Tests
 
     static internal class ObjectAssemblerExtensions
     {
-        public static void PumpNodes(this IObjectAssembler assembler, IEnumerable<XamlInstruction> nodes)
+        public static void PumpNodes(this IObjectAssembler assembler, IEnumerable<XamlInstruction> instructions)
         {
-            foreach (var xamlNode in nodes)
-            {
-                assembler.Process(xamlNode);
+            foreach (var instruction in instructions) {
+                assembler.Process(instruction);
             }
         }
     }

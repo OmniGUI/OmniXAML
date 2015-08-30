@@ -18,12 +18,12 @@ namespace OmniXaml
             {
                 yield return enumerator.Current;
 
-                switch (enumerator.Current.NodeType)
+                switch (enumerator.Current.InstructionType)
                 {
-                    case XamlNodeType.StartObject:
+                    case XamlInstructionType.StartObject:
                         count++;
                         break;
-                    case XamlNodeType.EndObject:
+                    case XamlInstructionType.EndObject:
                         count--;
                         break;
                 }

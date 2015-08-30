@@ -30,12 +30,12 @@
         {
             if (recording)
             {
-                if (instruction.NodeType == XamlNodeType.StartMember)
+                if (instruction.InstructionType == XamlInstructionType.StartMember)
                 {
                     depth++;
                 }
 
-                if (instruction.NodeType == XamlNodeType.EndMember)
+                if (instruction.InstructionType == XamlInstructionType.EndMember)
                 {
                     depth--;
                     if (depth == 0)
@@ -54,7 +54,7 @@
             }
             else
             {
-                if (instruction.NodeType == XamlNodeType.StartMember && !instruction.Member.IsDirective)
+                if (instruction.InstructionType == XamlInstructionType.StartMember && !instruction.Member.IsDirective)
                 {                    
                     var hasAssembler = TryGetDeferredAssembler((MutableXamlMember) instruction.Member, out assembler);
                     if (hasAssembler)

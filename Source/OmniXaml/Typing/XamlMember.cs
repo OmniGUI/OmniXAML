@@ -1,6 +1,5 @@
 namespace OmniXaml.Typing
 {
-    using System;
     using System.Reflection;
     using Glass;
 

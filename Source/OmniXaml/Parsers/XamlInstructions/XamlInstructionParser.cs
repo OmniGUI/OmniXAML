@@ -10,7 +10,7 @@
     public class XamlInstructionParser : IXamlInstructionParser
     {
         private readonly IWiringContext wiringContext;
-        private IEnumerator<ProtoXamlInstruction> nodeStream;
+        private IEnumerator<ProtoXamlInstruction> instructionStream;
 
         public XamlInstructionParser(IWiringContext wiringContext)
         {
@@ -21,22 +21,22 @@
 
         private bool CurrentNodeIsElement => CurrentNodeType == NodeType.Element || CurrentNodeType == NodeType.EmptyElement;
 
-        private NodeType CurrentNodeType => nodeStream.Current?.NodeType ?? NodeType.None;
+        private NodeType CurrentNodeType => instructionStream.Current?.NodeType ?? NodeType.None;
 
         private bool IsNestedPropertyImplicit => CurrentNodeType != NodeType.PropertyElement && CurrentNodeType != NodeType.EmptyPropertyElement &&
                                                  CurrentNodeType != NodeType.EndTag;
 
         private bool CurrentNodeIsText => CurrentNodeType == NodeType.Text;
 
-        private ProtoXamlInstruction Current => nodeStream.Current;
-        private string CurrentText => nodeStream.Current.Text;
+        private ProtoXamlInstruction Current => instructionStream.Current;
+        private string CurrentText => instructionStream.Current.Text;
         private string CurrentPropertyText => Current.PropertyAttributeText;
         private XamlMemberBase CurrentMember => Current.PropertyAttribute;
 
         public IEnumerable<XamlInstruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
         {
-            nodeStream = protoNodes.GetEnumerator();
-            SetNextNode();
+            instructionStream = protoNodes.GetEnumerator();
+            SetNextInstruction();
 
             foreach (var prefix in ParsePrefixDefinitions())
             {
@@ -57,20 +57,13 @@
 
             while (CurrentNodeIsElement && !EndOfStream)
             {
-                switch (nodeStream.Current.NodeType)
+                switch (instructionStream.Current.NodeType)
                 {
                     case NodeType.Element:
-                        foreach (var xamlNode in ParseNonEmptyElement())
-                        {
-                            yield return xamlNode;
-                        }
-
+                        foreach (var instruction in ParseNonEmptyElement())  { yield return instruction; }
                         break;
                     case NodeType.EmptyElement:
-                        foreach (var xamlNode in ParseEmptyElement())
-                        {
-                            yield return xamlNode;
-                        }
+                        foreach (var instruction in ParseEmptyElement()) { yield return instruction; }
                         break;
                 }
 
@@ -83,15 +76,15 @@
         {
             while (CurrentNodeType == NodeType.Text)
             {
-                SetNextNode();
+                SetNextInstruction();
             }
         }
 
         private IEnumerable<XamlInstruction> ParseEmptyElement()
         {
-            yield return Inject.StartOfObject(nodeStream.Current.XamlType);
+            yield return Inject.StartOfObject(instructionStream.Current.XamlType);
 
-            SetNextNode();
+            SetNextInstruction();
 
             foreach (var member in ParseMembersOfObject())
             {
@@ -102,41 +95,29 @@
 
             if (CurrentNodeType == NodeType.Text)
             {
-                SetNextNode();
+                SetNextInstruction();
             }
         }
 
         private IEnumerable<XamlInstruction> ParseNonEmptyElement()
         {
-            yield return Inject.StartOfObject(nodeStream.Current.XamlType);
-            var parentType = nodeStream.Current.XamlType;
+            yield return Inject.StartOfObject(instructionStream.Current.XamlType);
+            var parentType = instructionStream.Current.XamlType;
 
             if (parentType.NeedsConstructionParameters)
             {
-                foreach (var node in InjectNodesForTypeThatRequiresInitialization())
-                {
-                    yield return node;
-                }
+                foreach (var instruction in InjectNodesForTypeThatRequiresInitialization()) { yield return instruction; }
             }
             else
             {
-                SetNextNode();
+                SetNextInstruction();
 
-                foreach (var node in ParseMembersOfObject())
-                {
-                    yield return node;
-                }
-                foreach (var node in ParseContentPropertyIfAny(parentType))
-                {
-                    yield return node;
-                }
+                foreach (var instruction in ParseMembersOfObject()) { yield return instruction; }
+                foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
 
                 SkipTextNodes();
 
-                foreach (var xamlNode in ParseNestedProperties(parentType))
-                {
-                    yield return xamlNode;
-                }
+                foreach (var instruction in ParseNestedProperties(parentType)) { yield return instruction; }
             }
 
             yield return Inject.EndOfObject();
@@ -146,7 +127,7 @@
         private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()
         {
             yield return Inject.Initialization();
-            SetNextNode();
+            SetNextInstruction();
             yield return Inject.Value(CurrentText);
             yield return Inject.EndOfMember();
         }
@@ -160,38 +141,29 @@
                 throw new XamlParseException("Expected End Tag");
             }
 
-            SetNextNode();
+            SetNextInstruction();
         }
 
         private IEnumerable<XamlInstruction> ParseNestedProperties(XamlType parentType)
         {
             while (CurrentNodeType == NodeType.PropertyElement || CurrentNodeType == NodeType.EmptyPropertyElement)
             {
-                var member = nodeStream.Current.PropertyElement;
+                var member = instructionStream.Current.PropertyElement;
                 if (member.XamlType.IsCollection)
                 {
-                    SetNextNode();
-                    foreach (var xamlNode in ParseCollectionInsideThisProperty(member))
-                    {
-                        yield return xamlNode;
-                    }
+                    SetNextInstruction();
+                    foreach (var instruction in ParseCollectionInsideThisProperty(member)) { yield return instruction; }
                 }
                 else
                 {
-                    foreach (var xamlNode in ParseNestedProperty(member))
-                    {
-                        yield return xamlNode;
-                    }
+                    foreach (var instruction in ParseNestedProperty(member)) { yield return instruction; }
                 }
 
                 // After and EndTag, there could be a ContentProperty! so we consider parsing it.
                 if (CurrentNodeType == NodeType.EndTag)
                 {
-                    SetNextNode();
-                    foreach (var xamlNode in ParseContentPropertyIfAny(parentType))
-                    {
-                        yield return xamlNode;
-                    }
+                    SetNextInstruction();
+                    foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
                 }
             }
         }
@@ -208,10 +180,7 @@
 
                 if (contentProperty.XamlType.IsCollection)
                 {
-                    foreach (var xamlNode in ParseCollectionInsideThisProperty(contentProperty))
-                    {
-                        yield return xamlNode;
-                    }
+                    foreach (var instruction in ParseCollectionInsideThisProperty(contentProperty)) { yield return instruction; }
                 }
                 else
                 {
@@ -222,25 +191,25 @@
             }
         }
 
-        private void SetNextNode()
+        private void SetNextInstruction()
         {
             if (EndOfStream)
             {
                 throw new XamlParseException("The end of the stream has already been reached!");
             }
 
-            EndOfStream = !nodeStream.MoveNext();
+            EndOfStream = !instructionStream.MoveNext();
         }
 
-        private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMember member)
+        private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMemberBase member)
         {
             yield return Inject.StartOfMember(member);
             yield return Inject.GetObject();
             yield return Inject.Items();
 
-            foreach (var xamlNode in ParseElements())
+            foreach (var instruction in ParseElements())
             {
-                yield return xamlNode;
+                yield return instruction;
             }
 
             yield return Inject.EndOfMember();
@@ -252,11 +221,11 @@
         {
             yield return Inject.StartOfMember(member);
 
-            SetNextNode();
+            SetNextInstruction();
 
-            foreach (var xamlNode in ParseInnerContentOfNestedProperty())
+            foreach (var instruction in ParseInnerContentOfNestedProperty())
             {
-                yield return xamlNode;
+                yield return instruction;
             }
 
             yield return Inject.EndOfMember();
@@ -266,13 +235,13 @@
         {
             if (CurrentNodeType == NodeType.Text)
             {
-                yield return Inject.Value(nodeStream.Current.Text);
+                yield return Inject.Value(instructionStream.Current.Text);
             }
             else
             {
-                foreach (var xamlNode in ParseElements())
+                foreach (var instruction in ParseElements())
                 {
-                    yield return xamlNode;
+                    yield return instruction;
                 }
             }
         }
@@ -287,9 +256,9 @@
 
                 if (IsMarkupExtension(valueOfMember))
                 {
-                    foreach (var xamlNode in ParseMarkupExtension(valueOfMember))
+                    foreach (var instruction in ParseMarkupExtension(valueOfMember))
                     {
-                        yield return xamlNode;
+                        yield return instruction;
                     }
                 }
                 else
@@ -299,7 +268,7 @@
 
                 yield return Inject.EndOfMember();
 
-                SetNextNode();
+                SetNextInstruction();
             }
         }
 
@@ -314,9 +283,9 @@
         {
             while (CurrentNodeType == NodeType.PrefixDefinition)
             {
-                var protoXamlNode = nodeStream.Current;
+                var protoXamlNode = instructionStream.Current;
                 yield return Inject.PrefixDefinitionOfNamespace(protoXamlNode);
-                SetNextNode();
+                SetNextInstruction();
             }
         }
 

@@ -30,12 +30,12 @@ namespace OmniXaml.Visualization
 
         private static bool LowersLevel(XamlInstruction current)
         {
-            return current.NodeType.ToString().Contains("End");
+            return current.InstructionType.ToString().Contains("End");
         }
 
         private static bool RaisesLevel(XamlInstruction current)
         {
-            return current.NodeType.ToString().Contains("Start") || current.NodeType == XamlNodeType.GetObject;
+            return current.InstructionType.ToString().Contains("Start") || current.InstructionType == XamlInstructionType.GetObject;
         }
 
         public static VisualizationNode ToTree(IEnumerable<XamlInstruction> xamlNodes)

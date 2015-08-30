@@ -19,8 +19,8 @@
             var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
             yield return Inject.StartOfObject(xamlType);
 
-            foreach (var xamlNode in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return xamlNode;
-            foreach (var xamlNode in ParseProperties(tree.Options.OfType<PropertyOption>(), xamlType)) yield return xamlNode;
+            foreach (var instruction in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return instruction;
+            foreach (var instruction in ParseProperties(tree.Options.OfType<PropertyOption>(), xamlType)) yield return instruction;
 
             yield return Inject.EndOfObject();
         }

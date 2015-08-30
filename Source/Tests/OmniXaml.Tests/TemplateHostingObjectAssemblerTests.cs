@@ -43,9 +43,9 @@
 
             var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext()), mapping);                       
 
-            foreach (var xamlNode in input)
+            foreach (var instruction in input)
             {
-                sut.Process(xamlNode);
+                sut.Process(instruction);
             }
 
             var actualNodes = sut.NodeList;

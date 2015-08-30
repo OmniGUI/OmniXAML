@@ -21,9 +21,9 @@ namespace OmniXaml
 
             instructionNode.Children = new Sequence<InstructionNode>(newList);
 
-            foreach (var xamlNode in instructionNode.Children)
+            foreach (var node in instructionNode.Children)
             {
-                xamlNode.AcceptVisitor(this);
+                node.AcceptVisitor(this);
             }
         }
 
@@ -48,9 +48,9 @@ namespace OmniXaml
         {
             var sorted = new List<InstructionNode>();
 
-            foreach (var mutableXamlMember in sortedList)
+            foreach (var xamlMember in sortedList)
             {
-                sorted.Add(list.First(node => mutableXamlMember.Equals((MutableXamlMember) node.Leading.Member)));
+                sorted.Add(list.First(node => xamlMember.Equals((MutableXamlMember) node.Leading.Member)));
             }
 
             return sorted;
@@ -58,12 +58,12 @@ namespace OmniXaml
 
         private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(node => node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember);
         }
 
         private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => !(node.Leading.NodeType == XamlNodeType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(node => !(node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember));
         }
     }
 }

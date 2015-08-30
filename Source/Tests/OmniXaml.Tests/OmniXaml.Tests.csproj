@@ -77,7 +77,6 @@
     <Compile Include="Resources\ProtoInstructionResources.cs" />
     <Compile Include="Parsers\XamlInstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
-    <Compile Include="TestingExtensions.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />

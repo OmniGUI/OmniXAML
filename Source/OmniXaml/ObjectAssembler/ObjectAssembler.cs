@@ -40,31 +40,31 @@ namespace OmniXaml.ObjectAssembler
         {
             Command command;
 
-            switch (instruction.NodeType)
+            switch (instruction.InstructionType)
             {
-                case XamlNodeType.NamespaceDeclaration:
+                case XamlInstructionType.NamespaceDeclaration:
                     command = new NamespaceDeclarationCommand(this, instruction.NamespaceDeclaration);
                     break;
-                case XamlNodeType.StartObject:
+                case XamlInstructionType.StartObject:
                     command = new StartObjectCommand(this, instruction.XamlType, rootInstance);
                     break;
-                case XamlNodeType.StartMember:
+                case XamlInstructionType.StartMember:
                     command = new StartMemberCommand(this, GetMember(instruction.Member));
                     break;
-                case XamlNodeType.Value:
+                case XamlInstructionType.Value:
                     command = new ValueCommand(this, (string)instruction.Value);
                     break;
-                case XamlNodeType.EndObject:
+                case XamlInstructionType.EndObject:
                     command = new EndObjectCommand(this);
                     break;
-                case XamlNodeType.EndMember:
+                case XamlInstructionType.EndMember:
                     command = new EndMemberCommand(this, topDownMemberValueContext);
                     break;
-                case XamlNodeType.GetObject:
+                case XamlInstructionType.GetObject:
                     command = new GetObjectCommand(this);
                     break;
                 default:
-                    throw new XamlParseException($"The node type {instruction.NodeType} has an unexpected value");
+                    throw new XamlParseException($"The XamlInstructionType {instruction.InstructionType} has an unexpected value");
             }
 
             command.Execute();
