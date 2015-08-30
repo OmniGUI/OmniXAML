@@ -27,7 +27,7 @@ namespace OmniXaml.Wpf
             nodeStream = hydratedNodes.GetEnumerator();
         }
 
-        public override SystemXamlNodeType NodeType => XamlTypeConversion.ToWpf(Current.NodeType);
+        public override SystemXamlNodeType NodeType => XamlTypeConversion.ToWpf(Current.InstructionType);
         public override bool IsEof => !hasReadSuccess;
         public override SystemXamlNsDeclaration Namespace => XamlTypeConversion.ToWpf(Current.NamespaceDeclaration);
         public override SystemXamlType Type => XamlTypeConversion.ToWpf(Current.XamlType, SchemaContext);

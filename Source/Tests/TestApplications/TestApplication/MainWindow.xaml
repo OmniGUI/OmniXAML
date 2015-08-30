@@ -12,7 +12,7 @@
             <Setter Value="12" Property="Margin"  />
         </Style>
     </Window.Resources>
-    <Grid>
+    <Grid>        
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />            
@@ -21,6 +21,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        
         <GroupBox Header="Contacts">
             <ListBox ItemsSource="{Binding People}" SelectedItem="{Binding SelectedContact}">
                 <ListBox.ItemTemplate>
@@ -45,5 +46,6 @@
         <ToolBar Grid.ColumnSpan="2" Grid.Row="1">
             <Button Style="{StaticResource Style}" Content="Saludos cordiales" />
         </ToolBar>
+        
     </Grid>
 </Window>

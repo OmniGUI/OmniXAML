@@ -36,6 +36,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Grace, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Grace.2.4.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Grace.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Grace.Net, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Grace.Net.2.4.2\lib\net45\Grace.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -64,6 +72,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CustomGraceBasedTypeFactory.cs" />
+    <Compile Include="Service\IPeopleService.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -72,6 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\PeopleService.cs" />
     <Compile Include="PersonControl.xaml.cs">
       <DependentUpon>PersonControl.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -94,6 +105,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

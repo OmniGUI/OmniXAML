@@ -23,7 +23,7 @@
             {
                 alternateTemplateContent = value;
                 var loader = new TemplateContentLoader();
-                var reader = new TemplateContentToWpfXamlReaderAdapter(value, new WpfInflatableTypeFactory(), new XamlSchemaContext());
+                var reader = new TemplateContentToWpfXamlReaderAdapter(value, new WpfTypeFactory(), new XamlSchemaContext());
                 var template = loader.Load(reader, new ServiceLocator(null));
                 Template = (System.Windows.TemplateContent)template;
                 LoadContent();

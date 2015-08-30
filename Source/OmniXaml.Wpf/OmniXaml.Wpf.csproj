@@ -65,7 +65,7 @@
     <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
-    <Compile Include="WpfInflatableTypeFactory.cs" />
+    <Compile Include="WpfTypeFactory.cs" />
     <Compile Include="ObjectWriterFactory.cs" />
     <Compile Include="RootObjectProvider.cs" />
     <Compile Include="DataTemplate.cs" />

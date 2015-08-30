@@ -6,7 +6,7 @@ namespace OmniXaml.AppServices.NetCore
 
     public static class Types
     {
-        public static IEnumerable<Type> FromCurrentAppDomain => Assemblies.AppDomainAssemblies.SelectMany(assembly => assembly.ExportedTypes);
+        public static IEnumerable<Type> FromCurrentAppDomain => Assemblies.AppDomainAssemblies.Where(assembly => !assembly.IsDynamic).SelectMany(assembly => assembly.ExportedTypes);
         public static IEnumerable<Type> FromReferencedAssemblies => Assemblies.ReferencedAssemblies.SelectMany(assembly => assembly.ExportedTypes);
         public static IEnumerable<Type> FromAppFolder => Assemblies.AssembliesInAppFolder.SelectMany(assembly => assembly.ExportedTypes);
     }

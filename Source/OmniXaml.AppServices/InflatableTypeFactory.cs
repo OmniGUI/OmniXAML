@@ -10,34 +10,27 @@
     {
         private readonly ITypeFactory coreTypeFactory;
         private readonly IInflatableTranslator inflatableTranslator;
-        private readonly Func<InflatableTypeFactory, IXamlLoader> loaderFactory;
+        private readonly Func<ITypeFactory, IXamlLoader> loaderFactory;
 
-        public IEnumerable<Type> Inflatables { get; set; } = new Collection<Type>();
+        public virtual IEnumerable<Type> Inflatables { get; } = new Collection<Type>();
 
-        public InflatableTypeFactory(ITypeFactory coreTypeFactory,
+        protected InflatableTypeFactory(ITypeFactory coreTypeFactory,
             IInflatableTranslator inflatableTranslator,
-            Func<InflatableTypeFactory, IXamlLoader> loaderFactory)
+            Func<ITypeFactory, IXamlLoader> loaderFactory)
         {
             this.coreTypeFactory = coreTypeFactory;
             this.inflatableTranslator = inflatableTranslator;
             this.loaderFactory = loaderFactory;
         }
 
-        public T Create<T>()
-        {
-            return (T) Create(typeof (T));
-        }
-
-        private bool IsInflatable(Type type) => HasSomeInflatableThatIsCompatible(type);
-
-        private bool HasSomeInflatableThatIsCompatible(Type type)
-        {
-            return Inflatables.Any(t => t.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()));
-        }
-
         public object Create(Type type)
         {
             return Create(type, null);
+        }
+
+        public T Create<T>()
+        {
+            return (T) Create(typeof (T));
         }
 
         public object Create(Type type, object[] args)
@@ -54,6 +47,13 @@
             }
 
             return coreTypeFactory.Create(type, args);
+        }
+
+        private bool IsInflatable(Type type) => HasSomeInflatableThatIsCompatible(type);
+
+        private bool HasSomeInflatableThatIsCompatible(Type type)
+        {
+            return Inflatables.Any(t => t.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()));
         }
 
         public bool CanLocate(Type type)
