@@ -15,13 +15,13 @@ namespace OmniXaml.Wpf
         private bool hasReadSuccess;
 
         public TemplateContentToWpfXamlReaderAdapter(TemplateContent templateContent,
-            InflatableTypeFactory inflatableTypeFactory,
+            AutoInflatingTypeFactory autoInflatingTypeFactory,
             XamlSchemaContext xamlSchemaContext)
         {
             this.templateContent = templateContent;
             this.SchemaContext = xamlSchemaContext;
 
-            var hydrater = new Hydrater(inflatableTypeFactory.Inflatables, templateContent.Context);
+            var hydrater = new Hydrater(autoInflatingTypeFactory.Inflatables, templateContent.Context);
             var hydratedNodes = hydrater.Hydrate(templateContent.Nodes);
 
             nodeStream = hydratedNodes.GetEnumerator();

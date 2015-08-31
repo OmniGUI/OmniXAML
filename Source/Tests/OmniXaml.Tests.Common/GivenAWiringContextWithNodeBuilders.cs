@@ -14,6 +14,6 @@ namespace OmniXaml.Tests.Common
 
         public XamlInstructionBuilder X { get; }
 
-        public ProtoInstructionBuilder P { get; }
+        public ProtoInstructionBuilder P { get; }        
     }
 }

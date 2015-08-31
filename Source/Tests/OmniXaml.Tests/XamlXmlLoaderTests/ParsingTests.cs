@@ -12,24 +12,24 @@
     [TestClass]
     public class ParsingTests : GivenAXamlXmlLoader
     {
-        readonly Type expectedType = typeof(DummyClass);
+        private readonly Type expectedType = typeof (DummyClass);
 
         [TestMethod]
-        [ExpectedException(typeof(XmlException))]
+        [ExpectedException(typeof (XmlException))]
         public void EmptyStreamThrows()
         {
             XamlLoader.Load(Dummy.Empty);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [ExpectedException(typeof (XamlParseException))]
         public void UnknownElementThrows()
         {
             XamlLoader.Load(Dummy.UnknownType);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XmlException))]
+        [ExpectedException(typeof (XmlException))]
         public void BadFormatThrowsXamlReaderException()
         {
             XamlLoader.Load(Dummy.BadFormat);
@@ -61,10 +61,10 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.InstanceWithChild);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Debug.Assert(dummyClass != null, "dummyClass != null");
-            Assert.IsInstanceOfType(dummyClass.Child, typeof(ChildClass));
+            Assert.IsInstanceOfType(dummyClass.Child, typeof (ChildClass));
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@
             var root = XamlLoader.Load(Dummy.ThreeLevelsOfNesting);
 
             var dummy = root as DummyClass;
-            Assert.IsInstanceOfType(root, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(root, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
 
             Debug.Assert(dummy != null, "dummy != null");
             var level2Instance = dummy.Child;
@@ -87,8 +87,8 @@
         public void KeyDirective()
         {
             var actual = XamlLoader.Load(Dummy.KeyDirective);
-            Assert.IsInstanceOfType(actual, typeof(DummyClass));
-            var dictionary = (IDictionary)((DummyClass)actual).Resources;
+            Assert.IsInstanceOfType(actual, typeof (DummyClass));
+            var dictionary = (IDictionary) ((DummyClass) actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
         }
 
@@ -96,7 +96,7 @@
         public void String()
         {
             var actual = XamlLoader.Load(Dummy.String);
-            Assert.IsInstanceOfType(actual, typeof(string));
+            Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
         }
 
@@ -104,15 +104,15 @@
         public void StringAsProperty()
         {
             var actual = XamlLoader.Load(Dummy.StringAsProperty);
-            Assert.IsInstanceOfType(actual, typeof(DummyClass));
-            Assert.AreEqual("Text", ((DummyClass)actual).SampleProperty);
+            Assert.IsInstanceOfType(actual, typeof (DummyClass));
+            Assert.AreEqual("Text", ((DummyClass) actual).SampleProperty);
         }
 
         [TestMethod]
         public void Int()
         {
             var actual = XamlLoader.Load(Dummy.Int);
-            Assert.IsInstanceOfType(actual, typeof(int));
+            Assert.IsInstanceOfType(actual, typeof (int));
             Assert.AreEqual(123, actual);
         }
 
@@ -121,7 +121,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.StringProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
@@ -132,7 +132,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.InnerContent);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
@@ -143,7 +143,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.ContentPropertyInInnerContent);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(TextBlock), $"The retrieved instance should be of type {typeof(TextBlock)}");
+            Assert.IsInstanceOfType(actualInstance, typeof (TextBlock), $"The retrieved instance should be of type {typeof (TextBlock)}");
             var dummyClass = actualInstance as TextBlock;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Hi all!!", dummyClass.Text);
@@ -154,7 +154,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.NonStringProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass, "dummyClass != null");
             Assert.AreEqual(1234, dummyClass.Number);
@@ -165,7 +165,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.ChildCollection);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.IsNotNull(dummyClass.Items);
@@ -177,7 +177,7 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.AttachedProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual(Container.GetProperty(dummyClass), "Value");
@@ -188,10 +188,18 @@
         {
             var actualInstance = XamlLoader.Load(Dummy.Ignorable);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
+        }
+
+        [TestMethod]
+        public void RegisterOneChildInNameScope()
+        {
+            var actualInstance = XamlLoader.Load(Dummy.ChildInNameScope);
+            var childInScope = ((DummyObject) actualInstance).Find("MyObject");
+            Assert.IsInstanceOfType(childInScope, typeof (ChildClass));
         }
     }
 }

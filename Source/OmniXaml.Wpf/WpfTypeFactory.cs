@@ -8,15 +8,15 @@
     using AppServices;
     using AppServices.NetCore;
 
-    public class WpfTypeFactory : InflatableTypeFactory
+    public class WpfTypeFactory : AutoInflatingTypeFactory
     {
         readonly IEnumerable<Type> inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) };
 
-        public WpfTypeFactory() : base(new TypeFactory(), new InflatableTranslator(), typeFactory => new WpfXamlLoader(typeFactory))
+        public WpfTypeFactory() : base(new TypeFactory(), new InflatableTranslator(), typeFactory => new WpfCoreXamlLoader(typeFactory))
         {
         }
 
-        public WpfTypeFactory(ITypeFactory typeFactory) : base(typeFactory, new InflatableTranslator(), t => new WpfXamlLoader(t))
+        public WpfTypeFactory(ITypeFactory typeFactory) : base(typeFactory, new InflatableTranslator(), t => new WpfCoreXamlLoader(t))
         {
         }
 

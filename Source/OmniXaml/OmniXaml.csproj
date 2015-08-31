@@ -143,6 +143,7 @@
     <Compile Include="TypeConversion\BuiltInConverters\StringTypeConverter.cs" />
     <Compile Include="TypeConversion\TypeConverterAttribute.cs" />
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
+    <Compile Include="TypeFactoryMixin.cs" />
     <Compile Include="TypeFeatureProvider.cs" />
     <Compile Include="TypeFeatureProviderBuilder.cs" />
     <Compile Include="TypeNotFoundException.cs" />

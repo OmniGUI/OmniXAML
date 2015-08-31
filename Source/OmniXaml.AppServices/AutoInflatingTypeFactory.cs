@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public class InflatableTypeFactory : ITypeFactory
+    public class AutoInflatingTypeFactory : ITypeFactory
     {
         private readonly ITypeFactory coreTypeFactory;
         private readonly IInflatableTranslator inflatableTranslator;
@@ -14,7 +14,7 @@
 
         public virtual IEnumerable<Type> Inflatables { get; } = new Collection<Type>();
 
-        public InflatableTypeFactory(ITypeFactory coreTypeFactory,
+        public AutoInflatingTypeFactory(ITypeFactory coreTypeFactory,
             IInflatableTranslator inflatableTranslator,
             Func<ITypeFactory, IXamlLoader> loaderFactory)
         {
@@ -26,11 +26,6 @@
         public object Create(Type type)
         {
             return Create(type, null);
-        }
-
-        public T Create<T>()
-        {
-            return (T) Create(typeof (T));
         }
 
         public object Create(Type type, object[] args)

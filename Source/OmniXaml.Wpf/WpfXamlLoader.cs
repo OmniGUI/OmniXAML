@@ -1,9 +1,25 @@
-﻿namespace OmniXaml.Wpf
+namespace OmniXaml.Wpf
 {
-    public class WpfXamlLoader : XamlLoader
+    using System.IO;
+
+    public class WpfXamlLoader : IXamlLoader
     {
-        public WpfXamlLoader(ITypeFactory typeFactory) : base(new WpfParserFactory(typeFactory))
+        private readonly XamlLoader innerLoader;
+
+        public WpfXamlLoader()
         {
+            var typeFactory = new TypeFactory();
+            innerLoader = new XamlLoader(new WpfParserFactory(new AlternateOnRootTypeFactory(typeFactory, new WpfTypeFactory(typeFactory))));
+        }
+
+        public object Load(Stream stream)
+        {
+            return innerLoader.Load(stream);
+        }
+
+        public object Load(Stream stream, object rootInstance)
+        {
+            return innerLoader.Load(stream, rootInstance);
         }
     }
 }

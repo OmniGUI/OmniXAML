@@ -18,7 +18,7 @@
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
             Snippets = snippetsProvider.Snippets;
             LoadCommand = new RelayCommand(o => LoadXamlForWpf(), o => Xaml != string.Empty);
-            WiringContext = WpfWiringContextFactory.GetContext(new TypeFactory());
+            WiringContext = new WpfWiringContext(new TypeFactory());
         }
 
 
@@ -41,9 +41,8 @@
         {
             try
             {
-                var localLoader = new WpfXamlLoader(new TypeFactory());
+                var visualTree = new WpfXamlLoader().Load(Xaml);
 
-                var visualTree = localLoader.Load(Xaml);
                 var window = GetVisualizerWindow(visualTree);
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 window.DataContext = new TestViewModel();

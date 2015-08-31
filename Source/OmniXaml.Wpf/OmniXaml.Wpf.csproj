@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -57,7 +57,9 @@
     <Compile Include="Hydrater.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
+    <Compile Include="AlternateOnRootTypeFactory.cs" />
     <Compile Include="StaticResourceExtension.cs" />
+    <Compile Include="WpfXamlLoader.cs" />
     <Compile Include="WpfParserFactory.cs" />
     <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWindow.cs" />
@@ -73,12 +75,11 @@
     <Compile Include="DeferredLoader.cs" />
     <Compile Include="ObjectAssembler.cs" />
     <Compile Include="TemplateContent.cs" />
-    <Compile Include="WpfXamlLoader.cs" />
+    <Compile Include="WpfCoreXamlLoader.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="TypeConverterProvider.cs" />
     <Compile Include="ServiceLocator.cs" />
-    <Compile Include="WpfWiringContextFactory.cs" />
     <Compile Include="WpfXamlMember.cs" />
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />

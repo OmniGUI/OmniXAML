@@ -25,11 +25,11 @@
         [TestMethod]
         public void SingleCollapsed()
         {
-            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>("<x:Foreigner xmlns:x=\"another\"/>").ToList();
+            var actualNodes = sut.Parse("<a:Foreigner xmlns:a=\"another\"/>").ToList();
             var expectedInstructions = new List<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(AnotherNs),
-                P.EmptyElement(typeof (Foreigner), AnotherNs),
+                P.EmptyElement<Foreigner>(AnotherNs),
             };
 
             CollectionAssert.AreEqual(expectedInstructions, actualNodes);
@@ -38,15 +38,15 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualNodes = sut.Parse<IEnumerable<ProtoXamlInstruction>>(@"<DummyClass xmlns=""root"" xmlns:x=""another"" x:Foreigner.Property=""Value""></DummyClass>").ToList();
+            var actualNodes = sut.Parse(@"<DummyClass xmlns=""root"" xmlns:a=""another"" a:Foreigner.Property=""Value""></DummyClass>").ToList();
 
             var ns = "root";
 
             var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration("", ns),
-                P.NamespacePrefixDeclaration("x", "another"),
-                P.NonEmptyElement(typeof (DummyClass), RootNs),
+                P.NamespacePrefixDeclaration("a", "another"),
+                P.NonEmptyElement<DummyClass>(RootNs),
                 P.AttachableProperty<Foreigner>("Property", "Value", AnotherNs),
                 P.EndTag(),
             };
@@ -57,12 +57,12 @@
         [TestMethod]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
-            var actualNodes = sut.Parse(@"<x:DummyClass xmlns:x=""another""></x:DummyClass>").ToList();
+            var actualNodes = sut.Parse(@"<a:DummyClass xmlns:a=""another""></a:DummyClass>").ToList();
 
             var expectedInstructions = new Collection<ProtoXamlInstruction>
             {
                 P.NamespacePrefixDeclaration(AnotherNs),
-                P.NonEmptyElement(typeof (DummyClass), AnotherNs),
+                P.NonEmptyElement<DummyClass>(AnotherNs),
                 P.EndTag(),
             };
 

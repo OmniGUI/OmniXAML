@@ -22,9 +22,9 @@
             Assert.AreEqual(myWindow.Title, "Hello World :)");
         }
 
-        private static InflatableTypeFactory CreateSut()
+        private static AutoInflatingTypeFactory CreateSut()
         {
-            var inflatableTypeFactory = new DummyInflatableTypeFactory(
+            var inflatableTypeFactory = new DummyAutoInflatingTypeFactory(
                 new TypeFactory(),
                 new InflatableTranslator(),
                 typeFactory => new XamlLoader(new DummyXamlParserFactory(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder))));

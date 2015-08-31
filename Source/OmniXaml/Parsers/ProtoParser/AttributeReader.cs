@@ -33,6 +33,10 @@ namespace OmniXaml.Parsers.ProtoParser
                     {
                         directives.Add(GetDirective());
                     }
+                    else if (longDescriptor.Contains("x:Name"))
+                    {
+                        directives.Add(GetDirective());
+                    }
                     else
                     {
                         attributes.Add(GetAttribute());

@@ -14,8 +14,11 @@ namespace OmniXaml.Tests.Resources
         {
             RootNs = context.RootNs;
             AnotherNs = context.AnotherNs;
+            SpecialNs = context.SpecialNs;
             X = context.X;
         }
+
+        public NamespaceDeclaration SpecialNs { get; set; }
 
         private XamlInstructionBuilder X { get; }
 
@@ -1018,6 +1021,7 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(SpecialNs),
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Child),
                     X.StartObject<ChildClass>(),

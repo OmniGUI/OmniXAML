@@ -6,7 +6,7 @@ namespace OmniXaml.AppServices.Tests
 
     public class GivenAnInflatableTypeLoader : GivenAWiringContextNetCore
     {
-        protected InflatableTypeFactory Inflatable { get; }
+        protected ITypeFactory TypeFactory { get; }
 
         protected GivenAnInflatableTypeLoader()
         {
@@ -16,7 +16,7 @@ namespace OmniXaml.AppServices.Tests
                 return new XamlLoader(parserFactory);
             };            
 
-            Inflatable = new DummyInflatableTypeFactory(new TypeFactory(), new InflatableTranslator(), loaderFactory );
+            TypeFactory = new DummyAutoInflatingTypeFactory(new TypeFactory(), new InflatableTranslator(), loaderFactory );
         }
     }
 }

@@ -1,23 +1,13 @@
 namespace OmniXaml.Wpf.Tests
 {
-    using Glass;
-    using OmniXaml.Wpf;
+    using Wpf;
 
     public class GivenAXamlXmlLoader
     {
-        protected GivenAXamlXmlLoader()
-        {
-            XamlLoader = new WpfXamlLoader(new TypeFactory());
-        }
-
-        private IXamlLoader XamlLoader { get; }
-        
         protected object LoadXaml(string xamlContent)
         {
-            using (var stream = xamlContent.ToStream())
-            {
-                return XamlLoader.Load(stream);
-            }
+            var p = new WpfXamlLoader();
+            return p.Load(xamlContent);
         }
     }
 }

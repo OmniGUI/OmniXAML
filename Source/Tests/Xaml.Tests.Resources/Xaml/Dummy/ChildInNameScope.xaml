@@ -1,0 +1,5 @@
+﻿<DummyClass xmlns="root" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <DummyClass.Child>
+    <ChildClass x:Name="MyObject" />
+  </DummyClass.Child>    
+</DummyClass>

@@ -5,9 +5,9 @@ namespace OmniXaml.AppServices.Tests
     using System.Collections.ObjectModel;
     using OmniXaml.Tests.Classes.WpfLikeModel;
 
-    public class DummyInflatableTypeFactory : InflatableTypeFactory
+    public class DummyAutoInflatingTypeFactory : AutoInflatingTypeFactory
     {
-        public DummyInflatableTypeFactory(ITypeFactory typeFactory, IInflatableTranslator inflatableTranslator, Func<ITypeFactory, IXamlLoader> loaderFactory)
+        public DummyAutoInflatingTypeFactory(ITypeFactory typeFactory, IInflatableTranslator inflatableTranslator, Func<ITypeFactory, IXamlLoader> loaderFactory)
             : base(typeFactory, inflatableTranslator, loaderFactory)
         {
         }

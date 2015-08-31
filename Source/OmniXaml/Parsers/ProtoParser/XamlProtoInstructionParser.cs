@@ -203,7 +203,22 @@
 
         private ProtoXamlInstruction ConvertDirective(RawDirective directive)
         {
-            return instructionBuilder.Attribute(CoreTypes.Key, directive.Value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
+            if (directive.Locator.PropertyName == "Key")
+            {
+                return instructionBuilder.Attribute(
+                    CoreTypes.Key,
+                    directive.Value,
+                    new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
+            }
+            if (directive.Locator.PropertyName == "Name")
+            {
+                return instructionBuilder.Attribute(
+                    CoreTypes.Name,
+                    directive.Value,
+                    new NamespaceDeclaration(null, "x"));
+            }
+
+            throw new XamlParseException($"Cannot handle the directive {directive.Locator.PropertyName}");
         }
 
         private ProtoXamlInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
