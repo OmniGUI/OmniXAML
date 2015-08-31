@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.ObjectModel;
+    using AppServices.Tests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Tests.Classes.WpfLikeModel;
@@ -23,13 +24,10 @@
 
         private static InflatableTypeFactory CreateSut()
         {
-            var inflatableTypeFactory = new InflatableTypeFactory(
+            var inflatableTypeFactory = new DummyInflatableTypeFactory(
                 new TypeFactory(),
                 new InflatableTranslator(),
-                typeFactory => new XamlLoader(new DummyXamlParserFactory(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder))))
-            {
-                Inflatables = new Collection<Type> {typeof (Window), typeof (UserControl)},
-            };
+                typeFactory => new XamlLoader(new DummyXamlParserFactory(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder))));
 
             return inflatableTypeFactory;
         }

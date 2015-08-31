@@ -14,7 +14,7 @@
 
         public virtual IEnumerable<Type> Inflatables { get; } = new Collection<Type>();
 
-        protected InflatableTypeFactory(ITypeFactory coreTypeFactory,
+        public InflatableTypeFactory(ITypeFactory coreTypeFactory,
             IInflatableTranslator inflatableTranslator,
             Func<ITypeFactory, IXamlLoader> loaderFactory)
         {
