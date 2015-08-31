@@ -6,16 +6,14 @@ namespace OmniXaml.Wpf
     using System.Xaml;
     using Typing;
     using NamespaceDeclaration = NamespaceDeclaration;
-    using XamlDirective = System.Xaml.XamlDirective;
     using XamlMember = System.Xaml.XamlMember;
-    using XamlNodeType = XamlNodeType;
     using XamlType = System.Xaml.XamlType;
 
     public static class XamlTypeConversion
     {
-        public static System.Xaml.XamlNodeType ToWpf(this XamlNodeType nodeType)
+        public static System.Xaml.XamlNodeType ToWpf(this XamlInstructionType nodeType)
         {
-            return (System.Xaml.XamlNodeType)Enum.Parse(typeof(System.Xaml.XamlNodeType), nodeType.ToString());
+            return (System.Xaml.XamlNodeType)Enum.Parse(typeof(XamlNodeType), nodeType.ToString());
         }
 
         public static System.Xaml.NamespaceDeclaration ToWpf(this NamespaceDeclaration namespaceDeclaration)

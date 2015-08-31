@@ -35,21 +35,21 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         private void SaveMemberValueToTopDownEnvironment()
         {
-            var member = StateCommuter.Member as MutableXamlMember;
+            var member = StateCommuter.Current.XamlMember as MutableXamlMember;
 
-            if (member != null && StateCommuter.Member.XamlType.IsCollection)
+            if (member != null && StateCommuter.Current.XamlMember.XamlType.IsCollection)
             {
-                var instance = member.GetValue(StateCommuter.Instance);
-                topDownMemberValueContext.SetMemberValue(StateCommuter.Member.XamlType, instance);
+                var instance = member.GetValue(StateCommuter.Current.Instance);
+                topDownMemberValueContext.SetMemberValue(StateCommuter.Current.XamlMember.XamlType, instance);
             }
         }
 
-        public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.HasCurrentInstance && StateCommuter.Member == null;
+        public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.Current.HasInstance && StateCommuter.Current.XamlMember == null;
 
         private void AdaptCurrentCtorArgumentsToCurrentType()
         {
-            var arguments = StateCommuter.CtorArguments;
-            var xamlTypes = GetTypesOfBestCtorMatch(StateCommuter.XamlType, arguments.Count);
+            var arguments = (IList<ConstructionArgument>) StateCommuter.Current.CtorArguments;
+            var xamlTypes = GetTypesOfBestCtorMatch(StateCommuter.Current.XamlType, arguments.Count);
 
             var i = 0;
             foreach (var ctorArg in arguments)

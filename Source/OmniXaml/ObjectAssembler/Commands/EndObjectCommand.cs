@@ -1,5 +1,7 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using System.Collections;
+
     public class EndObjectCommand : Command
     {
         public EndObjectCommand(ObjectAssembler assembler) : base(assembler)
@@ -8,22 +10,30 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         public override void Execute()
         {
-            if (!StateCommuter.IsGetObject)
+            if (!StateCommuter.Current.IsGetObject)
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
 
-                if (StateCommuter.Instance is IMarkupExtension)
+                if (StateCommuter.Current.Instance is IMarkupExtension)
                 {
-                    StateCommuter.Instance = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Instance);
+                    object val = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Current.Instance);
+                    StateCommuter tempQualifier = StateCommuter;
+                    tempQualifier.Current.Instance = val;
+
+                    var collection = val as ICollection;
+                    if (collection != null)
+                    {
+                        tempQualifier.Current.Collection = collection;
+                    }
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
-                else if (!StateCommuter.WasAssociatedRightAfterCreation)
+                else if (!StateCommuter.Current.WasInstanceAssignedRightAfterBeingCreated)
                 {
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
             }
 
-            Assembler.Result = StateCommuter.Instance;
+            Assembler.Result = StateCommuter.Current.Instance;
             StateCommuter.DecreaseLevel();
         }
     }

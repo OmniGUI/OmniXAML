@@ -5,7 +5,7 @@
 
     public class WpfViewFactory : ViewFactory
     {
-        public WpfViewFactory() : base(new WpfInflatableTypeFactory())
+        public WpfViewFactory(ITypeFactory typeFactory) : base(new WpfTypeFactory(typeFactory))
         {
             RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAppDomain));
         }

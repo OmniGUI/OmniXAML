@@ -7,6 +7,7 @@ namespace OmniXaml.Tests
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
+    using Typing;
 
     [TestClass]
     public class ObjectAssemblerStateCommutationTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -22,7 +23,7 @@ namespace OmniXaml.Tests
 
             sut.Process(X.StartObject(type));
 
-            var actualType = sut.StateCommuter.XamlType;
+            var actualType = sut.StateCommuter.Current.XamlType;
 
             var expectedType = WiringContext.TypeContext.GetXamlType(type);
             Assert.AreEqual(expectedType, actualType);

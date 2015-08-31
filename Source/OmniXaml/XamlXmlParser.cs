@@ -30,10 +30,7 @@
 
         private object Parse(IEnumerable<XamlInstruction> xamlNodes)
         {
-            foreach (var xamlNode in xamlNodes)
-            {
-                objectAssembler.Process(xamlNode);
-            }
+            foreach (var instruction in xamlNodes) { objectAssembler.Process(instruction); }
 
             return objectAssembler.Result;
         }

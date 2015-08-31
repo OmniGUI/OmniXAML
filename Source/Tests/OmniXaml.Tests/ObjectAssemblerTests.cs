@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
+    using Classes.WpfLikeModel;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
@@ -183,6 +184,34 @@
             var actual = sut.Result;
             Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
+        }
+
+        [TestMethod]
+        public void RegisterOneChildInNameScope()
+        {
+            sut.PumpNodes(source.ChildInNameScope);
+            var actual = sut.Result;
+            var childInScope = ((DummyObject) actual).Find("MyObject");
+            Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
+        }
+
+
+        [TestMethod]
+        public void RegisterChildInDeeperNameScope()
+        {
+            sut.PumpNodes(source.ChildInDeeperNameScope);
+            var actual = sut.Result;
+            var textBlock1 = ((Window)actual).Find("MyTextBlock");
+            var textBlock2 = ((Window)actual).Find("MyOtherTextBlock");
+
+            Assert.IsInstanceOfType(textBlock1, typeof(TextBlock));
+            Assert.IsInstanceOfType(textBlock2, typeof(TextBlock));
+        }
+
+        [TestMethod]
+        public void NameWithNoNamescopesToRegisterTo()
+        {
+            sut.PumpNodes(source.NameWithNoNamescopesToRegisterTo);            
         }
     }
 }

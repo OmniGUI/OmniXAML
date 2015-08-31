@@ -9,8 +9,7 @@
     public class PersonControl : UserControl
     {
         public PersonControl()
-        {
-            
+        {            
         }
 
         #region Person        

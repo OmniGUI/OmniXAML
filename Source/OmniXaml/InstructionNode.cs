@@ -19,17 +19,8 @@ namespace OmniXaml
         public IEnumerable<XamlInstruction> Dump()
         {
             yield return Leading;
-
-            foreach (var xamlNode in Body)
-            {
-                yield return xamlNode;
-            }
-
-            foreach (var xamlNode in Children.SelectMany(child => child.Dump()))
-            {
-                yield return xamlNode;
-            }
-
+            foreach (var instruction in Body) { yield return instruction; }
+            foreach (var instruction in Children.SelectMany(child => child.Dump())) { yield return instruction; }
             yield return Trailing;
         }
 

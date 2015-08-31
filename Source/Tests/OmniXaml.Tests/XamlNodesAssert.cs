@@ -59,7 +59,7 @@
                                          && nodeA.NamespaceDeclaration.Prefix == nodeB.NamespaceDeclaration.Prefix;
                 }
 
-                var equal = nodeA.NodeType == nodeB.NodeType &&
+                var equal = nodeA.InstructionType == nodeB.InstructionType &&
                         areMembersConsideredEqual && areNamespacesEqual &&
                         areXamlTypesConsideredEqual;
 

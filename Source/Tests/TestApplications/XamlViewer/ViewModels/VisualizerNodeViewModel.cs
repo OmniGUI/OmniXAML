@@ -105,30 +105,30 @@ namespace XamlViewer.ViewModels
 
         private static NodeType GetNodeType(XamlInstruction current)
         {
-            switch (current.NodeType)
+            switch (current.InstructionType)
             {
-                case XamlNodeType.StartMember:
-                case XamlNodeType.EndMember:
+                case XamlInstructionType.StartMember:
+                case XamlInstructionType.EndMember:
                     return NodeType.Member;
 
-                case XamlNodeType.StartObject:
-                case XamlNodeType.EndObject:
+                case XamlInstructionType.StartObject:
+                case XamlInstructionType.EndObject:
                     return NodeType.Object;
 
-                case XamlNodeType.GetObject:
+                case XamlInstructionType.GetObject:
                     return NodeType.GetObject;
 
-                case XamlNodeType.NamespaceDeclaration:
+                case XamlInstructionType.NamespaceDeclaration:
                     return NodeType.NamespaceDeclaration;
 
-                case XamlNodeType.Value:
+                case XamlInstructionType.Value:
                     return NodeType.Value;
 
-                case XamlNodeType.None:
+                case XamlInstructionType.None:
                     return NodeType.Root;
             }
 
-            throw new InvalidOperationException("Cannont translate the type");
+            throw new InvalidOperationException("Cannot translate the type");
         }
 
         public NodeType NodeType => GetNodeType(model.XamlInstruction);

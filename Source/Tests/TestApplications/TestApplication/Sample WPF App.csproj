@@ -36,6 +36,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Grace, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Grace.2.4.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Grace.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Grace.Net, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\Grace.Net.2.4.2\lib\net45\Grace.Net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -64,6 +72,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CustomGraceBasedTypeFactory.cs" />
+    <Compile Include="Service\IPeopleService.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -72,6 +82,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Service\PeopleService.cs" />
     <Compile Include="PersonControl.xaml.cs">
       <DependentUpon>PersonControl.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -94,6 +105,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -108,17 +120,17 @@
       <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
       <Name>Glass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.AppServices.Mvvm.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.Services.Mvvm.csproj">
       <Project>{7784da26-90c9-402e-8aae-6d4d59c22d74}</Project>
-      <Name>OmniXaml.AppServices.Mvvm</Name>
+      <Name>OmniXaml.Services.Mvvm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+      <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.AppServices.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.Services.csproj">
       <Project>{b207c0cb-2bdf-4105-9e1d-1c5b98e98381}</Project>
-      <Name>OmniXaml.AppServices</Name>
+      <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}</Project>

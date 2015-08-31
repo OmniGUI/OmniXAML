@@ -51,9 +51,9 @@
       <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
       <Name>Glass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.AppServices.NetCore.csproj">
+    <ProjectReference Include="..\..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
-      <Name>OmniXaml.AppServices.NetCore</Name>
+      <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>

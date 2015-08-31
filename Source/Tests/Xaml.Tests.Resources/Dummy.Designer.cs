@@ -95,6 +95,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///    &lt;Grid&gt;
+        ///        &lt;TextBlock x:Name=&quot;MyTextBlock&quot; /&gt;
+        ///        &lt;TextBlock x:Name=&quot;MyOtherTextBlock&quot; /&gt;
+        ///    &lt;/Grid&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string ChildInDeeperNameScope {
+            get {
+                return ResourceManager.GetString("ChildInDeeperNameScope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Items&gt;
         ///    &lt;Item/&gt;

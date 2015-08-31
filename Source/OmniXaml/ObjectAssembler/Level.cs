@@ -9,18 +9,16 @@ namespace OmniXaml.ObjectAssembler
         public object Instance { get; set; }
         public XamlType XamlType { get; set; }
         public XamlMemberBase XamlMember { get; set; }
-        public bool IsCollectionHolderObject { get; set; }
-        public bool IsMemberHostingChildren { get; set; }
         public ICollection Collection { get; set; }
         public bool IsGetObject { get; set; }
         public Collection<ConstructionArgument> CtorArguments { get; set; }
-        public bool WasAssociatedRightAfterCreation { get; set; }
+        public bool WasInstanceAssignedRightAfterBeingCreated { get; set; }
 
         protected bool Equals(Level other)
         {
             return Equals(Instance, other.Instance) && Equals(XamlType, other.XamlType) && Equals(XamlMember, other.XamlMember) &&
-                   IsCollectionHolderObject == other.IsCollectionHolderObject && IsMemberHostingChildren == other.IsMemberHostingChildren &&
-                   IsGetObject == other.IsGetObject && Equals(Collection, other.Collection) && Equals(CtorArguments, other.CtorArguments);
+                   IsGetObject == other.IsGetObject && Equals(Collection, other.Collection) &&
+                   Equals(CtorArguments, other.CtorArguments);
         }
 
         public override bool Equals(object obj)
@@ -33,7 +31,7 @@ namespace OmniXaml.ObjectAssembler
             {
                 return true;
             }
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
             {
                 return false;
             }
@@ -47,9 +45,7 @@ namespace OmniXaml.ObjectAssembler
                 var hashCode = (Instance != null ? Instance.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (XamlType != null ? XamlType.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (XamlMember != null ? XamlMember.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ IsCollectionHolderObject.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsMemberHostingChildren.GetHashCode();
-                hashCode = (hashCode * 397) ^ IsGetObject.GetHashCode();                
+                hashCode = (hashCode * 397) ^ IsGetObject.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Collection != null ? Collection.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (CtorArguments != null ? CtorArguments.GetHashCode() : 0);
                 return hashCode;

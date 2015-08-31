@@ -7,6 +7,6 @@
     public class Grid
     {
         public Collection<RowDefinition> RowDefinitions { get; set; }
-        public Collection<TextBlock> Children { get; set; }
+        public Collection<object> Children { get; set; } = new Collection<object>();
     }
 }
