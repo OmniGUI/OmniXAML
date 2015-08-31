@@ -42,7 +42,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sprache, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Sprache.SuperJMN.2.0.0.47\lib\portable-net4+netcore45+win8+wp8+sl5+MonoAndroid1+MonoTouch1\Sprache.dll</HintPath>
+      <HintPath>..\..\..\packages\Sprache.SuperJMN.2.0.0.50\lib\portable-net45+netcore45\Sprache.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
