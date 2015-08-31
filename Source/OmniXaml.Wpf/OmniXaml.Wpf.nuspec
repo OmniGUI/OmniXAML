@@ -11,6 +11,7 @@
     <dependencies>
       <dependency id="OmniXaml.AppServices" version="$version$" />
       <dependency id="OmniXaml.AppServices.NetCore" version="$version$" />
+      <dependency id="OmniXaml.AppServices.Mvvm" version="$version$" />
     </dependencies>
   </metadata>
 </package>
