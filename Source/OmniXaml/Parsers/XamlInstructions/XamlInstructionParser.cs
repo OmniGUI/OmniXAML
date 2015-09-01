@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Parsers.XamlNodes
+﻿namespace OmniXaml.Parsers.XamlInstructions
 {
     using System.Collections.Generic;
     using MarkupExtensions;

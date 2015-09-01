@@ -8,6 +8,8 @@
     using OmniXaml.Tests.Classes.WpfLikeModel;
     using OmniXaml.Tests.Common;
     using OmniXaml.Tests.Common.NetCore;
+    using Services;
+    using Services.DotNetFx;
 
     [TestClass]
     public class InflatableFactoryTest

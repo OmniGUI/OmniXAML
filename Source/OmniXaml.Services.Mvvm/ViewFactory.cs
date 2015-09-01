@@ -1,10 +1,10 @@
-﻿namespace OmniXaml.AppServices.Mvvm
+﻿namespace OmniXaml.Services.Mvvm
 {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
 
-    public class ViewFactory
+    public class ViewFactory : IViewFactory
     {
         private readonly ITypeFactory typeFactory;
 

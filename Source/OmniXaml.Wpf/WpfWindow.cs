@@ -2,7 +2,7 @@ namespace OmniXaml.Wpf
 {
     using System.Threading.Tasks;
     using System.Windows;
-    using AppServices.Mvvm;
+    using Services.Mvvm;
 
     public class WpfWindow : Window, IView
     {

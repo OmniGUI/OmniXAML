@@ -1,6 +1,4 @@
-using System;
-
-namespace OmniXaml.AppServices.Mvvm
+namespace OmniXaml.Services.Mvvm
 {
     using System.Threading.Tasks;
 

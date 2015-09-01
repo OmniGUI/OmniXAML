@@ -5,7 +5,7 @@
     using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.XamlNodes;
+    using OmniXaml.Parsers.XamlInstructions;
 
     [TestClass]
     public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuildersNetCore

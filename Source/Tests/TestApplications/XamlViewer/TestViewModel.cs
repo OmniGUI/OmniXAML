@@ -1,7 +1,7 @@
 ﻿namespace XamlViewer
 {
     using System.Collections.ObjectModel;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     class TestViewModel : ViewModel
     {

@@ -6,7 +6,7 @@
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlNodes;
+    using OmniXaml.Parsers.XamlInstructions;
     using Resources;
     using Xaml.Tests.Resources;
 

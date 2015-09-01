@@ -1,7 +1,7 @@
 namespace XamlViewer.ViewModels
 {
     using OmniXaml;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     public class XamlVisualizerViewModel : ViewModel
     {

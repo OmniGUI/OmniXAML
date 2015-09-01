@@ -7,7 +7,7 @@
     using Classes.WpfLikeModel;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.XamlNodes;
+    using OmniXaml.Parsers.XamlInstructions;
     using Resources;
 
     [TestClass]

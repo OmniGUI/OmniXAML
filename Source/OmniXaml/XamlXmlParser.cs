@@ -4,7 +4,7 @@
     using System.IO;
     using Glass;
     using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
+    using Parsers.XamlInstructions;
 
     public class XamlXmlParser : IXamlParser
     {

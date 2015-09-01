@@ -1,10 +1,10 @@
 namespace OmniXaml.Tests.Common.NetCore
 {
     using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using ObjectAssembler;
+    using Parsers.XamlInstructions;
 
     public class DummyXamlParserFactory : IXamlParserFactory
     {

@@ -3,7 +3,7 @@ namespace SampleWpfApp
     using System;
     using Grace.DependencyInjection;
     using OmniXaml;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     public class CustomGraceBasedTypeFactory : ITypeFactory
     {

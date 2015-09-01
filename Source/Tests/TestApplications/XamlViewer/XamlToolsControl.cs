@@ -9,7 +9,7 @@
     using Glass;
     using OmniXaml;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlNodes;
+    using OmniXaml.Parsers.XamlInstructions;
     using OmniXaml.Visualization;
     using ViewModels;
     using Views;

@@ -1,4 +1,4 @@
-namespace OmniXaml.AppServices
+namespace OmniXaml.Services
 {
     using System;
     using System.IO;

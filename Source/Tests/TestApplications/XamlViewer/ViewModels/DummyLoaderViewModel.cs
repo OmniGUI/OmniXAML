@@ -4,7 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.AppServices.NetCore;
+    using OmniXaml.Services.DotNetFx;
     using OmniXaml.Tests.Common;
     using OmniXaml.Tests.Common.NetCore;
     using XamlResources = Xaml.Tests.Resources.Dummy;

@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.Common.NetCore
 {
-    using AppServices.NetCore;
+    using Services.DotNetFx;
     using Tests.Common;
 
     public class GivenAWiringContextWithNodeBuildersNetCore : GivenAWiringContextWithNodeBuilders

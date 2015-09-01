@@ -1,4 +1,4 @@
-namespace OmniXaml.AppServices.NetCore
+namespace OmniXaml.Services.DotNetFx
 {
     using System;
     using System.IO;

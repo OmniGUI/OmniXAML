@@ -3,7 +3,7 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Linq;
     using System.Xaml;
-    using AppServices;
+    using Services;
     using SystemXamlNsDeclaration = System.Xaml.NamespaceDeclaration;
     using SystemXamlType = System.Xaml.XamlType;
     using SystemXamlNodeType = System.Xaml.XamlNodeType;

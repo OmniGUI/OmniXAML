@@ -2,7 +2,7 @@ namespace OmniXaml.Wpf
 {
     using OmniXaml.ObjectAssembler;
     using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
+    using Parsers.XamlInstructions;
 
     public class WpfParserFactory : IXamlParserFactory
     {

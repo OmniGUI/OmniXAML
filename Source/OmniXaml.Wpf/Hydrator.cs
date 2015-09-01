@@ -4,10 +4,10 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using AppServices.NetCore;
     using Builder;
     using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
+    using Parsers.XamlInstructions;
+    using Services.DotNetFx;
     using Typing;
 
     internal class Hydrator

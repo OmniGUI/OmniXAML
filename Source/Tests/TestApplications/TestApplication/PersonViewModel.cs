@@ -1,7 +1,7 @@
 namespace SampleWpfApp
 {
     using System;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     public class PersonViewModel : ViewModel
     {

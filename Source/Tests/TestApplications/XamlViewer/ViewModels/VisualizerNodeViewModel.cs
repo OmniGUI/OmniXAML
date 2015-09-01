@@ -5,7 +5,7 @@ namespace XamlViewer.ViewModels
     using System.Linq;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
     using OmniXaml.Typing;
     using OmniXaml.Visualization;
 

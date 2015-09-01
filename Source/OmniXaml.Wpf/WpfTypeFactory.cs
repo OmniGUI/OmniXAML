@@ -5,8 +5,8 @@
     using System.Collections.ObjectModel;
     using System.Windows;
     using System.Windows.Controls;
-    using AppServices;
-    using AppServices.NetCore;
+    using Services;
+    using Services.DotNetFx;
 
     public class WpfTypeFactory : AutoInflatingTypeFactory
     {

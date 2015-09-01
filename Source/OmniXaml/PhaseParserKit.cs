@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml
 {
     using Parsers.ProtoParser;
-    using Parsers.XamlNodes;
+    using Parsers.XamlInstructions;
 
     public class PhaseParserKit
     {

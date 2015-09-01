@@ -1,10 +1,15 @@
 ﻿namespace OmniXaml.Wpf
 {
-    using AppServices.Mvvm;
-    using AppServices.NetCore;
+    using Services.DotNetFx;
+    using Services.Mvvm;
 
     public class WpfViewFactory : ViewFactory
     {
+        // ReSharper disable once UnusedMember.Global
+        public WpfViewFactory() : this(new WpfTypeFactory())
+        {            
+        }
+
         public WpfViewFactory(ITypeFactory typeFactory) : base(new WpfTypeFactory(typeFactory))
         {
             RegisterViews(ViewRegistration.FromTypes(Types.FromCurrentAppDomain));

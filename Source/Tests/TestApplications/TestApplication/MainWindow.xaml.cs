@@ -1,6 +1,6 @@
 ﻿namespace SampleWpfApp
 {
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
     using OmniXaml.Wpf;
 
     [ViewToken("Main", typeof(MainWindow))]

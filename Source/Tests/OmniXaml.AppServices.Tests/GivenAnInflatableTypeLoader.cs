@@ -1,8 +1,8 @@
 namespace OmniXaml.AppServices.Tests
 {
     using System;
-    using NetCore;
     using OmniXaml.Tests.Common.NetCore;
+    using Services.DotNetFx;
 
     public class GivenAnInflatableTypeLoader : GivenAWiringContextNetCore
     {

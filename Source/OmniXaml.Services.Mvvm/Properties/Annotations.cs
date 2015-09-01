@@ -7,7 +7,7 @@
 // ReSharper disable MemberCanBeProtected.Global
 // ReSharper disable InconsistentNaming
 
-namespace TestApplication.Properties
+namespace OmniXaml.Services.Mvvm.Properties
 {
     using System;
 

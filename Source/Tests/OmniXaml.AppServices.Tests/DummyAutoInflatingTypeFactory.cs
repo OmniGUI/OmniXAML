@@ -4,6 +4,7 @@ namespace OmniXaml.AppServices.Tests
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using OmniXaml.Tests.Classes.WpfLikeModel;
+    using Services;
 
     public class DummyAutoInflatingTypeFactory : AutoInflatingTypeFactory
     {

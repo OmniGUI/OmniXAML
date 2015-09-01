@@ -8,8 +8,8 @@
     <ProjectGuid>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.AppServices.NetCore</RootNamespace>
-    <AssemblyName>OmniXaml.AppServices.NetCore</AssemblyName>
+    <RootNamespace>OmniXaml.Services.DotNetFx</RootNamespace>
+    <AssemblyName>OmniXaml.Services.DotNetFx</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>

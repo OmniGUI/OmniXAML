@@ -3,7 +3,7 @@
     using System.Collections;
     using System.Collections.ObjectModel;
     using System.Reflection;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     public class InstanceNodeViewModel : ViewModel
     {

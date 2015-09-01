@@ -1,7 +1,7 @@
 ﻿namespace SampleWpfApp
 {
     using System.Collections.Generic;
-    using OmniXaml.AppServices.Mvvm;
+    using OmniXaml.Services.Mvvm;
 
     // ReSharper disable once UnusedMember.Global
     public class MainWindowViewModel : ViewModel
