@@ -12,7 +12,7 @@
     {
         readonly IEnumerable<Type> inflatables = new Collection<Type> { typeof(Window), typeof(UserControl) };
 
-        public WpfTypeFactory() : base(new TypeFactory(), new InflatableTranslator(), typeFactory => new WpfCoreXamlLoader(typeFactory))
+        public WpfTypeFactory() : this(new TypeFactory())
         {
         }
 
