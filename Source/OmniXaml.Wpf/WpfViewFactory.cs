@@ -6,7 +6,7 @@
     public class WpfViewFactory : ViewFactory
     {
         // ReSharper disable once UnusedMember.Global
-        public WpfViewFactory() : this(new WpfTypeFactory())
+        public WpfViewFactory() : this(new TypeFactory())
         {            
         }
 

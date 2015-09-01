@@ -12,7 +12,7 @@
         private readonly IInflatableTranslator inflatableTranslator;
         private readonly Func<ITypeFactory, IXamlLoader> xamlLoaderFactory;
 
-        public virtual IEnumerable<Type> Inflatables { get; } = new Collection<Type>();
+        public virtual IEnumerable<Type> Inflatables => new Collection<Type>();
 
         public AutoInflatingTypeFactory(ITypeFactory innerTypeFactory,
             IInflatableTranslator inflatableTranslator,
