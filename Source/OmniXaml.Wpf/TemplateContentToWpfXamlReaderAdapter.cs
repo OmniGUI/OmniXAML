@@ -19,10 +19,10 @@ namespace OmniXaml.Wpf
             XamlSchemaContext xamlSchemaContext)
         {
             this.templateContent = templateContent;
-            this.SchemaContext = xamlSchemaContext;
+            SchemaContext = xamlSchemaContext;
 
-            var hydrater = new Hydrater(autoInflatingTypeFactory.Inflatables, templateContent.Context);
-            var hydratedNodes = hydrater.Hydrate(templateContent.Nodes);
+            var hydrator = new Hydrator(autoInflatingTypeFactory.Inflatables, templateContent.Context);
+            var hydratedNodes = hydrator.Hydrate(templateContent.Nodes);
 
             nodeStream = hydratedNodes.GetEnumerator();
         }

@@ -10,13 +10,13 @@ namespace OmniXaml.Wpf
     using Parsers.XamlNodes;
     using Typing;
 
-    internal class Hydrater
+    internal class Hydrator
     {
         private readonly IEnumerable<Type> inflatables;
         private readonly IWiringContext wiringContext;
         private readonly XamlInstructionBuilder instructionBuilder;
 
-        public Hydrater(IEnumerable<Type> inflatables, IWiringContext wiringContext)
+        public Hydrator(IEnumerable<Type> inflatables, IWiringContext wiringContext)
         {
             this.inflatables = inflatables;
             this.wiringContext = wiringContext;
@@ -83,7 +83,7 @@ namespace OmniXaml.Wpf
         {
             var resourceProvider = new InflatableTranslator();
 
-            using (var stream = resourceProvider.GetStream(underlyingType))
+            using (var stream = resourceProvider.GetInflationSourceStream(underlyingType))
             {
                 var wiringContext = (IWiringContext) new WpfWiringContext(new TypeFactory());
                 var loader = new XamlInstructionParser(wiringContext);

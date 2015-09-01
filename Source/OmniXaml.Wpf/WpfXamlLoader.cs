@@ -8,8 +8,7 @@ namespace OmniXaml.Wpf
 
         public WpfXamlLoader()
         {
-            var typeFactory = new TypeFactory();
-            innerLoader = new XamlLoader(new WpfParserFactory(new AlternateOnRootTypeFactory(typeFactory, new WpfTypeFactory(typeFactory))));
+            innerLoader = new XamlLoader(new WpfParserFactory(new WpfXamlLoaderTypeFactory()));
         }
 
         public object Load(Stream stream)

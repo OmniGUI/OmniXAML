@@ -7,29 +7,12 @@ namespace OmniXaml.AppServices.NetCore
 
     public class InflatableTranslator : IInflatableTranslator
     {
-        public Stream GetStream(Type type)
+        public Stream GetInflationSourceStream(Type type)
         {
             var uri = GetUriFor(type);
             var absoluteUri = new Uri(Assembly.GetExecutingAssembly().Location, UriKind.Absolute);
             var finalUri = new Uri(absoluteUri, uri);
             return new FileStream(finalUri.LocalPath, FileMode.Open);
-        }
-
-        private static Uri GetUriFor(Type type)
-        {
-            if (type.Namespace != null)
-            {
-                var toRemove = type.Assembly.GetName().Name;
-                var substracted = toRemove.Length < type.Namespace.Length ? type.Namespace.Remove(0, toRemove.Length + 1) : "";
-                var replace = substracted.Replace('.', Path.PathSeparator);
-                if (replace != string.Empty)
-                {
-                    replace = replace + "/";
-                }
-                return new Uri(replace + type.Name + ".xaml", UriKind.Relative);
-            }
-
-            return null;
         }
 
         public Type GetTypeFor(Uri uri)
@@ -49,6 +32,23 @@ namespace OmniXaml.AppServices.NetCore
                 select t;
 
             return type.First();
+        }
+
+        private static Uri GetUriFor(Type type)
+        {
+            if (type.Namespace != null)
+            {
+                var toRemove = type.Assembly.GetName().Name;
+                var substracted = toRemove.Length < type.Namespace.Length ? type.Namespace.Remove(0, toRemove.Length + 1) : "";
+                var replace = substracted.Replace('.', Path.PathSeparator);
+                if (replace != string.Empty)
+                {
+                    replace = replace + "/";
+                }
+                return new Uri(replace + type.Name + ".xaml", UriKind.Relative);
+            }
+
+            return null;
         }
 
         private static string GetName(Assembly assembly, string innerNs, string className)

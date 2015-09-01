@@ -4,17 +4,12 @@ namespace OmniXaml.Tests
 
     public class TypeFactoryDummy : ITypeFactory
     {
-        public object Create(Type type)
-        {
-            throw new NotImplementedException();
-        }
-
         public object Create(Type type, object[] args)
         {
             throw new NotImplementedException();
         }
 
-        public bool CanLocate(Type type)
+        public bool CanCreate(Type type)
         {
             throw new NotImplementedException();
         }

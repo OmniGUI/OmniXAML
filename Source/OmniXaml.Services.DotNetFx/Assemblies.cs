@@ -28,6 +28,9 @@ namespace OmniXaml.AppServices.NetCore
                     {
                         assemblies.Add(Assembly.LoadFile(fileName));
                     }
+                    catch (FileNotFoundException)
+                    {                        
+                    }
                     catch (FileLoadException)
                     {
                     }
@@ -40,12 +43,12 @@ namespace OmniXaml.AppServices.NetCore
             }
         }
 
-        public static IEnumerable<string> FilterFiles(string path, params string[] exts)
+        public static IEnumerable<string> FilterFiles(string path, params string[] extensionsWithNoWildcard)
         {
             return
                 Directory
                 .EnumerateFiles(path, "*.*")
-                .Where(file => exts.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)));
+                .Where(file => extensionsWithNoWildcard.Any(x => file.EndsWith(x, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

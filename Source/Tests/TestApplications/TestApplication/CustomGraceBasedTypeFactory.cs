@@ -15,22 +15,17 @@ namespace SampleWpfApp
             this.container = container;
         }
 
-        public object Create(Type type)
-        {
-            return container.Locate(type);
-        }
-
         public object Create(Type type, object[] args)
         {
             if (typeof(ViewModel).IsAssignableFrom(type))
             {
-                return Create(type);
+                return container.Locate(type);
             }
 
             return defaultTypeFactory.Create(type, args);
         }
 
-        public bool CanLocate(Type type)
+        public bool CanCreate(Type type)
         {
             return true;
         }

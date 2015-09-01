@@ -7,24 +7,13 @@
         private readonly ITypeFactory forRoot;
         private readonly ITypeFactory forNonRoot;
 
-        public AlternateOnRootTypeFactory(ITypeFactory forRoot, ITypeFactory forNonRoot)
+        protected AlternateOnRootTypeFactory(ITypeFactory forRoot, ITypeFactory forNonRoot)
         {
             this.forRoot = forRoot;
             this.forNonRoot = forNonRoot;
         }
 
         private bool RootIsRead { get; set; }
-
-        public object Create(Type type)
-        {
-            if (RootIsRead)
-            {
-                return forNonRoot.Create(type);
-            }
-
-            RootIsRead = true;
-            return forRoot.Create(type);
-        }
 
         public object Create(Type type, params object[] args)
         {
@@ -37,9 +26,9 @@
             return forRoot.Create(type, args);
         }
 
-        public bool CanLocate(Type type)
+        public bool CanCreate(Type type)
         {
-            return forNonRoot.CanLocate(type);
+            return forNonRoot.CanCreate(type);
         }
     }
 }

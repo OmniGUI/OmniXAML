@@ -199,21 +199,17 @@
       <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
       <Name>Glass</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.Mvvm\OmniXaml.Services.Mvvm.csproj">
-      <Project>{7784da26-90c9-402e-8aae-6d4d59c22d74}</Project>
-      <Name>OmniXaml.Services.Mvvm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OmniXaml.Services.Mvvm\OmniXaml.Services.Mvvm.csproj">
+      <Project>{7784DA26-90C9-402E-8AAE-6D4D59C22D74}</Project>
+      <Name>OmniXaml.Services.Mvvm</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3f5debe4-d1d2-4190-9aea-fdd4065fded7}</Project>
       <Name>OmniXaml.Wpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\OmniXaml.AppServices\OmniXaml.Services.csproj">
-      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
-      <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>

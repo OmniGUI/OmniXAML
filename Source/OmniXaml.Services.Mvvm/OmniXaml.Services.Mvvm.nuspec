@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>OmniXaml.AppServices.Mvvm</id>
+    <id>OmniXaml.Services.Mvvm</id>
     <version>$version$</version>
-    <title>OmniXaml.AppServices.Mvvm</title>
+    <title>OmniXaml.Services.Mvvm</title>
     <authors>José Manuel Nieto (@SuperJMN)</authors>
     <owners>José Manuel Nieto (@SuperJMN)</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

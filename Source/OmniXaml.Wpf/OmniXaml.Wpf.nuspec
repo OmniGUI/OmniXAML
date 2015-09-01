@@ -9,9 +9,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Description</description>
     <dependencies>
-      <dependency id="OmniXaml.AppServices" version="$version$" />
-      <dependency id="OmniXaml.AppServices.NetCore" version="$version$" />
-      <dependency id="OmniXaml.AppServices.Mvvm" version="$version$" />
+      <dependency id="OmniXaml.Services" version="$version$" />
+      <dependency id="OmniXaml.Services.NetCore" version="$version$" />
+      <dependency id="OmniXaml.Services.Mvvm" version="$version$" />
     </dependencies>
   </metadata>
 </package>

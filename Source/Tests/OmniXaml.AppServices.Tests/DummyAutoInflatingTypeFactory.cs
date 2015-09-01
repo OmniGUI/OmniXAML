@@ -7,8 +7,8 @@ namespace OmniXaml.AppServices.Tests
 
     public class DummyAutoInflatingTypeFactory : AutoInflatingTypeFactory
     {
-        public DummyAutoInflatingTypeFactory(ITypeFactory typeFactory, IInflatableTranslator inflatableTranslator, Func<ITypeFactory, IXamlLoader> loaderFactory)
-            : base(typeFactory, inflatableTranslator, loaderFactory)
+        public DummyAutoInflatingTypeFactory(ITypeFactory typeFactory, IInflatableTranslator inflatableTranslator, Func<ITypeFactory, IXamlLoader> xamlLoaderFactory)
+            : base(typeFactory, inflatableTranslator, xamlLoaderFactory)
         {
         }
 

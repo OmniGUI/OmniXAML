@@ -54,7 +54,7 @@
     <Compile Include="DependencyObjectHelper.cs" />
     <Compile Include="DynamicResourceExtension.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="Hydrater.cs" />
+    <Compile Include="Hydrator.cs" />
     <Compile Include="MarkupExtensionXamlType.cs" />
     <Compile Include="DirectiveAdapter.cs" />
     <Compile Include="AlternateOnRootTypeFactory.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="WpfWindow.cs" />
     <Compile Include="WpfWiringContext.cs" />
     <Compile Include="WpfXamlAttachableMember.cs" />
+    <Compile Include="WpfXamlLoaderTypeFactory.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
     <Compile Include="WpfTypeFactory.cs" />
@@ -90,15 +91,15 @@
     <Compile Include="WpfXamlTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.AppServices.Mvvm\OmniXaml.Services.Mvvm.csproj">
-      <Project>{7784DA26-90C9-402E-8AAE-6D4D59C22D74}</Project>
-      <Name>OmniXaml.Services.Mvvm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices.NetCore\OmniXaml.Services.DotNetFx.csproj">
+    <ProjectReference Include="..\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices\OmniXaml.Services.csproj">
+    <ProjectReference Include="..\OmniXaml.Services.Mvvm\OmniXaml.Services.Mvvm.csproj">
+      <Project>{7784DA26-90C9-402E-8AAE-6D4D59C22D74}</Project>
+      <Name>OmniXaml.Services.Mvvm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.Services\OmniXaml.Services.csproj">
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
       <Name>OmniXaml.Services</Name>
     </ProjectReference>
