@@ -111,9 +111,7 @@ namespace Xaml.Tests.Resources {
         /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
-        ///    &lt;ChildClass&gt;
-        ///      &lt;ChildClas x:Name=&quot;MyObject&quot; /&gt;      
-        ///    &lt;/ChildClass&gt;
+        ///    &lt;ChildClass x:Name=&quot;MyObject&quot; /&gt;
         ///  &lt;/DummyClass.Child&gt;    
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -425,6 +423,20 @@ namespace Xaml.Tests.Resources {
         public static string KeyDirective {
             get {
                 return ResourceManager.GetString("KeyDirective", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
+        ///            xmlns:special=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;DummyClass.Resources&gt;
+        ///    &lt;ChildClass special:Key=&quot;SomeKey&quot; /&gt;    
+        ///  &lt;/DummyClass.Resources&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string KeyDirectiveNotInX {
+            get {
+                return ResourceManager.GetString("KeyDirectiveNotInX", resourceCulture);
             }
         }
         

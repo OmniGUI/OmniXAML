@@ -1,0 +1,6 @@
+﻿<DummyClass xmlns="root"
+            xmlns:special="http://schemas.microsoft.com/winfx/2006/xaml">
+  <DummyClass.Resources>
+    <ChildClass special:Key="SomeKey" />    
+  </DummyClass.Resources>
+</DummyClass>

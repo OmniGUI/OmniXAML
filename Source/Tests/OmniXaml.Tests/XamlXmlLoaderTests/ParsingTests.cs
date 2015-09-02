@@ -201,5 +201,14 @@
             var childInScope = ((DummyObject) actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof (ChildClass));
         }
+
+        [TestMethod]        
+        public void DirectiveInSpecialNamespaceThatIsNotX()
+        {
+            var actual = XamlLoader.Load(Dummy.KeyDirectiveNotInX);
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            var dictionary = (IDictionary)((DummyClass)actual).Resources;
+            Assert.IsTrue(dictionary.Count > 0);
+        }
     }
 }

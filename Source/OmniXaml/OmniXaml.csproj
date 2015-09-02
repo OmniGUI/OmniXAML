@@ -124,10 +124,10 @@
     <Compile Include="Parsers\MarkupExtensions\TreeNode.cs" />
     <Compile Include="Parsers\Inject.cs" />
     <Compile Include="Parsers\ProtoParser\AttributeFeed.cs" />
-    <Compile Include="Parsers\ProtoParser\AttributeReader.cs" />
+    <Compile Include="Parsers\ProtoParser\AttributeParser.cs" />
     <Compile Include="Parsers\ProtoParser\NsPrefix.cs" />
     <Compile Include="Parsers\ProtoParser\XamlProtoInstructionParser.cs" />
-    <Compile Include="Parsers\ProtoParser\UnprocessedAttribute.cs" />
+    <Compile Include="Parsers\ProtoParser\AttributeAssignment.cs" />
     <Compile Include="Parsers\XamlInstructions\XamlInstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\NodeType.cs" />
     <Compile Include="PrefixRegistrationMode.cs" />

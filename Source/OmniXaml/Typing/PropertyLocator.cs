@@ -32,6 +32,8 @@
 
         public bool IsDotted => Owner != null;
 
+        public bool IsNsPrefixDefinition => Prefix == "xmlns" || PropertyName == "xmlns";
+
         public static PropertyLocator Parse(string longName)
         {
             if (string.IsNullOrEmpty(longName))

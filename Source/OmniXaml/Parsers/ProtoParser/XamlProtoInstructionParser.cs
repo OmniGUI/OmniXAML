@@ -11,6 +11,7 @@
         private readonly IWiringContext wiringContext;
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
+        private AttributeParser attributeParser;
 
         public XamlProtoInstructionParser(IWiringContext wiringContext)
         {
@@ -21,6 +22,7 @@
         public IEnumerable<ProtoXamlInstruction> Parse(Stream stream)
         {
             reader = new XmlCompatibilityReader(stream);
+            attributeParser = new AttributeParser(reader);
             reader.Read();
 
             return ParseElement();
@@ -127,32 +129,31 @@
             }
         }
 
-        private ProtoXamlInstruction ConvertAttributeToNode(XamlType containingType, UnprocessedAttribute rawAttribute)
+        private ProtoXamlInstruction ConvertAttributeToNode(XamlType containingType, AttributeAssignment rawAttributeAssignment)
         {
             MutableXamlMember member;
 
-            if (rawAttribute.Locator.IsDotted)
+            if (rawAttributeAssignment.Locator.IsDotted)
             {
-                var ownerName = rawAttribute.Locator.Owner.PropertyName;
-                var ownerPrefix = rawAttribute.Locator.Owner.Prefix;
+                var ownerName = rawAttributeAssignment.Locator.Owner.PropertyName;
+                var ownerPrefix = rawAttributeAssignment.Locator.Owner.Prefix;
 
                 var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
 
-                member = owner.GetAttachableMember(rawAttribute.Locator.PropertyName);
+                member = owner.GetAttachableMember(rawAttributeAssignment.Locator.PropertyName);
             }
             else
             {
-                member = containingType.GetMember(rawAttribute.Locator.PropertyName);
+                member = containingType.GetMember(rawAttributeAssignment.Locator.PropertyName);
             }
 
-            var namespaceDeclaration = new NamespaceDeclaration(rawAttribute.Locator.Namespace, rawAttribute.Locator.Prefix);
-            return instructionBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration.Prefix);
+            var namespaceDeclaration = new NamespaceDeclaration(rawAttributeAssignment.Locator.Namespace, rawAttributeAssignment.Locator.Prefix);
+            return instructionBuilder.Attribute(member, rawAttributeAssignment.Value, namespaceDeclaration.Prefix);
         }
 
         private AttributeFeed GetAttributes()
-        {
-            AttributeReader attributeReader = new AttributeReader(reader);
-            return attributeReader.Load();
+        {            
+            return attributeParser.Read();
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseElement()
