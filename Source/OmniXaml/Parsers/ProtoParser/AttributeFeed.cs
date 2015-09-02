@@ -42,7 +42,7 @@ namespace OmniXaml.Parsers.ProtoParser
 
         private static bool IsNamespaceDefinition(AttributeAssignment assignment)
         {
-            return assignment.Locator.Prefix == "xmlns" || assignment.Locator.PropertyName == "xmlns";
+            return assignment.Locator.IsNsPrefixDefinition;
         }
 
         private static DirectiveAssignment ExtractDirectives(AttributeAssignment assignment)
