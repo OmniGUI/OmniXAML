@@ -87,7 +87,7 @@
     <Compile Include="ObjectAssembler\ValueProcessingMode.cs" />
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\ProtoParser\IXmlReader.cs" />
-    <Compile Include="Parsers\ProtoParser\RawDirective.cs" />
+    <Compile Include="Parsers\ProtoParser\DirectiveAssignment.cs" />
     <Compile Include="Parsers\ProtoParser\ProtoXamlInstructionExtensions.cs" />
     <Compile Include="Parsers\ProtoParser\UnprocessedAttributeBase.cs" />
     <Compile Include="Parsers\ProtoParser\XmlCompatibilityReader.cs" />

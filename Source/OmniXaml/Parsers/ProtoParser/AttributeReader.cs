@@ -17,7 +17,7 @@ namespace OmniXaml.Parsers.ProtoParser
         {
             var prefixDefinitions = new Collection<NsPrefix>();
             var attributes = new Collection<UnprocessedAttribute>();
-            var directives = new Collection<RawDirective>();
+            var directives = new Collection<DirectiveAssignment>();
 
             if (reader.MoveToFirstAttribute())
             {
@@ -29,14 +29,10 @@ namespace OmniXaml.Parsers.ProtoParser
                     {
                         prefixDefinitions.Add(GetPrefixDefinition());
                     }
-                    else if (longDescriptor.Contains("x:Key"))
+                    else if (IsDirective(longDescriptor))
                     {
-                        directives.Add(GetDirective());
-                    }
-                    else if (longDescriptor.Contains("x:Name"))
-                    {
-                        directives.Add(GetDirective());
-                    }
+                        directives.Add(GetDirective(longDescriptor));
+                    }                
                     else
                     {
                         attributes.Add(GetAttribute());
@@ -50,10 +46,16 @@ namespace OmniXaml.Parsers.ProtoParser
             return new AttributeFeed(prefixDefinitions, attributes, directives);
         }
 
-        private RawDirective GetDirective()
+        private bool IsDirective(string longDescriptor)
         {
-            return new RawDirective(PropertyLocator.Parse(reader.Name), reader.Value);
+            return longDescriptor.StartsWith("x:");
         }
+
+        private DirectiveAssignment GetDirective(string longDescriptor)
+        {
+            var pair = longDescriptor.Dicotomize(':');
+            return new DirectiveAssignment(CoreTypes.GetDirective(pair.Item2), reader.Value);
+        }        
 
         private UnprocessedAttribute GetAttribute()
         {

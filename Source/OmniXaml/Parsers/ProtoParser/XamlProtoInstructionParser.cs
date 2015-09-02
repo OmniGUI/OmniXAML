@@ -201,18 +201,9 @@
             }
         }
 
-        private ProtoXamlInstruction ConvertDirective(RawDirective directive)
+        private ProtoXamlInstruction ConvertDirective(DirectiveAssignment assignment)
         {
-            if (directive.Locator.PropertyName == "Key")
-            {
-                return instructionBuilder.Attribute(CoreTypes.Key, directive.Value, "x");
-            }
-            if (directive.Locator.PropertyName == "Name")
-            {
-                return instructionBuilder.Attribute(CoreTypes.Name, directive.Value,"x");
-            }
-
-            throw new XamlParseException($"Cannot handle the directive {directive.Locator.PropertyName}");
+            return instructionBuilder.Directive(assignment.Directive, assignment.Value);
         }
 
         private ProtoXamlInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)

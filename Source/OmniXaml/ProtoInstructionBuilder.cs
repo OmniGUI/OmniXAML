@@ -182,7 +182,12 @@
 
         public ProtoXamlInstruction Key(string value)
         {
-            return Attribute(CoreTypes.Key, value, "x");
+            return Attribute(CoreTypes.sKey, value, "x");
+        }
+
+        public ProtoXamlInstruction Directive(XamlDirective directive, string value)
+        {
+            return Attribute(directive, value, "x");
         }
     }
 }

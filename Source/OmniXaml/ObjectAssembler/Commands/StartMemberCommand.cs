@@ -23,7 +23,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 return DirectiveKind.Items;
             }
-            if (xamlMember.Equals(CoreTypes.Key))
+            if (xamlMember.Equals(CoreTypes.sKey))
             {
                 return DirectiveKind.Key;
             }
@@ -31,7 +31,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 return DirectiveKind.MarkupExtensionArguments;
             }
-            if (xamlMember.Equals(CoreTypes.Name))
+            if (xamlMember.Equals(CoreTypes.sName))
             {
                 return DirectiveKind.Name;
             }
