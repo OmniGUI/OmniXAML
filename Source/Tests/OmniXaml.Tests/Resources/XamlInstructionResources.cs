@@ -7,6 +7,7 @@ namespace OmniXaml.Tests.Resources
     using Classes.Another;
     using Classes.WpfLikeModel;
     using Common;
+    using Typing;
 
     public class XamlInstructionResources
     {
@@ -658,7 +659,7 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    X.NamespacePrefixDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"),
+                    X.NamespacePrefixDeclaration(CoreTypes.SpecialNamespace, "x"),
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Resources),
                     X.GetObject(),

@@ -24,7 +24,7 @@
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
-                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs.Prefix),
             };
 
             var expectedInstructions = new List<XamlInstruction>
@@ -50,7 +50,7 @@
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
-                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs),
+                P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs.Prefix),
             };
 
             var expectedInstructions = new List<XamlInstruction>

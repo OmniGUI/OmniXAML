@@ -163,26 +163,26 @@
             return new ProtoXamlInstruction { Namespace = null, NodeType = NodeType.Text, XamlType = null, Text = text };
         }
 
-        public ProtoXamlInstruction Attribute(XamlMemberBase member, string value, NamespaceDeclaration namespaceDeclaration)
+        public ProtoXamlInstruction Attribute(XamlMemberBase member, string value, string prefix)
         {
             return new ProtoXamlInstruction
             {
                 PropertyAttribute = member,
                 NodeType = NodeType.Attribute,
                 PropertyAttributeText = value,
-                Prefix = namespaceDeclaration.Prefix,
+                Prefix = prefix,
             };
         }
 
-        public ProtoXamlInstruction Attribute<T>(Expression<Func<T, object>> selector, string value, NamespaceDeclaration namespaceDeclaration)
+        public ProtoXamlInstruction Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
         {
             var xamlMember = typeContext.GetXamlType(typeof(T)).GetMember(selector.GetFullPropertyName());
-            return Attribute(xamlMember, value, namespaceDeclaration);
+            return Attribute(xamlMember, value, prefix);
         }
 
         public ProtoXamlInstruction Key(string value)
         {
-            return Attribute(CoreTypes.Key, value, new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
+            return Attribute(CoreTypes.Key, value, "x");
         }
     }
 }

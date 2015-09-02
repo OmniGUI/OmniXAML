@@ -146,7 +146,7 @@
             }
 
             var namespaceDeclaration = new NamespaceDeclaration(rawAttribute.Locator.Namespace, rawAttribute.Locator.Prefix);
-            return instructionBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration);
+            return instructionBuilder.Attribute(member, rawAttribute.Value, namespaceDeclaration.Prefix);
         }
 
         private AttributeFeed GetAttributes()
@@ -205,17 +205,11 @@
         {
             if (directive.Locator.PropertyName == "Key")
             {
-                return instructionBuilder.Attribute(
-                    CoreTypes.Key,
-                    directive.Value,
-                    new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x"));
+                return instructionBuilder.Attribute(CoreTypes.Key, directive.Value, "x");
             }
             if (directive.Locator.PropertyName == "Name")
             {
-                return instructionBuilder.Attribute(
-                    CoreTypes.Name,
-                    directive.Value,
-                    new NamespaceDeclaration(null, "x"));
+                return instructionBuilder.Attribute(CoreTypes.Name, directive.Value,"x");
             }
 
             throw new XamlParseException($"Cannot handle the directive {directive.Locator.PropertyName}");

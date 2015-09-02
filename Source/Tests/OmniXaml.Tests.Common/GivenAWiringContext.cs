@@ -2,6 +2,7 @@ namespace OmniXaml.Tests.Common
 {
     using System.Collections.Generic;
     using System.Reflection;
+    using Typing;
 
     public class GivenAWiringContext
     {
@@ -15,6 +16,6 @@ namespace OmniXaml.Tests.Common
         protected IWiringContext WiringContext => new DummyWiringContext(new TypeFactory(), assemblies);
         public NamespaceDeclaration RootNs { get; } = new NamespaceDeclaration("root", string.Empty);
         public NamespaceDeclaration AnotherNs { get; } = new NamespaceDeclaration("another", "a");
-        public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x");
+        public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration(CoreTypes.SpecialNamespace, "x");
     }
 }

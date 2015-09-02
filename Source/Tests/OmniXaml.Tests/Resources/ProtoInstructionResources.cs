@@ -5,6 +5,7 @@ namespace OmniXaml.Tests.Resources
     using Classes;
     using Classes.WpfLikeModel;
     using Common;
+    using Typing;
 
     internal class ProtoInstructionResources
     {
@@ -29,22 +30,22 @@ namespace OmniXaml.Tests.Resources
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main1", RootNs.Prefix),
                     P.Text(),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main2", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main2", RootNs.Prefix),
                     P.Text(),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
                     P.NonEmptyElement(typeof (Item), RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Item1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Item1", RootNs.Prefix),
                     P.Text(),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Item2", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Item2", RootNs.Prefix),
                     P.Text(),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Item3", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Item3", RootNs.Prefix),
                     P.Text(),
                     P.EndTag(),
                     P.Text(),
@@ -70,10 +71,10 @@ namespace OmniXaml.Tests.Resources
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Items, RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main1", RootNs.Prefix),
                     P.Text(),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main2", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main2", RootNs.Prefix),
                     P.Text(),
                     P.EndTag(),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
@@ -97,7 +98,7 @@ namespace OmniXaml.Tests.Resources
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
                     P.NonEmptyElement(typeof (Item), RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Item1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Item1", RootNs.Prefix),
                     P.Text(),
                     P.EndTag(),
                     P.EndTag(),
@@ -117,7 +118,7 @@ namespace OmniXaml.Tests.Resources
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
                     P.NonEmptyElement(typeof (Item), RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Item1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Item1", RootNs.Prefix),
                     P.Text(),
                     P.EndTag(),
                     P.Text(),
@@ -243,7 +244,7 @@ namespace OmniXaml.Tests.Resources
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
-                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
+                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs.Prefix),
                     P.EndTag(),
                 };
             }
@@ -256,7 +257,7 @@ namespace OmniXaml.Tests.Resources
                 return new Collection<ProtoXamlInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
-                    P.NamespacePrefixDeclaration("x", "http://schemas.microsoft.com/winfx/2006/xaml"),
+                    P.NamespacePrefixDeclaration("x", CoreTypes.SpecialNamespace),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Resources, RootNs),
                     P.EmptyElement(typeof(ChildClass), RootNs),
@@ -382,7 +383,7 @@ namespace OmniXaml.Tests.Resources
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement(typeof (DummyClass), RootNs),
-                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
+                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs.Prefix),
                 };
             }
         }
@@ -395,8 +396,8 @@ namespace OmniXaml.Tests.Resources
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement(typeof (DummyClass), RootNs),
-                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs),
-                    P.Attribute<DummyClass>(d => d.AnotherProperty, "Another!", RootNs),
+                    P.Attribute<DummyClass>(d => d.SampleProperty, "Property!", RootNs.Prefix),
+                    P.Attribute<DummyClass>(d => d.AnotherProperty, "Another!", RootNs.Prefix),
                 };
             }
         }
@@ -508,11 +509,11 @@ namespace OmniXaml.Tests.Resources
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
 
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main1", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main1", RootNs.Prefix),
                     P.Text(),
 
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(d => d.Title, "Main2", RootNs),
+                    P.Attribute<Item>(d => d.Title, "Main2", RootNs.Prefix),
                     P.Text(),
 
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
@@ -549,12 +550,12 @@ namespace OmniXaml.Tests.Resources
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
-                    P.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", RootNs),
+                    P.Attribute<DummyClass>(@class => @class.SampleProperty, "Sample", RootNs.Prefix),
                     P.NonEmptyPropertyElement<DummyClass>(d => d.Child, RootNs),
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
                     P.NonEmptyPropertyElement<ChildClass>(d => d.Content, RootNs),
                     P.EmptyElement(typeof (Item), RootNs),
-                    P.Attribute<Item>(@class => @class.Text, "Value!", RootNs),
+                    P.Attribute<Item>(@class => @class.Text, "Value!", RootNs.Prefix),
                     P.Text(),
                     P.EndTag(),
                     P.EndTag(),

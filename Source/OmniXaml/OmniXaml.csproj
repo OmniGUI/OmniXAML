@@ -39,6 +39,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="INameScope.cs" />
+    <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
     <Compile Include="ObjectAssembler\NullLevel.cs" />

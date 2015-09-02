@@ -4,6 +4,7 @@
 
     public static class CoreTypes
     {
+        public static string SpecialNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
         private static readonly XamlDirective ItemsField = new XamlDirective("_Items", XamlType.CreateForBuiltInType(typeof(List<object>)));
         private static readonly XamlDirective InitializationField = new XamlDirective("_Initialization");
         private static readonly XamlDirective MarkupExtensionArgumentsField = new XamlDirective("_MarkupExtensionParameters");
