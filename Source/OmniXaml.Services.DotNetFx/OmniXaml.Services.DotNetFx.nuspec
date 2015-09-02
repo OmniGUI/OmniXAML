@@ -3,7 +3,7 @@
     <metadata>
         <id>OmniXaml.Services.DotNetFx</id>
         <version>$version$</version>
-        <title>OmniXaml Application Services for Full .NET Framework</title>
+        <title>OmniXAML Application Services for Full .NET Framework</title>
         <authors>José Manuel Nieto (@SuperJMN)</authors>
         <owners>José Manuel Nieto (@SuperJMN)</owners>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
