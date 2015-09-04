@@ -41,33 +41,33 @@ namespace OmniXaml
 
         public XamlType GetXamlType(Type type)
         {
-            return typeRepository.GetXamlType(type);
+            return TypeRepository.GetXamlType(type);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
         {
 
-            return typeRepository.GetByQualifiedName(qualifiedName);
+            return TypeRepository.GetByQualifiedName(qualifiedName);
         }
 
         public XamlType GetByPrefix(string prefix, string typeName)
         {
-            return typeRepository.GetByPrefix(prefix, typeName);
+            return TypeRepository.GetByPrefix(prefix, typeName);
         }
 
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
         {
-            return typeRepository.GetWithFullAddress(xamlTypeName);
+            return TypeRepository.GetWithFullAddress(xamlTypeName);
         }
 
         public XamlMember GetMember(PropertyInfo propertyInfo)
         {
-            return typeRepository.GetMember(propertyInfo);
+            return TypeRepository.GetMember(propertyInfo);
         }
 
         public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
-            return typeRepository.GetAttachableMember(name, getter, setter);
+            return TypeRepository.GetAttachableMember(name, getter, setter);
         }
 
         public ITypeFactory TypeFactory => typeFactory;
@@ -76,5 +76,7 @@ namespace OmniXaml
         {
             get { return this.nsRegistry.RegisteredPrefixes; }
         }
+
+        public IXamlTypeRepository TypeRepository => typeRepository;
     }
 }

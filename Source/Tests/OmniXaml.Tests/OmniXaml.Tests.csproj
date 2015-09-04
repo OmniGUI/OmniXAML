@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
+    <Compile Include="NameScopeTests.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />

@@ -177,5 +177,12 @@ namespace OmniXaml.Typing
             var hasValidGetter = info.GetMethod != null && info.GetMethod.IsPublic;
             return hasValidGetter && hasValidSetter && !isIndexer;
         }
+
+        public bool IsNameScope => LookupIsNamescope();
+
+        protected virtual bool LookupIsNamescope()
+        {
+            return this.UnderlyingType is INameScope;
+        }
     }
 }

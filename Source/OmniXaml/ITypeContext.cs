@@ -4,6 +4,7 @@ namespace OmniXaml
 
     public interface ITypeContext : IXamlNamespaceRegistry, IXamlTypeRepository
     {
-        ITypeFactory TypeFactory { get; }        
+        ITypeFactory TypeFactory { get; }
+        IXamlTypeRepository TypeRepository { get; }
     }
 }

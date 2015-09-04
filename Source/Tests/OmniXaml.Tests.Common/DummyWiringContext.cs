@@ -1,26 +1,25 @@
 ﻿namespace OmniXaml.Tests.Common
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using Builder;
     using Classes;
     using Classes.Another;
     using Classes.WpfLikeModel;
     using Glass;
-    using TypeConversion;
     using Typing;
 
-    public class DummyWiringContext : IWiringContext
+    public class DummyWiringContext : WiringContext
     {
-        private readonly IWiringContext wiringContext;
-
         public DummyWiringContext(ITypeFactory factory, IEnumerable<Assembly> assembliesToScan)
+            : this(factory, GetFeatureProvider(assembliesToScan))
         {
-            var assemblies = assembliesToScan.ToList();
-            var featureProvider = GetFeatureProvider(assemblies);
-            var typeContext = GetTypeContext(factory, featureProvider);
-            wiringContext = new WiringContext(typeContext, featureProvider);
+        }
+
+        private DummyWiringContext(ITypeFactory factory, ITypeFeatureProvider typeFeatureProvider)
+            : base(GetTypeContext(factory, typeFeatureProvider), typeFeatureProvider)
+        {
         }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
@@ -73,10 +72,35 @@
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider)
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
-            return new TypeContext(new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider), xamlNamespaceRegistry, typeFactory);
+            return new TypeContext(new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider), xamlNamespaceRegistry, typeFactory);
         }
 
-        public ITypeContext TypeContext => wiringContext.TypeContext;
-        public ITypeFeatureProvider FeatureProvider => wiringContext.FeatureProvider;
+        private DummyXamlTypeRepository DummyXamlTypeRepository => (DummyXamlTypeRepository) TypeContext.TypeRepository;
+
+
+        public void ClearNamesCopes()
+        {
+            DummyXamlTypeRepository.ClearNameScopes();
+        }
+
+        public void EnableNameScope<T>()
+        {
+            DummyXamlTypeRepository.EnableNameScope(typeof(T));
+        }        
+    }
+
+    internal class DummyXamlType : XamlType
+    {
+        public DummyXamlType(Type type, IXamlTypeRepository typeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+            : base(type, typeRepository, typeTypeFactory, featureProvider)
+        {
+        }
+
+        public new bool IsNameScope { get; set; }
+
+        protected override bool LookupIsNamescope()
+        {
+            return base.LookupIsNamescope();
+        }
     }
 }

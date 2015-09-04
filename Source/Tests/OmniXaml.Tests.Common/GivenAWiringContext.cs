@@ -13,7 +13,7 @@ namespace OmniXaml.Tests.Common
             this.assemblies = assemblies;
         }
 
-        protected IWiringContext WiringContext => new DummyWiringContext(new TypeFactory(), assemblies);
+        protected DummyWiringContext WiringContext => new DummyWiringContext(new TypeFactory(), assemblies);
         public NamespaceDeclaration RootNs { get; } = new NamespaceDeclaration("root", string.Empty);
         public NamespaceDeclaration AnotherNs { get; } = new NamespaceDeclaration("another", "a");
         public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration(CoreTypes.SpecialNamespace, "x");
