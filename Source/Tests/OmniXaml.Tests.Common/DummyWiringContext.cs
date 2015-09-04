@@ -1,6 +1,5 @@
 ﻿namespace OmniXaml.Tests.Common
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
@@ -87,20 +86,5 @@
         {
             DummyXamlTypeRepository.EnableNameScope(typeof(T));
         }        
-    }
-
-    internal class DummyXamlType : XamlType
-    {
-        public DummyXamlType(Type type, IXamlTypeRepository typeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
-            : base(type, typeRepository, typeTypeFactory, featureProvider)
-        {
-        }
-
-        public new bool IsNameScope { get; set; }
-
-        protected override bool LookupIsNamescope()
-        {
-            return base.LookupIsNamescope();
-        }
     }
 }

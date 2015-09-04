@@ -6,6 +6,7 @@
     using System.Xml;
     using Classes;
     using Classes.WpfLikeModel;
+    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
 
@@ -192,14 +193,6 @@
             var dummyClass = actualInstance as DummyClass;
             Assert.IsNotNull(dummyClass);
             Assert.AreEqual("Property!", dummyClass.SampleProperty);
-        }
-
-        [TestMethod]
-        public void RegisterOneChildInNameScope()
-        {
-            var actualInstance = XamlLoader.Load(Dummy.ChildInNameScope);
-            var childInScope = ((DummyObject) actualInstance).Find("MyObject");
-            Assert.IsInstanceOfType(childInScope, typeof (ChildClass));
         }
 
         [TestMethod]        

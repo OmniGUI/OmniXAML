@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DummyWiringContext.cs" />
+    <Compile Include="DummyXamlType.cs" />
     <Compile Include="DummyXamlTypeRepository.cs" />
     <Compile Include="GivenAWiringContext.cs" />
     <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
