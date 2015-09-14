@@ -50,7 +50,7 @@
         }
 
         [TestMethod]
-        public void GetByQualifiedName()
+        public void GetByQualifiedName_ForTypeInDefaultNamespace()
         {
             var sut = new XamlTypeRepository(WiringContext.TypeContext, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
