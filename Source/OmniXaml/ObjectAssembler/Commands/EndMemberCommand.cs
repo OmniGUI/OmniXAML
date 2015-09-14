@@ -7,12 +7,12 @@ namespace OmniXaml.ObjectAssembler.Commands
 
     public class EndMemberCommand : Command
     {
-        private readonly ITopDownMemberValueContext topDownMemberValueContext;
+        private readonly ITopDownValueContext topDownValueContext;
         private readonly ITypeContext typeContext;
 
-        public EndMemberCommand(ObjectAssembler assembler, ITopDownMemberValueContext topDownMemberValueContext) : base(assembler)
+        public EndMemberCommand(ObjectAssembler assembler, ITopDownValueContext topDownValueContext) : base(assembler)
         {
-            this.topDownMemberValueContext = topDownMemberValueContext;
+            this.topDownValueContext = topDownValueContext;
             typeContext = Assembler.WiringContext.TypeContext;
         }
 
@@ -40,7 +40,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             if (member != null && StateCommuter.Current.XamlMember.XamlType.IsCollection)
             {
                 var instance = member.GetValue(StateCommuter.Current.Instance);
-                topDownMemberValueContext.SetMemberValue(StateCommuter.Current.XamlMember.XamlType, instance);
+                topDownValueContext.SetInstanceValue(StateCommuter.Current.XamlMember.XamlType, instance);
             }
         }
 

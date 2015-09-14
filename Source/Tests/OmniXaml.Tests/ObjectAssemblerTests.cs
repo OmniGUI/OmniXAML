@@ -17,7 +17,7 @@
 
         public ObjectAssemblerTests()
         {
-            sut = new ObjectAssembler(WiringContext, new TopDownMemberValueContext());
+            sut = new ObjectAssembler(WiringContext, new TopDownValueContext());
             source = new XamlInstructionResources(this);
         }
 

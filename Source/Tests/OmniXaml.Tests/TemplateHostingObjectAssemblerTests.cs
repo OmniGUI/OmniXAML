@@ -41,7 +41,7 @@
             var assembler = new DummyDeferredLoader();
             mapping.Map<Template>(t => t.Content, assembler);
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownMemberValueContext()), mapping);                       
+            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownValueContext()), mapping);                       
 
             foreach (var instruction in input)
             {

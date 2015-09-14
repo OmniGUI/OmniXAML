@@ -8,12 +8,12 @@
     {
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(wiringContext, topDownMemberValueContext, objectAssemblerSettings), mapping);            
+            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(wiringContext, topDownValueContext, objectAssemblerSettings), mapping);            
         }        
 
         public object Result => objectAssembler.Result;

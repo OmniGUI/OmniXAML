@@ -1,13 +1,21 @@
 namespace OmniXaml.TypeConversion
 {
+    using ObjectAssembler.Commands;
     using Typing;
 
     public class XamlTypeConverterContext : IXamlTypeConverterContext
     {
-        public XamlTypeConverterContext(IXamlTypeRepository typeRepository)
+        private readonly IXamlTypeRepository typeRepository;
+        private readonly ITopDownValueContext topDownValueContext;
+
+        public XamlTypeConverterContext(IXamlTypeRepository typeRepository, ITopDownValueContext topDownValueContext)
         {
-            TypeRepository = typeRepository;
+            this.typeRepository = typeRepository;
+            this.topDownValueContext = topDownValueContext;
         }
-        public IXamlTypeRepository TypeRepository { get;  }
+        
+        public IXamlTypeRepository TypeRepository => typeRepository;
+
+        public ITopDownValueContext TopDownValueContext => topDownValueContext;
     }
 }

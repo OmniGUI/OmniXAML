@@ -9,6 +9,6 @@
         public object TargetObject { get; set; }
         public PropertyInfo TargetProperty { get; set; }
         public IXamlTypeRepository TypeRepository { get; set; }
-        public ITopDownMemberValueContext TopDownMemberValueContext { get; set; }
+        public ITopDownValueContext TopDownValueContext { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace OmniXaml.Wpf
         public object ProvideValue(MarkupExtensionContext markupExtensionContext)
         {
             var type = markupExtensionContext.TypeRepository.GetXamlType(typeof (ResourceDictionary));
-            var resourceDictionary = (ResourceDictionary) markupExtensionContext.TopDownMemberValueContext.GetMemberValue(type);
+            var resourceDictionary = (ResourceDictionary) markupExtensionContext.TopDownValueContext.GetLastInstance(type);
             return resourceDictionary[ResourceKey];
         }
     }

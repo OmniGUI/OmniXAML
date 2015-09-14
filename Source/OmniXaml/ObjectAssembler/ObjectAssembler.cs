@@ -8,26 +8,26 @@ namespace OmniXaml.ObjectAssembler
 
     public class ObjectAssembler : IObjectAssembler
     {
-        private readonly ITopDownMemberValueContext topDownMemberValueContext;
+        private readonly ITopDownValueContext topDownValueContext;
         private readonly Type rootInstanceType;
         private readonly object rootInstance;
 
-        public ObjectAssembler(IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext, ObjectAssemblerSettings settings = null)
-            : this(new StackingLinkedList<Level>(), wiringContext, topDownMemberValueContext)
+        public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
+            : this(new StackingLinkedList<Level>(), wiringContext, topDownValueContext)
         {
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
-            Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
+            Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
-            this.topDownMemberValueContext = topDownMemberValueContext;
+            this.topDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
             rootInstance = settings?.RootInstance;
             rootInstanceType = settings?.RootInstance?.GetType();
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
             WiringContext = wiringContext;          
-            StateCommuter = new StateCommuter(state, wiringContext, topDownMemberValueContext);
+            StateCommuter = new StateCommuter(state, wiringContext, topDownValueContext);
         }
 
         public object Result { get; set; }
@@ -52,13 +52,13 @@ namespace OmniXaml.ObjectAssembler
                     command = new StartMemberCommand(this, GetMember(instruction.Member));
                     break;
                 case XamlInstructionType.Value:
-                    command = new ValueCommand(this, (string)instruction.Value);
+                    command = new ValueCommand(this, topDownValueContext, (string)instruction.Value);
                     break;
                 case XamlInstructionType.EndObject:
                     command = new EndObjectCommand(this);
                     break;
                 case XamlInstructionType.EndMember:
-                    command = new EndMemberCommand(this, topDownMemberValueContext);
+                    command = new EndMemberCommand(this, topDownValueContext);
                     break;
                 case XamlInstructionType.GetObject:
                     command = new GetObjectCommand(this);

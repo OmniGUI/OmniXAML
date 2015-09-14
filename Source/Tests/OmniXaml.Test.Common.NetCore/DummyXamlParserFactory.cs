@@ -34,7 +34,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private ObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext, new TopDownMemberValueContext());
+            return new ObjectAssembler(wiringContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownMemberValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
 
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
