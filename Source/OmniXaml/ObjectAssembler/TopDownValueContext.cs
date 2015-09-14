@@ -5,17 +5,17 @@ namespace OmniXaml.ObjectAssembler
     using Glass;
     using Typing;
 
-    public class TopDownMemberValueContext : ITopDownMemberValueContext
+    public class TopDownValueContext : ITopDownValueContext
     {
         private IDictionary<XamlType, object> Context { get; } = new Dictionary<XamlType, object>();
-        public void SetMemberValue(XamlType member, object instance)
+        public void SetInstanceValue(XamlType xamlType, object instance)
         {
-            Context.AddOrReplace(member, instance);
+            Context.AddOrReplace(xamlType, instance);
         }
 
-        public object GetMemberValue(XamlType member)
+        public object GetLastInstance(XamlType xamlType)
         {
-            return Context[member];
+            return Context[xamlType];
         }
     }
 }

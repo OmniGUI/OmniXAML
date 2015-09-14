@@ -4,10 +4,10 @@ namespace OmniXaml.ObjectAssembler.Commands
     {
         private readonly string value;
 
-        public ValueCommand(ObjectAssembler objectAssembler, string value) : base(objectAssembler)
+        public ValueCommand(ObjectAssembler objectAssembler, ITopDownValueContext topDownValueContext, string value) : base(objectAssembler)
         {
             this.value = value;
-            ValuePipeLine = new ValuePipeline(objectAssembler.WiringContext.TypeContext);
+            ValuePipeLine = new ValuePipeline(objectAssembler.WiringContext.TypeContext, topDownValueContext);
         }
 
         private ValuePipeline ValuePipeLine { get; set; }
@@ -43,7 +43,9 @@ namespace OmniXaml.ObjectAssembler.Commands
                     break;
 
                 default:
-                    throw new XamlParseException($"Unexpected mode was set trying to process a Value XAML instruction. We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
+                    throw new XamlParseException(
+                        "Unexpected mode was set trying to process a Value XAML instruction. " +
+                        $"We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
             }            
         }
     }

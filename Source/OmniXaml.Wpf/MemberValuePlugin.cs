@@ -22,7 +22,7 @@ namespace OmniXaml.Wpf
             {
                 var setter = (Setter) instance;                
                 var targetType = setter.Property.PropertyType;
-                var valuePipeline = new ValuePipeline(xamlMember.TypeRepository);
+                var valuePipeline = new ValuePipeline(xamlMember.TypeRepository, null);
                 var xamlType = xamlMember.TypeRepository.GetXamlType(targetType);
                 base.SetValue(instance, valuePipeline.ConvertValueIfNecessary(value, xamlType));
             }

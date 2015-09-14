@@ -11,18 +11,18 @@ namespace OmniXaml.ObjectAssembler
     public class StateCommuter
     {
         private StackingLinkedList<Level> stack;
-        private readonly ITopDownMemberValueContext topDownMemberValueContext;
+        private readonly ITopDownValueContext topDownValueContext;
         private readonly InstanceProperties instanceProperties;
 
-        public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownMemberValueContext topDownMemberValueContext)
+        public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
-            Guard.ThrowIfNull(topDownMemberValueContext, nameof(topDownMemberValueContext));
+            Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
             Stack = stack;
-            this.topDownMemberValueContext = topDownMemberValueContext;
-            ValuePipeline = new ValuePipeline(wiringContext.TypeContext);
+            this.topDownValueContext = topDownValueContext;
+            ValuePipeline = new ValuePipeline(wiringContext.TypeContext, topDownValueContext);
             instanceProperties = new InstanceProperties();
         }
 
@@ -114,7 +114,7 @@ namespace OmniXaml.ObjectAssembler
                 TargetObject = Previous.Instance,
                 TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.XamlMember.Name),
                 TypeRepository = ValuePipeline.TypeRepository,
-                TopDownMemberValueContext = topDownMemberValueContext
+                TopDownValueContext = topDownValueContext
             };
 
             return inflationContext;

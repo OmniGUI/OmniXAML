@@ -69,8 +69,8 @@
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="IXamlParserFactory.cs" />
     <Compile Include="LookaheadBuffer.cs" />
-    <Compile Include="ObjectAssembler\TopDownMemberValueContext.cs" />
-    <Compile Include="ObjectAssembler\Commands\ITopDownMemberValueContext.cs" />
+    <Compile Include="ObjectAssembler\TopDownValueContext.cs" />
+    <Compile Include="ObjectAssembler\Commands\ITopDownValueContext.cs" />
     <Compile Include="ObjectAssembler\ConstructionArgument.cs" />
     <Compile Include="ObjectAssembler\StateCommuter.cs" />
     <Compile Include="ObjectAssembler\Command.cs" />
