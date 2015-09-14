@@ -2,12 +2,13 @@
 {
     using Builder;
     using Classes;
+    using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Typing;
 
     [TestClass]
-    public class XamlTypeRepositoryTests
+    public class XamlTypeRepositoryTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly Mock<IXamlNamespaceRegistry> nsRegistryMock;
 
@@ -23,6 +24,7 @@
 
             nsRegistryMock.Setup(registry => registry.GetNamespace("root"))
                 .Returns(fullyConfiguredMapping);
+
             nsRegistryMock.Setup(registry => registry.GetNamespace("clr-namespace:DummyNamespace;Assembly=DummyAssembly"))
                 .Returns(new ClrNamespace(type.Assembly, type.Namespace));
         }
@@ -43,6 +45,16 @@
             var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetWithFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
+
+            Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
+        }
+
+        [TestMethod]
+        public void GetByQualifiedName()
+        {
+            var sut = new XamlTypeRepository(WiringContext.TypeContext, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+
+            var xamlType = sut.GetByQualifiedName("DummyClass");
 
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
