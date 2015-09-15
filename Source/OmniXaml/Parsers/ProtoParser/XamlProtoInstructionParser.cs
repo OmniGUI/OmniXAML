@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Xml;
     using Typing;
 
@@ -12,6 +13,7 @@
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
         private AttributeParser attributeParser;
+        private readonly TextFormatter textFormatter = new TextFormatter();
 
         public XamlProtoInstructionParser(IWiringContext wiringContext)
         {
@@ -103,9 +105,14 @@
         {
             if (reader.NodeType == XmlNodeType.Text)
             {
-                yield return instructionBuilder.Text(reader.Value);
+                yield return instructionBuilder.Text(FormatText(reader.Value));
                 reader.Read();
             }
+        }
+
+        private string FormatText(string rawText)
+        {
+            return textFormatter.Format(rawText);
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseChildren()
@@ -210,6 +217,18 @@
         private ProtoXamlInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {
             return instructionBuilder.NamespacePrefixDeclaration(prefix.Prefix, prefix.Namespace);
+        }
+
+        private class TextFormatter
+        {
+            private readonly Regex whitespacesRegex = new Regex(@"\s+");
+
+            public string Format(string rawText)
+            {
+                return whitespacesRegex
+                    .Replace(rawText, " ")
+                    .Trim();
+            }
         }
     }
 }

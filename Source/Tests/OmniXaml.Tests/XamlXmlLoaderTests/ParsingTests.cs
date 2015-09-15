@@ -110,7 +110,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void StringWithWhitespace()
         {
             var actual = XamlLoader.Load(Dummy.StringWithWhitespace);
