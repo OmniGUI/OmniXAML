@@ -110,6 +110,15 @@
         }
 
         [TestMethod]
+        [Ignore]
+        public void StringWithWhitespace()
+        {
+            var actual = XamlLoader.Load(Dummy.StringWithWhitespace);
+            Assert.IsInstanceOfType(actual, typeof (string));
+            Assert.AreEqual("Text", actual);
+        }
+
+        [TestMethod]
         public void Int()
         {
             var actual = XamlLoader.Load(Dummy.Int);

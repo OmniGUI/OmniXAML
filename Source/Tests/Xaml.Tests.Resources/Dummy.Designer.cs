@@ -575,6 +575,19 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;sys:String xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///
+        ///  Text
+        ///
+        ///&lt;/sys:String&gt;.
+        /// </summary>
+        public static string StringWithWhitespace {
+            get {
+                return ResourceManager.GetString("StringWithWhitespace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
         ///    &lt;ChildClass&gt;
