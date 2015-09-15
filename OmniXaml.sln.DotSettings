@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/CodeInspection/CodeAnnotations/NamespacesWithAnnotations/=Glass_002ETests_002EAnnotations/@EntryIndexedValue">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003ABadFormat_002Examl/@EntryIndexedValue"></s:String>
 	<s:Boolean x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003ABadFormat_002Examl/@EntryIndexRemoved">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003AEmpty_002Examl/@EntryIndexedValue"></s:String>

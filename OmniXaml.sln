@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services", "Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.Mvvm", "Source\OmniXaml.Services.Mvvm\OmniXaml.Services.Mvvm.csproj", "{7784DA26-90C9-402E-8AAE-6D4D59C22D74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.Tests", "Source\Tests\Glass.Tests\Glass.Tests.csproj", "{6387E8C7-C9ED-4237-97C9-741A4FC56E59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{7784DA26-90C9-402E-8AAE-6D4D59C22D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7784DA26-90C9-402E-8AAE-6D4D59C22D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7784DA26-90C9-402E-8AAE-6D4D59C22D74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -127,5 +133,6 @@ Global
 		{A49A57C4-6DB5-44A0-869B-39EED7884A0B} = {1097E760-F02E-433D-ADE6-EC13F9CAEF91}
 		{35EBCD38-4ADA-4860-8F23-6D564C0E4C68} = {A3E121C9-F1A5-468B-940E-BF09C0414DB5}
 		{A3E121C9-F1A5-468B-940E-BF09C0414DB5} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{6387E8C7-C9ED-4237-97C9-741A4FC56E59} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 	EndGlobalSection
 EndGlobal
