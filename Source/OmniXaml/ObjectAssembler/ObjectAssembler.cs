@@ -55,7 +55,7 @@ namespace OmniXaml.ObjectAssembler
                     command = new ValueCommand(this, topDownValueContext, (string)instruction.Value);
                     break;
                 case XamlInstructionType.EndObject:
-                    command = new EndObjectCommand(this);
+                    command = new EndObjectCommand(this, topDownValueContext);
                     break;
                 case XamlInstructionType.EndMember:
                     command = new EndMemberCommand(this, topDownValueContext);

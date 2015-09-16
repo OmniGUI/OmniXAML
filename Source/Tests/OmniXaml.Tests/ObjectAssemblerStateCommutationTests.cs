@@ -35,17 +35,19 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var dummyClass = new DummyClass();
+            var xamlType = WiringContext.TypeContext.GetXamlType(dummyClass.GetType());
             state.Push(
                 new Level
                 {
                     Instance = dummyClass,
-                    XamlMember = WiringContext.TypeContext.GetXamlType(dummyClass.GetType()).GetMember("Child"),
+                    XamlMember = xamlType.GetMember("Child"),
                 });
 
             var childClass = new ChildClass();
             state.Push(
                 new Level
                 {
+                    XamlType = xamlType,
                     Instance = childClass,
                 });
 
@@ -66,13 +68,16 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var dummyClass = new DummyClass();
+            var xamlType = WiringContext.TypeContext.GetXamlType(dummyClass.GetType());
+
             state.Push(
                 new Level
                 {
                     Instance = dummyClass,
+                    XamlType = xamlType,
                 });
 
-            var xamlMember = WiringContext.TypeContext.GetXamlType(dummyClass.GetType()).GetMember("Items");
+            var xamlMember = xamlType.GetMember("Items");
 
             var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
 

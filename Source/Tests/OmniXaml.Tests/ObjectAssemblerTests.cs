@@ -12,13 +12,20 @@
     [TestClass]
     public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionResources source;
-        private readonly IObjectAssembler sut;
+        private XamlInstructionResources source;
+        private IObjectAssembler sut;
+        private TopDownValueContext topDownValueContext;
 
         public ObjectAssemblerTests()
         {
-            sut = new ObjectAssembler(WiringContext, new TopDownValueContext());
             source = new XamlInstructionResources(this);
+        }
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            topDownValueContext = new TopDownValueContext();
+            sut = new ObjectAssembler(WiringContext, topDownValueContext);            
         }
 
         [TestMethod]
@@ -182,6 +189,18 @@
             var actual = sut.Result;
             Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
+        }
+
+
+        [TestMethod]
+        public void TopDownContainsOuterObject()
+        {
+            sut.PumpNodes(source.InstanceWithChild);
+
+            var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof (DummyClass));
+            var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
+
+            Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
     }
 }

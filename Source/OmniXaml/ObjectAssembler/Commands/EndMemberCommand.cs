@@ -28,20 +28,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 StateCommuter.AssociateCurrentInstanceToParent();
                 StateCommuter.DecreaseLevel();
-            }
-
-            SaveMemberValueToTopDownEnvironment();
-        }
-
-        private void SaveMemberValueToTopDownEnvironment()
-        {
-            var member = StateCommuter.Current.XamlMember as MutableXamlMember;
-
-            if (member != null && StateCommuter.Current.XamlMember.XamlType.IsCollection)
-            {
-                var instance = member.GetValue(StateCommuter.Current.Instance);
-                topDownValueContext.SetInstanceValue(StateCommuter.Current.XamlMember.XamlType, instance);
-            }
+            }            
         }
 
         public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.Current.HasInstance && StateCommuter.Current.XamlMember == null;

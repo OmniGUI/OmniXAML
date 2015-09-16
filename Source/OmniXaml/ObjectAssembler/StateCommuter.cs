@@ -69,9 +69,9 @@ namespace OmniXaml.ObjectAssembler
         }
 
         private void UpdateLevelWrappers()
-        {            
+        {
             new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
-            new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());            
+            new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
         public void DecreaseLevel()
@@ -86,6 +86,13 @@ namespace OmniXaml.ObjectAssembler
             {
                 MaterializeInstanceOfCurrentType();
             }
+
+            SaveCurrentInstanceToTopDownEnvironment();
+        }
+
+        private void SaveCurrentInstanceToTopDownEnvironment()
+        {
+            topDownValueContext.SetInstanceValue(Current.XamlType, Current.Instance);
         }
 
         private void MaterializeInstanceOfCurrentType()
