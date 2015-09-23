@@ -34,10 +34,8 @@ namespace OmniXaml
                 return new List<InstructionNode>();
             }
 
-            var members = list.Select(node => (MutableXamlMember) node.Leading.Member);
-            var xamlNode = members.First();
-            var sortedList = xamlNode.Sort();
-
+            var members = list.Select(node => (MutableXamlMember) node.Leading.Member).ToList();
+            var sortedList = members.SortDependencies();
             var finalDeps = sortedList.Where(sr => members.Contains(sr));
 
             var sortedNodes = SortNodesAccordingTo(list, finalDeps);

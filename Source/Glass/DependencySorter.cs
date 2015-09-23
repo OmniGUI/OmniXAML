@@ -7,7 +7,22 @@
 
     public static class DependencySorter
     {
-        public static ICollection<T> Sort<T>(this T node) where T : IDependency<T>
+        public static ICollection<T> SortDependencies<T>(this IEnumerable<T> nodes) where T : IDependency<T>
+        {
+            var set = new HashSet<T>();
+
+            foreach (var node in nodes)
+            {
+                foreach (var dependency in node.Resolve())
+                {
+                    set.Add(dependency);
+                }                
+            }
+
+            return set.ToList();
+        }
+
+        public static ICollection<T> Resolve<T>(this T node) where T : IDependency<T>
         {
             var resolved = new Collection<T>();
             ResolveDependenciesRecursive(node, resolved, new List<T>());
