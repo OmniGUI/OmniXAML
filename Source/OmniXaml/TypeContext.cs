@@ -70,12 +70,19 @@ namespace OmniXaml
             return TypeRepository.GetAttachableMember(name, getter, setter);
         }
 
+        public Metadata GetMetadata(Type type)
+        {
+            return TypeRepository.GetMetadata(type);
+        }
+
+        public void RegisterMetadata(Type type, Metadata metadata)
+        {
+            TypeRepository.RegisterMetadata(type, metadata);
+        }
+
         public ITypeFactory TypeFactory => typeFactory;
 
-        public IEnumerable<PrefixRegistration> RegisteredPrefixes
-        {
-            get { return this.nsRegistry.RegisteredPrefixes; }
-        }
+        public IEnumerable<PrefixRegistration> RegisteredPrefixes => nsRegistry.RegisteredPrefixes;
 
         public IXamlTypeRepository TypeRepository => typeRepository;
     }

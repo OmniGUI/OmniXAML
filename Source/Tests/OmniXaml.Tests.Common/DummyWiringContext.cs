@@ -12,12 +12,12 @@
     public class DummyWiringContext : WiringContext
     {
         public DummyWiringContext(ITypeFactory factory, IEnumerable<Assembly> assembliesToScan)
-            : this(factory, GetFeatureProvider(assembliesToScan))
+            : this(factory, GetFeatureProvider(assembliesToScan), assembliesToScan)
         {
         }
 
-        private DummyWiringContext(ITypeFactory factory, ITypeFeatureProvider typeFeatureProvider)
-            : base(GetTypeContext(factory, typeFeatureProvider), typeFeatureProvider)
+        private DummyWiringContext(ITypeFactory factory, ITypeFeatureProvider typeFeatureProvider, IEnumerable<Assembly> assembliesToScan)
+            : base(GetTypeContext(factory, typeFeatureProvider, assembliesToScan), typeFeatureProvider)
         {
         }
 
@@ -68,10 +68,15 @@
             return builder.Build();
         }
 
-        private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider)
+        private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider, IEnumerable<Assembly> assembliesToScan)
         {
-            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();            
-            return new TypeContext(new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider), xamlNamespaceRegistry, typeFactory);
+            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
+
+            var dummyXamlTypeRepository = new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider);
+            
+            dummyXamlTypeRepository.RegisterMetadata(new Metadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
+
+            return new TypeContext(dummyXamlTypeRepository, xamlNamespaceRegistry, typeFactory);
         }
 
         private DummyXamlTypeRepository DummyXamlTypeRepository => (DummyXamlTypeRepository) TypeContext.TypeRepository;

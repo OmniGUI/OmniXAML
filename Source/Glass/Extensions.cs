@@ -64,13 +64,24 @@
         }
 
 
-        public static IEnumerable<TResult> GatherAttributes<TAttribute, TResult>(IEnumerable<Type> types, Func<Type, TAttribute, TResult> converter)
+        public static IEnumerable<TResult> GatherAttributes<TAttribute, TResult>(this IEnumerable<Type> types, Func<Type, TAttribute, TResult> converter)
             where TAttribute : Attribute
         {
             return from type in types
                 let att = type.GetTypeInfo().GetCustomAttribute<TAttribute>()
                 where att != null
                 select converter(type, att);
+        }
+
+        public static IEnumerable<TResult> GatherAttributesFromMembers<TAttribute, TResult>(this IEnumerable<Type> types,
+            Func<PropertyInfo, TAttribute, TResult> converter)
+            where TAttribute : Attribute
+        {
+            return from type in types
+                from member in type.GetRuntimeProperties()
+                let att = member.GetCustomAttribute<TAttribute>()
+                where att != null
+                select converter(member, att);
         }
     }
 }

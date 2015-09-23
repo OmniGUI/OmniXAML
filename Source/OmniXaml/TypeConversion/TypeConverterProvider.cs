@@ -56,13 +56,13 @@
 
             var defs = Extensions.GatherAttributes<TypeConverterAttribute, TypeConverterRegistration>(
                 types,
-                (type, attribute) => new TypeConverterRegistration(type, CreanteConverterInstance(attribute)));
+                (type, attribute) => new TypeConverterRegistration(type, CreateConverterInstance(attribute)));
 
             converterProvider.AddAll(defs);
             return converterProvider;
         }
 
-        private static ITypeConverter CreanteConverterInstance(TypeConverterAttribute attribute)
+        private static ITypeConverter CreateConverterInstance(TypeConverterAttribute attribute)
         {
             return (ITypeConverter) Activator.CreateInstance(attribute.Converter, null);
         }

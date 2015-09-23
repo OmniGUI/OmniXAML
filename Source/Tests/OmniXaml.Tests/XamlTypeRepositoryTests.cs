@@ -68,5 +68,17 @@
             const string unreachableTypeName = "UnreachableType";
             sut.GetWithFullAddress(new XamlTypeName("root", unreachableTypeName));
        }
+
+        [TestMethod]
+        public void DependsOnRegister()
+        {
+            var sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+            var expectedMetadata = new Metadata<DummyClass>();
+            expectedMetadata.WithMemberDependency(d => d.Items, d => d.AnotherProperty);
+            XamlTypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
+
+            var metadata = sut.GetMetadata<DummyClass>();
+            Assert.AreEqual(expectedMetadata, metadata);
+        }
     }
 }

@@ -4,4 +4,5 @@
 	<s:Boolean x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003ABadFormat_002Examl/@EntryIndexRemoved">True</s:Boolean>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003AEmpty_002Examl/@EntryIndexedValue"></s:String>
 	<s:Boolean x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml_002Fd_003ADummy_002Ff_003AEmpty_002Examl/@EntryIndexRemoved">True</s:Boolean>
-	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml/@EntryIndexedValue">ExplicitlyExcluded</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=9B517520_002D4D99_002D4BF5_002D8219_002DA643F718F6DD_002Fd_003AXaml/@EntryIndexedValue">ExplicitlyExcluded</s:String>
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=PrivateInstanceFields/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="aaBb" /&gt;</s:String></wpf:ResourceDictionary>

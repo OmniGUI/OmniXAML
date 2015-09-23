@@ -1,6 +1,8 @@
 namespace OmniXaml.Typing
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
     using System.Reflection;
     using Glass;
 
@@ -9,6 +11,7 @@ namespace OmniXaml.Typing
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
         private readonly ITypeFactory typeTypeFactory;
         private readonly ITypeFeatureProvider featureProvider;
+        private readonly IDictionary<Type, Metadata> metadatas = new Dictionary<Type, Metadata>();
 
         public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
@@ -58,7 +61,7 @@ namespace OmniXaml.Typing
                 throw new XamlParseException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
             }
 
-            return GetXamlType(type);                       
+            return GetXamlType(type);
         }
 
         public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
@@ -89,6 +92,22 @@ namespace OmniXaml.Typing
         public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             return new AttachableXamlMember(name, getter, setter, this, featureProvider);
+        }
+
+        public Metadata GetMetadata(Type type)
+        {
+            Metadata metadata;
+            if (metadatas.TryGetValue(type, out metadata))
+            {
+                return metadata;
+            }
+
+            return null;
+        }
+
+        public void RegisterMetadata(Type type, Metadata metadata)
+        {
+            metadatas.Add(type, metadata);
         }
     }
 }

@@ -6,7 +6,6 @@
     {
         public string Property { get; set; }
 
-        [DependsOn("Property")]
         public string Value { get; set; } 
     }
 }

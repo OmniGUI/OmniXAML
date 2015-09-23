@@ -3,7 +3,6 @@ namespace OmniXaml.Typing
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Attributes;
     using Glass;
 
     public abstract class MutableXamlMember : XamlMemberBase, IDependency<XamlMember>
@@ -30,17 +29,16 @@ namespace OmniXaml.Typing
         protected virtual IEnumerable<XamlMember> LookupDependencies()
         {
             var underlyingType = DeclaringType.UnderlyingType;
-            var dependsOnAttributes = underlyingType.GetRuntimeProperty(Name)?.GetCustomAttributes<DependsOnAttribute>();
-            return dependsOnAttributes.Select(attr => DeclaringType.GetMember(attr.PropertyName));
-        }
-
-        private static IEnumerable<DependsOnAttribute> GetAttributes(IEnumerable<MemberInfo> properties)
-        {
-            var runtimeProperties = properties;
-            return from prop in runtimeProperties
-                let attr = prop.GetCustomAttribute<DependsOnAttribute>()
-                where attr != null
-                select attr;
+            var metadata = TypeRepository.GetMetadata(underlyingType);
+            if (metadata != null)
+            {
+                var namesOfPropsWeDependOn = metadata.GetMemberDependencies(this.Name);
+                return namesOfPropsWeDependOn.Select(s => DeclaringType.GetMember(s));
+            }
+            else
+            {
+                return new List<XamlMember>();
+            }
         }
 
         public override string ToString()
@@ -82,7 +80,7 @@ namespace OmniXaml.Typing
             {
                 return false;
             }
-            return Equals((MutableXamlMember) obj);
+            return Equals((MutableXamlMember)obj);
         }
 
         public override int GetHashCode()
@@ -90,8 +88,8 @@ namespace OmniXaml.Typing
             unchecked
             {
                 var hashCode = base.GetHashCode();
-                hashCode = (hashCode*397) ^ (DeclaringType != null ? DeclaringType.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (XamlType?.GetHashCode() ?? 0);
+                hashCode = (hashCode * 397) ^ (DeclaringType != null ? DeclaringType.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (XamlType?.GetHashCode() ?? 0);
                 return hashCode;
             }
         }

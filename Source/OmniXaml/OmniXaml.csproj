@@ -154,6 +154,7 @@
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
     <Compile Include="Typing\MemberValuePlugin.cs" />
+    <Compile Include="Typing\Metadata.cs" />
     <Compile Include="Typing\MutableXamlMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />
@@ -168,6 +169,7 @@
     <Compile Include="Typing\XamlType.cs" />
     <Compile Include="Typing\XamlTypeName.cs" />
     <Compile Include="Typing\XamlTypeRepository.cs" />
+    <Compile Include="Typing\XamlTypeRepositoryMixin.cs" />
     <Compile Include="ValueConversionException.cs" />
     <Compile Include="DependencySortingVisitor.cs" />
     <Compile Include="InstructionNode.cs" />
