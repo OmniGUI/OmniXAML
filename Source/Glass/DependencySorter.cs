@@ -2,48 +2,57 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
 
     public static class DependencySorter
     {
         public static ICollection<T> SortDependencies<T>(this IEnumerable<T> nodes) where T : IDependency<T>
         {
-            var set = new HashSet<T>();
+            return Sort(nodes, n => n.Dependencies);
+        }
 
-            foreach (var node in nodes)
+        public static IList<T> Sort<T>(IEnumerable<T> source, Func<T, IEnumerable<T>> getDependencies)
+        {
+            var sorted = new List<T>();
+            var visited = new Dictionary<T, bool>();
+
+            foreach (var item in source)
             {
-                foreach (var dependency in node.Resolve())
-                {
-                    set.Add(dependency);
-                }                
+                Visit(item, getDependencies, sorted, visited);
             }
 
-            return set.ToList();
+            return sorted;
         }
 
-        public static ICollection<T> Resolve<T>(this T node) where T : IDependency<T>
+        public static void Visit<T>(T item, Func<T, IEnumerable<T>> getDependencies, List<T> sorted, Dictionary<T, bool> visited)
         {
-            var resolved = new Collection<T>();
-            ResolveDependenciesRecursive(node, resolved, new List<T>());
-            return resolved;
-        }
+            bool inProcess;
+            var alreadyVisited = visited.TryGetValue(item, out inProcess);
 
-        private static void ResolveDependenciesRecursive<T>(T node, ICollection<T> resolved, ICollection<T> notResolved) where T : IDependency<T>
-        {
-            notResolved.Add(node);
-            foreach (var edge in node.Dependencies.Where(edge => !resolved.Contains(edge)))
+            if (alreadyVisited)
             {
-                if (notResolved.Contains(edge))
+                if (inProcess)
                 {
-                    throw new InvalidOperationException($"Circular dependency detected {node} => {edge}");
+                    throw new InvalidOperationException("Cyclic dependency found.");
+                }
+            }
+            else
+            {
+                visited[item] = true;
+
+                var dependencies = getDependencies(item);
+                if (dependencies != null)
+                {
+                    foreach (var dependency in dependencies)
+                    {
+                        Visit(dependency, getDependencies, sorted, visited);
+                    }
                 }
 
-                ResolveDependenciesRecursive(edge, resolved, notResolved);
+                visited[item] = false;
+                sorted.Add(item);
             }
-
-            resolved.Add(node);
-            notResolved.Remove(node);
         }
     }
+
+
 }
