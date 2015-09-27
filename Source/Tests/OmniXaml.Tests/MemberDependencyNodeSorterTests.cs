@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Tests
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using Classes;
@@ -7,49 +8,83 @@
     using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Resources;
 
     [TestClass]
     public class MemberDependencyNodeSorterTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
+        private readonly XamlInstructionResources resources;
+
+        public MemberDependencyNodeSorterTests()
+        {
+            resources = new XamlInstructionResources(this);
+        }
 
         [TestMethod]
-        public void Sort()
+        public void SortWholeStyle()
         {
-            var input = new List<XamlInstruction>
-            {
-                X.StartObject<Style>(),
-                    X.StartMember<Style>(c => c.Setter),
-                        X.StartObject<Setter>(),
-                            X.StartMember<Setter>(c => c.Value),
-                                X.Value("Value"),
-                            X.EndMember(),
-                            X.StartMember<Setter>(c => c.Property),
-                                X.Value("Property"),
-                            X.EndMember(),
-                        X.EndObject(),
-                    X.EndMember(),
-                X.EndObject()
-            };
+            var input = resources.StyleUnsorted;
 
-            var actualNodes = memberDependencyNodeSorter.Sort(input.GetEnumerator()).ToList();
-            var expectedInstructions = new List<XamlInstruction>
-            {
-                X.StartObject<Style>(),
-                    X.StartMember<Style>(c => c.Setter),
-                        X.StartObject<Setter>(),
-                            X.StartMember<Setter>(c => c.Property),
-                                X.Value("Property"),
-                            X.EndMember(),
-                            X.StartMember<Setter>(c => c.Value),
-                                X.Value("Value"),
-                            X.EndMember(),
-                        X.EndObject(),
-                    X.EndMember(),
-                X.EndObject()
-            };
+            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.StyleSorted;
 
             CollectionAssert.AreEqual(expectedInstructions, actualNodes);
-        }       
+        }
+
+
+        [TestMethod]
+        public void SortSetter()
+        {
+            var input = resources.SetterUnsorted;
+
+            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.SetterSorted;
+
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+        }
+
+        [TestMethod]
+        public void SortComboBox()
+        {
+            var input = resources.ComboBoxUnsorted;
+
+            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.ComboBoxSorted;
+
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+        }
+    }
+
+    public class EnumeratorDebugWrapper<T> : IEnumerator<T>
+    {
+        private readonly IEnumerator<T> getEnumerator;
+
+        public EnumeratorDebugWrapper(IEnumerator<T> getEnumerator)
+        {
+            this.getEnumerator = getEnumerator;
+        }
+
+        public void Dispose()
+        {
+            getEnumerator.Dispose();
+        }
+
+        public bool MoveNext()
+        {
+            return getEnumerator.MoveNext();
+        }
+
+        public void Reset()
+        {
+            getEnumerator.Reset();
+        }
+
+        public T Current => getEnumerator.Current;
+
+        object IEnumerator.Current => Current;
     }
 }

@@ -75,6 +75,7 @@
             var dummyXamlTypeRepository = new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider);
             
             dummyXamlTypeRepository.RegisterMetadata(new Metadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
+            dummyXamlTypeRepository.RegisterMetadata(new Metadata<ComboBox>().WithMemberDependency(setter => setter.SelectedIndex, setter => setter.Items));
 
             return new TypeContext(dummyXamlTypeRepository, xamlNamespaceRegistry, typeFactory);
         }

@@ -1104,5 +1104,149 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public List<XamlInstruction> ComboBoxCollectionOnly
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartMember<ComboBox>(c => c.Items),
+                    X.GetObject(),
+                    X.Items(),
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                };
+            }
+        }
+
+        public List<XamlInstruction> StyleSorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<Style>(),
+                    X.StartMember<Style>(c => c.Setter),
+                    X.StartObject<Setter>(),
+                    X.StartMember<Setter>(c => c.Property),
+                    X.Value("Property"),
+                    X.EndMember(),
+                    X.StartMember<Setter>(c => c.Value),
+                    X.Value("Value"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
+        }
+
+        public List<XamlInstruction> StyleUnsorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<Style>(),
+                    X.StartMember<Style>(c => c.Setter),
+                    X.StartObject<Setter>(),
+                    X.StartMember<Setter>(c => c.Value),
+                    X.Value("Value"),
+                    X.EndMember(),
+                    X.StartMember<Setter>(c => c.Property),
+                    X.Value("Property"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
+        }
+
+        public List<XamlInstruction> SetterUnsorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<Setter>(),
+                    X.StartMember<Setter>(c => c.Value),
+                    X.Value("Value"),
+                    X.EndMember(),
+                    X.StartMember<Setter>(c => c.Property),
+                    X.Value("Property"),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public List<XamlInstruction> SetterSorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<Setter>(),
+                    X.StartMember<Setter>(c => c.Property),
+                    X.Value("Property"),
+                    X.EndMember(),
+                    X.StartMember<Setter>(c => c.Value),
+                    X.Value("Value"),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public List<XamlInstruction> ComboBoxUnsorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<ComboBox>(),
+                        X.StartMember<ComboBox>(c => c.SelectedIndex),
+                            X.Value("1"),
+                        X.EndMember(),
+                        X.StartMember<ComboBox>(d => d.Items),
+                            X.GetObject(),
+                                X.Items(),
+                                    X.StartObject<Item>(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),                        
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public List<XamlInstruction> ComboBoxSorted
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<ComboBox>(),                       
+                        X.StartMember<ComboBox>(d => d.Items),
+                            X.GetObject(),
+                                X.Items(),
+                                    X.StartObject<Item>(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                        X.StartMember<ComboBox>(c => c.SelectedIndex),
+                            X.Value("1"),
+                        X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace OmniXaml
                 switch (enumerator.Current.InstructionType)
                 {
                     case XamlInstructionType.StartObject:
+                    case XamlInstructionType.GetObject:
                         count++;
                         break;
                     case XamlInstructionType.EndObject:

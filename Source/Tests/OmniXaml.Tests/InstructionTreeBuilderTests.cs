@@ -10,11 +10,11 @@
     using Resources;
 
     [TestClass]
-    public class NodeHierarchizerTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class InstructionTreeBuilderTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionResources source;
 
-        public NodeHierarchizerTests()
+        public InstructionTreeBuilderTests()
         {
             source = new XamlInstructionResources(this);
         }
@@ -95,6 +95,23 @@
         }
 
         [TestMethod]
+        public void TestReverseMembersWithCollection()
+        {
+            var input = source.TestReverseMembers;
+
+            var sut = new InstructionTreeBuilder();
+            var actual = sut.CreateHierarchy(input);
+
+            var h = new InstructionNode { Children = new Sequence<InstructionNode>(actual.ToList()) };
+            h.AcceptVisitor(new MemberReverserVisitor());
+
+            var actualNodes = h.Children.SelectMany(node => node.Dump());
+            var expectedInstructions = source.TestReverseMembersReverted;
+
+            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+        }
+
+        [TestMethod]
         public void DependencySorting()
         {
             var input = source.TwoMembers;
@@ -109,6 +126,19 @@
             var expectedInstructions = source.TwoMembersReversed;
 
             CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+        }
+
+
+        [TestMethod]
+        public void GivenCollectionAndSimpleMember_AfterCreatingHierarchy_DumpReturnsTheOriginalInput()
+        {
+            var sut = new InstructionTreeBuilder();
+
+            var instructionNodes = sut.CreateHierarchy(source.ComboBoxCollectionOnly.ToList());
+
+            var nodes = instructionNodes.SelectMany(node => node.Dump()).ToList();
+
+            CollectionAssert.AreEqual(source.ComboBoxCollectionOnly.ToList(), nodes);
         }
     }
 }

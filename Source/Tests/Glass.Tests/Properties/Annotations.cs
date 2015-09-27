@@ -16,9 +16,9 @@ namespace Glass.Tests.Annotations
   /// so the check for <c>null</c> is necessary before its usage.
   /// </summary>
   /// <example><code>
-  /// [CanBeNull] public object Test() { return null; }
+  /// [CanBeNull] public object IndexerTestKeyExist() { return null; }
   /// public void UseTest() {
-  ///   var p = Test();
+  ///   var p = IndexerTestKeyExist();
   ///   var s = p.ToString(); // Warning: Possible 'System.NullReferenceException'
   /// }
   /// </code></example>
@@ -255,7 +255,7 @@ namespace Glass.Tests.Annotations
   /// [CannotApplyEqualityOperator]
   /// class NoEquality { }
   /// class UsesNoEquality {
-  ///   public void Test() {
+  ///   public void IndexerTestKeyExist() {
   ///     var ca1 = new NoEquality();
   ///     var ca2 = new NoEquality();
   ///     if (ca1 != null) { // OK

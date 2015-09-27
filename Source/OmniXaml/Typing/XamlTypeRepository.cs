@@ -1,8 +1,6 @@
 namespace OmniXaml.Typing
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
     using System.Reflection;
     using Glass;
 
@@ -11,7 +9,7 @@ namespace OmniXaml.Typing
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
         private readonly ITypeFactory typeTypeFactory;
         private readonly ITypeFeatureProvider featureProvider;
-        private readonly IDictionary<Type, Metadata> metadatas = new Dictionary<Type, Metadata>();
+        private readonly AutoKeyDictionary<Type, Metadata> metadatas = new AutoKeyDictionary<Type, Metadata>(type => type.GetTypeInfo().BaseType, type => type != null);
 
         public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {

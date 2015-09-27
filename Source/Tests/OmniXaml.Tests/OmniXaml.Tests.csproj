@@ -81,7 +81,7 @@
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="TypeTypeConverterTests.cs" />
-    <Compile Include="NodeHierarchizerTests.cs" />
+    <Compile Include="InstructionTreeBuilderTests.cs" />
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />

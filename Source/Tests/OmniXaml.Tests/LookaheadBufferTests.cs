@@ -6,10 +6,18 @@
     using Classes.WpfLikeModel;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Resources;
 
     [TestClass]
     public class LookaheadBufferTests : GivenAWiringContextWithNodeBuildersNetCore
     {
+        private XamlInstructionResources resources;
+
+        public LookaheadBufferTests()
+        {
+            resources = new XamlInstructionResources(this);
+        }
+
         [TestMethod]
         public void LookAheadTest()
         {
@@ -78,6 +86,24 @@
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
             Assert.AreEqual(10, count);
+        }
+
+        [TestMethod]
+        public void LookAheadTestWithGetObjectAndCollection()
+        {
+            var look = resources.ComboBoxUnsorted;
+            var expectedCount = look.Count;
+
+            for (var t = 0; t < 4; t++)
+            {
+                look.Add(new XamlInstruction(XamlInstructionType.Value, "Noise"));
+            }
+
+            var enumerator = look.GetEnumerator();
+            enumerator.MoveNext();
+            var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
+
+            Assert.AreEqual(expectedCount, count);
         }
     }
 }

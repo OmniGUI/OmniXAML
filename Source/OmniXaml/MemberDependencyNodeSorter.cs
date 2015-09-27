@@ -21,8 +21,16 @@
 
                 }
 
-                yield return enumerator.Current;
+                if (!IsEmptyInstruction(enumerator))
+                {
+                    yield return enumerator.Current;
+                }
             }
+        }
+
+        private static bool IsEmptyInstruction(IEnumerator<XamlInstruction> enumerator)
+        {
+            return enumerator.Current.Equals(default(XamlInstruction));
         }
 
         private IEnumerable<XamlInstruction> SortNodes(IEnumerator<XamlInstruction> enumerator)

@@ -52,7 +52,8 @@ namespace OmniXaml
 
         private static bool IsLeading(XamlInstruction current)
         {
-            return current.InstructionType == XamlInstructionType.StartMember || current.InstructionType == XamlInstructionType.StartObject;
+            return current.InstructionType == XamlInstructionType.StartMember || current.InstructionType == XamlInstructionType.StartObject ||
+                   current.InstructionType == XamlInstructionType.GetObject;
         }
     }
 }
