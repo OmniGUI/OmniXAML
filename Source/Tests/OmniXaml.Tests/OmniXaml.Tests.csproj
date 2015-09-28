@@ -47,6 +47,22 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -63,6 +79,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="BuiltInTypeConverterTests\IntTypeConverterTests.cs" />
     <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="NameScopeTests.cs" />
@@ -80,7 +97,7 @@
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
-    <Compile Include="TypeTypeConverterTests.cs" />
+    <Compile Include="BuiltInTypeConverterTests\TypeTypeConverterTests.cs" />
     <Compile Include="InstructionTreeBuilderTests.cs" />
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />

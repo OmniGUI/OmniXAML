@@ -7,7 +7,26 @@
     {
         public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
         {
-            return int.Parse((string) value);
+            var str = value as string;
+
+            if (value is int)
+            {
+                return Convert.ToInt32(value);
+            }
+            if (value is long)
+            {
+                return Convert.ToInt32(value);
+            }
+            else if (str != null)
+            {
+                long v;
+                if (long.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out v))
+                {
+                    return (int)v;
+                }
+            }
+
+            throw new InvalidOperationException();
         }
 
         public object ConvertTo(IXamlTypeConverterContext context, CultureInfo culture, object value, Type destinationType)
@@ -22,7 +41,7 @@
 
         public bool CanConvertFrom(IXamlTypeConverterContext context, Type sourceType)
         {
-            return true;
+            return sourceType == typeof(string) || sourceType == typeof(long) || sourceType == typeof(int);
         }
     }
 }
