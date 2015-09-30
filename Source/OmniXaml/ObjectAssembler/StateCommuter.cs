@@ -13,6 +13,8 @@ namespace OmniXaml.ObjectAssembler
         private StackingLinkedList<Level> stack;
         private readonly ITopDownValueContext topDownValueContext;
         private readonly InstanceProperties instanceProperties;
+        private PreviousLevelWrapper previous;
+        private CurrentLevelWrapper current;
 
         public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
@@ -26,8 +28,9 @@ namespace OmniXaml.ObjectAssembler
             instanceProperties = new InstanceProperties();
         }
 
-        public CurrentLevelWrapper Current => new CurrentLevelWrapper(stack.CurrentValue);
-        public PreviousLevelWrapper Previous => new PreviousLevelWrapper(stack.PreviousValue);
+        public CurrentLevelWrapper Current => current;
+
+        public PreviousLevelWrapper Previous => previous;
 
         public int Level => stack.Count;
 
@@ -72,8 +75,8 @@ namespace OmniXaml.ObjectAssembler
 
         private void UpdateLevelWrappers()
         {
-            new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
-            new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
+            current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
         public void DecreaseLevel()
