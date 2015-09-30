@@ -202,5 +202,12 @@
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(XamlParseException))]
+        public void AttemptToAssignItemsToNonCollectionMember()
+        {
+            sut.PumpNodes(source.AttemptToAssignItemsToNonCollectionMember);
+        }
     }
 }

@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests
 {
+    using System.Collections;
     using System.Collections.ObjectModel;
     using Classes;
     using Common;
@@ -145,6 +146,7 @@ namespace OmniXaml.Tests
                 {
                     Collection = collection,
                     IsGetObject = true,
+                    XamlMember = WiringContext.TypeContext.GetXamlType(typeof(DummyClass)).GetMember("Items"),
                 });
 
             state.Push(new Level());
@@ -167,6 +169,7 @@ namespace OmniXaml.Tests
                 new Level
                 {
                     Collection = collection,
+                    XamlMember = WiringContext.TypeContext.GetXamlType(typeof(DummyClass)).GetMember("Items"),
                     IsGetObject = true,
                 });
 

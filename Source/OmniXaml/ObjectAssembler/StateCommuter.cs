@@ -27,7 +27,7 @@ namespace OmniXaml.ObjectAssembler
         }
 
         public CurrentLevelWrapper Current => new CurrentLevelWrapper(stack.CurrentValue);
-        private PreviousLevelWrapper Previous => new PreviousLevelWrapper(stack.PreviousValue);
+        public PreviousLevelWrapper Previous => new PreviousLevelWrapper(stack.PreviousValue);
 
         public int Level => stack.Count;
 
@@ -47,6 +47,8 @@ namespace OmniXaml.ObjectAssembler
                 UpdateLevelWrappers();
             }
         }
+
+        public bool ParentIsOneToMany => Previous.XamlMemberIsOneToMany;
 
         public void SetKey(object value)
         {
@@ -152,7 +154,7 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !(Current.IsMarkupExtension))
             {
-                if (Previous.IsOneToMany)
+                if (Previous.IsValidHost)
                 {
                     AssignInstanceToHost();
                 }
