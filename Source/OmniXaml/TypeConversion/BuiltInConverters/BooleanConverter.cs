@@ -22,7 +22,7 @@
 
         public bool CanConvertFrom(IXamlTypeConverterContext context, Type sourceType)
         {
-            return true;
+            return sourceType == typeof(string);
         }
     }
 }
