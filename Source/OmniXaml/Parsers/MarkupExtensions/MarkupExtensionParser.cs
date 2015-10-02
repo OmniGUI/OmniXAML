@@ -1,5 +1,6 @@
 namespace OmniXaml.Parsers.MarkupExtensions
 {
+    using System.Globalization;
     using System.Linq;
     using Sprache;
 
@@ -12,20 +13,45 @@ namespace OmniXaml.Parsers.MarkupExtensions
         private const char Colon = ':';
         private const char EqualSign = '=';
 
+        public static readonly Parser<char> CombiningCharacter = Parse.Char(
+            c =>
+            {
+                var cat = CharUnicodeInfo.GetUnicodeCategory(c);
+                return cat == UnicodeCategory.NonSpacingMark ||
+                       cat == UnicodeCategory.SpacingCombiningMark;
+            },
+            "Connecting Character");
+
+        public static readonly Parser<char> ConnectingCharacter = Parse.Char(
+            c => CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.ConnectorPunctuation,
+            "Connecting Character");
+
+        public static readonly Parser<char> FormattingCharacter = Parse.Char(
+            c => CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.Format,
+            "Connecting Character");
+
+        public static readonly Parser<char> IdentifierChar = Parse
+            .LetterOrDigit
+            .Or(ConnectingCharacter)
+            .Or(CombiningCharacter)
+            .Or(FormattingCharacter);
+
+        public static readonly Parser<char> IdentifierFirst = Parse.Letter.Or(Parse.Char('_'));
+
         private static readonly Parser<TreeNode> QuotedValue = from firstQuote in Parse.Char(Quote)
                                                                from identifier in Parse.CharExcept(new[] { Quote, OpenCurly, CloseCurly }).Many()
                                                                from secondQuote in Parse.Char(Quote)
                                                                select new StringNode(new string(identifier.ToArray()));
 
         private static readonly Parser<string> Identifier =
-            from first in Parse.Letter.Once()
-            from rest in Parse.LetterOrDigit.Many()
-            select new string(first.Concat(rest).ToArray());
+            from first in IdentifierFirst.Once().Text()
+            from rest in IdentifierChar.Many().Text()
+            select first + rest;
 
         private static readonly Parser<TreeNode> DirectValue = from value in ValidChars.Many()
                                                                select new StringNode(new string(value.ToArray()));
 
-        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.'));
+        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.', '[', ']', '(', ')', '!', '$'));
 
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
 
