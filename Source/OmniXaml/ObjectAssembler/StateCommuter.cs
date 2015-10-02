@@ -13,6 +13,8 @@ namespace OmniXaml.ObjectAssembler
         private StackingLinkedList<Level> stack;
         private readonly ITopDownValueContext topDownValueContext;
         private readonly InstanceProperties instanceProperties;
+        private PreviousLevelWrapper previous;
+        private CurrentLevelWrapper current;
 
         public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
@@ -26,8 +28,9 @@ namespace OmniXaml.ObjectAssembler
             instanceProperties = new InstanceProperties();
         }
 
-        public CurrentLevelWrapper Current => new CurrentLevelWrapper(stack.CurrentValue);
-        private PreviousLevelWrapper Previous => new PreviousLevelWrapper(stack.PreviousValue);
+        public CurrentLevelWrapper Current => current;
+
+        public PreviousLevelWrapper Previous => previous;
 
         public int Level => stack.Count;
 
@@ -47,6 +50,8 @@ namespace OmniXaml.ObjectAssembler
                 UpdateLevelWrappers();
             }
         }
+
+        public bool ParentIsOneToMany => Previous.XamlMemberIsOneToMany;
 
         public void SetKey(object value)
         {
@@ -70,8 +75,8 @@ namespace OmniXaml.ObjectAssembler
 
         private void UpdateLevelWrappers()
         {
-            new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
-            new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
+            current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
         public void DecreaseLevel()
@@ -152,7 +157,7 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !(Current.IsMarkupExtension))
             {
-                if (Previous.IsOneToMany)
+                if (Previous.IsValidHost)
                 {
                     AssignInstanceToHost();
                 }

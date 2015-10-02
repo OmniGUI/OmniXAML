@@ -3,7 +3,7 @@ namespace OmniXaml.ObjectAssembler
     using System.Collections;
     using Typing;
 
-    internal class PreviousLevelWrapper
+    public class PreviousLevelWrapper
     {
         private readonly Level level;
 
@@ -30,7 +30,9 @@ namespace OmniXaml.ObjectAssembler
             set { level.Collection = value; }
         }
 
-        public bool IsOneToMany => Collection != null;
+        public bool XamlMemberIsOneToMany => XamlMember.XamlType.IsCollection;
         public bool IsDictionary => Collection is IDictionary;
+
+        public bool IsValidHost => XamlMemberIsOneToMany && Collection != null;
     }
 }

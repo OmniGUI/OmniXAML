@@ -65,7 +65,14 @@ namespace OmniXaml.ObjectAssembler.Commands
         private void SetCommuterStateAccordingToDirective()
         {
             switch (GetDirectiveKind(member))
-            {               
+            {
+                case DirectiveKind.Items:
+                    if (!StateCommuter.ParentIsOneToMany)
+                    {
+                        throw new XamlParseException("Cannot assign a more than one item to a member that is not a collection.");
+                    }
+                    break;
+                          
                 case DirectiveKind.Initialization:
                     StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
                     break;

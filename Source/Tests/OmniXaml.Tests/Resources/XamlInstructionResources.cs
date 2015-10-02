@@ -1248,5 +1248,26 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> AttemptToAssignItemsToNonCollectionMember
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.Item),
+                    X.GetObject(),
+                    X.Items(),
+                    X.StartObject<Item>(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }
