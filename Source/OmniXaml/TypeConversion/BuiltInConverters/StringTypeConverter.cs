@@ -28,7 +28,7 @@
                 if (str != null)
                 {
                     int n;
-                    if (int.TryParse(str, out n))
+                    if (int.TryParse(str, NumberStyles.Integer, CultureInfo.InvariantCulture, out n))
                     {
                         return n;
                     }
@@ -42,7 +42,7 @@
                 if (str != null)
                 {
                     double n;
-                    if (double.TryParse(str, out n))
+                    if (double.TryParse(str, NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out n))
                     {
                         return n;
                     }

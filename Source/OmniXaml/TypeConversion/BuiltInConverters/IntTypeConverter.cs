@@ -11,11 +11,11 @@
 
             if (value is int)
             {
-                return Convert.ToInt32(value);
+                return Convert.ToInt32(value, CultureInfo.InvariantCulture);
             }
             if (value is long)
             {
-                return Convert.ToInt32(value);
+                return Convert.ToInt32(value, CultureInfo.InvariantCulture);
             }
             else if (str != null)
             {
