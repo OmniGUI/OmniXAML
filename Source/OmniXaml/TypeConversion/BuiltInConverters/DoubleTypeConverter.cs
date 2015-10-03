@@ -7,7 +7,7 @@ namespace OmniXaml.TypeConversion.BuiltInConverters
     {
         public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
         {
-            return double.Parse((string) value);
+            return double.Parse((string) value, CultureInfo.InvariantCulture);
         }
 
         public object ConvertTo(IXamlTypeConverterContext context, CultureInfo culture, object value, Type destinationType)
