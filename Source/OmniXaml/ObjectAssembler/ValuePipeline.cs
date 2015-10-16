@@ -71,8 +71,12 @@ namespace OmniXaml.ObjectAssembler
 
             if (targetType.GetTypeInfo().IsEnum)
             {
-                converted = Enum.Parse(targetType, value.ToString());
-                return true;
+                // There's currently no non-generic Enum.TryParse. If it gets added, use that.
+                if (Enum.IsDefined(targetType, value.ToString()))
+                {
+                    converted = Enum.Parse(targetType, value.ToString());
+                    return true;
+                }
             }
 
             converted = null;
