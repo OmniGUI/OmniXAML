@@ -1,15 +1,11 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
     using System.Collections;
-    using Typing;
 
     public class EndObjectCommand : Command
     {
-        private readonly ITopDownValueContext topDownValueContext;
-
-        public EndObjectCommand(ObjectAssembler assembler, ITopDownValueContext topDownValueContext) : base(assembler)
+        public EndObjectCommand(ObjectAssembler assembler) : base(assembler)
         {
-            this.topDownValueContext = topDownValueContext;
         }
 
         public override void Execute()

@@ -1269,5 +1269,20 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> TwoRoots
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

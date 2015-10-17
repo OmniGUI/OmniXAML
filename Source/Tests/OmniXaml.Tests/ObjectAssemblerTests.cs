@@ -25,7 +25,7 @@
         public void Initialize()
         {
             topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(WiringContext, topDownValueContext);            
+            sut = new ObjectAssembler(WiringContext, topDownValueContext);
         }
 
         [TestMethod]
@@ -200,14 +200,21 @@
             var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof (DummyClass));
             var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
 
-            Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
+            Assert.IsInstanceOfType(lastInstance, typeof (DummyClass));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof (XamlParseException))]
+        public void AttemptToAssignItemsToNonCollectionMember()
+        {
+            sut.PumpNodes(source.AttemptToAssignItemsToNonCollectionMember);
         }
 
         [TestMethod]
         [ExpectedException(typeof(XamlParseException))]
-        public void AttemptToAssignItemsToNonCollectionMember()
+        public void TwoChildrenWithNoRoot_ShouldThrow()
         {
-            sut.PumpNodes(source.AttemptToAssignItemsToNonCollectionMember);
+            sut.PumpNodes(source.TwoRoots);
         }
     }
 }
