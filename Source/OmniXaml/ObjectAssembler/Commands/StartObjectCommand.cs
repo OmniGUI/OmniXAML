@@ -18,7 +18,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         {
             if (StateCommuter.Level == 0)
             {
-                throw new XamlParseException("An object cannot start after level zero has been reached. This condition may indicate that there are more than one objects at the root level. Please, verify that there are only one root object.");
+                throw new XamlParseException("An object cannot start after level zero has been reached. This condition may indicate that there are more than one object at the Root Level. Please, verify that there is ONLY one root object.");
             }
 
             if (ConflictsWithObjectBeingConfigured)
