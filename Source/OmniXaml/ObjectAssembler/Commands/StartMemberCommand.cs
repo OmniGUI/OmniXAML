@@ -49,17 +49,13 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
             else
             {
-                ForceInstanceCreationOfCurrentTypeAndAssociateIfPossible();
+                ForceInstanceCreationOfCurrentType();
             }
         }
 
-        private void ForceInstanceCreationOfCurrentTypeAndAssociateIfPossible()
+        private void ForceInstanceCreationOfCurrentType()
         {
             StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-            if (!StateCommuter.Current.WasInstanceAssignedRightAfterBeingCreated)
-            {
-                StateCommuter.AssociateCurrentInstanceToParentRightAfterCreation();
-            }
         }
 
         private void SetCommuterStateAccordingToDirective()
