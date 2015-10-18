@@ -216,5 +216,14 @@
         {
             sut.PumpNodes(source.TwoRoots);
         }
+
+        [TestMethod]
+        public void PropertyShouldBeAssignedBeforeChildIsAssociatedToItsParent()
+        {
+            sut.PumpNodes(source.ParentShouldReceiveInitializedChild);
+            var parent = (SpyingParent) sut.Result;
+            Assert.IsTrue(parent.ChildHadNamePriorToBeingAssigned);
+        }
     }
+
 }

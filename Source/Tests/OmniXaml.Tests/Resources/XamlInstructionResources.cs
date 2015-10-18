@@ -1284,5 +1284,25 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> ParentShouldReceiveInitializedChild
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<SpyingParent>(),
+                    X.StartMember<SpyingParent>(d => d.Child),
+                    X.StartObject<ChildClass>(),
+                    X.StartMember<ChildClass>(d => d.Name),
+                    X.Value("SomeName"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

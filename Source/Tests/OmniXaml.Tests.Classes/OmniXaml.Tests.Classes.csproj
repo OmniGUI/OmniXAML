@@ -42,6 +42,7 @@
     <Compile Include="AnotherExtension.cs" />
     <Compile Include="ComboBox.cs" />
     <Compile Include="DummyObject.cs" />
+    <Compile Include="SpyingParent.cs" />
     <Compile Include="TypeWithFeatures.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="ContentControl.cs" />
