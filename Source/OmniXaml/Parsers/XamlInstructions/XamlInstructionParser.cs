@@ -60,7 +60,7 @@
                 switch (instructionStream.Current.NodeType)
                 {
                     case NodeType.Element:
-                        foreach (var instruction in ParseNonEmptyElement())  { yield return instruction; }
+                        foreach (var instruction in ParseNonEmptyElement()) { yield return instruction; }
                         break;
                     case NodeType.EmptyElement:
                         foreach (var instruction in ParseEmptyElement()) { yield return instruction; }
@@ -69,7 +69,7 @@
 
                 // There may be text nodes after each element. Skip all of them.
                 SkipTextNodes();
-            }         
+            }
         }
 
         private void SkipTextNodes()
@@ -123,6 +123,42 @@
             yield return Inject.EndOfObject();
             ReadEndTag();
         }
+
+        //private IEnumerable<XamlInstruction> ParseNonEmptyElement()
+        //{
+        //    yield return Inject.StartOfObject(instructionStream.Current.XamlType);
+        //    var parentType = instructionStream.Current.XamlType;
+
+        //    if (parentType.NeedsConstructionParameters)
+        //    {
+        //        foreach (var instruction in InjectNodesForTypeThatRequiresInitialization()) { yield return instruction; }
+        //    }
+        //    else
+        //    {
+        //        SetNextInstruction();
+
+        //        foreach (var instruction in ParseMembersOfObject()) { yield return instruction; }
+
+        //        if (parentType.IsCollection)
+        //        {
+        //            foreach (var instruction in ParseCollection())
+        //            {
+        //                yield return instruction;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
+        //        }
+
+        //        SkipTextNodes();
+
+        //        foreach (var instruction in ParseNestedProperties(parentType)) { yield return instruction; }
+        //    }
+
+        //    yield return Inject.EndOfObject();
+        //    ReadEndTag();
+        //}
 
         private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()
         {
@@ -186,9 +222,22 @@
                 {
                     yield return Inject.StartOfMember(contentProperty);
                     foreach (var instruction in ParseElements()) { yield return instruction; }
-                    yield return Inject.EndOfMember();                    
+                    yield return Inject.EndOfMember();
                 }
             }
+        }
+
+        private IEnumerable<XamlInstruction> ParseCollection()
+        {
+            yield return Inject.Items();
+
+            foreach (var instruction in ParseElements())
+            {
+                yield return instruction;
+            }
+
+            yield return Inject.EndOfMember();
+            yield return Inject.EndOfObject();
         }
 
         private void SetNextInstruction()

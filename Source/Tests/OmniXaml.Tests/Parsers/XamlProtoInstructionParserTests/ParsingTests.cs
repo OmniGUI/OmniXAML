@@ -163,5 +163,14 @@
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             sut.Parse(Dummy.NonExistingProperty).ToList();
         }
+
+        [TestMethod]
+        public void PureCollection()
+        {
+            var actual = sut.Parse(Dummy.PureCollection).ToList();
+            var expected = source.PureCollection.ToList();
+            
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

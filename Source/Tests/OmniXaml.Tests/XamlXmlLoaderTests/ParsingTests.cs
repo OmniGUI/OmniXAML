@@ -211,5 +211,13 @@
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
         }
+
+        [TestMethod]
+        [Ignore]
+        public void PureCollection()
+        {
+            var actualInstance = XamlLoader.Load(Dummy.PureCollection);
+
+        }
     }
 }

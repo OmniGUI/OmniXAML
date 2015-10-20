@@ -508,6 +508,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;ArrayList xmlns:sysCol=&quot;clr-namespace:System.Collections;assembly=mscorlib&quot;
+        ///           xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///    &lt;sys:Int32&gt;1&lt;/sys:Int32&gt;
+        ///    &lt;sys:Int32&gt;2&lt;/sys:Int32&gt;
+        ///    &lt;sys:Int32&gt;3&lt;/sys:Int32&gt;
+        ///&lt;/ArrayList&gt;.
+        /// </summary>
+        public static string PureCollection {
+            get {
+                return ResourceManager.GetString("PureCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;&lt;/DummyClass&gt;.
         /// </summary>
         public static string RootNamespace {

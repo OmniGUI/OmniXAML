@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests.Resources
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Classes;
@@ -590,9 +591,40 @@ namespace OmniXaml.Tests.Resources
                 return new List<ProtoXamlInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
-                    P.NonEmptyElement(typeof (TextBlock), RootNs),                    
+                    P.NonEmptyElement(typeof (TextBlock), RootNs),
                     P.Text("Hi all!!"),
-                    P.EndTag(),                                        
+                    P.EndTag(),
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> PureCollection
+        {
+            get
+            {
+                var sysColPrefix = "sysCol";
+                var sysPrefix = "sys";
+                var sysColNs = "clr-namespace:System.Collections;assembly=mscorlib";
+                var sysNs = "clr-namespace:System;assembly=mscorlib";
+
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(sysColPrefix, sysColNs),
+                    P.NamespacePrefixDeclaration(sysPrefix, sysNs),
+                    P.NonEmptyElement(typeof (ArrayList), new NamespaceDeclaration(sysColNs, sysColPrefix)),
+                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.Text("1"),
+                    P.EndTag(),
+                    P.Text(),
+                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.Text("2"),
+                    P.EndTag(),
+                    P.Text(),
+                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.Text("3"),
+                    P.EndTag(),
+                    P.Text(),
+                    P.EndTag(),
                 };
             }
         }
