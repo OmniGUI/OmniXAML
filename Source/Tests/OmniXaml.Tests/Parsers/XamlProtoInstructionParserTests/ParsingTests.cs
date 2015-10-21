@@ -172,5 +172,14 @@
             
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void MixedCollection()
+        {
+            var actual = sut.Parse(Dummy.MixedCollection).ToList();
+            var expected = source.MixedCollection.ToList();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

@@ -602,28 +602,54 @@ namespace OmniXaml.Tests.Resources
         {
             get
             {
-                var sysColPrefix = "sysCol";
-                var sysPrefix = "sys";
-                var sysColNs = "clr-namespace:System.Collections;assembly=mscorlib";
-                var sysNs = "clr-namespace:System;assembly=mscorlib";
+                var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+                var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
 
                 return new List<ProtoXamlInstruction>
                 {
-                    P.NamespacePrefixDeclaration(sysColPrefix, sysColNs),
-                    P.NamespacePrefixDeclaration(sysPrefix, sysNs),
-                    P.NonEmptyElement(typeof (ArrayList), new NamespaceDeclaration(sysColNs, sysColPrefix)),
-                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.NamespacePrefixDeclaration("sysCol", "clr-namespace:System.Collections;assembly=mscorlib"),
+                    P.NamespacePrefixDeclaration("sys", "clr-namespace:System;assembly=mscorlib"),
+                    P.NonEmptyElement(typeof (ArrayList), colections),
+                    P.NonEmptyElement(typeof (int), system),
                     P.Text("1"),
                     P.EndTag(),
                     P.Text(),
-                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.NonEmptyElement(typeof (int), system),
                     P.Text("2"),
                     P.EndTag(),
                     P.Text(),
-                    P.NonEmptyElement(typeof (int), new NamespaceDeclaration(sysNs, sysPrefix)),
+                    P.NonEmptyElement(typeof (int), system),
                     P.Text("3"),
                     P.EndTag(),
                     P.Text(),
+                    P.EndTag(),
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> MixedCollection
+        {
+            get
+            {
+                var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
+                var root = new NamespaceDeclaration("root", "");
+                
+
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(colections),
+                    P.NamespacePrefixDeclaration(root),
+                    P.NonEmptyElement<ArrayList>(colections),
+
+                    P.EmptyElement<DummyClass>(root),
+                    P.Text(),
+
+                    P.EmptyElement<DummyClass>(root),
+                    P.Text(),
+
+                    P.EmptyElement<DummyClass>(root),
+                    P.Text(),
+
                     P.EndTag(),
                 };
             }

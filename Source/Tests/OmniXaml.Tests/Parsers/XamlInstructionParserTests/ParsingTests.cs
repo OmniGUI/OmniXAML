@@ -285,5 +285,19 @@
 
             CollectionAssert.AreEqual(expectedInstructions.ToList(), xamlNodes);
         }
+
+        [TestMethod]
+        public void MixedCollection()
+        {
+            //var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+            //var input = protoResources.GetString(sysNs);
+
+            //var expectedInstructions = source.GetString(sysNs);
+
+            //var actualNodes = sut.Parse(input);
+            //var xamlNodes = actualNodes.ToList();
+
+            //CollectionAssert.AreEqual(expectedInstructions.ToList(), xamlNodes);
+        }
     }
 }

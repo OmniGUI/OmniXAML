@@ -470,6 +470,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;sysCol:ArrayList xmlns:sysCol=&quot;clr-namespace:System.Collections;assembly=mscorlib&quot;
+        ///                  xmlns=&quot;root&quot;&gt;
+        ///    &lt;DummyClass /&gt;
+        ///    &lt;DummyClass /&gt;
+        ///    &lt;DummyClass /&gt;
+        ///&lt;/sysCol:ArrayList&gt;.
+        /// </summary>
+        public static string MixedCollection {
+            get {
+                return ResourceManager.GetString("MixedCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;Item /&gt;
         ///&lt;/DummyClass&gt;.
@@ -508,12 +522,12 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;ArrayList xmlns:sysCol=&quot;clr-namespace:System.Collections;assembly=mscorlib&quot;
+        ///   Looks up a localized string similar to &lt;sysCol:ArrayList xmlns:sysCol=&quot;clr-namespace:System.Collections;assembly=mscorlib&quot;
         ///           xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
         ///    &lt;sys:Int32&gt;1&lt;/sys:Int32&gt;
         ///    &lt;sys:Int32&gt;2&lt;/sys:Int32&gt;
         ///    &lt;sys:Int32&gt;3&lt;/sys:Int32&gt;
-        ///&lt;/ArrayList&gt;.
+        ///&lt;/sysCol:ArrayList&gt;.
         /// </summary>
         public static string PureCollection {
             get {
