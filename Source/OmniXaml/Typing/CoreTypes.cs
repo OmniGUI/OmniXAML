@@ -13,10 +13,12 @@
         private static readonly XamlDirective sItems = new XamlDirective("_Items", XamlType.CreateForBuiltInType(typeof(List<object>)));
         private static readonly XamlDirective sInitialization = new XamlDirective("_Initialization");
         private static readonly XamlDirective sMarkupExtensionParameters = new XamlDirective("_MarkupExtensionParameters");
+        private static readonly XamlDirective sUnknownContent = new XamlDirective("_UnknownContent");
         public static readonly XamlDirective sKey = new XamlDirective("Key");
         public static readonly XamlDirective sName = new XamlDirective("Name");
 
         public static XamlDirective Items => sItems;
+        public static XamlDirective UnknownContent => sUnknownContent;
         public static XamlDirective Initialization => sInitialization;
         public static XamlDirective MarkupExtensionArguments => sMarkupExtensionParameters;
         public static XamlDirective Name => sName;
@@ -41,10 +43,13 @@
                     MarkupExtensionArguments,
                     Key,
                     Name,
+                    UnknownContent,
                 };
 
                 return new ReadOnlyCollection<XamlDirective>(xamlDirectives);
             }
         }
+
+        
     }
 }

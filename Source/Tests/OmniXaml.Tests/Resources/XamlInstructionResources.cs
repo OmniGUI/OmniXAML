@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests.Resources
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Builder;
@@ -1300,6 +1301,33 @@ namespace OmniXaml.Tests.Resources
                     X.EndMember(),
                     X.EndObject(),
                     X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> MixedCollection
+        {
+            get
+            {
+                var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(colections),
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<ArrayList>(),
+
+                    X.UnknownContent(), // The key part
+                    
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+
+                    X.StartObject<DummyClass>(),
+                    X.EndObject(),
+
                     X.EndObject(),
                 };
             }

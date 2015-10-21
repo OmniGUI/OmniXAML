@@ -634,7 +634,6 @@ namespace OmniXaml.Tests.Resources
                 var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
                 var root = new NamespaceDeclaration("root", "");
                 
-
                 return new List<ProtoXamlInstruction>
                 {
                     P.NamespacePrefixDeclaration(colections),

@@ -80,5 +80,10 @@
         {            
             return new XamlInstruction(XamlInstructionType.StartMember, new XamlDirective(directive));
         }
+
+        public XamlInstruction UnknownContent()
+        {
+            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.UnknownContent);
+        }
     }
 }
