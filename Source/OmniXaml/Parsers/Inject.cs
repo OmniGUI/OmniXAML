@@ -57,5 +57,10 @@ namespace OmniXaml.Parsers
         {
             return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.Initialization);
         }
+
+        public static XamlInstruction UnknownContent()
+        {
+            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.UnknownContent);
+        }
     }
 }

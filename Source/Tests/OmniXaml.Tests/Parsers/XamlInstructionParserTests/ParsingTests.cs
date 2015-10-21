@@ -287,7 +287,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void MixedCollection()
         {
             var actual = sut.Parse(protoResources.MixedCollection).ToList();

@@ -113,9 +113,19 @@
                 SetNextInstruction();
 
                 foreach (var instruction in ParseMembersOfObject()) { yield return instruction; }
-                foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
+
+                if (parentType.IsCollection)
+                {
+                    foreach (var instruction in ParseItemsOfCollection()) { yield return instruction; }
+                }
+                else
+                {
+                    foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
+                }                
 
                 SkipTextNodes();
+
+
 
                 foreach (var instruction in ParseNestedProperties(parentType)) { yield return instruction; }
             }
@@ -124,41 +134,11 @@
             ReadEndTag();
         }
 
-        //private IEnumerable<XamlInstruction> ParseNonEmptyElement()
-        //{
-        //    yield return Inject.StartOfObject(instructionStream.Current.XamlType);
-        //    var parentType = instructionStream.Current.XamlType;
-
-        //    if (parentType.NeedsConstructionParameters)
-        //    {
-        //        foreach (var instruction in InjectNodesForTypeThatRequiresInitialization()) { yield return instruction; }
-        //    }
-        //    else
-        //    {
-        //        SetNextInstruction();
-
-        //        foreach (var instruction in ParseMembersOfObject()) { yield return instruction; }
-
-        //        if (parentType.IsCollection)
-        //        {
-        //            foreach (var instruction in ParseCollection())
-        //            {
-        //                yield return instruction;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
-        //        }
-
-        //        SkipTextNodes();
-
-        //        foreach (var instruction in ParseNestedProperties(parentType)) { yield return instruction; }
-        //    }
-
-        //    yield return Inject.EndOfObject();
-        //    ReadEndTag();
-        //}
+        private IEnumerable<XamlInstruction> ParseItemsOfCollection()
+        {
+            yield return Inject.UnknownContent();
+            foreach (var xamlInstruction in ParseElements()) { yield return xamlInstruction; }
+        }
 
         private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()
         {
