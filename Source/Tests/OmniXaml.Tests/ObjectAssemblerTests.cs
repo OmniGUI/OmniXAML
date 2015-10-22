@@ -224,6 +224,16 @@
             var parent = (SpyingParent) sut.Result;
             Assert.IsTrue(parent.ChildHadNamePriorToBeingAssigned);
         }
+
+        [TestMethod]
+        public void MixedCollection()
+        {
+            sut.PumpNodes(source.MixedCollection);
+            var result = sut.Result;
+            Assert.IsInstanceOfType(result, typeof(ArrayList));
+            var arrayList = (ArrayList) result;
+            Assert.IsTrue(arrayList.Count > 0);
+        }
     }
 
 }

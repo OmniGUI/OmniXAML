@@ -125,8 +125,6 @@
 
                 SkipTextNodes();
 
-
-
                 foreach (var instruction in ParseNestedProperties(parentType)) { yield return instruction; }
             }
 

@@ -1,6 +1,7 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
     using System;
+    using System.Collections;
     using System.Collections.ObjectModel;
     using Typing;
 
@@ -23,7 +24,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 return DirectiveKind.Items;
             }
-            if (xamlMember.Equals(CoreTypes.sKey))
+            if (xamlMember.Equals(CoreTypes.Key))
             {
                 return DirectiveKind.Key;
             }
@@ -31,10 +32,15 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 return DirectiveKind.MarkupExtensionArguments;
             }
-            if (xamlMember.Equals(CoreTypes.sName))
+            if (xamlMember.Equals(CoreTypes.Name))
             {
                 return DirectiveKind.Name;
             }
+            if (xamlMember.Equals(CoreTypes.UnknownContent))
+            {
+                return DirectiveKind.UnknownContent;
+            }
+
 
             throw new InvalidOperationException($"Unexpected XAML directive. The directive {xamlMember} has been found and we don't know how to handle it.");
         }
@@ -68,7 +74,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                         throw new XamlParseException("Cannot assign a more than one item to a member that is not a collection.");
                     }
                     break;
-                          
+
                 case DirectiveKind.Initialization:
                     StateCommuter.ValueProcessingMode = ValueProcessingMode.InitializationValue;
                     break;
@@ -85,6 +91,21 @@ namespace OmniXaml.ObjectAssembler.Commands
                 case DirectiveKind.Name:
                     StateCommuter.ValueProcessingMode = ValueProcessingMode.Name;
                     break;
+                case DirectiveKind.UnknownContent:
+                    AccommodateLevelsForIncomingChildren();
+                    break;
+            }
+        }
+
+        private void AccommodateLevelsForIncomingChildren()
+        {
+            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
+            var instance = StateCommuter.Current.Instance;
+
+            var collection = instance as ICollection;
+            if (collection != null)
+            {
+                StateCommuter.Current.Collection = collection;
             }
         }
 
@@ -94,7 +115,8 @@ namespace OmniXaml.ObjectAssembler.Commands
             Items,
             Name,
             MarkupExtensionArguments,
-            Initialization
+            Initialization,
+            UnknownContent
         }
     }
 }

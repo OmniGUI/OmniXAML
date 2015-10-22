@@ -143,7 +143,7 @@ namespace OmniXaml.ObjectAssembler
             return arguments.Any() ? arguments : null;
         }
 
-        private void AssignChildToCurrentCollection()
+        private void AddChildToCurrentCollection()
         {
             TypeOperations.AddToCollection(Previous.Collection, Current.Instance);
         }
@@ -157,9 +157,9 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !(Current.IsMarkupExtension))
             {
-                if (Previous.IsValidHost)
+                if (Previous.CanHostChildren)
                 {
-                    AssignInstanceToHost();
+                    AddChildToHost();
                 }
                 else
                 {
@@ -200,19 +200,19 @@ namespace OmniXaml.ObjectAssembler
             return false;
         }
 
-        private void AssignInstanceToHost()
+        private void AddChildToHost()
         {
             if (Previous.IsDictionary)
             {
-                AssignChildToDictionary();
+                AddChildToDictionary();
             }
             else
             {
-                AssignChildToCurrentCollection();
+                AddChildToCurrentCollection();
             }
         }
 
-        private void AssignChildToDictionary()
+        private void AddChildToDictionary()
         {
             TypeOperations.AddToDictionary((IDictionary)Previous.Collection, instanceProperties.Key, Current.Instance);
             ClearKey();

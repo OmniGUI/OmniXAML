@@ -10,14 +10,12 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         public override void Execute()
         {
-            var previousType = StateCommuter.Current.XamlType;
             var previousMember = StateCommuter.Current.XamlMember;
 
             StateCommuter.RaiseLevel();
             StateCommuter.Current.IsGetObject = true;
             var instanceToGet = StateCommuter.ValueOfPreviousInstanceAndItsMember;
             StateCommuter.Current.Instance = instanceToGet;
-            //StateCommuter.Current.XamlType = previousType;
             StateCommuter.Current.XamlMember = previousMember;
 
             var collection = instanceToGet as ICollection;
