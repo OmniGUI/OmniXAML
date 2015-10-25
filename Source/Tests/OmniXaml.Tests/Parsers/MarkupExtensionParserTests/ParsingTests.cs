@@ -108,6 +108,32 @@
         }
 
         [TestMethod]
+        public void ComposedExtensionTemplateBindingWithConverter()
+        {
+            var actual =
+               MarkupExtensionParser.MarkupExtension.Parse("{TemplateBinding Path=IsFloatingWatermarkVisible, Converter={x:Type FooBar}}");
+
+            var expected = new MarkupExtensionNode(
+                new IdentifierNode("TemplateBindingExtension"),
+                new OptionsCollection(
+                    new List<Option>
+                    {
+                        new PropertyOption("Path", new StringNode("IsFloatingWatermarkVisible")),
+                        new PropertyOption(
+                            "Converter",
+                            new MarkupExtensionNode(
+                                new IdentifierNode("x", "TypeExtension"),
+                                new OptionsCollection
+                                {
+                                    new PositionalOption("FooBar")
+                                }))
+
+                    }));
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void ComposedExtension()
         {
             var actual =

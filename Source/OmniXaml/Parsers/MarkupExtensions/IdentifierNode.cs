@@ -44,5 +44,10 @@ namespace OmniXaml.Parsers.MarkupExtensions
                 return ((Prefix != null ? Prefix.GetHashCode() : 0)*397) ^ (TypeName != null ? TypeName.GetHashCode() : 0);
             }
         }
+
+        public override string ToString()
+        {
+            return Prefix + ":" + TypeName;
+        }
     }
 }
