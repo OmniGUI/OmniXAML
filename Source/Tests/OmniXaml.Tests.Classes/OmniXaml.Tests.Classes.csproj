@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
+    <Compile Include="TemplateBindingExtension.cs" />
     <Compile Include="ComboBox.cs" />
     <Compile Include="DummyObject.cs" />
     <Compile Include="SpyingParent.cs" />

@@ -303,7 +303,7 @@
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
             var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(wiringContext);
-            return markupExtensionConverter.Convert(tree);
+            return markupExtensionConverter.ParseMarkupExtensionNode(tree);
         }
 
         private IEnumerable<XamlInstruction> ParsePrefixDefinitions()

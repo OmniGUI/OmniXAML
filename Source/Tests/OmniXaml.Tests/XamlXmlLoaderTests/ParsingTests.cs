@@ -217,7 +217,6 @@
         public void PureCollection()
         {
             var actualInstance = XamlLoader.Load(Dummy.PureCollection);
-
         }
     }
 }

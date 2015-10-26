@@ -4,6 +4,7 @@
     using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.MarkupExtensions;
+    using Resources;
     using Sprache;
 
     [TestClass]
@@ -113,22 +114,7 @@
             var actual =
                MarkupExtensionParser.MarkupExtension.Parse("{TemplateBinding Path=IsFloatingWatermarkVisible, Converter={x:Type FooBar}}");
 
-            var expected = new MarkupExtensionNode(
-                new IdentifierNode("TemplateBindingExtension"),
-                new OptionsCollection(
-                    new List<Option>
-                    {
-                        new PropertyOption("Path", new StringNode("IsFloatingWatermarkVisible")),
-                        new PropertyOption(
-                            "Converter",
-                            new MarkupExtensionNode(
-                                new IdentifierNode("x", "TypeExtension"),
-                                new OptionsCollection
-                                {
-                                    new PositionalOption("FooBar")
-                                }))
-
-                    }));
+            var expected = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
 
             Assert.AreEqual(expected, actual);
         }
@@ -140,31 +126,7 @@
                 MarkupExtensionParser.MarkupExtension.Parse(
                     "{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type Grid}}}");
 
-            var expected = new MarkupExtensionNode(
-                new IdentifierNode("BindingExtension"),
-                new OptionsCollection(
-                    new List<Option>
-                    {
-                        new PositionalOption("Width"),
-                        new PropertyOption(
-                            "RelativeSource",
-                            new MarkupExtensionNode(
-                                new IdentifierNode("RelativeSourceExtension"),
-                                new OptionsCollection
-                                {
-                                    new PositionalOption("FindAncestor"),
-                                    new PropertyOption("AncestorLevel", new StringNode("1")),
-                                    new PropertyOption(
-                                        "AncestorType",
-                                        new MarkupExtensionNode(
-                                            new IdentifierNode("x", "TypeExtension"),
-                                            new OptionsCollection
-                                            {
-                                                new PositionalOption("Grid")
-                                            }))
-
-                                }))
-                    }));
+            var expected = MarkupExtensionNodeResources.ComposedExtension();
 
             Assert.AreEqual(expected, actual);
         }

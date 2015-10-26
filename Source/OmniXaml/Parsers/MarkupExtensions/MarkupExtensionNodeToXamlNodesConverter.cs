@@ -13,7 +13,7 @@
             this.wiringContext = wiringContext;
         }
 
-        public IEnumerable<XamlInstruction> Convert(MarkupExtensionNode tree)
+        public IEnumerable<XamlInstruction> ParseMarkupExtensionNode(MarkupExtensionNode tree)
         {
             var identifierNode = tree.Identifier;
             var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
@@ -39,17 +39,24 @@
             }
         }
 
-        private static IEnumerable<XamlInstruction> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
+        private IEnumerable<XamlInstruction> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
         {
             foreach (var option in options)
             {
                 var member = xamlType.GetMember(option.Property);
                 yield return Inject.StartOfMember(member);
 
+
                 var stringNode = option.Value as StringNode;
                 if (stringNode != null)
                 {
                     yield return Inject.Value(stringNode.Value);
+                }
+
+                var markupExtensionNode = option.Value as MarkupExtensionNode;
+                if (markupExtensionNode != null)
+                {
+                    foreach (var xamlInstruction in ParseMarkupExtensionNode(markupExtensionNode)) { yield return xamlInstruction; }
                 }
 
                 yield return Inject.EndOfMember();
