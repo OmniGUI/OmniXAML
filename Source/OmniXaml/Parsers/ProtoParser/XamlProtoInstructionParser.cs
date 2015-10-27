@@ -21,9 +21,9 @@
             instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext);
         }
 
-        public IEnumerable<ProtoXamlInstruction> Parse(Stream stream)
+        public IEnumerable<ProtoXamlInstruction> Parse(IXmlReader stream)
         {
-            reader = new XmlCompatibilityReader(stream);
+            this.reader = stream;
             attributeParser = new AttributeParser(reader);
             reader.Read();
 

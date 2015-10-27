@@ -39,6 +39,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="INameScope.cs" />
+    <Compile Include="Mixin.cs" />
     <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
@@ -65,7 +66,7 @@
     <Compile Include="DeferredLoaderMapping.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
     <Compile Include="IWiringContext.cs" />
-    <Compile Include="IXamlLoader.cs" />
+    <Compile Include="IXamlXmlLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="IXamlParserFactory.cs" />
     <Compile Include="LookaheadBuffer.cs" />
@@ -88,7 +89,6 @@
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\ProtoParser\IXmlReader.cs" />
     <Compile Include="Parsers\ProtoParser\DirectiveAssignment.cs" />
-    <Compile Include="Parsers\ProtoParser\ProtoXamlInstructionExtensions.cs" />
     <Compile Include="Parsers\ProtoParser\UnprocessedAttributeBase.cs" />
     <Compile Include="Parsers\ProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="Parsers\ProtoParser\IProtoParser.cs" />
@@ -183,13 +183,12 @@
     <Compile Include="Visualization\VisualizationTag.cs" />
     <Compile Include="WiringContext.cs" />
     <Compile Include="PhaseParserKit.cs" />
-    <Compile Include="XamlLoaderExtensions.cs" />
     <Compile Include="XamlInstruction.cs" />
     <Compile Include="XamlInstructionType.cs" />
     <Compile Include="XamlParseException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="XamlXmlParser.cs" />
-    <Compile Include="XamlLoader.cs" />
+    <Compile Include="XamlXmlLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Glass\Glass.csproj">

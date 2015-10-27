@@ -11,7 +11,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         {
             WiringContext.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.Load(Dummy.ChildInNameScope);
+            var actualInstance = XamlXmlLoader.Load(Dummy.ChildInNameScope);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }

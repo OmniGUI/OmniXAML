@@ -6,9 +6,10 @@ namespace OmniXaml.Parsers.ProtoParser
     using System.Linq;
     using System.Xml;
 
-    internal class XmlCompatibilityReader : IXmlReader
+    public class XmlCompatibilityReader : IXmlReader
     {
         private readonly XmlReader xmlReader;
+        private StringReader stream;
 
         public XmlCompatibilityReader(TextReader stringReader)
         {
@@ -19,6 +20,11 @@ namespace OmniXaml.Parsers.ProtoParser
         {
             var xmlReaderSettings = new XmlReaderSettings { IgnoreComments = true };
             xmlReader = XmlReader.Create(stream, xmlReaderSettings);
+        }
+
+        public XmlCompatibilityReader(StringReader stream)
+        {
+            this.stream = stream;
         }
 
         public void Read()

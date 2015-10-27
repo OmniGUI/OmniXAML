@@ -2,8 +2,9 @@
 {
     using System.IO;
     using Parsers;
+    using Parsers.ProtoParser;
 
-    public interface IXamlParser : IParser<Stream, object>
+    public interface IXamlParser : IParser<IXmlReader, object>
     {
     }
 }

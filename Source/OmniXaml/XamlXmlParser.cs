@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using Glass;
@@ -21,7 +22,7 @@
             parser = phaseParserKit.Parser;
         }
 
-        public object Parse(Stream stream)
+        public object Parse(IXmlReader stream)
         {
             var xamlProtoNodes = protoParser.Parse(stream);
             var xamlNodes = parser.Parse(xamlProtoNodes);
@@ -34,5 +35,36 @@
 
             return objectAssembler.Result;
         }
+    }
+
+    public class XamlLoader : IXamlLoader
+    {
+        
+
+        public XamlLoader(IXamlParserFactory parserFactory)
+        {
+            
+        }
+
+        public object Load(Stream stream)
+        {
+            throw new NotImplementedException();
+        }
+        public object Load(string str)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Load(Stream stream, object instance)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public interface IXamlLoader
+    {
+        object Load(Stream stream);
+        object Load(Stream stream, object instance);
+        object Load(string str);
     }
 }
