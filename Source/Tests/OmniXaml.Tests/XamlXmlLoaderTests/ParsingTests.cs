@@ -16,21 +16,21 @@
         private readonly Type expectedType = typeof (DummyClass);
 
         [TestMethod]
-        [ExpectedException(typeof (XmlException))]
+        [ExpectedException(typeof (XamlLoadException))]
         public void EmptyStreamThrows()
         {
             XamlLoader.Load(Dummy.Empty);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (XamlParseException))]
+        [ExpectedException(typeof (XamlLoadException))]
         public void UnknownElementThrows()
         {
             XamlLoader.Load(Dummy.UnknownType);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (XmlException))]
+        [ExpectedException(typeof (XamlLoadException))]
         public void BadFormatThrowsXamlReaderException()
         {
             XamlLoader.Load(Dummy.BadFormat);

@@ -4,18 +4,18 @@ namespace OmniXaml
 
     public class XamlLoadException : Exception
     {
-        public int CurrentLine { get; private set; }
-        public int CurrentChar { get; private set; }
+        public int LineNumber { get; private set; }
+        public int LinePosition { get; private set; }
 
-        public XamlLoadException(string message, int currentLine, int currentChar, Exception exception) : base(message, exception)
+        public XamlLoadException(string message, int lineNumber, int linePosition, Exception exception) : base(message, exception)
         {
-            CurrentLine = currentLine;
-            CurrentChar = currentChar;
+            LineNumber = lineNumber;
+            LinePosition = linePosition;
         }
-        public XamlLoadException(int currentLine, int currentChar, Exception exception) : base(string.Empty, exception)
+        public XamlLoadException(int lineNumber, int linePosition, Exception exception) : base(string.Empty, exception)
         {
-            CurrentLine = currentLine;
-            CurrentChar = currentChar;
+            LineNumber = lineNumber;
+            LinePosition = linePosition;
         }
     }
 }

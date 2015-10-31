@@ -70,7 +70,7 @@
         private static void ShowProblemLoadingError(XamlLoadException e)
         {
             MessageBox.Show(
-                $"There has been a problem loading the XAML at line: {e.CurrentLine} pos: {e.CurrentChar}. Detailed exception: \n\nException:\n{e.ToString().GetFirstNChars(500)}",
+                $"There has been a problem loading the XAML at line: {e.LineNumber} pos: {e.LinePosition}. Detailed exception: \n\nException:\n{e.ToString().GetFirstNChars(500)}",
                 "Load problem");
         }
     }

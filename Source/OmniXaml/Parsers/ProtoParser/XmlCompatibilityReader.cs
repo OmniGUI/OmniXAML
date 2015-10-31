@@ -40,12 +40,9 @@ namespace OmniXaml.Parsers.ProtoParser
         public string LocalName => xmlReader.LocalName;
         public string Name => xmlReader.Name;
         public string Value => xmlReader.Value;
-
-        public bool HasLineInfo() => ((IXmlLineInfo)xmlReader).HasLineInfo();
-
+        public bool HasLineInfo() => ((IXmlLineInfo) xmlReader).HasLineInfo();
         public int LineNumber => ((IXmlLineInfo) xmlReader).LineNumber;
-        public int LinePosition => ((IXmlLineInfo)xmlReader).LinePosition;
-
+        public int LinePosition => ((IXmlLineInfo) xmlReader).LinePosition;
 
         public bool MoveToFirstAttribute()
         {
@@ -71,7 +68,6 @@ namespace OmniXaml.Parsers.ProtoParser
         }
 
         public string Namespace => xmlReader.NamespaceURI;
-
 
 
         public void MoveToElement()

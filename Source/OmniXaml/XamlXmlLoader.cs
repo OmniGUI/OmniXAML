@@ -33,7 +33,7 @@ namespace OmniXaml
             }
             catch (Exception e)
             {
-                throw new XamlLoadException(xmlReader.LineNumber, xmlReader.LinePosition, e);
+                throw new XamlLoadException($"Error loading XAML: {e}", xmlReader.LineNumber, xmlReader.LinePosition, e);
             }
         }
     }
