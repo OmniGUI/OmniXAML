@@ -6,9 +6,9 @@
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlXmlLoader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
+            XamlLoader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
         }
 
-        protected XamlXmlLoader XamlXmlLoader { get; }
+        protected XamlXmlLoader XamlLoader { get; }
     }
 }

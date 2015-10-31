@@ -10,7 +10,7 @@
         [TestMethod]
         public void SimpleExtension()
         {
-            var actualInstance = XamlXmlLoader.Load(XamlResources.SimpleExtension);
+            var actualInstance = XamlLoader.Load(XamlResources.SimpleExtension);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -21,7 +21,7 @@
         [TestMethod]
         public void SimpleExtensionWithPropertyAssignment()
         {
-            var actualInstance = XamlXmlLoader.Load(XamlResources.SimpleExtensionWithOneAssignment);
+            var actualInstance = XamlLoader.Load(XamlResources.SimpleExtensionWithOneAssignment);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -32,7 +32,7 @@
         [TestMethod]
         public void ExtensionThatRetrievesInteger()
         {
-            var actualInstance = XamlXmlLoader.Load("<DummyClass xmlns=\"root\" Number=\"{Int Number=123}\"/>");
+            var actualInstance = XamlLoader.Load("<DummyClass xmlns=\"root\" Number=\"{Int Number=123}\"/>");
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -43,7 +43,7 @@
         [TestMethod]
         public void QuotedValue()
         {
-            var actualInstance = XamlXmlLoader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"{Dummy Property=\'Some Value\'}\"/>");
+            var actualInstance = XamlLoader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"{Dummy Property=\'Some Value\'}\"/>");
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -56,7 +56,7 @@
         {
             
 
-            var actualInstance = XamlXmlLoader.Load(XamlResources.MarkupExtensionTwoQuotedValues);
+            var actualInstance = XamlLoader.Load(XamlResources.MarkupExtensionTwoQuotedValues);
 
             Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;

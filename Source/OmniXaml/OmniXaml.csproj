@@ -39,7 +39,7 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="INameScope.cs" />
-    <Compile Include="Mixin.cs" />
+    <Compile Include="LoadMixin.cs" />
     <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
@@ -185,6 +185,7 @@
     <Compile Include="PhaseParserKit.cs" />
     <Compile Include="XamlInstruction.cs" />
     <Compile Include="XamlInstructionType.cs" />
+    <Compile Include="XamlLoadException.cs" />
     <Compile Include="XamlParseException.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="XamlXmlParser.cs" />

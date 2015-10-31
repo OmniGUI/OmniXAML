@@ -7,40 +7,34 @@ namespace OmniXaml
     public class XamlXmlLoader : IXamlLoader
     {
         private readonly IXamlParserFactory xamlParserFactory;
+        private IXmlReader xmlReader;
 
         public XamlXmlLoader(IXamlParserFactory xamlParserFactory)
         {
             this.xamlParserFactory = xamlParserFactory;
         }
 
-        public object Load(string str)
-        {
-            throw new NotImplementedException();
-        }
-
         public object Load(Stream stream)
         {
-            throw new NotImplementedException();
-        }
-
-        public object Load(IXmlReader reader)
-        {
-            return xamlParserFactory.CreateForReadingFree().Parse(reader);
+            return Load(stream, xamlParserFactory.CreateForReadingFree());
         }
 
         public object Load(Stream stream, object instance)
         {
-            throw new NotImplementedException();
+            return Load(stream, xamlParserFactory.CreateForReadingSpecificInstance(instance));
         }
 
-        public object Load(IXmlReader reader, object rootInstance)
+        private object Load(Stream stream, IXamlParser parser)
         {
-            return xamlParserFactory.CreateForReadingSpecificInstance(rootInstance).Parse(reader);
-        }
-
-        public object Load(string dummyclassXmlnsRootSamplepropertyValue, object rootInstance)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                xmlReader = new XmlCompatibilityReader(stream);
+                return parser.Parse(xmlReader);
+            }
+            catch (Exception e)
+            {
+                throw new XamlLoadException(xmlReader.LineNumber, xmlReader.LinePosition, e);
+            }
         }
     }
 }

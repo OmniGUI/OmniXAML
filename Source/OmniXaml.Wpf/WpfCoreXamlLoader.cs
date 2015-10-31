@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Wpf
 {
-    internal class WpfCoreXamlLoader : XamlLoader
+    internal class WpfCoreXamlLoader : XamlXmlLoader
     {
         public WpfCoreXamlLoader(ITypeFactory typeFactory) : base(new WpfParserFactory(typeFactory))
         {

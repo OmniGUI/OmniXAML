@@ -2,7 +2,7 @@ namespace OmniXaml.Parsers.ProtoParser
 {
     using System.Xml;
 
-    public interface IXmlReader
+    public interface IXmlReader : IXmlLineInfo
     {
         void Read();
         XmlNodeType NodeType { get; }

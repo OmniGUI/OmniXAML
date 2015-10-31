@@ -37,34 +37,9 @@
         }
     }
 
-    public class XamlLoader : IXamlLoader
-    {
-        
-
-        public XamlLoader(IXamlParserFactory parserFactory)
-        {
-            
-        }
-
-        public object Load(Stream stream)
-        {
-            throw new NotImplementedException();
-        }
-        public object Load(string str)
-        {
-            throw new NotImplementedException();
-        }
-
-        public object Load(Stream stream, object instance)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     public interface IXamlLoader
     {
         object Load(Stream stream);
-        object Load(Stream stream, object instance);
-        object Load(string str);
+        object Load(Stream stream, object instance);        
     }
 }

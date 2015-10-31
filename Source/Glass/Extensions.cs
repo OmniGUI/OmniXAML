@@ -10,6 +10,11 @@
 
     public static class Extensions
     {
+        public static Stream FromUTF8ToStream(this string str)
+        {
+            return new MemoryStream(Encoding.UTF8.GetBytes(str));
+        }
+
         public static string ToString(this IEnumerable items)
         {
             var builder = new StringBuilder();
