@@ -83,12 +83,13 @@
             visualizerWindow.Show();
         }
 
-        private IEnumerable<XamlInstruction> ConvertToNodes(Stream xaml)
+        private IEnumerable<XamlInstruction> ConvertToNodes(Stream stream)
         {
+            var reader = new XmlCompatibilityReader(stream);
             var wiringContext = WiringContext;
             var pullParser = new XamlInstructionParser(wiringContext);
             var protoParser = new XamlProtoInstructionParser(wiringContext);
-            return pullParser.Parse(protoParser.Parse(xaml)).ToList();
+            return pullParser.Parse(protoParser.Parse(reader)).ToList();
         }
     }
 }

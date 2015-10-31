@@ -14,7 +14,7 @@
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
+        private IParser<IXmlReader, IEnumerable<ProtoXamlInstruction>> sut;
         private readonly ProtoInstructionResources source;
 
         public ParsingTests()
@@ -180,6 +180,6 @@
             var expected = source.MixedCollection.ToList();
 
             CollectionAssert.AreEqual(expected, actual);
-        }
-    }
+        }    
+    }   
 }

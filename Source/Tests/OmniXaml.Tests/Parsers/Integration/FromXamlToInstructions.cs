@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.Parsers.Integration
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Xml;
     using Common.NetCore;
@@ -183,7 +184,12 @@
         private ICollection<XamlInstruction> ExtractNodesFromPullParser(string xml)
         {
             var pullParser = new XamlInstructionParser(WiringContext);
-            return pullParser.Parse(new XamlProtoInstructionParser(WiringContext).Parse(xml)).ToList();
+
+            using (var stream = new StringReader(xml))
+            {
+                var reader = new XmlCompatibilityReader(stream);
+                return pullParser.Parse(new XamlProtoInstructionParser(WiringContext).Parse(reader)).ToList();
+            }
         }
 
         [TestMethod]

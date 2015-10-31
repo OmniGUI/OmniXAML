@@ -14,7 +14,7 @@
     [TestClass]
     public class PrefixTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private IParser<Stream, IEnumerable<ProtoXamlInstruction>> sut;
+        private IParser<IXmlReader, IEnumerable<ProtoXamlInstruction>> sut;
 
         [TestInitialize]
         public void Initialize()

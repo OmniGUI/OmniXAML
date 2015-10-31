@@ -6,20 +6,27 @@ namespace OmniXaml.Parsers.ProtoParser
     using System.Linq;
     using System.Xml;
 
-    internal class XmlCompatibilityReader : IXmlReader
+    public class XmlCompatibilityReader : IXmlReader
     {
+        private readonly XmlReaderSettings settings = new XmlReaderSettings {IgnoreComments = true};
         private readonly XmlReader xmlReader;
 
         public XmlCompatibilityReader(TextReader stringReader)
         {
-            xmlReader = XmlReader.Create(stringReader);
+            xmlReader = XmlReader.Create(stringReader, settings);
         }
 
         public XmlCompatibilityReader(Stream stream)
         {
-            var xmlReaderSettings = new XmlReaderSettings { IgnoreComments = true };
-            xmlReader = XmlReader.Create(stream, xmlReaderSettings);
+            xmlReader = XmlReader.Create(stream, settings);
         }
+
+        private bool ShouldIgnore => IsDesignerOnly || IsUnsupportedAttribute;
+        private bool IsUnsupportedAttribute => UnsupportedAttributes.Contains(Name);
+
+        public IEnumerable<string> UnsupportedAttributes { get; } = new Collection<string> {"x:TypeArguments", "x:Class"};
+
+        private bool IsDesignerOnly => xmlReader.Prefix == "d" || Name == "mc:Ignorable";
 
         public void Read()
         {
@@ -33,6 +40,13 @@ namespace OmniXaml.Parsers.ProtoParser
         public string LocalName => xmlReader.LocalName;
         public string Name => xmlReader.Name;
         public string Value => xmlReader.Value;
+
+        public bool HasLineInfo() => ((IXmlLineInfo)xmlReader).HasLineInfo();
+
+        public int LineNumber => ((IXmlLineInfo) xmlReader).LineNumber;
+        public int LinePosition => ((IXmlLineInfo)xmlReader).LinePosition;
+
+
         public bool MoveToFirstAttribute()
         {
             var hadNext = xmlReader.MoveToFirstAttribute();
@@ -56,12 +70,9 @@ namespace OmniXaml.Parsers.ProtoParser
             return hadNext;
         }
 
-        private bool ShouldIgnore => IsDesignerOnly || IsUnsupportedAttribute;
-        private bool IsUnsupportedAttribute => UnsupportedAttributes.Contains(Name);
         public string Namespace => xmlReader.NamespaceURI;
-        public IEnumerable<string> UnsupportedAttributes { get; } = new Collection<string> { "x:TypeArguments", "x:Class" };
 
-        private bool IsDesignerOnly => xmlReader.Prefix == "d" || Name == "mc:Ignorable";
+
 
         public void MoveToElement()
         {
