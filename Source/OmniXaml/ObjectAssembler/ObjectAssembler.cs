@@ -72,7 +72,7 @@ namespace OmniXaml.ObjectAssembler
 
         private XamlMemberBase GetMember(XamlMemberBase member)
         {
-            if (IsLevelOneAndThereIsRootInstance)
+            if (IsLevelOneAndThereIsRootInstance && member.Name != "_UnknownContent")
             {
                 var xamlMember = WiringContext.TypeContext.GetXamlType(rootInstanceType).GetMember(member.Name);
                 return rootInstanceType == null ? member : xamlMember;
