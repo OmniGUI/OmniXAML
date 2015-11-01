@@ -30,6 +30,10 @@
 
         public IEnumerable<TypeConverterRegistration> TypeConverters { get; }
         public IEnumerable<ContentPropertyDefinition> ContentProperties { get; }
+        public string GetRuntimeNameProperty(Type type)
+        {
+            return "Name";
+        }
 
         public void Add(TypeConverterRegistration item)
         {

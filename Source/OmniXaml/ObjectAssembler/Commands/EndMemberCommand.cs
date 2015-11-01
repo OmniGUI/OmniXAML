@@ -44,6 +44,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                 var targetType = xamlTypes[i];
                 var compatibleValue = StateCommuter.ValuePipeline.ConvertValueIfNecessary(ctorArg.StringValue, targetType);
                 ctorArg.Value = compatibleValue;
+                i++;
             }
         }
 
@@ -53,7 +54,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             return constructor.GetParameters().Select(arg => typeContext.GetXamlType(arg.ParameterType)).ToList();
         }
 
-        private ConstructorInfo SelectConstructor(XamlType xamlType, int count)
+        private static ConstructorInfo SelectConstructor(XamlType xamlType, int count)
         {
             return xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors.First(info => info.GetParameters().Count() == count);
         }

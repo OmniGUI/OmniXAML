@@ -38,5 +38,9 @@ namespace OmniXaml
 
         public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
         public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
+        public string GetRuntimeNameProperty(Type type)
+        {
+            return "Name";
+        }
     }
 }

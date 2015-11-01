@@ -166,19 +166,28 @@ namespace OmniXaml.ObjectAssembler
                     AssignChildToParentProperty();
                 }
 
-                TryAddInstanceToNameScope();
+                RegisterInstanceNameToNamescope();
             }
         }
 
-        private void TryAddInstanceToNameScope()
+        private void RegisterInstanceNameToNamescope()
         {
-            var nameScope = LookupParentNamescope();
             if (instanceProperties.Name != null)
             {
+                var nameScope = LookupParentNamescope();
                 nameScope?.Register(instanceProperties.Name, Current.Instance);
             }
 
             instanceProperties.Name = null;
+        }
+
+        public void PutNameToCurrentInstanceIfAny()
+        {
+            var runtimeNameMember = Current.XamlType.RuntimeNameMember;
+            if (instanceProperties.Name != null)
+            {
+                runtimeNameMember?.SetValue(Current.Instance, instanceProperties.Name);
+            }
         }
 
         private INameScope LookupParentNamescope()

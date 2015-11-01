@@ -36,10 +36,10 @@ namespace OmniXaml.Typing
             get
             {
                 var typeInfo = UnderlyingType.GetTypeInfo();
-                var isCollection = typeof (ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
-                var isEnumerable = typeof (IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isCollection = typeof(ICollection).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isEnumerable = typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
 
-                return UnderlyingType != typeof (string) && (isCollection || isEnumerable);
+                return UnderlyingType != typeof(string) && (isCollection || isEnumerable);
             }
         }
 
@@ -50,7 +50,7 @@ namespace OmniXaml.Typing
             get
             {
                 var typeInfo = UnderlyingType.GetTypeInfo();
-                var isDictionary = typeof (IDictionary).GetTypeInfo().IsAssignableFrom(typeInfo);
+                var isDictionary = typeof(IDictionary).GetTypeInfo().IsAssignableFrom(typeInfo);
                 return isDictionary;
             }
         }
@@ -98,14 +98,14 @@ namespace OmniXaml.Typing
                 return true;
             }
 
-            return Equals((XamlType) obj);
+            return Equals((XamlType)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return ((UnderlyingType?.GetHashCode() ?? 0)*397);
+                return ((UnderlyingType?.GetHashCode() ?? 0) * 397);
             }
         }
 
@@ -161,7 +161,7 @@ namespace OmniXaml.Typing
         {
             var getter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
             var setter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Set" + name);
-            return TypeRepository.GetAttachableMember(name, getter, setter);            
+            return TypeRepository.GetAttachableMember(name, getter, setter);
         }
 
         public IEnumerable<XamlMemberBase> GetAllMembers()
@@ -179,6 +179,17 @@ namespace OmniXaml.Typing
         }
 
         public bool IsNameScope => LookupIsNamescope();
+
+        public XamlMember RuntimeNameMember
+        {
+            get
+            {
+                var runtimeNameProperty = FeatureProvider.GetRuntimeNameProperty(UnderlyingType);
+                var runtimeProperty = UnderlyingType.GetRuntimeProperty(runtimeNameProperty);
+
+                return runtimeProperty != null ? GetMember(runtimeNameProperty) : null;
+            }
+        }
 
         protected virtual bool LookupIsNamescope()
         {
