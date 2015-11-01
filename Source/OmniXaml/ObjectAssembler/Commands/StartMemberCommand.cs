@@ -47,11 +47,18 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         public override void Execute()
         {
-            StateCommuter.Current.XamlMember = member;
+            XamlMemberBase realMember = member;
 
-            if (member.IsDirective)
+            if (IsMemberEquivalentToNameDirective(realMember))
             {
-                SetCommuterStateAccordingToDirective();
+                realMember = CoreTypes.Name;
+            }
+
+            StateCommuter.Current.XamlMember = realMember;
+
+            if (realMember.IsDirective)
+            {
+                SetCommuterStateAccordingToDirective(realMember);
             }
             else
             {
@@ -59,14 +66,19 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
         }
 
+        private static bool IsMemberEquivalentToNameDirective(XamlMemberBase memberToCheck)
+        {
+            return memberToCheck.Name == "Name";
+        }
+
         private void ForceInstanceCreationOfCurrentType()
         {
             StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
         }
 
-        private void SetCommuterStateAccordingToDirective()
+        private void SetCommuterStateAccordingToDirective(XamlMemberBase xamlMemberBase)
         {
-            switch (GetDirectiveKind(member))
+            switch (GetDirectiveKind(xamlMemberBase))
             {
                 case DirectiveKind.Items:
                     if (!StateCommuter.ParentIsOneToMany)

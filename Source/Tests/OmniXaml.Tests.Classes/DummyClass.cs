@@ -22,5 +22,8 @@ namespace OmniXaml.Tests.Classes
         public Collection<Item> Items { get; set; }
         public IDictionary<string, object> Resources { get; set; }
         public Item Item { get; set; }
+
+        public string Name { get; set; }
+        
     }
 }
