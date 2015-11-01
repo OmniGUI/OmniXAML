@@ -9,7 +9,7 @@ namespace OmniXaml.ObjectAssembler
     public class ObjectAssembler : IObjectAssembler
     {
         private readonly ITopDownValueContext topDownValueContext;
-        private readonly Type rootInstanceType;
+        private readonly XamlType rootInstanceXamlType;
         private readonly object rootInstance;
 
         public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
@@ -20,8 +20,10 @@ namespace OmniXaml.ObjectAssembler
 
             this.topDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
+
             rootInstance = settings?.RootInstance;
-            rootInstanceType = settings?.RootInstance?.GetType();
+            var rootInstanceType = rootInstance?.GetType();
+            rootInstanceXamlType = rootInstanceType != null ? wiringContext.TypeContext.TypeRepository.GetXamlType(rootInstanceType) : null;
         }
 
         public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
@@ -72,10 +74,9 @@ namespace OmniXaml.ObjectAssembler
 
         private XamlMemberBase GetMember(XamlMemberBase member)
         {
-            if (IsLevelOneAndThereIsRootInstance && member.Name != "_UnknownContent")
+            if (IsLevelOneAndThereIsRootInstance && !member.IsDirective)
             {
-                var xamlMember = WiringContext.TypeContext.GetXamlType(rootInstanceType).GetMember(member.Name);
-                return rootInstanceType == null ? member : xamlMember;
+                return rootInstanceXamlType == null ? member : rootInstanceXamlType.GetMember(member.Name);
             }
 
             return member;

@@ -239,13 +239,19 @@
         public void MixedCollectionWithRootInstance()
         {
             var root = new ArrayList();
-            var settings = new ObjectAssemblerSettings { RootInstance = root };
-            var assembler = new ObjectAssembler(WiringContext, topDownValueContext, settings);
+            var assembler = CreateAssemblerToReadSpecificInstance(root);
             assembler.PumpNodes(source.MixedCollection);
             var result = assembler.Result;
             Assert.IsInstanceOfType(result, typeof(ArrayList));
             var arrayList = (ArrayList)result;
             Assert.IsTrue(arrayList.Count > 0);
+        }
+
+        private ObjectAssembler CreateAssemblerToReadSpecificInstance(object instance)
+        {
+            var settings = new ObjectAssemblerSettings {RootInstance = instance};
+            var assembler = new ObjectAssembler(WiringContext, topDownValueContext, settings);
+            return assembler;
         }
     }
 }
