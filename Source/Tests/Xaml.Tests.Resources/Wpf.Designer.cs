@@ -124,6 +124,21 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+        ///    &lt;ListBox&gt;
+        ///        &lt;ListBoxItem&gt;
+        ///            &lt;TextBox Text=&quot;{Binding DoubleValue, Mode=TwoWay}&quot;/&gt;
+        ///        &lt;/ListBoxItem&gt;
+        ///    &lt;/ListBox&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string InnerBinding {
+            get {
+                return ResourceManager.GetString("InnerBinding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
         ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;Window.Resources&gt;
