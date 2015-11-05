@@ -1250,6 +1250,40 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public List<XamlInstruction> ListBoxSortedWithExtension
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<ListBox>(),
+                        X.StartMember<ListBox>(d => d.Items),
+                            X.GetObject(),
+                                X.Items(),
+                                    X.StartObject<ListBoxItem>(),
+                                        X.StartMember<ListBoxItem>(lbi => lbi.Content),
+                                            X.StartObject<TextBlock>(),
+                                                X.StartMember<TextBlock>(tb => tb.Text),
+                                                    X.StartObject<BindingExtension>(),
+                                                        X.MarkupExtensionArguments(),
+                                                            X.Value("DoubleValue"),
+                                                        X.EndMember(),
+                                                        X.StartMember<BindingExtension>(b => b.Mode),
+                                                            X.Value("TwoWay"),
+                                                        X.EndMember(),
+                                                    X.EndObject(),
+                                                X.EndMember(),
+                                            X.EndObject(),
+                                        X.EndMember(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),                        
+                    X.EndObject(),
+                };
+            }
+        }
+
         public IEnumerable<XamlInstruction> AttemptToAssignItemsToNonCollectionMember
         {
             get
@@ -1333,4 +1367,6 @@ namespace OmniXaml.Tests.Resources
             }
         }
     }
+
+
 }

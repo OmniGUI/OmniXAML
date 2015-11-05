@@ -57,6 +57,19 @@
 
             CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
+
+        [TestMethod]
+        [Ignore]
+        public void SortMarkupExtension()
+        {
+            var input = resources.ListBoxSortedWithExtension;
+
+            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.ListBoxSortedWithExtension;
+
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+        }
     }
 
     public class EnumeratorDebugWrapper<T> : IEnumerator<T>
