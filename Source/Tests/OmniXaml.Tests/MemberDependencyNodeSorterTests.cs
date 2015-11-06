@@ -59,7 +59,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void SortMarkupExtension()
         {
             var input = resources.ListBoxSortedWithExtension;

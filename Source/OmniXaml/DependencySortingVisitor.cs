@@ -10,16 +10,19 @@ namespace OmniXaml
     {
         public void Visit(InstructionNode instructionNode)
         {
-            var mutable = GetMutableMembers(instructionNode).ToList();
-            var sorted = ShortByDependencies(mutable);
+            var directives = GetDirectives(instructionNode);
+            var sortable = GetSortableMembers(instructionNode);
             var others = GetOthers(instructionNode);
 
-            var newList = new List<InstructionNode>();
+            var rearrangedNodes = new List<InstructionNode>();
 
-            newList.AddRange(sorted);
-            newList.AddRange(others);
+            var sorted = ShortByDependencies(sortable.ToList());
 
-            instructionNode.Children = new Sequence<InstructionNode>(newList);
+            rearrangedNodes.AddRange(directives);
+            rearrangedNodes.AddRange(others);
+            rearrangedNodes.AddRange(sorted);
+
+            instructionNode.Children = new Sequence<InstructionNode>(rearrangedNodes);
 
             foreach (var node in instructionNode.Children)
             {
@@ -27,7 +30,17 @@ namespace OmniXaml
             }
         }
 
-        private IEnumerable<InstructionNode> ShortByDependencies(List<InstructionNode> list)
+        private IEnumerable<InstructionNode> GetDirectives(InstructionNode instructionNode)
+        {
+            return instructionNode.Children.Where(node => IsDirective(node));
+        }
+
+        private static bool IsDirective(InstructionNode node)
+        {
+            return node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member.IsDirective;
+        }
+
+        private static IEnumerable<InstructionNode> ShortByDependencies(List<InstructionNode> list)
         {
             if (!list.Any())
             {
@@ -54,14 +67,24 @@ namespace OmniXaml
             return sorted;
         }
 
-        private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
+        private static IEnumerable<InstructionNode> GetSortableMembers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(IsSortable);
+        }
+
+        private static bool IsSortable(InstructionNode node)
+        {
+            return node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember && !IsDirective(node);
         }
 
         private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => !(node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(IsOther);
+        }
+
+        private static bool IsOther(InstructionNode node)
+        {
+            return !IsDirective(node) && !IsSortable(node);
         }
     }
 }
