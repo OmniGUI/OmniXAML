@@ -9,9 +9,4 @@ namespace OmniXaml.TypeConversion
     {
         ITypeConverter GetTypeConverter(Type type);        
     }
-
-    public interface IRuntimeNameProvider : IAdd<RuntimeNamePropertyRegistration>, IEnumerable<RuntimeNamePropertyRegistration>
-    {
-        string GetRuntimeNameProperty(Type type);
-    }
 }

@@ -9,11 +9,10 @@ namespace OmniXaml
     {
         private IContentPropertyProvider contentPropertyProvider;
         private ITypeConverterProvider converterProvider;
-        private IRuntimeNameProvider runtimeNamePropertyProvider;
 
         public ITypeFeatureProvider Build()
         {
-            return new TypeFeatureProvider(contentPropertyProvider, converterProvider, runtimeNamePropertyProvider);           
+            return new TypeFeatureProvider(contentPropertyProvider, converterProvider);           
         }
 
         public TypeFeatureProviderBuilder FromAttributes(IEnumerable<Type> types)
@@ -22,7 +21,6 @@ namespace OmniXaml
 
             contentPropertyProvider = ContentPropertyProvider.FromAttributes(listOfTypes);
             converterProvider = TypeConverterProvider.FromAttributes(listOfTypes);
-            runtimeNamePropertyProvider = RuntimeNamePropertyProvider.FromAttributes(listOfTypes);
 
             return this;
         }

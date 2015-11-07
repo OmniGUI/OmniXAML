@@ -65,9 +65,7 @@
         private static ITypeFeatureProvider GetFeatureProvider(IEnumerable<Assembly> assembliesToScan)
         {
             var builder = new TypeFeatureProviderBuilder().FromAttributes(assembliesToScan.AllExportedTypes());
-            var typeFeatureProvider = builder.Build();
-            typeFeatureProvider.RegisterRuntimeNameProperty(typeof(DummyObject), "Name");
-            return typeFeatureProvider;
+            return builder.Build();
         }
 
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider, IEnumerable<Assembly> assembliesToScan)
@@ -75,7 +73,8 @@
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
 
             var dummyXamlTypeRepository = new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider);
-            
+
+            dummyXamlTypeRepository.RegisterMetadata(new Metadata<DummyObject>().WithRuntimeNameProperty(d => d.Name));
             dummyXamlTypeRepository.RegisterMetadata(new Metadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
             dummyXamlTypeRepository.RegisterMetadata(new Metadata<ComboBox>().WithMemberDependency(setter => setter.SelectedIndex, setter => setter.Items));
 

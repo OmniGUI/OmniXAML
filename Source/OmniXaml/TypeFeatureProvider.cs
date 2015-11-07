@@ -7,14 +7,12 @@ namespace OmniXaml
 
     public class TypeFeatureProvider : ITypeFeatureProvider
     {
-        public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider, IRuntimeNameProvider runtimeNamePropertyProvider)
+        public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
         {
             ContentPropertyProvider = contentPropertyProvider;
             ConverterProvider = converterProvider;
-            RuntimeNamePropertyProvider = runtimeNamePropertyProvider;            
         }
 
-        public IRuntimeNameProvider RuntimeNamePropertyProvider { get; }
 
         public IContentPropertyProvider ContentPropertyProvider { get; }
 
@@ -41,14 +39,6 @@ namespace OmniXaml
 
         public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
         public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
-        public string GetRuntimeNameProperty(Type type)
-        {
-            return RuntimeNamePropertyProvider.GetRuntimeNameProperty(type);
-        }
-
-        public void RegisterRuntimeNameProperty(Type type, string propertyName)
-        {
-            RuntimeNamePropertyProvider.Add(new RuntimeNamePropertyRegistration(type, propertyName));
-        }
+       
     }
 }

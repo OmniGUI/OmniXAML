@@ -59,9 +59,7 @@
 
         private static ITypeFeatureProvider GetFeatureProvider()
         {
-            var runtimeNameProvider = new RuntimeNamePropertyProvider {new RuntimeNamePropertyRegistration(typeof (FrameworkElement), "Name")};
-
-            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider(), runtimeNameProvider);
+            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
         }
 
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory)

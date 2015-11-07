@@ -23,6 +23,8 @@ namespace OmniXaml.Typing
                 where dependency.Property == name
                 select dependency.DependsOn;
         }
+
+        public string RuntimePropertyName { get; protected set; }
     }
 
     public struct DependencyRegistration
@@ -42,6 +44,12 @@ namespace OmniXaml.Typing
         public Metadata<T> WithMemberDependency(Expression<Func<T, object>> property, Expression<Func<T, object>> dependsOn)
         {
             PropertyDependencies.Add(new DependencyRegistration(property.GetFullPropertyName(), dependsOn.GetFullPropertyName()));
+            return this;
+        }
+
+        public Metadata<T> WithRuntimeNameProperty(Expression<Func<T, object>> nameOfPropertySelector)
+        {
+            RuntimePropertyName = nameOfPropertySelector.GetFullPropertyName();
             return this;
         }        
     }
