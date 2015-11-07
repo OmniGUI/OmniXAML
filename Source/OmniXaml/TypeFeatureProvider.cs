@@ -7,14 +7,14 @@ namespace OmniXaml
 
     public class TypeFeatureProvider : ITypeFeatureProvider
     {
-        public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
+        public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider, IRuntimeNameProvider runtimeNamePropertyProvider)
         {
             ContentPropertyProvider = contentPropertyProvider;
             ConverterProvider = converterProvider;
-            RuntimeNamePropertyProvider = new RuntimeNamePropertyProvider();            
+            RuntimeNamePropertyProvider = runtimeNamePropertyProvider;            
         }
 
-        public RuntimeNamePropertyProvider RuntimeNamePropertyProvider { get; set; }
+        public IRuntimeNameProvider RuntimeNamePropertyProvider { get; }
 
         public IContentPropertyProvider ContentPropertyProvider { get; }
 

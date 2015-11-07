@@ -136,7 +136,6 @@
     <Compile Include="ProtoXamlInstruction.cs" />
     <Compile Include="TemplateHostingObjectAssembler.cs" />
     <Compile Include="TypeContext.cs" />
-    <Compile Include="TypeContextBuilder.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\BooleanConverter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\DoubleTypeConverter.cs" />
     <Compile Include="TypeConversion\ITypeConverter.cs" />

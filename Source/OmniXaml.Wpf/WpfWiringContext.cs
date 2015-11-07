@@ -5,6 +5,7 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Builder;
+    using TypeConversion;
     using Typing;
 
     public class WpfWiringContext : IWiringContext
@@ -58,7 +59,9 @@
 
         private static ITypeFeatureProvider GetFeatureProvider()
         {
-            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
+            var runtimeNameProvider = new RuntimeNamePropertyProvider {new RuntimeNamePropertyRegistration(typeof (FrameworkElement), "Name")};
+
+            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider(), runtimeNameProvider);
         }
 
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
