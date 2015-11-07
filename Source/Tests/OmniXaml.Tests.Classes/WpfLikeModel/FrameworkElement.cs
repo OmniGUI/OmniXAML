@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Tests.Classes.WpfLikeModel
 {
-    public class FrameworkElement
+    public class FrameworkElement : DummyObject
     {
-        public string Name { get; set; }
     }
 }

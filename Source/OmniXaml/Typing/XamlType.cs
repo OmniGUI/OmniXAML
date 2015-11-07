@@ -180,14 +180,24 @@ namespace OmniXaml.Typing
 
         public bool IsNameScope => LookupIsNamescope();
 
-        public XamlMember RuntimeNameMember
+        public XamlMember RuntimeNamePropertyMember
         {
             get
             {
                 var runtimeNameProperty = FeatureProvider.GetRuntimeNameProperty(UnderlyingType);
-                var runtimeProperty = UnderlyingType.GetRuntimeProperty(runtimeNameProperty);
 
-                return runtimeProperty != null ? GetMember(runtimeNameProperty) : null;
+                if (runtimeNameProperty == null)
+                {
+                    return null;
+                }
+
+                var propInfo = UnderlyingType.GetRuntimeProperty(runtimeNameProperty);
+                if (propInfo == null)
+                {
+                    throw new  InvalidOperationException($"The runtime property '{runtimeNameProperty}', cannot be found in the {UnderlyingType} type");
+                }
+
+                return GetMember(runtimeNameProperty);
             }
         }
 

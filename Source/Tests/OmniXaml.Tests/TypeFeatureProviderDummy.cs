@@ -32,7 +32,12 @@
         public IEnumerable<ContentPropertyDefinition> ContentProperties { get; }
         public string GetRuntimeNameProperty(Type type)
         {
-            return "Name";
+            throw new NotImplementedException();
+        }
+
+        public void RegisterRuntimeNameProperty(Type type, string propertyName)
+        {
+            throw new NotImplementedException();
         }
 
         public void Add(TypeConverterRegistration item)

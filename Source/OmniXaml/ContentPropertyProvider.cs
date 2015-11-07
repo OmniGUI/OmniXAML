@@ -10,12 +10,12 @@ namespace OmniXaml
 
     public class ContentPropertyProvider : IContentPropertyProvider
     {
-        private readonly IDictionary<Type, ContentPropertyDefinition> registeredContentProperties = new Dictionary<Type, ContentPropertyDefinition>();
+        private readonly IDictionary<Type, ContentPropertyDefinition> registrations = new Dictionary<Type, ContentPropertyDefinition>();
 
         public string GetContentPropertyName(Type type)
         {
             ContentPropertyDefinition member;
-            var explictRegistration = registeredContentProperties.TryGetValue(type, out member) ? member : null;
+            var explictRegistration = registrations.TryGetValue(type, out member) ? member : null;
 
             if (explictRegistration == null)
             {
@@ -35,7 +35,7 @@ namespace OmniXaml
                 }
 
                 ContentPropertyDefinition member;
-                var baseRegistration = registeredContentProperties.TryGetValue(type, out member) ? member : null;
+                var baseRegistration = registrations.TryGetValue(type, out member) ? member : null;
                 if (baseRegistration != null)
                 {
                     return baseRegistration.Name;
@@ -48,7 +48,7 @@ namespace OmniXaml
 
         public void Add(ContentPropertyDefinition item)
         {
-            registeredContentProperties.Add(item.OwnerType, item);
+            registrations.Add(item.OwnerType, item);
         }
 
         public static IContentPropertyProvider FromAttributes(IEnumerable<Type> types)
@@ -65,7 +65,7 @@ namespace OmniXaml
 
         public IEnumerator<ContentPropertyDefinition> GetEnumerator()
         {
-            return registeredContentProperties.Values.GetEnumerator();
+            return registrations.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

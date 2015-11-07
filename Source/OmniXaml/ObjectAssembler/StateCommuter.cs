@@ -183,7 +183,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void PutNameToCurrentInstanceIfAny()
         {
-            var runtimeNameMember = Current.XamlType.RuntimeNameMember;
+            var runtimeNameMember = Current.XamlType.RuntimeNamePropertyMember;
             if (instanceProperties.Name != null)
             {
                 runtimeNameMember?.SetValue(Current.Instance, instanceProperties.Name);

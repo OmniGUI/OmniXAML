@@ -65,7 +65,9 @@
         private static ITypeFeatureProvider GetFeatureProvider(IEnumerable<Assembly> assembliesToScan)
         {
             var builder = new TypeFeatureProviderBuilder().FromAttributes(assembliesToScan.AllExportedTypes());
-            return builder.Build();
+            var typeFeatureProvider = builder.Build();
+            typeFeatureProvider.RegisterRuntimeNameProperty(typeof(DummyObject), "Name");
+            return typeFeatureProvider;
         }
 
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory, ITypeFeatureProvider featureProvider, IEnumerable<Assembly> assembliesToScan)

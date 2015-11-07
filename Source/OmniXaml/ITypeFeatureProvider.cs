@@ -12,5 +12,6 @@ namespace OmniXaml
         IEnumerable<TypeConverterRegistration> TypeConverters { get; }
         IEnumerable<ContentPropertyDefinition> ContentProperties { get; }
         string GetRuntimeNameProperty(Type type);
+        void RegisterRuntimeNameProperty(Type type, string propertyName);
     }
 }

@@ -11,7 +11,10 @@ namespace OmniXaml
         {
             ContentPropertyProvider = contentPropertyProvider;
             ConverterProvider = converterProvider;
+            RuntimeNamePropertyProvider = new RuntimeNamePropertyProvider();            
         }
+
+        public RuntimeNamePropertyProvider RuntimeNamePropertyProvider { get; set; }
 
         public IContentPropertyProvider ContentPropertyProvider { get; }
 
@@ -40,7 +43,12 @@ namespace OmniXaml
         public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
         public string GetRuntimeNameProperty(Type type)
         {
-            return "Name";
+            return RuntimeNamePropertyProvider.GetRuntimeNameProperty(type);
+        }
+
+        public void RegisterRuntimeNameProperty(Type type, string propertyName)
+        {
+            RuntimeNamePropertyProvider.Add(new RuntimeNamePropertyRegistration(type, propertyName));
         }
     }
 }

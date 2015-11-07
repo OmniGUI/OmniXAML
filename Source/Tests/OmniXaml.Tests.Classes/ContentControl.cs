@@ -5,6 +5,6 @@
     [ContentProperty("Content")]
     public class ContentControl : DummyObject
     {
-        public object Content { get; set; }
+        public object Content { get; set; }        
     }
 }
