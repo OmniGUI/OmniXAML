@@ -13,6 +13,7 @@ namespace OmniXaml
             ConverterProvider = converterProvider;
         }
 
+
         public IContentPropertyProvider ContentPropertyProvider { get; }
 
         public ITypeConverterProvider ConverterProvider { get; }
@@ -38,5 +39,6 @@ namespace OmniXaml
 
         public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
         public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
+       
     }
 }

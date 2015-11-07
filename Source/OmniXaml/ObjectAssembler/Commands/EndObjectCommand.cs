@@ -13,7 +13,8 @@ namespace OmniXaml.ObjectAssembler.Commands
             if (!StateCommuter.Current.IsGetObject)
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
-                
+                StateCommuter.PutNameToCurrentInstanceIfAny();
+
                 if (StateCommuter.Current.Instance is IMarkupExtension)
                 {
                     object val = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Current.Instance);

@@ -396,6 +396,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Xaml\Dummy\ChildInNamescopeNoNameDirective.xaml">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Xaml\Wpf\InnerBinding.xaml">
       <SubType>Designer</SubType>
     </None>

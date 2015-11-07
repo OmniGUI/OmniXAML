@@ -3,7 +3,7 @@
     using Attributes;
 
     [ContentProperty("Text")]
-    public class TextBlock
+    public class TextBlock : FrameworkElement
     {        
         public string Text { get; set; }
     }

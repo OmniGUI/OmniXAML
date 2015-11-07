@@ -6,6 +6,8 @@ namespace OmniXaml.Tests.Classes
     {
         readonly IDictionary<string, object> dict = new Dictionary<string, object>();
 
+        public string Name { get; set; }
+
         public void Register(string name, object scopedElement)
         {
             dict.Add(name, scopedElement);

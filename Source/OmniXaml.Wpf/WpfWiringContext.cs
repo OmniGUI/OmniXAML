@@ -5,6 +5,7 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Builder;
+    using TypeConversion;
     using Typing;
 
     public class WpfWiringContext : IWiringContext

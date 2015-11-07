@@ -73,7 +73,8 @@
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
 
             var dummyXamlTypeRepository = new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider);
-            
+
+            dummyXamlTypeRepository.RegisterMetadata(new Metadata<DummyObject>().WithRuntimeNameProperty(d => d.Name));
             dummyXamlTypeRepository.RegisterMetadata(new Metadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
             dummyXamlTypeRepository.RegisterMetadata(new Metadata<Selector>().WithMemberDependency(setter => setter.SelectedIndex, setter => setter.Items));
 
