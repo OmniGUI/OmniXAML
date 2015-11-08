@@ -73,59 +73,59 @@
         [TestMethod]
         public void DependsOnRegister()
         {
-            var expectedMetadata = new Metadata<DummyClass>();
+            var expectedMetadata = new GenericMetadata<DummyClass>();
             expectedMetadata.WithMemberDependency(d => d.Items, d => d.AnotherProperty);
             XamlTypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
 
             var metadata = sut.GetMetadata<DummyClass>();
-            Assert.AreEqual(expectedMetadata, metadata);
+            Assert.AreEqual(expectedMetadata.AsNonGeneric(), metadata);
         }
 
         [TestMethod]
         public void GetMetadata()
         {
-            var expected = new Metadata<DummyClass>();
+            var expected = new GenericMetadata<DummyClass>();
 
             sut.RegisterMetadata(expected);
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.AsNonGeneric(), actual);
         }
 
         [TestMethod]
         public void GetMetadataOfSubClass_ReturnsPreviousParentMetadata()
         {
-            var expected = new Metadata<DummyObject>();
+            var expected = new GenericMetadata<DummyObject>();
 
             sut.RegisterMetadata(expected);
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.AsNonGeneric(), actual);
         }
 
         [TestMethod]
         public void GivenMetadataDefinitionsForBothClassAndSubclass_GetMetadataOfSubClass_ReturnsItsOwnMetadata()
         {
-            var expected = new Metadata<DummyClass>();
+            var expected = new GenericMetadata<DummyClass>();
 
             sut.RegisterMetadata(expected);
-            sut.RegisterMetadata(new Metadata<DummyObject>());
+            sut.RegisterMetadata(new GenericMetadata<DummyObject>());
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.AsNonGeneric(), actual);
         }
 
         [TestMethod]
         public void GivenMetadataDefinitionsForParentAndGrandParent_GetMetadataOfChild_ReturnsParentMetadata()
         {
-            var expected = new Metadata<DummyClass>();
+            var expected = new GenericMetadata<DummyClass>();
 
-            sut.RegisterMetadata(new Metadata<DummyObject>());
+            sut.RegisterMetadata(new GenericMetadata<DummyObject>());
             sut.RegisterMetadata(expected);
             
             var actual = sut.GetMetadata<DummyChild>();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.AsNonGeneric(), actual);
         }
     }
 }

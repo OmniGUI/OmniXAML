@@ -13,6 +13,7 @@ namespace OmniXaml.ObjectAssembler
         public bool IsGetObject { get; set; }
         public Collection<ConstructionArgument> CtorArguments { get; set; }
         public bool WasInstanceAssignedRightAfterBeingCreated { get; set; }
+        public InstanceProperties InstanceProperties { get; } = new InstanceProperties();
 
         protected bool Equals(Level other)
         {

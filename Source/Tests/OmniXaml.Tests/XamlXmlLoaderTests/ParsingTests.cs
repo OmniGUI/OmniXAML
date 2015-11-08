@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Diagnostics;
+    using System.Linq;
     using System.Xml;
     using Classes;
     using Classes.WpfLikeModel;
@@ -217,6 +218,21 @@
         public void PureCollection()
         {
             var actualInstance = XamlLoader.Load(Dummy.PureCollection);
+        }
+
+        [TestMethod]
+        public void ChildInDeeperNameScopeWithNamesInTwoLevels_HaveCorrectNames()
+        {
+            var actual = XamlLoader.Load(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels);
+
+            var w = (Window)actual;
+            var lb = (ListBox)w.Content;
+            var lvi = (ListBoxItem)lb.Items.First();
+            var tb = (TextBlock)lvi.Content;
+
+            Assert.AreEqual("MyListBox", lb.Name);
+            Assert.AreEqual("MyListBoxItem", lvi.Name);
+            Assert.AreEqual("MyTextBlock", tb.Name);
         }
     }
 }

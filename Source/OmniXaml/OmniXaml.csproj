@@ -148,12 +148,16 @@
     <Compile Include="TypeFeatureProviderBuilder.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\AttachableXamlMember.cs" />
+    <Compile Include="Typing\DependencyRegistration.cs" />
+    <Compile Include="Typing\DependencyRegistrations.cs" />
+    <Compile Include="Typing\Metadata.cs" />
+    <Compile Include="Typing\MetadataProvider.cs" />
     <Compile Include="Typing\ClrNamespace.cs" />
     <Compile Include="Typing\IXamlMemberValuePlugin.cs" />
     <Compile Include="Typing\IXamlNamespaceRegistry.cs" />
     <Compile Include="Typing\IXamlTypeRepository.cs" />
     <Compile Include="Typing\MemberValuePlugin.cs" />
-    <Compile Include="Typing\Metadata.cs" />
+    <Compile Include="Typing\GenericMetadata.cs" />
     <Compile Include="Typing\MutableXamlMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />

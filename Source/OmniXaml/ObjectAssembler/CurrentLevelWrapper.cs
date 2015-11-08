@@ -57,5 +57,7 @@ namespace OmniXaml.ObjectAssembler
 
         public bool HasInstance => Instance != null;
         public bool IsMarkupExtension => Instance is IMarkupExtension;
+
+        public InstanceProperties InstanceProperties => level.InstanceProperties;
     }
 }

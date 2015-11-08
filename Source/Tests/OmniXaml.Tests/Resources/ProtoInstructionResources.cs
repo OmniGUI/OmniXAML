@@ -653,5 +653,39 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<ProtoXamlInstruction> ChildInDeeperNameScopeWithNamesInTwoLevels
+        {
+            get
+            {
+                var root = new NamespaceDeclaration("root", "");
+                var special = new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x");
+
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(root),
+                    P.NamespacePrefixDeclaration(special),
+
+                    P.NonEmptyElement<Window>(root),
+
+                    P.NonEmptyElement<ListBox>(root),
+                    P.Directive(CoreTypes.Name, "MyListBox"),
+
+                    P.NonEmptyElement<ListBoxItem>(root),
+                    P.Directive(CoreTypes.Name, "MyListBoxItem"),
+                    
+                    P.EmptyElement<TextBlock>(root),
+                    P.Directive(CoreTypes.Name, "MyTextBlock"),
+                    P.Text(),
+                    P.EndTag(),
+
+                    P.Text(),
+                    P.EndTag(),
+
+                    P.Text(),
+                    P.EndTag(),
+                };
+            }
+        }
     }
 }

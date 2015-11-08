@@ -144,7 +144,7 @@ namespace OmniXaml
                     }
                 case XamlInstructionType.StartMember:
                     {
-                        str = string.Concat(str, Member.Name);
+                        str = string.Concat(str, Member.ToString());
                         return str;
                     }
                 case XamlInstructionType.Value:

@@ -1,16 +1,17 @@
 namespace OmniXaml.Typing
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
-    using Glass;
+    using System.Reflection;
 
     public class Metadata
     {
-        private readonly ISet<DependencyRegistration> propertyDependencies = new HashSet<DependencyRegistration>();
+        public static bool IsEmpty(Metadata metadata)
+        {
+            return typeof(Metadata).GetRuntimeProperties().All(info => info.GetValue(metadata) == null);
+        }
 
-        protected ISet<DependencyRegistration> PropertyDependencies => propertyDependencies;
+        public DependencyRegistrations PropertyDependencies { get; set; }
 
         public void SetMemberDependency(string property, string dependsOn)
         {
@@ -19,38 +20,47 @@ namespace OmniXaml.Typing
 
         public IEnumerable<string> GetMemberDependencies(string name)
         {
+            if (PropertyDependencies == null)
+            {
+                return new List<string>();
+            }
+
             return from dependency in PropertyDependencies
-                where dependency.Property == name
-                select dependency.DependsOn;
+                   where dependency.Property == name
+                   select dependency.DependsOn;
         }
 
-        public string RuntimePropertyName { get; protected set; }
-    }
+        public string RuntimePropertyName { get; set; }
 
-    public struct DependencyRegistration
-    {
-        public string Property { get; set; }
-        public string DependsOn { get; set; }
 
-        public DependencyRegistration(string property, string dependsOn)
+        protected bool Equals(Metadata other)
         {
-            Property = property;
-            DependsOn = dependsOn;
-        }
-    }
-
-    public class Metadata<T> : Metadata
-    {
-        public Metadata<T> WithMemberDependency(Expression<Func<T, object>> property, Expression<Func<T, object>> dependsOn)
-        {
-            PropertyDependencies.Add(new DependencyRegistration(property.GetFullPropertyName(), dependsOn.GetFullPropertyName()));
-            return this;
+            return Equals(PropertyDependencies, other.PropertyDependencies) && string.Equals(RuntimePropertyName, other.RuntimePropertyName);
         }
 
-        public Metadata<T> WithRuntimeNameProperty(Expression<Func<T, object>> nameOfPropertySelector)
+        public override bool Equals(object obj)
         {
-            RuntimePropertyName = nameOfPropertySelector.GetFullPropertyName();
-            return this;
-        }        
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != this.GetType())
+            {
+                return false;
+            }
+            return Equals((Metadata)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((PropertyDependencies != null ? PropertyDependencies.GetHashCode() : 0) * 397) ^ (RuntimePropertyName != null ? RuntimePropertyName.GetHashCode() : 0);
+            }
+        }
     }
 }

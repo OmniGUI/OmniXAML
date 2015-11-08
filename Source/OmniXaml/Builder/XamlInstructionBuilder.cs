@@ -76,7 +76,22 @@
             return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
 
-        public XamlInstruction StartDirective(string directive)
+        public XamlInstruction Name()
+        {
+            return StartDirective("Name");
+        }
+
+        public XamlInstruction Key()
+        {
+            return StartDirective("Key");
+        }
+
+        public XamlInstruction Initialization()
+        {
+            return StartDirective("_Initialization");
+        }
+
+        private static XamlInstruction StartDirective(string directive)
         {            
             return new XamlInstruction(XamlInstructionType.StartMember, new XamlDirective(directive));
         }

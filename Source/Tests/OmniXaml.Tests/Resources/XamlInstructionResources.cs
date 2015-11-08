@@ -207,7 +207,7 @@ namespace OmniXaml.Tests.Resources
             {
                 X.NamespacePrefixDeclaration(sysNs),
                 X.StartObject<string>(),
-                X.StartDirective("_Initialization"),
+                X.Initialization(),
                 X.Value("Text"),
                 X.EndMember(),
                 X.EndObject()
@@ -641,7 +641,7 @@ namespace OmniXaml.Tests.Resources
                     X.GetObject(),
                     X.Items(),
                     X.StartObject<ChildClass>(),
-                    X.StartDirective("Key"),
+                    X.Key(),
                     X.Value("SomeKey"),
                     X.EndMember(),
                     X.EndObject(),
@@ -666,7 +666,7 @@ namespace OmniXaml.Tests.Resources
                     X.GetObject(),
                     X.Items(),
                     X.StartObject(typeof (ChildClass)),
-                    X.StartDirective("Key"),
+                    X.Key(),
                     X.Value("SomeKey"),
                     X.EndMember(),
                     X.EndObject(),
@@ -1027,7 +1027,7 @@ namespace OmniXaml.Tests.Resources
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Child),
                     X.StartObject<ChildClass>(),
-                    X.StartDirective("Name"),
+                    X.Name(),
                     X.Value("MyObject"),
                     X.EndMember(),
                     X.EndObject(),
@@ -1052,13 +1052,13 @@ namespace OmniXaml.Tests.Resources
                     X.GetObject(),
 
                     X.StartObject<TextBlock>(),
-                    X.StartDirective("Name"),
+                    X.Name(),
                     X.Value("MyTextBlock"),
                     X.EndMember(),
                     X.EndObject(),
 
                     X.StartObject<TextBlock>(),
-                    X.StartDirective("Name"),
+                    X.Name(),
                     X.Value("MyOtherTextBlock"),
                     X.EndMember(),
                     X.EndObject(),
@@ -1083,14 +1083,14 @@ namespace OmniXaml.Tests.Resources
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
-                    
+
                     X.StartObject<Grid>(),
 
                     X.StartMember<Grid>(g => g.Children),
                     X.GetObject(),
 
                     X.StartObject<TextBlock>(),
-                    X.StartDirective("Name"),
+                    X.Name(),
                     X.Value("MyTextBlock"),
                     X.EndMember(),
                     X.EndObject(),
@@ -1101,7 +1101,7 @@ namespace OmniXaml.Tests.Resources
                     X.EndObject(),
                     X.EndMember(),
 
-                    X.EndObject(),                    
+                    X.EndObject(),
                 };
             }
         }
@@ -1221,7 +1221,7 @@ namespace OmniXaml.Tests.Resources
                                     X.EndObject(),
                                 X.EndMember(),
                             X.EndObject(),
-                        X.EndMember(),                        
+                        X.EndMember(),
                     X.EndObject(),
                 };
             }
@@ -1233,7 +1233,7 @@ namespace OmniXaml.Tests.Resources
             {
                 return new List<XamlInstruction>
                 {
-                    X.StartObject<ComboBox>(),                       
+                    X.StartObject<ComboBox>(),
                         X.StartMember<ComboBox>(d => d.Items),
                             X.GetObject(),
                                 X.Items(),
@@ -1278,7 +1278,7 @@ namespace OmniXaml.Tests.Resources
                                     X.EndObject(),
                                 X.EndMember(),
                             X.EndObject(),
-                        X.EndMember(),                        
+                        X.EndMember(),
                     X.EndObject(),
                 };
             }
@@ -1366,7 +1366,116 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> ListBoxWithItemAndTextBlockWithNames
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(SpecialNs),
+                    X.StartObject<Window>(),
+                        X.StartMember<Window>(w => w.Content),
+                            X.StartObject<ListBox>(),
+                                X.Name(),
+                                    X.Value("MyListBox"),
+                                X.EndMember(),
+                                X.StartMember<ListBox>(l => l.Items),
+                                    X.GetObject(),
+                                        X.Items(),
+                                            X.StartObject<ListBoxItem>(),
+                                                X.Name(),
+                                                    X.Value("MyListBoxItem"),
+                                                X.EndMember(),
+                                                X.StartMember<ListBoxItem>(lbi => lbi.Content),
+                                                    X.StartObject<TextBlock>(),
+                                                        X.Name(),
+                                                            X.Value("MyTextBlock"),
+                                                        X.EndMember(),
+                                                    X.EndObject(),
+                                                X.EndMember(),
+                                            X.EndObject(),
+                                        X.EndMember(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> ListBoxWithItemAndTextBlockNoNames
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(SpecialNs),
+                    X.StartObject<Window>(),
+                        X.StartMember<Window>(w => w.Content),
+                            X.StartObject<ListBox>(),                                
+                                X.StartMember<ListBox>(l => l.Items),
+                                    X.GetObject(),
+                                        X.Items(),
+                                            X.StartObject<ListBoxItem>(),                                                
+                                                X.StartMember<ListBoxItem>(lbi => lbi.Content),
+                                                    X.StartObject<TextBlock>(),                                                        
+                                                    X.EndObject(),
+                                                X.EndMember(),
+                                            X.EndObject(),
+                                        X.EndMember(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+
+        public IEnumerable<XamlInstruction> NamedObject
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(SpecialNs),
+                    X.StartObject<TextBlock>(),
+                    X.Name(),
+                    X.Value("MyTextBlock"),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> TwoNestedNamedObjects
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(SpecialNs),
+                    X.StartObject<ListBoxItem>(),
+                    X.Name(),
+                    X.Value("MyListBoxItem"),
+                    X.EndMember(),
+                    X.StartMember<ListBoxItem>(lbi => lbi.Content),
+                    X.StartObject<TextBlock>(),
+                    X.Name(),
+                    X.Value("MyTextBlock"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
-
-
 }

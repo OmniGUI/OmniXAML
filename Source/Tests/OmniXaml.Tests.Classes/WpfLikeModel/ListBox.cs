@@ -2,6 +2,10 @@
 {
     public class ListBox : Selector
     {
-        public DataTemplate ItemTemplate { get; set; } 
+        public DataTemplate ItemTemplate { get; set; }
+    }
+
+    public class ListViewItem : ContentControl
+    {
     }
 }

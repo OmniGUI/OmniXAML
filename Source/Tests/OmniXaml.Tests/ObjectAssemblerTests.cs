@@ -3,6 +3,7 @@
     using System.Collections;
     using System.Linq;
     using Classes;
+    using Classes.WpfLikeModel;
     using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -245,6 +246,59 @@
             Assert.IsInstanceOfType(result, typeof(ArrayList));
             var arrayList = (ArrayList)result;
             Assert.IsTrue(arrayList.Count > 0);
+        }
+
+
+
+        [TestMethod]
+        public void NamedObject_HasCorrectName()
+        {
+            sut.PumpNodes(source.NamedObject);
+            var result = sut.Result;
+            var tb = (TextBlock) result;
+
+            Assert.AreEqual("MyTextBlock", tb.Name);
+        }
+
+
+        [TestMethod]
+        public void TwoNestedNamedObjects_HaveCorrectNames()
+        {
+            sut.PumpNodes(source.TwoNestedNamedObjects);
+            var result = sut.Result;
+            var lbi = (ListBoxItem)result;
+            var textBlock = (TextBlock) lbi.Content;
+
+            Assert.AreEqual("MyListBoxItem", lbi.Name);
+            Assert.AreEqual("MyTextBlock", textBlock.Name);
+        }
+
+        [TestMethod]
+        public void ListBoxWithItemAndTextBlockNoNames()
+        {
+            sut.PumpNodes(source.ListBoxWithItemAndTextBlockNoNames);
+
+            var w = (Window)sut.Result;
+            var lb = (ListBox) w.Content;
+            var lvi = (ListBoxItem) lb.Items.First();
+            var tb = lvi.Content;
+
+            Assert.IsInstanceOfType(tb, typeof(TextBlock));
+        }
+
+        [TestMethod]
+        public void ListBoxWithItemAndTextBlockWithNames_HaveCorrectNames()
+        {
+            sut.PumpNodes(source.ListBoxWithItemAndTextBlockWithNames);
+
+            var w = (Window)sut.Result;
+            var lb = (ListBox)w.Content;
+            var lvi = (ListBoxItem)lb.Items.First();
+            var tb = (TextBlock)lvi.Content;
+
+            Assert.AreEqual("MyListBox", lb.Name);
+            Assert.AreEqual("MyListBoxItem", lvi.Name);
+            Assert.AreEqual("MyTextBlock", tb.Name);
         }
 
         private ObjectAssembler CreateAssemblerToReadSpecificInstance(object instance)

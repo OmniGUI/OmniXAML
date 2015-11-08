@@ -109,6 +109,36 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///    &lt;ListBox x:Name=&quot;MyListBox&quot;&gt;
+        ///        &lt;ListBoxItem x:Name=&quot;MyListBoxItem&quot;&gt;
+        ///            &lt;TextBlock x:Name=&quot;MyTextBlock&quot; /&gt;
+        ///        &lt;/ListBoxItem&gt;
+        ///    &lt;/ListBox&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string ChildInDeeperNameScopeWithNamesInTwoLevels {
+            get {
+                return ResourceManager.GetString("ChildInDeeperNameScopeWithNamesInTwoLevels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///    &lt;ListBox x:Name=&quot;MyListBox&quot;&gt;
+        ///        &lt;ListBoxItem x:Name=&quot;MyListBoxItem&quot;&gt;
+        ///            &lt;TextBlock x:Name=&quot;MyTextBlock&quot; /&gt;
+        ///        &lt;/ListBoxItem&gt;
+        ///    &lt;/ListBox&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives {
+            get {
+                return ResourceManager.GetString("ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
         ///    &lt;ChildClass x:Name=&quot;MyObject&quot; /&gt;

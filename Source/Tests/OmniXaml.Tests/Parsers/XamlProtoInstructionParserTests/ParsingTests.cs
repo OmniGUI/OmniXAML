@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -9,7 +8,8 @@
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
-    using XamlParseException = OmniXaml.XamlParseException;
+    using CollectionAssert = Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert;
+    using XamlParseException = XamlParseException;
 
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -67,7 +67,7 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.ExpectedException(typeof(XamlParseException))]
         public void PropertyTagOpen()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
@@ -157,7 +157,7 @@
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.ExpectedException(typeof(XamlParseException))]
         public void NonExistingProperty()
         {
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
@@ -180,6 +180,22 @@
             var expected = source.MixedCollection.ToList();
 
             CollectionAssert.AreEqual(expected, actual);
-        }    
+        }
+
+        [TestMethod]
+        public void ChildInDeeperNameScopeWithNamesInTwoLevels()
+        {
+            var expected = source.ChildInDeeperNameScopeWithNamesInTwoLevels.ToList();
+            var actual = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void NamePropetyAndNameDirectiveProduceSameProtoInstructions()
+        {
+            var expected = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
+            var actual = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives).ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }   
 }

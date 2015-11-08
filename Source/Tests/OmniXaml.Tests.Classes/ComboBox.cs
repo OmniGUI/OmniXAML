@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
     using System.Collections.ObjectModel;
+    using Attributes;
 
     public class ComboBox : Selector
     {      
@@ -11,9 +12,10 @@
         public int SelectedIndex { get; set; }
     }
 
-    public class ItemsControl
+    [ContentProperty("Items")]
+    public class ItemsControl : DummyObject
     {
-        public Collection<object> Items { get; set; }
+        public Collection<object> Items { get; set; } = new Collection<object>();
     }
 
     public class ListBoxItem : ContentControl

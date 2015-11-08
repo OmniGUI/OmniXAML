@@ -9,7 +9,7 @@ namespace OmniXaml.Typing
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
         private readonly ITypeFactory typeTypeFactory;
         private readonly ITypeFeatureProvider featureProvider;
-        private readonly AutoKeyDictionary<Type, Metadata> metadatas = new AutoKeyDictionary<Type, Metadata>(type => type.GetTypeInfo().BaseType, type => type != null);
+        private readonly MetadataProvider metadatas = new MetadataProvider();
 
         public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
@@ -94,18 +94,12 @@ namespace OmniXaml.Typing
 
         public Metadata GetMetadata(Type type)
         {
-            Metadata metadata;
-            if (metadatas.TryGetValue(type, out metadata))
-            {
-                return metadata;
-            }
-
-            return null;
+            return metadatas.Get(type);
         }
 
         public void RegisterMetadata(Type type, Metadata metadata)
         {
-            metadatas.Add(type, metadata);
+            metadatas.Register(type, metadata);
         }
     }
 }

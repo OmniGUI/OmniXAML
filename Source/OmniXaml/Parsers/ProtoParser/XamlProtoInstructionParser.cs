@@ -136,26 +136,47 @@
             }
         }
 
+        // TODO: Refactor this shit.
         private ProtoXamlInstruction ConvertAttributeToNode(XamlType containingType, AttributeAssignment rawAttributeAssignment)
         {
             MutableXamlMember member;
 
             if (rawAttributeAssignment.Locator.IsDotted)
             {
-                var ownerName = rawAttributeAssignment.Locator.Owner.PropertyName;
-                var ownerPrefix = rawAttributeAssignment.Locator.Owner.Prefix;
-
-                var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
-
-                member = owner.GetAttachableMember(rawAttributeAssignment.Locator.PropertyName);
+                member = GetMemberForDottedLocator(rawAttributeAssignment.Locator);
             }
             else
             {
+                if (IsNameDirective(rawAttributeAssignment.Locator, containingType))
+                {
+                    return instructionBuilder.Directive(CoreTypes.Name, rawAttributeAssignment.Value);
+                }
+
                 member = containingType.GetMember(rawAttributeAssignment.Locator.PropertyName);
             }
 
             var namespaceDeclaration = new NamespaceDeclaration(rawAttributeAssignment.Locator.Namespace, rawAttributeAssignment.Locator.Prefix);
             return instructionBuilder.Attribute(member, rawAttributeAssignment.Value, namespaceDeclaration.Prefix);
+        }
+
+        private bool IsNameDirective(XamlName propertyLocator, XamlType ownerType)
+        {
+            var metadata = wiringContext.TypeContext.TypeRepository.GetMetadata(ownerType.UnderlyingType);
+            if (metadata == null)
+                return false;
+            
+            return propertyLocator.PropertyName == metadata.RuntimePropertyName;
+        }
+
+        private MutableXamlMember GetMemberForDottedLocator(PropertyLocator propertyLocator)
+        {           
+            var ownerName = propertyLocator.Owner.PropertyName;
+            var ownerPrefix = propertyLocator.Owner.Prefix;
+
+            var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
+
+            MutableXamlMember member = owner.GetAttachableMember(propertyLocator.PropertyName);
+            return member;
         }
 
         private AttributeFeed GetAttributes()

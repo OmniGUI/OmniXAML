@@ -293,5 +293,13 @@
             var expected = source.MixedCollection.ToList();
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ChildInDeeperNameScopeWithNamesInTwoLevels()
+        {
+            var actual = sut.Parse(protoResources.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
+            var expected = source.ListBoxWithItemAndTextBlockWithNames.ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

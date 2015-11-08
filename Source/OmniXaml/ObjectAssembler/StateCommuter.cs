@@ -12,7 +12,6 @@ namespace OmniXaml.ObjectAssembler
     {
         private StackingLinkedList<Level> stack;
         private readonly ITopDownValueContext topDownValueContext;
-        private readonly InstanceProperties instanceProperties;
         private PreviousLevelWrapper previous;
         private CurrentLevelWrapper current;
 
@@ -25,7 +24,6 @@ namespace OmniXaml.ObjectAssembler
             Stack = stack;
             this.topDownValueContext = topDownValueContext;
             ValuePipeline = new ValuePipeline(wiringContext.TypeContext, topDownValueContext);
-            instanceProperties = new InstanceProperties();
         }
 
         public CurrentLevelWrapper Current => current;
@@ -55,8 +53,10 @@ namespace OmniXaml.ObjectAssembler
 
         public void SetKey(object value)
         {
-            instanceProperties.Key = value;
+            InstanceProperties.Key = value;
         }
+
+        public InstanceProperties InstanceProperties => Current.InstanceProperties;
 
         public void AssignChildToParentProperty()
         {
@@ -172,21 +172,21 @@ namespace OmniXaml.ObjectAssembler
 
         private void RegisterInstanceNameToNamescope()
         {
-            if (instanceProperties.Name != null)
+            if (InstanceProperties.Name != null)
             {
                 var nameScope = LookupParentNamescope();
-                nameScope?.Register(instanceProperties.Name, Current.Instance);
+                nameScope?.Register(InstanceProperties.Name, Current.Instance);
             }
 
-            instanceProperties.Name = null;
+            InstanceProperties.Name = null;
         }
 
         public void PutNameToCurrentInstanceIfAny()
         {
             var runtimeNameMember = Current.XamlType.RuntimeNamePropertyMember;
-            if (instanceProperties.Name != null)
+            if (InstanceProperties.Name != null)
             {
-                runtimeNameMember?.SetValue(Current.Instance, instanceProperties.Name);
+                runtimeNameMember?.SetValue(Current.Instance, InstanceProperties.Name);
             }
         }
 
@@ -223,19 +223,13 @@ namespace OmniXaml.ObjectAssembler
 
         private void AddChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, instanceProperties.Key, Current.Instance);
+            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, InstanceProperties.Key, Current.Instance);
             ClearKey();
         }
 
         private void ClearKey()
         {
             SetKey(null);
-        }
-
-        public void AssociateCurrentInstanceToParentRightAfterCreation()
-        {
-            AssociateCurrentInstanceToParent();
-            Current.WasInstanceAssignedRightAfterBeingCreated = true;
         }
 
         private static object GetValueTuple(object instance, MutableXamlMember member)
@@ -246,7 +240,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void SetNameForCurrentInstance(string value)
         {
-            instanceProperties.Name = value;
+            InstanceProperties.Name = value;
         }
     }
 }

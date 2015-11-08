@@ -283,4 +283,10 @@
   <data name="ChildInNamescopeNoNameDirective" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\childinnamescopenonamedirective.xaml;System.String, System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
+  <data name="ChildInDeeperNameScopeWithNamesInTwoLevels" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\childindeepernamescopewithnamesintwolevels.xaml;System.String, System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
+  <data name="ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\childindeepernamescopewithnamesintwolevelsnonamedirectives.xaml;System.String, System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
 </root>

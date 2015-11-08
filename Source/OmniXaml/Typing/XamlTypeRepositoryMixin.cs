@@ -13,9 +13,9 @@ namespace OmniXaml.Typing
             return typeRepository.GetMetadata(typeof(T));
         }
 
-        public static void RegisterMetadata<T>(this IXamlTypeRepository typeRepository, Metadata<T> metadata)
+        public static void RegisterMetadata<T>(this IXamlTypeRepository typeRepository, GenericMetadata<T> genericMetadata)
         {
-            typeRepository.RegisterMetadata(typeof(T), metadata);
+            typeRepository.RegisterMetadata(typeof(T), genericMetadata);
         }
 
         public static void RegisterMetadataFromAttributes(this IXamlTypeRepository typeRepository, IEnumerable<Type> types)
