@@ -178,7 +178,10 @@ namespace OmniXaml.Typing
             return hasValidGetter && hasValidSetter && !isIndexer;
         }
 
-        public bool IsNameScope => LookupIsNamescope();
+        public virtual INameScope GetNamescope(object instance)
+        {
+            return this.UnderlyingType as INameScope;
+        }
 
         public XamlMember RuntimeNamePropertyMember
         {
@@ -201,11 +204,6 @@ namespace OmniXaml.Typing
 
                 return GetMember(runtimeNameProperty);
             }
-        }
-
-        protected virtual bool LookupIsNamescope()
-        {
-            return this.UnderlyingType is INameScope;
         }
     }
 }
