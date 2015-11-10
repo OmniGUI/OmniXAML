@@ -9,16 +9,14 @@
 
 **OmniXAML is a library that allows you interpret XAML with ease. You can read XAML and get the object it represents, like a Window in WPF, a document, a diagram or whatever object you can describe.**
 
-In its current state it's able to interpret more or less complex XAML without problems.
+In its current state it's able to interpret quite complex XAML without problems.
 
-It already can deal with the some features that make XAML the coolest descriptive XML-based language, like:
-- XAML namespaces
-- Prefix definitions
-- Content Properties
-- Markup Extensions (i.e. Bindings, x:Type, StaticResource…)
-- Deferred reading (DataTemplates, ControlTemplates)
-- Attachable Members. (Attached Properties in WPF/WinRT)
-- Type Converters. Ability to convert an instance of one type to another implicitly (usually from values in XAML that come as strings).
+It complies with most of the features that XAML provides, except for some uncommon/advanced features like:
+- x:Class directive
+- x:TypeArguments
+- x:Shared
+
+It also lacks support for events. OmniXAML doesn't generate compiled XAML, so no intermediate format is produced. Since it's designed to be cross-platform, it doesn't rely on extra build steps. This means that right, in order to have access to named elements (x:Name/Name) you will have to use namescopes, for instance `window.Find(nameOfControl)`.
 
 # Using OmniXAML with WPF 
 It's super easy! Just follow this [simple guide](https://github.com/SuperJMN/OmniXAML/wiki/Using-OmniXAML-for-WPF).
