@@ -16,7 +16,9 @@ It complies with most of the features that XAML provides, except for some uncomm
 - x:TypeArguments
 - x:Shared
 
-It also lacks support for events. OmniXAML doesn't generate compiled XAML, so no intermediate format is produced. Since it's designed to be cross-platform, it doesn't rely on extra build steps. This means that right, in order to have access to named elements (x:Name/Name) you will have to use namescopes, for instance `window.Find(nameOfControl)`.
+It also lacks support for events. 
+
+OmniXAML doesn't generate compiled XAML, so no intermediate format is produced. Since it's designed to be cross-platform, it doesn't rely on extra build steps. This means that right, in order to have access to named elements (x:Name/Name) you will have to use namescopes, for instance `window.Find(nameOfControl)`.
 
 # Using OmniXAML with WPF 
 It's super easy! Just follow this [simple guide](https://github.com/SuperJMN/OmniXAML/wiki/Using-OmniXAML-for-WPF).
