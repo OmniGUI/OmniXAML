@@ -10,11 +10,17 @@ namespace OmniXaml.Tests.Common
         {
         }
 
-        public new bool IsNameScope { get; set; }
+        public bool IsNameScope { get; set; }
 
-        protected override bool LookupIsNamescope()
+
+        public override INameScope GetNamescope(object instance)
         {
-            return IsNameScope;
+            if (IsNameScope)
+            {
+                return instance as INameScope;
+            }
+
+            return null;
         }
     }
 }
