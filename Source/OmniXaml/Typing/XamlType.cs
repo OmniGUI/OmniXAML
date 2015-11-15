@@ -129,12 +129,6 @@ namespace OmniXaml.Typing
             return "XamlType: " + Name;
         }
 
-        public bool CanAssignTo(XamlType type)
-        {
-            var otherUnderlyingType = type.UnderlyingType.GetTypeInfo();
-            return otherUnderlyingType.IsAssignableFrom(UnderlyingType.GetTypeInfo());
-        }
-
         public object CreateInstance(object[] parameters)
         {
             return TypeFactory.Create(UnderlyingType, parameters);
@@ -180,7 +174,7 @@ namespace OmniXaml.Typing
 
         public virtual INameScope GetNamescope(object instance)
         {
-            return this.UnderlyingType as INameScope;
+            return instance as INameScope;
         }
 
         public XamlMember RuntimeNamePropertyMember
@@ -204,6 +198,18 @@ namespace OmniXaml.Typing
 
                 return GetMember(runtimeNameProperty);
             }
+        }
+
+        public virtual void BeforeInstanceSetup(object instance)
+        {
+        }
+
+        public virtual void AfterInstanceSetup(object instance)
+        {
+        }
+
+        public virtual void AfterAssociationToParent(object instance)
+        {
         }
     }
 }

@@ -111,6 +111,7 @@ namespace OmniXaml.ObjectAssembler
             var instance = xamlType.CreateInstance(parameters);
 
             Current.Instance = instance;
+            InstanceLifeCycleNotifier.NotifyBeginningOfSetup(xamlType, instance);
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -165,8 +166,10 @@ namespace OmniXaml.ObjectAssembler
                 {
                     AssignChildToParentProperty();
                 }
+                InstanceLifeCycleNotifier.NotifyAssociatedToParent(Current.XamlType, Current.Instance);
 
                 RegisterInstanceNameToNamescope();
+                InstanceLifeCycleNotifier.NotifyEndOfSetup(Current.XamlType, Current.Instance);
             }
         }
 

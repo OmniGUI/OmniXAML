@@ -42,6 +42,7 @@
     <Compile Include="LoadMixin.cs" />
     <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
+    <Compile Include="ObjectAssembler\InstanceLifeCycleNotifier.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
     <Compile Include="ObjectAssembler\NullLevel.cs" />
     <Compile Include="ObjectAssembler\ObjectAssemblerSettings.cs" />

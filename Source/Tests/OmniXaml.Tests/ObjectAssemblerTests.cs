@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
@@ -36,7 +37,7 @@
 
             var result = sut.Result;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
         }
 
         [TestMethod]
@@ -45,9 +46,9 @@
             sut.PumpNodes(source.ObjectWithMember);
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property);
         }
 
@@ -57,10 +58,10 @@
             sut.PumpNodes(source.ObjectWithTwoMembers);
 
             var result = sut.Result;
-            var property1 = ((DummyClass) result).SampleProperty;
-            var property2 = ((DummyClass) result).AnotherProperty;
+            var property1 = ((DummyClass)result).SampleProperty;
+            var property2 = ((DummyClass)result).AnotherProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property1);
             Assert.AreEqual("Another!", property2);
         }
@@ -71,10 +72,10 @@
             sut.PumpNodes(source.ObjectWithChild);
 
             var result = sut.Result;
-            var property = ((DummyClass) result).Child;
+            var property = ((DummyClass)result).Child;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
-            Assert.IsInstanceOfType(property, typeof (ChildClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.IsInstanceOfType(property, typeof(ChildClass));
         }
 
         [TestMethod]
@@ -83,11 +84,11 @@
             sut.PumpNodes(source.CollectionWithMoreThanOneItem);
 
             var result = sut.Result;
-            var children = ((DummyClass) result).Items;
+            var children = ((DummyClass)result).Items;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(3, children.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof (Item));
+            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
         }
 
         [TestMethod]
@@ -96,14 +97,14 @@
             sut.PumpNodes(source.CollectionWithInnerCollection);
 
             var result = sut.Result;
-            var children = ((DummyClass) result).Items;
+            var children = ((DummyClass)result).Items;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(3, children.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof (Item));
+            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
             var innerCollection = children[0].Children;
             Assert.AreEqual(2, innerCollection.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(innerCollection, typeof (Item));
+            CollectionAssert.AllItemsAreInstancesOfType(innerCollection, typeof(Item));
         }
 
         [TestMethod]
@@ -112,12 +113,12 @@
             sut.PumpNodes(source.WithCollectionAndInnerAttribute);
 
             var result = sut.Result;
-            var children = ((DummyClass) result).Items;
+            var children = ((DummyClass)result).Items;
             var firstChild = children.First();
             var property = firstChild.Title;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof (Item));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
             Assert.AreEqual("SomeText", property);
         }
 
@@ -127,9 +128,9 @@
             sut.PumpNodes(source.GetMemberWithIncompatibleTypes());
 
             var result = sut.Result;
-            var property = ((DummyClass) result).Number;
+            var property = ((DummyClass)result).Number;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(12, property);
         }
 
@@ -139,9 +140,9 @@
             sut.PumpNodes(source.ExtensionWithArgument);
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Option", property);
         }
 
@@ -151,9 +152,9 @@
             sut.PumpNodes(source.ExtensionWithTwoArguments());
 
             var result = sut.Result;
-            var property = ((DummyClass) result).SampleProperty;
+            var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("OneSecond", property);
         }
 
@@ -163,9 +164,9 @@
             sut.PumpNodes(source.ExtensionWithNonStringArgument());
 
             var result = sut.Result;
-            var property = ((DummyClass) result).Number;
+            var property = ((DummyClass)result).Number;
 
-            Assert.IsInstanceOfType(result, typeof (DummyClass));
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual(123, property);
         }
 
@@ -175,8 +176,8 @@
             sut.PumpNodes(source.KeyDirective);
 
             var actual = sut.Result;
-            Assert.IsInstanceOfType(actual, typeof (DummyClass));
-            var dictionary = (IDictionary) ((DummyClass) actual).Resources;
+            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
         }
 
@@ -188,7 +189,7 @@
             sut.PumpNodes(source.GetString(sysNs));
 
             var actual = sut.Result;
-            Assert.IsInstanceOfType(actual, typeof (string));
+            Assert.IsInstanceOfType(actual, typeof(string));
             Assert.AreEqual("Text", actual);
         }
 
@@ -198,14 +199,14 @@
         {
             sut.PumpNodes(source.InstanceWithChild);
 
-            var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof (DummyClass));
+            var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof(DummyClass));
             var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
 
-            Assert.IsInstanceOfType(lastInstance, typeof (DummyClass));
+            Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
 
         [TestMethod]
-        [ExpectedException(typeof (XamlParseException))]
+        [ExpectedException(typeof(XamlParseException))]
         public void AttemptToAssignItemsToNonCollectionMember()
         {
             sut.PumpNodes(source.AttemptToAssignItemsToNonCollectionMember);
@@ -222,7 +223,7 @@
         public void PropertyShouldBeAssignedBeforeChildIsAssociatedToItsParent()
         {
             sut.PumpNodes(source.ParentShouldReceiveInitializedChild);
-            var parent = (SpyingParent) sut.Result;
+            var parent = (SpyingParent)sut.Result;
             Assert.IsTrue(parent.ChildHadNamePriorToBeingAssigned);
         }
 
@@ -232,7 +233,7 @@
             sut.PumpNodes(source.MixedCollection);
             var result = sut.Result;
             Assert.IsInstanceOfType(result, typeof(ArrayList));
-            var arrayList = (ArrayList) result;
+            var arrayList = (ArrayList)result;
             Assert.IsTrue(arrayList.Count > 0);
         }
 
@@ -255,7 +256,7 @@
         {
             sut.PumpNodes(source.NamedObject);
             var result = sut.Result;
-            var tb = (TextBlock) result;
+            var tb = (TextBlock)result;
 
             Assert.AreEqual("MyTextBlock", tb.Name);
         }
@@ -267,7 +268,7 @@
             sut.PumpNodes(source.TwoNestedNamedObjects);
             var result = sut.Result;
             var lbi = (ListBoxItem)result;
-            var textBlock = (TextBlock) lbi.Content;
+            var textBlock = (TextBlock)lbi.Content;
 
             Assert.AreEqual("MyListBoxItem", lbi.Name);
             Assert.AreEqual("MyTextBlock", textBlock.Name);
@@ -279,8 +280,8 @@
             sut.PumpNodes(source.ListBoxWithItemAndTextBlockNoNames);
 
             var w = (Window)sut.Result;
-            var lb = (ListBox) w.Content;
-            var lvi = (ListBoxItem) lb.Items.First();
+            var lb = (ListBox)w.Content;
+            var lvi = (ListBoxItem)lb.Items.First();
             var tb = lvi.Content;
 
             Assert.IsInstanceOfType(tb, typeof(TextBlock));
@@ -301,9 +302,35 @@
             Assert.AreEqual("MyTextBlock", tb.Name);
         }
 
+        [TestMethod]
+        public void CorrectInstanceSetupSequence()
+        {
+
+            var expectedSequence = new[] {SetupSequence.BeforeSetProperties, SetupSequence.AssociateToParent, SetupSequence.AfteSetProperties};
+            var actualSequence = new Collection<SetupSequence>();
+
+            var childXamlType = (DummyXamlType)WiringContext.TypeContext.GetXamlType(typeof(ChildClass));
+
+            childXamlType.ActionBeforeInstanceSetup = _ => actualSequence.Add(SetupSequence.BeforeSetProperties);
+            childXamlType.ActionAfterAssociationToParent = _ => actualSequence.Add(SetupSequence.AssociateToParent);
+            childXamlType.ActionAfterInstanceSetup = _ => actualSequence.Add(SetupSequence.BeforeSetProperties);
+
+
+            sut.PumpNodes(source.InstanceWithChild);
+
+            CollectionAssert.AreEqual(expectedSequence, actualSequence);
+        }
+
+        private enum SetupSequence
+        {
+            BeforeSetProperties,
+            AssociateToParent,
+            AfteSetProperties,
+        }
+
         private ObjectAssembler CreateAssemblerToReadSpecificInstance(object instance)
         {
-            var settings = new ObjectAssemblerSettings {RootInstance = instance};
+            var settings = new ObjectAssemblerSettings { RootInstance = instance };
             var assembler = new ObjectAssembler(WiringContext, topDownValueContext, settings);
             return assembler;
         }
