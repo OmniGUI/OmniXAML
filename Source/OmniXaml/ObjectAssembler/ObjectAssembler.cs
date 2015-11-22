@@ -8,9 +8,9 @@ namespace OmniXaml.ObjectAssembler
 
     public class ObjectAssembler : IObjectAssembler
     {
-        private readonly ITopDownValueContext topDownValueContext;
-        private readonly XamlType rootInstanceXamlType;
         private readonly object rootInstance;
+        private readonly XamlType rootInstanceXamlType;
+        private readonly ITopDownValueContext topDownValueContext;
 
         public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
             : this(new StackingLinkedList<Level>(), wiringContext, topDownValueContext)
@@ -28,15 +28,19 @@ namespace OmniXaml.ObjectAssembler
 
         public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
-            WiringContext = wiringContext;          
-            StateCommuter = new StateCommuter(state, wiringContext, topDownValueContext);
+            WiringContext = wiringContext;
+            StateCommuter = new StateCommuter(this, state, wiringContext, topDownValueContext);
         }
+
+        public StateCommuter StateCommuter { get; }
+
+        private bool IsLevelOneAndThereIsRootInstance => StateCommuter.Level == 1 && rootInstance != null;
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public IWiringContext WiringContext { get; }
 
-        public StateCommuter StateCommuter { get; }
+        public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 
         public void Process(XamlInstruction instruction)
         {
@@ -54,7 +58,7 @@ namespace OmniXaml.ObjectAssembler
                     command = new StartMemberCommand(this, GetMember(instruction.Member));
                     break;
                 case XamlInstructionType.Value:
-                    command = new ValueCommand(this, topDownValueContext, (string)instruction.Value);
+                    command = new ValueCommand(this, topDownValueContext, (string) instruction.Value);
                     break;
                 case XamlInstructionType.EndObject:
                     command = new EndObjectCommand(this);
@@ -72,6 +76,19 @@ namespace OmniXaml.ObjectAssembler
             command.Execute();
         }
 
+        public void OverrideInstance(object instance)
+        {
+            StateCommuter.RaiseLevel();
+            var tempQualifier = StateCommuter;
+            tempQualifier.Current.Instance = instance;
+
+            var collection = instance as ICollection;
+            if (collection != null)
+            {
+                tempQualifier.Current.Collection = collection;
+            }
+        }     
+
         private XamlMemberBase GetMember(XamlMemberBase member)
         {
             if (IsLevelOneAndThereIsRootInstance && !member.IsDirective)
@@ -80,21 +97,6 @@ namespace OmniXaml.ObjectAssembler
             }
 
             return member;
-        }
-
-        private bool IsLevelOneAndThereIsRootInstance => StateCommuter.Level == 1 && rootInstance != null;
-
-        public void OverrideInstance(object instance)
-        {
-            StateCommuter.RaiseLevel();
-            StateCommuter tempQualifier = StateCommuter;
-            tempQualifier.Current.Instance = instance;
-
-            var collection = instance as ICollection;
-            if (collection != null)
-            {
-                tempQualifier.Current.Collection = collection;
-            }
         }
     }
 }

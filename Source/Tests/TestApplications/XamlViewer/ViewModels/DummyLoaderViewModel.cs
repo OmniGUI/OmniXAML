@@ -22,7 +22,7 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            WiringContext = new DummyWiringContext(new TypeFactory(), Assemblies.AssembliesInAppFolder);
+            WiringContext = new WiringContextMock(new TypeFactory(), Assemblies.AssembliesInAppFolder);
         }
 
         public IList Snippets { get; set; }

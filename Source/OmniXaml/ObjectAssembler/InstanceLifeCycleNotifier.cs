@@ -1,22 +1,32 @@
-using OmniXaml.Typing;
-
 namespace OmniXaml.ObjectAssembler
 {
-    internal static class InstanceLifeCycleNotifier
+    internal class InstanceLifeCycleNotifier
     {
-        public static void NotifyBeginningOfSetup(XamlType xamlType, object instance)
+        private readonly IObjectAssembler objectAssembler;
+
+        public InstanceLifeCycleNotifier(IObjectAssembler objectAssembler)
         {
-            xamlType.BeforeInstanceSetup(instance);
+            this.objectAssembler = objectAssembler;
         }
 
-        public static void NotifyEndOfSetup(XamlType xamlType, object instance)
+        public void NotifyBegin(object instance)
         {
-            xamlType.AfterInstanceSetup(instance);
+            objectAssembler.InstanceLifeCycleHandler.OnBegin(instance);
         }
 
-        public static void NotifyAssociatedToParent(XamlType xamlType, object instance)
+        public void NotifyAfterProperties(object instance)
         {
-            xamlType.AfterAssociationToParent(instance);
+            objectAssembler.InstanceLifeCycleHandler.AfterProperties(instance);
+        }
+
+        public void NotifyAssociatedToParent(object instance)
+        {
+            objectAssembler.InstanceLifeCycleHandler.OnAssociatedToParent(instance);
+        }
+
+        public void NotifyEnd(object instance)
+        {
+            objectAssembler.InstanceLifeCycleHandler.OnEnd(instance);
         }
     }
 }

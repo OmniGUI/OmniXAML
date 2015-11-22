@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DummyWiringContext.cs" />
-    <Compile Include="DummyXamlType.cs" />
-    <Compile Include="DummyXamlTypeRepository.cs" />
+    <Compile Include="WiringContextMock.cs" />
+    <Compile Include="XamlTypeMock.cs" />
+    <Compile Include="XamlTypeRepositoryMock.cs" />
     <Compile Include="GivenAWiringContext.cs" />
     <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

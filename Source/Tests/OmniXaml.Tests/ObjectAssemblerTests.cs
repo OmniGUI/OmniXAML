@@ -306,15 +306,16 @@
         public void CorrectInstanceSetupSequence()
         {
 
-            var expectedSequence = new[] {SetupSequence.BeforeSetProperties, SetupSequence.AssociateToParent, SetupSequence.AfteSetProperties};
+            var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
             var actualSequence = new Collection<SetupSequence>();
 
-            var childXamlType = (DummyXamlType)WiringContext.TypeContext.GetXamlType(typeof(ChildClass));
-
-            childXamlType.ActionBeforeInstanceSetup = _ => actualSequence.Add(SetupSequence.BeforeSetProperties);
-            childXamlType.ActionAfterAssociationToParent = _ => actualSequence.Add(SetupSequence.AssociateToParent);
-            childXamlType.ActionAfterInstanceSetup = _ => actualSequence.Add(SetupSequence.BeforeSetProperties);
-
+            sut.InstanceLifeCycleHandler = new InstanceLifeCycleHandler
+            {
+                OnBegin = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.Begin); },
+                AfterProperties = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterSetProperties); },
+                OnAssociatedToParent = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.AfterAssociatedToParent); },
+                OnEnd = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.End); }
+            };
 
             sut.PumpNodes(source.InstanceWithChild);
 
@@ -323,9 +324,10 @@
 
         private enum SetupSequence
         {
-            BeforeSetProperties,
-            AssociateToParent,
-            AfteSetProperties,
+            Begin,
+            AfterSetProperties,
+            AfterAssociatedToParent,
+            End
         }
 
         private ObjectAssembler CreateAssemblerToReadSpecificInstance(object instance)

@@ -26,6 +26,12 @@
 
         public IWiringContext WiringContext => objectAssembler.WiringContext;
 
+        public InstanceLifeCycleHandler InstanceLifeCycleHandler
+        {
+            get { return objectAssembler.InstanceLifeCycleHandler; }
+            set { objectAssembler.InstanceLifeCycleHandler = value; }
+        }
+
         public void Process(XamlInstruction instruction)
         {
             if (recording)
@@ -98,7 +104,7 @@
         public void OverrideInstance(object instance)
         {            
         }
-
+     
         public IList NodeList => new ReadOnlyCollection<XamlInstruction>(nodeList);     
     }
 }

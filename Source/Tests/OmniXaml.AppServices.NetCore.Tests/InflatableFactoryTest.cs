@@ -29,7 +29,7 @@
             var inflatableTypeFactory = new DummyAutoInflatingTypeFactory(
                 new TypeFactory(),
                 new InflatableTranslator(),
-                typeFactory => new XamlXmlLoader(new DummyXamlParserFactory(new DummyWiringContext(typeFactory, Assemblies.AssembliesInAppFolder))));
+                typeFactory => new XamlXmlLoader(new DummyXamlParserFactory(new WiringContextMock(typeFactory, Assemblies.AssembliesInAppFolder))));
 
             return inflatableTypeFactory;
         }

@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Tests.Common
 {
+    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
@@ -9,14 +10,15 @@
     using Glass;
     using Typing;
 
-    public class DummyWiringContext : WiringContext
+    public class WiringContextMock : WiringContext
     {
-        public DummyWiringContext(ITypeFactory factory, IEnumerable<Assembly> assembliesToScan)
+        
+        public WiringContextMock(ITypeFactory factory, IEnumerable<Assembly> assembliesToScan)
             : this(factory, GetFeatureProvider(assembliesToScan), assembliesToScan)
         {
         }
 
-        private DummyWiringContext(ITypeFactory factory, ITypeFeatureProvider typeFeatureProvider, IEnumerable<Assembly> assembliesToScan)
+        private WiringContextMock(ITypeFactory factory, ITypeFeatureProvider typeFeatureProvider, IEnumerable<Assembly> assembliesToScan)
             : base(GetTypeContext(factory, typeFeatureProvider, assembliesToScan), typeFeatureProvider)
         {
         }
@@ -72,7 +74,7 @@
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
 
-            var dummyXamlTypeRepository = new DummyXamlTypeRepository(xamlNamespaceRegistry, typeFactory, featureProvider);
+            var dummyXamlTypeRepository = new XamlTypeRepositoryMock(xamlNamespaceRegistry, typeFactory, featureProvider);
 
             dummyXamlTypeRepository.RegisterMetadata(new GenericMetadata<DummyObject>().WithRuntimeNameProperty(d => d.Name));
             dummyXamlTypeRepository.RegisterMetadata(new GenericMetadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
@@ -81,17 +83,17 @@
             return new TypeContext(dummyXamlTypeRepository, xamlNamespaceRegistry, typeFactory);
         }
 
-        private DummyXamlTypeRepository DummyXamlTypeRepository => (DummyXamlTypeRepository) TypeContext.TypeRepository;
+        private XamlTypeRepositoryMock XamlTypeRepositoryMock => (XamlTypeRepositoryMock) TypeContext.TypeRepository;
 
 
         public void ClearNamesCopes()
         {
-            DummyXamlTypeRepository.ClearNameScopes();
+            XamlTypeRepositoryMock.ClearNameScopes();
         }
 
         public void EnableNameScope<T>()
         {
-            DummyXamlTypeRepository.EnableNameScope(typeof(T));
-        }        
+            XamlTypeRepositoryMock.EnableNameScope(typeof(T));
+        }
     }
 }

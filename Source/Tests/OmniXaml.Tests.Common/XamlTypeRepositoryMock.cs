@@ -4,11 +4,11 @@ namespace OmniXaml.Tests.Common
     using System.Collections.Generic;
     using Typing;
 
-    internal class DummyXamlTypeRepository : XamlTypeRepository
+    internal class XamlTypeRepositoryMock : XamlTypeRepository
     {
         readonly ISet<Type> nameScopes = new HashSet<Type>();
 
-        public DummyXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+        public XamlTypeRepositoryMock(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
             : base(xamlNamespaceRegistry, typeTypeFactory, featureProvider)
         {
         }
@@ -16,7 +16,7 @@ namespace OmniXaml.Tests.Common
         public override XamlType GetXamlType(Type type)
         {
             var isNameScope = nameScopes.Contains(type);
-            return new DummyXamlType(type, this, TypeFactory, FeatureProvider) { IsNameScope = isNameScope };
+            return new XamlTypeMock(type, this, TypeFactory, FeatureProvider) { IsNameScope = isNameScope };
         }
 
         public void ClearNameScopes()

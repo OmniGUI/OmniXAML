@@ -19,6 +19,13 @@
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public IWiringContext WiringContext => objectAssembler.WiringContext;
+
+        public InstanceLifeCycleHandler InstanceLifeCycleHandler
+        {
+            get { return objectAssembler.InstanceLifeCycleHandler; }
+            set { objectAssembler.InstanceLifeCycleHandler = value; }
+        }
+
         public void Process(XamlInstruction instruction)
         {
             objectAssembler.Process(instruction);
@@ -27,6 +34,6 @@
         public void OverrideInstance(object instance)
         {
             objectAssembler.OverrideInstance(instance);
-        }
+        }      
     }
 }

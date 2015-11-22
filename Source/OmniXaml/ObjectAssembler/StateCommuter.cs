@@ -1,7 +1,6 @@
 namespace OmniXaml.ObjectAssembler
 {
     using System.Collections;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using Commands;
@@ -14,8 +13,9 @@ namespace OmniXaml.ObjectAssembler
         private readonly ITopDownValueContext topDownValueContext;
         private PreviousLevelWrapper previous;
         private CurrentLevelWrapper current;
+        private readonly InstanceLifeCycleNotifier lifecycleNotifier;
 
-        public StateCommuter(StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
+        public StateCommuter(IObjectAssembler objectAssembler, StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
@@ -24,6 +24,7 @@ namespace OmniXaml.ObjectAssembler
             Stack = stack;
             this.topDownValueContext = topDownValueContext;
             ValuePipeline = new ValuePipeline(wiringContext.TypeContext, topDownValueContext);
+            lifecycleNotifier = new InstanceLifeCycleNotifier(objectAssembler);
         }
 
         public CurrentLevelWrapper Current => current;
@@ -111,7 +112,7 @@ namespace OmniXaml.ObjectAssembler
             var instance = xamlType.CreateInstance(parameters);
 
             Current.Instance = instance;
-            InstanceLifeCycleNotifier.NotifyBeginningOfSetup(xamlType, instance);
+            lifecycleNotifier.NotifyBegin(instance);            
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -158,6 +159,9 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !(Current.IsMarkupExtension))
             {
+
+                lifecycleNotifier.NotifyAfterProperties(Current.Instance);
+
                 if (Previous.CanHostChildren)
                 {
                     AddChildToHost();
@@ -166,10 +170,10 @@ namespace OmniXaml.ObjectAssembler
                 {
                     AssignChildToParentProperty();
                 }
-                InstanceLifeCycleNotifier.NotifyAssociatedToParent(Current.XamlType, Current.Instance);
+                lifecycleNotifier.NotifyAssociatedToParent(Current.Instance);
 
                 RegisterInstanceNameToNamescope();
-                InstanceLifeCycleNotifier.NotifyEndOfSetup(Current.XamlType, Current.Instance);
+                lifecycleNotifier.NotifyEnd(Current.Instance);
             }
         }
 
