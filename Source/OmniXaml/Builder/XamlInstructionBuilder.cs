@@ -100,5 +100,14 @@
         {
             return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.UnknownContent);
         }
+
+        public XamlInstruction AttachableProperty<TParent>(string name)
+        {
+            var type = typeof(TParent);
+            var xamlType = registry.GetXamlType(type);
+            var member = xamlType.GetAttachableMember(name);
+
+            return new XamlInstruction(XamlInstructionType.StartMember, member);
+        }
     }
 }

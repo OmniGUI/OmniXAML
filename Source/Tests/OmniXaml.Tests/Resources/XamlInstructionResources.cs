@@ -1503,5 +1503,26 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        
+
+        public IEnumerable<XamlInstruction> RootInstanceWithAttachableMember
+
+        {
+            get
+            {
+                // Equivalent to <DummyClass xmlns="root" Container.Property="Value"></DummyClass>
+
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.AttachableProperty<Container>("Property"),
+                    X.Value("Value"),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

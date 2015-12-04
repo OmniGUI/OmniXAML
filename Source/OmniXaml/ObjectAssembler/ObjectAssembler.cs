@@ -55,7 +55,7 @@ namespace OmniXaml.ObjectAssembler
                     command = new StartObjectCommand(this, instruction.XamlType, rootInstance);
                     break;
                 case XamlInstructionType.StartMember:
-                    command = new StartMemberCommand(this, GetMember(instruction.Member));
+                    command = new StartMemberCommand(this, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
                     break;
                 case XamlInstructionType.Value:
                     command = new ValueCommand(this, topDownValueContext, (string) instruction.Value);
@@ -87,16 +87,29 @@ namespace OmniXaml.ObjectAssembler
             {
                 tempQualifier.Current.Collection = collection;
             }
-        }     
+        }
 
-        private XamlMemberBase GetMember(XamlMemberBase member)
+        private XamlMemberBase GetActualMemberFromMemberSpecifiedInInstruction(XamlMemberBase specifiedMember)
         {
-            if (IsLevelOneAndThereIsRootInstance && !member.IsDirective)
+            if (IsLevelOneAndThereIsRootInstance && !specifiedMember.IsDirective && rootInstanceXamlType != null)
             {
-                return rootInstanceXamlType == null ? member : rootInstanceXamlType.GetMember(member.Name);
+                var attachable = specifiedMember as AttachableXamlMember;
+
+                XamlMemberBase actualMember;
+
+                if (attachable != null)
+                {
+                    actualMember = attachable.DeclaringType.GetAttachableMember(specifiedMember.Name);
+                }
+                else
+                {
+                    actualMember = rootInstanceXamlType.GetMember(specifiedMember.Name);
+                }
+
+                return actualMember;
             }
 
-            return member;
+            return specifiedMember;
         }
     }
 }

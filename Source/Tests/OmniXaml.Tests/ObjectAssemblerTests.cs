@@ -261,6 +261,15 @@
             Assert.IsTrue(arrayList.Count > 0);
         }
 
+        [TestMethod]
+        public void RootInstanceWithAttachableMember()
+        {
+            var root = new DummyClass();
+            var assembler = CreateAssemblerToReadSpecificInstance(root);
+            assembler.PumpNodes(source.RootInstanceWithAttachableMember);
+            var result = assembler.Result;
+        }
+
 
 
         [TestMethod]
