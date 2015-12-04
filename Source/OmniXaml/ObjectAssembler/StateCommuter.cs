@@ -62,7 +62,6 @@ namespace OmniXaml.ObjectAssembler
         public void AssignChildToParentProperty()
         {
             var previousMember = (MutableXamlMember)Previous.XamlMember;
-
             var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
 
             previousMember.SetValue(Previous.Instance, compatibleValue);

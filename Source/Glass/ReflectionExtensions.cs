@@ -174,5 +174,20 @@
         {
             return assemblies.SelectMany(assembly => assembly.ExportedTypes);
         }
+
+        public static bool IsNullable(this Type type)
+        {            
+            if (!type.GetTypeInfo().IsValueType)
+            {
+                return true; // ref-type
+            }
+
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                return true; // Nullable<T>
+            }
+
+            return false; // value-type
+        }
     }
 }

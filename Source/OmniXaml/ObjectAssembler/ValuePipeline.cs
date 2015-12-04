@@ -50,6 +50,12 @@ namespace OmniXaml.ObjectAssembler
 
         private static bool IsAlreadyCompatible(object value, Type targetType)
         {
+            if (value == null)
+            {
+                return true;
+            }
+
+
             return targetType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo());
         }
 

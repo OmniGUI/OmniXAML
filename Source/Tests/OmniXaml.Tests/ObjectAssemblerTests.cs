@@ -125,7 +125,7 @@
         [TestMethod]
         public void MemberWithIncompatibleTypes()
         {
-            sut.PumpNodes(source.GetMemberWithIncompatibleTypes());
+            sut.PumpNodes(source.MemberWithIncompatibleTypes);
 
             var result = sut.Result;
             var property = ((DummyClass)result).Number;
@@ -149,7 +149,7 @@
         [TestMethod]
         public void ExtensionWithTwoArguments()
         {
-            sut.PumpNodes(source.ExtensionWithTwoArguments());
+            sut.PumpNodes(source.ExtensionWithTwoArguments);
 
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
@@ -159,9 +159,21 @@
         }
 
         [TestMethod]
+        public void ExtensionThatReturnsNull()
+        {
+            sut.PumpNodes(source.ExtensionThatReturnsNull);
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).SampleProperty;
+
+            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.IsNull(property);
+        }
+
+        [TestMethod]
         public void ExtensionWithNonStringArgument()
         {
-            sut.PumpNodes(source.ExtensionWithNonStringArgument());
+            sut.PumpNodes(source.ExtensionWithNonStringArgument);
 
             var result = sut.Result;
             var property = ((DummyClass)result).Number;

@@ -28,39 +28,45 @@ namespace OmniXaml.Tests.Resources
 
         private NamespaceDeclaration AnotherNs { get; }
 
-        public IEnumerable<XamlInstruction> ExtensionWithTwoArguments()
+        public IEnumerable<XamlInstruction> ExtensionWithTwoArguments
         {
-            return new Collection<XamlInstruction>
+            get
             {
-                X.NamespacePrefixDeclaration(RootNs),
-                X.StartObject<DummyClass>(),
-                X.StartMember<DummyClass>(d => d.SampleProperty),
-                X.StartObject(typeof (DummyExtension)),
-                X.MarkupExtensionArguments(),
-                X.Value("One"),
-                X.Value("Second"),
-                X.EndMember(),
-                X.EndObject(),
-                X.EndMember(),
-                X.EndObject(),
-            };
+                return new Collection<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.SampleProperty),
+                    X.StartObject(typeof (DummyExtension)),
+                    X.MarkupExtensionArguments(),
+                    X.Value("One"),
+                    X.Value("Second"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
         }
 
-        public IEnumerable<XamlInstruction> ExtensionWithNonStringArgument()
+        public IEnumerable<XamlInstruction> ExtensionWithNonStringArgument
         {
-            return new Collection<XamlInstruction>
+            get
             {
-                X.NamespacePrefixDeclaration(RootNs),
-                X.StartObject<DummyClass>(),
-                X.StartMember<DummyClass>(d => d.Number),
-                X.StartObject(typeof (IntExtension)),
-                X.MarkupExtensionArguments(),
-                X.Value("123"),
-                X.EndMember(),
-                X.EndObject(),
-                X.EndMember(),
-                X.EndObject(),
-            };
+                return new Collection<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.Number),
+                    X.StartObject(typeof (IntExtension)),
+                    X.MarkupExtensionArguments(),
+                    X.Value("123"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
         }
 
         public IEnumerable<XamlInstruction> OneObject
@@ -169,16 +175,19 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> GetMemberWithIncompatibleTypes()
+        public IEnumerable<XamlInstruction> MemberWithIncompatibleTypes
         {
-            return new Collection<XamlInstruction>
+            get
             {
-                X.StartObject<DummyClass>(),
-                X.StartMember<DummyClass>(d => d.Number),
-                X.Value("12"),
-                X.EndMember(),
-                X.EndObject()
-            };
+                return new Collection<XamlInstruction>
+                {
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.Number),
+                    X.Value("12"),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
         }
 
         public IEnumerable<XamlInstruction> ExtensionWithArgument
@@ -194,6 +203,23 @@ namespace OmniXaml.Tests.Resources
                     X.MarkupExtensionArguments(),
                     X.Value("Option"),
                     X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> ExtensionThatReturnsNull
+        {
+            get
+            {
+                return new Collection<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.SampleProperty),
+                    X.StartObject(typeof (ExtensionThatReturnsNull)),                    
                     X.EndObject(),
                     X.EndMember(),
                     X.EndObject()
