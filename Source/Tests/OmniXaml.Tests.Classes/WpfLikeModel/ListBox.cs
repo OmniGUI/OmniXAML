@@ -4,8 +4,4 @@
     {
         public DataTemplate ItemTemplate { get; set; }
     }
-
-    public class ListViewItem : ContentControl
-    {
-    }
 }

@@ -324,6 +324,12 @@
         }
 
         [TestMethod]
+        public void DirectContentForOneToMany()
+        {
+            sut.PumpNodes(source.DirectContentForOneToMany);
+        }
+
+        [TestMethod]
         public void CorrectInstanceSetupSequence()
         {
 

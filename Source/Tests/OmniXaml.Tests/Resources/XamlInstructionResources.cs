@@ -1524,5 +1524,25 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> DirectContentForOneToMany
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration("root", ""),
+                    X.StartObject(typeof (ItemsControl)),
+                    X.StartMember<ItemsControl>(d => d.Items),
+                    X.GetObject(),
+                    X.Items(),
+                    X.Value("Hello"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }

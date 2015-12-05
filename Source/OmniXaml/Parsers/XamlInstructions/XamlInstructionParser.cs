@@ -205,19 +205,6 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseCollection()
-        {
-            yield return Inject.Items();
-
-            foreach (var instruction in ParseElements())
-            {
-                yield return instruction;
-            }
-
-            yield return Inject.EndOfMember();
-            yield return Inject.EndOfObject();
-        }
-
         private void SetNextInstruction()
         {
             if (EndOfStream)

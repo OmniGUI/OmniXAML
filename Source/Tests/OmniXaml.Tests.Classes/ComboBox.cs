@@ -7,11 +7,6 @@
     {      
     }
 
-    public class Selector : ItemsControl
-    {
-        public int SelectedIndex { get; set; }
-    }
-
     [ContentProperty("Items")]
     public class ItemsControl : DummyObject
     {

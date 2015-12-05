@@ -17,7 +17,7 @@ namespace OmniXaml.Typing
 
         public override string ToString()
         {
-            return $"{{Name}} Directive";
+            return $"·{Name}· Directive";
         }
     }
 }

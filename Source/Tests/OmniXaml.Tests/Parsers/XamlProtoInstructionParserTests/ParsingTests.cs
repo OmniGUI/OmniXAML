@@ -4,10 +4,13 @@
     using System.Linq;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
     using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
+    using Xunit;
+    using Assert = Xunit.Assert;
     using CollectionAssert = Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert;
     using XamlParseException = XamlParseException;
 
@@ -23,9 +26,15 @@
         }
 
         [TestInitialize]
+        [SetUp]
         public void Initialize()
         {
-            sut = new XamlProtoInstructionParser(WiringContext);
+            sut = CreateSut();
+        }
+
+        private XamlProtoInstructionParser CreateSut()
+        {
+            return new XamlProtoInstructionParser(WiringContext);
         }
 
         [TestMethod]
@@ -196,6 +205,15 @@
             var expected = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
             var actual = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives).ToList();
             CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [Fact]
+        public void DirectContentForOneToMany()
+        {
+            var sut = CreateSut();
+            var expected = source.DirectContentForOneToMany.ToList();
+            var actual = sut.Parse(Dummy.DirectContentForOneToMany).ToList();
+            Assert.Equal(expected, actual);
         }
     }   
 }

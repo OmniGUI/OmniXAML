@@ -10,7 +10,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             ValuePipeLine = new ValuePipeline(objectAssembler.WiringContext.TypeContext, topDownValueContext);
         }
 
-        private ValuePipeline ValuePipeLine { get; set; }
+        private ValuePipeline ValuePipeLine { get; }
 
         public override void Execute()
         {
@@ -33,7 +33,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                 case ValueProcessingMode.AssignToMember:
                     StateCommuter.RaiseLevel();
                     StateCommuter.Current.Instance = value;
-                    StateCommuter.AssignChildToParentProperty();
+                    StateCommuter.AssociateCurrentInstanceToParent();
                     StateCommuter.DecreaseLevel();
                     break;
 

@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Reflection;
     using Classes;
-    using Classes.WpfLikeModel;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.XamlInstructions;
     using Resources;
+    using Xunit;
 
     [TestClass]
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -18,10 +18,15 @@
         private readonly XamlInstructionResources source;
 
         public ParsingTests()
-        {          
-            sut = new XamlInstructionParser(WiringContext);
+        {
+            sut = CreateSut();
             protoResources = new ProtoInstructionResources(this);
             source = new XamlInstructionResources(this);
+        }
+
+        private XamlInstructionParser CreateSut()
+        {
+            return new XamlInstructionParser(WiringContext);
         }
 
         [TestMethod]
@@ -54,7 +59,7 @@
 
             CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
         }
-       
+
         [TestMethod]
         public void SingleOpenAndClose()
         {
@@ -85,7 +90,7 @@
             var actualNodes = sut.Parse(input);
 
             CollectionAssert.AreEqual(source.ObjectWithTwoMembers.ToList(), actualNodes.ToList());
-        }       
+        }
 
         [TestMethod]
         public void ElementWith2NsDeclarations()
@@ -301,5 +306,15 @@
             var expected = source.ListBoxWithItemAndTextBlockWithNames.ToList();
             CollectionAssert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void DirectContentForOneToMany()
+        {
+            var expected = source.DirectContentForOneToMany.ToList();
+            var actual = sut.Parse(protoResources.DirectContentForOneToMany).ToList();
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
     }
 }

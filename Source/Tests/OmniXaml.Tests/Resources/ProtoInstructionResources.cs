@@ -687,5 +687,19 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<ProtoXamlInstruction> DirectContentForOneToMany
+        {
+            get
+            {
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NonEmptyElement<ItemsControl>(RootNs),
+                    P.Text("Hello"),
+                    P.EndTag(),
+                };
+            }
+        }
     }
 }

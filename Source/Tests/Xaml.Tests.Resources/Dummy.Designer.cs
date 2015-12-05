@@ -125,9 +125,9 @@ namespace Xaml.Tests.Resources {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;root&quot; xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
-        ///    &lt;ListBox x:Name=&quot;MyListBox&quot;&gt;
-        ///        &lt;ListBoxItem x:Name=&quot;MyListBoxItem&quot;&gt;
-        ///            &lt;TextBlock x:Name=&quot;MyTextBlock&quot; /&gt;
+        ///    &lt;ListBox Name=&quot;MyListBox&quot;&gt;
+        ///        &lt;ListBoxItem Name=&quot;MyListBoxItem&quot;&gt;
+        ///            &lt;TextBlock Name=&quot;MyTextBlock&quot; /&gt;
         ///        &lt;/ListBoxItem&gt;
         ///    &lt;/ListBox&gt;
         ///&lt;/Window&gt;.
@@ -341,6 +341,15 @@ namespace Xaml.Tests.Resources {
         public static string DifferentNamespacesAndMoreThanOneProperty {
             get {
                 return ResourceManager.GetString("DifferentNamespacesAndMoreThanOneProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;ItemsControl xmlns=&quot;root&quot;&gt;Hello&lt;/ItemsControl&gt;.
+        /// </summary>
+        public static string DirectContentForOneToMany {
+            get {
+                return ResourceManager.GetString("DirectContentForOneToMany", resourceCulture);
             }
         }
         
