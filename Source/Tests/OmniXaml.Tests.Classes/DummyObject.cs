@@ -4,23 +4,33 @@ namespace OmniXaml.Tests.Classes
 
     public class DummyObject : INameScope
     {
-        readonly IDictionary<string, object> dict = new Dictionary<string, object>();
+        readonly IDictionary<string, object> namescopeRegistrations = new Dictionary<string, object>();
+        private string name;
+        public IList<string> NamesHistory { get; } = new List<string>();
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return name; }
+            set
+            {
+                name = value;
+                NamesHistory.Add(name);
+            }
+        }
 
         public void Register(string name, object scopedElement)
         {
-            dict.Add(name, scopedElement);
+            namescopeRegistrations.Add(name, scopedElement);
         }
 
         public void Unregister(string name)
         {
-            dict.Remove(name);
+            namescopeRegistrations.Remove(name);
         }
 
         public object Find(string name)
         {
-            return dict[name];
+            return namescopeRegistrations[name];
         }
     }
 }

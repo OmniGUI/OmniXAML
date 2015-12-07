@@ -1,6 +1,7 @@
 ﻿namespace Glass
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     public class StackingLinkedList<T>
     {
@@ -29,6 +30,11 @@
         {
             get { return Previous.Value; }
             set { Previous.Value = value; }
+        }
+
+        public IList<T> ToList()
+        {
+            return linkedList.ToList();
         }
     }  
 }

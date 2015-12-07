@@ -30,7 +30,7 @@ namespace OmniXaml.Tests
         {
             WiringContext.EnableNameScope<DummyClass>();
 
-            sut.PumpNodes(source.ChildInNameScope);
+            sut.Process(source.ChildInNameScope);
             var actual = sut.Result;
             var childInScope = ((DummyObject)actual).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
@@ -42,7 +42,7 @@ namespace OmniXaml.Tests
         {
             WiringContext.EnableNameScope<Window>();
 
-            sut.PumpNodes(source.ChildInDeeperNameScope);
+            sut.Process(source.ChildInDeeperNameScope);
             var actual = sut.Result;
             var textBlock1 = ((Window)actual).Find("MyTextBlock");
             var textBlock2 = ((Window)actual).Find("MyOtherTextBlock");
@@ -54,7 +54,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void NameWithNoNamescopesToRegisterTo()
         {
-            sut.PumpNodes(source.NameWithNoNamescopesToRegisterTo);
+            sut.Process(source.NameWithNoNamescopesToRegisterTo);
         }
     }
 }

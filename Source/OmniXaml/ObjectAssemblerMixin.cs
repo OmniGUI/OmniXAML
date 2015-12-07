@@ -1,10 +1,10 @@
-namespace OmniXaml.Tests
+namespace OmniXaml
 {
     using System.Collections.Generic;
 
-    static internal class ObjectAssemblerExtensions
+    public static class ObjectAssemblerMixin
     {
-        public static void PumpNodes(this IObjectAssembler assembler, IEnumerable<XamlInstruction> instructions)
+        public static void Process(this IObjectAssembler assembler, IEnumerable<XamlInstruction> instructions)
         {
             foreach (var instruction in instructions) {
                 assembler.Process(instruction);

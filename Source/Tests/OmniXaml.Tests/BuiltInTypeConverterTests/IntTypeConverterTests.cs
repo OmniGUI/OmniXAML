@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests
+namespace OmniXaml.Tests.BuiltInTypeConverterTests
 {
     using System;
     using System.Globalization;

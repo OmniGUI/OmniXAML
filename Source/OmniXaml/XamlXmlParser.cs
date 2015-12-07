@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.IO;
     using Glass;
     using Parsers.ProtoParser;
     using Parsers.XamlInstructions;
@@ -35,11 +34,5 @@
 
             return objectAssembler.Result;
         }
-    }
-
-    public interface IXamlLoader
-    {
-        object Load(Stream stream);
-        object Load(Stream stream, object instance);        
     }
 }

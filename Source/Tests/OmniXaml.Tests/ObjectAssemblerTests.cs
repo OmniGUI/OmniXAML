@@ -47,7 +47,7 @@
         [TestMethod]
         public void OneObject()
         {
-            sut.PumpNodes(source.OneObject);
+            sut.Process(source.OneObject);
 
             var result = sut.Result;
 
@@ -57,7 +57,7 @@
         [TestMethod]
         public void ObjectWithMember()
         {
-            sut.PumpNodes(source.ObjectWithMember);
+            sut.Process(source.ObjectWithMember);
 
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
@@ -69,7 +69,7 @@
         [TestMethod]
         public void ObjectWithTwoMembers()
         {
-            sut.PumpNodes(source.ObjectWithTwoMembers);
+            sut.Process(source.ObjectWithTwoMembers);
 
             var result = sut.Result;
             var property1 = ((DummyClass)result).SampleProperty;
@@ -83,7 +83,7 @@
         [TestMethod]
         public void ObjectWithChild()
         {
-            sut.PumpNodes(source.ObjectWithChild);
+            sut.Process(source.ObjectWithChild);
 
             var result = sut.Result;
             var property = ((DummyClass)result).Child;
@@ -95,7 +95,7 @@
         [TestMethod]
         public void WithCollection()
         {
-            sut.PumpNodes(source.CollectionWithMoreThanOneItem);
+            sut.Process(source.CollectionWithMoreThanOneItem);
 
             var result = sut.Result;
             var children = ((DummyClass)result).Items;
@@ -108,7 +108,7 @@
         [TestMethod]
         public void CollectionWithInnerCollection()
         {
-            sut.PumpNodes(source.CollectionWithInnerCollection);
+            sut.Process(source.CollectionWithInnerCollection);
 
             var result = sut.Result;
             var children = ((DummyClass)result).Items;
@@ -124,7 +124,7 @@
         [TestMethod]
         public void WithCollectionAndInnerAttribute()
         {
-            sut.PumpNodes(source.WithCollectionAndInnerAttribute);
+            sut.Process(source.WithCollectionAndInnerAttribute);
 
             var result = sut.Result;
             var children = ((DummyClass)result).Items;
@@ -139,7 +139,7 @@
         [TestMethod]
         public void MemberWithIncompatibleTypes()
         {
-            sut.PumpNodes(source.MemberWithIncompatibleTypes);
+            sut.Process(source.MemberWithIncompatibleTypes);
 
             var result = sut.Result;
             var property = ((DummyClass)result).Number;
@@ -151,7 +151,7 @@
         [TestMethod]
         public void ExtensionWithArgument()
         {
-            sut.PumpNodes(source.ExtensionWithArgument);
+            sut.Process(source.ExtensionWithArgument);
 
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
@@ -163,7 +163,7 @@
         [TestMethod]
         public void ExtensionWithTwoArguments()
         {
-            sut.PumpNodes(source.ExtensionWithTwoArguments);
+            sut.Process(source.ExtensionWithTwoArguments);
 
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
@@ -175,7 +175,7 @@
         [TestMethod]
         public void ExtensionThatReturnsNull()
         {
-            sut.PumpNodes(source.ExtensionThatReturnsNull);
+            sut.Process(source.ExtensionThatReturnsNull);
 
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
@@ -187,7 +187,7 @@
         [TestMethod]
         public void ExtensionWithNonStringArgument()
         {
-            sut.PumpNodes(source.ExtensionWithNonStringArgument);
+            sut.Process(source.ExtensionWithNonStringArgument);
 
             var result = sut.Result;
             var property = ((DummyClass)result).Number;
@@ -199,7 +199,7 @@
         [TestMethod]
         public void KeyDirective()
         {
-            sut.PumpNodes(source.KeyDirective);
+            sut.Process(source.KeyDirective);
 
             var actual = sut.Result;
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
@@ -212,7 +212,7 @@
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-            sut.PumpNodes(source.GetString(sysNs));
+            sut.Process(source.GetString(sysNs));
 
             var actual = sut.Result;
             Assert.IsInstanceOfType(actual, typeof(string));
@@ -223,7 +223,7 @@
         [TestMethod]
         public void TopDownContainsOuterObject()
         {
-            sut.PumpNodes(source.InstanceWithChild);
+            sut.Process(source.InstanceWithChild);
 
             var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof(DummyClass));
             var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
@@ -235,20 +235,20 @@
         [ExpectedException(typeof(XamlParseException))]
         public void AttemptToAssignItemsToNonCollectionMember()
         {
-            sut.PumpNodes(source.AttemptToAssignItemsToNonCollectionMember);
+            sut.Process(source.AttemptToAssignItemsToNonCollectionMember);
         }
 
         [TestMethod]
         [ExpectedException(typeof(XamlParseException))]
         public void TwoChildrenWithNoRoot_ShouldThrow()
         {
-            sut.PumpNodes(source.TwoRoots);
+            sut.Process(source.TwoRoots);
         }
 
         [TestMethod]
         public void PropertyShouldBeAssignedBeforeChildIsAssociatedToItsParent()
         {
-            sut.PumpNodes(source.ParentShouldReceiveInitializedChild);
+            sut.Process(source.ParentShouldReceiveInitializedChild);
             var parent = (SpyingParent)sut.Result;
             Assert.IsTrue(parent.ChildHadNamePriorToBeingAssigned);
         }
@@ -256,7 +256,7 @@
         [TestMethod]
         public void MixedCollection()
         {
-            sut.PumpNodes(source.MixedCollection);
+            sut.Process(source.MixedCollection);
             var result = sut.Result;
             Assert.IsInstanceOfType(result, typeof(ArrayList));
             var arrayList = (ArrayList)result;
@@ -268,7 +268,7 @@
         {
             var root = new ArrayList();
             var assembler = CreateSutForLoadingSpecificInstance(root);
-            assembler.PumpNodes(source.MixedCollection);
+            assembler.Process(source.MixedCollection);
             var result = assembler.Result;
             Assert.IsInstanceOfType(result, typeof(ArrayList));
             var arrayList = (ArrayList)result;
@@ -280,7 +280,7 @@
         {
             var root = new DummyClass();
             var sut = CreateSutForLoadingSpecificInstance(root);
-            sut.PumpNodes(source.RootInstanceWithAttachableMember);
+            sut.Process(source.RootInstanceWithAttachableMember);
             var result = sut.Result;
             var attachedProperty = Container.GetProperty(result);
             Xunit.Assert.Equal("Value", attachedProperty);
@@ -289,7 +289,7 @@
         [TestMethod]
         public void NamedObject_HasCorrectName()
         {
-            sut.PumpNodes(source.NamedObject);
+            sut.Process(source.NamedObject);
             var result = sut.Result;
             var tb = (TextBlock)result;
 
@@ -299,7 +299,7 @@
         [TestMethod]
         public void TwoNestedNamedObjects_HaveCorrectNames()
         {
-            sut.PumpNodes(source.TwoNestedNamedObjects);
+            sut.Process(source.TwoNestedNamedObjects);
             var result = sut.Result;
             var lbi = (ListBoxItem)result;
             var textBlock = (TextBlock)lbi.Content;
@@ -311,7 +311,7 @@
         [TestMethod]
         public void ListBoxWithItemAndTextBlockNoNames()
         {
-            sut.PumpNodes(source.ListBoxWithItemAndTextBlockNoNames);
+            sut.Process(source.ListBoxWithItemAndTextBlockNoNames);
 
             var w = (Window)sut.Result;
             var lb = (ListBox)w.Content;
@@ -324,7 +324,7 @@
         [TestMethod]
         public void ListBoxWithItemAndTextBlockWithNames_HaveCorrectNames()
         {
-            sut.PumpNodes(source.ListBoxWithItemAndTextBlockWithNames);
+            sut.Process(source.ListBoxWithItemAndTextBlockWithNames);
 
             var w = (Window)sut.Result;
             var lb = (ListBox)w.Content;
@@ -339,7 +339,7 @@
         [TestMethod]
         public void DirectContentForOneToMany()
         {
-            sut.PumpNodes(source.DirectContentForOneToMany);
+            sut.Process(source.DirectContentForOneToMany);
         }
 
         [TestMethod]
@@ -356,7 +356,7 @@
                 OnEnd = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.End); }
             };
 
-            sut.PumpNodes(source.InstanceWithChild);
+            sut.Process(source.InstanceWithChild);
 
             CollectionAssert.AreEqual(expectedSequence, actualSequence);
         }

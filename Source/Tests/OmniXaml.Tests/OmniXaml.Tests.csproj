@@ -89,7 +89,6 @@
     <Compile Include="MetadataProvider.cs" />
     <Compile Include="NameScopeTests.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
-    <Compile Include="ObjectAssemblerExtensions.cs" />
     <Compile Include="Resources\MarkupExtensionNodeResources.cs" />
     <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\XamlProtoInstructionParserTests\PrefixTests.cs" />

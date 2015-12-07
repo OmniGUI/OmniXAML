@@ -198,8 +198,8 @@ namespace OmniXaml.ObjectAssembler
 
         private INameScope LookupParentNamescope()
         {
-            return stack.TraverseBackwards()
-                .Select(x => x.Value.XamlType?.GetNamescope(x.Value.Instance))
+            return stack.GetAncestors()
+                .Select(level => level.XamlType?.GetNamescope(level.Instance))
                 .FirstOrDefault(x => x != null);
         }
 

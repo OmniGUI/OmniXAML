@@ -40,6 +40,8 @@
     </Compile>
     <Compile Include="IInflatableTranslator.cs" />
     <Compile Include="AutoInflatingTypeFactory.cs" />
+    <Compile Include="MultiFactory.cs" />
+    <Compile Include="TypeFactoryRegistration.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
