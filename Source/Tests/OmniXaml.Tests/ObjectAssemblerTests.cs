@@ -10,6 +10,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
     using Resources;
+    using Xunit;
+    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
     public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
@@ -28,6 +30,18 @@
         {
             topDownValueContext = new TopDownValueContext();
             sut = new ObjectAssembler(WiringContext, topDownValueContext);
+        }
+
+        public IObjectAssembler CreateSut()
+        {
+            return new ObjectAssembler(WiringContext, new TopDownValueContext());
+        }
+
+        public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
+        {
+            var settings = new ObjectAssemblerSettings { RootInstance = instance };
+            var assembler = new ObjectAssembler(WiringContext, new TopDownValueContext(), settings);
+            return assembler;
         }
 
         [TestMethod]
@@ -253,7 +267,7 @@
         public void MixedCollectionWithRootInstance()
         {
             var root = new ArrayList();
-            var assembler = CreateAssemblerToReadSpecificInstance(root);
+            var assembler = CreateSutForLoadingSpecificInstance(root);
             assembler.PumpNodes(source.MixedCollection);
             var result = assembler.Result;
             Assert.IsInstanceOfType(result, typeof(ArrayList));
@@ -261,16 +275,16 @@
             Assert.IsTrue(arrayList.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void RootInstanceWithAttachableMember()
         {
             var root = new DummyClass();
-            var assembler = CreateAssemblerToReadSpecificInstance(root);
-            assembler.PumpNodes(source.RootInstanceWithAttachableMember);
-            var result = assembler.Result;
+            var sut = CreateSutForLoadingSpecificInstance(root);
+            sut.PumpNodes(source.RootInstanceWithAttachableMember);
+            var result = sut.Result;
+            var attachedProperty = Container.GetProperty(result);
+            Xunit.Assert.Equal("Value", attachedProperty);
         }
-
-
 
         [TestMethod]
         public void NamedObject_HasCorrectName()
@@ -281,7 +295,6 @@
 
             Assert.AreEqual("MyTextBlock", tb.Name);
         }
-
 
         [TestMethod]
         public void TwoNestedNamedObjects_HaveCorrectNames()
@@ -332,7 +345,6 @@
         [TestMethod]
         public void CorrectInstanceSetupSequence()
         {
-
             var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
             var actualSequence = new Collection<SetupSequence>();
 
@@ -347,21 +359,6 @@
             sut.PumpNodes(source.InstanceWithChild);
 
             CollectionAssert.AreEqual(expectedSequence, actualSequence);
-        }
-
-        private enum SetupSequence
-        {
-            Begin,
-            AfterSetProperties,
-            AfterAssociatedToParent,
-            End
-        }
-
-        private ObjectAssembler CreateAssemblerToReadSpecificInstance(object instance)
-        {
-            var settings = new ObjectAssemblerSettings { RootInstance = instance };
-            var assembler = new ObjectAssembler(WiringContext, topDownValueContext, settings);
-            return assembler;
         }
     }
 }

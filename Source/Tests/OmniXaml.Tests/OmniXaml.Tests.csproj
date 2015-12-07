@@ -94,6 +94,7 @@
     <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\XamlProtoInstructionParserTests\PrefixTests.cs" />
     <Compile Include="Parsers\XamlInstructionParserTests\MemberNodesBlock.cs" />
+    <Compile Include="SetupSequence.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
