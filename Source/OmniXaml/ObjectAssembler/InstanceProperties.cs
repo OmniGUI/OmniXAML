@@ -5,5 +5,7 @@ namespace OmniXaml.ObjectAssembler
         public string Name { get; set; }
 
         public object Key { get; set; }
+
+        public bool HadPreviousName { get; set; }
     }
 }

@@ -32,8 +32,11 @@ namespace OmniXaml.ObjectAssembler.Commands
                 {
                     StateCommuter.AssociateCurrentInstanceToParent();
                 }
-            }
 
+                StateCommuter.RegisterInstanceNameToNamescope();
+                StateCommuter.NotifyEnd();
+            }
+            
             Assembler.Result = StateCommuter.Current.Instance;
             
             StateCommuter.DecreaseLevel();

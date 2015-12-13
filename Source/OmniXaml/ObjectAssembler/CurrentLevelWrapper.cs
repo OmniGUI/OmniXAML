@@ -13,6 +13,20 @@ namespace OmniXaml.ObjectAssembler
             this.level = level;
         }
 
+        public string InstanceName
+        {
+            get
+            {
+                var runtimeNameMember = XamlType.RuntimeNamePropertyMember;
+                return (string) runtimeNameMember?.GetValue(Instance);            
+            }
+            set
+            {
+                var runtimeNameMember = XamlType.RuntimeNamePropertyMember;
+                runtimeNameMember?.SetValue(Instance, value);
+            }
+        }
+
         public XamlMemberBase XamlMember
         {
             get { return level.XamlMember; }

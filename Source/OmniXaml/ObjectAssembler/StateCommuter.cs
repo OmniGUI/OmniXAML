@@ -9,13 +9,14 @@ namespace OmniXaml.ObjectAssembler
 
     public class StateCommuter
     {
-        private StackingLinkedList<Level> stack;
-        private readonly ITopDownValueContext topDownValueContext;
-        private PreviousLevelWrapper previous;
-        private CurrentLevelWrapper current;
         private readonly InstanceLifeCycleNotifier lifecycleNotifier;
+        private readonly ITopDownValueContext topDownValueContext;
+        private StackingLinkedList<Level> stack;
 
-        public StateCommuter(IObjectAssembler objectAssembler, StackingLinkedList<Level> stack, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
+        public StateCommuter(IObjectAssembler objectAssembler,
+            StackingLinkedList<Level> stack,
+            IWiringContext wiringContext,
+            ITopDownValueContext topDownValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
@@ -27,9 +28,9 @@ namespace OmniXaml.ObjectAssembler
             lifecycleNotifier = new InstanceLifeCycleNotifier(objectAssembler);
         }
 
-        public CurrentLevelWrapper Current => current;
+        public CurrentLevelWrapper Current { get; private set; }
 
-        public PreviousLevelWrapper Previous => previous;
+        public PreviousLevelWrapper Previous { get; private set; }
 
         public int Level => stack.Count;
 
@@ -38,7 +39,7 @@ namespace OmniXaml.ObjectAssembler
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember)Previous.XamlMember);
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember) Previous.XamlMember);
 
         private StackingLinkedList<Level> Stack
         {
@@ -52,16 +53,16 @@ namespace OmniXaml.ObjectAssembler
 
         public bool ParentIsOneToMany => Previous.XamlMemberIsOneToMany;
 
+        public InstanceProperties InstanceProperties => Current.InstanceProperties;
+
         public void SetKey(object value)
         {
             InstanceProperties.Key = value;
         }
 
-        public InstanceProperties InstanceProperties => Current.InstanceProperties;
-
         public void AssignChildToParentProperty()
         {
-            var previousMember = (MutableXamlMember)Previous.XamlMember;
+            var previousMember = (MutableXamlMember) Previous.XamlMember;
             var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
 
             previousMember.SetValue(Previous.Instance, compatibleValue);
@@ -75,8 +76,8 @@ namespace OmniXaml.ObjectAssembler
 
         private void UpdateLevelWrappers()
         {
-            current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
-            previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
+            Current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            Previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
         public void DecreaseLevel()
@@ -111,7 +112,7 @@ namespace OmniXaml.ObjectAssembler
             var instance = xamlType.CreateInstance(parameters);
 
             Current.Instance = instance;
-            lifecycleNotifier.NotifyBegin(instance);            
+            lifecycleNotifier.NotifyBegin(instance);
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -156,9 +157,8 @@ namespace OmniXaml.ObjectAssembler
 
         public void AssociateCurrentInstanceToParent()
         {
-            if (HasParentToAssociate && !(Current.IsMarkupExtension))
+            if (HasParentToAssociate && !Current.IsMarkupExtension)
             {
-
                 lifecycleNotifier.NotifyAfterProperties(Current.Instance);
 
                 if (Previous.CanHostChildren)
@@ -169,36 +169,62 @@ namespace OmniXaml.ObjectAssembler
                 {
                     AssignChildToParentProperty();
                 }
-                lifecycleNotifier.NotifyAssociatedToParent(Current.Instance);
 
-                RegisterInstanceNameToNamescope();
-                lifecycleNotifier.NotifyEnd(Current.Instance);
+                lifecycleNotifier.NotifyAssociatedToParent(Current.Instance);
             }
         }
 
-        private void RegisterInstanceNameToNamescope()
+        public void RegisterInstanceNameToNamescope()
         {
             if (InstanceProperties.Name != null)
             {
-                var nameScope = LookupParentNamescope();
+                var nameScope = FindNamescope();
                 nameScope?.Register(InstanceProperties.Name, Current.Instance);
             }
 
             InstanceProperties.Name = null;
+            InstanceProperties.HadPreviousName = false;
         }
 
         public void PutNameToCurrentInstanceIfAny()
         {
-            var runtimeNameMember = Current.XamlType.RuntimeNamePropertyMember;
             if (InstanceProperties.Name != null)
             {
-                runtimeNameMember?.SetValue(Current.Instance, InstanceProperties.Name);
+                if (Current.InstanceName != null)
+                {
+                    Current.InstanceProperties.HadPreviousName = true;
+                }
+
+                Current.InstanceName = InstanceProperties.Name;
             }
         }
 
-        private INameScope LookupParentNamescope()
+        private INameScope FindNamescope()
+        {
+            if (Current.InstanceProperties.HadPreviousName)
+            {
+                return FindNamescopeForInstanceThatHadPreviousName();
+            }
+            else
+            {
+                return FindNamescopeForInstanceWithNoName();
+            }
+        }
+
+        private INameScope FindNamescopeForInstanceWithNoName()
+        {
+            return FindNamescopeSkippingAncestor(0);
+        }
+
+        private INameScope FindNamescopeForInstanceThatHadPreviousName()
+        {
+            return FindNamescopeSkippingAncestor(1);
+        }
+
+        private INameScope FindNamescopeSkippingAncestor(int skip)
         {
             return stack.GetAncestors()
+                .Skip(skip)
                 .Select(level => level.XamlType?.GetNamescope(level.Instance))
                 .FirstOrDefault(x => x != null);
         }
@@ -217,7 +243,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void AddChildToDictionary()
         {
-            TypeOperations.AddToDictionary((IDictionary)Previous.Collection, InstanceProperties.Key, Current.Instance);
+            TypeOperations.AddToDictionary((IDictionary) Previous.Collection, InstanceProperties.Key, Current.Instance);
             ClearKey();
         }
 
@@ -235,6 +261,11 @@ namespace OmniXaml.ObjectAssembler
         public void SetNameForCurrentInstance(string value)
         {
             InstanceProperties.Name = value;
+        }
+
+        public void NotifyEnd()
+        {
+            lifecycleNotifier.NotifyEnd(Current.Instance);
         }
     }
 }

@@ -9,11 +9,12 @@
     using TypeConversion;
     using Typing;
     using Xunit;
+    using Xunit.Sdk;
 
     public class ObjectAssemblerAdvancedNamescopeTests
     {
         [Fact]
-        public void MultinameRegistration()
+        public void MultinameRegistrationGivesSameObjectTwoSubsequentNames()
         {
             var wiringContext = CreateWiringContext();
             var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
@@ -39,6 +40,35 @@
             var child = (DummyObject)result.Child;
             Assert.Equal("InnerName", child.NamesHistory[0]);
             Assert.Equal("OuterName", child.NamesHistory[1]);
+        }
+
+        [Fact]
+        public void GivenChildWithPreviousName_LatestNameIsRegisteredInParent()
+        {
+            var wiringContext = CreateWiringContext();
+            var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
+
+            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+
+            var batch = new Collection<XamlInstruction>
+            {
+                x.StartObject<DummyClass>(),
+                x.StartMember<DummyClass>(d => d.Child),
+                x.StartObject<ChildClass>(),
+                x.StartMember<ChildClass>(c => c.Name),
+                x.Value("OuterName"),
+                x.EndMember(),
+                x.EndObject(),
+                x.EndMember(),
+                x.EndObject(),
+            };
+
+            sut.Process(batch);
+
+            var result = (DummyClass)sut.Result;
+
+            var childClass = result.Find("OuterName");
+            Assert.NotNull(childClass);           
         }
 
         private static XamlInstructionBuilder CreateBuilder(IXamlTypeRepository typeRepository)
