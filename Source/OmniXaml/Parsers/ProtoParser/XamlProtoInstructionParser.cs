@@ -85,7 +85,8 @@
         {
             var propertyLocator = PropertyLocator.Parse(reader.LocalName);
             var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
-            yield return instructionBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
+
+            yield return InjectPropertyInstruction(xamlType, propertyLocator, namespaceDeclaration);
 
             reader.Read();
 
@@ -99,6 +100,24 @@
             }
 
             yield return instructionBuilder.EndTag();
+        }
+
+        private ProtoXamlInstruction InjectPropertyInstruction(XamlType xamlType, PropertyLocator propertyLocator, NamespaceDeclaration namespaceDeclaration)
+        {
+            if (IsNormalProperty(xamlType, propertyLocator))
+            {
+                return instructionBuilder.NonEmptyPropertyElement(xamlType.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
+            }
+            else
+            {
+                var owner = wiringContext.TypeContext.GetByPrefix(propertyLocator.Prefix, propertyLocator.OwnerName);
+                return instructionBuilder.ExpandedAttachedProperty(owner.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
+            }
+        }
+
+        private static bool IsNormalProperty(XamlType xamlType, PropertyLocator propertyLocator)
+        {
+            return !propertyLocator.IsDotted || propertyLocator.IsDotted && propertyLocator.OwnerName == xamlType.Name;
         }
 
         private IEnumerable<ProtoXamlInstruction> ParseInnerTextIfAny()

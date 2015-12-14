@@ -192,8 +192,12 @@
 
         public ProtoXamlInstruction ExpandedAttachedProperty<TParent>(string name, NamespaceDeclaration namespaceDeclaration)
         {
-            var type = typeof(TParent);
-            var xamlType = typeContext.GetXamlType(type);
+            return ExpandedAttachedProperty(typeof (TParent), name, namespaceDeclaration);
+        }
+
+        public ProtoXamlInstruction ExpandedAttachedProperty(Type owner, string name, NamespaceDeclaration namespaceDeclaration)
+        {
+            var xamlType = typeContext.GetXamlType(owner);
 
             var member = xamlType.GetAttachableMember(name);
 

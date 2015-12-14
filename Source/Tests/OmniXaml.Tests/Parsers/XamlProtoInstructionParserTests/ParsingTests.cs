@@ -89,7 +89,7 @@
             CollectionAssert.AreEqual(source.AttachedProperty.ToList(), sut.Parse(Dummy.WithAttachableProperty).ToList());
         }
 
-        [Fact(Skip = "Failing Test")]
+        [Fact]
         public void ExpandedAttachedProperty()
         {
             var sut = CreateSut();
