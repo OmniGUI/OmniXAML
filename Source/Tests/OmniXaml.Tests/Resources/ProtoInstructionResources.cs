@@ -278,7 +278,23 @@ namespace OmniXaml.Tests.Resources
                 {
                     P.NamespacePrefixDeclaration("", "root"),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
-                    P.AttachableProperty<Container>("Property", "Value", RootNs),
+                    P.InlineAttachableProperty<Container>("Property", "Value", RootNs),
+                    P.EndTag(),
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> ExpandedAttachedProperty
+        {
+            get
+            {
+                return new Collection<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration("", "root"),
+                    P.NonEmptyElement(typeof (DummyClass), RootNs),     
+                    P.ExpandedAttachedProperty<Container>("Property", RootNs),
+                    P.Text("Value"),
+                    P.EndTag(),
                     P.EndTag(),
                 };
             }

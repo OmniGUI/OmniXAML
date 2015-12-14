@@ -47,7 +47,7 @@
                 P.NamespacePrefixDeclaration("", ns),
                 P.NamespacePrefixDeclaration("a", "another"),
                 P.NonEmptyElement<DummyClass>(RootNs),
-                P.AttachableProperty<Foreigner>("Property", "Value", AnotherNs),
+                P.InlineAttachableProperty<Foreigner>("Property", "Value", AnotherNs),
                 P.EndTag(),
             };
 

@@ -10,7 +10,7 @@
         public NodeType NodeType { get; set; }
         public XamlMemberBase PropertyAttribute { get; set; }
         public string Prefix { get; set; }
-        public XamlMember PropertyElement { get; set; }
+        public XamlMemberBase PropertyElement { get; set; }
         public string PropertyAttributeText { get; set; }
         public string Text { get; set; }
 

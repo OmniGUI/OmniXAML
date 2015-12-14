@@ -89,6 +89,13 @@
             CollectionAssert.AreEqual(source.AttachedProperty.ToList(), sut.Parse(Dummy.WithAttachableProperty).ToList());
         }
 
+        [Fact(Skip = "Failing Test")]
+        public void ExpandedAttachedProperty()
+        {
+            var sut = CreateSut();
+            Assert.Equal(source.ExpandedAttachedProperty.ToList(), sut.Parse(Dummy.ExpandedAttachableProperty).ToList());
+        }
+
         [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {

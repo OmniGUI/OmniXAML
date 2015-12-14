@@ -372,6 +372,15 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; Container.Property=&quot;Value&quot;&gt;&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string ExpandedAttachableProperty {
+            get {
+                return ResourceManager.GetString("ExpandedAttachableProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///  &lt;DummyClass.Child&gt;
         ///    &lt;ChildClass&gt;&lt;/ChildClass&gt;

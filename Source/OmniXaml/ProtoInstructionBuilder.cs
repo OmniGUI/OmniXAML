@@ -92,7 +92,7 @@
             return EmptyElement(typeof(T), namespaceDeclaration);
         }
 
-        public ProtoXamlInstruction AttachableProperty<TParent>(string name, string value, NamespaceDeclaration namespaceDeclaration)
+        public ProtoXamlInstruction InlineAttachableProperty<TParent>(string name, string value, NamespaceDeclaration namespaceDeclaration)
         {
             var type = typeof(TParent);
             var xamlType = typeContext.GetXamlType(type);
@@ -188,6 +188,23 @@
         public ProtoXamlInstruction Directive(XamlDirective directive, string value)
         {
             return Attribute(directive, value, "x");
+        }
+
+        public ProtoXamlInstruction ExpandedAttachedProperty<TParent>(string name, NamespaceDeclaration namespaceDeclaration)
+        {
+            var type = typeof(TParent);
+            var xamlType = typeContext.GetXamlType(type);
+
+            var member = xamlType.GetAttachableMember(name);
+
+            return new ProtoXamlInstruction
+            {
+                Namespace = namespaceDeclaration.Namespace,
+                NodeType = NodeType.PropertyElement,
+                XamlType = null,
+                PropertyElement = member,
+                Prefix = namespaceDeclaration.Prefix,
+            };
         }
     }
 }

@@ -231,7 +231,7 @@
             yield return Inject.EndOfMember();
         }
 
-        private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMember member)
+        private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMemberBase member)
         {
             yield return Inject.StartOfMember(member);
 
