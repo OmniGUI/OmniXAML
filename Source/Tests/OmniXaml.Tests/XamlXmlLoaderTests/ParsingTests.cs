@@ -216,6 +216,7 @@
         }
 
         [TestMethod]
+        [Ignore]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var actual = XamlLoader.Load(Dummy.ExpandedAttachablePropertyAndItemBelow);

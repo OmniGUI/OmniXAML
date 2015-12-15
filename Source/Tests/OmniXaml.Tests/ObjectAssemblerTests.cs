@@ -287,7 +287,7 @@
         }
 
 
-        [Fact(Skip = "")]
+        [Fact(Skip = "Skip for now")]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var sut = CreateSut();

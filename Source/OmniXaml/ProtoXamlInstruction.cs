@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml
 {
+    using System;
     using Parsers.ProtoParser;
     using Typing;
 
@@ -61,31 +62,50 @@
             var str = string.Format("{0}: ", nodeType);
             switch (NodeType)
             {
-
                 case NodeType.EmptyElement:
                 case NodeType.Element:
-                    {
-                        str = string.Concat(str, XamlType.Name);
-                        return str;
-                    }
+                    str = string.Concat(str, XamlType.Name);
+                    break;
                 case NodeType.Attribute:
                     str = string.Concat(str, PropertyAttributeText);
-                    return str;
+                    break;
                 case NodeType.PropertyElement:
                 case NodeType.EmptyPropertyElement:
                     str = string.Concat(str, PropertyElement);
-                    return str;
+                    break;
                 case NodeType.Directive:
                     str = string.Concat(str, PropertyAttribute);
-                    return str;
+                    break;
                 case NodeType.PrefixDefinition:
-                    str = string.Concat($"{Prefix}:{Namespace}");
-                    return str;
-                default:
+                    str = $"{Prefix}:{Namespace}";
+                    break;
+                case NodeType.None:
+                    break;
+                case NodeType.EndTag:
+                    str = "End Tag";
+                    break;
+                case NodeType.Text:
+                    string strRep;
+                    if (Text == string.Empty)
                     {
-                        return str;
+                        strRep = "(empty)";
                     }
+                    else if (Text == null)
+                    {
+                        strRep = "(null)";
+                    }
+                    else
+                    {
+                        strRep = Text;
+                    }
+
+                    str = $"Text: {strRep}";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
+            return str;
         }
     }
 }

@@ -90,10 +90,19 @@
         }
 
         [Fact]
-        public void ExpandedAttachedProperty()
+        public void NestedAttachedProperty()
         {
             var sut = CreateSut();
             Assert.Equal(source.ExpandedAttachedProperty.ToList(), sut.Parse(Dummy.ExpandedAttachableProperty).ToList());
+        }
+
+        [Fact]
+        public void ExpandedAttachablePropertyAndItemBelow()
+        {
+            var sut = CreateSut();
+            var expected = source.ExpandedAttachablePropertyAndItemBelow.ToList();
+            var actual = sut.Parse(Dummy.ExpandedAttachablePropertyAndItemBelow).ToList();
+            Assert.Equal(expected, actual);
         }
 
         [TestMethod]

@@ -316,5 +316,13 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        [Ignore]
+        public void ExpandedAttachablePropertyAndItemBelow()
+        {
+            var actual = sut.Parse(protoResources.ExpandedAttachablePropertyAndItemBelow).ToList();
+            var expected = source.ExpandedAttachablePropertyAndItemBelow.ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
     }
 }

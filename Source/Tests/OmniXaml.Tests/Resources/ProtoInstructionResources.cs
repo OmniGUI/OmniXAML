@@ -300,6 +300,27 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<ProtoXamlInstruction> ExpandedAttachablePropertyAndItemBelow
+        {
+            get
+            {
+                return new Collection<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration("", "root"),
+                    P.NonEmptyElement(typeof (DummyClass), RootNs),
+                        P.NonEmptyElement<Item>(RootNs),
+                            P.ExpandedAttachedProperty<Container>("Property", RootNs),
+                                P.Text("Value"),
+                            P.EndTag(),                            
+                        P.EndTag(),
+                        P.Text(),
+                    P.EmptyElement<Item>(RootNs),
+                    P.Text(),
+                    P.EndTag(),
+                };
+            }
+        }
+
         public IEnumerable<ProtoXamlInstruction> SingleOpenWithNs
         {
             get
