@@ -286,6 +286,17 @@
             Xunit.Assert.Equal("Value", attachedProperty);
         }
 
+
+        [Fact(Skip = "")]
+        public void ExpandedAttachablePropertyAndItemBelow()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ExpandedAttachablePropertyAndItemBelow);
+            var result = sut.Result;
+            var attachedProperty = Container.GetProperty(result);
+            Xunit.Assert.Equal("Value", attachedProperty);
+        }
+
         [TestMethod]
         public void NamedObject_HasCorrectName()
         {

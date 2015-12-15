@@ -1544,5 +1544,7 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public XamlInstruction ExpandedAttachablePropertyAndItemBelow { get; set; }
     }
 }

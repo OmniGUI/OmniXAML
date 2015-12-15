@@ -167,6 +167,29 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+        ///    &lt;Grid&gt;
+        ///        &lt;Grid.RowDefinitions&gt;
+        ///            &lt;RowDefinition /&gt;
+        ///            &lt;RowDefinition /&gt;
+        ///            &lt;RowDefinition /&gt;
+        ///        &lt;/Grid.RowDefinitions&gt;
+        ///        &lt;TextBlock Text=&quot;Hola&quot;&gt;
+        ///            &lt;Grid.Row&gt;1&lt;/Grid.Row&gt;
+        ///        &lt;/TextBlock&gt;
+        ///        &lt;TextBlock Text=&quot;Hola&quot;&gt;
+        ///            &lt;Grid.Row&gt;1&lt;/Grid.Row&gt;
+        ///        &lt;/TextBlock&gt;
+        ///    &lt;/Grid&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string NestedAttachedProperty {
+            get {
+                return ResourceManager.GetString("NestedAttachedProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window Title=&quot;MainWindow&quot; xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Height=&quot;350&quot; Width=&quot;525&quot;&gt;
         ///  &lt;Grid&gt;
         ///    &lt;Grid.RowDefinitions&gt;

@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests.Common.NetCore
 {
     using Services.DotNetFx;
-    using Tests.Common;
+    using Common;
 
     public class GivenAWiringContextNetCore : GivenAWiringContext
     {

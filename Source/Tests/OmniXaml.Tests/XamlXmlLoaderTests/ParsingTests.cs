@@ -10,6 +10,8 @@
     using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
+    using Xunit;
+    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
     public class ParsingTests : GivenAXamlXmlLoader
@@ -211,6 +213,14 @@
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
+        }
+
+        [TestMethod]
+        public void ExpandedAttachablePropertyAndItemBelow()
+        {
+            var actual = XamlLoader.Load(Dummy.ExpandedAttachablePropertyAndItemBelow);
+            
+            //Xunit.Assert.True(dictionary.Count > 0);
         }
 
         [TestMethod]

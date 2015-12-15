@@ -1,0 +1,6 @@
+﻿<DummyClass xmlns="root">
+    <Item>
+        <Container.Property>Hi</Container.Property>
+    </Item>
+    <Item />
+</DummyClass>

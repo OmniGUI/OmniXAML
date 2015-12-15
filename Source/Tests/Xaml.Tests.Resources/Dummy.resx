@@ -295,4 +295,7 @@
   <data name="ExpandedAttachableProperty" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>xaml\dummy\expandedattachableproperty.xaml;System.String, System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
   </data>
+  <data name="ExpandedAttachablePropertyAndItemBelow" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>xaml\dummy\expandedattachablepropertyanditembelow.xaml;System.String, System.Runtime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a;utf-8</value>
+  </data>
 </root>
