@@ -29,5 +29,10 @@ namespace OmniXaml.Typing
         {
             return TypeRepository.GetXamlType(getter.ReturnType);
         }
+
+        public override string ToString()
+        {
+            return $"Attachable {DeclaringType}.{Name}";
+        }
     }
 }
