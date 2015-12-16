@@ -1551,16 +1551,22 @@ namespace OmniXaml.Tests.Resources
             {
                 return new List<XamlInstruction>
                 {
-                    //X.NamespacePrefixDeclaration("root", ""),
-                    //X.StartObject(typeof (ItemsControl)),
-                    //X.StartMember<ItemsControl>(d => d.Items),
-                    //X.GetObject(),
-                    //X.Items(),
-                    //X.Value("Hello"),
-                    //X.EndMember(),
-                    //X.EndObject(),
-                    //X.EndMember(),
-                    //X.EndObject(),
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                        X.StartMember<DummyClass>(d => d.Items),
+                            X.GetObject(),
+                                X.Items(),
+                                    X.StartObject<Item>(),
+                                        X.AttachableProperty<Container>("Property"),
+                                            X.Value("Value"),
+                                        X.EndMember(),
+                                    X.EndObject(),
+                                    X.StartObject<Item>(),                      
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                    X.EndObject()
                 };
             }
         }
