@@ -43,7 +43,7 @@ namespace OmniXaml.Typing
 
         public override string ToString()
         {
-            return IsDirective ? "XamlDirective:" : "XamlMember: " + Name;
+            return "XamlMember: " + Name;
         }
 
         protected virtual IXamlMemberValuePlugin LookupXamlMemberValueConnector()
