@@ -1,6 +1,16 @@
 ﻿<Grid xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    <TextBlock>
+    <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+    </Grid.RowDefinitions>
+    <TextBlock Text="Hola">
         <Grid.Row>0</Grid.Row>
     </TextBlock>
-    <TextBlock />
+    <TextBlock Text="Tío">
+        <Grid.Row>1</Grid.Row>
+    </TextBlock>
+    <TextBlock Text="¿Cómo vas?">
+        <Grid.Row>2</Grid.Row>
+    </TextBlock>
 </Grid>

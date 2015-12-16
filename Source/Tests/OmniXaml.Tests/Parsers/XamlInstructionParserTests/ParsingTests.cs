@@ -317,7 +317,6 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var actual = sut.Parse(protoResources.ExpandedAttachablePropertyAndItemBelow).ToList();

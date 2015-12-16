@@ -287,13 +287,17 @@
         }
 
 
-        [Fact(Skip = "Skip for now")]
+        [Fact]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var sut = CreateSut();
             sut.Process(source.ExpandedAttachablePropertyAndItemBelow);
-            var result = sut.Result;
-            var attachedProperty = Container.GetProperty(result);
+
+            var items = ((DummyClass)sut.Result).Items;
+
+            var firstChild = items.First();
+            var attachedProperty = Container.GetProperty(firstChild);
+            Xunit.Assert.Equal(2, items.Count);
             Xunit.Assert.Equal("Value", attachedProperty);
         }
 

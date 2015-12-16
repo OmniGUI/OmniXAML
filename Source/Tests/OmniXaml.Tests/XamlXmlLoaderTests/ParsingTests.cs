@@ -4,10 +4,8 @@
     using System.Collections;
     using System.Diagnostics;
     using System.Linq;
-    using System.Xml;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
     using Xunit;
@@ -216,19 +214,23 @@
         }
 
         [TestMethod]
-        [Ignore]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
-            var actual = XamlLoader.Load(Dummy.ExpandedAttachablePropertyAndItemBelow);
+            var loadedObject = XamlLoader.Load(Dummy.ExpandedAttachablePropertyAndItemBelow);
             
-            //Xunit.Assert.True(dictionary.Count > 0);
+            var items = ((DummyClass)loadedObject).Items;
+
+            var firstChild = items.First();
+            var attachedProperty = Container.GetProperty(firstChild);
+            Xunit.Assert.Equal(2, items.Count);
+            Xunit.Assert.Equal("Value", attachedProperty);
         }
 
-        [TestMethod]
-        [Ignore]
+        [Fact]
         public void PureCollection()
         {
             var actualInstance = XamlLoader.Load(Dummy.PureCollection);
+            Xunit.Assert.NotEmpty((IEnumerable) actualInstance);
         }
 
         [TestMethod]

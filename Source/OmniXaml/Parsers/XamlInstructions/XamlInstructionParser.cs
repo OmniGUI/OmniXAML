@@ -242,6 +242,7 @@
                 yield return instruction;
             }
 
+            SkipTextNodes();
             yield return Inject.EndOfMember();
         }
 
