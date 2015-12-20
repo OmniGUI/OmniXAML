@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     public class Container
     {
@@ -14,6 +15,25 @@
         public static object GetProperty(object instance)
         {
             return AttachedProperties[instance];
+        }
+
+        public static void SetCollection(object instance, ICollection<int> value)
+        {
+            AttachedProperties.Add(instance, value);
+        }
+
+        public static ICollection<int> GetCollection(object instance)
+        {
+            object col;
+            var succes = AttachedProperties.TryGetValue(instance, out col);
+            if (succes)
+            {
+                return (ICollection<int>) AttachedProperties[instance];
+            }
+            else
+            {
+                return new Collection<int>();
+            }
         }
     }
 }

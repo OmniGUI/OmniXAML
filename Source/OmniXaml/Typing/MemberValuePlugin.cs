@@ -13,15 +13,17 @@ namespace OmniXaml.Typing
 
         public virtual object GetValue(object instance)
         {
-            return xamlMember.Getter.Invoke(instance, null);
+            if (ValueGetter.IsStatic)
+            {
+                return xamlMember.Getter.Invoke(null, new[] { instance });
+            }
+            else
+            {
+                return xamlMember.Getter.Invoke(instance, null);
+            }
         }
 
         public virtual void SetValue(object instance, object value)
-        {
-            SetValueIndependent(instance, value);
-        }
-
-        private void SetValueIndependent(object instance, object value)
         {
             if (ValueSetter.IsStatic)
             {

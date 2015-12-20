@@ -1570,5 +1570,21 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> CollectionAttachableMemberGet
+        {
+            get {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.AttachableProperty<Container>("Collection"),      
+                    X.GetObject(),
+                    X.EndObject(),              
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }            
+        }
     }
 }

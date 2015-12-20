@@ -286,7 +286,6 @@
             Xunit.Assert.Equal("Value", attachedProperty);
         }
 
-
         [Fact]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
@@ -299,6 +298,13 @@
             var attachedProperty = Container.GetProperty(firstChild);
             Xunit.Assert.Equal(2, items.Count);
             Xunit.Assert.Equal("Value", attachedProperty);
+        }
+
+        [Fact]
+        public void CollectionAttachableMemberGet()
+        {
+            var sut = CreateSut();
+            sut.Process(source.CollectionAttachableMemberGet);            
         }
 
         [TestMethod]
