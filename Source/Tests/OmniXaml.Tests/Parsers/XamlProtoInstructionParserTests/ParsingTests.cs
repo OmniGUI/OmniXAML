@@ -105,6 +105,15 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void PrefixedExpandedAttachablePropertyAndItemBelow()
+        {
+            var sut = CreateSut();
+            var expected = source.PrefixedExpandedAttachablePropertyAndItemBelow.ToList();
+            var actual = sut.Parse(Dummy.PrefixedExpandedAttachablePropertyAndItemBelow).ToList();
+            Assert.Equal(expected, actual);
+        }
+
         [TestMethod]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {

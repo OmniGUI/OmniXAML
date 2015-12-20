@@ -385,8 +385,8 @@ namespace Xaml.Tests.Resources {
         /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
         ///    &lt;Item&gt;
-        ///        &lt;Container.Property&gt;Hi&lt;/Container.Property&gt;
-        ///    &lt;/Item&gt;    
+        ///        &lt;Container.Property&gt;Value&lt;/Container.Property&gt;
+        ///    &lt;/Item&gt;
         ///    &lt;Item /&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
@@ -595,6 +595,20 @@ namespace Xaml.Tests.Resources {
         public static string NonStringProperty {
             get {
                 return ResourceManager.GetString("NonStringProperty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
+        ///    &lt;Item&gt;
+        ///        &lt;Container.Property&gt;Value&lt;/Container.Property&gt;
+        ///    &lt;/Item&gt;
+        ///    &lt;Item /&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string PrefixedExpandedAttachablePropertyAndItemBelow {
+            get {
+                return ResourceManager.GetString("PrefixedExpandedAttachablePropertyAndItemBelow", resourceCulture);
             }
         }
         

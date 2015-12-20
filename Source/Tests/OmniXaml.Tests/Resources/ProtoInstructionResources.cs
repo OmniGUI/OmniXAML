@@ -1,3 +1,5 @@
+using OmniXaml.Tests.Classes.Another;
+
 namespace OmniXaml.Tests.Resources
 {
     using System.Collections;
@@ -312,6 +314,28 @@ namespace OmniXaml.Tests.Resources
                             P.ExpandedAttachedProperty<Container>("Property", RootNs),
                                 P.Text("Value"),
                             P.EndTag(),                            
+                        P.EndTag(),
+                        P.Text(),
+                    P.EmptyElement<Item>(RootNs),
+                    P.Text(),
+                    P.EndTag(),
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> PrefixedExpandedAttachablePropertyAndItemBelow
+        {
+            get
+            {
+                return new Collection<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration("", "root"),
+                    P.NamespacePrefixDeclaration("a", "another"),
+                    P.NonEmptyElement(typeof (DummyClass), RootNs),
+                        P.NonEmptyElement<Item>(RootNs),
+                            P.ExpandedAttachedProperty<Foreigner>("Property", AnotherNs),
+                                P.Text("Value"),
+                            P.EndTag(),
                         P.EndTag(),
                         P.Text(),
                     P.EmptyElement<Item>(RootNs),
