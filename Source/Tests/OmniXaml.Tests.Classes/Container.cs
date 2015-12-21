@@ -17,22 +17,22 @@
             return AttachedProperties[instance];
         }
 
-        public static void SetCollection(object instance, ICollection<int> value)
+        public static void SetCollection(object instance, CustomCollection value)
         {
             AttachedProperties.Add(instance, value);
         }
 
-        public static ICollection<int> GetCollection(object instance)
+        public static CustomCollection GetCollection(object instance)
         {
             object col;
             var succes = AttachedProperties.TryGetValue(instance, out col);
             if (succes)
             {
-                return (ICollection<int>) AttachedProperties[instance];
+                return (CustomCollection)AttachedProperties[instance];
             }
             else
             {
-                return new Collection<int>();
+                return new CustomCollection();
             }
         }
     }

@@ -56,7 +56,7 @@
             return new XamlInstruction(XamlInstructionType.EndMember);
         }
 
-        public XamlInstruction Value(object value)
+        public XamlInstruction Value(string value)
         {
             return new XamlInstruction(XamlInstructionType.Value, value);
         }

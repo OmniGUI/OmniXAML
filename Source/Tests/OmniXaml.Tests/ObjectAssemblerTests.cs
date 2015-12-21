@@ -307,6 +307,13 @@
             sut.Process(source.CollectionAttachableMemberGet);            
         }
 
+        [Fact]
+        public void CustomCollection()
+        {
+            var sut = CreateSut();
+            sut.Process(source.CustomCollection);
+        }
+
         [TestMethod]
         public void NamedObject_HasCorrectName()
         {

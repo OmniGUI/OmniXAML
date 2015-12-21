@@ -1571,16 +1571,76 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<XamlInstruction> CustomCollection
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.StartObject<CustomCollection>(),
+                    X.Items(),
+
+                    X.StartObject<int>(),
+                    X.Initialization(),
+                    X.Value("1"),
+                    X.EndMember(),
+                    X.EndObject(),
+
+                    //X.StartObject<int>(),
+                    //X.Initialization(),
+                    //X.Value("2"),
+                    //X.EndMember(),
+                    //X.EndObject(),
+
+                    //X.StartObject<int>(),
+                    //X.Initialization(),
+                    //X.Value("3"),
+                    //X.EndMember(),
+                    //X.EndObject(),
+
+                    X.EndMember(),
+
+                    X.EndObject(),
+                };
+            }
+        }
+
         public IEnumerable<XamlInstruction> CollectionAttachableMemberGet
         {
-            get {
+            get
+            {
+                var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+
                 return new List<XamlInstruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
+                    X.NamespacePrefixDeclaration(system),
                     X.StartObject<DummyClass>(),
-                    X.AttachableProperty<Container>("Collection"),      
-                    X.GetObject(),
-                    X.EndObject(),              
+                    X.AttachableProperty<Container>("Collection"),
+                    X.StartObject<CustomCollection>(),
+                    X.Items(),
+
+                    X.StartObject<int>(),
+                    X.Initialization(),
+                    X.Value("1"),
+                    X.EndMember(),
+                    X.EndObject(),
+
+                    //X.StartObject<int>(),
+                    //X.Initialization(),
+                    //X.Value("2"),
+                    //X.EndMember(),
+                    //X.EndObject(),
+
+                    //X.StartObject<int>(),
+                    //X.Initialization(),
+                    //X.Value("3"),
+                    //X.EndMember(),
+                    //X.EndObject(),
+
+                    X.EndMember(),
+
+                    X.EndObject(),
                     X.EndMember(),
                     X.EndObject(),
                 };

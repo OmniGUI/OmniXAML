@@ -51,7 +51,7 @@ namespace OmniXaml.ObjectAssembler
             }
         }
 
-        public bool ParentIsOneToMany => Previous.XamlMemberIsOneToMany;
+        public bool ParentIsOneToMany => Current.XamlType.IsCollection || Previous.XamlMemberIsOneToMany;
 
         public InstanceProperties InstanceProperties => Current.InstanceProperties;
 
