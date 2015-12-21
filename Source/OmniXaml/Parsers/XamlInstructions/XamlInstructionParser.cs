@@ -134,8 +134,9 @@
 
         private IEnumerable<XamlInstruction> ParseItemsOfCollection()
         {
-            yield return Inject.UnknownContent();
+            yield return Inject.Items();
             foreach (var xamlInstruction in ParseElements()) { yield return xamlInstruction; }
+            yield return Inject.EndOfMember();
         }
 
         private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()

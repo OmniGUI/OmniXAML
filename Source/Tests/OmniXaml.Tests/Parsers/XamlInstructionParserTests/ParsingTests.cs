@@ -292,6 +292,15 @@
         }
 
         [TestMethod]
+        public void PureCollection()
+        {
+            var actual = sut.Parse(protoResources.PureCollection).ToList();
+            var expected = source.PureCollection.ToList();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [Ignore]
         public void MixedCollection()
         {
             var actual = sut.Parse(protoResources.MixedCollection).ToList();

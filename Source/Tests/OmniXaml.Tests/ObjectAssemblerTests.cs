@@ -314,6 +314,15 @@
             sut.Process(source.CustomCollection);
         }
 
+        [Fact(Skip = "Skipped")]
+        public void PureCollection()
+        {
+            var sut = CreateSut();
+            sut.Process(source.PureCollection);
+            var actual = (ArrayList)sut.Result;
+            Xunit.Assert.NotEmpty(actual);
+        }
+
         [TestMethod]
         public void NamedObject_HasCorrectName()
         {

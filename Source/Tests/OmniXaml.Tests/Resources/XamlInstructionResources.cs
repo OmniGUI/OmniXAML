@@ -1646,5 +1646,45 @@ namespace OmniXaml.Tests.Resources
                 };
             }            
         }
+
+        public IEnumerable<XamlInstruction> PureCollection
+        {
+            get
+            {
+                var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
+                var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(colections),
+                    X.NamespacePrefixDeclaration(system),
+                    X.StartObject<ArrayList>(),
+
+                        X.Items(),
+
+                        X.StartObject<int>(),
+                            X.Initialization(),
+                            X.Value("1"),
+                            X.EndMember(),
+                        X.EndObject(),
+
+                        X.StartObject<int>(),
+                            X.Initialization(),
+                            X.Value("2"),
+                            X.EndMember(),
+                        X.EndObject(),
+
+                        X.StartObject<int>(),
+                            X.Initialization(),
+                            X.Value("3"),
+                            X.EndMember(),
+                        X.EndObject(),
+
+                        X.EndMember(),
+
+                    X.EndObject(),
+                };
+            }
+        }
     }
 }
