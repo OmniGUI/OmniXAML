@@ -300,14 +300,14 @@
             Xunit.Assert.Equal("Value", attachedProperty);
         }
 
-        [Fact]
+        [Fact(Skip = "Skipped")]
         public void CollectionAttachableMemberGet()
         {
             var sut = CreateSut();
             sut.Process(source.CollectionAttachableMemberGet);            
         }
 
-        [Fact]
+        [Fact(Skip = "Skipped")]
         public void CustomCollection()
         {
             var sut = CreateSut();
