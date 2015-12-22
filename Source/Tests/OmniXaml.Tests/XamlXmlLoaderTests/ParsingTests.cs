@@ -233,6 +233,16 @@
             Xunit.Assert.NotEmpty((IEnumerable) actualInstance);
         }
 
+        [Fact(Skip = "Skip")]
+
+        public void AttachableMemberThatIsCollection()
+        {
+            var instance = XamlLoader.Load(Dummy.AttachableMemberThatIsCollection);
+            var col = Container.GetCollection(instance);
+
+            Xunit.Assert.NotEmpty(col);
+        }
+
         [TestMethod]
         public void ChildInDeeperNameScopeWithNamesInTwoLevels_HaveCorrectNames()
         {
