@@ -62,6 +62,22 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; 
+        ///            xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///    &lt;Container.Collection&gt;
+        ///        &lt;sys:Int32&gt;1&lt;/sys:Int32&gt;
+        ///        &lt;sys:Int32&gt;2&lt;/sys:Int32&gt;
+        ///        &lt;sys:Int32&gt;3&lt;/sys:Int32&gt;
+        ///    &lt;/Container.Collection&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string AttachableMemberThatIsCollection {
+            get {
+                return ResourceManager.GetString("AttachableMemberThatIsCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; Container.Property=&quot;Value&quot;&gt;&lt;/DummyClass&gt;.
         /// </summary>
         public static string AttachedProperty {
@@ -599,9 +615,9 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;&gt;
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; xmlns:a=&quot;another&quot;&gt;
         ///    &lt;Item&gt;
-        ///        &lt;Container.Property&gt;Value&lt;/Container.Property&gt;
+        ///        &lt;a:Foreigner.Property&gt;Value&lt;/a:Foreigner.Property&gt;
         ///    &lt;/Item&gt;
         ///    &lt;Item /&gt;
         ///&lt;/DummyClass&gt;.

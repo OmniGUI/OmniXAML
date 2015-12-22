@@ -301,7 +301,7 @@
         }
 
         [Fact]
-        public void CollectionAttachableMemberGet()
+        public void AttachableMemberThatIsCollection()
         {
             var sut = CreateSut();
             sut.Process(source.AttachableMemberThatIsCollection);
