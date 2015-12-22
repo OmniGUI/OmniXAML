@@ -224,12 +224,31 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void NamePropetyAndNameDirectiveProduceSameProtoInstructions()
         {
+            var sut = CreateSut();
             var expected = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
             var actual = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevelsNoNameDirectives).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void AttachableMemberThatIsCollection()
+        {
+            var sut = CreateSut();
+            var expected = source.AttachableMemberThatIsCollection.ToList();
+            var actual = sut.Parse(Dummy.AttachableMemberThatIsCollection).ToList();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public void AttachableMemberThatIsCollectionImplicit()
+        {
+            var sut = CreateSut();
+            var expected = source.AttachableMemberThatIsCollectionImplicit.ToList();
+            var actual = sut.Parse(Dummy.AttachableMemberThatIsCollectionImplicit).ToList();
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

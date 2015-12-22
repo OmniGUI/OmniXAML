@@ -749,6 +749,80 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<ProtoXamlInstruction> AttachableMemberThatIsCollection
+        {
+            get
+            {
+                var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+
+                return new Collection<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NamespacePrefixDeclaration(system),
+                    P.NonEmptyElement<DummyClass>(RootNs),
+
+                        P.ExpandedAttachedProperty<Container>("Collection", RootNs),
+
+                            P.NonEmptyElement<CustomCollection>(RootNs),
+
+                                P.NonEmptyElement<int>(system),
+                                    P.Text("1"),
+                                P.EndTag(),
+                                P.Text(),
+
+                                P.NonEmptyElement<int>(system),
+                                    P.Text("2"),
+                                P.EndTag(),
+                                P.Text(),
+
+                                P.NonEmptyElement<int>(system),
+                                    P.Text("3"),
+                                P.EndTag(),
+                                P.Text(),                                
+                                                                
+                            P.EndTag(),
+                            P.Text(),
+                        P.EndTag(),
+                    P.EndTag()                                     
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> AttachableMemberThatIsCollectionImplicit
+        {
+            get
+            {
+                var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
+
+                return new Collection<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NamespacePrefixDeclaration(system),
+                    P.NonEmptyElement<DummyClass>(RootNs),
+
+                        P.ExpandedAttachedProperty<Container>("Collection", RootNs),
+                           
+                            P.NonEmptyElement<int>(system),
+                                P.Text("1"),
+                            P.EndTag(),
+                            P.Text(),
+
+                            P.NonEmptyElement<int>(system),
+                                P.Text("2"),
+                            P.EndTag(),
+                            P.Text(),
+
+                            P.NonEmptyElement<int>(system),
+                                P.Text("3"),
+                            P.EndTag(),
+                            P.Text(),
+                           
+                        P.EndTag(),
+                    P.EndTag()
+                };
+            }
+        }
+
         public IEnumerable<ProtoXamlInstruction> DirectContentForOneToMany
         {
             get

@@ -62,7 +62,25 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot; 
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
+        ///            xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
+        ///    &lt;Container.Collection&gt;
+        ///        &lt;CustomCollection&gt;
+        ///            &lt;sys:Int32&gt;1&lt;/sys:Int32&gt;
+        ///            &lt;sys:Int32&gt;2&lt;/sys:Int32&gt;
+        ///            &lt;sys:Int32&gt;3&lt;/sys:Int32&gt;
+        ///        &lt;/CustomCollection&gt;
+        ///    &lt;/Container.Collection&gt;
+        ///&lt;/DummyClass&gt;.
+        /// </summary>
+        public static string AttachableMemberThatIsCollection {
+            get {
+                return ResourceManager.GetString("AttachableMemberThatIsCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;DummyClass xmlns=&quot;root&quot;
         ///            xmlns:sys=&quot;clr-namespace:System;assembly=mscorlib&quot;&gt;
         ///    &lt;Container.Collection&gt;
         ///        &lt;sys:Int32&gt;1&lt;/sys:Int32&gt;
@@ -71,9 +89,9 @@ namespace Xaml.Tests.Resources {
         ///    &lt;/Container.Collection&gt;
         ///&lt;/DummyClass&gt;.
         /// </summary>
-        public static string AttachableMemberThatIsCollection {
+        public static string AttachableMemberThatIsCollectionImplicit {
             get {
-                return ResourceManager.GetString("AttachableMemberThatIsCollection", resourceCulture);
+                return ResourceManager.GetString("AttachableMemberThatIsCollectionImplicit", resourceCulture);
             }
         }
         
