@@ -304,7 +304,11 @@
         public void CollectionAttachableMemberGet()
         {
             var sut = CreateSut();
-            sut.Process(source.CollectionAttachableMemberGet);            
+            sut.Process(source.AttachableMemberThatIsCollection);
+            var instance = sut.Result;
+            var col = Container.GetCollection(instance);
+
+            Xunit.Assert.NotEmpty(col);
         }
 
         [Fact]

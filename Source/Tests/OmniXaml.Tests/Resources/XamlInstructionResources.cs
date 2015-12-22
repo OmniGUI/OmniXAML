@@ -1377,7 +1377,7 @@ namespace OmniXaml.Tests.Resources
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<ArrayList>(),
 
-                    X.Items(), // The key part
+                    X.Items(),
                     
                     X.StartObject<DummyClass>(),
                     X.EndObject(),
@@ -1388,6 +1388,7 @@ namespace OmniXaml.Tests.Resources
                     X.StartObject<DummyClass>(),
                     X.EndObject(),
 
+                    X.EndMember(),
                     X.EndObject(),
                 };
             }
@@ -1605,7 +1606,7 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionAttachableMemberGet
+        public IEnumerable<XamlInstruction> AttachableMemberThatIsCollection
         {
             get
             {
@@ -1626,17 +1627,17 @@ namespace OmniXaml.Tests.Resources
                     X.EndMember(),
                     X.EndObject(),
 
-                    //X.StartObject<int>(),
-                    //X.Initialization(),
-                    //X.Value("2"),
-                    //X.EndMember(),
-                    //X.EndObject(),
+                    X.StartObject<int>(),
+                    X.Initialization(),
+                    X.Value("2"),
+                    X.EndMember(),
+                    X.EndObject(),
 
-                    //X.StartObject<int>(),
-                    //X.Initialization(),
-                    //X.Value("3"),
-                    //X.EndMember(),
-                    //X.EndObject(),
+                    X.StartObject<int>(),
+                    X.Initialization(),
+                    X.Value("3"),
+                    X.EndMember(),
+                    X.EndObject(),
 
                     X.EndMember(),
 
