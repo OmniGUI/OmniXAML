@@ -40,6 +40,11 @@ namespace OmniXaml.ObjectAssembler.Commands
             Assembler.Result = StateCommuter.Current.Instance;
             
             StateCommuter.DecreaseLevel();
-        }      
+        }
+
+        public override string ToString()
+        {
+            return "End of Object";
+        }
     }
 }

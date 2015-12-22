@@ -1377,7 +1377,7 @@ namespace OmniXaml.Tests.Resources
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<ArrayList>(),
 
-                    X.UnknownContent(), // The key part
+                    X.Items(), // The key part
                     
                     X.StartObject<DummyClass>(),
                     X.EndObject(),

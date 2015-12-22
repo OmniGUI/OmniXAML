@@ -46,7 +46,12 @@ namespace OmniXaml.ObjectAssembler.Commands
                     throw new XamlParseException(
                         "Unexpected mode was set trying to process a Value XAML instruction. " +
                         $"We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
-            }            
+            }                                    
+        }
+
+        public override string ToString()
+        {
+            return $"Value: {value}";
         }
     }
 }

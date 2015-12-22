@@ -49,5 +49,11 @@ namespace OmniXaml.ObjectAssembler.Commands
                 StateCommuter.Current.XamlType = xamlTypeOfInstance;
             }
         }
+
+        public override string ToString()
+        {
+            var instance = rootInstance != null ? $", using Root Instance: {rootInstance}" : string.Empty;
+            return $"Start Of Object: {xamlType.Name}{instance}";
+        }
     }
 }

@@ -58,5 +58,10 @@ namespace OmniXaml.ObjectAssembler.Commands
         {
             return xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors.First(info => info.GetParameters().Count() == count);
         }
+
+        public override string ToString()
+        {
+            return "End of Member";
+        }
     }
 }

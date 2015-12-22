@@ -12,5 +12,10 @@ namespace OmniXaml.ObjectAssembler.Commands
         public override void Execute()
         {            
         }
+
+        public override string ToString()
+        {
+            return $"Namespace Declaration {namespaceDeclaration}";
+        }
     }
 }

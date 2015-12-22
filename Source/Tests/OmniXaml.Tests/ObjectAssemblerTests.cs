@@ -307,11 +307,12 @@
             sut.Process(source.CollectionAttachableMemberGet);            
         }
 
-        [Fact(Skip = "Skipped")]
+        [Fact]
         public void CustomCollection()
         {
             var sut = CreateSut();
             sut.Process(source.CustomCollection);
+            Xunit.Assert.NotEmpty((IEnumerable) sut.Result);
         }
 
         [Fact(Skip = "Skipped")]

@@ -23,6 +23,11 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 StateCommuter.Current.Collection = collection;
             }
-        }       
+        }
+
+        public override string ToString()
+        {
+            return "Get Object";
+        }
     }
 }

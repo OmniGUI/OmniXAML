@@ -54,6 +54,7 @@ namespace OmniXaml.ObjectAssembler
         public bool ParentIsOneToMany => Previous.XamlMemberIsOneToMany;
 
         public InstanceProperties InstanceProperties => Current.InstanceProperties;
+        public bool HasParent => !Previous.IsEmpty;
 
         public void SetKey(object value)
         {

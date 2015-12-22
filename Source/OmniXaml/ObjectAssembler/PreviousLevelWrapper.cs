@@ -33,6 +33,7 @@ namespace OmniXaml.ObjectAssembler
         public bool XamlMemberIsOneToMany => XamlMember.XamlType.IsCollection;
         public bool IsDictionary => Collection is IDictionary;
 
-        public bool CanHostChildren => (XamlMemberIsOneToMany || XamlMember.Equals(CoreTypes.UnknownContent)) && Collection != null;
+        public bool CanHostChildren => XamlMemberIsOneToMany && Collection != null;
+        public bool IsEmpty => level.IsEmpty;
     }
 }

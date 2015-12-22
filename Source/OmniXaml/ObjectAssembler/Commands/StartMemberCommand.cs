@@ -81,9 +81,14 @@ namespace OmniXaml.ObjectAssembler.Commands
             switch (GetDirectiveKind(xamlMemberBase))
             {
                 case DirectiveKind.Items:
-                    if (!StateCommuter.ParentIsOneToMany)
+                    if (StateCommuter.HasParent && !StateCommuter.ParentIsOneToMany)
                     {
                         throw new XamlParseException("Cannot assign a more than one item to a member that is not a collection.");
+                    }
+
+                    if (!StateCommuter.Current.IsGetObject)
+                    {
+                        AccommodateLevelsForIncomingChildren();
                     }
                     break;
 
@@ -129,6 +134,11 @@ namespace OmniXaml.ObjectAssembler.Commands
             MarkupExtensionArguments,
             Initialization,
             UnknownContent
+        }
+
+        public override string ToString()
+        {
+            return $"Start Of Member: {member}";
         }
     }
 }
