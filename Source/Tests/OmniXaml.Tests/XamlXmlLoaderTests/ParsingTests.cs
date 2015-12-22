@@ -226,7 +226,7 @@
             Xunit.Assert.Equal("Value", attachedProperty);
         }
 
-        [Fact(Skip = "Skipped")]
+        [Fact]
         public void PureCollection()
         {
             var actualInstance = XamlLoader.Load(Dummy.PureCollection);
