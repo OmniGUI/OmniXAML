@@ -1729,5 +1729,55 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<XamlInstruction> ExplicitCollection
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<RootObject>(),
+                        X.StartMember<RootObject>(o => o.Collection),
+                            X.StartObject<CustomCollection>(),
+                                X.Items(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
+        public IEnumerable<XamlInstruction> ImplicitCollection
+        {
+            get
+            {
+                return new List<XamlInstruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<RootObject>(),
+                        X.StartMember<RootObject>(o => o.Collection),
+                            X.GetObject(),
+                                X.Items(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                    X.StartObject<DummyClass>(),
+                                    X.EndObject(),
+                                X.EndMember(),
+                            X.EndObject(),
+                        X.EndMember(),
+                    X.EndObject(),
+                };
+            }            
+        }
     }
 }

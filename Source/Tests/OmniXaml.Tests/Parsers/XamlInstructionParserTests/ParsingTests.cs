@@ -324,6 +324,25 @@
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [Fact]
+        public void ImplicitCollection()
+        {
+            var sut = CreateSut();
+            var expected = source.ImplicitCollection.ToList();
+            var actual = sut.Parse(protoResources.ImplicitCollection).ToList();
+
+            Xunit.Assert.Equal(expected, actual);
+        }
+
+        [Fact(Skip = "Next to fix. Emmits a Get Object. That's wrong!")]
+        public void ExplicitCollection()
+        {
+            var sut = CreateSut();
+            var expected = source.ExplicitCollection.ToList();
+            var actual = sut.Parse(protoResources.ExplicitCollection).ToList();
+            Xunit.Assert.Equal(expected, actual);
+        }
+
         [Fact(Skip = "Next to fix. Emmits a Get Object. That's wrong!")]
         public void AttachableMemberThatIsCollection()
         {
@@ -331,7 +350,7 @@
             var expected = source.AttachableMemberThatIsCollection.ToList();
             var actual = sut.Parse(protoResources.AttachableMemberThatIsCollection).ToList();
 
-           Xunit.Assert.Equal(expected, actual);
+            Xunit.Assert.Equal(expected, actual);
         }
 
         [Fact]

@@ -836,5 +836,50 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
+
+        public IEnumerable<ProtoXamlInstruction> ImplicitCollection
+        {
+            get
+            {
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NonEmptyElement<RootObject>(RootNs),
+                        P.NonEmptyPropertyElement<RootObject>(d => d.Collection, RootNs),
+                            P.EmptyElement<DummyClass>(RootNs),
+                            P.Text(),
+                            P.EmptyElement<DummyClass>(RootNs),
+                            P.Text(),
+                            P.EmptyElement<DummyClass>(RootNs),
+                            P.Text(),
+                        P.EndTag(),
+                    P.EndTag(),
+                };
+            }
+        }
+
+        public IEnumerable<ProtoXamlInstruction> ExplicitCollection
+        {
+            get
+            {
+                return new List<ProtoXamlInstruction>
+                {
+                    P.NamespacePrefixDeclaration(RootNs),
+                    P.NonEmptyElement<RootObject>(RootNs),
+                        P.NonEmptyPropertyElement<RootObject>(d => d.Collection, RootNs),
+                            P.NonEmptyElement<CustomCollection>(RootNs),
+                                P.EmptyElement<DummyClass>(RootNs),
+                                P.Text(),
+                                P.EmptyElement<DummyClass>(RootNs),
+                                P.Text(),
+                                P.EmptyElement<DummyClass>(RootNs),
+                                P.Text(),
+                            P.EndTag(),
+                            P.Text(),
+                        P.EndTag(),
+                    P.EndTag(),
+                };
+            }
+        }
     }
 }

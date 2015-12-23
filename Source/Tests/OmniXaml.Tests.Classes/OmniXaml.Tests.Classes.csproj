@@ -42,6 +42,7 @@
     <Compile Include="AnotherExtension.cs" />
     <Compile Include="CustomCollection.cs" />
     <Compile Include="ExtensionThatReturnsNull.cs" />
+    <Compile Include="RootObject.cs" />
     <Compile Include="Selector.cs" />
     <Compile Include="TemplateBindingExtension.cs" />
     <Compile Include="ComboBox.cs" />
