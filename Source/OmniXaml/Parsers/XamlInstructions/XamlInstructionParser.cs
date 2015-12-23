@@ -218,19 +218,30 @@
 
         private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMemberBase member)
         {
-            yield return Inject.StartOfMember(member);
-            yield return Inject.GetObject();
-            yield return Inject.Items();
-
-            foreach (var instruction in ParseElements())
+            if (IsImplicitlySet)
             {
-                yield return instruction;
-            }
+                yield return Inject.StartOfMember(member);
+                yield return Inject.GetObject();
+                yield return Inject.Items();
 
-            yield return Inject.EndOfMember();
-            yield return Inject.EndOfObject();
-            yield return Inject.EndOfMember();
+                foreach (var instruction in ParseElements())
+                {
+                    yield return instruction;
+                }
+
+                yield return Inject.EndOfMember();
+                yield return Inject.EndOfObject();
+                yield return Inject.EndOfMember();
+            }
+            else
+            {
+                yield return Inject.StartOfMember(member);
+                foreach (var xamlInstruction in ParseNonEmptyElement()) { yield return xamlInstruction; }
+                yield return Inject.EndOfMember();
+            }
         }
+
+        public bool IsImplicitlySet => true;
 
         private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMemberBase member)
         {
