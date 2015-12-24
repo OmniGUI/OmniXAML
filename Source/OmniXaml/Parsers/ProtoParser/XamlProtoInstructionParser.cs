@@ -83,7 +83,7 @@
 
         private IEnumerable<ProtoXamlInstruction> ParseNestedProperty(XamlType xamlType)
         {
-            var propertyLocator = PropertyLocator.Parse(reader.LocalName);
+            var propertyLocator = PropertyLocator.Parse(reader.Name);
             var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
 
             yield return InjectPropertyInstruction(xamlType, propertyLocator, namespaceDeclaration);
