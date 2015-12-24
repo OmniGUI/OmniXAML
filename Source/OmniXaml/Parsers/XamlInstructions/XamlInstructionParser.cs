@@ -121,7 +121,7 @@
                 else
                 {
                     foreach (var instruction in ParseContentPropertyIfAny(parentType)) { yield return instruction; }
-                }                
+                }
 
                 SkipTextNodes();
 
@@ -218,9 +218,10 @@
 
         private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMemberBase member)
         {
-            if (IsImplicitlySet)
+            yield return Inject.StartOfMember(member);
+
+            if (IsBeginingOfImplicitCollection)
             {
-                yield return Inject.StartOfMember(member);
                 yield return Inject.GetObject();
                 yield return Inject.Items();
 
@@ -231,17 +232,17 @@
 
                 yield return Inject.EndOfMember();
                 yield return Inject.EndOfObject();
-                yield return Inject.EndOfMember();
+
             }
             else
             {
-                yield return Inject.StartOfMember(member);
                 foreach (var xamlInstruction in ParseNonEmptyElement()) { yield return xamlInstruction; }
-                yield return Inject.EndOfMember();
             }
+
+            yield return Inject.EndOfMember();
         }
 
-        public bool IsImplicitlySet => true;
+        private bool IsBeginingOfImplicitCollection => Current.XamlType == null || !Current.XamlType.IsCollection;
 
         private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMemberBase member)
         {
