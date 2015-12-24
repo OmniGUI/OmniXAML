@@ -328,6 +328,50 @@
             Xunit.Assert.NotEmpty(actual);
         }
 
+        [Fact]
+        public void ImplicitCollection_ShouldHaveItems()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ImplicitCollection);
+            var actual = (RootObject)sut.Result;
+
+            var customCollection = actual.Collection;
+
+            Xunit.Assert.NotEmpty(customCollection);
+        }
+
+        [Fact]
+        public void ExplicitCollection_ShouldHaveItems()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ExplicitCollection);
+            var actual = (RootObject)sut.Result;
+
+            var customCollection = actual.Collection;
+
+            Xunit.Assert.NotEmpty(customCollection);
+        }
+
+        [Fact]
+        public void ImplicitCollection_ShouldKeepSameCollectionInstance()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ImplicitCollection);
+            var actual = (RootObject) sut.Result;
+
+            Xunit.Assert.False(actual.CollectionWasReplaced);
+        }
+
+        [Fact]
+        public void ExplicitCollection_ShouldReplaceCollectionInstance()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ExplicitCollection);
+            var actual = (RootObject)sut.Result;
+
+            Xunit.Assert.True(actual.CollectionWasReplaced);
+        }
+
         [TestMethod]
         public void NamedObject_HasCorrectName()
         {

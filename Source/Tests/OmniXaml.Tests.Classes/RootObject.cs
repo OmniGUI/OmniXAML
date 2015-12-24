@@ -2,11 +2,22 @@
 {
     public class RootObject
     {
+        private CustomCollection collection;
+        public bool CollectionWasReplaced { get; private set; }
+
         public RootObject()
         {
-            Collection = new CustomCollection();
+            collection = new CustomCollection();
         }
 
-        public CustomCollection Collection { get; set; }
+        public CustomCollection Collection
+        {
+            get { return collection; }
+            private set
+            {
+                collection = value;
+                CollectionWasReplaced = true;
+            }
+        }
     }
 }

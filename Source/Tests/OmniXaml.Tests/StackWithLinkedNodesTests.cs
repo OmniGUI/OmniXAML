@@ -2,49 +2,49 @@
 {
     using System;
     using Glass;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class StackWithLinkedNodesTests
     {
-        private StackingLinkedList<int> sut;
 
-        [TestInitialize]
-        public void Initialize()
+        private static StackingLinkedList<int> CreateSut()
         {
-            sut = new StackingLinkedList<int>();
+            return new StackingLinkedList<int>();
         }
 
-        [TestMethod]
+        [Fact]
         public void Push()
-        {            
+        {
+            var sut = CreateSut();        
             sut.Push(1);
-            Assert.AreEqual(1, sut.Current.Value);
+            Xunit.Assert.Equal(1, sut.Current.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void Pop()
         {
+            var sut = CreateSut();
             sut.Push(2);
             sut.Push(1);
             sut.Pop();
-            Assert.AreEqual(2, sut.Current.Value);
+            Assert.Equal(2, sut.Current.Value);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void PopEmptyFails()
         {
-            sut.Pop();
+            var sut = CreateSut();
+            Assert.Throws<InvalidOperationException>(() => sut.Pop());
         }
 
-        [TestMethod]
+        [Fact]
         public void Count()
         {
+            var sut = CreateSut();
             sut.Push(1);
             sut.Push(2);
             sut.Push(3);
-            Assert.AreEqual(3, sut.Count);
+            Assert.Equal(3, sut.Count);
         }
     }
 }
