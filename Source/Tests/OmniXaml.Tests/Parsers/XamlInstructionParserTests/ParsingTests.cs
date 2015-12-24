@@ -343,7 +343,7 @@
             Xunit.Assert.Equal(expected, actual);
         }
 
-        [Fact(Skip = "Next to fix. Emmits a Get Object. That's wrong!")]
+        [Fact]
         public void AttachableMemberThatIsCollection()
         {
             var sut = CreateSut();

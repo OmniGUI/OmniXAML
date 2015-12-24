@@ -233,8 +233,7 @@
             Xunit.Assert.NotEmpty((IEnumerable) actualInstance);
         }
 
-        [Fact(Skip = "Skip")]
-
+        [Fact]
         public void AttachableMemberThatIsCollection()
         {
             var instance = XamlLoader.Load(Dummy.AttachableMemberThatIsCollection);
