@@ -1,8 +1,13 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
 
-    public class CustomCollection : List<object>
+    public class CustomCollection : ObservableCollection<object>
     {
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            base.OnCollectionChanged(e);
+        }
     }
 }

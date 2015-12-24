@@ -25,14 +25,18 @@
         public static CustomCollection GetCollection(object instance)
         {
             object col;
-            var succes = AttachedProperties.TryGetValue(instance, out col);
-            if (succes)
+            var success = AttachedProperties.TryGetValue(instance, out col);
+            if (success)
             {
-                return (CustomCollection)AttachedProperties[instance];
+                return (CustomCollection) col;
             }
             else
             {
-                return new CustomCollection();
+                
+                var customCollection = new CustomCollection();
+
+                AttachedProperties[instance] = customCollection;
+                return customCollection;
             }
         }
     }
