@@ -5,6 +5,7 @@ namespace OmniXaml.Typing
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
+    using Attributes;
     using Builder;
     using Glass;
 
@@ -124,6 +125,20 @@ namespace OmniXaml.Typing
         public ClrNamespace GetClrNamespaceByPrefix(string prefix)
         {
             return clrNamespaces[prefix];
+        }
+
+        public static IXamlNamespaceRegistry FromAttributes(IEnumerable<Assembly> assemblies)
+        {
+            var nsReg = new XamlNamespaceRegistry();
+
+            var namespaces = XamlNamespace.DefinedInAssemblies(assemblies);
+
+            foreach (var xamlNamespace in namespaces)
+            {
+                nsReg.AddNamespace(xamlNamespace);
+            }
+
+            return nsReg;
         }
     }
 }

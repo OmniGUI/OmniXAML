@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "Source\OmniXaml\OmniXaml.csproj", "{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}"
 EndProject
@@ -42,6 +42,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.Mvvm", "Source\OmniXaml.Services.Mvvm\OmniXaml.Services.Mvvm.csproj", "{7784DA26-90C9-402E-8AAE-6D4D59C22D74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.Tests", "Source\Tests\Glass.Tests\Glass.Tests.csproj", "{6387E8C7-C9ED-4237-97C9-741A4FC56E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicModel", "Source\Tests\TestApplications\BasicModel\BasicModel.csproj", "{CB1AE182-94D0-425D-BA64-E457378A96BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +119,10 @@ Global
 		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6387E8C7-C9ED-4237-97C9-741A4FC56E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB1AE182-94D0-425D-BA64-E457378A96BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB1AE182-94D0-425D-BA64-E457378A96BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB1AE182-94D0-425D-BA64-E457378A96BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB1AE182-94D0-425D-BA64-E457378A96BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,5 +140,6 @@ Global
 		{35EBCD38-4ADA-4860-8F23-6D564C0E4C68} = {A3E121C9-F1A5-468B-940E-BF09C0414DB5}
 		{A3E121C9-F1A5-468B-940E-BF09C0414DB5} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 		{6387E8C7-C9ED-4237-97C9-741A4FC56E59} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{CB1AE182-94D0-425D-BA64-E457378A96BE} = {1097E760-F02E-433D-ADE6-EC13F9CAEF91}
 	EndGlobalSection
 EndGlobal

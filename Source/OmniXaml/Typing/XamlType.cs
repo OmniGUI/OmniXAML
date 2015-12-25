@@ -181,6 +181,11 @@ namespace OmniXaml.Typing
         {
             get
             {
+                if (TypeRepository == null)
+                {
+                    return null;
+                }
+
                 var metadata = TypeRepository.GetMetadata(UnderlyingType);
 
                 var runtimeNameProperty = metadata?.RuntimePropertyName;
@@ -193,7 +198,7 @@ namespace OmniXaml.Typing
                 var propInfo = UnderlyingType.GetRuntimeProperty(runtimeNameProperty);
                 if (propInfo == null)
                 {
-                    throw new InvalidOperationException($"The runtime property '{runtimeNameProperty}', cannot be found in the {UnderlyingType} type");
+                    return null;
                 }
 
                 return GetMember(runtimeNameProperty);

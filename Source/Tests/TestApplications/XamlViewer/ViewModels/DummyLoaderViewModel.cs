@@ -65,7 +65,7 @@
         {
             var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
             
-            var rootObject = loader.Load(Xaml);
+            var rootObject = loader.FromString(Xaml);
             Representation = ConvertToViewNodes(rootObject);
         }
 

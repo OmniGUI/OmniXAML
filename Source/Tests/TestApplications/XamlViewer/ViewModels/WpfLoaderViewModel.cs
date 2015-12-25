@@ -41,7 +41,7 @@
         {
             try
             {
-                var visualTree = new WpfXamlLoader().Load(Xaml);
+                var visualTree = new WpfXamlLoader().FromString(Xaml);
 
                 var window = GetVisualizerWindow(visualTree);
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;

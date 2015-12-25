@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         {
             WiringContext.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.Load(Dummy.ChildInNameScope);
+            var actualInstance = XamlLoader.FromString(Dummy.ChildInNameScope);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }
@@ -22,7 +22,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         {
             WiringContext.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.Load(Dummy.ChildInNamescopeNoNameDirective);
+            var actualInstance = XamlLoader.FromString(Dummy.ChildInNamescopeNoNameDirective);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }

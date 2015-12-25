@@ -1,0 +1,5 @@
+﻿<Zoo xmlns="sampleNamespace">
+    <Animal Name="Rocky" Species="Dog" />
+    <Animal Name="Sophie" Species="Turtle" />
+    <Animal Name="Steve" Species="Fox" />
+</Zoo>

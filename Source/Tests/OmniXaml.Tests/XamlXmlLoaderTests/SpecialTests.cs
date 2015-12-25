@@ -17,7 +17,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
 
             var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
 
-            var actual = loader.Load("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
+            var actual = loader.FromString("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
 
             Assert.IsInstanceOfType(actual, dummy.GetType());
             Assert.AreEqual("Value", ((DummyClass)actual).SampleProperty);

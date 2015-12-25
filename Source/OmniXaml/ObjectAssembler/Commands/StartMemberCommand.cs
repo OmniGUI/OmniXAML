@@ -47,9 +47,11 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         public override void Execute()
         {
-            XamlMemberBase realMember = member;
+            var realMember = member;
 
-            if (IsMemberEquivalentToNameDirective(realMember))
+            var mutable = member as MutableXamlMember;
+
+            if (mutable!=null && IsMemberEquivalentToNameDirective(mutable))
             {
                 realMember = CoreTypes.Name;
             }
@@ -66,9 +68,9 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
         }
 
-        private static bool IsMemberEquivalentToNameDirective(XamlMemberBase memberToCheck)
+        private static bool IsMemberEquivalentToNameDirective(MutableXamlMember memberToCheck)
         {
-            return memberToCheck.Name == "Name";
+            return Equals(memberToCheck, memberToCheck.DeclaringType.RuntimeNamePropertyMember);
         }
 
         private void ForceInstanceCreationOfCurrentType()

@@ -16,7 +16,7 @@
             }
         }
 
-        public static object Load(this IXamlLoader loader, string xml)
+        public static object FromString(this IXamlLoader loader, string xml)
         {
             using (var stream = xml.FromUTF8ToStream())
             {
@@ -24,7 +24,7 @@
             }
         }
 
-        public static object Load(this IXamlLoader loader, string xml, object instance)
+        public static object FromString(this IXamlLoader loader, string xml, object instance)
         {
             using (var stream = xml.FromUTF8ToStream())
             {

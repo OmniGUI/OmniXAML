@@ -38,6 +38,8 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DefaultParserFactory.cs" />
+    <Compile Include="DefaultXamlLoader.cs" />
     <Compile Include="INameScope.cs" />
     <Compile Include="InstanceLifeCycleHandler.cs" />
     <Compile Include="IXamlLoader.cs" />

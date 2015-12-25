@@ -2,19 +2,20 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{CB1AE182-94D0-425D-BA64-E457378A96BE}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.Services.DotNetFx</RootNamespace>
-    <AssemblyName>OmniXaml.Services.DotNetFx</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <RootNamespace>BasicModel</RootNamespace>
+    <AssemblyName>BasicModel</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,9 +23,9 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,27 +34,46 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\AssemblyInfo.cs">
-      <Link>Properties\AssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="Assemblies.cs" />
-    <Compile Include="InflatableTranslator.cs" />
-    <Compile Include="LoadMixin.cs" />
-    <Compile Include="Types.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml.Services\OmniXaml.Services.csproj">
-      <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
+    <Compile Include="DefaultParserFactory.cs" />
+    <Compile Include="DefaultXamlLoader.cs" />
+    <Compile Include="Model\Zoo.cs" />
+    <Compile Include="Model\Animal.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Model.xaml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Glass\Glass.csproj">
+      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
+      <Name>Glass</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
+      <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
+      <Name>OmniXaml.Services.DotNetFx</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\OmniXaml.Services\OmniXaml.Services.csproj">
+      <Project>{b207c0cb-2bdf-4105-9e1d-1c5b98e98381}</Project>
       <Name>OmniXaml.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
+    <ProjectReference Include="..\..\..\OmniXaml\OmniXaml.csproj">
       <Project>{0d9cc1de-84c3-40d7-9cc5-b7751e0b25d1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
