@@ -6,17 +6,15 @@
 
     public class MarkupExtensionNodeToXamlNodesConverter
     {
-        private readonly IWiringContext wiringContext;
-
-        public MarkupExtensionNodeToXamlNodesConverter(IWiringContext wiringContext)
+        public MarkupExtensionNodeToXamlNodesConverter(ITypeContext typeContext)
         {
-            this.wiringContext = wiringContext;
+            TypeContext = typeContext;
         }
 
         public IEnumerable<XamlInstruction> ParseMarkupExtensionNode(MarkupExtensionNode tree)
         {
             var identifierNode = tree.Identifier;
-            var xamlType = wiringContext.TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
+            var xamlType = TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
             yield return Inject.StartOfObject(xamlType);
 
             foreach (var instruction in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return instruction;
@@ -24,6 +22,8 @@
 
             yield return Inject.EndOfObject();
         }
+
+        private ITypeContext TypeContext { get; }
 
         private static IEnumerable<XamlInstruction> ParseArguments(IEnumerable<PositionalOption> options)
         {

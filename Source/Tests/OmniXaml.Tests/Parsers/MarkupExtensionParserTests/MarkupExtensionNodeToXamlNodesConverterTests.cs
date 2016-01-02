@@ -17,7 +17,7 @@
         public void NameOnly()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext.TypeContext);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
             var expectedInstructions = new List<XamlInstruction>
             {
@@ -32,7 +32,7 @@
         public void NameAndAttribute()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext.TypeContext);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new List<XamlInstruction>
@@ -55,7 +55,7 @@
                 new PropertyOption("Property", new StringNode("Value")),
                 new PropertyOption("AnotherProperty", new StringNode("AnotherValue")),
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext.TypeContext);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new List<XamlInstruction>
@@ -80,7 +80,7 @@
             {
                new PositionalOption("Option")
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext.TypeContext);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new Collection<XamlInstruction>
@@ -99,7 +99,7 @@
         public void ComposedExtensionTemplateBindingWithConverter()
         {
             var tree = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(WiringContext.TypeContext);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new Collection<XamlInstruction>

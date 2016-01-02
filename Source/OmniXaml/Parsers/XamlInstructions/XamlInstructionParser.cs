@@ -303,7 +303,7 @@
         private IEnumerable<XamlInstruction> ParseMarkupExtension(string valueOfMember)
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
-            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(wiringContext);
+            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(wiringContext.TypeContext);
             return markupExtensionConverter.ParseMarkupExtensionNode(tree);
         }
 
