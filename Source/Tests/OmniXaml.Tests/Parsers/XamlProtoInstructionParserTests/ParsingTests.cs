@@ -1,92 +1,84 @@
 ﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Common.NetCore;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using NUnit.Framework;
-    using OmniXaml.Parsers;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
     using Xunit;
-    using Assert = Xunit.Assert;
-    using CollectionAssert = Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert;
-    using XamlParseException = XamlParseException;
-
-    [TestClass]
+    
     public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private IParser<IXmlReader, IEnumerable<ProtoXamlInstruction>> sut;
         private readonly ProtoInstructionResources source;
 
         public ParsingTests()
-        {
+        {            
             source = new ProtoInstructionResources(this);
-        }
-
-        [TestInitialize]
-        [SetUp]
-        public void Initialize()
-        {
-            sut = CreateSut();
         }
 
         private XamlProtoInstructionParser CreateSut()
         {
+            
             return new XamlProtoInstructionParser(WiringContext);
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleCollapsed()
         {
-            CollectionAssert.AreEqual(source.SingleCollapsed.ToList(), sut.Parse(ProtoInputs.SingleCollapsed).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.SingleCollapsed.ToList(), sut.Parse(ProtoInputs.SingleCollapsed).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleOpenAndClose()
         {
-            CollectionAssert.AreEqual(source.SingleOpenAndClose.ToList(), sut.Parse(ProtoInputs.SingleOpenAndClose).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.SingleOpenAndClose.ToList(), sut.Parse(ProtoInputs.SingleOpenAndClose).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ElementWithChild()
         {
-            CollectionAssert.AreEqual(source.ElementWithChild.ToList(), sut.Parse(ProtoInputs.ElementWithChild).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.ElementWithChild.ToList(), sut.Parse(ProtoInputs.ElementWithChild).ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void ElementWith2NsDeclarations()
         {
-            CollectionAssert.AreEqual(source.ElementWith2NsDeclarations.ToList(), sut.Parse(ProtoInputs.ElementWith2NsDeclarations).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.ElementWith2NsDeclarations.ToList(), sut.Parse(ProtoInputs.ElementWith2NsDeclarations).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleOpenWithNs()
         {
-            CollectionAssert.AreEqual(source.SingleOpenWithNs.ToList(), sut.Parse(ProtoInputs.SingleOpenAndCloseWithNs).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.SingleOpenWithNs.ToList(), sut.Parse(ProtoInputs.SingleOpenAndCloseWithNs).ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedProperties()
         {
-            CollectionAssert.AreEqual(source.TwoNestedProperties.ToList(), sut.Parse(Dummy.TwoNestedProperties).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.TwoNestedProperties.ToList(), sut.Parse(Dummy.TwoNestedProperties).ToList());
         }
 
-        [TestMethod]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.ExpectedException(typeof(XamlParseException))]
+        [Fact]        
         public void PropertyTagOpen()
         {
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            sut.Parse(ProtoInputs.PropertyTagOpen).ToList();
+            var sut = CreateSut();
+
+            Assert.Throws<XamlParseException>(() => sut.Parse(ProtoInputs.PropertyTagOpen).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedProperty()
         {
-            CollectionAssert.AreEqual(source.AttachedProperty.ToList(), sut.Parse(Dummy.WithAttachableProperty).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.AttachedProperty.ToList(), sut.Parse(Dummy.WithAttachableProperty).ToList());
         }
 
         [Fact]
@@ -114,114 +106,128 @@
             Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
-            CollectionAssert.AreEqual(source.InstanceWithStringPropertyAndNsDeclaration.ToList(), sut.Parse(Dummy.StringProperty).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.InstanceWithStringPropertyAndNsDeclaration.ToList(), sut.Parse(Dummy.StringProperty).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void KeyDirective()
         {
-            CollectionAssert.AreEqual(source.KeyDirective.ToList(), sut.Parse(Dummy.KeyDirective).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.KeyDirective.ToList(), sut.Parse(Dummy.KeyDirective).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyForCollectionOneElement()
         {
-            CollectionAssert.AreEqual(source.ContentPropertyForCollectionOneElement.ToList(), sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.ContentPropertyForCollectionOneElement.ToList(), sut.Parse(Dummy.ContentPropertyForCollectionOneElement).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ThreeLevelsOfNesting()
         {
+            var sut = CreateSut();
             var actualNodes = sut.Parse(Dummy.ThreeLevelsOfNesting).ToList();
 
-            CollectionAssert.AreEqual(source.ThreeLevelsOfNesting.ToList(), actualNodes);
+            Assert.Equal(source.ThreeLevelsOfNesting.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void String()
         {
+            var sut = CreateSut();
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-            CollectionAssert.AreEqual(source.GetString(sysNs).ToList(), sut.Parse(Dummy.String).ToList());
+            Assert.Equal(source.GetString(sysNs).ToList(), sut.Parse(Dummy.String).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void FourLevelsOfNesting()
         {
-            CollectionAssert.AreEqual(source.FourLevelsOfNesting.ToList(), sut.Parse(Dummy.FourLevelsOfNesting).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.FourLevelsOfNesting.ToList(), sut.Parse(Dummy.FourLevelsOfNesting).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void CollapsedTag()
         {
-            CollectionAssert.AreEqual(source.CollapsedTag.ToList(), sut.Parse(Dummy.CollapsedTag).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.CollapsedTag.ToList(), sut.Parse(Dummy.CollapsedTag).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildCollection()
         {
-            CollectionAssert.AreEqual(source.CollectionWithMoreThanOneItem.ToList(), sut.Parse(Dummy.ChildCollection).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.CollectionWithMoreThanOneItem.ToList(), sut.Parse(Dummy.ChildCollection).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpandedStringProperty()
         {
-            CollectionAssert.AreEqual(source.ExpandedStringProperty.ToList(), sut.Parse(Dummy.InnerContent).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.ExpandedStringProperty.ToList(), sut.Parse(Dummy.InnerContent).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedPropertiesEmpty()
         {
-            CollectionAssert.AreEqual(source.TwoNestedPropertiesEmpty.ToList(), sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.TwoNestedPropertiesEmpty.ToList(), sut.Parse(Dummy.TwoNestedPropertiesEmpty).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void CommentIsIgnored()
         {
-            CollectionAssert.AreEqual(source.SingleOpenAndClose.ToList(), sut.Parse(Dummy.Comment).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.SingleOpenAndClose.ToList(), sut.Parse(Dummy.Comment).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void TextInsideTextBlockIsAssignedAsTextProperty()
         {
-            CollectionAssert.AreEqual(source.ContentPropertyInInnerContent.ToList(), sut.Parse(Dummy.ContentPropertyInInnerContent).ToList());
+            var sut = CreateSut();
+            Assert.Equal(source.ContentPropertyInInnerContent.ToList(), sut.Parse(Dummy.ContentPropertyInInnerContent).ToList());
         }
 
-        [TestMethod]
-        [Microsoft.VisualStudio.TestTools.UnitTesting.ExpectedException(typeof(XamlParseException))]
+        [Fact]
         public void NonExistingProperty()
         {
-            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
-            sut.Parse(Dummy.NonExistingProperty).ToList();
+            var sut = CreateSut();
+            Assert.Throws<XamlParseException>(() => sut.Parse(Dummy.NonExistingProperty).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void PureCollection()
         {
+            var sut = CreateSut();
             var actual = sut.Parse(Dummy.PureCollection).ToList();
             var expected = source.PureCollection.ToList();
-            
-            CollectionAssert.AreEqual(expected, actual);
+
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedCollection()
         {
+            var sut = CreateSut();
             var actual = sut.Parse(Dummy.MixedCollection).ToList();
             var expected = source.MixedCollection.ToList();
 
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildInDeeperNameScopeWithNamesInTwoLevels()
         {
+            var sut = CreateSut();
             var expected = source.ChildInDeeperNameScopeWithNamesInTwoLevels.ToList();
             var actual = sut.Parse(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -259,5 +265,5 @@
             var actual = sut.Parse(Dummy.DirectContentForOneToMany).ToList();
             Assert.Equal(expected, actual);
         }
-    }   
+    }
 }
