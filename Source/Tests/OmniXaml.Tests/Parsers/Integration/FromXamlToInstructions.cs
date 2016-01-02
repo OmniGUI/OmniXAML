@@ -188,7 +188,7 @@
             using (var stream = new StringReader(xml))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                return pullParser.Parse(new XamlProtoInstructionParser(WiringContext).Parse(reader)).ToList();
+                return pullParser.Parse(new XamlProtoInstructionParser(WiringContext.TypeContext).Parse(reader)).ToList();
             }
         }
 

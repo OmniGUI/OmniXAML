@@ -90,7 +90,7 @@ namespace OmniXaml.Wpf
                 var reader = new XmlCompatibilityReader(stream);
                 var wiringContext = (IWiringContext) new WpfWiringContext(new TypeFactory());
                 var loader = new XamlInstructionParser(wiringContext);
-                var protoParser = new XamlProtoInstructionParser(wiringContext);
+                var protoParser = new XamlProtoInstructionParser(wiringContext.TypeContext);
 
                 return loader.Parse(protoParser.Parse(reader));
             }

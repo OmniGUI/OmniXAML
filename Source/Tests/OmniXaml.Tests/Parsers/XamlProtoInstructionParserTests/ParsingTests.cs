@@ -19,7 +19,7 @@
         private XamlProtoInstructionParser CreateSut()
         {
             
-            return new XamlProtoInstructionParser(WiringContext);
+            return new XamlProtoInstructionParser(WiringContext.TypeContext);
         }
 
         [Fact]

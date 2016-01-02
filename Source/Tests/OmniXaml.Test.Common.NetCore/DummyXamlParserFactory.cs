@@ -25,7 +25,7 @@ namespace OmniXaml.Tests.Common.NetCore
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext),
+                new XamlProtoInstructionParser(wiringContext.TypeContext),
                 new XamlInstructionParser(wiringContext),
                 objectAssemblerForUndefinedRoot);
 

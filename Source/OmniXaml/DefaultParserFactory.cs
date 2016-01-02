@@ -29,7 +29,7 @@
             var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext),
+                new XamlProtoInstructionParser(wiringContext.TypeContext),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
