@@ -40,6 +40,8 @@ namespace OmniXaml.ObjectAssembler
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         public IWiringContext WiringContext { get; }
 
+        public ITypeContext TypeContext => WiringContext.TypeContext;
+
         public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 
         public void Process(XamlInstruction instruction)
