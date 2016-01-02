@@ -6,12 +6,12 @@ namespace OmniXaml.Tests.Classes.Templates
     public class TemplateContent
     {
         private readonly IEnumerable<XamlInstruction> nodes;
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext typeContext;
 
-        public TemplateContent(IEnumerable<XamlInstruction> nodes, IWiringContext wiringContext)
+        public TemplateContent(IEnumerable<XamlInstruction> nodes, ITypeContext typeContext)
         {
             this.nodes = nodes;
-            this.wiringContext = wiringContext;
+            this.typeContext = typeContext;
         }
 
         public Grid CreateContent()

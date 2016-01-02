@@ -7,8 +7,8 @@
     {
         object Result { get; }
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        IWiringContext WiringContext { get; }
         InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; }
+        ITypeContext TypeContext { get; }
 
         void Process(XamlInstruction instruction);
 

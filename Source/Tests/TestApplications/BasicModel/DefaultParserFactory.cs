@@ -39,7 +39,7 @@
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext, new TopDownValueContext());
+            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -51,7 +51,7 @@
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

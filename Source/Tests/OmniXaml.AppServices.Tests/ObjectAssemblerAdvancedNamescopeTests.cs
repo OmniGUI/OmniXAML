@@ -19,7 +19,7 @@
             var wiringContext = CreateWiringContext();
             var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {
@@ -48,7 +48,7 @@
             var wiringContext = CreateWiringContext();
             var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {

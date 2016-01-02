@@ -19,7 +19,7 @@
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
 
-            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownValueContext(), settings);
+            var objectAssembler = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), settings);
             return new TemplateHostingObjectAssembler(objectAssembler, mapping);
         }
 

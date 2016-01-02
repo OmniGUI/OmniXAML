@@ -4,9 +4,9 @@ namespace OmniXaml.Wpf
 
     public class DeferredLoader : IDeferredLoader
     {
-        public object Load(IEnumerable<XamlInstruction> nodes, IWiringContext wiringContext)
+        public object Load(IEnumerable<XamlInstruction> nodes, ITypeContext typeContext)
         {
-            return new TemplateContent(nodes, wiringContext);
+            return new TemplateContent(nodes, typeContext);
         }
     }
 }

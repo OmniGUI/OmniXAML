@@ -13,7 +13,7 @@ namespace OmniXaml
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
         {
-            return new ObjectAssembler.ObjectAssembler(wiringContext, new TopDownValueContext(), objectAssemblerSettings);
+            return new ObjectAssembler.ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), objectAssemblerSettings);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace OmniXaml.Tests
             state.Push(new Level());
 
             var type = typeof(DummyClass);
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.StartObject(type));
 
@@ -52,7 +52,7 @@ namespace OmniXaml.Tests
                     Instance = childClass,
                 });
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.EndObject());
 
@@ -80,7 +80,7 @@ namespace OmniXaml.Tests
 
             var xamlMember = xamlType.GetMember("Items");
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.StartMember<DummyClass>(d => d.Items));
 
@@ -102,7 +102,7 @@ namespace OmniXaml.Tests
 
             var xamlMember = WiringContext.TypeContext.GetXamlType(type).GetMember("Items");
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.StartMember<DummyClass>(d => d.Items));
 
@@ -126,7 +126,7 @@ namespace OmniXaml.Tests
                     XamlMember = xamlMember,
                 });
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.GetObject());
 
@@ -151,7 +151,7 @@ namespace OmniXaml.Tests
 
             state.Push(new Level());
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.StartObject<Item>());
             sut.Process(X.EndObject());
@@ -175,7 +175,7 @@ namespace OmniXaml.Tests
 
             state.Push(new Level { XamlType = WiringContext.TypeContext.GetXamlType(typeof(Item)) });
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
 
             sut.Process(X.EndObject());
             sut.Process(X.EndObject());
@@ -205,7 +205,7 @@ namespace OmniXaml.Tests
                     CtorArguments = constructionArguments,
                 });
 
-            var sut = new ObjectAssembler(state, WiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(state, WiringContext.TypeContext, new TopDownValueContext());
             sut.Process(X.EndObject());
 
             Assert.AreEqual("Value", sut.Result);

@@ -29,18 +29,18 @@
         public void Initialize()
         {
             topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(WiringContext, topDownValueContext);
+            sut = new ObjectAssembler(WiringContext.TypeContext, topDownValueContext);
         }
 
         public IObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(WiringContext, new TopDownValueContext());
+            return new ObjectAssembler(WiringContext.TypeContext, new TopDownValueContext());
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
             var settings = new ObjectAssemblerSettings { RootInstance = instance };
-            var assembler = new ObjectAssembler(WiringContext, new TopDownValueContext(), settings);
+            var assembler = new ObjectAssembler(WiringContext.TypeContext, new TopDownValueContext(), settings);
             return assembler;
         }
 

@@ -6,19 +6,20 @@
 
     public class ObjectAssembler : IObjectAssembler
     {
+        public ITypeContext TypeContext { get; set; }
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(ITypeContext typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
+            TypeContext = typeContext;
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(wiringContext, topDownValueContext, objectAssemblerSettings), mapping);            
+            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeContext, topDownValueContext, objectAssemblerSettings), mapping);            
         }        
 
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        public IWiringContext WiringContext => objectAssembler.WiringContext;
 
         public InstanceLifeCycleHandler InstanceLifeCycleHandler
         {
