@@ -13,13 +13,6 @@
     [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private XamlInstructionBuilder x;
-
-        public TemplateHostingObjectAssemblerTests()
-        {
-            x = new XamlInstructionBuilder(WiringContext.TypeContext);
-        }
-
         [TestMethod]
         public void SimpleTest()
         {
@@ -41,7 +34,7 @@
             var assembler = new DummyDeferredLoader();
             mapping.Map<Template>(t => t.Content, assembler);
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(WiringContext, new TopDownValueContext()), mapping);                       
+            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(TypeContext, new TopDownValueContext()), mapping);                       
 
             foreach (var instruction in input)
             {

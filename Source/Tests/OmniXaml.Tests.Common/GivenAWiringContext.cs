@@ -9,7 +9,10 @@ namespace OmniXaml.Tests.Common
         protected GivenAWiringContext(IEnumerable<Assembly> assemblies)
         {
             WiringContext = new WiringContextMock(new TypeFactory(), assemblies);
+            TypeContext = WiringContext.TypeContext;
         }
+
+        protected ITypeContext TypeContext { get; set; }
 
         protected WiringContextMock WiringContext { get; private set; }
 

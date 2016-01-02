@@ -25,7 +25,7 @@ namespace OmniXaml
 
             var featureProvider = new TypeFeatureProviderBuilder().FromAttributes(allExportedTypes).Build();
             var xamlTypeRepo = new XamlTypeRepository(registry, typeFactory, featureProvider);
-            var typeContext = new TypeContext(xamlTypeRepo, registry, typeFactory);
+            var typeContext = new TypeContext(xamlTypeRepo, registry);
 
             return new WiringContext(typeContext, featureProvider);
         }

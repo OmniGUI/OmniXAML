@@ -66,7 +66,7 @@
         {
             var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
             var xamlTypeRepository = new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider());
-            return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry, typeFactory);
+            return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry);
         }
 
         public ITypeContext TypeContext => wiringContext.TypeContext;

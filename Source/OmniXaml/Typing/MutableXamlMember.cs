@@ -28,8 +28,7 @@ namespace OmniXaml.Typing
 
         protected virtual IEnumerable<XamlMember> LookupDependencies()
         {
-            var underlyingType = DeclaringType.UnderlyingType;
-            var metadata = TypeRepository.GetMetadata(underlyingType);
+            var metadata = TypeRepository.GetMetadata(DeclaringType);
             if (metadata != null)
             {
                 var namesOfPropsWeDependOn = metadata.GetMemberDependencies(this.Name);

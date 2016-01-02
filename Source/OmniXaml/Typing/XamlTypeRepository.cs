@@ -92,9 +92,9 @@ namespace OmniXaml.Typing
             return new AttachableXamlMember(name, getter, setter, this, featureProvider);
         }
 
-        public Metadata GetMetadata(Type type)
+        public Metadata GetMetadata(XamlType xamlType)
         {
-            return metadatas.Get(type);
+            return metadatas.Get(xamlType.UnderlyingType);
         }
 
         public void RegisterMetadata(Type type, Metadata metadata)

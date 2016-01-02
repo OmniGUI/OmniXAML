@@ -12,24 +12,24 @@ namespace OmniXaml.ObjectAssembler
         private readonly XamlType rootInstanceXamlType;
         private readonly ITopDownValueContext topDownValueContext;
 
-        public ObjectAssembler(IWiringContext wiringContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
-            : this(new StackingLinkedList<Level>(), wiringContext, topDownValueContext)
+        public ObjectAssembler(ITypeContext typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
+            : this(new StackingLinkedList<Level>(), typeContext, topDownValueContext)
         {
-            Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
+            Guard.ThrowIfNull(typeContext, nameof(typeContext));
             Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
+            this.TypeContext = typeContext;
             this.topDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
 
             rootInstance = settings?.RootInstance;
             var rootInstanceType = rootInstance?.GetType();
-            rootInstanceXamlType = rootInstanceType != null ? wiringContext.TypeContext.TypeRepository.GetXamlType(rootInstanceType) : null;
+            rootInstanceXamlType = rootInstanceType != null ? TypeContext.TypeRepository.GetXamlType(rootInstanceType) : null;
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, IWiringContext wiringContext, ITopDownValueContext topDownValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, ITypeContext typeContext, ITopDownValueContext topDownValueContext)
         {
-            WiringContext = wiringContext;
-            StateCommuter = new StateCommuter(this, state, wiringContext, topDownValueContext);
+            StateCommuter = new StateCommuter(this, state, typeContext, topDownValueContext);
         }
 
         public StateCommuter StateCommuter { get; }
@@ -38,7 +38,8 @@ namespace OmniXaml.ObjectAssembler
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        public IWiringContext WiringContext { get; }
+
+        public ITypeContext TypeContext { get; }
 
         public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 

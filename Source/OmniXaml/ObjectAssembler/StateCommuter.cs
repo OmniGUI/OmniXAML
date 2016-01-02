@@ -15,16 +15,16 @@ namespace OmniXaml.ObjectAssembler
 
         public StateCommuter(IObjectAssembler objectAssembler,
             StackingLinkedList<Level> stack,
-            IWiringContext wiringContext,
+            ITypeContext typeContext,
             ITopDownValueContext topDownValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
-            Guard.ThrowIfNull(wiringContext, nameof(wiringContext));
+            Guard.ThrowIfNull(typeContext, nameof(typeContext));
             Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
             Stack = stack;
             this.topDownValueContext = topDownValueContext;
-            ValuePipeline = new ValuePipeline(wiringContext.TypeContext, topDownValueContext);
+            ValuePipeline = new ValuePipeline(typeContext, topDownValueContext);
             lifecycleNotifier = new InstanceLifeCycleNotifier(objectAssembler);
         }
 

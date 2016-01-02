@@ -55,7 +55,7 @@
         [TestMethod]
         public void GetByQualifiedName_ForTypeInDefaultNamespace()
         {
-            sut = new XamlTypeRepository(WiringContext.TypeContext, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+            sut = new XamlTypeRepository(TypeContext, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetByQualifiedName("DummyClass");
 

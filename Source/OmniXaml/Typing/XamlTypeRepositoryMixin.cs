@@ -10,7 +10,8 @@ namespace OmniXaml.Typing
     {
         public static Metadata GetMetadata<T>(this IXamlTypeRepository typeRepository)
         {
-            return typeRepository.GetMetadata(typeof(T));
+            var xamlType = typeRepository.GetXamlType(typeof(T));
+            return typeRepository.GetMetadata(xamlType);
         }
 
         public static void RegisterMetadata<T>(this IXamlTypeRepository typeRepository, GenericMetadata<T> genericMetadata)

@@ -11,7 +11,7 @@
         XamlType GetWithFullAddress(XamlTypeName xamlTypeName);
         XamlMember GetMember(PropertyInfo propertyInfo);
         AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter);
-        Metadata GetMetadata(Type type);
+        Metadata GetMetadata(XamlType xamlType);
         void RegisterMetadata(Type type, Metadata metadata);
     }
 }

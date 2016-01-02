@@ -13,7 +13,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         public EndMemberCommand(ObjectAssembler assembler, ITopDownValueContext topDownValueContext) : base(assembler)
         {
             this.topDownValueContext = topDownValueContext;
-            typeContext = Assembler.WiringContext.TypeContext;
+            typeContext = Assembler.TypeContext;
         }
 
         public override void Execute()

@@ -15,7 +15,7 @@ namespace OmniXaml.Tests
 
         public NameScopeTests()
         {
-            sut = new ObjectAssembler(WiringContext, new TopDownValueContext());
+            sut = new ObjectAssembler(TypeContext, new TopDownValueContext());
             source = new XamlInstructionResources(this);
         }
 

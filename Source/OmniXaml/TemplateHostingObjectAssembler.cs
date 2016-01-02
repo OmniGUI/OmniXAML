@@ -24,13 +24,13 @@
             this.mapping = mapping;
         }
 
-        public IWiringContext WiringContext => objectAssembler.WiringContext;
-
         public InstanceLifeCycleHandler InstanceLifeCycleHandler
         {
             get { return objectAssembler.InstanceLifeCycleHandler; }
             set { objectAssembler.InstanceLifeCycleHandler = value; }
         }
+
+        public ITypeContext TypeContext => objectAssembler.TypeContext;
 
         public void Process(XamlInstruction instruction)
         {
@@ -47,7 +47,7 @@
                     if (depth == 0)
                     {
                         recording = false;
-                        var loaded = assembler.Load(new ReadOnlyCollection<XamlInstruction>(nodeList), WiringContext);
+                        var loaded = assembler.Load(new ReadOnlyCollection<XamlInstruction>(nodeList), this.objectAssembler.TypeContext);
                         objectAssembler.OverrideInstance(loaded);
                         objectAssembler.Process(instruction);
                     }

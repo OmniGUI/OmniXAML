@@ -44,7 +44,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                 {
                     tempQualifier.Current.Collection = collection;
                 }
-                var typeContext = Assembler.WiringContext.TypeContext;
+                var typeContext = Assembler.TypeContext;
                 var xamlTypeOfInstance = typeContext.GetXamlType(rootInstance.GetType());
                 StateCommuter.Current.XamlType = xamlTypeOfInstance;
             }

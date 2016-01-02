@@ -1,30 +1,27 @@
 ﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
 {
+    using OmniXaml.Parsers.ProtoParser;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.IO;
-    using System.Linq;
     using Classes;
     using Classes.Another;
     using Common.NetCore;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers;
-    using OmniXaml.Parsers.ProtoParser;
+    using System.Linq;
+    using Xunit;
 
-    [TestClass]
+
     public class PrefixTests : GivenAWiringContextWithNodeBuildersNetCore
     {
-        private IParser<IXmlReader, IEnumerable<ProtoXamlInstruction>> sut;
 
-        [TestInitialize]
-        public void Initialize()
+        private XamlProtoInstructionParser CreateSut()
         {
-            sut = new XamlProtoInstructionParser(WiringContext);
+            return new XamlProtoInstructionParser(TypeContext);
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleCollapsed()
         {
+            var sut = CreateSut();
             var actualNodes = sut.Parse("<a:Foreigner xmlns:a=\"another\"/>").ToList();
             var expectedInstructions = new List<ProtoXamlInstruction>
             {
@@ -32,12 +29,13 @@
                 P.EmptyElement<Foreigner>(AnotherNs),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedProperty()
         {
+            var sut = CreateSut();
             var actualNodes = sut.Parse(@"<DummyClass xmlns=""root"" xmlns:a=""another"" a:Foreigner.Property=""Value""></DummyClass>").ToList();
 
             var ns = "root";
@@ -51,12 +49,13 @@
                 P.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
+            var sut = CreateSut();
             var actualNodes = sut.Parse(@"<a:DummyClass xmlns:a=""another""></a:DummyClass>").ToList();
 
             var expectedInstructions = new Collection<ProtoXamlInstruction>
@@ -66,7 +65,7 @@
                 P.EndTag(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
     }
 }

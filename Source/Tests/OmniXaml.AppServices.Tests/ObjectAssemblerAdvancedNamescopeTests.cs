@@ -19,7 +19,7 @@
             var wiringContext = CreateWiringContext();
             var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {
@@ -48,7 +48,7 @@
             var wiringContext = CreateWiringContext();
             var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {
@@ -87,7 +87,7 @@
 
             var typeFeatureProvider = new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
             var xamlTypeRepository = new XamlTypeRepository(new XamlNamespaceRegistry(), typeFactory, typeFeatureProvider);
-            var typeContext = new TypeContext(xamlTypeRepository, new XamlNamespaceRegistry(), typeFactory);
+            var typeContext = new TypeContext(xamlTypeRepository, new XamlNamespaceRegistry());
             typeContext.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
             var wiringContext = new WiringContext(typeContext, typeFeatureProvider);
             return wiringContext;

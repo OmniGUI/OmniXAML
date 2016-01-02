@@ -9,16 +9,16 @@
 
     public class XamlProtoInstructionParser : IProtoParser
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext wiringContext;
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
         private AttributeParser attributeParser;
         private readonly TextFormatter textFormatter = new TextFormatter();
 
-        public XamlProtoInstructionParser(IWiringContext wiringContext)
+        public XamlProtoInstructionParser(ITypeContext wiringContext)
         {
             this.wiringContext = wiringContext;
-            instructionBuilder = new ProtoInstructionBuilder(wiringContext.TypeContext);
+            instructionBuilder = new ProtoInstructionBuilder(wiringContext);
         }
 
         public IEnumerable<ProtoXamlInstruction> Parse(IXmlReader stream)
@@ -110,7 +110,7 @@
             }
             else
             {
-                var owner = wiringContext.TypeContext.GetByPrefix(propertyLocator.Prefix, propertyLocator.OwnerName);
+                var owner = wiringContext.GetByPrefix(propertyLocator.Prefix, propertyLocator.OwnerName);
                 return instructionBuilder.ExpandedAttachedProperty(owner.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
             }
         }
@@ -180,7 +180,7 @@
 
         private bool IsNameDirective(XamlName propertyLocator, XamlType ownerType)
         {
-            var metadata = wiringContext.TypeContext.TypeRepository.GetMetadata(ownerType.UnderlyingType);
+            var metadata = wiringContext.TypeRepository.GetMetadata(ownerType);
             if (metadata == null)
                 return false;
             
@@ -192,7 +192,7 @@
             var ownerName = propertyLocator.Owner.PropertyName;
             var ownerPrefix = propertyLocator.Owner.Prefix;
 
-            var owner = wiringContext.TypeContext.GetByPrefix(ownerPrefix, ownerName);
+            var owner = wiringContext.GetByPrefix(ownerPrefix, ownerName);
 
             MutableXamlMember member = owner.GetAttachableMember(propertyLocator.PropertyName);
             return member;
@@ -219,7 +219,7 @@
             var ns = reader.Namespace;
             var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
-            var childType = wiringContext.TypeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
+            var childType = wiringContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
             
 
             if (reader.IsEmptyElement)
@@ -237,7 +237,7 @@
             foreach (var prefixRegistration in prefixRegistrations)
             {
                 var registration = new PrefixRegistration(prefixRegistration.Prefix, prefixRegistration.Namespace);
-                wiringContext.TypeContext.RegisterPrefix(registration);
+                wiringContext.RegisterPrefix(registration);
             }
         }
 
