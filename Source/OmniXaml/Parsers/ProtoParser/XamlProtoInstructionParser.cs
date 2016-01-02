@@ -180,7 +180,7 @@
 
         private bool IsNameDirective(XamlName propertyLocator, XamlType ownerType)
         {
-            var metadata = wiringContext.TypeRepository.GetMetadata(ownerType.UnderlyingType);
+            var metadata = wiringContext.TypeRepository.GetMetadata(ownerType);
             if (metadata == null)
                 return false;
             

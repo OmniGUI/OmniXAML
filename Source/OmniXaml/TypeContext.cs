@@ -8,35 +8,32 @@ namespace OmniXaml
 
     public class TypeContext : ITypeContext
     {
-        private readonly IXamlTypeRepository typeRepository;
-        private readonly IXamlNamespaceRegistry nsRegistry;
-        private readonly ITypeFactory typeFactory;
+        public IXamlNamespaceRegistry NamespaceRegistry { get; }
 
-        public TypeContext(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry, ITypeFactory typeFactory)
+        public TypeContext(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry)
         {
-            this.typeRepository = typeRepository;
-            this.nsRegistry = nsRegistry;
-            this.typeFactory = typeFactory;
+            TypeRepository = typeRepository;
+            NamespaceRegistry = nsRegistry;
         }
 
         public Namespace GetNamespace(string name)
         {
-            return nsRegistry.GetNamespace(name);
+            return NamespaceRegistry.GetNamespace(name);
         }
 
         public Namespace GetNamespaceByPrefix(string prefix)
         {
-            return nsRegistry.GetNamespaceByPrefix(prefix);
+            return NamespaceRegistry.GetNamespaceByPrefix(prefix);
         }
 
         public void RegisterPrefix(PrefixRegistration prefixRegistration)
         {
-            nsRegistry.RegisterPrefix(prefixRegistration);
+            NamespaceRegistry.RegisterPrefix(prefixRegistration);
         }
 
         public void AddNamespace(XamlNamespace xamlNamespace)
         {
-            nsRegistry.AddNamespace(xamlNamespace);
+            NamespaceRegistry.AddNamespace(xamlNamespace);
         }
 
         public XamlType GetXamlType(Type type)
@@ -70,9 +67,9 @@ namespace OmniXaml
             return TypeRepository.GetAttachableMember(name, getter, setter);
         }
 
-        public Metadata GetMetadata(Type type)
+        public Metadata GetMetadata(XamlType xamlType)
         {
-            return TypeRepository.GetMetadata(type);
+            return TypeRepository.GetMetadata(xamlType);
         }
 
         public void RegisterMetadata(Type type, Metadata metadata)
@@ -80,10 +77,8 @@ namespace OmniXaml
             TypeRepository.RegisterMetadata(type, metadata);
         }
 
-        public ITypeFactory TypeFactory => typeFactory;
+        public IEnumerable<PrefixRegistration> RegisteredPrefixes => NamespaceRegistry.RegisteredPrefixes;
 
-        public IEnumerable<PrefixRegistration> RegisteredPrefixes => nsRegistry.RegisteredPrefixes;
-
-        public IXamlTypeRepository TypeRepository => typeRepository;
+        public IXamlTypeRepository TypeRepository { get; }
     }
 }

@@ -80,7 +80,7 @@
             dummyXamlTypeRepository.RegisterMetadata(new GenericMetadata<Setter>().WithMemberDependency(setter => setter.Value, setter => setter.Property));
             dummyXamlTypeRepository.RegisterMetadata(new GenericMetadata<Selector>().WithMemberDependency(setter => setter.SelectedIndex, setter => setter.Items));
 
-            return new TypeContext(dummyXamlTypeRepository, xamlNamespaceRegistry, typeFactory);
+            return new TypeContext(dummyXamlTypeRepository, xamlNamespaceRegistry);
         }
 
         private XamlTypeRepositoryMock XamlTypeRepositoryMock => (XamlTypeRepositoryMock) TypeContext.TypeRepository;

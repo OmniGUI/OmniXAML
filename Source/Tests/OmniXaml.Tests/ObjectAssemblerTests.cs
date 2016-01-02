@@ -29,18 +29,18 @@
         public void Initialize()
         {
             topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(WiringContext.TypeContext, topDownValueContext);
+            sut = new ObjectAssembler(TypeContext, topDownValueContext);
         }
 
         public IObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(WiringContext.TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(TypeContext, new TopDownValueContext());
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
             var settings = new ObjectAssemblerSettings { RootInstance = instance };
-            var assembler = new ObjectAssembler(WiringContext.TypeContext, new TopDownValueContext(), settings);
+            var assembler = new ObjectAssembler(TypeContext, new TopDownValueContext(), settings);
             return assembler;
         }
 
@@ -225,7 +225,7 @@
         {
             sut.Process(source.InstanceWithChild);
 
-            var dummyClassXamlType = WiringContext.TypeContext.GetXamlType(typeof(DummyClass));
+            var dummyClassXamlType = TypeContext.GetXamlType(typeof(DummyClass));
             var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
