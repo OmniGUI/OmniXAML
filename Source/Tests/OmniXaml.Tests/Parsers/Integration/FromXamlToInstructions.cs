@@ -183,7 +183,7 @@
 
         private ICollection<XamlInstruction> ExtractNodesFromPullParser(string xml)
         {
-            var pullParser = new XamlInstructionParser(WiringContext);
+            var pullParser = new XamlInstructionParser(TypeContext);
 
             using (var stream = new StringReader(xml))
             {

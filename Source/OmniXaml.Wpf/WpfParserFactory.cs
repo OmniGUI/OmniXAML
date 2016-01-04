@@ -22,7 +22,7 @@ namespace OmniXaml.Wpf
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext.TypeContext));
 
             var phaseParserKit = new PhaseParserKit(
                 new XamlProtoInstructionParser(wiringContext.TypeContext),

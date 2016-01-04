@@ -7,15 +7,15 @@
 
     public class DefaultParserFactory : IXamlParserFactory
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext typeContext;
 
         public DefaultParserFactory()
         {
         }
 
-        public DefaultParserFactory(IWiringContext wiringContext)
+        public DefaultParserFactory(ITypeContext typeContext)
         {
-            this.wiringContext = wiringContext;
+            this.typeContext = typeContext;
         }
 
         public IXamlParser CreateForReadingFree()
@@ -27,10 +27,10 @@
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(typeContext));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext.TypeContext),
+                new XamlProtoInstructionParser(typeContext),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
@@ -39,7 +39,7 @@
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(typeContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -51,7 +51,7 @@
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(typeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

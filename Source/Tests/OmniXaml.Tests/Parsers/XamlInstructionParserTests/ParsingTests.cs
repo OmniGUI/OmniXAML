@@ -26,7 +26,7 @@
 
         private XamlInstructionParser CreateSut()
         {
-            return new XamlInstructionParser(WiringContext);
+            return new XamlInstructionParser(TypeContext);
         }
 
         [TestMethod]

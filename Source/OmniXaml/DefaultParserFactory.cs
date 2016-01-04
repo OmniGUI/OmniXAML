@@ -1,16 +1,12 @@
 ﻿namespace OmniXaml
 {
-    using OmniXaml.ObjectAssembler;
-    using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlInstructions;
+    using ObjectAssembler;
+    using Parsers.ProtoParser;
+    using Parsers.XamlInstructions;
 
     public class DefaultParserFactory : IXamlParserFactory
     {
         private readonly IWiringContext wiringContext;
-
-        public DefaultParserFactory()
-        {
-        }
 
         public DefaultParserFactory(IWiringContext wiringContext)
         {
@@ -26,7 +22,7 @@
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext.TypeContext));
 
             var phaseParserKit = new PhaseParserKit(
                 new XamlProtoInstructionParser(wiringContext.TypeContext),

@@ -7,9 +7,9 @@
     {
         private readonly XamlXmlLoader xamlXmlLoader;
 
-        public DefaultXamlLoader(IWiringContext wiringContext)
+        public DefaultXamlLoader(ITypeContext typeContext)
         {
-            IXamlParserFactory parserFactory= new DefaultParserFactory(wiringContext);
+            IXamlParserFactory parserFactory= new DefaultParserFactory(typeContext);
             xamlXmlLoader = new XamlXmlLoader(parserFactory);
         }
 

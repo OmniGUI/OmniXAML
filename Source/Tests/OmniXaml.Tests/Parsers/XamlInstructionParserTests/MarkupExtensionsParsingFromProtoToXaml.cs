@@ -14,7 +14,7 @@
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {            
-            sut = new XamlInstructionParser(WiringContext);
+            sut = new XamlInstructionParser(TypeContext);
         }
 
         [TestMethod]

@@ -26,7 +26,7 @@ namespace OmniXaml.Tests.Common.NetCore
         {
             var phaseParserKit = new PhaseParserKit(
                 new XamlProtoInstructionParser(wiringContext.TypeContext),
-                new XamlInstructionParser(wiringContext),
+                new XamlInstructionParser(wiringContext.TypeContext),
                 objectAssemblerForUndefinedRoot);
 
             return new XamlXmlParser(phaseParserKit);
