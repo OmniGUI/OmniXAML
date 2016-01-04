@@ -1,11 +1,6 @@
 ﻿namespace OmniXaml.Tests
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using Classes;
-    using Glass;
     using Typing;
     using Xunit;
 

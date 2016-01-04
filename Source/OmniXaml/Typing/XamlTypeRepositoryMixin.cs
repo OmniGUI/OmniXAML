@@ -2,6 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
     using Attributes;
     using Glass;
@@ -21,16 +22,50 @@ namespace OmniXaml.Typing
 
         public static void RegisterMetadataFromAttributes(this IXamlTypeRepository typeRepository, IEnumerable<Type> types)
         {
-            var gatheredDependencies = types.GatherAttributesFromMembers<DependsOnAttribute, Tuple<PropertyInfo, string>>((propertyInfo, attribute) => new Tuple<PropertyInfo, string>(propertyInfo, attribute.PropertyName));
-            foreach (var tuple in gatheredDependencies)
+            foreach (var type in types)
             {
-                var metadata = new Metadata();
-                var type = tuple.Item1.DeclaringType;
-                var property = tuple.Item1.Name;
-                var dependsOn = tuple.Item2;
-                metadata.SetMemberDependency(property, dependsOn);
+                var metadata = GetMetadata(type);
                 typeRepository.RegisterMetadata(type, metadata);
             }
+        }
+
+        private static Metadata GetMetadata(Type t)
+        {
+            var dependencies = GetDependencies(t);
+            var contentProperty = GetContentProperty(t);
+            var runtimePropertyName = GetRuntimePropertyName(t);
+
+            return new Metadata { RuntimePropertyName = runtimePropertyName, PropertyDependencies = dependencies, ContentProperty = contentProperty };
+        }
+
+        private static string GetRuntimePropertyName(Type type)
+        {
+            var attr = type.GetTypeInfo().GetCustomAttribute<RuntimePropertyNameAttribute>();
+            return attr.Name;
+        }
+
+        private static string GetContentProperty(Type type)
+        {
+            var attr = type.GetTypeInfo().GetCustomAttribute<ContentPropertyAttribute>();
+            return attr.Name;
+        }
+
+        private static DependencyRegistrations GetDependencies(Type type)
+        {
+            var attrs = from member in type.GetTypeInfo().DeclaredMembers
+                        let attr = member.GetCustomAttribute<DependsOnAttribute>()
+                        where attr != null
+                        select new { prop = member.Name, dep = attr.PropertyName };
+
+
+            var registrations = new DependencyRegistrations();
+
+            foreach (var dependsOnAttribute in attrs)
+            {
+                registrations.Add(new DependencyRegistration(dependsOnAttribute.prop, dependsOnAttribute.dep));
+            }
+
+            return registrations;
         }
     }
 }

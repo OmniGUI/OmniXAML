@@ -166,6 +166,7 @@
     <Compile Include="Typing\MutableXamlMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />
+    <Compile Include="Typing\RuntimePropertyNameAttribute.cs" />
     <Compile Include="Typing\XamlDirective.cs" />
     <Compile Include="Typing\XamlMember.cs" />
     <Compile Include="Typing\XamlMemberBase.cs" />
