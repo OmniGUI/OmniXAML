@@ -4,6 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
+    using Glass;
     using Typing;
 
     public class TypeContext : ITypeContext
@@ -80,5 +81,17 @@ namespace OmniXaml
         public IEnumerable<PrefixRegistration> RegisteredPrefixes => NamespaceRegistry.RegisteredPrefixes;
 
         public IXamlTypeRepository TypeRepository { get; }
+
+        public static ITypeContext FromAttributes(IEnumerable<Assembly> assemblies)
+        {
+            var allExportedTypes = assemblies.AllExportedTypes();
+            var registry = XamlNamespaceRegistry.FromAttributes(assemblies);
+            var typeFactory = new TypeFactory();
+
+            var featureProvider = new TypeFeatureProviderBuilder().FromAttributes(allExportedTypes).Build();
+            var xamlTypeRepo = new XamlTypeRepository(registry, typeFactory, featureProvider);
+
+            return new TypeContext(xamlTypeRepo, registry);
+        }
     }
 }

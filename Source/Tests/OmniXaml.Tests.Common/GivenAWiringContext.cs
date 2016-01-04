@@ -8,14 +8,10 @@ namespace OmniXaml.Tests.Common
     {
         protected GivenAWiringContext(IEnumerable<Assembly> assemblies)
         {
-            WiringContext = new WiringContextMock(new TypeFactory(), assemblies);
-            TypeContext = WiringContext.TypeContext;
+            TypeContext = OmniXaml.TypeContext.FromAttributes(assemblies);
         }
 
         protected ITypeContext TypeContext { get; set; }
-
-        protected WiringContextMock WiringContext { get; private set; }
-
         public NamespaceDeclaration RootNs { get; } = new NamespaceDeclaration("root", string.Empty);
         public NamespaceDeclaration AnotherNs { get; } = new NamespaceDeclaration("another", "a");
         public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration(CoreTypes.SpecialNamespace, "x");

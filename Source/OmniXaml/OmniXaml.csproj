@@ -71,7 +71,6 @@
     <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="DeferredLoaderMapping.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
-    <Compile Include="IWiringContext.cs" />
     <Compile Include="IXamlXmlLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
     <Compile Include="IXamlParserFactory.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Visualization\NodeVisualizer.cs" />
     <Compile Include="Visualization\VisualizationNode.cs" />
     <Compile Include="Visualization\VisualizationTag.cs" />
-    <Compile Include="WiringContext.cs" />
     <Compile Include="PhaseParserKit.cs" />
     <Compile Include="XamlInstruction.cs" />
     <Compile Include="XamlInstructionType.cs" />

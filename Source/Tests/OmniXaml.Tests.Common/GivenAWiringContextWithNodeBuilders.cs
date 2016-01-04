@@ -8,8 +8,8 @@ namespace OmniXaml.Tests.Common
     {
         protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base(assemblies)
         {
-            X = new XamlInstructionBuilder(WiringContext.TypeContext);
-            P = new ProtoInstructionBuilder(WiringContext.TypeContext);
+            X = new XamlInstructionBuilder(TypeContext);
+            P = new ProtoInstructionBuilder(TypeContext);
         }
 
         public XamlInstructionBuilder X { get; }

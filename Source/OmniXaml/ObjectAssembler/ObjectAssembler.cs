@@ -24,7 +24,7 @@ namespace OmniXaml.ObjectAssembler
 
             rootInstance = settings?.RootInstance;
             var rootInstanceType = rootInstance?.GetType();
-            rootInstanceXamlType = rootInstanceType != null ? TypeContext.TypeRepository.GetXamlType(rootInstanceType) : null;
+            rootInstanceXamlType = rootInstanceType != null ? TypeContext.GetXamlType(rootInstanceType) : null;
         }
 
         public ObjectAssembler(StackingLinkedList<Level> state, ITypeContext typeContext, ITopDownValueContext topDownValueContext)

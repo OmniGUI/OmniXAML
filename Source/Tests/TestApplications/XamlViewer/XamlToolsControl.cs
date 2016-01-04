@@ -87,8 +87,8 @@
         {
             var reader = new XmlCompatibilityReader(stream);
             var wiringContext = WiringContext;
-            var pullParser = new XamlInstructionParser(wiringContext.TypeContext);
-            var protoParser = new XamlProtoInstructionParser(wiringContext.TypeContext);
+            var pullParser = new XamlInstructionParser(wiringContext);
+            var protoParser = new XamlProtoInstructionParser(wiringContext);
             return pullParser.Parse(protoParser.Parse(reader)).ToList();
         }
     }

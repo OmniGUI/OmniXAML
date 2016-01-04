@@ -9,7 +9,6 @@
     using TypeConversion;
     using Typing;
     using Xunit;
-    using Xunit.Sdk;
 
     public class ObjectAssemblerAdvancedNamescopeTests
     {
@@ -17,9 +16,9 @@
         public void MultinameRegistrationGivesSameObjectTwoSubsequentNames()
         {
             var wiringContext = CreateWiringContext();
-            var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
+            var x = CreateBuilder(wiringContext);
 
-            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {
@@ -46,9 +45,9 @@
         public void GivenChildWithPreviousName_LatestNameIsRegisteredInParent()
         {
             var wiringContext = CreateWiringContext();
-            var x = CreateBuilder(wiringContext.TypeContext.TypeRepository);
+            var x = CreateBuilder(wiringContext);
 
-            var sut = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
 
             var batch = new Collection<XamlInstruction>
             {
@@ -76,7 +75,7 @@
             return new XamlInstructionBuilder(typeRepository);
         }
 
-        private static WiringContext CreateWiringContext()
+        private static ITypeContext CreateWiringContext()
         {
             var typeFactory = new MultiFactory(
                 new List<TypeFactoryRegistration>
@@ -89,8 +88,7 @@
             var xamlTypeRepository = new XamlTypeRepository(new XamlNamespaceRegistry(), typeFactory, typeFeatureProvider);
             var typeContext = new TypeContext(xamlTypeRepository, new XamlNamespaceRegistry());
             typeContext.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
-            var wiringContext = new WiringContext(typeContext, typeFeatureProvider);
-            return wiringContext;
+            return typeContext;
         }
     }
 }

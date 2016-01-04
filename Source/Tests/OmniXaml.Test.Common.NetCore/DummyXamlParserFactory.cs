@@ -8,9 +8,9 @@ namespace OmniXaml.Tests.Common.NetCore
 
     public class DummyXamlParserFactory : IXamlParserFactory
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext wiringContext;
 
-        public DummyXamlParserFactory(IWiringContext wiringContext)
+        public DummyXamlParserFactory(ITypeContext wiringContext)
         {
             this.wiringContext = wiringContext;
         }
@@ -25,8 +25,8 @@ namespace OmniXaml.Tests.Common.NetCore
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext.TypeContext),
-                new XamlInstructionParser(wiringContext.TypeContext),
+                new XamlProtoInstructionParser(wiringContext),
+                new XamlInstructionParser(wiringContext),
                 objectAssemblerForUndefinedRoot);
 
             return new XamlXmlParser(phaseParserKit);
@@ -34,7 +34,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private ObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(wiringContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            var objectAssembler = new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
 
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());

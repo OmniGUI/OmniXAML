@@ -5,7 +5,7 @@
 
     public class GivenAWiringContextWithNodeBuildersNetCore : GivenAWiringContextWithNodeBuilders
     {
-        public GivenAWiringContextWithNodeBuildersNetCore() : base(Assemblies.AssembliesInAppFolder)
+        public GivenAWiringContextWithNodeBuildersNetCore() : base(Assemblies.ReferencedAssemblies)
         {            
         }
     }

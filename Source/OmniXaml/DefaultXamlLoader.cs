@@ -4,10 +4,10 @@
 
     internal class DefaultXamlLoader : IXamlLoader
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext wiringContext;
         private readonly XamlXmlLoader xamlXmlLoader;
 
-        public DefaultXamlLoader(IWiringContext wiringContext)
+        public DefaultXamlLoader(ITypeContext wiringContext)
         {
             this.wiringContext = wiringContext;
             IXamlParserFactory pfb= new DefaultParserFactory(wiringContext);

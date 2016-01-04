@@ -8,15 +8,10 @@
     using TypeConversion;
     using Typing;
 
-    public class WpfWiringContext : IWiringContext
+    public class WpfWiringContext : WiringContext
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext wiringContext;
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
-
-        public WpfWiringContext(ITypeFactory factory) 
-        {           
-            wiringContext = new WiringContext(GetTypeContext(factory), GetFeatureProvider());
-        }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
         {
@@ -69,7 +64,10 @@
             return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry);
         }
 
-        public ITypeContext TypeContext => wiringContext.TypeContext;
-        public ITypeFeatureProvider FeatureProvider => wiringContext.FeatureProvider;
+        public ITypeContext TypeContext => wiringContext;
+
+        public WpfWiringContext(ITypeContext typeContext) : base(typeContext)
+        {
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace OmniXaml.Wpf
 
     public class WpfParserFactory : IXamlParserFactory
     {
-        private readonly IWiringContext wiringContext;
+        private readonly ITypeContext wiringContext;
 
         public WpfParserFactory(ITypeFactory typeFactory)
         {
@@ -22,10 +22,10 @@ namespace OmniXaml.Wpf
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext.TypeContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext.TypeContext),
+                new XamlProtoInstructionParser(wiringContext),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
@@ -34,7 +34,7 @@ namespace OmniXaml.Wpf
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(wiringContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@ namespace OmniXaml.Wpf
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

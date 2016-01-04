@@ -87,7 +87,6 @@
     <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
-    <Compile Include="NameScopeTests.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="Resources\MarkupExtensionNodeResources.cs" />
     <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />
@@ -113,7 +112,6 @@
     <Compile Include="XamlNamespaceRegistryTest.cs" />
     <Compile Include="Parsers\Integration\FromXamlToInstructions.cs" />
     <Compile Include="XamlNodesAssert.cs" />
-    <Compile Include="XamlXmlLoaderTests\NameScopeTests.cs" />
     <Compile Include="XamlXmlLoaderTests\ParsingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />

@@ -21,7 +21,7 @@ namespace OmniXaml
 
             contentPropertyProvider = ContentPropertyProvider.FromAttributes(listOfTypes);
             converterProvider = TypeConverterProvider.FromAttributes(listOfTypes);
-
+            
             return this;
         }
     }

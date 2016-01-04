@@ -15,7 +15,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
                 SampleProperty = "Will be overwritten"
             };
 
-            var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
+            var loader = new XamlXmlLoader(new DummyXamlParserFactory(TypeContext));
 
             var actual = loader.FromString("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
 
