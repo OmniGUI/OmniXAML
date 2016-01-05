@@ -5,10 +5,9 @@
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Builder;
-    using TypeConversion;
     using Typing;
 
-    public class WpfWiringContext : WiringContext
+    public class WpfTypeContext : TypeContext
     {
         private readonly ITypeContext wiringContext;
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
@@ -54,7 +53,7 @@
 
         private static ITypeFeatureProvider GetFeatureProvider()
         {
-            return new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
+            return new TypeFeatureProvider(new TypeConverterProvider());
         }
 
         private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
@@ -64,9 +63,7 @@
             return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry);
         }
 
-        public ITypeContext TypeContext => wiringContext;
-
-        public WpfWiringContext(ITypeContext typeContext) : base(typeContext)
+        public WpfTypeContext(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry) : base(typeRepository, nsRegistry)
         {
         }
     }

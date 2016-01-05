@@ -88,7 +88,7 @@ namespace OmniXaml.Wpf
             using (var stream = resourceProvider.GetInflationSourceStream(underlyingType))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                var wiringContext = new WpfWiringContext(new TypeFactory());
+                var wiringContext = new WpfTypeContext(new WpfXamlTypeRepository(null, null, null), null);
                 var loader = new XamlInstructionParser(wiringContext);
                 var protoParser = new XamlProtoInstructionParser(wiringContext);
 

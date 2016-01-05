@@ -63,7 +63,7 @@
     <Compile Include="WpfParserFactory.cs" />
     <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWindow.cs" />
-    <Compile Include="WpfWiringContext.cs" />
+    <Compile Include="WpfTypeContext.cs" />
     <Compile Include="WpfXamlAttachableMember.cs" />
     <Compile Include="WpfXamlLoaderTypeFactory.cs" />
     <Compile Include="XamlMemberAdapter.cs" />

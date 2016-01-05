@@ -10,7 +10,7 @@ namespace OmniXaml.Wpf
 
         public WpfParserFactory(ITypeFactory typeFactory)
         {
-            wiringContext = new WpfWiringContext(typeFactory);
+            wiringContext = new WpfTypeContext(null, null);
         }
 
         public IXamlParser CreateForReadingFree()
