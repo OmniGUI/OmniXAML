@@ -53,7 +53,7 @@ namespace OmniXaml.Typing
 
         private static DependencyRegistrations GetDependencies(Type type)
         {
-            var attrs = from member in type.GetTypeInfo().DeclaredMembers
+            var attrs = from member in type.GetRuntimeProperties()
                         let attr = member.GetCustomAttribute<DependsOnAttribute>()
                         where attr != null
                         select new { prop = member.Name, dep = attr.PropertyName };
