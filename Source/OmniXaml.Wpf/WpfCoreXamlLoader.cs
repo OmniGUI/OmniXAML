@@ -2,7 +2,7 @@
 {
     internal class WpfCoreXamlLoader : XamlXmlLoader
     {
-        public WpfCoreXamlLoader(ITypeFactory typeFactory) : base(new WpfParserFactory(typeFactory))
+        public WpfCoreXamlLoader(ITypeFactory typeFactory) : base(new WpfParserFactory())
         {
         }
     }

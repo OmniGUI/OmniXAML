@@ -10,9 +10,11 @@
     using Services.DotNetFx;
 
     [TestClass]
+    [Ignore]
     public class InflatableFactoryTest
     {
         [TestMethod]
+        
         public void Window()
         {
             var sut = CreateSut();

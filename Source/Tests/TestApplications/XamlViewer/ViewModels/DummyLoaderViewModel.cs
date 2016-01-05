@@ -7,6 +7,7 @@
     using OmniXaml.Services.DotNetFx;
     using OmniXaml.Tests.Common;
     using OmniXaml.Tests.Common.NetCore;
+    using OmniXaml.Typing;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel
@@ -22,7 +23,10 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            WiringContext = new WiringContextMock(new TypeFactory(), Assemblies.AssembliesInAppFolder);
+
+            WiringContext = TypeContext.FromAttributes(Assemblies.AssembliesInAppFolder);
+            WiringContext.RegisterPrefix(new PrefixRegistration("", "root"));
+            WiringContext.RegisterPrefix(new PrefixRegistration("x", "another"));            
         }
 
         public IList Snippets { get; set; }

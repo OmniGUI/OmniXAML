@@ -1,13 +1,12 @@
-﻿using System;
-
-namespace SampleOmniXAML
+﻿namespace SampleOmniXAML
 {
+    using System;
     using OmniXaml;
     using OmniXaml.Services.DotNetFx;
 
     static class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
             var wiringContext = TypeContext.FromAttributes(Assemblies.AssembliesInAppFolder);
             var loader = new DefaultXamlLoader(wiringContext);

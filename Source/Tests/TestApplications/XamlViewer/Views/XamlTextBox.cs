@@ -30,12 +30,12 @@ namespace XamlViewer.Views
 
         #region WiringContext        
         public static readonly DependencyProperty WiringContextProperty =
-          DependencyProperty.Register("WiringContext", typeof(WiringContext), typeof(XamlTextBox),
+          DependencyProperty.Register("WiringContext", typeof(ITypeContext), typeof(XamlTextBox),
             new FrameworkPropertyMetadata(null));
 
-        public WiringContext WiringContext
+        public ITypeContext WiringContext
         {
-            get { return (WiringContext)GetValue(WiringContextProperty); }
+            get { return (ITypeContext)GetValue(WiringContextProperty); }
             set { SetValue(WiringContextProperty, value); }
         }
 

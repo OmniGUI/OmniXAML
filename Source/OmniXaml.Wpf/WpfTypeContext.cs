@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Controls.Primitives;
     using System.Windows.Media;
     using Builder;
@@ -9,18 +10,22 @@
 
     public class WpfTypeContext : TypeContext
     {
-        private readonly ITypeContext wiringContext;
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
+        
+        public WpfTypeContext()
+            : base(new WpfXamlTypeRepository(CreateXamlNamespaceRegistry(), new WpfXamlLoaderTypeFactory(), GetFeatureProvider()), CreateXamlNamespaceRegistry())
+        {
+        }
 
         private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
         {
             var xamlNamespaceRegistry = new XamlNamespaceRegistry();
 
-            var windowType = typeof(Window);
-            var textBlockType = typeof(System.Windows.Controls.TextBlock);
-            var toggleButtonType = typeof(ToggleButton);
-            var rotateTransformType = typeof(RotateTransform);
-            var bindingType = typeof(BindingExtension);
+            var windowType = typeof (Window);
+            var textBlockType = typeof (TextBlock);
+            var toggleButtonType = typeof (ToggleButton);
+            var rotateTransformType = typeof (RotateTransform);
+            var bindingType = typeof (BindingExtension);
 
             var rootNs = XamlNamespace.Map(WpfRootNs)
                 .With(
@@ -29,7 +34,7 @@
                         Route.Assembly(bindingType.Assembly).WithNamespaces(
                             new[] {bindingType.Namespace}),
                         Route.Assembly(rotateTransformType.Assembly).WithNamespaces(
-                            new[] { rotateTransformType.Namespace}),
+                            new[] {rotateTransformType.Namespace}),
                         Route.Assembly(bindingType.Assembly).WithNamespaces(
                             new[] {bindingType.Namespace}),
                         Route.Assembly(windowType.Assembly).WithNamespaces(
@@ -37,11 +42,11 @@
                             {
                                 windowType.Namespace,
                                 textBlockType.Namespace,
-                                toggleButtonType.Namespace,
+                                toggleButtonType.Namespace
                             })
                     });
 
-            foreach (var ns in new List<XamlNamespace> { rootNs })
+            foreach (var ns in new List<XamlNamespace> {rootNs})
             {
                 xamlNamespaceRegistry.AddNamespace(ns);
             }
@@ -53,18 +58,7 @@
 
         private static ITypeFeatureProvider GetFeatureProvider()
         {
-            return new TypeFeatureProvider(new TypeConverterProvider());
-        }
-
-        private static ITypeContext GetTypeContext(ITypeFactory typeFactory)
-        {
-            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
-            var xamlTypeRepository = new WpfXamlTypeRepository(xamlNamespaceRegistry, typeFactory, GetFeatureProvider());
-            return new TypeContext(xamlTypeRepository, xamlNamespaceRegistry);
-        }
-
-        public WpfTypeContext(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry) : base(typeRepository, nsRegistry)
-        {
+            return new WpfTypeFeatureProvider(new TypeConverterProvider());
         }
     }
 }

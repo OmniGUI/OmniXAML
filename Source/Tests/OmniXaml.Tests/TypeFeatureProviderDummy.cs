@@ -36,7 +36,7 @@
             throw new NotImplementedException();
         }
 
-        public Metadata GetMetadata(Type xamlType)
+        public Metadata GetMetadata(Type type)
         {
             throw new NotImplementedException();
         }

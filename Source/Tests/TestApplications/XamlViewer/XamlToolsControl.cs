@@ -34,8 +34,8 @@
 
         #region WiringContext        
         public static readonly DependencyProperty WiringContextProperty =
-          DependencyProperty.Register("WiringContext", typeof(WiringContext), typeof(XamlToolsControl),
-            new FrameworkPropertyMetadata((WiringContext)null));
+          DependencyProperty.Register("WiringContext", typeof(ITypeContext), typeof(XamlToolsControl),
+            new FrameworkPropertyMetadata((ITypeContext)null));
 
         #region IsShowAlwaysEnabled        
         public static readonly DependencyProperty IsShowAlwaysEnabledProperty =
@@ -50,9 +50,9 @@
 
         #endregion
 
-        public WiringContext WiringContext
+        public ITypeContext WiringContext
         {
-            get { return (WiringContext)GetValue(WiringContextProperty); }
+            get { return (ITypeContext)GetValue(WiringContextProperty); }
             set { SetValue(WiringContextProperty, value); }
         }
 

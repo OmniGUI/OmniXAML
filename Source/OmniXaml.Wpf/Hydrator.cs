@@ -4,6 +4,9 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Media;
     using Builder;
     using Parsers.ProtoParser;
     using Parsers.XamlInstructions;
@@ -88,14 +91,14 @@ namespace OmniXaml.Wpf
             using (var stream = resourceProvider.GetInflationSourceStream(underlyingType))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                var wiringContext = new WpfTypeContext(new WpfXamlTypeRepository(null, null, null), null);
+                var wiringContext = new WpfTypeContext();
                 var loader = new XamlInstructionParser(wiringContext);
                 var protoParser = new XamlProtoInstructionParser(wiringContext);
 
                 return loader.Parse(protoParser.Parse(reader));
             }
         }
-
+      
         private Type GetMatchedInflatable(XamlInstruction xamlInstruction)
         {
             if (xamlInstruction.XamlType != null)
