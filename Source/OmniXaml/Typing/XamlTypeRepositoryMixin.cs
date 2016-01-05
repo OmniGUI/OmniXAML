@@ -5,27 +5,25 @@ namespace OmniXaml.Typing
     using System.Linq;
     using System.Reflection;
     using Attributes;
-    using Glass;
 
     public static class XamlTypeRepositoryMixin
     {
-        public static Metadata GetMetadata<T>(this IXamlTypeRepository typeRepository)
+        public static Metadata GetMetadata<T>(this ITypeFeatureProvider typeRepository)
         {
-            var xamlType = typeRepository.GetXamlType(typeof(T));
-            return typeRepository.GetMetadata(xamlType);
+            return typeRepository.GetMetadata(typeof(T));
         }
 
-        public static void RegisterMetadata<T>(this IXamlTypeRepository typeRepository, GenericMetadata<T> genericMetadata)
+        public static void RegisterMetadata<T>(this ITypeFeatureProvider featureProvider, GenericMetadata<T> genericMetadata)
         {
-            typeRepository.RegisterMetadata(typeof(T), genericMetadata);
+            featureProvider.RegisterMetadata(typeof(T), genericMetadata);
         }
 
-        public static void RegisterMetadataFromAttributes(this IXamlTypeRepository typeRepository, IEnumerable<Type> types)
+        public static void FillFromAttributes(this ITypeFeatureProvider featureProvider, IEnumerable<Type> types)
         {
             foreach (var type in types)
             {
                 var metadata = GetMetadata(type);
-                typeRepository.RegisterMetadata(type, metadata);
+                featureProvider.RegisterMetadata(type, metadata);
             }
         }
 
@@ -40,14 +38,17 @@ namespace OmniXaml.Typing
 
         private static string GetRuntimePropertyName(Type type)
         {
-            var attr = type.GetTypeInfo().GetCustomAttribute<RuntimePropertyNameAttribute>();
-            return attr.Name;
+            var attr = type.GetTypeInfo()
+                .DeclaredMembers
+                .FirstOrDefault(info => info.GetCustomAttribute<NameAttribute>() != null);
+
+            return attr?.Name;
         }
 
         private static string GetContentProperty(Type type)
         {
             var attr = type.GetTypeInfo().GetCustomAttribute<ContentPropertyAttribute>();
-            return attr.Name;
+            return attr?.Name;
         }
 
         private static DependencyRegistrations GetDependencies(Type type)

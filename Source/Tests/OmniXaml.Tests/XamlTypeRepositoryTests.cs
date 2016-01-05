@@ -68,11 +68,20 @@
         {
             const string unreachableTypeName = "UnreachableType";
             sut.GetWithFullAddress(new XamlTypeName("root", unreachableTypeName));
-       }
+       }     
+    }
+
+    public class TypeFeatureProviderTests : GivenAWiringContextWithNodeBuildersNetCore
+    {
+        public ITypeFeatureProvider CreateSut()
+        {
+            return new TypeFeatureProvider(null);
+        }
 
         [TestMethod]
         public void DependsOnRegister()
         {
+            var sut = CreateSut();
             var expectedMetadata = new GenericMetadata<DummyClass>();
             expectedMetadata.WithMemberDependency(d => d.Items, d => d.AnotherProperty);
             XamlTypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
@@ -84,9 +93,11 @@
         [TestMethod]
         public void GetMetadata()
         {
+            var sut = CreateSut();
             var expected = new GenericMetadata<DummyClass>();
 
             sut.RegisterMetadata(expected);
+            
             var actual = sut.GetMetadata<DummyClass>();
 
             Assert.AreEqual(expected.AsNonGeneric(), actual);
@@ -95,6 +106,7 @@
         [TestMethod]
         public void GetMetadataOfSubClass_ReturnsPreviousParentMetadata()
         {
+            var sut = CreateSut();
             var expected = new GenericMetadata<DummyObject>();
 
             sut.RegisterMetadata(expected);
@@ -106,6 +118,7 @@
         [TestMethod]
         public void GivenMetadataDefinitionsForBothClassAndSubclass_GetMetadataOfSubClass_ReturnsItsOwnMetadata()
         {
+            var sut = CreateSut();
             var expected = new GenericMetadata<DummyClass>();
 
             sut.RegisterMetadata(expected);
@@ -118,11 +131,12 @@
         [TestMethod]
         public void GivenMetadataDefinitionsForParentAndGrandParent_GetMetadataOfChild_ReturnsParentMetadata()
         {
+            var sut = CreateSut();
             var expected = new GenericMetadata<DummyClass>();
 
             sut.RegisterMetadata(new GenericMetadata<DummyObject>());
             sut.RegisterMetadata(expected);
-            
+
             var actual = sut.GetMetadata<DummyChild>();
 
             Assert.AreEqual(expected.AsNonGeneric(), actual);

@@ -186,7 +186,7 @@ namespace OmniXaml.Typing
                     return null;
                 }
 
-                var metadata = TypeRepository.GetMetadata(this);
+                var metadata = FeatureProvider.GetMetadata(UnderlyingType);
 
                 var runtimeNameProperty = metadata?.RuntimePropertyName;
 

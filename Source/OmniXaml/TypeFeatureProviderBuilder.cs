@@ -4,23 +4,22 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Linq;
     using TypeConversion;
+    using Typing;
 
     public class TypeFeatureProviderBuilder
     {
-        private IContentPropertyProvider contentPropertyProvider;
         private ITypeConverterProvider converterProvider;
 
         public ITypeFeatureProvider Build()
         {
-            return new TypeFeatureProvider(contentPropertyProvider, converterProvider);           
+            return new TypeFeatureProvider(converterProvider);           
         }
 
         public TypeFeatureProviderBuilder FromAttributes(IEnumerable<Type> types)
         {
             var listOfTypes = types as IList<Type> ?? types.ToList();
-
-            contentPropertyProvider = ContentPropertyProvider.FromAttributes(listOfTypes);
-            converterProvider = TypeConverterProvider.FromAttributes(listOfTypes);
+            
+            converterProvider = new TypeConverterProvider().FillFromAttributes(listOfTypes);
             
             return this;
         }

@@ -9,7 +9,7 @@ namespace OmniXaml.Typing
         private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
         private readonly ITypeFactory typeTypeFactory;
         private readonly ITypeFeatureProvider featureProvider;
-        private readonly MetadataProvider metadatas = new MetadataProvider();
+        
 
         public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
@@ -90,16 +90,6 @@ namespace OmniXaml.Typing
         public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             return new AttachableXamlMember(name, getter, setter, this, featureProvider);
-        }
-
-        public Metadata GetMetadata(XamlType xamlType)
-        {
-            return metadatas.Get(xamlType.UnderlyingType);
-        }
-
-        public void RegisterMetadata(Type type, Metadata metadata)
-        {
-            metadatas.Register(type, metadata);
-        }
+        }       
     }
 }

@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using Builder;
     using TypeConversion;
+    using Typing;
 
     public class TypeFeatureProviderDummy : ITypeFeatureProvider
     {
@@ -30,19 +31,19 @@
 
         public IEnumerable<TypeConverterRegistration> TypeConverters { get; }
         public IEnumerable<ContentPropertyDefinition> ContentProperties { get; }
-        public string GetRuntimeNameProperty(Type type)
+        public Metadata GetMetadata(XamlType xamlType)
         {
             throw new NotImplementedException();
         }
 
-        public void RegisterRuntimeNameProperty(Type type, string propertyName)
+        public Metadata GetMetadata(Type xamlType)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(TypeConverterRegistration item)
+        public void RegisterMetadata(Type type, Metadata metadata)
         {
             throw new NotImplementedException();
-        }     
+        }
     }
 }

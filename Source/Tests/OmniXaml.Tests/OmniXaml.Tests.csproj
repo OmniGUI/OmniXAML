@@ -83,7 +83,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BuiltInTypeConverterTests\IntTypeConverterTests.cs" />
     <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
@@ -102,7 +101,6 @@
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
-    <Compile Include="BuiltInTypeConverterTests\TypeTypeConverterTests.cs" />
     <Compile Include="InstructionTreeBuilderTests.cs" />
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />

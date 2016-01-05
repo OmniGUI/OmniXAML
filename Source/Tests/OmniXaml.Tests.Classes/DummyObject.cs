@@ -1,6 +1,7 @@
 namespace OmniXaml.Tests.Classes
 {
     using System.Collections.Generic;
+    using Typing;
 
     public class DummyObject : INameScope
     {
@@ -8,6 +9,7 @@ namespace OmniXaml.Tests.Classes
         private string name;
         public IList<string> NamesHistory { get; } = new List<string>();
 
+        [Name]
         public string Name
         {
             get { return name; }

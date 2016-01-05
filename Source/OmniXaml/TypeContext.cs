@@ -5,6 +5,7 @@ namespace OmniXaml
     using System.Reflection;
     using Builder;
     using Glass;
+    using TypeConversion;
     using Typing;
 
     public class TypeContext : ITypeContext
@@ -66,17 +67,7 @@ namespace OmniXaml
         public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             return TypeRepository.GetAttachableMember(name, getter, setter);
-        }
-
-        public Metadata GetMetadata(XamlType xamlType)
-        {
-            return TypeRepository.GetMetadata(xamlType);
-        }
-
-        public void RegisterMetadata(Type type, Metadata metadata)
-        {
-            TypeRepository.RegisterMetadata(type, metadata);
-        }
+        }      
 
         public IEnumerable<PrefixRegistration> RegisteredPrefixes => NamespaceRegistry.RegisteredPrefixes;
 
@@ -85,13 +76,18 @@ namespace OmniXaml
         public static ITypeContext FromAttributes(IEnumerable<Assembly> assemblies)
         {
             var allExportedTypes = assemblies.AllExportedTypes();
-            var registry = XamlNamespaceRegistry.FromAttributes(assemblies);
+
             var typeFactory = new TypeFactory();
 
-            var featureProvider = new TypeFeatureProviderBuilder().FromAttributes(allExportedTypes).Build();
-            var xamlTypeRepo = new XamlTypeRepository(registry, typeFactory, featureProvider);
+            var xamlNamespaceRegistry = new XamlNamespaceRegistry();
+            xamlNamespaceRegistry.FillFromAttributes(assemblies);
 
-            return new TypeContext(xamlTypeRepo, registry);
+            var typeFeatureProvider = new TypeFeatureProvider(new TypeConverterProvider());
+            typeFeatureProvider.FillFromAttributes(allExportedTypes);
+                
+            var xamlTypeRepo = new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, typeFeatureProvider);
+
+            return new TypeContext(xamlTypeRepo, xamlNamespaceRegistry);
         }
     }
 }

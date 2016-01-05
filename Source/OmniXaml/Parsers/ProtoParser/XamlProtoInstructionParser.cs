@@ -41,7 +41,7 @@
             var attributes = attributeFeed;
 
             foreach (var instruction in attributes.PrefixRegistrations.Select(ConvertAttributeToNsPrefixDefinition)) yield return instruction;
-            
+
             yield return elementToInject;
 
             foreach (var instruction in attributes.Directives.Select(ConvertDirective)) yield return instruction;
@@ -55,7 +55,7 @@
 
             reader.Read();
 
-            foreach (var instruction in ParseInnerTextIfAny()) yield return instruction; 
+            foreach (var instruction in ParseInnerTextIfAny()) yield return instruction;
             foreach (var instruction in ParseNestedElements(xamlType)) yield return instruction;
 
             yield return instructionBuilder.EndTag();
@@ -180,15 +180,11 @@
 
         private bool IsNameDirective(XamlName propertyLocator, XamlType ownerType)
         {
-            var metadata = typeContext.GetMetadata(ownerType);
-            if (metadata == null)
-                return false;
-            
-            return propertyLocator.PropertyName == metadata.RuntimePropertyName;
+            return propertyLocator.PropertyName == ownerType.RuntimeNamePropertyMember?.Name;
         }
 
         private MutableXamlMember GetMemberForDottedLocator(PropertyLocator propertyLocator)
-        {           
+        {
             var ownerName = propertyLocator.Owner.PropertyName;
             var ownerPrefix = propertyLocator.Owner.Prefix;
 
@@ -199,7 +195,7 @@
         }
 
         private AttributeFeed GetAttributes()
-        {            
+        {
             return attributeParser.Read();
         }
 
@@ -220,10 +216,10 @@
             var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
             var childType = typeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
-            
+
 
             if (reader.IsEmptyElement)
-            {                
+            {
                 foreach (var instruction in ParseEmptyElement(childType, namespaceDeclaration, attributes)) yield return instruction;
             }
             else

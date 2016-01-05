@@ -84,10 +84,10 @@
                     new TypeFactoryRegistration(new TypeFactoryMock((type, args) => new ChildClass {Name = "InnerName"}), type => type == typeof (ChildClass)),
                 });
 
-            var typeFeatureProvider = new TypeFeatureProvider(new ContentPropertyProvider(), new TypeConverterProvider());
+            var typeFeatureProvider = new TypeFeatureProvider(new TypeConverterProvider());
             var xamlTypeRepository = new XamlTypeRepository(new XamlNamespaceRegistry(), typeFactory, typeFeatureProvider);
             var typeContext = new TypeContext(xamlTypeRepository, new XamlNamespaceRegistry());
-            typeContext.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
+            typeFeatureProvider.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
             return typeContext;
         }
     }

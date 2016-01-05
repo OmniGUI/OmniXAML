@@ -140,9 +140,10 @@
 
             var input = protoResources.NestedChildWithContentProperty;
 
-            var actualNodes = sut.Parse(input).ToList();
+            var actual = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.NestedChildWithContentProperty.ToList(), actualNodes);
+            var expected = source.NestedChildWithContentProperty.ToList();
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         [TestMethod]
