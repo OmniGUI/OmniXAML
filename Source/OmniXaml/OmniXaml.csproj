@@ -150,7 +150,6 @@
     <Compile Include="TypeConversion\TypeConverterProvider.cs" />
     <Compile Include="TypeFactoryMixin.cs" />
     <Compile Include="TypeFeatureProvider.cs" />
-    <Compile Include="TypeFeatureProviderBuilder.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\AttachableXamlMember.cs" />
     <Compile Include="Typing\DependencyRegistration.cs" />

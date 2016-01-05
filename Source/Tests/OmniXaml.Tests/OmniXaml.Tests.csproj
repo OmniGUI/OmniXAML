@@ -83,7 +83,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FeatureProviderBuilderTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />

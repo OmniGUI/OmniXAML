@@ -9,6 +9,8 @@ namespace OmniXaml.Tests.Common
         protected GivenAWiringContext(IEnumerable<Assembly> assemblies)
         {
             TypeContext = OmniXaml.TypeContext.FromAttributes(assemblies);
+            TypeContext.RegisterPrefix(new PrefixRegistration("", "root"));
+            TypeContext.RegisterPrefix(new PrefixRegistration("x", "another"));
         }
 
         protected ITypeContext TypeContext { get; set; }

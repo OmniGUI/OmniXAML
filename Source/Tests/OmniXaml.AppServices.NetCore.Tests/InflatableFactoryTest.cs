@@ -8,7 +8,6 @@
     using OmniXaml.Tests.Common.NetCore;
     using Services;
     using Services.DotNetFx;
-    using Typing;
 
     [TestClass]
     public class InflatableFactoryTest
@@ -57,13 +56,6 @@
             var userControl = (UserControl) myWindow.Content;
             Assert.AreEqual("It's-a me, Mario", userControl.Property);
             Assert.IsInstanceOfType(userControl.Content, typeof (ChildClass));
-        }
-    }
-
-    internal class WiringContextMock : TypeContext
-    {
-        public WiringContextMock(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry) : base(typeRepository, nsRegistry)
-        {
         }
     }
 }
