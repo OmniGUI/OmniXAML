@@ -9,9 +9,9 @@
         public XamlType XamlType { get; set; }
         public string Namespace { get; set; }
         public NodeType NodeType { get; set; }
-        public XamlMemberBase PropertyAttribute { get; set; }
+        public MemberBase PropertyAttribute { get; set; }
         public string Prefix { get; set; }
-        public XamlMemberBase PropertyElement { get; set; }
+        public MemberBase PropertyElement { get; set; }
         public string PropertyAttributeText { get; set; }
         public string Text { get; set; }
 

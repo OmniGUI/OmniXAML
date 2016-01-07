@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Parsers.ProtoParser
 {
     using System.Collections.Generic;
-    using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Xml;
@@ -9,13 +8,13 @@
 
     public class XamlProtoInstructionParser : IProtoParser
     {
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
         private AttributeParser attributeParser;
         private readonly TextFormatter textFormatter = new TextFormatter();
 
-        public XamlProtoInstructionParser(ITypeContext typeContext)
+        public XamlProtoInstructionParser(IRuntimeTypeSource typeContext)
         {
             this.typeContext = typeContext;
             instructionBuilder = new ProtoInstructionBuilder(typeContext);
@@ -151,14 +150,14 @@
         {
             if (!(reader.NodeType == XmlNodeType.Element && !reader.LocalName.Contains(".")))
             {
-                throw new XamlParseException("The root should be an element.");
+                throw new ParseException("The root should be an element.");
             }
         }
 
         // TODO: Refactor this shit.
         private ProtoXamlInstruction ConvertAttributeToNode(XamlType containingType, AttributeAssignment rawAttributeAssignment)
         {
-            MutableXamlMember member;
+            MutableMember member;
 
             if (rawAttributeAssignment.Locator.IsDotted)
             {
@@ -183,14 +182,14 @@
             return propertyLocator.PropertyName == ownerType.RuntimeNamePropertyMember?.Name;
         }
 
-        private MutableXamlMember GetMemberForDottedLocator(PropertyLocator propertyLocator)
+        private MutableMember GetMemberForDottedLocator(PropertyLocator propertyLocator)
         {
             var ownerName = propertyLocator.Owner.PropertyName;
             var ownerPrefix = propertyLocator.Owner.Prefix;
 
             var owner = typeContext.GetByPrefix(ownerPrefix, ownerName);
 
-            MutableXamlMember member = owner.GetAttachableMember(propertyLocator.PropertyName);
+            MutableMember member = owner.GetAttachableMember(propertyLocator.PropertyName);
             return member;
         }
 

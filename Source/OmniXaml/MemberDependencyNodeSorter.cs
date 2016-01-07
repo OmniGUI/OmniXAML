@@ -3,15 +3,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using Typing;
-    using Visualization;
 
     public class MemberDependencyNodeSorter
     {
-        public IEnumerable<XamlInstruction> Sort(IEnumerator<XamlInstruction> enumerator)
+        public IEnumerable<Instruction> Sort(IEnumerator<Instruction> enumerator)
         {
             while (enumerator.MoveNext())
             {
-                if (enumerator.Current.InstructionType == XamlInstructionType.StartObject)
+                if (enumerator.Current.InstructionType == InstructionType.StartObject)
                 {
                     var hasMembersWithDependencies = GetSomeMemberHasDependencies(enumerator.Current.XamlType);
                     if (hasMembersWithDependencies)
@@ -28,12 +27,12 @@
             }
         }
 
-        private static bool IsEmptyInstruction(IEnumerator<XamlInstruction> enumerator)
+        private static bool IsEmptyInstruction(IEnumerator<Instruction> enumerator)
         {
-            return enumerator.Current.Equals(default(XamlInstruction));
+            return enumerator.Current.Equals(default(Instruction));
         }
 
-        private IEnumerable<XamlInstruction> SortNodes(IEnumerator<XamlInstruction> enumerator)
+        private IEnumerable<Instruction> SortNodes(IEnumerator<Instruction> enumerator)
         {
             var subSet = LookaheadBuffer.GetUntilEndOfRoot(enumerator);
             var nodes = new InstructionTreeBuilder().CreateHierarchy(subSet);
@@ -48,7 +47,7 @@
 
         private static bool GetSomeMemberHasDependencies(XamlType xamlType)
         {
-            var allMembers = xamlType.GetAllMembers().OfType<MutableXamlMember>();
+            var allMembers = xamlType.GetAllMembers().OfType<MutableMember>();
             return allMembers.Any(member => member.Dependencies.Any());
         }
     }

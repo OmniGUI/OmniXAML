@@ -1,5 +1,3 @@
-using OmniXaml.Tests.Classes;
-
 namespace OmniXaml.Tests.Classes
 {
     using Attributes;

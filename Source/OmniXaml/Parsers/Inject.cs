@@ -5,62 +5,62 @@ namespace OmniXaml.Parsers
 
     internal static class Inject
     {
-        public static XamlInstruction StartOfObject(XamlType xamlType)
+        public static Instruction StartOfObject(XamlType xamlType)
         {
             Guard.ThrowIfNull(xamlType, nameof(xamlType));
 
-            return new XamlInstruction(XamlInstructionType.StartObject, xamlType);
+            return new Instruction(InstructionType.StartObject, xamlType);
         }
 
-        public static XamlInstruction EndOfObject()
+        public static Instruction EndOfObject()
         {
-            return new XamlInstruction(XamlInstructionType.EndObject);
+            return new Instruction(InstructionType.EndObject);
         }
 
-        public static XamlInstruction PrefixDefinitionOfNamespace(ProtoXamlInstruction protoXamlInstruction)
+        public static Instruction PrefixDefinitionOfNamespace(ProtoXamlInstruction protoXamlInstruction)
         {
             var namespaceDeclaration = new NamespaceDeclaration(protoXamlInstruction.Namespace, protoXamlInstruction.Prefix);
-            return new XamlInstruction(XamlInstructionType.NamespaceDeclaration, namespaceDeclaration);
+            return new Instruction(InstructionType.NamespaceDeclaration, namespaceDeclaration);
         }
 
-        public static XamlInstruction StartOfMember(XamlMemberBase member)
+        public static Instruction StartOfMember(MemberBase member)
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, member);
+            return new Instruction(InstructionType.StartMember, member);
         }
 
-        public static XamlInstruction Value(string value)
+        public static Instruction Value(string value)
         {
-            return new XamlInstruction(XamlInstructionType.Value, value);
+            return new Instruction(InstructionType.Value, value);
         }
 
-        public static XamlInstruction EndOfMember()
+        public static Instruction EndOfMember()
         {
-            return new XamlInstruction(XamlInstructionType.EndMember);
+            return new Instruction(InstructionType.EndMember);
         }
 
-        public static XamlInstruction GetObject()
+        public static Instruction GetObject()
         {
-            return new XamlInstruction(XamlInstructionType.GetObject);
+            return new Instruction(InstructionType.GetObject);
         }
 
-        public static XamlInstruction Items()
+        public static Instruction Items()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.Items);
+            return new Instruction(InstructionType.StartMember, CoreTypes.Items);
         }
 
-        public static XamlInstruction MarkupExtensionArguments()
+        public static Instruction MarkupExtensionArguments()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.MarkupExtensionArguments);
+            return new Instruction(InstructionType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
 
-        public static XamlInstruction Initialization()
+        public static Instruction Initialization()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.Initialization);
+            return new Instruction(InstructionType.StartMember, CoreTypes.Initialization);
         }
 
-        public static XamlInstruction UnknownContent()
+        public static Instruction UnknownContent()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.UnknownContent);
+            return new Instruction(InstructionType.StartMember, CoreTypes.UnknownContent);
         }
     }
 }

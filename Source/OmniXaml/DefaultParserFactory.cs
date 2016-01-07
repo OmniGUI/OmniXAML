@@ -6,11 +6,11 @@
 
     public class DefaultParserFactory : IXamlParserFactory
     {
-        private readonly ITypeContext wiringContext;
+        private readonly IRuntimeTypeSource runtimeTypeSource;
 
-        public DefaultParserFactory(ITypeContext wiringContext)
+        public DefaultParserFactory(IRuntimeTypeSource runtimeTypeSource)
         {
-            this.wiringContext = wiringContext;
+            this.runtimeTypeSource = runtimeTypeSource;
         }
 
         public IXamlParser CreateForReadingFree()
@@ -22,19 +22,19 @@
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(runtimeTypeSource));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext),
+                new XamlProtoInstructionParser(runtimeTypeSource),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
-            return new XamlXmlParser(phaseParserKit);
+            return new XmlParser(phaseParserKit);
         }
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler.ObjectAssembler(wiringContext, new TopDownValueContext());
+            return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler.ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

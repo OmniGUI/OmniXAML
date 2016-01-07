@@ -8,18 +8,18 @@
     using Builder;
     using Typing;
 
-    public class WpfTypeContext : TypeContext
+    public class WpfRuntimeTypeSource : RuntimeTypeSource
     {
         private const string WpfRootNs = @"http://schemas.microsoft.com/winfx/2006/xaml/presentation";
         
-        public WpfTypeContext()
-            : base(new WpfXamlTypeRepository(CreateXamlNamespaceRegistry(), new WpfXamlLoaderTypeFactory(), GetFeatureProvider()), CreateXamlNamespaceRegistry())
+        public WpfRuntimeTypeSource()
+            : base(new WpfTypeRepository(CreateXamlNamespaceRegistry(), new WpfXamlLoaderTypeFactory(), GetFeatureProvider()), CreateXamlNamespaceRegistry())
         {
         }
 
-        private static XamlNamespaceRegistry CreateXamlNamespaceRegistry()
+        private static NamespaceRegistry CreateXamlNamespaceRegistry()
         {
-            var xamlNamespaceRegistry = new XamlNamespaceRegistry();
+            var xamlNamespaceRegistry = new NamespaceRegistry();
 
             var windowType = typeof (Window);
             var textBlockType = typeof (TextBlock);

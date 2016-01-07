@@ -1,5 +1,3 @@
-using OmniXaml.Tests.Classes.Templates;
-
 namespace OmniXaml.Tests.Classes
 {
     using System.Collections.ObjectModel;

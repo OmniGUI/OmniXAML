@@ -6,7 +6,6 @@
     using System.Linq;
     using Builder;
     using BuiltInConverters;
-    using Glass;
 
     public class TypeConverterProvider : ITypeConverterProvider
     {

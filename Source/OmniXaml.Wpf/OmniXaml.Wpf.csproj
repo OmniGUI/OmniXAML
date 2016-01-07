@@ -64,8 +64,8 @@
     <Compile Include="WpfParserFactory.cs" />
     <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWindow.cs" />
-    <Compile Include="WpfTypeContext.cs" />
-    <Compile Include="WpfXamlAttachableMember.cs" />
+    <Compile Include="WpfRuntimeTypeSource.cs" />
+    <Compile Include="WpfAttachableMember.cs" />
     <Compile Include="WpfXamlLoaderTypeFactory.cs" />
     <Compile Include="XamlMemberAdapter.cs" />
     <Compile Include="TemplateContentToWpfXamlReaderAdapter.cs" />
@@ -77,19 +77,19 @@
     <Compile Include="DeferredLoader.cs" />
     <Compile Include="ObjectAssembler.cs" />
     <Compile Include="TemplateContent.cs" />
-    <Compile Include="WpfCoreXamlLoader.cs" />
+    <Compile Include="WpfCoreLoader.cs" />
     <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="TypeConverterProvider.cs" />
     <Compile Include="ServiceLocator.cs" />
-    <Compile Include="WpfXamlMember.cs" />
+    <Compile Include="WpfMember.cs" />
     <Compile Include="MemberValuePlugin.cs" />
     <Compile Include="WpfXamlType.cs" />
     <Compile Include="XamlMemberInvokerAdapter.cs" />
     <Compile Include="XamlSchemaContentProvider.cs" />
     <Compile Include="XamlTypeConversion.cs" />
     <Compile Include="XamlNodeExtensions.cs" />
-    <Compile Include="WpfXamlTypeRepository.cs" />
+    <Compile Include="WpfTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">

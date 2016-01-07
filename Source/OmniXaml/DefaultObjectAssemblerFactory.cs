@@ -4,9 +4,9 @@ namespace OmniXaml
 
     public class DefaultObjectAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
 
-        public DefaultObjectAssemblerFactory(ITypeContext typeContext)
+        public DefaultObjectAssemblerFactory(IRuntimeTypeSource typeContext)
         {
             this.typeContext = typeContext;
         }

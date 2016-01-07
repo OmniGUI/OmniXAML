@@ -4,20 +4,20 @@ namespace OmniXaml.Typing
     using System.Reflection;
     using Glass;
 
-    public class XamlTypeRepository : IXamlTypeRepository
+    public class TypeRepository : ITypeRepository
     {
-        private readonly IXamlNamespaceRegistry xamlNamespaceRegistry;
+        private readonly INamespaceRegistry namespaceRegistry;
         private readonly ITypeFactory typeTypeFactory;
         private readonly ITypeFeatureProvider featureProvider;
         
 
-        public XamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+        public TypeRepository(INamespaceRegistry namespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
-            Guard.ThrowIfNull(xamlNamespaceRegistry, nameof(xamlNamespaceRegistry));
+            Guard.ThrowIfNull(namespaceRegistry, nameof(namespaceRegistry));
             Guard.ThrowIfNull(typeTypeFactory, nameof(typeTypeFactory));
             Guard.ThrowIfNull(featureProvider, nameof(featureProvider));
 
-            this.xamlNamespaceRegistry = xamlNamespaceRegistry;
+            this.namespaceRegistry = namespaceRegistry;
             this.typeTypeFactory = typeTypeFactory;
             this.featureProvider = featureProvider;
         }
@@ -26,7 +26,7 @@ namespace OmniXaml.Typing
 
         public ITypeFactory TypeFactory => typeTypeFactory;
 
-        public virtual XamlType GetXamlType(Type type)
+        public virtual XamlType GetByType(Type type)
         {
             Guard.ThrowIfNull(type, nameof(type));
 
@@ -45,26 +45,26 @@ namespace OmniXaml.Typing
 
         public XamlType GetByPrefix(string prefix, string typeName)
         {
-            var ns = xamlNamespaceRegistry.GetNamespaceByPrefix(prefix);
+            var ns = namespaceRegistry.GetNamespaceByPrefix(prefix);
 
             if (ns == null)
             {
-                throw new XamlParseException($"Cannot find a namespace with the prefix \"{prefix}\"");
+                throw new ParseException($"Cannot find a namespace with the prefix \"{prefix}\"");
             }
 
             var type = ns.Get(typeName);
 
             if (type == null)
             {
-                throw new XamlParseException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
+                throw new ParseException($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
             }
 
-            return GetXamlType(type);
+            return GetByType(type);
         }
 
-        public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
+        public XamlType GetByFullAddress(XamlTypeName xamlTypeName)
         {
-            var ns = xamlNamespaceRegistry.GetNamespace(xamlTypeName.Namespace);
+            var ns = namespaceRegistry.GetNamespace(xamlTypeName.Namespace);
 
             if (ns == null)
             {
@@ -75,21 +75,21 @@ namespace OmniXaml.Typing
 
             if (correspondingType != null)
             {
-                return GetXamlType(correspondingType);
+                return GetByType(correspondingType);
             }
 
             throw new TypeNotFoundException($"Error trying to resolve a XamlType: The type {xamlTypeName.Name} has not been found into the namespace '{xamlTypeName.Namespace}'");
         }
 
-        public XamlMember GetMember(PropertyInfo propertyInfo)
+        public Member GetMember(PropertyInfo propertyInfo)
         {
-            var owner = GetXamlType(propertyInfo.DeclaringType);
-            return new XamlMember(propertyInfo.Name, owner, this, featureProvider);
+            var owner = GetByType(propertyInfo.DeclaringType);
+            return new Member(propertyInfo.Name, owner, this, featureProvider);
         }
 
-        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
-            return new AttachableXamlMember(name, getter, setter, this, featureProvider);
+            return new AttachableMember(name, getter, setter, this, featureProvider);
         }       
     }
 }

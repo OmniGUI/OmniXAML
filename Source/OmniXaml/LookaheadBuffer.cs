@@ -4,12 +4,12 @@ namespace OmniXaml
 
     public static class LookaheadBuffer
     {
-        public static IEnumerable<XamlInstruction> GetUntilEndOfRoot(IEnumerator<XamlInstruction> enumerator)
+        public static IEnumerable<Instruction> GetUntilEndOfRoot(IEnumerator<Instruction> enumerator)
         {
             var count = 0;
             var isEndOfRootObject = false;
 
-            if (enumerator.Current.Equals(default(XamlInstruction)))
+            if (enumerator.Current.Equals(default(Instruction)))
             {
                 yield break;
             }
@@ -20,11 +20,11 @@ namespace OmniXaml
 
                 switch (enumerator.Current.InstructionType)
                 {
-                    case XamlInstructionType.StartObject:
-                    case XamlInstructionType.GetObject:
+                    case InstructionType.StartObject:
+                    case InstructionType.GetObject:
                         count++;
                         break;
-                    case XamlInstructionType.EndObject:
+                    case InstructionType.EndObject:
                         count--;
                         break;
                 }

@@ -22,7 +22,7 @@
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
 
-            WiringContext = new TestContext();
+            RuntimeTypeContext = new TestRuntimeTypeSource();
         }
 
         public IList Snippets { get; set; }
@@ -63,7 +63,7 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
+            var loader = new XmlLoader(new DummyXamlParserFactory(RuntimeTypeContext));
             
             var rootObject = loader.FromString(Xaml);
             Representation = ConvertToViewNodes(rootObject);

@@ -4,10 +4,10 @@ namespace OmniXaml.Wpf
 
     public class TemplateContent
     {
-        public IEnumerable<XamlInstruction> Nodes { get; }
-        public ITypeContext TypeContext { get; }
+        public IEnumerable<Instruction> Nodes { get; }
+        public IRuntimeTypeSource TypeContext { get; }
 
-        public TemplateContent(IEnumerable<XamlInstruction> nodes, ITypeContext typeContext)
+        public TemplateContent(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeContext)
         {
             Nodes = nodes;
             TypeContext = typeContext;

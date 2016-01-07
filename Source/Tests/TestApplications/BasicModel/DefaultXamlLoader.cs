@@ -5,22 +5,22 @@
 
     internal class DefaultXamlLoader : IXamlLoader
     {
-        private readonly XamlXmlLoader xamlXmlLoader;
+        private readonly XmlLoader xmlLoader;
 
-        public DefaultXamlLoader(ITypeContext typeContext)
+        public DefaultXamlLoader(IRuntimeTypeSource typeContext)
         {
             IXamlParserFactory parserFactory= new DefaultParserFactory(typeContext);
-            xamlXmlLoader = new XamlXmlLoader(parserFactory);
+            xmlLoader = new XmlLoader(parserFactory);
         }
 
         public object Load(Stream stream)
         {
-            return xamlXmlLoader.Load(stream);
+            return xmlLoader.Load(stream);
         }
 
         public object Load(Stream stream, object instance)
         {
-            return xamlXmlLoader.Load(stream, instance);
+            return xmlLoader.Load(stream, instance);
         }
     }
 }

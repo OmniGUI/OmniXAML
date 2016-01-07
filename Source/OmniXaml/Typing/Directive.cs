@@ -1,13 +1,13 @@
 namespace OmniXaml.Typing
 {
-    public class XamlDirective : XamlMemberBase
+    public class Directive : MemberBase
     {
-        public XamlDirective(string name) : base(name)
+        public Directive(string name) : base(name)
         {
             XamlType = XamlType.CreateForBuiltInType(typeof(object));
         }
 
-        public XamlDirective(string name, XamlType xamlType) : base(name)
+        public Directive(string name, XamlType xamlType) : base(name)
         {
             XamlType = xamlType;
         }

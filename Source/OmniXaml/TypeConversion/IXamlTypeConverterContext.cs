@@ -5,7 +5,7 @@ namespace OmniXaml.TypeConversion
 
     public interface IXamlTypeConverterContext
     {
-        IXamlTypeRepository TypeRepository { get; }
+        ITypeRepository TypeRepository { get; }
 
         ITopDownValueContext TopDownValueContext { get;}
     }

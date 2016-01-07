@@ -5,14 +5,14 @@
     using ProtoParser;
     using Sprache;
     using Typing;
-    using XamlParseException = OmniXaml.XamlParseException;
+    using ParseException = OmniXaml.ParseException;
 
     public class XamlInstructionParser : IXamlInstructionParser
     {
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
         private IEnumerator<ProtoXamlInstruction> instructionStream;
 
-        public XamlInstructionParser(ITypeContext typeContext)
+        public XamlInstructionParser(IRuntimeTypeSource typeContext)
         {
             this.typeContext = typeContext;
         }
@@ -31,9 +31,9 @@
         private ProtoXamlInstruction Current => instructionStream.Current;
         private string CurrentText => instructionStream.Current.Text;
         private string CurrentPropertyText => Current.PropertyAttributeText;
-        private XamlMemberBase CurrentMember => Current.PropertyAttribute;
+        private MemberBase CurrentMember => Current.PropertyAttribute;
 
-        public IEnumerable<XamlInstruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
+        public IEnumerable<Instruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
         {
             instructionStream = protoNodes.GetEnumerator();
             SetNextInstruction();
@@ -48,7 +48,7 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseElements()
+        private IEnumerable<Instruction> ParseElements()
         {
             if (CurrentNodeIsText)
             {
@@ -80,7 +80,7 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseEmptyElement()
+        private IEnumerable<Instruction> ParseEmptyElement()
         {
             yield return Inject.StartOfObject(instructionStream.Current.XamlType);
 
@@ -99,7 +99,7 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseNonEmptyElement()
+        private IEnumerable<Instruction> ParseNonEmptyElement()
         {
             yield return Inject.StartOfObject(instructionStream.Current.XamlType);
             var parentType = instructionStream.Current.XamlType;
@@ -132,14 +132,14 @@
             ReadEndTag();
         }
 
-        private IEnumerable<XamlInstruction> ParseItemsOfCollection()
+        private IEnumerable<Instruction> ParseItemsOfCollection()
         {
             yield return Inject.Items();
             foreach (var xamlInstruction in ParseElements()) { yield return xamlInstruction; }
             yield return Inject.EndOfMember();
         }
 
-        private IEnumerable<XamlInstruction> InjectNodesForTypeThatRequiresInitialization()
+        private IEnumerable<Instruction> InjectNodesForTypeThatRequiresInitialization()
         {
             yield return Inject.Initialization();
             SetNextInstruction();
@@ -153,13 +153,13 @@
 
             if (CurrentNodeType != NodeType.EndTag)
             {
-                throw new XamlParseException("Expected End Tag");
+                throw new ParseException("Expected End Tag");
             }
 
             SetNextInstruction();
         }
 
-        private IEnumerable<XamlInstruction> ParseNestedProperties(XamlType parentType)
+        private IEnumerable<Instruction> ParseNestedProperties(XamlType parentType)
         {
             while (CurrentNodeType == NodeType.PropertyElement || CurrentNodeType == NodeType.EmptyPropertyElement)
             {
@@ -183,14 +183,14 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseContentPropertyIfAny(XamlType parentType)
+        private IEnumerable<Instruction> ParseContentPropertyIfAny(XamlType parentType)
         {
             if (IsNestedPropertyImplicit)
             {
                 var contentProperty = parentType.ContentProperty;
                 if (contentProperty == null)
                 {
-                    throw new XamlParseException($"Cannot get the content property for the type {parentType}");
+                    throw new ParseException($"Cannot get the content property for the type {parentType}");
                 }
 
                 if (contentProperty.XamlType.IsCollection)
@@ -210,13 +210,13 @@
         {
             if (EndOfStream)
             {
-                throw new XamlParseException("The end of the stream has already been reached!");
+                throw new ParseException("The end of the stream has already been reached!");
             }
 
             EndOfStream = !instructionStream.MoveNext();
         }
 
-        private IEnumerable<XamlInstruction> ParseCollectionInsideThisProperty(XamlMemberBase member)
+        private IEnumerable<Instruction> ParseCollectionInsideThisProperty(MemberBase member)
         {
             yield return Inject.StartOfMember(member);
 
@@ -244,7 +244,7 @@
 
         private bool IsBeginingOfImplicitCollection => Current.XamlType == null || !Current.XamlType.IsCollection;
 
-        private IEnumerable<XamlInstruction> ParseNestedProperty(XamlMemberBase member)
+        private IEnumerable<Instruction> ParseNestedProperty(MemberBase member)
         {
             yield return Inject.StartOfMember(member);
 
@@ -259,7 +259,7 @@
             yield return Inject.EndOfMember();
         }
 
-        private IEnumerable<XamlInstruction> ParseInnerContentOfNestedProperty()
+        private IEnumerable<Instruction> ParseInnerContentOfNestedProperty()
         {
             if (CurrentNodeType == NodeType.Text)
             {
@@ -274,7 +274,7 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseMembersOfObject()
+        private IEnumerable<Instruction> ParseMembersOfObject()
         {
             while (CurrentNodeType == NodeType.Attribute && !EndOfStream)
             {
@@ -300,14 +300,14 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseMarkupExtension(string valueOfMember)
+        private IEnumerable<Instruction> ParseMarkupExtension(string valueOfMember)
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
             var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(typeContext);
             return markupExtensionConverter.ParseMarkupExtensionNode(tree);
         }
 
-        private IEnumerable<XamlInstruction> ParsePrefixDefinitions()
+        private IEnumerable<Instruction> ParsePrefixDefinitions()
         {
             while (CurrentNodeType == NodeType.PrefixDefinition)
             {

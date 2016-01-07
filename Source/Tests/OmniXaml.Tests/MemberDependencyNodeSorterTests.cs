@@ -3,15 +3,12 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Classes;
-    using Classes.WpfLikeModel;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Resources;
 
     [TestClass]
-    public class MemberDependencyNodeSorterTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
         private readonly XamlInstructionResources resources;
@@ -26,7 +23,7 @@
         {
             var input = resources.StyleUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.StyleSorted;
 
@@ -39,7 +36,7 @@
         {
             var input = resources.SetterUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.SetterSorted;
 
@@ -51,7 +48,7 @@
         {
             var input = resources.ComboBoxUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ComboBoxSorted;
 
@@ -63,7 +60,7 @@
         {
             var input = resources.ListBoxSortedWithExtension;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ListBoxSortedWithExtension;
 

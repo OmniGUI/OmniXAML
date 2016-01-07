@@ -17,51 +17,51 @@
         private readonly Type expectedType = typeof (DummyClass);
 
         [TestMethod]
-        [ExpectedException(typeof (XamlLoadException))]
+        [ExpectedException(typeof (LoadException))]
         public void EmptyStreamThrows()
         {
-            XamlLoader.FromString(Dummy.Empty);
+            Loader.FromString(Dummy.Empty);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (XamlLoadException))]
+        [ExpectedException(typeof (LoadException))]
         public void UnknownElementThrows()
         {
-            XamlLoader.FromString(Dummy.UnknownType);
+            Loader.FromString(Dummy.UnknownType);
         }
 
         [TestMethod]
-        [ExpectedException(typeof (XamlLoadException))]
+        [ExpectedException(typeof (LoadException))]
         public void BadFormatThrowsXamlReaderException()
         {
-            XamlLoader.FromString(Dummy.BadFormat);
+            Loader.FromString(Dummy.BadFormat);
         }
 
         [TestMethod]
         public void NoPrefixMapsToNamespaceAndReturnsTheCorrectInstance()
         {
-            var actual = XamlLoader.FromString(Dummy.RootNamespace);
+            var actual = Loader.FromString(Dummy.RootNamespace);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void SimpleXamlWithCollapsedTagsShouldReadLikeExplicitEndingTag()
         {
-            var actual = XamlLoader.FromString(Dummy.CollapsedTag);
+            var actual = Loader.FromString(Dummy.CollapsedTag);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void DifferentNamespacesShouldReturnCorrectInstances()
         {
-            var actual = XamlLoader.FromString(Dummy.DifferentNamespaces);
+            var actual = Loader.FromString(Dummy.DifferentNamespaces);
             Assert.IsInstanceOfType(actual, expectedType);
         }
 
         [TestMethod]
         public void ReadInstanceWithChild()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.InstanceWithChild);
+            var actualInstance = Loader.FromString(Dummy.InstanceWithChild);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -72,7 +72,7 @@
         [TestMethod]
         public void ReadInstanceWithThreeLevelsOfNesting()
         {
-            var root = XamlLoader.FromString(Dummy.ThreeLevelsOfNesting);
+            var root = Loader.FromString(Dummy.ThreeLevelsOfNesting);
 
             var dummy = root as DummyClass;
             Assert.IsInstanceOfType(root, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
@@ -88,7 +88,7 @@
         [TestMethod]
         public void KeyDirective()
         {
-            var actual = XamlLoader.FromString(Dummy.KeyDirective);
+            var actual = Loader.FromString(Dummy.KeyDirective);
             Assert.IsInstanceOfType(actual, typeof (DummyClass));
             var dictionary = (IDictionary) ((DummyClass) actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
@@ -97,7 +97,7 @@
         [TestMethod]
         public void String()
         {
-            var actual = XamlLoader.FromString(Dummy.String);
+            var actual = Loader.FromString(Dummy.String);
             Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
         }
@@ -105,7 +105,7 @@
         [TestMethod]
         public void StringAsProperty()
         {
-            var actual = XamlLoader.FromString(Dummy.StringAsProperty);
+            var actual = Loader.FromString(Dummy.StringAsProperty);
             Assert.IsInstanceOfType(actual, typeof (DummyClass));
             Assert.AreEqual("Text", ((DummyClass) actual).SampleProperty);
         }
@@ -113,7 +113,7 @@
         [TestMethod]
         public void StringWithWhitespace()
         {
-            var actual = XamlLoader.FromString(Dummy.StringWithWhitespace);
+            var actual = Loader.FromString(Dummy.StringWithWhitespace);
             Assert.IsInstanceOfType(actual, typeof (string));
             Assert.AreEqual("Text", actual);
         }
@@ -121,7 +121,7 @@
         [TestMethod]
         public void Int()
         {
-            var actual = XamlLoader.FromString(Dummy.Int);
+            var actual = Loader.FromString(Dummy.Int);
             Assert.IsInstanceOfType(actual, typeof (int));
             Assert.AreEqual(123, actual);
         }
@@ -129,7 +129,7 @@
         [TestMethod]
         public void StringProperty()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.StringProperty);
+            var actualInstance = Loader.FromString(Dummy.StringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -140,7 +140,7 @@
         [TestMethod]
         public void ExpandedStringProperty()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.InnerContent);
+            var actualInstance = Loader.FromString(Dummy.InnerContent);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -151,7 +151,7 @@
         [TestMethod]
         public void InnerContentIsContentProperty()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.ContentPropertyInInnerContent);
+            var actualInstance = Loader.FromString(Dummy.ContentPropertyInInnerContent);
 
             Assert.IsInstanceOfType(actualInstance, typeof (TextBlock), $"The retrieved instance should be of type {typeof (TextBlock)}");
             var dummyClass = actualInstance as TextBlock;
@@ -162,7 +162,7 @@
         [TestMethod]
         public void NonStringProperty()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.NonStringProperty);
+            var actualInstance = Loader.FromString(Dummy.NonStringProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -173,7 +173,7 @@
         [TestMethod]
         public void ChildCollection()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.ChildCollection);
+            var actualInstance = Loader.FromString(Dummy.ChildCollection);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -185,7 +185,7 @@
         [TestMethod]
         public void AttachedProperty()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.AttachedProperty);
+            var actualInstance = Loader.FromString(Dummy.AttachedProperty);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -196,7 +196,7 @@
         [TestMethod]
         public void Ignorable()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.Ignorable);
+            var actualInstance = Loader.FromString(Dummy.Ignorable);
 
             Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
             var dummyClass = actualInstance as DummyClass;
@@ -207,7 +207,7 @@
         [TestMethod]        
         public void DirectiveInSpecialNamespaceThatIsNotX()
         {
-            var actual = XamlLoader.FromString(Dummy.KeyDirectiveNotInX);
+            var actual = Loader.FromString(Dummy.KeyDirectiveNotInX);
             Assert.IsInstanceOfType(actual, typeof(DummyClass));
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
             Assert.IsTrue(dictionary.Count > 0);
@@ -216,7 +216,7 @@
         [TestMethod]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
-            var loadedObject = XamlLoader.FromString(Dummy.ExpandedAttachablePropertyAndItemBelow);
+            var loadedObject = Loader.FromString(Dummy.ExpandedAttachablePropertyAndItemBelow);
             
             var items = ((DummyClass)loadedObject).Items;
 
@@ -229,14 +229,14 @@
         [Fact]
         public void PureCollection()
         {
-            var actualInstance = XamlLoader.FromString(Dummy.PureCollection);
+            var actualInstance = Loader.FromString(Dummy.PureCollection);
             Xunit.Assert.NotEmpty((IEnumerable) actualInstance);
         }
 
         [Fact]
         public void AttachableMemberThatIsCollection()
         {
-            var instance = XamlLoader.FromString(Dummy.AttachableMemberThatIsCollection);
+            var instance = Loader.FromString(Dummy.AttachableMemberThatIsCollection);
             var col = Container.GetCollection(instance);
 
             Xunit.Assert.NotEmpty(col);
@@ -245,7 +245,7 @@
         [TestMethod]
         public void ChildInDeeperNameScopeWithNamesInTwoLevels_HaveCorrectNames()
         {
-            var actual = XamlLoader.FromString(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels);
+            var actual = Loader.FromString(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels);
 
             var w = (Window)actual;
             var lb = (ListBox)w.Content;

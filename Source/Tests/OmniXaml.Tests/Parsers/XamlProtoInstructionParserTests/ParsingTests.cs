@@ -7,7 +7,7 @@
     using Xaml.Tests.Resources;
     using Xunit;
     
-    public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class ParsingTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly ProtoInstructionResources source;
 
@@ -19,7 +19,7 @@
         private XamlProtoInstructionParser CreateSut()
         {
             
-            return new XamlProtoInstructionParser(TypeContext);
+            return new XamlProtoInstructionParser(TypeRuntimeTypeSource);
         }
 
         [Fact]
@@ -71,7 +71,7 @@
         {
             var sut = CreateSut();
 
-            Assert.Throws<XamlParseException>(() => sut.Parse(ProtoInputs.PropertyTagOpen).ToList());
+            Assert.Throws<ParseException>(() => sut.Parse(ProtoInputs.PropertyTagOpen).ToList());
         }
 
         [Fact]
@@ -198,7 +198,7 @@
         public void NonExistingProperty()
         {
             var sut = CreateSut();
-            Assert.Throws<XamlParseException>(() => sut.Parse(Dummy.NonExistingProperty).ToList());
+            Assert.Throws<ParseException>(() => sut.Parse(Dummy.NonExistingProperty).ToList());
         }
 
         [Fact]

@@ -18,7 +18,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         {
             if (StateCommuter.Level == 0)
             {
-                throw new XamlParseException("An object cannot start after level zero has been reached. This condition may indicate that there are more than one object at the Root Level. Please, verify that there is ONLY one root object.");
+                throw new ParseException("An object cannot start after level zero has been reached. This condition may indicate that there are more than one object at the Root Level. Please, verify that there is ONLY one root object.");
             }
 
             if (ConflictsWithObjectBeingConfigured)
@@ -45,7 +45,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     tempQualifier.Current.Collection = collection;
                 }
                 var typeContext = Assembler.TypeContext;
-                var xamlTypeOfInstance = typeContext.GetXamlType(rootInstance.GetType());
+                var xamlTypeOfInstance = typeContext.GetByType(rootInstance.GetType());
                 StateCommuter.Current.XamlType = xamlTypeOfInstance;
             }
         }

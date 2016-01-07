@@ -8,13 +8,13 @@
     using OmniXaml.Parsers.XamlInstructions;
 
     [TestClass]
-    public class MarkupExtensionsParsingFromProtoToXaml : GivenAWiringContextWithNodeBuildersNetCore
+    public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly IXamlInstructionParser sut;
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {            
-            sut = new XamlInstructionParser(TypeContext);
+            sut = new XamlInstructionParser(TypeRuntimeTypeSource);
         }
 
         [TestMethod]
@@ -27,7 +27,7 @@
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy}", RootNs.Prefix),
             };
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof(DummyClass)),
@@ -53,7 +53,7 @@
                 P.Attribute<DummyClass>(d => d.SampleProperty, "{Dummy Option}", RootNs.Prefix),
             };
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof (DummyClass)),

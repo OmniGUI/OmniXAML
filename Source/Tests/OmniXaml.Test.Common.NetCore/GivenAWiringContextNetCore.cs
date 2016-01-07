@@ -2,9 +2,9 @@
 {
     using Common;
 
-    public class GivenAWiringContextNetCore : GivenAWiringContext
+    public class GivenARuntimeTypeContextNetCore : GivenARuntimeTypeContext
     {
-        public GivenAWiringContextNetCore() : base()
+        public GivenARuntimeTypeContextNetCore() : base()
         {
         }
     }

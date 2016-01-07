@@ -6,19 +6,19 @@
     using System.Windows.Markup;
     using Typing;
 
-    public class WpfXamlMember : XamlMember
+    public class WpfMember : Member
     {
-        public WpfXamlMember(string name, XamlType declaringType, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider typeFeatureProvider)
-            : base(name, declaringType, xamlTypeRepository, typeFeatureProvider)
+        public WpfMember(string name, XamlType declaringType, ITypeRepository typeRepository, ITypeFeatureProvider typeFeatureProvider)
+            : base(name, declaringType, typeRepository, typeFeatureProvider)
         {
         }
 
-        protected override IXamlMemberValuePlugin LookupXamlMemberValueConnector()
+        protected override IMemberValuePlugin LookupXamlMemberValueConnector()
         {
             return new MemberValuePlugin(this);
         }
 
-        protected override IEnumerable<XamlMember> LookupDependencies()
+        protected override IEnumerable<Member> LookupDependencies()
         {
             var underlyingType = DeclaringType.UnderlyingType;
             var dependsOnAttributes = underlyingType.GetRuntimeProperty(Name)?.GetCustomAttributes<DependsOnAttribute>();

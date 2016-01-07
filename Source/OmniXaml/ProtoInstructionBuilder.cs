@@ -11,9 +11,9 @@
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class ProtoInstructionBuilder
     {
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
 
-        public ProtoInstructionBuilder(ITypeContext typeContext)
+        public ProtoInstructionBuilder(IRuntimeTypeSource typeContext)
         {
             this.typeContext = typeContext;
         }
@@ -62,7 +62,7 @@
             {
                 Namespace = nsDecl.Namespace,
                 Prefix = nsDecl.Prefix,
-                XamlType = typeContext.GetXamlType(type),
+                XamlType = typeContext.GetByType(type),
                 NodeType = isEmpty ? NodeType.EmptyElement : NodeType.Element,
             };
         }
@@ -95,7 +95,7 @@
         public ProtoXamlInstruction InlineAttachableProperty<TParent>(string name, string value, NamespaceDeclaration namespaceDeclaration)
         {
             var type = typeof(TParent);
-            var xamlType = typeContext.GetXamlType(type);
+            var xamlType = typeContext.GetByType(type);
 
             var member = xamlType.GetAttachableMember(name);
 
@@ -128,7 +128,7 @@
 
         private ProtoXamlInstruction PropertyElement(Type type, string memberName, NamespaceDeclaration namespaceDeclaration, bool isCollapsed)
         {
-            var property = typeContext.GetXamlType(type).GetMember(memberName);
+            var property = typeContext.GetByType(type).GetMember(memberName);
 
             return new ProtoXamlInstruction
             {
@@ -163,7 +163,7 @@
             return new ProtoXamlInstruction { Namespace = null, NodeType = NodeType.Text, XamlType = null, Text = text };
         }
 
-        public ProtoXamlInstruction Attribute(XamlMemberBase member, string value, string prefix)
+        public ProtoXamlInstruction Attribute(MemberBase member, string value, string prefix)
         {
             return new ProtoXamlInstruction
             {
@@ -176,7 +176,7 @@
 
         public ProtoXamlInstruction Attribute<T>(Expression<Func<T, object>> selector, string value, string prefix)
         {
-            var xamlMember = typeContext.GetXamlType(typeof(T)).GetMember(selector.GetFullPropertyName());
+            var xamlMember = typeContext.GetByType(typeof(T)).GetMember(selector.GetFullPropertyName());
             return Attribute(xamlMember, value, prefix);
         }
 
@@ -185,7 +185,7 @@
             return Attribute(CoreTypes.sKey, value, "x");
         }
 
-        public ProtoXamlInstruction Directive(XamlDirective directive, string value)
+        public ProtoXamlInstruction Directive(Directive directive, string value)
         {
             return Attribute(directive, value, "x");
         }
@@ -197,7 +197,7 @@
 
         public ProtoXamlInstruction ExpandedAttachedProperty(Type owner, string name, NamespaceDeclaration namespaceDeclaration)
         {
-            var xamlType = typeContext.GetXamlType(owner);
+            var xamlType = typeContext.GetByType(owner);
 
             var member = xamlType.GetAttachableMember(name);
 

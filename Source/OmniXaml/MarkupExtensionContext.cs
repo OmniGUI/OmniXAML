@@ -8,7 +8,7 @@
     {
         public object TargetObject { get; set; }
         public PropertyInfo TargetProperty { get; set; }
-        public IXamlTypeRepository TypeRepository { get; set; }
+        public ITypeRepository TypeRepository { get; set; }
         public ITopDownValueContext TopDownValueContext { get; set; }
     }
 }

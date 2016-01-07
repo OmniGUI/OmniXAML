@@ -15,12 +15,12 @@
         [Fact]
         public void MultinameRegistrationGivesSameObjectTwoSubsequentNames()
         {
-            var wiringContext = CreateWiringContext();
-            var x = CreateBuilder(wiringContext);
+            var runtimeTypeContext = CreateRuntimeTypeContext();
+            var x = CreateBuilder(runtimeTypeContext);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
 
-            var batch = new Collection<XamlInstruction>
+            var batch = new Collection<Instruction>
             {
                 x.StartObject<DummyClass>(),
                 x.StartMember<DummyClass>(d => d.Child),
@@ -44,12 +44,12 @@
         [Fact]
         public void GivenChildWithPreviousName_LatestNameIsRegisteredInParent()
         {
-            var wiringContext = CreateWiringContext();
-            var x = CreateBuilder(wiringContext);
+            var runtimeTypeContext = CreateRuntimeTypeContext();
+            var x = CreateBuilder(runtimeTypeContext);
 
-            var sut = new ObjectAssembler(wiringContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
 
-            var batch = new Collection<XamlInstruction>
+            var batch = new Collection<Instruction>
             {
                 x.StartObject<DummyClass>(),
                 x.StartMember<DummyClass>(d => d.Child),
@@ -70,12 +70,12 @@
             Assert.NotNull(childClass);           
         }
 
-        private static XamlInstructionBuilder CreateBuilder(IXamlTypeRepository typeRepository)
+        private static XamlInstructionBuilder CreateBuilder(ITypeRepository typeRepository)
         {
             return new XamlInstructionBuilder(typeRepository);
         }
 
-        private static ITypeContext CreateWiringContext()
+        private static IRuntimeTypeSource CreateRuntimeTypeContext()
         {
             var typeFactory = new MultiFactory(
                 new List<TypeFactoryRegistration>
@@ -85,8 +85,8 @@
                 });
 
             var typeFeatureProvider = new TypeFeatureProvider(new TypeConverterProvider());
-            var xamlTypeRepository = new XamlTypeRepository(new XamlNamespaceRegistry(), typeFactory, typeFeatureProvider);
-            var typeContext = new TypeContext(xamlTypeRepository, new XamlNamespaceRegistry());
+            var xamlTypeRepository = new TypeRepository(new NamespaceRegistry(), typeFactory, typeFeatureProvider);
+            var typeContext = new RuntimeTypeSource(xamlTypeRepository, new NamespaceRegistry());
             typeFeatureProvider.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
             return typeContext;
         }

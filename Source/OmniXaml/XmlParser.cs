@@ -1,18 +1,17 @@
 ﻿namespace OmniXaml
 {
-    using System;
     using System.Collections.Generic;
     using Glass;
     using Parsers.ProtoParser;
     using Parsers.XamlInstructions;
 
-    public class XamlXmlParser : IXamlParser
+    public class XmlParser : IXamlParser
     {
         private readonly IObjectAssembler objectAssembler;
         private readonly IProtoParser protoParser;
         private readonly IXamlInstructionParser parser;
 
-        public XamlXmlParser(PhaseParserKit phaseParserKit)  
+        public XmlParser(PhaseParserKit phaseParserKit)  
         {
             Guard.ThrowIfNull(phaseParserKit, nameof(phaseParserKit));
 
@@ -28,7 +27,7 @@
             return Parse(xamlNodes);
         }
 
-        private object Parse(IEnumerable<XamlInstruction> xamlNodes)
+        private object Parse(IEnumerable<Instruction> xamlNodes)
         {
             foreach (var instruction in xamlNodes) { objectAssembler.Process(instruction); }
 

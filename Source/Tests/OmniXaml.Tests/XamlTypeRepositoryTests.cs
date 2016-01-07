@@ -8,14 +8,14 @@
     using Typing;
 
     [TestClass]
-    public class XamlTypeRepositoryTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class XamlTypeRepositoryTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
-        private readonly Mock<IXamlNamespaceRegistry> nsRegistryMock;
-        private XamlTypeRepository sut;
+        private readonly Mock<INamespaceRegistry> nsRegistryMock;
+        private TypeRepository sut;
 
         public XamlTypeRepositoryTests()
         {
-            nsRegistryMock = new Mock<IXamlNamespaceRegistry>();
+            nsRegistryMock = new Mock<INamespaceRegistry>();
 
             var type = typeof(DummyClass);
 
@@ -33,13 +33,13 @@
         [TestInitialize]
         public void Initialize()
         {
-            sut = new XamlTypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+            sut = new TypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
         }
 
         [TestMethod]
         public void GetWithFullAddressReturnsCorrectType()
         {          
-            var xamlType = sut.GetWithFullAddress(new XamlTypeName("root", "DummyClass"));
+            var xamlType = sut.GetByFullAddress(new XamlTypeName("root", "DummyClass"));
 
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
@@ -47,7 +47,7 @@
         [TestMethod]
         public void GetWithFullAddressOfClrNamespaceReturnsTheCorrectType()
         {
-            var xamlType = sut.GetWithFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
+            var xamlType = sut.GetByFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
 
             Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
         }
@@ -55,7 +55,7 @@
         [TestMethod]
         public void GetByQualifiedName_ForTypeInDefaultNamespace()
         {
-            sut = new XamlTypeRepository(TypeContext, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+            sut = new TypeRepository(TypeRuntimeTypeSource, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetByQualifiedName("DummyClass");
 
@@ -67,11 +67,11 @@
         public void FullAddressOfUnknownThrowNotFound()
         {
             const string unreachableTypeName = "UnreachableType";
-            sut.GetWithFullAddress(new XamlTypeName("root", unreachableTypeName));
+            sut.GetByFullAddress(new XamlTypeName("root", unreachableTypeName));
        }     
     }
 
-    public class TypeFeatureProviderTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class TypeFeatureProviderTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         public ITypeFeatureProvider CreateSut()
         {
@@ -84,7 +84,7 @@
             var sut = CreateSut();
             var expectedMetadata = new GenericMetadata<DummyClass>();
             expectedMetadata.WithMemberDependency(d => d.Items, d => d.AnotherProperty);
-            XamlTypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
+            TypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
 
             var metadata = sut.GetMetadata<DummyClass>();
             Assert.AreEqual(expectedMetadata.AsNonGeneric(), metadata);

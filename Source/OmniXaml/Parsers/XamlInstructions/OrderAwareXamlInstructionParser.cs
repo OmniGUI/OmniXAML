@@ -11,7 +11,7 @@ namespace OmniXaml.Parsers.XamlInstructions
             this.parser = parser;
         }
 
-        public IEnumerable<XamlInstruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
+        public IEnumerable<Instruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
         {
             var nodeSorter = new MemberDependencyNodeSorter();
             var originalNodes = parser.Parse(protoNodes);

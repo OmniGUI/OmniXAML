@@ -7,13 +7,13 @@
 
     public class DefaultParserFactory : IXamlParserFactory
     {
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
 
         public DefaultParserFactory()
         {
         }
 
-        public DefaultParserFactory(ITypeContext typeContext)
+        public DefaultParserFactory(IRuntimeTypeSource typeContext)
         {
             this.typeContext = typeContext;
         }
@@ -34,7 +34,7 @@
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
-            return new XamlXmlParser(phaseParserKit);
+            return new XmlParser(phaseParserKit);
         }
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()

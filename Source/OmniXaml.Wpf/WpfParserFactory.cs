@@ -6,11 +6,11 @@ namespace OmniXaml.Wpf
 
     public class WpfParserFactory : IXamlParserFactory
     {
-        private readonly ITypeContext wiringContext;
+        private readonly IRuntimeTypeSource runtimeTypeContext;
 
         public WpfParserFactory()
         {
-            wiringContext = new WpfTypeContext();
+            runtimeTypeContext = new WpfRuntimeTypeSource();
         }
 
         public IXamlParser CreateForReadingFree()
@@ -22,19 +22,19 @@ namespace OmniXaml.Wpf
 
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(runtimeTypeContext));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext),
+                new XamlProtoInstructionParser(runtimeTypeContext),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
-            return new XamlXmlParser(phaseParserKit);
+            return new XmlParser(phaseParserKit);
         }
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext, new TopDownValueContext());
+            return new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@ namespace OmniXaml.Wpf
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(runtimeTypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

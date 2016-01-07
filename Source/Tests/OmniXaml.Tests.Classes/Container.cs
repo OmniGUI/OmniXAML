@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Tests.Classes
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
 
     public class Container
     {

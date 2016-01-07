@@ -10,12 +10,12 @@
     using Xunit;
 
 
-    public class PrefixTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class PrefixTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
 
         private XamlProtoInstructionParser CreateSut()
         {
-            return new XamlProtoInstructionParser(TypeContext);
+            return new XamlProtoInstructionParser(TypeRuntimeTypeSource);
         }
 
         [Fact]

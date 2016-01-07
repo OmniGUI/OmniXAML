@@ -7,107 +7,107 @@
 
     public class XamlInstructionBuilder
     {
-        private readonly IXamlTypeRepository registry;
+        private readonly ITypeRepository registry;
 
-        public XamlInstructionBuilder(IXamlTypeRepository registry)
+        public XamlInstructionBuilder(ITypeRepository registry)
         {
             this.registry = registry;
         }
 
-        public XamlInstruction None()
+        public Instruction None()
         {
-            return new XamlInstruction(XamlInstructionType.None);
+            return new Instruction(InstructionType.None);
         }
 
-        public XamlInstruction NamespacePrefixDeclaration(NamespaceDeclaration ns)
+        public Instruction NamespacePrefixDeclaration(NamespaceDeclaration ns)
         {
             return NamespacePrefixDeclaration(ns.Namespace, ns.Prefix);
         }
 
-        public XamlInstruction NamespacePrefixDeclaration(string ns, string prefix)
+        public Instruction NamespacePrefixDeclaration(string ns, string prefix)
         {
-            return new XamlInstruction(XamlInstructionType.NamespaceDeclaration, new NamespaceDeclaration(ns, prefix));
+            return new Instruction(InstructionType.NamespaceDeclaration, new NamespaceDeclaration(ns, prefix));
         }
 
-        public XamlInstruction StartObject(Type type)
+        public Instruction StartObject(Type type)
         {
-            return new XamlInstruction(XamlInstructionType.StartObject, registry.GetXamlType(type));
+            return new Instruction(InstructionType.StartObject, registry.GetByType(type));
         }
 
-        public XamlInstruction StartObject<T>()
+        public Instruction StartObject<T>()
         {
             return StartObject(typeof(T));
         }
 
-        public XamlInstruction EndObject()
+        public Instruction EndObject()
         {
-            return new XamlInstruction(XamlInstructionType.EndObject, null);
+            return new Instruction(InstructionType.EndObject, null);
         }
 
-        public XamlInstruction StartMember<T>(Expression<Func<T, object>> selector)
+        public Instruction StartMember<T>(Expression<Func<T, object>> selector)
         {
             var name = selector.GetFullPropertyName();
-            var xamlMember = registry.GetXamlType(typeof(T)).GetMember(name);
-            return new XamlInstruction(XamlInstructionType.StartMember, xamlMember);
+            var xamlMember = registry.GetByType(typeof(T)).GetMember(name);
+            return new Instruction(InstructionType.StartMember, xamlMember);
         }
 
-        public XamlInstruction EndMember()
+        public Instruction EndMember()
         {
-            return new XamlInstruction(XamlInstructionType.EndMember);
+            return new Instruction(InstructionType.EndMember);
         }
 
-        public XamlInstruction Value(string value)
+        public Instruction Value(string value)
         {
-            return new XamlInstruction(XamlInstructionType.Value, value);
+            return new Instruction(InstructionType.Value, value);
         }
 
-        public XamlInstruction Items()
+        public Instruction Items()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.Items);
+            return new Instruction(InstructionType.StartMember, CoreTypes.Items);
         }
 
-        public XamlInstruction GetObject()
+        public Instruction GetObject()
         {
-            return new XamlInstruction(XamlInstructionType.GetObject);
+            return new Instruction(InstructionType.GetObject);
         }
 
-        public XamlInstruction MarkupExtensionArguments()
+        public Instruction MarkupExtensionArguments()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.MarkupExtensionArguments);
+            return new Instruction(InstructionType.StartMember, CoreTypes.MarkupExtensionArguments);
         }
 
-        public XamlInstruction Name()
+        public Instruction Name()
         {
             return StartDirective("Name");
         }
 
-        public XamlInstruction Key()
+        public Instruction Key()
         {
             return StartDirective("Key");
         }
 
-        public XamlInstruction Initialization()
+        public Instruction Initialization()
         {
             return StartDirective("_Initialization");
         }
 
-        private static XamlInstruction StartDirective(string directive)
+        private static Instruction StartDirective(string directive)
         {            
-            return new XamlInstruction(XamlInstructionType.StartMember, new XamlDirective(directive));
+            return new Instruction(InstructionType.StartMember, new Directive(directive));
         }
 
-        public XamlInstruction UnknownContent()
+        public Instruction UnknownContent()
         {
-            return new XamlInstruction(XamlInstructionType.StartMember, CoreTypes.UnknownContent);
+            return new Instruction(InstructionType.StartMember, CoreTypes.UnknownContent);
         }
 
-        public XamlInstruction AttachableProperty<TParent>(string name)
+        public Instruction AttachableProperty<TParent>(string name)
         {
             var type = typeof(TParent);
-            var xamlType = registry.GetXamlType(type);
+            var xamlType = registry.GetByType(type);
             var member = xamlType.GetAttachableMember(name);
 
-            return new XamlInstruction(XamlInstructionType.StartMember, member);
+            return new Instruction(InstructionType.StartMember, member);
         }
     }
 }

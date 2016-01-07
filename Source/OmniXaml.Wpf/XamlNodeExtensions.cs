@@ -5,25 +5,25 @@ namespace OmniXaml.Wpf
 
     public static class XamlNodeExtensions
     {
-        public static XamlNodeType ToWpf(this XamlInstructionType omniNodeType)
+        public static XamlNodeType ToWpf(this InstructionType omniNodeType)
         {
             switch (omniNodeType)
             {
-                case XamlInstructionType.StartObject:
+                case InstructionType.StartObject:
                     return XamlNodeType.StartObject;
-                case XamlInstructionType.EndMember:
+                case InstructionType.EndMember:
                     return XamlNodeType.EndMember;
-                case XamlInstructionType.EndObject:
+                case InstructionType.EndObject:
                     return XamlNodeType.EndObject;
-                case XamlInstructionType.GetObject:
+                case InstructionType.GetObject:
                     return XamlNodeType.GetObject;
-                case XamlInstructionType.NamespaceDeclaration:
+                case InstructionType.NamespaceDeclaration:
                     return XamlNodeType.NamespaceDeclaration;
-                case XamlInstructionType.Value:
+                case InstructionType.Value:
                     return XamlNodeType.Value;
-                case XamlInstructionType.None:
+                case InstructionType.None:
                     return XamlNodeType.None;
-                case XamlInstructionType.StartMember:
+                case InstructionType.StartMember:
                     return XamlNodeType.StartMember;
             }
 
@@ -40,7 +40,7 @@ namespace OmniXaml.Wpf
             return new XamlType(omniType.UnderlyingType, xamlSchemaContext);
         }
 
-        public static XamlMember ToWpf(this Typing.XamlMember omniMember, XamlSchemaContext xamlSchemaContext)
+        public static XamlMember ToWpf(this Typing.Member omniMember, XamlSchemaContext xamlSchemaContext)
         {
             var declaringType = ToWpf(omniMember.DeclaringType, xamlSchemaContext);
             return declaringType.GetMember(omniMember.Name);

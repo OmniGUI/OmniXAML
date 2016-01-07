@@ -15,7 +15,7 @@ namespace OmniXaml.ObjectAssembler
 
         public StateCommuter(IObjectAssembler objectAssembler,
             StackingLinkedList<Level> stack,
-            ITypeContext typeContext,
+            IRuntimeTypeSource typeContext,
             ITopDownValueContext topDownValueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
@@ -39,7 +39,7 @@ namespace OmniXaml.ObjectAssembler
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember) Previous.XamlMember);
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableMember) Previous.Member);
 
         private StackingLinkedList<Level> Stack
         {
@@ -63,7 +63,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void AssignChildToParentProperty()
         {
-            var previousMember = (MutableXamlMember) Previous.XamlMember;
+            var previousMember = (MutableMember) Previous.Member;
             var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
 
             previousMember.SetValue(Previous.Instance, compatibleValue);
@@ -107,7 +107,7 @@ namespace OmniXaml.ObjectAssembler
             var xamlType = Current.XamlType;
             if (xamlType == null)
             {
-                throw new XamlParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
+                throw new ParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
             }
             var parameters = GatherConstructionArguments();
             var instance = xamlType.CreateInstance(parameters);
@@ -127,7 +127,7 @@ namespace OmniXaml.ObjectAssembler
             var inflationContext = new MarkupExtensionContext
             {
                 TargetObject = Previous.Instance,
-                TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.XamlMember.Name),
+                TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.Member.Name),
                 TypeRepository = ValuePipeline.TypeRepository,
                 TopDownValueContext = topDownValueContext
             };
@@ -253,7 +253,7 @@ namespace OmniXaml.ObjectAssembler
             SetKey(null);
         }
 
-        private static object GetValueTuple(object instance, MutableXamlMember member)
+        private static object GetValueTuple(object instance, MutableMember member)
         {
             var xamlMemberBase = member;
             return xamlMemberBase.GetValue(instance);

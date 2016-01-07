@@ -1,15 +1,13 @@
 namespace OmniXaml.Tests.Common
 {
-    using System.Collections.Generic;
-    using System.Reflection;
     using Builder;
 
-    public class GivenAWiringContextWithNodeBuilders : GivenAWiringContext
+    public class GivenARuntimeTypeContextWithNodeBuilders : GivenARuntimeTypeContext
     {
-        protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base()
+        protected GivenARuntimeTypeContextWithNodeBuilders()
         {
-            X = new XamlInstructionBuilder(TypeContext);
-            P = new ProtoInstructionBuilder(TypeContext);
+            X = new XamlInstructionBuilder(TypeRuntimeTypeSource);
+            P = new ProtoInstructionBuilder(TypeRuntimeTypeSource);
         }
 
         public XamlInstructionBuilder X { get; }

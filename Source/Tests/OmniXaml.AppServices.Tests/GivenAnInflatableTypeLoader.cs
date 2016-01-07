@@ -4,7 +4,7 @@ namespace OmniXaml.AppServices.Tests
     using OmniXaml.Tests.Common.NetCore;
     using Services.DotNetFx;
 
-    public class GivenAnInflatableTypeLoader : GivenAWiringContextNetCore
+    public class GivenAnInflatableTypeLoader : GivenARuntimeTypeContextNetCore
     {
         protected ITypeFactory TypeFactory { get; }
 
@@ -12,8 +12,8 @@ namespace OmniXaml.AppServices.Tests
         {
             Func<ITypeFactory, IXamlLoader> loaderFactory = inflatableTypeFactory =>
             {
-                var parserFactory = new DummyXamlParserFactory(TypeContext);
-                return new XamlXmlLoader(parserFactory);
+                var parserFactory = new DummyXamlParserFactory(TypeRuntimeTypeSource);
+                return new XmlLoader(parserFactory);
             };            
 
             TypeFactory = new DummyAutoInflatingTypeFactory(new TypeFactory(), new InflatableTranslator(), loaderFactory );

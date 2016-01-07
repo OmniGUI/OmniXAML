@@ -28,12 +28,12 @@ namespace OmniXaml
 
         private static IEnumerable<InstructionNode> GetMutableMembers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember);
+            return instructionNode.Children.Where(node => node.Leading.InstructionType == InstructionType.StartMember && node.Leading.Member is MutableMember);
         }
 
         private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)
         {
-            return instructionNode.Children.Where(node => !(node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember));
+            return instructionNode.Children.Where(node => !(node.Leading.InstructionType == InstructionType.StartMember && node.Leading.Member is MutableMember));
         }
     }
 }

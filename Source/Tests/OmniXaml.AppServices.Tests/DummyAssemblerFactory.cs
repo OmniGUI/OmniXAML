@@ -7,11 +7,11 @@
 
     internal class DummyAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly ITypeContext wiringContext;
+        private readonly IRuntimeTypeSource runtimeTypeContext;
 
-        public DummyAssemblerFactory(ITypeContext wiringContext)
+        public DummyAssemblerFactory(IRuntimeTypeSource runtimeTypeContext)
         {
-            this.wiringContext = wiringContext;
+            this.runtimeTypeContext = runtimeTypeContext;
         }
 
         public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
@@ -19,7 +19,7 @@
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
 
-            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownValueContext(), settings);
+            var objectAssembler = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext(), settings);
             return new TemplateHostingObjectAssembler(objectAssembler, mapping);
         }
 

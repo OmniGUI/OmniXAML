@@ -6,7 +6,7 @@ namespace OmniXaml.Typing
     using System.Reflection;
     using Attributes;
 
-    public static class XamlTypeRepositoryMixin
+    public static class TypeRepositoryMixin
     {
         public static Metadata GetMetadata<T>(this ITypeFeatureProvider typeRepository)
         {

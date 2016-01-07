@@ -9,7 +9,7 @@
     using Resources;
 
     [TestClass]
-    public class LookaheadBufferTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class LookaheadBufferTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private XamlInstructionResources resources;
 
@@ -21,7 +21,7 @@
         [TestMethod]
         public void LookAheadTest()
         {
-            var look = new List<XamlInstruction>
+            var look = new List<Instruction>
             {
                 X.StartObject<Style>(),
                 X.StartMember<Setter>(c => c.Value),
@@ -42,7 +42,7 @@
         [TestMethod]
         public void LookAheadTestStartZero()
         {
-            var instructions = new List<XamlInstruction>();
+            var instructions = new List<Instruction>();
 
             var enumerator = instructions.GetEnumerator();
             enumerator.MoveNext();
@@ -53,7 +53,7 @@
         [TestMethod]
         public void LookAheadTestStartMiniumLength()
         {
-            var look = new List<XamlInstruction>
+            var look = new List<Instruction>
             {
                 X.StartObject<Style>(),
                 X.EndObject()
@@ -68,7 +68,7 @@
         [TestMethod]
         public void LookAheadTest10()
         {
-            var look = new List<XamlInstruction>
+            var look = new List<Instruction>
             {
                 X.StartObject<Setter>(),
                 X.StartObject<Setter>(),
@@ -96,7 +96,7 @@
 
             for (var t = 0; t < 4; t++)
             {
-                look.Add(new XamlInstruction(XamlInstructionType.Value, "Noise"));
+                look.Add(new Instruction(InstructionType.Value, "Noise"));
             }
 
             var enumerator = look.GetEnumerator();

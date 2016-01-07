@@ -3,51 +3,50 @@ namespace OmniXaml.Tests
     using Classes;
     using Classes.WpfLikeModel;
     using Common.NetCore;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
     using Resources;
+    using Xunit;
 
-    [TestClass]
-    public class NameScopeTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class NameScopeTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionResources source;
         private readonly ObjectAssembler sut;
 
         public NameScopeTests()
         {
-            sut = new ObjectAssembler(TypeContext, new TopDownValueContext());
+            sut = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
             source = new XamlInstructionResources(this);
         }
        
-        [TestMethod]
+        [Fact]
         public void RegisterOneChildInNameScope()
         {
-            TypeContext.ClearNamescopes();
-            TypeContext.EnableNameScope<DummyClass>();
+            TypeRuntimeTypeSource.ClearNamescopes();
+            TypeRuntimeTypeSource.EnableNameScope<DummyClass>();
 
             sut.Process(source.ChildInNameScope);
             var actual = sut.Result;
             var childInScope = ((DummyObject)actual).Find("MyObject");
-            Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
+            Assert.IsType(typeof(ChildClass), childInScope);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void RegisterChildInDeeperNameScope()
         {
-            TypeContext.ClearNamescopes();
-            TypeContext.EnableNameScope<Window>();
+            TypeRuntimeTypeSource.ClearNamescopes();
+            TypeRuntimeTypeSource.EnableNameScope<Window>();
 
             sut.Process(source.ChildInDeeperNameScope);
             var actual = sut.Result;
             var textBlock1 = ((Window)actual).Find("MyTextBlock");
             var textBlock2 = ((Window)actual).Find("MyOtherTextBlock");
 
-            Assert.IsInstanceOfType(textBlock1, typeof(TextBlock));
-            Assert.IsInstanceOfType(textBlock2, typeof(TextBlock));
+            Assert.IsType(typeof(TextBlock), textBlock1);
+            Assert.IsType(typeof(TextBlock), textBlock2);
         }
 
-        [TestMethod]
+        [Fact]
         public void NameWithNoNamescopesToRegisterTo()
         {
             sut.Process(source.NameWithNoNamescopesToRegisterTo);

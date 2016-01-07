@@ -27,10 +27,10 @@ namespace OmniXaml.ObjectAssembler
             }
         }
 
-        public XamlMemberBase XamlMember
+        public MemberBase Member
         {
-            get { return level.XamlMember; }
-            set { level.XamlMember = value; }
+            get { return level.Member; }
+            set { level.Member = value; }
         }
 
         public bool IsGetObject

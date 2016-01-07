@@ -3,7 +3,7 @@ namespace OmniXaml.Typing
     using System.Collections.Generic;
     using Builder;
 
-    public interface IXamlNamespaceRegistry
+    public interface INamespaceRegistry
     {
         Namespace GetNamespace(string name);
         Namespace GetNamespaceByPrefix(string prefix);

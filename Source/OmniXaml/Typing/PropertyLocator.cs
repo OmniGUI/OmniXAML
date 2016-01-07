@@ -42,19 +42,19 @@
             }
 
             string prefix;
-            string qualifiedName;
+            string qName;
 
-            if (!XamlQualifiedName.TryParse(longName, out prefix, out qualifiedName))
+            if (!XamlQualifiedName.TryParse(longName, out prefix, out qName))
             {
                 return null;
             }
 
             var startIndex = 0;
             var part1 = string.Empty;
-            var length = qualifiedName.IndexOf('.');
+            var length = qName.IndexOf('.');
             if (length != -1)
             {
-                part1 = qualifiedName.Substring(startIndex, length);
+                part1 = qName.Substring(startIndex, length);
 
                 if (string.IsNullOrEmpty(part1))
                 {
@@ -63,7 +63,7 @@
 
                 startIndex = length + 1;
             }
-            var part2 = startIndex == 0 ? qualifiedName : qualifiedName.Substring(startIndex);
+            var part2 = startIndex == 0 ? qName : qName.Substring(startIndex);
             XamlQualifiedName xamlQualifiedName = null;
             if (!string.IsNullOrEmpty(part1))
             {

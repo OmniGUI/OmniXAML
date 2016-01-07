@@ -4,20 +4,20 @@ namespace OmniXaml
     using Typing;
 
     [DebuggerDisplay("{ToString()}")]
-    public struct XamlInstruction
+    public struct Instruction
     {
-        private readonly XamlInstructionType instructionType;
+        private readonly InstructionType instructionType;
         private readonly object data;
         private readonly InternalNodeType internalNodeType;
 
-        public XamlInstruction(XamlInstructionType instructionType)
+        public Instruction(InstructionType instructionType)
         {
             this.instructionType = instructionType;
             internalNodeType = InternalNodeType.None;
             data = null;
         }
 
-        public XamlInstruction(XamlInstructionType instructionType, object data)
+        public Instruction(InstructionType instructionType, object data)
             : this(instructionType)
         {
             this.data = data;
@@ -27,7 +27,7 @@ namespace OmniXaml
         {
             get
             {
-                if (InstructionType == XamlInstructionType.StartObject)
+                if (InstructionType == OmniXaml.InstructionType.StartObject)
                 {
                     return (XamlType)data;
                 }
@@ -35,28 +35,28 @@ namespace OmniXaml
             }
         }
 
-        public XamlInstructionType InstructionType => instructionType;
+        public InstructionType InstructionType => instructionType;
 
-        public XamlMemberBase Member
+        public MemberBase Member
         {
             get
             {
-                if (InstructionType == XamlInstructionType.StartMember)
+                if (InstructionType == InstructionType.StartMember)
                 {
-                    return (XamlMemberBase)data;
+                    return (MemberBase)data;
                 }
 
                 return null;
             }
         }
 
-        public object Value => InstructionType == XamlInstructionType.Value ? data : null;
+        public object Value => InstructionType == InstructionType.Value ? data : null;
 
         public NamespaceDeclaration NamespaceDeclaration
         {
             get
             {
-                if (InstructionType == XamlInstructionType.NamespaceDeclaration)
+                if (InstructionType == InstructionType.NamespaceDeclaration)
                 {
                     return (NamespaceDeclaration)data;
                 }
@@ -65,7 +65,7 @@ namespace OmniXaml
             }
         }
 
-        public bool Equals(XamlInstruction other)
+        public bool Equals(Instruction other)
         {
             return instructionType == other.instructionType && Equals(data, other.data) && internalNodeType == other.internalNodeType;
         }
@@ -77,7 +77,7 @@ namespace OmniXaml
                 return false;
             }
 
-            return obj is XamlInstruction && Equals((XamlInstruction) obj);
+            return obj is Instruction && Equals((Instruction) obj);
         }
 
         public override int GetHashCode()
@@ -106,7 +106,7 @@ namespace OmniXaml
             var str = string.Format("{0}: ", nodeType);
             switch (InstructionType)
             {
-                case XamlInstructionType.None:
+                case InstructionType.None:
                     {
                         switch (internalNodeType)
                         {
@@ -131,28 +131,28 @@ namespace OmniXaml
                                 }
                         }
                     }
-                case XamlInstructionType.StartObject:
+                case InstructionType.StartObject:
                     {
                         str = string.Concat(str, XamlType.Name);
                         return str;
                     }
-                case XamlInstructionType.GetObject:
-                case XamlInstructionType.EndObject:
-                case XamlInstructionType.EndMember:
+                case InstructionType.GetObject:
+                case InstructionType.EndObject:
+                case InstructionType.EndMember:
                     {
                         return str;
                     }
-                case XamlInstructionType.StartMember:
+                case InstructionType.StartMember:
                     {
                         str = string.Concat(str, Member.ToString());
                         return str;
                     }
-                case XamlInstructionType.Value:
+                case InstructionType.Value:
                     {
                         str = string.Concat(str, Value.ToString());
                         return str;
                     }
-                case XamlInstructionType.NamespaceDeclaration:
+                case InstructionType.NamespaceDeclaration:
                     {
                         str = string.Concat(str, NamespaceDeclaration.ToString());
                         return str;

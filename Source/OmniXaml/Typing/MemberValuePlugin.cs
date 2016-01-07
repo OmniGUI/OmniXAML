@@ -2,24 +2,24 @@ namespace OmniXaml.Typing
 {
     using System.Reflection;
 
-    public class MemberValuePlugin : IXamlMemberValuePlugin
+    public class MemberValuePlugin : IMemberValuePlugin
     {
-        private readonly MutableXamlMember xamlMember;
+        private readonly MutableMember member;
 
-        public MemberValuePlugin(MutableXamlMember xamlMember)
+        public MemberValuePlugin(MutableMember member)
         {
-            this.xamlMember = xamlMember;
+            this.member = member;
         }
 
         public virtual object GetValue(object instance)
         {
             if (ValueGetter.IsStatic)
             {
-                return xamlMember.Getter.Invoke(null, new[] { instance });
+                return member.Getter.Invoke(null, new[] { instance });
             }
             else
             {
-                return xamlMember.Getter.Invoke(instance, null);
+                return member.Getter.Invoke(instance, null);
             }
         }
 
@@ -31,7 +31,7 @@ namespace OmniXaml.Typing
             }
             else
             {
-                xamlMember.Setter.Invoke(instance, new[] { value });
+                member.Setter.Invoke(instance, new[] { value });
             }
         }
 
@@ -39,14 +39,14 @@ namespace OmniXaml.Typing
         {
             get
             {
-                if (xamlMember.IsAttachable)
+                if (member.IsAttachable)
                 {
-                    var underlyingType = xamlMember.DeclaringType.UnderlyingType;
-                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Set" + xamlMember.Name);
+                    var underlyingType = member.DeclaringType.UnderlyingType;
+                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Set" + member.Name);
                 }
                 else
                 {
-                    return xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name).SetMethod;
+                    return member.DeclaringType.UnderlyingType.GetRuntimeProperty(member.Name).SetMethod;
                 }
             }
         }
@@ -55,14 +55,14 @@ namespace OmniXaml.Typing
         {
             get
             {
-                if (xamlMember.IsAttachable)
+                if (member.IsAttachable)
                 {
-                    var underlyingType = xamlMember.DeclaringType.UnderlyingType;
-                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Get" + xamlMember.Name);
+                    var underlyingType = member.DeclaringType.UnderlyingType;
+                    return underlyingType.GetTypeInfo().GetDeclaredMethod("Get" + member.Name);
                 }
                 else
                 {
-                    return xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name).GetMethod;
+                    return member.DeclaringType.UnderlyingType.GetRuntimeProperty(member.Name).GetMethod;
                 }
             }
         }

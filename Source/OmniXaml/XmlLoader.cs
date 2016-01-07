@@ -4,12 +4,12 @@ namespace OmniXaml
     using System.IO;
     using Parsers.ProtoParser;
 
-    public class XamlXmlLoader : IXamlLoader
+    public class XmlLoader : IXamlLoader
     {
         private readonly IXamlParserFactory xamlParserFactory;
         private IXmlReader xmlReader;
 
-        public XamlXmlLoader(IXamlParserFactory xamlParserFactory)
+        public XmlLoader(IXamlParserFactory xamlParserFactory)
         {
             this.xamlParserFactory = xamlParserFactory;
         }
@@ -33,7 +33,7 @@ namespace OmniXaml
             }
             catch (Exception e)
             {
-                throw new XamlLoadException($"Error loading XAML: {e}", xmlReader.LineNumber, xmlReader.LinePosition, e);
+                throw new LoadException($"Error loading XAML: {e}", xmlReader.LineNumber, xmlReader.LinePosition, e);
             }
         }
     }

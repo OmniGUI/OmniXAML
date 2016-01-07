@@ -16,7 +16,7 @@
         {
         }
 
-        public WpfTypeFactory(ITypeFactory typeFactory) : base(typeFactory, new InflatableTranslator(), t => new WpfCoreXamlLoader(t))
+        public WpfTypeFactory(ITypeFactory typeFactory) : base(typeFactory, new InflatableTranslator(), t => new WpfCoreLoader(t))
         {
         }
 

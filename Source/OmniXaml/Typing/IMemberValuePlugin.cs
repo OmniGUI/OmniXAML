@@ -1,6 +1,6 @@
 namespace OmniXaml.Typing
 {
-    public interface IXamlMemberValuePlugin
+    public interface IMemberValuePlugin
     {
         void SetValue(object instance, object value);
         object GetValue(object instance);

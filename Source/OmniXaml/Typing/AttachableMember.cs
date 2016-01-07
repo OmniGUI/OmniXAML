@@ -2,16 +2,16 @@ namespace OmniXaml.Typing
 {
     using System.Reflection;
 
-    public class AttachableXamlMember : MutableXamlMember
+    public class AttachableMember : MutableMember
     {
         private readonly MethodInfo setter;
         private readonly MethodInfo getter;
 
-        public AttachableXamlMember(string name,
+        public AttachableMember(string name,
             MethodInfo getter,
             MethodInfo setter,
-            IXamlTypeRepository xamlTypeRepository,
-            ITypeFeatureProvider featureProvider) : base(name, xamlTypeRepository.GetXamlType(getter.DeclaringType), xamlTypeRepository, featureProvider)
+            ITypeRepository typeRepository,
+            ITypeFeatureProvider featureProvider) : base(name, typeRepository.GetByType(getter.DeclaringType), typeRepository, featureProvider)
         {
             this.getter = getter;
             this.setter = setter;
@@ -27,7 +27,7 @@ namespace OmniXaml.Typing
 
         private XamlType LookupType()
         {
-            return TypeRepository.GetXamlType(getter.ReturnType);
+            return TypeRepository.GetByType(getter.ReturnType);
         }
 
         public override string ToString()

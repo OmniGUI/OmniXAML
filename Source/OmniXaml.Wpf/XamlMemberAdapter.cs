@@ -6,7 +6,6 @@ namespace OmniXaml.Wpf
     using System.Windows.Markup;
     using System.Xaml;
     using System.Xaml.Schema;
-    using Typing;
     using XamlMember = System.Xaml.XamlMember;
 
     internal class XamlMemberAdapter : XamlMember, IProvideValueTarget

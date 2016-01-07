@@ -54,16 +54,16 @@ namespace XamlViewer.ViewModels
                     return GetMemberName(visualizationNode);
 
                 case NodeType.Object:
-                    return visualizationNode.XamlInstruction.XamlType.Name;
+                    return visualizationNode.Instruction.XamlType.Name;
 
                 case NodeType.GetObject:
                     return "Collection";
 
                 case NodeType.NamespaceDeclaration:
-                    return "Namespace Declaration: Mapping " + visualizationNode.XamlInstruction.NamespaceDeclaration;
+                    return "Namespace Declaration: Mapping " + visualizationNode.Instruction.NamespaceDeclaration;
 
                 case NodeType.Value:
-                    return $"\"{visualizationNode.XamlInstruction.Value}\"";
+                    return $"\"{visualizationNode.Instruction.Value}\"";
 
                 case NodeType.Root:
                     return "Root";
@@ -74,7 +74,7 @@ namespace XamlViewer.ViewModels
 
         private static string GetMemberName(VisualizationNode visualizationNode)
         {
-            var mutableXamlMember = visualizationNode.XamlInstruction.Member as MutableXamlMember;
+            var mutableXamlMember = visualizationNode.Instruction.Member as MutableMember;
 
             if (mutableXamlMember != null)
             {
@@ -86,7 +86,7 @@ namespace XamlViewer.ViewModels
                 return mutableXamlMember.DeclaringType.Name + "." + mutableXamlMember.Name;
             }
 
-            var member = visualizationNode.XamlInstruction.Member;
+            var member = visualizationNode.Instruction.Member;
 
             return member.IsDirective ? "[(" + member.Name + ") Directive]": member.Name;
         }
@@ -103,35 +103,35 @@ namespace XamlViewer.ViewModels
             }
         }
 
-        private static NodeType GetNodeType(XamlInstruction current)
+        private static NodeType GetNodeType(Instruction current)
         {
             switch (current.InstructionType)
             {
-                case XamlInstructionType.StartMember:
-                case XamlInstructionType.EndMember:
+                case InstructionType.StartMember:
+                case InstructionType.EndMember:
                     return NodeType.Member;
 
-                case XamlInstructionType.StartObject:
-                case XamlInstructionType.EndObject:
+                case InstructionType.StartObject:
+                case InstructionType.EndObject:
                     return NodeType.Object;
 
-                case XamlInstructionType.GetObject:
+                case InstructionType.GetObject:
                     return NodeType.GetObject;
 
-                case XamlInstructionType.NamespaceDeclaration:
+                case InstructionType.NamespaceDeclaration:
                     return NodeType.NamespaceDeclaration;
 
-                case XamlInstructionType.Value:
+                case InstructionType.Value:
                     return NodeType.Value;
 
-                case XamlInstructionType.None:
+                case InstructionType.None:
                     return NodeType.Root;
             }
 
             throw new InvalidOperationException("Cannot translate the type");
         }
 
-        public NodeType NodeType => GetNodeType(model.XamlInstruction);
+        public NodeType NodeType => GetNodeType(model.Instruction);
 
         public ICommand CollapseBranchCommand { get; private set; }
         public ICommand ExpandBranchCommand { get; private set; }

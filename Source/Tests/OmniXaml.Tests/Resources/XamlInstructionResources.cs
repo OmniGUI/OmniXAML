@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.Resources
 
     public class XamlInstructionResources
     {
-        public XamlInstructionResources(GivenAWiringContextWithNodeBuilders context)
+        public XamlInstructionResources(GivenARuntimeTypeContextWithNodeBuilders context)
         {
             RootNs = context.RootNs;
             AnotherNs = context.AnotherNs;
@@ -28,11 +28,11 @@ namespace OmniXaml.Tests.Resources
 
         private NamespaceDeclaration AnotherNs { get; }
 
-        public IEnumerable<XamlInstruction> ExtensionWithTwoArguments
+        public IEnumerable<Instruction> ExtensionWithTwoArguments
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -49,11 +49,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExtensionWithNonStringArgument
+        public IEnumerable<Instruction> ExtensionWithNonStringArgument
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -69,11 +69,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> OneObject
+        public IEnumerable<Instruction> OneObject
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -82,11 +82,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ObjectWithMember
+        public IEnumerable<Instruction> ObjectWithMember
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -98,11 +98,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ObjectWithTwoMembers
+        public IEnumerable<Instruction> ObjectWithTwoMembers
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -117,11 +117,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionWithInnerCollection
+        public IEnumerable<Instruction> CollectionWithInnerCollection
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Items),
@@ -152,11 +152,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> WithCollectionAndInnerAttribute
+        public IEnumerable<Instruction> WithCollectionAndInnerAttribute
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Items),
@@ -175,11 +175,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> MemberWithIncompatibleTypes
+        public IEnumerable<Instruction> MemberWithIncompatibleTypes
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Number),
@@ -190,11 +190,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExtensionWithArgument
+        public IEnumerable<Instruction> ExtensionWithArgument
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -210,11 +210,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExtensionThatReturnsNull
+        public IEnumerable<Instruction> ExtensionThatReturnsNull
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -227,9 +227,9 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> GetString(NamespaceDeclaration sysNs)
+        public IEnumerable<Instruction> GetString(NamespaceDeclaration sysNs)
         {
-            return new Collection<XamlInstruction>
+            return new Collection<Instruction>
             {
                 X.NamespacePrefixDeclaration(sysNs),
                 X.StartObject<string>(),
@@ -240,9 +240,9 @@ namespace OmniXaml.Tests.Resources
             };
         }
 
-        public IEnumerable<XamlInstruction> GetSingleObject()
+        public IEnumerable<Instruction> GetSingleObject()
         {
-            return new List<XamlInstruction>
+            return new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -250,11 +250,11 @@ namespace OmniXaml.Tests.Resources
             };
         }
 
-        public IEnumerable<XamlInstruction> NestedChild
+        public IEnumerable<Instruction> NestedChild
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -267,11 +267,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> InstanceWithChild
+        public IEnumerable<Instruction> InstanceWithChild
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -284,11 +284,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ObjectWithChild
+        public IEnumerable<Instruction> ObjectWithChild
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -301,11 +301,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ComplexNesting
+        public IEnumerable<Instruction> ComplexNesting
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -328,11 +328,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionWithMoreThanOneItem
+        public IEnumerable<Instruction> CollectionWithMoreThanOneItem
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -353,11 +353,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> NestedChildWithContentProperty
+        public IEnumerable<Instruction> NestedChildWithContentProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<ChildClass>(),
@@ -370,11 +370,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoNestedPropertiesUsingContentProperty
+        public IEnumerable<Instruction> TwoNestedPropertiesUsingContentProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (DummyClass)),
@@ -403,11 +403,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> MixedPropertiesWithContentPropertyAfter
+        public IEnumerable<Instruction> MixedPropertiesWithContentPropertyAfter
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (Grid)),
@@ -432,11 +432,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionWithMixedEmptyAndNotEmptyNestedElements
+        public IEnumerable<Instruction> CollectionWithMixedEmptyAndNotEmptyNestedElements
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (Grid)),
@@ -455,11 +455,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> MixedPropertiesWithContentPropertyBefore
+        public IEnumerable<Instruction> MixedPropertiesWithContentPropertyBefore
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (Grid)),
@@ -484,11 +484,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem
+        public IEnumerable<Instruction> TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem
         {
             get
             {
-                var expectedInstructions = new List<XamlInstruction>
+                var expectedInstructions = new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (ChildClass)),
@@ -517,11 +517,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoNestedProperties
+        public IEnumerable<Instruction> TwoNestedProperties
         {
             get
             {
-                var expectedInstructions = new List<XamlInstruction>
+                var expectedInstructions = new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -551,11 +551,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ContentPropertyNesting
+        public IEnumerable<Instruction> ContentPropertyNesting
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -616,9 +616,9 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection()
+        public IEnumerable<Instruction> CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection()
         {
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject(typeof (ChildClass)),
@@ -642,11 +642,11 @@ namespace OmniXaml.Tests.Resources
             return expectedInstructions;
         }
 
-        public IEnumerable<XamlInstruction> ElementWithTwoDeclarations
+        public IEnumerable<Instruction> ElementWithTwoDeclarations
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(AnotherNs),
@@ -656,11 +656,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> KeyDirective
+        public IEnumerable<Instruction> KeyDirective
         {
             get
             {
-                return new Collection<XamlInstruction>
+                return new Collection<Instruction>
                 {
                     X.StartObject<DummyClass>(),
                     X.StartMember<DummyClass>(d => d.Resources),
@@ -679,11 +679,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> KeyDirective2
+        public IEnumerable<Instruction> KeyDirective2
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(CoreTypes.SpecialNamespace, "x"),
@@ -704,11 +704,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> DifferentNamespacesAndMoreThanOneProperty
+        public IEnumerable<Instruction> DifferentNamespacesAndMoreThanOneProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration("root", string.Empty),
                     X.NamespacePrefixDeclaration("another", "x"),
@@ -728,11 +728,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ContentPropertyForSingleProperty
+        public IEnumerable<Instruction> ContentPropertyForSingleProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject(typeof (ChildClass)),
@@ -745,11 +745,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ContentPropertyForCollectionMoreThanOneElement
+        public IEnumerable<Instruction> ContentPropertyForCollectionMoreThanOneElement
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -768,11 +768,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollapsedTagWithProperty
+        public IEnumerable<Instruction> CollapsedTagWithProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -784,11 +784,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> SingleInstance
+        public IEnumerable<Instruction> SingleInstance
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -797,11 +797,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> DifferentNamespaces
+        public IEnumerable<Instruction> DifferentNamespaces
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration("root", string.Empty),
                     X.NamespacePrefixDeclaration("another", "x"),
@@ -815,11 +815,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionWithOneItem
+        public IEnumerable<Instruction> CollectionWithOneItem
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -836,11 +836,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CollectionWithOneItemAndAMember
+        public IEnumerable<Instruction> CollectionWithOneItemAndAMember
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -860,11 +860,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExpandedStringProperty
+        public IEnumerable<Instruction> ExpandedStringProperty
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -876,11 +876,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TestReverseMembersReverted
+        public IEnumerable<Instruction> TestReverseMembersReverted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartMember<Setter>(c => c.Property),
                     X.StartObject(typeof (DummyClass)),
@@ -906,11 +906,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TestReverseMembers
+        public IEnumerable<Instruction> TestReverseMembers
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartMember<Setter>(c => c.Value),
                     X.StartObject(typeof (DummyClass)),
@@ -936,11 +936,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoMembersReversed
+        public IEnumerable<Instruction> TwoMembersReversed
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartMember<Setter>(c => c.Property),
                     X.Value("Property"),
@@ -952,11 +952,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoMembers
+        public IEnumerable<Instruction> TwoMembers
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartMember<Setter>(c => c.Value),
                     X.Value("Value"),
@@ -968,11 +968,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> SimpleExtensionWithOneAssignment
+        public List<Instruction> SimpleExtensionWithOneAssignment
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -988,11 +988,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> SimpleExtension
+        public List<Instruction> SimpleExtension
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1005,11 +1005,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> ContentPropertyForCollectionOneElement
+        public List<Instruction> ContentPropertyForCollectionOneElement
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1026,11 +1026,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TextBlockWithText
+        public IEnumerable<Instruction> TextBlockWithText
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<TextBlock>(),
@@ -1042,11 +1042,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ChildInNameScope
+        public IEnumerable<Instruction> ChildInNameScope
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(SpecialNs),
@@ -1063,11 +1063,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ChildInDeeperNameScope
+        public IEnumerable<Instruction> ChildInDeeperNameScope
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<Window>(),
@@ -1102,11 +1102,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> NameWithNoNamescopesToRegisterTo
+        public IEnumerable<Instruction> NameWithNoNamescopesToRegisterTo
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
 
@@ -1132,11 +1132,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> ComboBoxCollectionOnly
+        public List<Instruction> ComboBoxCollectionOnly
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartMember<ComboBox>(c => c.Items),
                     X.GetObject(),
@@ -1150,11 +1150,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> StyleSorted
+        public List<Instruction> StyleSorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<Style>(),
                     X.StartMember<Style>(c => c.Setter),
@@ -1172,11 +1172,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> StyleUnsorted
+        public List<Instruction> StyleUnsorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<Style>(),
                     X.StartMember<Style>(c => c.Setter),
@@ -1194,11 +1194,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> SetterUnsorted
+        public List<Instruction> SetterUnsorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<Setter>(),
                     X.StartMember<Setter>(c => c.Value),
@@ -1212,11 +1212,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> SetterSorted
+        public List<Instruction> SetterSorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<Setter>(),
                     X.StartMember<Setter>(c => c.Property),
@@ -1230,11 +1230,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> ComboBoxUnsorted
+        public List<Instruction> ComboBoxUnsorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<ComboBox>(),
                         X.StartMember<ComboBox>(c => c.SelectedIndex),
@@ -1253,11 +1253,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> ComboBoxSorted
+        public List<Instruction> ComboBoxSorted
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<ComboBox>(),
                         X.StartMember<ComboBox>(d => d.Items),
@@ -1276,11 +1276,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public List<XamlInstruction> ListBoxSortedWithExtension
+        public List<Instruction> ListBoxSortedWithExtension
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<ListBox>(),
                         X.StartMember<ListBox>(d => d.Items),
@@ -1310,11 +1310,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> AttemptToAssignItemsToNonCollectionMember
+        public IEnumerable<Instruction> AttemptToAssignItemsToNonCollectionMember
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1331,11 +1331,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoRoots
+        public IEnumerable<Instruction> TwoRoots
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1346,11 +1346,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ParentShouldReceiveInitializedChild
+        public IEnumerable<Instruction> ParentShouldReceiveInitializedChild
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<SpyingParent>(),
@@ -1366,12 +1366,12 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> MixedCollection
+        public IEnumerable<Instruction> MixedCollection
         {
             get
             {
                 var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(colections),
                     X.NamespacePrefixDeclaration(RootNs),
@@ -1394,11 +1394,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ListBoxWithItemAndTextBlockWithNames
+        public IEnumerable<Instruction> ListBoxWithItemAndTextBlockWithNames
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(SpecialNs),
@@ -1433,11 +1433,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ListBoxWithItemAndTextBlockNoNames
+        public IEnumerable<Instruction> ListBoxWithItemAndTextBlockNoNames
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(SpecialNs),
@@ -1464,11 +1464,11 @@ namespace OmniXaml.Tests.Resources
         }
 
 
-        public IEnumerable<XamlInstruction> NamedObject
+        public IEnumerable<Instruction> NamedObject
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(SpecialNs),
@@ -1481,11 +1481,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> TwoNestedNamedObjects
+        public IEnumerable<Instruction> TwoNestedNamedObjects
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(SpecialNs),
@@ -1507,14 +1507,14 @@ namespace OmniXaml.Tests.Resources
 
         
 
-        public IEnumerable<XamlInstruction> RootInstanceWithAttachableMember
+        public IEnumerable<Instruction> RootInstanceWithAttachableMember
 
         {
             get
             {
                 // Equivalent to <DummyClass xmlns="root" Container.Property="Value"></DummyClass>
 
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1526,11 +1526,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> DirectContentForOneToMany
+        public IEnumerable<Instruction> DirectContentForOneToMany
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration("root", ""),
                     X.StartObject(typeof (ItemsControl)),
@@ -1546,11 +1546,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExpandedAttachablePropertyAndItemBelow
+        public IEnumerable<Instruction> ExpandedAttachablePropertyAndItemBelow
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<DummyClass>(),
@@ -1572,11 +1572,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> CustomCollection
+        public IEnumerable<Instruction> CustomCollection
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.StartObject<CustomCollection>(),
                     X.Items(),
@@ -1606,13 +1606,13 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> AttachableMemberThatIsCollection
+        public IEnumerable<Instruction> AttachableMemberThatIsCollection
         {
             get
             {
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(system),
@@ -1648,13 +1648,13 @@ namespace OmniXaml.Tests.Resources
             }            
         }
 
-        public IEnumerable<XamlInstruction> AttachableMemberThatIsCollectionImplicit
+        public IEnumerable<Instruction> AttachableMemberThatIsCollectionImplicit
         {
             get
             {
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.NamespacePrefixDeclaration(system),
@@ -1690,14 +1690,14 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> PureCollection
+        public IEnumerable<Instruction> PureCollection
         {
             get
             {
                 var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(colections),
                     X.NamespacePrefixDeclaration(system),
@@ -1730,11 +1730,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ExplicitCollection
+        public IEnumerable<Instruction> ExplicitCollection
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<RootObject>(),
@@ -1755,11 +1755,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<XamlInstruction> ImplicitCollection
+        public IEnumerable<Instruction> ImplicitCollection
         {
             get
             {
-                return new List<XamlInstruction>
+                return new List<Instruction>
                 {
                     X.NamespacePrefixDeclaration(RootNs),
                     X.StartObject<RootObject>(),

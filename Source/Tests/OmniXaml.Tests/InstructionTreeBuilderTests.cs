@@ -3,14 +3,13 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Builder;
     using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Resources;
 
     [TestClass]
-    public class InstructionTreeBuilderTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class InstructionTreeBuilderTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionResources source;
 
@@ -22,7 +21,7 @@
         [TestMethod]
         public void InstructionToNodeConversionWithLeadingAndTrailing()
         {
-            var input = new List<XamlInstruction>
+            var input = new List<Instruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.EndMember(),
@@ -45,7 +44,7 @@
         [TestMethod]
         public void InstructionToNodeConversionWithLeadingBodyAndTrailing()
         {
-            var input = new List<XamlInstruction>
+            var input = new List<Instruction>
             {
                 X.StartMember<Setter>(c => c.Value),
                 X.Value("Value"),

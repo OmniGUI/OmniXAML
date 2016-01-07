@@ -8,9 +8,9 @@
         object Result { get; }
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; }
-        ITypeContext TypeContext { get; }
+        IRuntimeTypeSource TypeContext { get; }
 
-        void Process(XamlInstruction instruction);
+        void Process(Instruction instruction);
 
         void OverrideInstance(object instance);      
     }

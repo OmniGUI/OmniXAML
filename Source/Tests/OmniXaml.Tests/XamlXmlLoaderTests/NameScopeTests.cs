@@ -10,10 +10,10 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         [TestMethod]
         public void RegisterOneChildInNameScope()
         {
-            TypeContext.ClearNamescopes();
-            TypeContext.EnableNameScope<DummyClass>();
+            TypeRuntimeTypeSource.ClearNamescopes();
+            TypeRuntimeTypeSource.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.FromString(Dummy.ChildInNameScope);
+            var actualInstance = Loader.FromString(Dummy.ChildInNameScope);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }
@@ -21,10 +21,10 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         [TestMethod]
         public void RegisterOneChildInNameScopeWithoutDirective()
         {
-            TypeContext.ClearNamescopes();
-            TypeContext.EnableNameScope<DummyClass>();
+            TypeRuntimeTypeSource.ClearNamescopes();
+            TypeRuntimeTypeSource.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.FromString(Dummy.ChildInNamescopeNoNameDirective);
+            var actualInstance = Loader.FromString(Dummy.ChildInNamescopeNoNameDirective);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }

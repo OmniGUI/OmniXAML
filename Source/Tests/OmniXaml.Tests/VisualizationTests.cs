@@ -2,18 +2,17 @@
 {
     using System.Collections.ObjectModel;
     using Classes;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Visualization;
 
     [TestClass]
-    public class VisualizationTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class VisualizationTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void ConvertToTags()
         {
-            var col = new Collection<XamlInstruction>()
+            var col = new Collection<Instruction>()
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),
@@ -30,7 +29,7 @@
         [TestMethod]
         public void ConvertToNodes()
         {
-            var col = new Collection<XamlInstruction>()
+            var col = new Collection<Instruction>()
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),

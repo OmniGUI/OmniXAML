@@ -4,7 +4,7 @@ namespace OmniXaml
 
     public static class ObjectAssemblerMixin
     {
-        public static void Process(this IObjectAssembler assembler, IEnumerable<XamlInstruction> instructions)
+        public static void Process(this IObjectAssembler assembler, IEnumerable<Instruction> instructions)
         {
             foreach (var instruction in instructions)
             {

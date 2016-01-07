@@ -11,7 +11,7 @@
     using Xunit;
 
     [TestClass]
-    public class ParsingTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class ParsingTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly IXamlInstructionParser sut;
         private readonly ProtoInstructionResources protoResources;
@@ -26,7 +26,7 @@
 
         private XamlInstructionParser CreateSut()
         {
-            return new XamlInstructionParser(TypeContext);
+            return new XamlInstructionParser(TypeRuntimeTypeSource);
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@
                 P.NamespacePrefixDeclaration(RootNs),
             };
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
             };
@@ -245,7 +245,7 @@
                 P.EmptyElement(type, RootNs),
             };
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.NamespacePrefixDeclaration(clrNamespace, prefix),
                 X.StartObject<DummyClass>(),

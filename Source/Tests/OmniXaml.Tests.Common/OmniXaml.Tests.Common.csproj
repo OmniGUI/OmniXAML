@@ -34,9 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="TestContext.cs" />
+    <Compile Include="TestRuntimeTypeSource.cs" />
     <Compile Include="XamlTypeMock.cs" />
-    <Compile Include="TestXamlTypeRepository.cs" />
+    <Compile Include="TestTypeRepository.cs" />
     <Compile Include="GivenAWiringContext.cs" />
     <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

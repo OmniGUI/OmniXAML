@@ -12,7 +12,7 @@ namespace OmniXaml.ObjectAssembler
         private readonly XamlType rootInstanceXamlType;
         private readonly ITopDownValueContext topDownValueContext;
 
-        public ObjectAssembler(ITypeContext typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
             : this(new StackingLinkedList<Level>(), typeContext, topDownValueContext)
         {
             Guard.ThrowIfNull(typeContext, nameof(typeContext));
@@ -24,10 +24,10 @@ namespace OmniXaml.ObjectAssembler
 
             rootInstance = settings?.RootInstance;
             var rootInstanceType = rootInstance?.GetType();
-            rootInstanceXamlType = rootInstanceType != null ? TypeContext.GetXamlType(rootInstanceType) : null;
+            rootInstanceXamlType = rootInstanceType != null ? TypeContext.GetByType(rootInstanceType) : null;
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, ITypeContext typeContext, ITopDownValueContext topDownValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext)
         {
             StateCommuter = new StateCommuter(this, state, typeContext, topDownValueContext);
         }
@@ -39,39 +39,39 @@ namespace OmniXaml.ObjectAssembler
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
 
-        public ITypeContext TypeContext { get; }
+        public IRuntimeTypeSource TypeContext { get; }
 
         public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 
-        public void Process(XamlInstruction instruction)
+        public void Process(Instruction instruction)
         {
             Command command;
 
             switch (instruction.InstructionType)
             {
-                case XamlInstructionType.NamespaceDeclaration:
+                case InstructionType.NamespaceDeclaration:
                     command = new NamespaceDeclarationCommand(this, instruction.NamespaceDeclaration);
                     break;
-                case XamlInstructionType.StartObject:
+                case InstructionType.StartObject:
                     command = new StartObjectCommand(this, instruction.XamlType, rootInstance);
                     break;
-                case XamlInstructionType.StartMember:
+                case InstructionType.StartMember:
                     command = new StartMemberCommand(this, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
                     break;
-                case XamlInstructionType.Value:
+                case InstructionType.Value:
                     command = new ValueCommand(this, topDownValueContext, (string) instruction.Value);
                     break;
-                case XamlInstructionType.EndObject:
+                case InstructionType.EndObject:
                     command = new EndObjectCommand(this);
                     break;
-                case XamlInstructionType.EndMember:
+                case InstructionType.EndMember:
                     command = new EndMemberCommand(this, topDownValueContext);
                     break;
-                case XamlInstructionType.GetObject:
+                case InstructionType.GetObject:
                     command = new GetObjectCommand(this);
                     break;
                 default:
-                    throw new XamlParseException($"The XamlInstructionType {instruction.InstructionType} has an unexpected value");
+                    throw new ParseException($"The XamlInstructionType {instruction.InstructionType} has an unexpected value");
             }
 
             command.Execute();
@@ -90,13 +90,13 @@ namespace OmniXaml.ObjectAssembler
             }
         }
 
-        private XamlMemberBase GetActualMemberFromMemberSpecifiedInInstruction(XamlMemberBase specifiedMember)
+        private MemberBase GetActualMemberFromMemberSpecifiedInInstruction(MemberBase specifiedMember)
         {
             if (IsLevelOneAndThereIsRootInstance && !specifiedMember.IsDirective && rootInstanceXamlType != null)
             {
-                var attachable = specifiedMember as AttachableXamlMember;
+                var attachable = specifiedMember as AttachableMember;
 
-                XamlMemberBase actualMember;
+                MemberBase actualMember;
 
                 if (attachable != null)
                 {

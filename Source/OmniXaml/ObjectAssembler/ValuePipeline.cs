@@ -9,16 +9,16 @@ namespace OmniXaml.ObjectAssembler
 
     public class ValuePipeline
     {
-        private readonly IXamlTypeRepository typeRepository;
+        private readonly ITypeRepository typeRepository;
         private readonly ITopDownValueContext topDownValueContext;
 
-        public ValuePipeline(IXamlTypeRepository typeRepository, ITopDownValueContext topDownValueContext)
+        public ValuePipeline(ITypeRepository typeRepository, ITopDownValueContext topDownValueContext)
         {
             this.typeRepository = typeRepository;
             this.topDownValueContext = topDownValueContext;
         }
 
-        public IXamlTypeRepository TypeRepository => typeRepository;
+        public ITypeRepository TypeRepository => typeRepository;
 
         public object ConvertValueIfNecessary(object value, XamlType targetType)
         {

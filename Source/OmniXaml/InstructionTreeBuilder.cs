@@ -4,14 +4,14 @@ namespace OmniXaml
 
     public class InstructionTreeBuilder
     {
-        public IEnumerable<InstructionNode> CreateHierarchy(IEnumerable<XamlInstruction> xamlNodes)
+        public IEnumerable<InstructionNode> CreateHierarchy(IEnumerable<Instruction> xamlNodes)
         {
             var stream = xamlNodes.GetEnumerator();
             stream.MoveNext();
             return Create(stream);
         }
 
-        private Sequence<InstructionNode> Create(IEnumerator<XamlInstruction> stream)
+        private Sequence<InstructionNode> Create(IEnumerator<Instruction> stream)
         {
             var nodes = new Sequence<InstructionNode>();
 
@@ -45,15 +45,15 @@ namespace OmniXaml
             return nodes;
         }
 
-        private static bool IsTrailing(XamlInstruction xamlInstruction)
+        private static bool IsTrailing(Instruction instruction)
         {
-            return xamlInstruction.InstructionType == XamlInstructionType.EndMember || xamlInstruction.InstructionType == XamlInstructionType.EndObject;
+            return instruction.InstructionType == InstructionType.EndMember || instruction.InstructionType == InstructionType.EndObject;
         }
 
-        private static bool IsLeading(XamlInstruction current)
+        private static bool IsLeading(Instruction current)
         {
-            return current.InstructionType == XamlInstructionType.StartMember || current.InstructionType == XamlInstructionType.StartObject ||
-                   current.InstructionType == XamlInstructionType.GetObject;
+            return current.InstructionType == InstructionType.StartMember || current.InstructionType == InstructionType.StartObject ||
+                   current.InstructionType == InstructionType.GetObject;
         }
     }
 }

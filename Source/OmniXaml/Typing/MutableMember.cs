@@ -5,28 +5,28 @@ namespace OmniXaml.Typing
     using System.Reflection;
     using Glass;
 
-    public abstract class MutableXamlMember : XamlMemberBase, IDependency<XamlMember>
+    public abstract class MutableMember : MemberBase, IDependency<Member>
     {
-        protected MutableXamlMember(string name,
+        protected MutableMember(string name,
             XamlType declaringType,
-            IXamlTypeRepository xamlTypeRepository,
+            ITypeRepository typeRepository,
             ITypeFeatureProvider typeFeatureProvider) : base(name)
         {
             FeatureProvider = typeFeatureProvider;
-            TypeRepository = xamlTypeRepository;
+            TypeRepository = typeRepository;
             DeclaringType = declaringType;
         }
 
-        public IXamlTypeRepository TypeRepository { get; }
+        public ITypeRepository TypeRepository { get; }
         public XamlType DeclaringType { get; }
-        public IXamlMemberValuePlugin XamlMemberValueConnector => LookupXamlMemberValueConnector();
+        public IMemberValuePlugin MemberValuePlugin => LookupXamlMemberValueConnector();
         public ITypeFeatureProvider FeatureProvider { get; }
 
         public abstract MethodInfo Getter { get; }
         public abstract MethodInfo Setter { get; }
-        public IEnumerable<XamlMember> Dependencies => LookupDependencies();
+        public IEnumerable<Member> Dependencies => LookupDependencies();
 
-        protected virtual IEnumerable<XamlMember> LookupDependencies()
+        protected virtual IEnumerable<Member> LookupDependencies()
         {
             var metadata = FeatureProvider.GetMetadata(DeclaringType.UnderlyingType);
             if (metadata != null)
@@ -36,31 +36,31 @@ namespace OmniXaml.Typing
             }
             else
             {
-                return new List<XamlMember>();
+                return new List<Member>();
             }
         }
 
         public override string ToString()
         {
-            return "XamlMember: " + Name;
+            return "Member: " + Name;
         }
 
-        protected virtual IXamlMemberValuePlugin LookupXamlMemberValueConnector()
+        protected virtual IMemberValuePlugin LookupXamlMemberValueConnector()
         {
             return new MemberValuePlugin(this);
         }
 
         public void SetValue(object instance, object value)
         {
-            XamlMemberValueConnector.SetValue(instance, value);
+            MemberValuePlugin.SetValue(instance, value);
         }
 
         public object GetValue(object instance)
         {
-            return XamlMemberValueConnector.GetValue(instance);
+            return MemberValuePlugin.GetValue(instance);
         }
 
-        protected bool Equals(MutableXamlMember other)
+        protected bool Equals(MutableMember other)
         {
             return base.Equals(other) && Equals(DeclaringType, other.DeclaringType) && Equals(XamlType, other.XamlType);
         }
@@ -79,7 +79,7 @@ namespace OmniXaml.Typing
             {
                 return false;
             }
-            return Equals((MutableXamlMember)obj);
+            return Equals((MutableMember)obj);
         }
 
         public override int GetHashCode()

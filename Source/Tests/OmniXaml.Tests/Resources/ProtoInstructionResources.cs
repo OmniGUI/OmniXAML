@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.Resources
 
     internal class ProtoInstructionResources
     {
-        public ProtoInstructionResources(GivenAWiringContextWithNodeBuilders context)
+        public ProtoInstructionResources(GivenARuntimeTypeContextWithNodeBuilders context)
         {
             RootNs = context.RootNs;
             AnotherNs = context.AnotherNs;

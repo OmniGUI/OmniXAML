@@ -9,28 +9,30 @@ namespace OmniXaml.Tests.Common
     using TypeConversion;
     using Typing;
 
-    public class TestContext : ITypeContext
+    public class TestRuntimeTypeSource : IRuntimeTypeSource
     {
-        private readonly ITypeContext inner;
-        private readonly TestXamlTypeRepository testXamlTypeRepository;
+        private readonly IRuntimeTypeSource inner;
+        private readonly TestTypeRepository testTypeRepository;
 
-        public TestContext()
+        public TestRuntimeTypeSource()
         {
-            var xamlNamespaceRegistry = CreateXamlNamespaceRegistry();
+            var namespaceRegistry = CreateNamespaceRegistry();
 
-            ITypeFeatureProvider featureProvider = new TypeFeatureProvider(new TypeConverterProvider());
+            var featureProvider = new TypeFeatureProvider(new TypeConverterProvider());
             featureProvider.FillFromAttributes(ScannedAssemblies.AllExportedTypes());
-            testXamlTypeRepository = new TestXamlTypeRepository(xamlNamespaceRegistry, new TypeFactory(), featureProvider);
+            testTypeRepository = new TestTypeRepository(namespaceRegistry, new TypeFactory(), featureProvider);
             
-            inner = new TypeContext(testXamlTypeRepository, xamlNamespaceRegistry);
+            inner = new RuntimeTypeSource(testTypeRepository, namespaceRegistry);
+            inner.RegisterPrefix(new PrefixRegistration("", "root"));
+            inner.RegisterPrefix(new PrefixRegistration("x", "another"));
         }
 
-        private IXamlNamespaceRegistry CreateXamlNamespaceRegistry()
+        private INamespaceRegistry CreateNamespaceRegistry()
         {
-            var xamlNamespaceRegistry = new XamlNamespaceRegistry();
-            xamlNamespaceRegistry.FillFromAttributes(ScannedAssemblies);
+            var namespaceRegistry = new NamespaceRegistry();
+            namespaceRegistry.FillFromAttributes(ScannedAssemblies);
 
-            return xamlNamespaceRegistry;
+            return namespaceRegistry;
         }
 
         private static IEnumerable<Assembly> ScannedAssemblies => new List<Assembly> { typeof(DummyClass).GetTypeInfo().Assembly };
@@ -57,9 +59,9 @@ namespace OmniXaml.Tests.Common
         }
 
         public IEnumerable<PrefixRegistration> RegisteredPrefixes => inner.RegisteredPrefixes;
-        public XamlType GetXamlType(Type type)
+        public XamlType GetByType(Type type)
         {
-            return inner.GetXamlType(type);
+            return inner.GetByType(type);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
@@ -72,29 +74,29 @@ namespace OmniXaml.Tests.Common
             return inner.GetByPrefix(prefix, typeName);
         }
 
-        public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
+        public XamlType GetByFullAddress(XamlTypeName xamlTypeName)
         {
-            return inner.GetWithFullAddress(xamlTypeName);
+            return inner.GetByFullAddress(xamlTypeName);
         }
 
-        public XamlMember GetMember(PropertyInfo propertyInfo)
+        public Member GetMember(PropertyInfo propertyInfo)
         {
             return inner.GetMember(propertyInfo);
         }
 
-        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             return inner.GetAttachableMember(name, getter, setter);
         }
 
         public void EnableNameScope<T>()
         {
-            testXamlTypeRepository.EnableNameScope(typeof(T));
+            testTypeRepository.EnableNameScope(typeof(T));
         }
 
         public void ClearNamescopes()
         {
-            testXamlTypeRepository.ClearNameScopes();
+            testTypeRepository.ClearNameScopes();
         }
     }
 }

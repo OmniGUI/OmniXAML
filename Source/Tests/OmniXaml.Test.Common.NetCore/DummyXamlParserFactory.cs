@@ -8,11 +8,11 @@ namespace OmniXaml.Tests.Common.NetCore
 
     public class DummyXamlParserFactory : IXamlParserFactory
     {
-        private readonly ITypeContext wiringContext;
+        private readonly IRuntimeTypeSource runtimeTypeContext;
 
-        public DummyXamlParserFactory(ITypeContext wiringContext)
+        public DummyXamlParserFactory(IRuntimeTypeSource runtimeTypeContext)
         {
-            this.wiringContext = wiringContext;
+            this.runtimeTypeContext = runtimeTypeContext;
         }
 
         public IXamlParser CreateForReadingFree()
@@ -25,16 +25,16 @@ namespace OmniXaml.Tests.Common.NetCore
         private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext),
-                new XamlInstructionParser(wiringContext),
+                new XamlProtoInstructionParser(runtimeTypeContext),
+                new XamlInstructionParser(runtimeTypeContext),
                 objectAssemblerForUndefinedRoot);
 
-            return new XamlXmlParser(phaseParserKit);
+            return new XmlParser(phaseParserKit);
         }
 
         private ObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext, new TopDownValueContext());
+            return new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
         }
 
         public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
@@ -46,7 +46,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            var objectAssembler = new ObjectAssembler(wiringContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            var objectAssembler = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
 
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());

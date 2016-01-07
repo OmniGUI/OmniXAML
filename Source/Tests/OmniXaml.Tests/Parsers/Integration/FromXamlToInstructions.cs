@@ -12,7 +12,7 @@
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class FromXamlToInstructions : GivenAWiringContextWithNodeBuildersNetCore
+    public class FromXamlToInstructions : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionResources source;
 
@@ -181,14 +181,14 @@
             CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        private ICollection<XamlInstruction> ExtractNodesFromPullParser(string xml)
+        private ICollection<Instruction> ExtractNodesFromPullParser(string xml)
         {
-            var pullParser = new XamlInstructionParser(TypeContext);
+            var pullParser = new XamlInstructionParser(TypeRuntimeTypeSource);
 
             using (var stream = new StringReader(xml))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                return pullParser.Parse(new XamlProtoInstructionParser(TypeContext).Parse(reader)).ToList();
+                return pullParser.Parse(new XamlProtoInstructionParser(TypeRuntimeTypeSource).Parse(reader)).ToList();
             }
         }
 

@@ -8,11 +8,11 @@ namespace OmniXaml
     using TypeConversion;
     using Typing;
 
-    public class TypeContext : ITypeContext
+    public class RuntimeTypeSource : IRuntimeTypeSource
     {
-        public IXamlNamespaceRegistry NamespaceRegistry { get; }
+        public INamespaceRegistry NamespaceRegistry { get; }
 
-        public TypeContext(IXamlTypeRepository typeRepository, IXamlNamespaceRegistry nsRegistry)
+        public RuntimeTypeSource(ITypeRepository typeRepository, INamespaceRegistry nsRegistry)
         {
             TypeRepository = typeRepository;
             NamespaceRegistry = nsRegistry;
@@ -38,9 +38,9 @@ namespace OmniXaml
             NamespaceRegistry.AddNamespace(xamlNamespace);
         }
 
-        public XamlType GetXamlType(Type type)
+        public XamlType GetByType(Type type)
         {
-            return TypeRepository.GetXamlType(type);
+            return TypeRepository.GetByType(type);
         }
 
         public XamlType GetByQualifiedName(string qualifiedName)
@@ -54,40 +54,40 @@ namespace OmniXaml
             return TypeRepository.GetByPrefix(prefix, typeName);
         }
 
-        public XamlType GetWithFullAddress(XamlTypeName xamlTypeName)
+        public XamlType GetByFullAddress(XamlTypeName xamlTypeName)
         {
-            return TypeRepository.GetWithFullAddress(xamlTypeName);
+            return TypeRepository.GetByFullAddress(xamlTypeName);
         }
 
-        public XamlMember GetMember(PropertyInfo propertyInfo)
+        public Member GetMember(PropertyInfo propertyInfo)
         {
             return TypeRepository.GetMember(propertyInfo);
         }
 
-        public AttachableXamlMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
+        public AttachableMember GetAttachableMember(string name, MethodInfo getter, MethodInfo setter)
         {
             return TypeRepository.GetAttachableMember(name, getter, setter);
         }      
 
         public IEnumerable<PrefixRegistration> RegisteredPrefixes => NamespaceRegistry.RegisteredPrefixes;
 
-        public IXamlTypeRepository TypeRepository { get; }
+        public ITypeRepository TypeRepository { get; }
 
-        public static ITypeContext FromAttributes(IEnumerable<Assembly> assemblies)
+        public static IRuntimeTypeSource FromAttributes(IEnumerable<Assembly> assemblies)
         {
             var allExportedTypes = assemblies.AllExportedTypes();
 
             var typeFactory = new TypeFactory();
 
-            var xamlNamespaceRegistry = new XamlNamespaceRegistry();
+            var xamlNamespaceRegistry = new NamespaceRegistry();
             xamlNamespaceRegistry.FillFromAttributes(assemblies);
 
             var typeFeatureProvider = new TypeFeatureProvider(new TypeConverterProvider());
             typeFeatureProvider.FillFromAttributes(allExportedTypes);
                 
-            var xamlTypeRepo = new XamlTypeRepository(xamlNamespaceRegistry, typeFactory, typeFeatureProvider);
+            var xamlTypeRepo = new TypeRepository(xamlNamespaceRegistry, typeFactory, typeFeatureProvider);
 
-            return new TypeContext(xamlTypeRepo, xamlNamespaceRegistry);
+            return new RuntimeTypeSource(xamlTypeRepo, xamlNamespaceRegistry);
         }
     }
 }

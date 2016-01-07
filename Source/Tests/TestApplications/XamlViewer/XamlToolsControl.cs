@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Input;
     using Glass;
@@ -32,10 +31,10 @@
           DependencyProperty.Register("Xaml", typeof(string), typeof(XamlToolsControl),
             new FrameworkPropertyMetadata(null));
 
-        #region WiringContext        
-        public static readonly DependencyProperty WiringContextProperty =
-          DependencyProperty.Register("WiringContext", typeof(ITypeContext), typeof(XamlToolsControl),
-            new FrameworkPropertyMetadata((ITypeContext)null));
+        #region RuntimeTypeContext        
+        public static readonly DependencyProperty RuntimeTypeContextProperty =
+          DependencyProperty.Register("RuntimeTypeContext", typeof(IRuntimeTypeSource), typeof(XamlToolsControl),
+            new FrameworkPropertyMetadata((IRuntimeTypeSource)null));
 
         #region IsShowAlwaysEnabled        
         public static readonly DependencyProperty IsShowAlwaysEnabledProperty =
@@ -50,10 +49,10 @@
 
         #endregion
 
-        public ITypeContext WiringContext
+        public IRuntimeTypeSource RuntimeTypeContext
         {
-            get { return (ITypeContext)GetValue(WiringContextProperty); }
-            set { SetValue(WiringContextProperty, value); }
+            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeContextProperty); }
+            set { SetValue(RuntimeTypeContextProperty, value); }
         }
 
         #endregion
@@ -83,12 +82,12 @@
             visualizerWindow.Show();
         }
 
-        private IEnumerable<XamlInstruction> ConvertToNodes(Stream stream)
+        private IEnumerable<Instruction> ConvertToNodes(Stream stream)
         {
             var reader = new XmlCompatibilityReader(stream);
-            var wiringContext = WiringContext;
-            var pullParser = new XamlInstructionParser(wiringContext);
-            var protoParser = new XamlProtoInstructionParser(wiringContext);
+            var runtimeTypeContext = RuntimeTypeContext;
+            var pullParser = new XamlInstructionParser(runtimeTypeContext);
+            var protoParser = new XamlProtoInstructionParser(runtimeTypeContext);
             return pullParser.Parse(protoParser.Parse(reader)).ToList();
         }
     }

@@ -3,10 +3,10 @@ namespace OmniXaml.Typing
     using System.Reflection;
     using Glass;
 
-    public class XamlMember : MutableXamlMember
+    public class Member : MutableMember
     {
-        public XamlMember(string name, XamlType declaringType, IXamlTypeRepository xamlTypeRepository, ITypeFeatureProvider featureProvider)
-            : base(name, declaringType, xamlTypeRepository, featureProvider)
+        public Member(string name, XamlType declaringType, ITypeRepository typeRepository, ITypeFeatureProvider featureProvider)
+            : base(name, declaringType, typeRepository, featureProvider)
         {
             XamlType = LookupType();
         }
@@ -23,9 +23,9 @@ namespace OmniXaml.Typing
             var underlyingType = DeclaringType.UnderlyingType;
             var property = underlyingType.GetRuntimeProperty(Name);
 
-            property.ThrowIfNull(() => new XamlParseException($"Cannot find a property named \"{Name}\" in the type {underlyingType}") );
+            property.ThrowIfNull(() => new ParseException($"Cannot find a property named \"{Name}\" in the type {underlyingType}") );
 
-            return TypeRepository.GetXamlType(property.PropertyType);
+            return TypeRepository.GetByType(property.PropertyType);
         }              
     }
 }

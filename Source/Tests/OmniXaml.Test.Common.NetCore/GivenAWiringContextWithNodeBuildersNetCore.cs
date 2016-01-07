@@ -1,12 +1,10 @@
 ﻿namespace OmniXaml.Tests.Common.NetCore
 {
-    using Classes;
-    using Services.DotNetFx;
     using Tests.Common;
 
-    public class GivenAWiringContextWithNodeBuildersNetCore : GivenAWiringContextWithNodeBuilders
+    public class GivenARuntimeTypeContextWithNodeBuildersNetCore : GivenARuntimeTypeContextWithNodeBuilders
     {
-        public GivenAWiringContextWithNodeBuildersNetCore() : base(new[] { typeof(DummyClass).Assembly })
+        public GivenARuntimeTypeContextWithNodeBuildersNetCore() : base()
         {
         }
     }

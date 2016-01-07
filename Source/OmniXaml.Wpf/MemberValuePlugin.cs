@@ -9,21 +9,21 @@ namespace OmniXaml.Wpf
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
     {
-        private readonly MutableXamlMember xamlMember;
+        private readonly MutableMember member;
 
-        public MemberValuePlugin(MutableXamlMember xamlMember) : base(xamlMember)
+        public MemberValuePlugin(MutableMember member) : base(member)
         {
-            this.xamlMember = xamlMember;
+            this.member = member;
         }
 
         public override void SetValue(object instance, object value)
         {
-            if (xamlMember.Name == "Value" && instance is Setter)
+            if (member.Name == "Value" && instance is Setter)
             {
                 var setter = (Setter) instance;                
                 var targetType = setter.Property.PropertyType;
-                var valuePipeline = new ValuePipeline(xamlMember.TypeRepository, null);
-                var xamlType = xamlMember.TypeRepository.GetXamlType(targetType);
+                var valuePipeline = new ValuePipeline(member.TypeRepository, null);
+                var xamlType = member.TypeRepository.GetByType(targetType);
                 base.SetValue(instance, valuePipeline.ConvertValueIfNecessary(value, xamlType));
             }
             else
@@ -37,7 +37,7 @@ namespace OmniXaml.Wpf
 
         private bool TrySetDependencyProperty(object instance, object value)
         {
-            var dp = GetDependencyProperty(instance.GetType(), xamlMember.Name + "Property");
+            var dp = GetDependencyProperty(instance.GetType(), member.Name + "Property");
             if (dp == null)
             {
                 return false;

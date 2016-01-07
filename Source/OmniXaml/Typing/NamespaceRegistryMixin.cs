@@ -4,9 +4,9 @@ namespace OmniXaml.Typing
     using System.Reflection;
     using Builder;
 
-    public static class XamlNamespaceRegistryMixin
+    public static class NamespaceRegistryMixin
     {
-        public static void FillFromAttributes(this IXamlNamespaceRegistry nsReg, IEnumerable<Assembly> assemblies)
+        public static void FillFromAttributes(this INamespaceRegistry nsReg, IEnumerable<Assembly> assemblies)
         {
             var namespaces = XamlNamespace.DefinedInAssemblies(assemblies);
 

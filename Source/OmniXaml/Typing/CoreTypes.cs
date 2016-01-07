@@ -10,29 +10,29 @@
     {
         public static readonly string SpecialNamespace = "http://schemas.microsoft.com/winfx/2006/xaml";
 
-        private static readonly XamlDirective sItems = new XamlDirective("_Items", XamlType.CreateForBuiltInType(typeof(List<object>)));
-        private static readonly XamlDirective sInitialization = new XamlDirective("_Initialization");
-        private static readonly XamlDirective sMarkupExtensionParameters = new XamlDirective("_MarkupExtensionParameters");
-        private static readonly XamlDirective sUnknownContent = new XamlDirective("_UnknownContent");
-        public static readonly XamlDirective sKey = new XamlDirective("Key");
-        public static readonly XamlDirective sName = new XamlDirective("Name");
+        private static readonly Directive sItems = new Directive("_Items", XamlType.CreateForBuiltInType(typeof(List<object>)));
+        private static readonly Directive sInitialization = new Directive("_Initialization");
+        private static readonly Directive sMarkupExtensionParameters = new Directive("_MarkupExtensionParameters");
+        private static readonly Directive sUnknownContent = new Directive("_UnknownContent");
+        public static readonly Directive sKey = new Directive("Key");
+        public static readonly Directive sName = new Directive("Name");
 
-        public static XamlDirective Items => sItems;
-        public static XamlDirective UnknownContent => sUnknownContent;
-        public static XamlDirective Initialization => sInitialization;
-        public static XamlDirective MarkupExtensionArguments => sMarkupExtensionParameters;
-        public static XamlDirective Name => sName;
-        public static XamlDirective Key => sKey;
+        public static Directive Items => sItems;
+        public static Directive UnknownContent => sUnknownContent;
+        public static Directive Initialization => sInitialization;
+        public static Directive MarkupExtensionArguments => sMarkupExtensionParameters;
+        public static Directive Name => sName;
+        public static Directive Key => sKey;
 
         public static XamlType String => XamlType.CreateForBuiltInType(typeof(string));
         public static XamlType Int32 => XamlType.CreateForBuiltInType(typeof(int));
 
-        public static XamlDirective GetDirective(string name)
+        public static Directive GetDirective(string name)
         {
             return Directives.First(directive => directive.Name == name);
         }
 
-        public static IEnumerable<XamlDirective> Directives
+        public static IEnumerable<Directive> Directives
         {
             get
             {
@@ -46,7 +46,7 @@
                     UnknownContent,
                 };
 
-                return new ReadOnlyCollection<XamlDirective>(xamlDirectives);
+                return new ReadOnlyCollection<Directive>(xamlDirectives);
             }
         }
 

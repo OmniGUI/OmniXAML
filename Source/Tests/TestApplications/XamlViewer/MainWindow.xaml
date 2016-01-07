@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                <xamlViewer:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" WiringContext="{Binding Path=DataContext.WiringContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
+                <xamlViewer:XamlToolsControl HorizontalAlignment="Right"  Grid.Column="1" VerticalAlignment="Top" Xaml="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" RuntimeTypeContext="{Binding Path=DataContext.RuntimeTypeContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}}" />
             </Grid>
         </DataTemplate>
 

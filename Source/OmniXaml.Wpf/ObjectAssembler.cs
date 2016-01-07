@@ -6,10 +6,10 @@
 
     public class ObjectAssembler : IObjectAssembler
     {
-        public ITypeContext TypeContext { get; set; }
+        public IRuntimeTypeSource TypeContext { get; set; }
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(ITypeContext typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
             TypeContext = typeContext;
             var mapping = new DeferredLoaderMapping();
@@ -27,7 +27,7 @@
             set { objectAssembler.InstanceLifeCycleHandler = value; }
         }
 
-        public void Process(XamlInstruction instruction)
+        public void Process(Instruction instruction)
         {
             objectAssembler.Process(instruction);
         }

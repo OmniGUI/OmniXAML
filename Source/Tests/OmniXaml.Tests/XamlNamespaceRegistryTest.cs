@@ -12,7 +12,7 @@
     [TestClass]
     public class XamlNamespaceRegistryTest
     {
-        private XamlNamespaceRegistry registry;
+        private NamespaceRegistry registry;
         private Type type;
         private string clrNamespace;
 
@@ -20,7 +20,7 @@
         public void Initialize()
         {
             type = typeof(DummyClass);
-            registry = new XamlNamespaceRegistry();
+            registry = new NamespaceRegistry();
             registry.RegisterPrefix(new PrefixRegistration("my", "target"));
             clrNamespace = $"clr-namespace:{type.Namespace};Assembly={type.GetTypeInfo().Assembly}";
             registry.RegisterPrefix(new PrefixRegistration("clr", clrNamespace));

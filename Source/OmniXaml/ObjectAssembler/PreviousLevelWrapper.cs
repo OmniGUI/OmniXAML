@@ -12,10 +12,10 @@ namespace OmniXaml.ObjectAssembler
             this.level = level;
         }
 
-        public XamlMemberBase XamlMember
+        public MemberBase Member
         {
-            get { return level.XamlMember; }
-            set { level.XamlMember = value; }
+            get { return level.Member; }
+            set { level.Member = value; }
         }
 
         public object Instance
@@ -30,7 +30,7 @@ namespace OmniXaml.ObjectAssembler
             set { level.Collection = value; }
         }
 
-        public bool XamlMemberIsOneToMany => XamlMember.XamlType.IsCollection;
+        public bool XamlMemberIsOneToMany => Member.XamlType.IsCollection;
         public bool IsDictionary => Collection is IDictionary;
 
         public bool CanHostChildren => XamlMemberIsOneToMany && Collection != null;

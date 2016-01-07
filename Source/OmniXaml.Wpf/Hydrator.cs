@@ -4,9 +4,6 @@ namespace OmniXaml.Wpf
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Windows;
-    using System.Windows.Controls.Primitives;
-    using System.Windows.Media;
     using Builder;
     using Parsers.ProtoParser;
     using Parsers.XamlInstructions;
@@ -16,19 +13,19 @@ namespace OmniXaml.Wpf
     internal class Hydrator
     {
         private readonly IEnumerable<Type> inflatables;
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
         private readonly XamlInstructionBuilder instructionBuilder;
 
-        public Hydrator(IEnumerable<Type> inflatables, ITypeContext typeContext)
+        public Hydrator(IEnumerable<Type> inflatables, IRuntimeTypeSource typeContext)
         {
             this.inflatables = inflatables;
             this.typeContext = typeContext;
             instructionBuilder = new XamlInstructionBuilder(typeContext);
         }
 
-        public IEnumerable<XamlInstruction> Hydrate(IEnumerable<XamlInstruction> nodes)
+        public IEnumerable<Instruction> Hydrate(IEnumerable<Instruction> nodes)
         {
-            var processedNodes = new Collection<XamlInstruction>();
+            var processedNodes = new Collection<Instruction>();
             var skipNext = false;
             foreach (var xamlNode in nodes)
             {
@@ -37,7 +34,7 @@ namespace OmniXaml.Wpf
                 if (matchedInflatable != null)
                 {
                     var toAdd = ReadNodes(xamlNode.XamlType.UnderlyingType);
-                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, TypeContext.GetXamlType((matchedInflatable)));
+                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, TypeContext.GetByType((matchedInflatable)));
 
                     foreach (var croppedNode in croppedNodes)
                     {
@@ -61,9 +58,9 @@ namespace OmniXaml.Wpf
             return processedNodes;
         }
 
-        private ITypeContext TypeContext => typeContext;
+        private IRuntimeTypeSource TypeContext => typeContext;
 
-        private IEnumerable<XamlInstruction> Crop(IEnumerable<XamlInstruction> original, XamlType newType, XamlType oldType)
+        private IEnumerable<Instruction> Crop(IEnumerable<Instruction> original, XamlType newType, XamlType oldType)
         {
             var list = original.ToList();
             var nodeToReplace = list.First(node => NodeHasSameType(oldType, node));
@@ -72,7 +69,7 @@ namespace OmniXaml.Wpf
             return list;
         }
 
-        private static bool NodeHasSameType(XamlType oldType, XamlInstruction instruction)
+        private static bool NodeHasSameType(XamlType oldType, Instruction instruction)
         {
             var xamlType = instruction.XamlType;
             if (xamlType != null)
@@ -84,27 +81,27 @@ namespace OmniXaml.Wpf
             return false;
         }
 
-        private static IEnumerable<XamlInstruction> ReadNodes(Type underlyingType)
+        private static IEnumerable<Instruction> ReadNodes(Type underlyingType)
         {
             var resourceProvider = new InflatableTranslator();
 
             using (var stream = resourceProvider.GetInflationSourceStream(underlyingType))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                var wiringContext = new WpfTypeContext();
-                var loader = new XamlInstructionParser(wiringContext);
-                var protoParser = new XamlProtoInstructionParser(wiringContext);
+                var runtimeTypeContext = new WpfRuntimeTypeSource();
+                var loader = new XamlInstructionParser(runtimeTypeContext);
+                var protoParser = new XamlProtoInstructionParser(runtimeTypeContext);
 
                 return loader.Parse(protoParser.Parse(reader));
             }
         }
       
-        private Type GetMatchedInflatable(XamlInstruction xamlInstruction)
+        private Type GetMatchedInflatable(Instruction instruction)
         {
-            if (xamlInstruction.XamlType != null)
+            if (instruction.XamlType != null)
             {
                 var matches = from inflatable in inflatables
-                              where inflatable.IsAssignableFrom(xamlInstruction.XamlType.UnderlyingType)
+                              where inflatable.IsAssignableFrom(instruction.XamlType.UnderlyingType)
                               select inflatable;
 
                 return matches.FirstOrDefault();

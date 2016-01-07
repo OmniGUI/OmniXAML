@@ -8,7 +8,7 @@ namespace OmniXaml.Typing
     using Builder;
     using Glass;
 
-    public class XamlNamespaceRegistry : IXamlNamespaceRegistry
+    public class NamespaceRegistry : INamespaceRegistry
     {
         private const string ClrNamespace = "clr-namespace:";
         private readonly IDictionary<string, string> registeredPrefixes = new Dictionary<string, string>();

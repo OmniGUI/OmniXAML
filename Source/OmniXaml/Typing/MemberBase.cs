@@ -1,18 +1,18 @@
 namespace OmniXaml.Typing
 {
-    public abstract class XamlMemberBase
+    public abstract class MemberBase
     {
         public string Name { get; }
         public XamlType XamlType { get; protected set; }
         public abstract bool IsDirective { get;  }
         public abstract bool IsAttachable { get; }
 
-        protected XamlMemberBase(string name)
+        protected MemberBase(string name)
         {
             this.Name = name;
         }
 
-        protected bool Equals(XamlMemberBase other)
+        protected bool Equals(MemberBase other)
         {
             return string.Equals(Name, other.Name) && XamlType.Equals(other.XamlType);
         }
@@ -31,7 +31,7 @@ namespace OmniXaml.Typing
             {
                 return false;
             }
-            return Equals((XamlMemberBase) obj);
+            return Equals((MemberBase) obj);
         }
 
         public override int GetHashCode()

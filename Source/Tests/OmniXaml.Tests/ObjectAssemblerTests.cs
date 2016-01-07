@@ -5,7 +5,6 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
@@ -14,7 +13,7 @@
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
-    public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class ObjectAssemblerTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
     {
         private XamlInstructionResources source;
         private IObjectAssembler sut;
@@ -29,18 +28,18 @@
         public void Initialize()
         {
             topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(TypeContext, topDownValueContext);
+            sut = new ObjectAssembler(TypeRuntimeTypeSource, topDownValueContext);
         }
 
         public IObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
             var settings = new ObjectAssemblerSettings { RootInstance = instance };
-            var assembler = new ObjectAssembler(TypeContext, new TopDownValueContext(), settings);
+            var assembler = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext(), settings);
             return assembler;
         }
 
@@ -225,21 +224,21 @@
         {
             sut.Process(source.InstanceWithChild);
 
-            var dummyClassXamlType = TypeContext.GetXamlType(typeof(DummyClass));
+            var dummyClassXamlType = TypeRuntimeTypeSource.GetByType(typeof(DummyClass));
             var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [ExpectedException(typeof(ParseException))]
         public void AttemptToAssignItemsToNonCollectionMember()
         {
             sut.Process(source.AttemptToAssignItemsToNonCollectionMember);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [ExpectedException(typeof(ParseException))]
         public void TwoChildrenWithNoRoot_ShouldThrow()
         {
             sut.Process(source.TwoRoots);

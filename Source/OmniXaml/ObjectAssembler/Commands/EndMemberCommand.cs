@@ -8,7 +8,7 @@ namespace OmniXaml.ObjectAssembler.Commands
     public class EndMemberCommand : Command
     {
         private readonly ITopDownValueContext topDownValueContext;
-        private readonly ITypeContext typeContext;
+        private readonly IRuntimeTypeSource typeContext;
 
         public EndMemberCommand(ObjectAssembler assembler, ITopDownValueContext topDownValueContext) : base(assembler)
         {
@@ -31,7 +31,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             }            
         }
 
-        public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.Current.HasInstance && StateCommuter.Current.XamlMember == null;
+        public bool IsTherePendingInstanceWaitingToBeAssigned => StateCommuter.Current.HasInstance && StateCommuter.Current.Member == null;
 
         private void AdaptCurrentCtorArgumentsToCurrentType()
         {
@@ -51,7 +51,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         private IList<XamlType> GetTypesOfBestCtorMatch(XamlType xamlType, int count)
         {
             var constructor = SelectConstructor(xamlType, count);
-            return constructor.GetParameters().Select(arg => typeContext.GetXamlType(arg.ParameterType)).ToList();
+            return constructor.GetParameters().Select(arg => typeContext.GetByType(arg.ParameterType)).ToList();
         }
 
         private static ConstructorInfo SelectConstructor(XamlType xamlType, int count)

@@ -43,7 +43,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     break;
 
                 default:
-                    throw new XamlParseException(
+                    throw new ParseException(
                         "Unexpected mode was set trying to process a Value XAML instruction. " +
                         $"We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
             }                                    

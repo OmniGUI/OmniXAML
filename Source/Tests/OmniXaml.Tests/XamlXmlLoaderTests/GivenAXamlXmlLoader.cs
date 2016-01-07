@@ -1,15 +1,14 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
-    using System;
     using Common.NetCore;
 
-    public class GivenAXamlXmlLoader : GivenAWiringContextNetCore
+    public class GivenAXamlXmlLoader : GivenARuntimeTypeContextNetCore
     {
         protected GivenAXamlXmlLoader()
         {
-            XamlLoader = new XamlXmlLoader(new DummyXamlParserFactory(TypeContext));
+            Loader = new XmlLoader(new DummyXamlParserFactory(TypeRuntimeTypeSource));
         }
 
-        protected XamlXmlLoader XamlLoader { get; }
+        protected XmlLoader Loader { get; }
     }
 }
