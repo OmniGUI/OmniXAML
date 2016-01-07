@@ -4,11 +4,11 @@ namespace OmniXaml.Tests.Common
     using System.Collections.Generic;
     using Typing;
 
-    internal class XamlTypeRepositoryMock : XamlTypeRepository
+    internal class TestXamlTypeRepository : XamlTypeRepository
     {
         readonly ISet<Type> nameScopes = new HashSet<Type>();
 
-        public XamlTypeRepositoryMock(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+        public TestXamlTypeRepository(IXamlNamespaceRegistry xamlNamespaceRegistry, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
             : base(xamlNamespaceRegistry, typeTypeFactory, featureProvider)
         {
         }

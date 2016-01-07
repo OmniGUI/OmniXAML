@@ -4,14 +4,14 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
 
-    [TestClass]
-    [Ignore]
+    [TestClass]    
     public class NameScopeTests : GivenAXamlXmlLoader
     {
         [TestMethod]
         public void RegisterOneChildInNameScope()
         {
-            //WiringContext.EnableNameScope<DummyClass>();
+            TypeContext.ClearNamescopes();
+            TypeContext.EnableNameScope<DummyClass>();
 
             var actualInstance = XamlLoader.FromString(Dummy.ChildInNameScope);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
@@ -21,7 +21,8 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         [TestMethod]
         public void RegisterOneChildInNameScopeWithoutDirective()
         {
-            //WiringContext.EnableNameScope<DummyClass>();
+            TypeContext.ClearNamescopes();
+            TypeContext.EnableNameScope<DummyClass>();
 
             var actualInstance = XamlLoader.FromString(Dummy.ChildInNamescopeNoNameDirective);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");

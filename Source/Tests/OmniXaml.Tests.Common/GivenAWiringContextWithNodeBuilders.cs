@@ -6,7 +6,7 @@ namespace OmniXaml.Tests.Common
 
     public class GivenAWiringContextWithNodeBuilders : GivenAWiringContext
     {
-        protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base(assemblies)
+        protected GivenAWiringContextWithNodeBuilders(IEnumerable<Assembly> assemblies) : base()
         {
             X = new XamlInstructionBuilder(TypeContext);
             P = new ProtoInstructionBuilder(TypeContext);

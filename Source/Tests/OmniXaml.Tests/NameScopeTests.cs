@@ -8,7 +8,6 @@ namespace OmniXaml.Tests
     using Resources;
 
     [TestClass]
-    [Ignore]
     public class NameScopeTests : GivenAWiringContextWithNodeBuildersNetCore
     {
         private readonly XamlInstructionResources source;
@@ -19,17 +18,12 @@ namespace OmniXaml.Tests
             sut = new ObjectAssembler(TypeContext, new TopDownValueContext());
             source = new XamlInstructionResources(this);
         }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            //WiringContext.ClearNamesCopes();
-        }
-
+       
         [TestMethod]
         public void RegisterOneChildInNameScope()
         {
-            //WiringContext.EnableNameScope<DummyClass>();
+            TypeContext.ClearNamescopes();
+            TypeContext.EnableNameScope<DummyClass>();
 
             sut.Process(source.ChildInNameScope);
             var actual = sut.Result;
@@ -41,7 +35,8 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void RegisterChildInDeeperNameScope()
         {
-            //WiringContext.EnableNameScope<Window>();
+            TypeContext.ClearNamescopes();
+            TypeContext.EnableNameScope<Window>();
 
             sut.Process(source.ChildInDeeperNameScope);
             var actual = sut.Result;
