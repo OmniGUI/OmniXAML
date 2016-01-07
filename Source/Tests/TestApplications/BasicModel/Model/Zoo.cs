@@ -18,7 +18,7 @@
         public override string ToString()
         {
             var animalStrings = Animals.Select(animal => animal.ToString() + "\n") ;
-            return "Zoom with the following animals: \n" + string.Concat(animalStrings);
+            return "Zoo with the following animals: \n" + string.Concat(animalStrings);
         }
     }
 }
