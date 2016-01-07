@@ -4,29 +4,29 @@ namespace OmniXaml.Tests.Common.NetCore
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using ObjectAssembler;
-    using Parsers.XamlInstructions;
+    using Parsers.Parser;
 
-    public class DummyXamlParserFactory : IXamlParserFactory
+    public class DummyParserFactory : IParserFactory
     {
-        private readonly IRuntimeTypeSource runtimeTypeContext;
+        private readonly IRuntimeTypeSource runtimeTypeSource;
 
-        public DummyXamlParserFactory(IRuntimeTypeSource runtimeTypeContext)
+        public DummyParserFactory(IRuntimeTypeSource runtimeTypeSource)
         {
-            this.runtimeTypeContext = runtimeTypeContext;
+            this.runtimeTypeSource = runtimeTypeSource;
         }
 
-        public IXamlParser CreateForReadingFree()
+        public IParser CreateForReadingFree()
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
-        private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
+        private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(runtimeTypeContext),
-                new XamlInstructionParser(runtimeTypeContext),
+                new ProtoInstructionParser(runtimeTypeSource),
+                new InstructionParser(runtimeTypeSource),
                 objectAssemblerForUndefinedRoot);
 
             return new XmlParser(phaseParserKit);
@@ -34,10 +34,10 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private ObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
+            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
         }
 
-        public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
+        public IParser CreateForReadingSpecificInstance(object rootInstance)
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
 
@@ -46,7 +46,7 @@ namespace OmniXaml.Tests.Common.NetCore
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            var objectAssembler = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
 
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());

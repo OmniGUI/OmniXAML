@@ -2,11 +2,11 @@ namespace OmniXaml.Wpf
 {
     using System.IO;
 
-    public class WpfXamlLoader : IXamlLoader
+    public class WpfLoader : ILoader
     {
         private readonly XmlLoader innerLoader;
 
-        public WpfXamlLoader()
+        public WpfLoader()
         {
             innerLoader = new XmlLoader(new WpfParserFactory());
         }

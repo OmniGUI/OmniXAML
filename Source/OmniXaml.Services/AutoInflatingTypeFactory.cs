@@ -10,13 +10,13 @@
     {
         private readonly ITypeFactory innerTypeFactory;
         private readonly IInflatableTranslator inflatableTranslator;
-        private readonly Func<ITypeFactory, IXamlLoader> xamlLoaderFactory;
+        private readonly Func<ITypeFactory, ILoader> xamlLoaderFactory;
 
         public virtual IEnumerable<Type> Inflatables => new Collection<Type>();
 
         public AutoInflatingTypeFactory(ITypeFactory innerTypeFactory,
             IInflatableTranslator inflatableTranslator,
-            Func<ITypeFactory, IXamlLoader> xamlLoaderFactory)
+            Func<ITypeFactory, ILoader> xamlLoaderFactory)
         {
             this.innerTypeFactory = innerTypeFactory;
             this.inflatableTranslator = inflatableTranslator;

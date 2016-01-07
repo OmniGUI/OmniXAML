@@ -2,9 +2,9 @@
 {
     using Tests.Common;
 
-    public class GivenARuntimeTypeContextWithNodeBuildersNetCore : GivenARuntimeTypeContextWithNodeBuilders
+    public class GivenARuntimeTypeSourceWithNodeBuildersNetCore : GivenARuntimeTypeSourceWithNodeBuilders
     {
-        public GivenARuntimeTypeContextWithNodeBuildersNetCore() : base()
+        public GivenARuntimeTypeSourceWithNodeBuildersNetCore() : base()
         {
         }
     }

@@ -37,7 +37,7 @@ namespace OmniXaml.ObjectAssembler
             var typeConverter = targetType.TypeConverter;
             if (typeConverter != null)
             {
-                var context = new XamlTypeConverterContext(typeRepository, topDownValueContext);
+                var context = new TypeConverterContext(typeRepository, topDownValueContext);
                 if (typeConverter.CanConvertFrom(context, value.GetType()))
                 {
                     var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);

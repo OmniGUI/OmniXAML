@@ -2,14 +2,14 @@
 {
     using System.Collections.Generic;
     using Glass;
+    using Parsers.Parser;
     using Parsers.ProtoParser;
-    using Parsers.XamlInstructions;
 
-    public class XmlParser : IXamlParser
+    public class XmlParser : IParser
     {
         private readonly IObjectAssembler objectAssembler;
         private readonly IProtoParser protoParser;
-        private readonly IXamlInstructionParser parser;
+        private readonly IInstructionParser parser;
 
         public XmlParser(PhaseParserKit phaseParserKit)  
         {

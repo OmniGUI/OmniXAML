@@ -9,13 +9,13 @@
     using Resources;
 
     [TestClass]
-    public class LookaheadBufferTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class LookaheadBufferTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private XamlInstructionResources resources;
+        private InstructionResources resources;
 
         public LookaheadBufferTests()
         {
-            resources = new XamlInstructionResources(this);
+            resources = new InstructionResources(this);
         }
 
         [TestMethod]

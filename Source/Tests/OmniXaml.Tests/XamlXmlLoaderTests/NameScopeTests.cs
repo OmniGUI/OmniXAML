@@ -5,7 +5,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
     using Xaml.Tests.Resources;
 
     [TestClass]    
-    public class NameScopeTests : GivenAXamlXmlLoader
+    public class NameScopeTests : GivenAXmlLoader
     {
         [TestMethod]
         public void RegisterOneChildInNameScope()

@@ -21,7 +21,7 @@ namespace OmniXaml.Wpf
             this.templateContent = templateContent;
             SchemaContext = xamlSchemaContext;
 
-            var hydrator = new Hydrator(autoInflatingTypeFactory.Inflatables, templateContent.TypeContext);
+            var hydrator = new Hydrator(autoInflatingTypeFactory.Inflatables, templateContent.TypeSource);
             var hydratedNodes = hydrator.Hydrate(templateContent.Nodes);
 
             nodeStream = hydratedNodes.GetEnumerator();

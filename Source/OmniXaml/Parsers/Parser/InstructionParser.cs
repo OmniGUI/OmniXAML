@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Parsers.XamlInstructions
+﻿namespace OmniXaml.Parsers.Parser
 {
     using System.Collections.Generic;
     using MarkupExtensions;
@@ -7,14 +7,14 @@
     using Typing;
     using ParseException = OmniXaml.ParseException;
 
-    public class XamlInstructionParser : IXamlInstructionParser
+    public class InstructionParser : IInstructionParser
     {
-        private readonly IRuntimeTypeSource typeContext;
-        private IEnumerator<ProtoXamlInstruction> instructionStream;
+        private readonly IRuntimeTypeSource typeSource;
+        private IEnumerator<ProtoInstruction> instructionStream;
 
-        public XamlInstructionParser(IRuntimeTypeSource typeContext)
+        public InstructionParser(IRuntimeTypeSource typeSource)
         {
-            this.typeContext = typeContext;
+            this.typeSource = typeSource;
         }
 
         private bool EndOfStream { get; set; }
@@ -28,12 +28,12 @@
 
         private bool CurrentNodeIsText => CurrentNodeType == NodeType.Text;
 
-        private ProtoXamlInstruction Current => instructionStream.Current;
+        private ProtoInstruction Current => instructionStream.Current;
         private string CurrentText => instructionStream.Current.Text;
         private string CurrentPropertyText => Current.PropertyAttributeText;
         private MemberBase CurrentMember => Current.PropertyAttribute;
 
-        public IEnumerable<Instruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
+        public IEnumerable<Instruction> Parse(IEnumerable<ProtoInstruction> protoNodes)
         {
             instructionStream = protoNodes.GetEnumerator();
             SetNextInstruction();
@@ -303,7 +303,7 @@
         private IEnumerable<Instruction> ParseMarkupExtension(string valueOfMember)
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(valueOfMember);
-            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(typeContext);
+            var markupExtensionConverter = new MarkupExtensionNodeToXamlNodesConverter(typeSource);
             return markupExtensionConverter.ParseMarkupExtensionNode(tree);
         }
 

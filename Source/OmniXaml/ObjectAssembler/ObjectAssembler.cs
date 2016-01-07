@@ -12,24 +12,24 @@ namespace OmniXaml.ObjectAssembler
         private readonly XamlType rootInstanceXamlType;
         private readonly ITopDownValueContext topDownValueContext;
 
-        public ObjectAssembler(IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
-            : this(new StackingLinkedList<Level>(), typeContext, topDownValueContext)
+        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
+            : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext)
         {
-            Guard.ThrowIfNull(typeContext, nameof(typeContext));
+            Guard.ThrowIfNull(typeSource, nameof(typeSource));
             Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
-            this.TypeContext = typeContext;
+            this.TypeSource = typeSource;
             this.topDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
 
             rootInstance = settings?.RootInstance;
             var rootInstanceType = rootInstance?.GetType();
-            rootInstanceXamlType = rootInstanceType != null ? TypeContext.GetByType(rootInstanceType) : null;
+            rootInstanceXamlType = rootInstanceType != null ? TypeSource.GetByType(rootInstanceType) : null;
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state, IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext)
         {
-            StateCommuter = new StateCommuter(this, state, typeContext, topDownValueContext);
+            StateCommuter = new StateCommuter(this, state, typeSource, topDownValueContext);
         }
 
         public StateCommuter StateCommuter { get; }
@@ -39,7 +39,7 @@ namespace OmniXaml.ObjectAssembler
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
 
-        public IRuntimeTypeSource TypeContext { get; }
+        public IRuntimeTypeSource TypeSource { get; }
 
         public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 

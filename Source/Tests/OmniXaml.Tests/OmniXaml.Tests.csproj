@@ -88,16 +88,16 @@
     <Compile Include="NameScopeTests.cs" />
     <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="Resources\MarkupExtensionNodeResources.cs" />
-    <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />
-    <Compile Include="Parsers\XamlProtoInstructionParserTests\PrefixTests.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\MemberNodesBlock.cs" />
+    <Compile Include="Parsers\ProtoInstructionParserTests\ParsingTests.cs" />
+    <Compile Include="Parsers\ProtoInstructionParserTests\PrefixTests.cs" />
+    <Compile Include="Parsers\InstructionParserTests\MemberNodesBlock.cs" />
     <Compile Include="SetupSequence.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\ParsingTests.cs" />
+    <Compile Include="Parsers\InstructionParserTests\ParsingTests.cs" />
     <Compile Include="Resources\ProtoInstructionResources.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
+    <Compile Include="Parsers\InstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
@@ -105,16 +105,15 @@
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
-    <Compile Include="Resources\XamlInstructionResources.cs" />
-    <Compile Include="XamlTypeRepositoryTests.cs" />
-    <Compile Include="XamlNamespaceRegistryTest.cs" />
+    <Compile Include="Resources\InstructionResources.cs" />
+    <Compile Include="TypeRepositoryTests.cs" />
+    <Compile Include="NamespaceRegistryTest.cs" />
     <Compile Include="Parsers\Integration\FromXamlToInstructions.cs" />
-    <Compile Include="XamlNodesAssert.cs" />
     <Compile Include="XamlXmlLoaderTests\NameScopeTests.cs" />
     <Compile Include="XamlXmlLoaderTests\ParsingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
-    <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
+    <Compile Include="XamlXmlLoaderTests\GivenAXmlLoader.cs" />
     <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
   </ItemGroup>
   <ItemGroup>

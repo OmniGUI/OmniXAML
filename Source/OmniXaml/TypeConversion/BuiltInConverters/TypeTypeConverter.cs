@@ -5,24 +5,24 @@
 
     public class TypeTypeConverter : ITypeConverter
     {
-        public bool CanConvertFrom(IXamlTypeConverterContext context, Type sourceType)
+        public bool CanConvertFrom(ITypeConverterContext context, Type sourceType)
         {
             return sourceType == typeof(string);
         }
 
-        public object ConvertFrom(IXamlTypeConverterContext context, CultureInfo culture, object value)
+        public object ConvertFrom(ITypeConverterContext context, CultureInfo culture, object value)
         {
             var qualifiedTypeName = value as string;
             return context.TypeRepository.GetByQualifiedName(qualifiedTypeName).UnderlyingType;            
         }
 
-        public bool CanConvertTo(IXamlTypeConverterContext context, Type destinationType)
+        public bool CanConvertTo(ITypeConverterContext context, Type destinationType)
         {
             return destinationType == typeof(string);
         }
 
         public object ConvertTo(
-            IXamlTypeConverterContext context,
+            ITypeConverterContext context,
             CultureInfo culture,
             object value,
             Type destinationType)

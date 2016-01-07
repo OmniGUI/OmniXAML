@@ -12,11 +12,11 @@ namespace OmniXaml.Tests.Resources
 
     internal class ProtoInstructionResources
     {
-        public ProtoInstructionResources(GivenARuntimeTypeContextWithNodeBuilders context)
+        public ProtoInstructionResources(GivenARuntimeTypeSourceWithNodeBuilders source)
         {
-            RootNs = context.RootNs;
-            AnotherNs = context.AnotherNs;
-            P = context.P;
+            RootNs = source.RootNs;
+            AnotherNs = source.AnotherNs;
+            P = source.P;
         }
 
         private NamespaceDeclaration RootNs { get; }
@@ -24,11 +24,11 @@ namespace OmniXaml.Tests.Resources
 
         private ProtoInstructionBuilder P { get; }
 
-        public IEnumerable<ProtoXamlInstruction> ContentPropertyNesting
+        public IEnumerable<ProtoInstruction> ContentPropertyNesting
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -64,11 +64,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> TwoNestedProperties
+        public IEnumerable<ProtoInstruction> TwoNestedProperties
         {
             get
             {
-                var input = new List<ProtoXamlInstruction>
+                var input = new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -91,11 +91,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ImplicitContentPropertyWithImplicityCollection
+        public IEnumerable<ProtoInstruction> ImplicitContentPropertyWithImplicityCollection
         {
             get
             {
-                var input = new List<ProtoXamlInstruction>
+                var input = new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
@@ -111,11 +111,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem
+        public IEnumerable<ProtoInstruction> TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem
         {
             get
             {
-                var input = new List<ProtoXamlInstruction>
+                var input = new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
@@ -135,11 +135,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> CollapsedTag
+        public IEnumerable<ProtoInstruction> CollapsedTag
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement(typeof(DummyClass), RootNs),
@@ -147,11 +147,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> FourLevelsOfNesting
+        public IEnumerable<ProtoInstruction> FourLevelsOfNesting
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -174,11 +174,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> TwoNestedPropertiesEmpty
+        public IEnumerable<ProtoInstruction> TwoNestedPropertiesEmpty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -191,9 +191,9 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> GetString(NamespaceDeclaration sysNs)
+        public IEnumerable<ProtoInstruction> GetString(NamespaceDeclaration sysNs)
         {
-            return new List<ProtoXamlInstruction>
+            return new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(sysNs),
                 P.NonEmptyElement(typeof (string), sysNs),
@@ -202,11 +202,11 @@ namespace OmniXaml.Tests.Resources
             };
         }
 
-        public IEnumerable<ProtoXamlInstruction> ContentPropertyForCollectionOneElement
+        public IEnumerable<ProtoInstruction> ContentPropertyForCollectionOneElement
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -217,11 +217,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ThreeLevelsOfNesting
+        public IEnumerable<ProtoInstruction> ThreeLevelsOfNesting
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -239,11 +239,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> InstanceWithStringPropertyAndNsDeclaration
+        public IEnumerable<ProtoInstruction> InstanceWithStringPropertyAndNsDeclaration
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -253,11 +253,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> KeyDirective
+        public IEnumerable<ProtoInstruction> KeyDirective
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NamespacePrefixDeclaration("x", CoreTypes.SpecialNamespace),
@@ -272,11 +272,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> AttachedProperty
+        public IEnumerable<ProtoInstruction> AttachedProperty
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration("", "root"),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -286,11 +286,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ExpandedAttachedProperty
+        public IEnumerable<ProtoInstruction> ExpandedAttachedProperty
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration("", "root"),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),     
@@ -302,11 +302,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ExpandedAttachablePropertyAndItemBelow
+        public IEnumerable<ProtoInstruction> ExpandedAttachablePropertyAndItemBelow
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration("", "root"),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -323,11 +323,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> PrefixedExpandedAttachablePropertyAndItemBelow
+        public IEnumerable<ProtoInstruction> PrefixedExpandedAttachablePropertyAndItemBelow
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration("", "root"),
                     P.NamespacePrefixDeclaration("a", "another"),
@@ -345,11 +345,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> SingleOpenWithNs
+        public IEnumerable<ProtoInstruction> SingleOpenWithNs
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass),  RootNs),
@@ -357,11 +357,11 @@ namespace OmniXaml.Tests.Resources
                 };
             }
         }
-        public IEnumerable<ProtoXamlInstruction> SingleOpenAndClose
+        public IEnumerable<ProtoInstruction> SingleOpenAndClose
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -370,11 +370,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ElementWith2NsDeclarations
+        public IEnumerable<ProtoInstruction> ElementWith2NsDeclarations
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NamespacePrefixDeclaration(AnotherNs),
@@ -383,11 +383,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ElementWithChild
+        public IEnumerable<ProtoInstruction> ElementWithChild
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof(DummyClass), RootNs),
@@ -400,11 +400,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> CollectionWithMixedEmptyAndNotEmptyNestedElements
+        public IEnumerable<ProtoInstruction> CollectionWithMixedEmptyAndNotEmptyNestedElements
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (Grid), RootNs),
@@ -420,11 +420,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> MixedPropertiesWithContentPropertyBefore
+        public IEnumerable<ProtoInstruction> MixedPropertiesWithContentPropertyBefore
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (Grid), RootNs),
@@ -437,11 +437,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> EmptyElementWithStringProperty
+        public IEnumerable<ProtoInstruction> EmptyElementWithStringProperty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement(typeof (DummyClass), RootNs),
@@ -450,11 +450,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> EmptyElementWithTwoStringProperties
+        public IEnumerable<ProtoInstruction> EmptyElementWithTwoStringProperties
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement(typeof (DummyClass), RootNs),
@@ -464,11 +464,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> SingleCollapsed
+        public IEnumerable<ProtoInstruction> SingleCollapsed
         {
             get
             {
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.EmptyElement<DummyClass>(RootNs),
@@ -476,11 +476,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> CollectionWithMoreThanOneItem
+        public IEnumerable<ProtoInstruction> CollectionWithMoreThanOneItem
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement<DummyClass>(RootNs),
@@ -497,11 +497,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> NestedChildWithContentProperty
+        public IEnumerable<ProtoInstruction> NestedChildWithContentProperty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (ChildClass), RootNs),
@@ -512,11 +512,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ElementWith2NsDeclarations2
+        public IEnumerable<ProtoInstruction> ElementWith2NsDeclarations2
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NamespacePrefixDeclaration(AnotherNs),
@@ -525,11 +525,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ElementWithNestedChild
+        public IEnumerable<ProtoInstruction> ElementWithNestedChild
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -542,11 +542,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> NestedCollectionWithContentProperty
+        public IEnumerable<ProtoInstruction> NestedCollectionWithContentProperty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -561,11 +561,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> TwoNestedPropertiesUsingContentProperty
+        public IEnumerable<ProtoInstruction> TwoNestedPropertiesUsingContentProperty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -588,11 +588,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ExpandedStringProperty
+        public IEnumerable<ProtoInstruction> ExpandedStringProperty
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -604,11 +604,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ComplexNesting
+        public IEnumerable<ProtoInstruction> ComplexNesting
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (DummyClass), RootNs),
@@ -628,11 +628,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> MixedPropertiesWithContentPropertyAfter
+        public IEnumerable<ProtoInstruction> MixedPropertiesWithContentPropertyAfter
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (Grid), RootNs),
@@ -645,11 +645,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ContentPropertyInInnerContent
+        public IEnumerable<ProtoInstruction> ContentPropertyInInnerContent
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement(typeof (TextBlock), RootNs),
@@ -659,14 +659,14 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> PureCollection
+        public IEnumerable<ProtoInstruction> PureCollection
         {
             get
             {
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
                 var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
 
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration("sysCol", "clr-namespace:System.Collections;assembly=mscorlib"),
                     P.NamespacePrefixDeclaration("sys", "clr-namespace:System;assembly=mscorlib"),
@@ -688,14 +688,14 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> MixedCollection
+        public IEnumerable<ProtoInstruction> MixedCollection
         {
             get
             {
                 var colections = new NamespaceDeclaration("clr-namespace:System.Collections;assembly=mscorlib", "sysCol");
                 var root = new NamespaceDeclaration("root", "");
                 
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(colections),
                     P.NamespacePrefixDeclaration(root),
@@ -715,14 +715,14 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ChildInDeeperNameScopeWithNamesInTwoLevels
+        public IEnumerable<ProtoInstruction> ChildInDeeperNameScopeWithNamesInTwoLevels
         {
             get
             {
                 var root = new NamespaceDeclaration("root", "");
                 var special = new NamespaceDeclaration("http://schemas.microsoft.com/winfx/2006/xaml", "x");
 
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(root),
                     P.NamespacePrefixDeclaration(special),
@@ -749,13 +749,13 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> AttachableMemberThatIsCollection
+        public IEnumerable<ProtoInstruction> AttachableMemberThatIsCollection
         {
             get
             {
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NamespacePrefixDeclaration(system),
@@ -788,13 +788,13 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> AttachableMemberThatIsCollectionImplicit
+        public IEnumerable<ProtoInstruction> AttachableMemberThatIsCollectionImplicit
         {
             get
             {
                 var system = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
 
-                return new Collection<ProtoXamlInstruction>
+                return new Collection<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NamespacePrefixDeclaration(system),
@@ -823,11 +823,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> DirectContentForOneToMany
+        public IEnumerable<ProtoInstruction> DirectContentForOneToMany
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement<ItemsControl>(RootNs),
@@ -837,11 +837,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ImplicitCollection
+        public IEnumerable<ProtoInstruction> ImplicitCollection
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement<RootObject>(RootNs),
@@ -858,11 +858,11 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
-        public IEnumerable<ProtoXamlInstruction> ExplicitCollection
+        public IEnumerable<ProtoInstruction> ExplicitCollection
         {
             get
             {
-                return new List<ProtoXamlInstruction>
+                return new List<ProtoInstruction>
                 {
                     P.NamespacePrefixDeclaration(RootNs),
                     P.NonEmptyElement<RootObject>(RootNs),

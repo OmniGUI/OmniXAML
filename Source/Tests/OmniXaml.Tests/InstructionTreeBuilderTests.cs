@@ -9,13 +9,13 @@
     using Resources;
 
     [TestClass]
-    public class InstructionTreeBuilderTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class InstructionTreeBuilderTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionResources source;
+        private readonly InstructionResources source;
 
         public InstructionTreeBuilderTests()
         {
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
 
         [TestMethod]

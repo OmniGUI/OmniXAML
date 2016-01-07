@@ -15,10 +15,10 @@
         [Fact]
         public void MultinameRegistrationGivesSameObjectTwoSubsequentNames()
         {
-            var runtimeTypeContext = CreateRuntimeTypeContext();
-            var x = CreateBuilder(runtimeTypeContext);
+            var runtimeTypeSource = CreateRuntimeTypeSource();
+            var x = CreateBuilder(runtimeTypeSource);
 
-            var sut = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
 
             var batch = new Collection<Instruction>
             {
@@ -44,10 +44,10 @@
         [Fact]
         public void GivenChildWithPreviousName_LatestNameIsRegisteredInParent()
         {
-            var runtimeTypeContext = CreateRuntimeTypeContext();
-            var x = CreateBuilder(runtimeTypeContext);
+            var runtimeTypeSource = CreateRuntimeTypeSource();
+            var x = CreateBuilder(runtimeTypeSource);
 
-            var sut = new ObjectAssembler(runtimeTypeContext, new TopDownValueContext());
+            var sut = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
 
             var batch = new Collection<Instruction>
             {
@@ -75,7 +75,7 @@
             return new XamlInstructionBuilder(typeRepository);
         }
 
-        private static IRuntimeTypeSource CreateRuntimeTypeContext()
+        private static IRuntimeTypeSource CreateRuntimeTypeSource()
         {
             var typeFactory = new MultiFactory(
                 new List<TypeFactoryRegistration>
@@ -86,9 +86,9 @@
 
             var typeFeatureProvider = new TypeFeatureProvider(new TypeConverterProvider());
             var xamlTypeRepository = new TypeRepository(new NamespaceRegistry(), typeFactory, typeFeatureProvider);
-            var typeContext = new RuntimeTypeSource(xamlTypeRepository, new NamespaceRegistry());
+            var typeSource = new RuntimeTypeSource(xamlTypeRepository, new NamespaceRegistry());
             typeFeatureProvider.RegisterMetadata(typeof (DummyObject), new Metadata {RuntimePropertyName = "Name"});
-            return typeContext;
+            return typeSource;
         }
     }
 }

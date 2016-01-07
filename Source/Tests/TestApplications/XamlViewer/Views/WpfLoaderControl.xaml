@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock Margin="10" TextWrapping="Wrap" Grid.ColumnSpan="2">Please, enter your XAML in the TextBox or choose a predefined snippet from the list of the left.</TextBlock>
         <GroupBox Grid.Column="1" Header="XAML" Grid.Row="1">
-            <views:XamlTextBox RuntimeTypeContext="{Binding RuntimeTypeContext}" Xaml="{Binding Xaml}"
+            <views:XamlTextBox RuntimeTypeSource="{Binding RuntimeTypeSource}" Xaml="{Binding Xaml}"
                                FocusManager.IsFocusScope="true" />
         </GroupBox>
         <GroupBox Header="XAML Snippets" Grid.Row="1" Grid.Column="0">

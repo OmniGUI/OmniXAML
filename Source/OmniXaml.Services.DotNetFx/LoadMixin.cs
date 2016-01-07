@@ -4,7 +4,7 @@
 
     public static class LoadMixin
     {
-        public static object FromPath(this IXamlLoader loader, string path)
+        public static object FromPath(this ILoader loader, string path)
         {
             using (var stream = new FileStream(path, FileMode.Open))
             {

@@ -6,16 +6,16 @@
 
     public class ObjectAssembler : IObjectAssembler
     {
-        public IRuntimeTypeSource TypeContext { get; set; }
+        public IRuntimeTypeSource TypeSource { get; }
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(IRuntimeTypeSource typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
         {
-            TypeContext = typeContext;
+            TypeSource = typeSource;
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeContext, topDownValueContext, objectAssemblerSettings), mapping);            
+            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, objectAssemblerSettings), mapping);            
         }        
 
         public object Result => objectAssembler.Result;

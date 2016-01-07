@@ -3,13 +3,13 @@
     using System.IO;
     using OmniXaml;
 
-    internal class DefaultXamlLoader : IXamlLoader
+    internal class DefaultLoader : ILoader
     {
         private readonly XmlLoader xmlLoader;
 
-        public DefaultXamlLoader(IRuntimeTypeSource typeContext)
+        public DefaultLoader(IRuntimeTypeSource typeSource)
         {
-            IXamlParserFactory parserFactory= new DefaultParserFactory(typeContext);
+            IParserFactory parserFactory= new DefaultParserFactory(typeSource);
             xmlLoader = new XmlLoader(parserFactory);
         }
 

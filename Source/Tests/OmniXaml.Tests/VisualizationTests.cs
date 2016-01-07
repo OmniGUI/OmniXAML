@@ -7,7 +7,7 @@
     using Visualization;
 
     [TestClass]
-    public class VisualizationTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class VisualizationTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void ConvertToTags()

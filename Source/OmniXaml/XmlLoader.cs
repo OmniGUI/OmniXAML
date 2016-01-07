@@ -4,27 +4,27 @@ namespace OmniXaml
     using System.IO;
     using Parsers.ProtoParser;
 
-    public class XmlLoader : IXamlLoader
+    public class XmlLoader : ILoader
     {
-        private readonly IXamlParserFactory xamlParserFactory;
+        private readonly IParserFactory parserFactory;
         private IXmlReader xmlReader;
 
-        public XmlLoader(IXamlParserFactory xamlParserFactory)
+        public XmlLoader(IParserFactory parserFactory)
         {
-            this.xamlParserFactory = xamlParserFactory;
+            this.parserFactory = parserFactory;
         }
 
         public object Load(Stream stream)
         {
-            return Load(stream, xamlParserFactory.CreateForReadingFree());
+            return Load(stream, parserFactory.CreateForReadingFree());
         }
 
         public object Load(Stream stream, object instance)
         {
-            return Load(stream, xamlParserFactory.CreateForReadingSpecificInstance(instance));
+            return Load(stream, parserFactory.CreateForReadingSpecificInstance(instance));
         }
 
-        private object Load(Stream stream, IXamlParser parser)
+        private object Load(Stream stream, IParser parser)
         {
             try
             {

@@ -3,7 +3,7 @@
     using Parsers;
     using Parsers.ProtoParser;
 
-    public interface IXamlParser : IParser<IXmlReader, object>
+    public interface IParser : IParser<IXmlReader, object>
     {
     }
 }

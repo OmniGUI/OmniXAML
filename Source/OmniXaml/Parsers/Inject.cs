@@ -17,9 +17,9 @@ namespace OmniXaml.Parsers
             return new Instruction(InstructionType.EndObject);
         }
 
-        public static Instruction PrefixDefinitionOfNamespace(ProtoXamlInstruction protoXamlInstruction)
+        public static Instruction PrefixDefinitionOfNamespace(ProtoInstruction protoInstruction)
         {
-            var namespaceDeclaration = new NamespaceDeclaration(protoXamlInstruction.Namespace, protoXamlInstruction.Prefix);
+            var namespaceDeclaration = new NamespaceDeclaration(protoInstruction.Namespace, protoInstruction.Prefix);
             return new Instruction(InstructionType.NamespaceDeclaration, namespaceDeclaration);
         }
 

@@ -1,10 +1,10 @@
 ﻿namespace OmniXaml
 {
     using ObjectAssembler;
+    using Parsers.Parser;
     using Parsers.ProtoParser;
-    using Parsers.XamlInstructions;
 
-    public class DefaultParserFactory : IXamlParserFactory
+    public class DefaultParserFactory : IParserFactory
     {
         private readonly IRuntimeTypeSource runtimeTypeSource;
 
@@ -13,19 +13,19 @@
             this.runtimeTypeSource = runtimeTypeSource;
         }
 
-        public IXamlParser CreateForReadingFree()
+        public IParser CreateForReadingFree()
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
-        private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
+        private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(runtimeTypeSource));
+            var xamlInstructionParser = new OrderAwareInstructionParser(new InstructionParser(runtimeTypeSource));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(runtimeTypeSource),
+                new ProtoInstructionParser(runtimeTypeSource),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
@@ -37,7 +37,7 @@
             return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
         }
 
-        public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
+        public IParser CreateForReadingSpecificInstance(object rootInstance)
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
 

@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
+﻿namespace OmniXaml.Tests.Parsers.ProtoInstructionParserTests
 {
     using System.Linq;
     using Common.NetCore;
@@ -6,8 +6,8 @@
     using Resources;
     using Xaml.Tests.Resources;
     using Xunit;
-    
-    public class ParsingTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+
+    public class ParsingTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly ProtoInstructionResources source;
 
@@ -16,10 +16,10 @@
             source = new ProtoInstructionResources(this);
         }
 
-        private XamlProtoInstructionParser CreateSut()
+        private ProtoInstructionParser CreateSut()
         {
             
-            return new XamlProtoInstructionParser(TypeRuntimeTypeSource);
+            return new ProtoInstructionParser(TypeRuntimeTypeSource);
         }
 
         [Fact]

@@ -2,9 +2,9 @@ namespace OmniXaml.Tests.Common
 {
     using Builder;
 
-    public class GivenARuntimeTypeContextWithNodeBuilders : GivenARuntimeTypeContext
+    public class GivenARuntimeTypeSourceWithNodeBuilders : GivenARuntimeTypeSource
     {
-        protected GivenARuntimeTypeContextWithNodeBuilders()
+        protected GivenARuntimeTypeSourceWithNodeBuilders()
         {
             X = new XamlInstructionBuilder(TypeRuntimeTypeSource);
             P = new ProtoInstructionBuilder(TypeRuntimeTypeSource);

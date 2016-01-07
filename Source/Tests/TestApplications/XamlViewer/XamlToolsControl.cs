@@ -7,8 +7,8 @@
     using System.Windows.Input;
     using Glass;
     using OmniXaml;
+    using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlInstructions;
     using OmniXaml.Visualization;
     using ViewModels;
     using Views;
@@ -31,9 +31,9 @@
           DependencyProperty.Register("Xaml", typeof(string), typeof(XamlToolsControl),
             new FrameworkPropertyMetadata(null));
 
-        #region RuntimeTypeContext        
-        public static readonly DependencyProperty RuntimeTypeContextProperty =
-          DependencyProperty.Register("RuntimeTypeContext", typeof(IRuntimeTypeSource), typeof(XamlToolsControl),
+        #region RuntimeTypeSource        
+        public static readonly DependencyProperty RuntimeTypeSourceProperty =
+          DependencyProperty.Register("RuntimeTypeSource", typeof(IRuntimeTypeSource), typeof(XamlToolsControl),
             new FrameworkPropertyMetadata((IRuntimeTypeSource)null));
 
         #region IsShowAlwaysEnabled        
@@ -49,10 +49,10 @@
 
         #endregion
 
-        public IRuntimeTypeSource RuntimeTypeContext
+        public IRuntimeTypeSource RuntimeTypeSource
         {
-            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeContextProperty); }
-            set { SetValue(RuntimeTypeContextProperty, value); }
+            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeSourceProperty); }
+            set { SetValue(RuntimeTypeSourceProperty, value); }
         }
 
         #endregion
@@ -85,9 +85,9 @@
         private IEnumerable<Instruction> ConvertToNodes(Stream stream)
         {
             var reader = new XmlCompatibilityReader(stream);
-            var runtimeTypeContext = RuntimeTypeContext;
-            var pullParser = new XamlInstructionParser(runtimeTypeContext);
-            var protoParser = new XamlProtoInstructionParser(runtimeTypeContext);
+            var runtimeTypeSource = RuntimeTypeSource;
+            var pullParser = new InstructionParser(runtimeTypeSource);
+            var protoParser = new ProtoInstructionParser(runtimeTypeSource);
             return pullParser.Parse(protoParser.Parse(reader)).ToList();
         }
     }

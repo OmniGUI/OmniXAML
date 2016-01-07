@@ -10,14 +10,14 @@ namespace OmniXaml.Tests.Resources
     using Common;
     using Typing;
 
-    public class XamlInstructionResources
+    public class InstructionResources
     {
-        public XamlInstructionResources(GivenARuntimeTypeContextWithNodeBuilders context)
+        public InstructionResources(GivenARuntimeTypeSourceWithNodeBuilders source)
         {
-            RootNs = context.RootNs;
-            AnotherNs = context.AnotherNs;
-            SpecialNs = context.SpecialNs;
-            X = context.X;
+            RootNs = source.RootNs;
+            AnotherNs = source.AnotherNs;
+            SpecialNs = source.SpecialNs;
+            X = source.X;
         }
 
         public NamespaceDeclaration SpecialNs { get; set; }

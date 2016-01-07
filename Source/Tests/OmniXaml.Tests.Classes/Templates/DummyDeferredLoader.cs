@@ -4,9 +4,9 @@ namespace OmniXaml.Tests.Classes.Templates
 
     public class DummyDeferredLoader : IDeferredLoader
     {
-        public object Load(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeContext)
+        public object Load(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeSource)
         {
-            return new TemplateContent(nodes, typeContext);
+            return new TemplateContent(nodes, typeSource);
         }
     }
 }

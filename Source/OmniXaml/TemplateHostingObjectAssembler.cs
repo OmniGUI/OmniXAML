@@ -30,7 +30,7 @@
             set { objectAssembler.InstanceLifeCycleHandler = value; }
         }
 
-        public IRuntimeTypeSource TypeContext => objectAssembler.TypeContext;
+        public IRuntimeTypeSource TypeSource => objectAssembler.TypeSource;
 
         public void Process(Instruction instruction)
         {
@@ -47,7 +47,7 @@
                     if (depth == 0)
                     {
                         recording = false;
-                        var loaded = assembler.Load(new ReadOnlyCollection<Instruction>(nodeList), this.objectAssembler.TypeContext);
+                        var loaded = assembler.Load(new ReadOnlyCollection<Instruction>(nodeList), this.objectAssembler.TypeSource);
                         objectAssembler.OverrideInstance(loaded);
                         objectAssembler.Process(instruction);
                     }

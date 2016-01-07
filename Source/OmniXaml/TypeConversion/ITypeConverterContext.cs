@@ -3,7 +3,7 @@ namespace OmniXaml.TypeConversion
     using ObjectAssembler.Commands;
     using Typing;
 
-    public interface IXamlTypeConverterContext
+    public interface ITypeConverterContext
     {
         ITypeRepository TypeRepository { get; }
 

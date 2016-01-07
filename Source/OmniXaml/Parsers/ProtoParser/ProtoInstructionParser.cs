@@ -6,36 +6,36 @@
     using System.Xml;
     using Typing;
 
-    public class XamlProtoInstructionParser : IProtoParser
+    public class ProtoInstructionParser : IProtoParser
     {
-        private readonly IRuntimeTypeSource typeContext;
+        private readonly IRuntimeTypeSource typeSource;
         private readonly ProtoInstructionBuilder instructionBuilder;
         private IXmlReader reader;
         private AttributeParser attributeParser;
         private readonly TextFormatter textFormatter = new TextFormatter();
 
-        public XamlProtoInstructionParser(IRuntimeTypeSource typeContext)
+        public ProtoInstructionParser(IRuntimeTypeSource typeSource)
         {
-            this.typeContext = typeContext;
-            instructionBuilder = new ProtoInstructionBuilder(typeContext);
+            this.typeSource = typeSource;
+            instructionBuilder = new ProtoInstructionBuilder(typeSource);
         }
 
-        public IEnumerable<ProtoXamlInstruction> Parse(IXmlReader stream)
+        public IEnumerable<ProtoInstruction> Parse(IXmlReader stream)
         {
-            this.reader = stream;
+            reader = stream;
             attributeParser = new AttributeParser(reader);
             reader.Read();
 
             return ParseElement();
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseEmptyElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
+        private IEnumerable<ProtoInstruction> ParseEmptyElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
             var emptyElement = instructionBuilder.EmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             return CommonNodesOfElement(xamlType, emptyElement, attributes);
         }
 
-        private IEnumerable<ProtoXamlInstruction> CommonNodesOfElement(XamlType owner, ProtoXamlInstruction elementToInject, AttributeFeed attributeFeed)
+        private IEnumerable<ProtoInstruction> CommonNodesOfElement(XamlType owner, ProtoInstruction elementToInject, AttributeFeed attributeFeed)
         {
             var attributes = attributeFeed;
 
@@ -47,7 +47,7 @@
             foreach (var instruction in attributes.RawAttributes.Select(a => ConvertAttributeToNode(owner, a))) yield return instruction;
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseExpandedElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
+        private IEnumerable<ProtoInstruction> ParseExpandedElement(XamlType xamlType, NamespaceDeclaration namespaceDeclaration, AttributeFeed attributes)
         {
             var element = instructionBuilder.NonEmptyElement(xamlType.UnderlyingType, namespaceDeclaration);
             foreach (var instruction in CommonNodesOfElement(xamlType, element, attributes)) yield return instruction;
@@ -60,7 +60,7 @@
             yield return instructionBuilder.EndTag();
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseNestedElements(XamlType xamlType)
+        private IEnumerable<ProtoInstruction> ParseNestedElements(XamlType xamlType)
         {
             while (reader.NodeType != XmlNodeType.EndElement)
             {
@@ -80,7 +80,7 @@
             }
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseNestedProperty(XamlType xamlType)
+        private IEnumerable<ProtoInstruction> ParseNestedProperty(XamlType xamlType)
         {
             var propertyLocator = PropertyLocator.Parse(reader.Name);
             var namespaceDeclaration = new NamespaceDeclaration(reader.Namespace, reader.Prefix);
@@ -101,7 +101,7 @@
             yield return instructionBuilder.EndTag();
         }
 
-        private ProtoXamlInstruction InjectPropertyInstruction(XamlType xamlType, PropertyLocator propertyLocator, NamespaceDeclaration namespaceDeclaration)
+        private ProtoInstruction InjectPropertyInstruction(XamlType xamlType, PropertyLocator propertyLocator, NamespaceDeclaration namespaceDeclaration)
         {
             if (IsNormalProperty(xamlType, propertyLocator))
             {
@@ -109,7 +109,7 @@
             }
             else
             {
-                var owner = typeContext.GetByPrefix(propertyLocator.Prefix, propertyLocator.OwnerName);
+                var owner = typeSource.GetByPrefix(propertyLocator.Prefix, propertyLocator.OwnerName);
                 return instructionBuilder.ExpandedAttachedProperty(owner.UnderlyingType, propertyLocator.PropertyName, namespaceDeclaration);
             }
         }
@@ -119,7 +119,7 @@
             return !propertyLocator.IsDotted || propertyLocator.IsDotted && propertyLocator.OwnerName == xamlType.Name;
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseInnerTextIfAny()
+        private IEnumerable<ProtoInstruction> ParseInnerTextIfAny()
         {
             if (reader.NodeType == XmlNodeType.Text)
             {
@@ -133,7 +133,7 @@
             return textFormatter.Format(rawText);
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseChildren()
+        private IEnumerable<ProtoInstruction> ParseChildren()
         {
             while (reader.NodeType != XmlNodeType.EndElement)
             {
@@ -155,7 +155,7 @@
         }
 
         // TODO: Refactor this shit.
-        private ProtoXamlInstruction ConvertAttributeToNode(XamlType containingType, AttributeAssignment rawAttributeAssignment)
+        private ProtoInstruction ConvertAttributeToNode(XamlType containingType, AttributeAssignment rawAttributeAssignment)
         {
             MutableMember member;
 
@@ -187,7 +187,7 @@
             var ownerName = propertyLocator.Owner.PropertyName;
             var ownerPrefix = propertyLocator.Owner.Prefix;
 
-            var owner = typeContext.GetByPrefix(ownerPrefix, ownerName);
+            var owner = typeSource.GetByPrefix(ownerPrefix, ownerName);
 
             MutableMember member = owner.GetAttachableMember(propertyLocator.PropertyName);
             return member;
@@ -198,7 +198,7 @@
             return attributeParser.Read();
         }
 
-        private IEnumerable<ProtoXamlInstruction> ParseElement()
+        private IEnumerable<ProtoInstruction> ParseElement()
         {
             SkipWhitespaces();
 
@@ -214,7 +214,7 @@
             var ns = reader.Namespace;
             var namespaceDeclaration = new NamespaceDeclaration(ns, prefix);
 
-            var childType = typeContext.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
+            var childType = typeSource.GetByPrefix(namespaceDeclaration.Prefix, reader.LocalName);
 
 
             if (reader.IsEmptyElement)
@@ -232,7 +232,7 @@
             foreach (var prefixRegistration in prefixRegistrations)
             {
                 var registration = new PrefixRegistration(prefixRegistration.Prefix, prefixRegistration.Namespace);
-                typeContext.RegisterPrefix(registration);
+                typeSource.RegisterPrefix(registration);
             }
         }
 
@@ -244,12 +244,12 @@
             }
         }
 
-        private ProtoXamlInstruction ConvertDirective(DirectiveAssignment assignment)
+        private ProtoInstruction ConvertDirective(DirectiveAssignment assignment)
         {
             return instructionBuilder.Directive(assignment.Directive, assignment.Value);
         }
 
-        private ProtoXamlInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
+        private ProtoInstruction ConvertAttributeToNsPrefixDefinition(NsPrefix prefix)
         {
             return instructionBuilder.NamespacePrefixDeclaration(prefix.Prefix, prefix.Namespace);
         }

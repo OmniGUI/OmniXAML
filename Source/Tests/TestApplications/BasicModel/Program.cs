@@ -9,8 +9,8 @@
     {
         private static void Main()
         {
-            var runtimeTypeContext = RuntimeTypeSource.FromAttributes(Assemblies.AssembliesInAppFolder);
-            var loader = new DefaultXamlLoader(runtimeTypeContext);
+            var runtimeTypeSource = RuntimeTypeSource.FromAttributes(Assemblies.AssembliesInAppFolder);
+            var loader = new DefaultLoader(runtimeTypeSource);
 
             var model = (Zoo) loader.FromPath("Model.xaml");
             var byName = model.Find("Rocky");

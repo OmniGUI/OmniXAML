@@ -8,14 +8,14 @@
     using Resources;
 
     [TestClass]
-    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
-        private readonly XamlInstructionResources resources;
+        private readonly InstructionResources resources;
 
         public MemberDependencyNodeSorterTests()
         {
-            resources = new XamlInstructionResources(this);
+            resources = new InstructionResources(this);
         }
 
         [TestMethod]

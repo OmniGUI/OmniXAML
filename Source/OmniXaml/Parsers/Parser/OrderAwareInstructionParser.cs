@@ -1,17 +1,17 @@
-namespace OmniXaml.Parsers.XamlInstructions
+namespace OmniXaml.Parsers.Parser
 {
     using System.Collections.Generic;
 
-    public class OrderAwareXamlInstructionParser : IXamlInstructionParser
+    public class OrderAwareInstructionParser : IInstructionParser
     {
-        private readonly IXamlInstructionParser parser;
+        private readonly IInstructionParser parser;
 
-        public OrderAwareXamlInstructionParser(IXamlInstructionParser parser)
+        public OrderAwareInstructionParser(IInstructionParser parser)
         {
             this.parser = parser;
         }
 
-        public IEnumerable<Instruction> Parse(IEnumerable<ProtoXamlInstruction> protoNodes)
+        public IEnumerable<Instruction> Parse(IEnumerable<ProtoInstruction> protoNodes)
         {
             var nodeSorter = new MemberDependencyNodeSorter();
             var originalNodes = parser.Parse(protoNodes);

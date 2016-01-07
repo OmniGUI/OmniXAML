@@ -5,7 +5,7 @@
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     [TestClass]
-    public class MarkupExtensionsTests : GivenAXamlXmlLoader
+    public class MarkupExtensionsTests : GivenAXmlLoader
     {
         [TestMethod]
         public void SimpleExtension()

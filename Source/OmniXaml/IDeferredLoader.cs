@@ -4,6 +4,6 @@ namespace OmniXaml
 
     public interface IDeferredLoader
     {
-        object Load(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeContext);
+        object Load(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeSource);
     }
 }

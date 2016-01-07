@@ -8,7 +8,7 @@ namespace OmniXaml.Tests
     using ObjectAssembler;
 
     [TestClass]
-    public class ObjectAssemblerStateCommutationTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class ObjectAssemblerStateCommutationTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {  
         [TestMethod]
         public void StartObjectShouldSetTheXamlType()

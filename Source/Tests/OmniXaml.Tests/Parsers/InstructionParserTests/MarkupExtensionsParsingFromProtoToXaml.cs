@@ -1,26 +1,26 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlInstructionParserTests
+﻿namespace OmniXaml.Tests.Parsers.InstructionParserTests
 {
     using System.Collections.Generic;
     using System.Linq;
     using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.XamlInstructions;
+    using OmniXaml.Parsers.Parser;
 
     [TestClass]
-    public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly IXamlInstructionParser sut;
+        private readonly IInstructionParser sut;
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {            
-            sut = new XamlInstructionParser(TypeRuntimeTypeSource);
+            sut = new InstructionParser(TypeRuntimeTypeSource);
         }
 
         [TestMethod]
         public void SimpleExtension()
         {            
-            var input = new List<ProtoXamlInstruction>
+            var input = new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),
@@ -46,7 +46,7 @@
         [TestMethod]
         public void ExtensionWithOption()
         {
-            var input = new List<ProtoXamlInstruction>
+            var input = new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
                 P.EmptyElement(typeof (DummyClass), RootNs),

@@ -2,35 +2,35 @@
 {
     using OmniXaml;
     using OmniXaml.ObjectAssembler;
+    using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlInstructions;
 
-    public class DefaultParserFactory : IXamlParserFactory
+    public class DefaultParserFactory : IParserFactory
     {
-        private readonly IRuntimeTypeSource typeContext;
+        private readonly IRuntimeTypeSource typeSource;
 
         public DefaultParserFactory()
         {
         }
 
-        public DefaultParserFactory(IRuntimeTypeSource typeContext)
+        public DefaultParserFactory(IRuntimeTypeSource typeSource)
         {
-            this.typeContext = typeContext;
+            this.typeSource = typeSource;
         }
 
-        public IXamlParser CreateForReadingFree()
+        public IParser CreateForReadingFree()
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
-        private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
+        private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(typeContext));
+            var xamlInstructionParser = new OrderAwareInstructionParser(new InstructionParser(typeSource));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(typeContext),
+                new ProtoInstructionParser(typeSource),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
@@ -39,10 +39,10 @@
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(typeContext, new TopDownValueContext());
+            return new ObjectAssembler(typeSource, new TopDownValueContext());
         }
 
-        public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
+        public IParser CreateForReadingSpecificInstance(object rootInstance)
         {
             var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
 
@@ -51,7 +51,7 @@
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(typeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(typeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }

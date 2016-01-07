@@ -13,15 +13,15 @@
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
-    public class ObjectAssemblerTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class ObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private XamlInstructionResources source;
+        private InstructionResources source;
         private IObjectAssembler sut;
         private TopDownValueContext topDownValueContext;
 
         public ObjectAssemblerTests()
         {
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
 
         [TestInitialize]

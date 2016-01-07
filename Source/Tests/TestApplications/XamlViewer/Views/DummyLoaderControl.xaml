@@ -36,7 +36,7 @@
                         <Button VerticalAlignment="Bottom" IsDefault="True" Content="Load"
                                 Command="{Binding LoadCommand}" Style="{StaticResource LoadButtonStyle}" />
                     </StackPanel>
-                    <views:XamlTextBox RuntimeTypeContext="{Binding RuntimeTypeContext}" Xaml="{Binding Xaml}" />
+                    <views:XamlTextBox RuntimeTypeSource="{Binding RuntimeTypeSource}" Xaml="{Binding Xaml}" />
                 </DockPanel>
             </Expander>
             <Expander Grid.Row="1" Header="XAML Snippets" VerticalAlignment="Bottom" IsExpanded="True">

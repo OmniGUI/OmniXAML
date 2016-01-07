@@ -9,7 +9,7 @@
     using ObjectAssembler;
 
     [TestClass]
-    public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         [TestMethod]
         public void SimpleTest()

@@ -7,7 +7,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         public ValueCommand(ObjectAssembler objectAssembler, ITopDownValueContext topDownValueContext, string value) : base(objectAssembler)
         {
             this.value = value;
-            ValuePipeLine = new ValuePipeline(objectAssembler.TypeContext, topDownValueContext);
+            ValuePipeLine = new ValuePipeline(objectAssembler.TypeSource, topDownValueContext);
         }
 
         private ValuePipeline ValuePipeLine { get; }

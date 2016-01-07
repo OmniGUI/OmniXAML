@@ -8,12 +8,12 @@
     using Typing;
 
     [TestClass]
-    public class XamlTypeRepositoryTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class TypeRepositoryTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly Mock<INamespaceRegistry> nsRegistryMock;
         private TypeRepository sut;
 
-        public XamlTypeRepositoryTests()
+        public TypeRepositoryTests()
         {
             nsRegistryMock = new Mock<INamespaceRegistry>();
 
@@ -71,7 +71,7 @@
        }     
     }
 
-    public class TypeFeatureProviderTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class TypeFeatureProviderTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         public ITypeFeatureProvider CreateSut()
         {

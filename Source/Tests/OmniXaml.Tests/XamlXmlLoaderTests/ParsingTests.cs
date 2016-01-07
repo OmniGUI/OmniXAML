@@ -12,7 +12,7 @@
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
-    public class ParsingTests : GivenAXamlXmlLoader
+    public class ParsingTests : GivenAXmlLoader
     {
         private readonly Type expectedType = typeof (DummyClass);
 

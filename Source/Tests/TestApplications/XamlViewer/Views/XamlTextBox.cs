@@ -24,15 +24,15 @@
 
         #endregion
 
-        #region RuntimeTypeContext        
-        public static readonly DependencyProperty RuntimeTypeContextProperty =
-          DependencyProperty.Register("RuntimeTypeContext", typeof(IRuntimeTypeSource), typeof(XamlTextBox),
+        #region RuntimeTypeSource        
+        public static readonly DependencyProperty RuntimeTypeSourceProperty =
+          DependencyProperty.Register("RuntimeTypeSource", typeof(IRuntimeTypeSource), typeof(XamlTextBox),
             new FrameworkPropertyMetadata(null));
 
-        public IRuntimeTypeSource RuntimeTypeContext
+        public IRuntimeTypeSource RuntimeTypeSource
         {
-            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeContextProperty); }
-            set { SetValue(RuntimeTypeContextProperty, value); }
+            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeSourceProperty); }
+            set { SetValue(RuntimeTypeSourceProperty, value); }
         }
 
         #endregion

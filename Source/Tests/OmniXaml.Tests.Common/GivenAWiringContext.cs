@@ -2,9 +2,9 @@ namespace OmniXaml.Tests.Common
 {
     using Typing;
 
-    public class GivenARuntimeTypeContext
+    public class GivenARuntimeTypeSource
     {
-        protected GivenARuntimeTypeContext()
+        protected GivenARuntimeTypeSource()
         {
             TypeRuntimeTypeSource = new TestRuntimeTypeSource();
         }

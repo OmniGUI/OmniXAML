@@ -2,9 +2,9 @@
 {
     using Common;
 
-    public class GivenARuntimeTypeContextNetCore : GivenARuntimeTypeContext
+    public class GivenARuntimeTypeSourceNetCore : GivenARuntimeTypeSource
     {
-        public GivenARuntimeTypeContextNetCore() : base()
+        public GivenARuntimeTypeSourceNetCore() : base()
         {
         }
     }

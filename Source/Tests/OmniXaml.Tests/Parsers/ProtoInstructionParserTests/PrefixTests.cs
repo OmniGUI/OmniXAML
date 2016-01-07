@@ -1,21 +1,20 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlProtoInstructionParserTests
+﻿namespace OmniXaml.Tests.Parsers.ProtoInstructionParserTests
 {
-    using OmniXaml.Parsers.ProtoParser;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Classes;
     using Classes.Another;
     using Common.NetCore;
-    using System.Linq;
+    using OmniXaml.Parsers.ProtoParser;
     using Xunit;
 
-
-    public class PrefixTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class PrefixTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
 
-        private XamlProtoInstructionParser CreateSut()
+        private ProtoInstructionParser CreateSut()
         {
-            return new XamlProtoInstructionParser(TypeRuntimeTypeSource);
+            return new ProtoInstructionParser(TypeRuntimeTypeSource);
         }
 
         [Fact]
@@ -23,7 +22,7 @@
         {
             var sut = CreateSut();
             var actualNodes = sut.Parse("<a:Foreigner xmlns:a=\"another\"/>").ToList();
-            var expectedInstructions = new List<ProtoXamlInstruction>
+            var expectedInstructions = new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(AnotherNs),
                 P.EmptyElement<Foreigner>(AnotherNs),
@@ -40,7 +39,7 @@
 
             var ns = "root";
 
-            var expectedInstructions = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration("", ns),
                 P.NamespacePrefixDeclaration("a", "another"),
@@ -58,7 +57,7 @@
             var sut = CreateSut();
             var actualNodes = sut.Parse(@"<a:DummyClass xmlns:a=""another""></a:DummyClass>").ToList();
 
-            var expectedInstructions = new Collection<ProtoXamlInstruction>
+            var expectedInstructions = new Collection<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(AnotherNs),
                 P.NonEmptyElement<DummyClass>(AnotherNs),

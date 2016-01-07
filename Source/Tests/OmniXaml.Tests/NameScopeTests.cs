@@ -7,15 +7,15 @@ namespace OmniXaml.Tests
     using Resources;
     using Xunit;
 
-    public class NameScopeTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class NameScopeTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionResources source;
+        private readonly InstructionResources source;
         private readonly ObjectAssembler sut;
 
         public NameScopeTests()
         {
             sut = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
        
         [Fact]

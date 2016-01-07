@@ -13,7 +13,7 @@
             <xctk:WatermarkTextBox Watermark="Please, enter some XAML" Text="{Binding Xaml, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                TextWrapping="Wrap" Style="{StaticResource WpfXamlTextBoxStyle}" />
         </ScrollViewer>
-        <xamlViewer:XamlToolsControl HorizontalAlignment="Right" VerticalAlignment="Top" Xaml="{Binding Xaml}" RuntimeTypeContext="{Binding RuntimeTypeContext}" Margin="{Binding Source={x:Static SystemParameters.VerticalScrollBarWidth}}">
+        <xamlViewer:XamlToolsControl HorizontalAlignment="Right" VerticalAlignment="Top" Xaml="{Binding Xaml}" RuntimeTypeSource="{Binding RuntimeTypeSource}" Margin="{Binding Source={x:Static SystemParameters.VerticalScrollBarWidth}}">
             <xamlViewer:XamlToolsControl.Effect>
                 <DropShadowEffect BlurRadius="10" Opacity="0.4" />
             </xamlViewer:XamlToolsControl.Effect>

@@ -5,22 +5,22 @@ namespace OmniXaml.Wpf
     using System.Collections.ObjectModel;
     using System.Linq;
     using Builder;
+    using Parsers.Parser;
     using Parsers.ProtoParser;
-    using Parsers.XamlInstructions;
     using Services.DotNetFx;
     using Typing;
 
     internal class Hydrator
     {
         private readonly IEnumerable<Type> inflatables;
-        private readonly IRuntimeTypeSource typeContext;
+        private readonly IRuntimeTypeSource typeSource;
         private readonly XamlInstructionBuilder instructionBuilder;
 
-        public Hydrator(IEnumerable<Type> inflatables, IRuntimeTypeSource typeContext)
+        public Hydrator(IEnumerable<Type> inflatables, IRuntimeTypeSource typeSource)
         {
             this.inflatables = inflatables;
-            this.typeContext = typeContext;
-            instructionBuilder = new XamlInstructionBuilder(typeContext);
+            this.typeSource = typeSource;
+            instructionBuilder = new XamlInstructionBuilder(typeSource);
         }
 
         public IEnumerable<Instruction> Hydrate(IEnumerable<Instruction> nodes)
@@ -34,7 +34,7 @@ namespace OmniXaml.Wpf
                 if (matchedInflatable != null)
                 {
                     var toAdd = ReadNodes(xamlNode.XamlType.UnderlyingType);
-                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, TypeContext.GetByType((matchedInflatable)));
+                    var croppedNodes = Crop(toAdd, xamlNode.XamlType, TypeSource.GetByType((matchedInflatable)));
 
                     foreach (var croppedNode in croppedNodes)
                     {
@@ -58,7 +58,7 @@ namespace OmniXaml.Wpf
             return processedNodes;
         }
 
-        private IRuntimeTypeSource TypeContext => typeContext;
+        private IRuntimeTypeSource TypeSource => typeSource;
 
         private IEnumerable<Instruction> Crop(IEnumerable<Instruction> original, XamlType newType, XamlType oldType)
         {
@@ -88,9 +88,9 @@ namespace OmniXaml.Wpf
             using (var stream = resourceProvider.GetInflationSourceStream(underlyingType))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                var runtimeTypeContext = new WpfRuntimeTypeSource();
-                var loader = new XamlInstructionParser(runtimeTypeContext);
-                var protoParser = new XamlProtoInstructionParser(runtimeTypeContext);
+                var runtimeTypeSource = new WpfRuntimeTypeSource();
+                var loader = new InstructionParser(runtimeTypeSource);
+                var protoParser = new ProtoInstructionParser(runtimeTypeSource);
 
                 return loader.Parse(protoParser.Parse(reader));
             }

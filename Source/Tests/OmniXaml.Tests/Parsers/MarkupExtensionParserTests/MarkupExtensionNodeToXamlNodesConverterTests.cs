@@ -10,7 +10,7 @@
     using Resources;
 
     [TestClass]
-    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void NameOnly()

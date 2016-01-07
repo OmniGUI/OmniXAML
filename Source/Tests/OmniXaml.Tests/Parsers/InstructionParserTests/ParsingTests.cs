@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Parsers.XamlInstructionParserTests
+﻿namespace OmniXaml.Tests.Parsers.InstructionParserTests
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -6,33 +6,33 @@
     using Classes;
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using OmniXaml.Parsers.XamlInstructions;
+    using OmniXaml.Parsers.Parser;
     using Resources;
     using Xunit;
 
     [TestClass]
-    public class ParsingTests : GivenARuntimeTypeContextWithNodeBuildersNetCore
+    public class ParsingTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly IXamlInstructionParser sut;
+        private readonly IInstructionParser sut;
         private readonly ProtoInstructionResources protoResources;
-        private readonly XamlInstructionResources source;
+        private readonly InstructionResources source;
 
         public ParsingTests()
         {
             sut = CreateSut();
             protoResources = new ProtoInstructionResources(this);
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
 
-        private XamlInstructionParser CreateSut()
+        private InstructionParser CreateSut()
         {
-            return new XamlInstructionParser(TypeRuntimeTypeSource);
+            return new InstructionParser(TypeRuntimeTypeSource);
         }
 
         [TestMethod]
         public void NamespaceDeclarationOnly()
         {
-            var input = new List<ProtoXamlInstruction>
+            var input = new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(RootNs),
             };
@@ -239,7 +239,7 @@
             var type = typeof(DummyClass);
             string clrNamespace = $"clr-namespace:{type.Namespace};Assembly={type.GetTypeInfo().Assembly.GetName().Name}";
             var prefix = "prefix";
-            var input = new List<ProtoXamlInstruction>
+            var input = new List<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(prefix, clrNamespace),
                 P.EmptyElement(type, RootNs),

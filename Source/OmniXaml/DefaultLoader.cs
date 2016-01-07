@@ -2,15 +2,15 @@
 {
     using System.IO;
 
-    internal class DefaultXamlLoader : IXamlLoader
+    internal class DefaultLoader : ILoader
     {
-        private readonly IRuntimeTypeSource runtimeTypeContext;
+        private readonly IRuntimeTypeSource runtimeTypeSource;
         private readonly XmlLoader xmlLoader;
 
-        public DefaultXamlLoader(IRuntimeTypeSource runtimeTypeContext)
+        public DefaultLoader(IRuntimeTypeSource runtimeTypeSource)
         {
-            this.runtimeTypeContext = runtimeTypeContext;
-            IXamlParserFactory pfb= new DefaultParserFactory(runtimeTypeContext);
+            this.runtimeTypeSource = runtimeTypeSource;
+            IParserFactory pfb= new DefaultParserFactory(runtimeTypeSource);
             xmlLoader = new XmlLoader(pfb);
         }
 

@@ -39,10 +39,10 @@
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="DefaultParserFactory.cs" />
-    <Compile Include="DefaultXamlLoader.cs" />
+    <Compile Include="DefaultLoader.cs" />
     <Compile Include="INameScope.cs" />
     <Compile Include="InstanceLifeCycleHandler.cs" />
-    <Compile Include="IXamlLoader.cs" />
+    <Compile Include="ILoader.cs" />
     <Compile Include="LoadMixin.cs" />
     <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssemblerMixin.cs" />
@@ -71,9 +71,8 @@
     <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="DeferredLoaderMapping.cs" />
     <Compile Include="ITypeFeatureProvider.cs" />
-    <Compile Include="IXamlXmlLoader.cs" />
     <Compile Include="IObjectAssemblerFactory.cs" />
-    <Compile Include="IXamlParserFactory.cs" />
+    <Compile Include="IParserFactory.cs" />
     <Compile Include="LookaheadBuffer.cs" />
     <Compile Include="ObjectAssembler\TopDownValueContext.cs" />
     <Compile Include="ObjectAssembler\Commands\ITopDownValueContext.cs" />
@@ -97,12 +96,12 @@
     <Compile Include="Parsers\ProtoParser\UnprocessedAttributeBase.cs" />
     <Compile Include="Parsers\ProtoParser\XmlCompatibilityReader.cs" />
     <Compile Include="Parsers\ProtoParser\IProtoParser.cs" />
-    <Compile Include="Parsers\XamlInstructions\IXamlInstructionParser.cs" />
-    <Compile Include="Parsers\XamlInstructions\OrderAwareXamlInstructionParser.cs" />
+    <Compile Include="Parsers\Parser\IInstructionParser.cs" />
+    <Compile Include="Parsers\Parser\OrderAwareInstructionParser.cs" />
     <Compile Include="MemberDependencyNodeSorter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
-    <Compile Include="TypeConversion\IXamlTypeConverterContext.cs" />
-    <Compile Include="TypeConversion\XamlTypeConverterContext.cs" />
+    <Compile Include="TypeConversion\ITypeConverterContext.cs" />
+    <Compile Include="TypeConversion\TypeConverterContext.cs" />
     <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IDeferredLoader.cs" />
@@ -111,7 +110,7 @@
     <Compile Include="ITypeFactory.cs" />
     <Compile Include="ITypeProvider.cs" />
     <Compile Include="IValueConverter.cs" />
-    <Compile Include="IXamlParser.cs" />
+    <Compile Include="IParser.cs" />
     <Compile Include="IObjectAssembler.cs" />
     <Compile Include="MarkupExtension.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
@@ -131,13 +130,13 @@
     <Compile Include="Parsers\ProtoParser\AttributeFeed.cs" />
     <Compile Include="Parsers\ProtoParser\AttributeParser.cs" />
     <Compile Include="Parsers\ProtoParser\NsPrefix.cs" />
-    <Compile Include="Parsers\ProtoParser\XamlProtoInstructionParser.cs" />
+    <Compile Include="Parsers\ProtoParser\ProtoInstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\AttributeAssignment.cs" />
-    <Compile Include="Parsers\XamlInstructions\XamlInstructionParser.cs" />
+    <Compile Include="Parsers\Parser\InstructionParser.cs" />
     <Compile Include="Parsers\ProtoParser\NodeType.cs" />
     <Compile Include="PrefixRegistrationMode.cs" />
     <Compile Include="ProtoInstructionBuilder.cs" />
-    <Compile Include="ProtoXamlInstruction.cs" />
+    <Compile Include="ProtoInstruction.cs" />
     <Compile Include="TemplateHostingObjectAssembler.cs" />
     <Compile Include="RuntimeTypeSource.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\BooleanConverter.cs" />

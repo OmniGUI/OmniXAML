@@ -60,7 +60,7 @@
     <Compile Include="AlternateOnRootTypeFactory.cs" />
     <Compile Include="StaticResourceExtension.cs" />
     <Compile Include="WpfTypeFeatureProvider.cs" />
-    <Compile Include="WpfXamlLoader.cs" />
+    <Compile Include="WpfLoader.cs" />
     <Compile Include="WpfParserFactory.cs" />
     <Compile Include="WpfViewFactory.cs" />
     <Compile Include="WpfWindow.cs" />

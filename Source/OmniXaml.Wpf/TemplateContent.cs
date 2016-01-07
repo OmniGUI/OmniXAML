@@ -5,12 +5,12 @@ namespace OmniXaml.Wpf
     public class TemplateContent
     {
         public IEnumerable<Instruction> Nodes { get; }
-        public IRuntimeTypeSource TypeContext { get; }
+        public IRuntimeTypeSource TypeSource { get; }
 
-        public TemplateContent(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeContext)
+        public TemplateContent(IEnumerable<Instruction> nodes, IRuntimeTypeSource typeSource)
         {
             Nodes = nodes;
-            TypeContext = typeContext;
+            TypeSource = typeSource;
         }
     }
 }

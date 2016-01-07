@@ -6,7 +6,7 @@ namespace OmniXaml.Wpf.Tests
     {
         protected object LoadXaml(string xamlContent)
         {
-            var p = new WpfXamlLoader();
+            var p = new WpfLoader();
             return LoadMixin.FromString(p, xamlContent);
         }
     }

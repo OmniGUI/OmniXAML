@@ -8,12 +8,12 @@ namespace OmniXaml.ObjectAssembler.Commands
     public class EndMemberCommand : Command
     {
         private readonly ITopDownValueContext topDownValueContext;
-        private readonly IRuntimeTypeSource typeContext;
+        private readonly IRuntimeTypeSource typeSource;
 
         public EndMemberCommand(ObjectAssembler assembler, ITopDownValueContext topDownValueContext) : base(assembler)
         {
             this.topDownValueContext = topDownValueContext;
-            typeContext = Assembler.TypeContext;
+            typeSource = Assembler.TypeSource;
         }
 
         public override void Execute()
@@ -51,7 +51,7 @@ namespace OmniXaml.ObjectAssembler.Commands
         private IList<XamlType> GetTypesOfBestCtorMatch(XamlType xamlType, int count)
         {
             var constructor = SelectConstructor(xamlType, count);
-            return constructor.GetParameters().Select(arg => typeContext.GetByType(arg.ParameterType)).ToList();
+            return constructor.GetParameters().Select(arg => typeSource.GetByType(arg.ParameterType)).ToList();
         }
 
         private static ConstructorInfo SelectConstructor(XamlType xamlType, int count)

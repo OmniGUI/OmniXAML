@@ -10,7 +10,7 @@
     using Typing;
 
     [TestClass]
-    public class XamlNamespaceRegistryTest
+    public class NamespaceRegistryTest
     {
         private NamespaceRegistry registry;
         private Type type;
