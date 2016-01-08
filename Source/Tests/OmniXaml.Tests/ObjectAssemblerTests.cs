@@ -17,7 +17,6 @@
     {
         private InstructionResources source;
         private IObjectAssembler sut;
-        private TopDownValueContext topDownValueContext;
 
         public ObjectAssemblerTests()
         {
@@ -27,11 +26,10 @@
         [TestInitialize]
         public void Initialize()
         {
-            topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(TypeRuntimeTypeSource, topDownValueContext);
+            sut = CreateSut();
         }
 
-        public IObjectAssembler CreateSut()
+        private ObjectAssembler CreateSut()
         {
             return new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
         }
@@ -63,6 +61,19 @@
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property);
+        }
+
+        [Fact]
+        public void ObjectWithEnumMember()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ObjectWithEnumMember);
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).EnumProperty;
+
+            Xunit.Assert.IsType<DummyClass>(result);
+            Xunit.Assert.Equal(SomeEnum.One, property);
         }
 
         [TestMethod]
@@ -225,7 +236,7 @@
             sut.Process(source.InstanceWithChild);
 
             var dummyClassXamlType = TypeRuntimeTypeSource.GetByType(typeof(DummyClass));
-            var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
+            var lastInstance = sut.TopDownValueContext.GetLastInstance(dummyClassXamlType);
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
@@ -315,7 +326,7 @@
         {
             var sut = CreateSut();
             sut.Process(source.CustomCollection);
-            Xunit.Assert.NotEmpty((IEnumerable) sut.Result);
+            Xunit.Assert.NotEmpty((IEnumerable)sut.Result);
         }
 
         [Fact]
@@ -356,7 +367,7 @@
         {
             var sut = CreateSut();
             sut.Process(source.ImplicitCollection);
-            var actual = (RootObject) sut.Result;
+            var actual = (RootObject)sut.Result;
 
             Xunit.Assert.False(actual.CollectionWasReplaced);
         }
@@ -437,8 +448,8 @@
             {
                 OnBegin = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.Begin); },
                 AfterProperties = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterSetProperties); },
-                OnAssociatedToParent = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.AfterAssociatedToParent); },
-                OnEnd = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.End); }
+                OnAssociatedToParent = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterAssociatedToParent); },
+                OnEnd = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.End); }
             };
 
             sut.Process(source.InstanceWithChild);

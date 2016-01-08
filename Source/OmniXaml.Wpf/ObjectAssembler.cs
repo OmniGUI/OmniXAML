@@ -7,6 +7,7 @@
     public class ObjectAssembler : IObjectAssembler
     {
         public IRuntimeTypeSource TypeSource { get; }
+        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
         public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)

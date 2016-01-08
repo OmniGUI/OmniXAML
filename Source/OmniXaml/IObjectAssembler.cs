@@ -2,6 +2,7 @@
 {
     using System;
     using ObjectAssembler;
+    using ObjectAssembler.Commands;
 
     public interface IObjectAssembler
     {
@@ -9,6 +10,7 @@
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
         InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; }
         IRuntimeTypeSource TypeSource { get; }
+        ITopDownValueContext TopDownValueContext { get; }
 
         void Process(Instruction instruction);
 

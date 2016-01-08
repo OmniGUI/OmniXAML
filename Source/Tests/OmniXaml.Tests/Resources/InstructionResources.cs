@@ -98,6 +98,22 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<Instruction> ObjectWithEnumMember
+        {
+            get
+            {
+                return new Collection<Instruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.EnumProperty),
+                    X.Value("One"),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
+        }
+
         public IEnumerable<Instruction> ObjectWithTwoMembers
         {
             get

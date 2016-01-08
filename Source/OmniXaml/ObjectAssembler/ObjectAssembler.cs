@@ -10,7 +10,7 @@ namespace OmniXaml.ObjectAssembler
     {
         private readonly object rootInstance;
         private readonly XamlType rootInstanceXamlType;
-        private readonly ITopDownValueContext topDownValueContext;
+        public ITopDownValueContext TopDownValueContext { get; }
 
         public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
             : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext)
@@ -19,7 +19,7 @@ namespace OmniXaml.ObjectAssembler
             Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
             this.TypeSource = typeSource;
-            this.topDownValueContext = topDownValueContext;
+            this.TopDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
 
             rootInstance = settings?.RootInstance;
@@ -59,13 +59,13 @@ namespace OmniXaml.ObjectAssembler
                     command = new StartMemberCommand(this, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
                     break;
                 case InstructionType.Value:
-                    command = new ValueCommand(this, topDownValueContext, (string) instruction.Value);
+                    command = new ValueCommand(this, TopDownValueContext, (string) instruction.Value);
                     break;
                 case InstructionType.EndObject:
                     command = new EndObjectCommand(this);
                     break;
                 case InstructionType.EndMember:
-                    command = new EndMemberCommand(this, topDownValueContext);
+                    command = new EndMemberCommand(this, TopDownValueContext);
                     break;
                 case InstructionType.GetObject:
                     command = new GetObjectCommand(this);

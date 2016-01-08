@@ -7,6 +7,7 @@
     using System.Reflection;
     using Glass;
     using ObjectAssembler;
+    using ObjectAssembler.Commands;
     using Typing;
 
     public class TemplateHostingObjectAssembler : IObjectAssembler
@@ -31,6 +32,7 @@
         }
 
         public IRuntimeTypeSource TypeSource => objectAssembler.TypeSource;
+        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
 
         public void Process(Instruction instruction)
         {
