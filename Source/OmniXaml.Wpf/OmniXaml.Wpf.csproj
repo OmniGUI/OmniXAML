@@ -78,7 +78,6 @@
     <Compile Include="ObjectAssembler.cs" />
     <Compile Include="TemplateContent.cs" />
     <Compile Include="WpfCoreLoader.cs" />
-    <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="ConverterAdapter.cs" />
     <Compile Include="TypeConverterProvider.cs" />
     <Compile Include="ServiceLocator.cs" />

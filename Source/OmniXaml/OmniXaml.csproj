@@ -66,7 +66,6 @@
     <Compile Include="Builder\Route.cs" />
     <Compile Include="Builder\XamlNamespace.cs" />
     <Compile Include="Builder\XamlInstructionBuilder.cs" />
-    <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="DefaultObjectAssemblerFactory.cs" />
     <Compile Include="Attributes\DependsOnAttribute.cs" />
     <Compile Include="DeferredLoaderMapping.cs" />

@@ -28,9 +28,6 @@ namespace OmniXaml.Wpf
 
         public IEnumerable<TypeConverterRegistration> TypeConverters => inner.TypeConverters;
         
-
-        public IEnumerable<ContentPropertyDefinition> ContentProperties => inner.ContentProperties;
-
         public void RegisterMetadata(Type type, Metadata metadata)
         {
             inner.RegisterMetadata(type, metadata);

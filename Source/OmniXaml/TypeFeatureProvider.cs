@@ -15,8 +15,6 @@ namespace OmniXaml
             ConverterProvider = converterProvider;
         }
 
-        public IContentPropertyProvider ContentPropertyProvider { get; }
-
         public ITypeConverterProvider ConverterProvider { get; }
         public ITypeConverter GetTypeConverter(Type type)
         {
@@ -33,14 +31,8 @@ namespace OmniXaml
             return metadatas.Get(type).ContentProperty;
         }
 
-        public void AddContentProperty(ContentPropertyDefinition item)
-        {
-            ContentPropertyProvider.Add(item);
-        }
-
         public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
-        public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
-
+        
         public Metadata GetMetadata(Type type)
         {
             return metadatas.Get(type);
