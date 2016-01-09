@@ -114,6 +114,22 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<Instruction> ObjectWithNullableEnumProperty
+        {
+            get
+            {
+                return new Collection<Instruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.NullableEnumProperty),
+                    X.Value("Two"),
+                    X.EndMember(),
+                    X.EndObject()
+                };
+            }
+        }
+
         public IEnumerable<Instruction> ObjectWithTwoMembers
         {
             get

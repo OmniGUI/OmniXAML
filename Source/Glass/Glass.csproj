@@ -43,6 +43,7 @@
     <Compile Include="ChangeTracking\PropertyChain.cs" />
     <Compile Include="ChangeTracking\ValueTypePropertyChain.cs" />
     <Compile Include="DependencySorter.cs" />
+    <Compile Include="EnumExtensions.cs" />
     <Compile Include="IAdd.cs" />
     <Compile Include="IDependency.cs" />
     <Compile Include="AutoKeyDictionary.cs" />

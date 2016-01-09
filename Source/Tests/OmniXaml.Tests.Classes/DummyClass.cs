@@ -23,6 +23,7 @@ namespace OmniXaml.Tests.Classes
         public IDictionary<string, object> Resources { get; set; }
         public Item Item { get; set; }
         public SomeEnum EnumProperty { get; set; }
+        public SomeEnum? NullableEnumProperty { get; set; }
     }
 
     public enum SomeEnum

@@ -4,6 +4,7 @@ namespace OmniXaml.ObjectAssembler
     using System.Globalization;
     using System.Reflection;
     using Commands;
+    using Glass;
     using TypeConversion;
     using Typing;
 
@@ -28,24 +29,37 @@ namespace OmniXaml.ObjectAssembler
             }
 
             object converted;
-            var success = TrySpecialConversion(value, targetType.UnderlyingType, out converted);
-            if (success)
+            if (TrySpecialConversion(value, targetType.UnderlyingType, out converted))
             {
                 return converted;
             }
 
+ 
+            if (TryConverterIfAny(value, targetType, out converted))
+            {
+                return converted;
+            }
+
+            return value;
+        }
+
+        private bool TryConverterIfAny(object value, XamlType targetType, out object result)
+        {
             var typeConverter = targetType.TypeConverter;
             if (typeConverter != null)
             {
                 var context = new TypeConverterContext(typeRepository, topDownValueContext);
                 if (typeConverter.CanConvertFrom(context, value.GetType()))
                 {
-                    var anotherValue = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
-                    return anotherValue;
+                    {
+                        result = typeConverter.ConvertFrom(context, CultureInfo.InvariantCulture, value);
+                        return true;
+                    }
                 }
             }
 
-            return value;
+            result = null;
+            return false;
         }
 
         private static bool IsAlreadyCompatible(object value, Type targetType)
@@ -59,28 +73,53 @@ namespace OmniXaml.ObjectAssembler
             return targetType.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo());
         }
 
-        private static bool TrySpecialConversion(object value, Type targetType, out object converted)
+        private static bool TrySpecialConversion(object value, Type targetType, out object result)
         {
             var type = value.GetType();
 
             if (type == typeof(string) && targetType == typeof(string))
             {
-                converted = value;
+                result = value;
                 return true;
             }
 
             if (type == typeof(string) && targetType == typeof(object))
             {
-                converted = value.ToString();
+                result = value.ToString();
                 return true;
+            }
+
+
+            if (TryEnumConversion(value, targetType, out result))
+            {
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
+        private static bool TryEnumConversion(object value, Type targetType, out object converted)
+        {
+            object result;
+            if (targetType.IsNullable())
+            {
+                var typeInfo = Nullable.GetUnderlyingType(targetType);
+                if (typeInfo != null && typeInfo.GetTypeInfo().IsEnum)
+                {
+                    if (EnumExtensions.TryParse(typeInfo, value.ToString(), out result))
+                    {
+                        converted = result;
+                        return true;
+                    }
+                }
             }
 
             if (targetType.GetTypeInfo().IsEnum)
             {
-                // There's currently no non-generic Enum.TryParse. If it gets added, use that.
-                if (Enum.IsDefined(targetType, value.ToString()))
+                if (EnumExtensions.TryParse(targetType, value.ToString(), out result))
                 {
-                    converted = Enum.Parse(targetType, value.ToString());
+                    converted = result;
                     return true;
                 }
             }

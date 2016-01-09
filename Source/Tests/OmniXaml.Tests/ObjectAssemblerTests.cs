@@ -76,6 +76,19 @@
             Xunit.Assert.Equal(SomeEnum.One, property);
         }
 
+        [Fact]
+        public void ObjectWithNullableEnumProperty()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ObjectWithNullableEnumProperty);
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).EnumProperty;
+
+            Xunit.Assert.IsType<DummyClass>(result);
+            Xunit.Assert.Equal(SomeEnum.One, property);
+        }
+
         [TestMethod]
         public void ObjectWithTwoMembers()
         {
