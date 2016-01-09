@@ -37,8 +37,8 @@
     <Compile Include="TestRuntimeTypeSource.cs" />
     <Compile Include="XamlTypeMock.cs" />
     <Compile Include="TestTypeRepository.cs" />
-    <Compile Include="GivenAWiringContext.cs" />
-    <Compile Include="GivenAWiringContextWithNodeBuilders.cs" />
+    <Compile Include="GivenARuntimeTypeSource.cs" />
+    <Compile Include="GivenARuntimeTypeSourceWithNodeBuilders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

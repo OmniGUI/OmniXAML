@@ -53,7 +53,7 @@
     <Compile Include="ObjectAssembler\ObjectAssemblerSettings.cs" />
     <Compile Include="ObjectAssembler\PreviousLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />
-    <Compile Include="Attributes\ContentAttribute.cs" />
+    <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />
     <Compile Include="Builder\AddressPack.cs" />
     <Compile Include="Builder\AssemblyNameConfig.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="Typing\MutableMember.cs" />
     <Compile Include="Typing\Namespace.cs" />
     <Compile Include="Typing\PrefixRegistration.cs" />
-    <Compile Include="Typing\RuntimePropertyNameAttribute.cs" />
+    <Compile Include="Typing\NameAttribute.cs" />
     <Compile Include="Typing\TypeConverterProviderMixin.cs" />
     <Compile Include="Typing\Directive.cs" />
     <Compile Include="Typing\Member.cs" />
@@ -173,7 +173,7 @@
     <Compile Include="Typing\NamespaceRegistry.cs" />
     <Compile Include="Typing\PropertyLocator.cs" />
     <Compile Include="Typing\NamespaceRegistryMixin.cs" />
-    <Compile Include="Typing\QualifiedName.cs" />
+    <Compile Include="Typing\XamlQualifiedName.cs" />
     <Compile Include="Typing\CoreTypes.cs" />
     <Compile Include="Typing\XamlType.cs" />
     <Compile Include="Typing\XamlTypeName.cs" />
