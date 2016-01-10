@@ -19,9 +19,14 @@
 
         public static object FromString(this ILoader loader, string xml)
         {
+            return FromString(loader, xml, new Settings());
+        }
+
+        public static object FromString(this ILoader loader, string xml, Settings settings)
+        {
             using (var stream = xml.FromUTF8ToStream())
             {
-                return loader.Load(stream, new Settings());
+                return loader.Load(stream, settings);
             }
         }
 
