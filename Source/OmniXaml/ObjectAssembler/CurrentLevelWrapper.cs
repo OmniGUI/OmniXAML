@@ -51,12 +51,6 @@ namespace OmniXaml.ObjectAssembler
             set { level.Instance = value; }
         }
 
-        public bool WasInstanceAssignedRightAfterBeingCreated
-        {
-            get { return level.WasInstanceAssignedRightAfterBeingCreated; }
-            set { level.WasInstanceAssignedRightAfterBeingCreated = value; }
-        }
-
         public XamlType XamlType
         {
             get { return level.XamlType; }
