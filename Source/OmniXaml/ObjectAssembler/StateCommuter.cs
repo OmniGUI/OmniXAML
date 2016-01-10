@@ -9,14 +9,14 @@ namespace OmniXaml.ObjectAssembler
 
     public class StateCommuter
     {
-        private readonly InstanceLifeCycleNotifier lifecycleNotifier;
+        private readonly IInstanceLifeCycleListener lifecycleListener;
         private readonly ITopDownValueContext topDownValueContext;
         private StackingLinkedList<Level> stack;
 
-        public StateCommuter(IObjectAssembler objectAssembler,
-            StackingLinkedList<Level> stack,
+        public StateCommuter(StackingLinkedList<Level> stack,
             IRuntimeTypeSource typeSource,
-            ITopDownValueContext topDownValueContext)
+            ITopDownValueContext topDownValueContext,
+            IInstanceLifeCycleListener lifecycleListener)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(typeSource, nameof(typeSource));
@@ -24,8 +24,8 @@ namespace OmniXaml.ObjectAssembler
 
             Stack = stack;
             this.topDownValueContext = topDownValueContext;
+            this.lifecycleListener = lifecycleListener;
             ValuePipeline = new ValuePipeline(typeSource, topDownValueContext);
-            lifecycleNotifier = new InstanceLifeCycleNotifier(objectAssembler);
         }
 
         public CurrentLevelWrapper Current { get; private set; }
@@ -113,7 +113,7 @@ namespace OmniXaml.ObjectAssembler
             var instance = xamlType.CreateInstance(parameters);
 
             Current.Instance = instance;
-            lifecycleNotifier.NotifyBegin(instance);
+            lifecycleListener.OnBegin(instance);
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -160,7 +160,7 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !Current.IsMarkupExtension)
             {
-                lifecycleNotifier.NotifyAfterProperties(Current.Instance);
+                lifecycleListener.OnAfterProperties(Current.Instance);
 
                 if (Previous.CanHostChildren)
                 {
@@ -171,7 +171,7 @@ namespace OmniXaml.ObjectAssembler
                     AssignChildToParentProperty();
                 }
 
-                lifecycleNotifier.NotifyAssociatedToParent(Current.Instance);
+                lifecycleListener.OnAssociatedToParent(Current.Instance);
             }
         }
 
@@ -266,7 +266,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void NotifyEnd()
         {
-            lifecycleNotifier.NotifyEnd(Current.Instance);
+            lifecycleListener.OnEnd(Current.Instance);
         }
     }
 }

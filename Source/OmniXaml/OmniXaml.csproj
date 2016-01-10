@@ -48,9 +48,9 @@
     <Compile Include="NamespacePrefix.cs" />
     <Compile Include="ObjectAssemblerMixin.cs" />
     <Compile Include="ObjectAssembler\CurrentLevelWrapper.cs" />
-    <Compile Include="ObjectAssembler\InstanceLifeCycleNotifier.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
     <Compile Include="ObjectAssembler\NullLevel.cs" />
+    <Compile Include="ObjectAssembler\NullLifecycleListener.cs" />
     <Compile Include="ObjectAssembler\Settings.cs" />
     <Compile Include="ObjectAssembler\PreviousLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />

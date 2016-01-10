@@ -1,7 +1,6 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
@@ -31,7 +30,7 @@
 
         private ObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
+            return new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext(), new Settings() { InstanceLifeCycleListener = new TestListener() });
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
@@ -455,19 +454,10 @@
         public void CorrectInstanceSetupSequence()
         {
             var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
-            var actualSequence = new Collection<SetupSequence>();
-
-            sut.InstanceLifeCycleHandler = new InstanceLifeCycleHandler
-            {
-                OnBegin = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.Begin); },
-                AfterProperties = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterSetProperties); },
-                OnAssociatedToParent = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterAssociatedToParent); },
-                OnEnd = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.End); }
-            };
-
             sut.Process(source.InstanceWithChild);
 
-            CollectionAssert.AreEqual(expectedSequence, actualSequence);
+            var listener = (TestListener)sut.LifecycleListener;
+            CollectionAssert.AreEqual(expectedSequence, listener.InvocationOrder);
         }
     }
 }

@@ -99,6 +99,7 @@
     <Compile Include="Resources\ProtoInstructionResources.cs" />
     <Compile Include="Parsers\InstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
+    <Compile Include="TestListener.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="InstructionTreeBuilderTests.cs" />

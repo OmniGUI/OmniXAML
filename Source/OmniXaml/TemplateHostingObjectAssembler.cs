@@ -25,14 +25,10 @@
             this.mapping = mapping;
         }
 
-        public InstanceLifeCycleHandler InstanceLifeCycleHandler
-        {
-            get { return objectAssembler.InstanceLifeCycleHandler; }
-            set { objectAssembler.InstanceLifeCycleHandler = value; }
-        }
-
         public IRuntimeTypeSource TypeSource => objectAssembler.TypeSource;
         public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
+
+        public IInstanceLifeCycleListener LifecycleListener => objectAssembler.LifecycleListener;
 
         public void Process(Instruction instruction)
         {

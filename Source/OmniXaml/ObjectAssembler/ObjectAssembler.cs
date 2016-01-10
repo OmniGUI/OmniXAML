@@ -10,16 +10,15 @@ namespace OmniXaml.ObjectAssembler
     {
         private readonly object rootInstance;
         private readonly XamlType rootInstanceXamlType;
-        public ITopDownValueContext TopDownValueContext { get; }
 
         public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
-            : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext)
+            : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext, GetLifecycleListener(settings))
         {
             Guard.ThrowIfNull(typeSource, nameof(typeSource));
             Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
-            this.TypeSource = typeSource;
-            this.TopDownValueContext = topDownValueContext;
+            TypeSource = typeSource;
+            TopDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
 
             rootInstance = settings?.RootInstance;
@@ -27,21 +26,26 @@ namespace OmniXaml.ObjectAssembler
             rootInstanceXamlType = rootInstanceType != null ? TypeSource.GetByType(rootInstanceType) : null;
         }
 
-        public ObjectAssembler(StackingLinkedList<Level> state, IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext)
+        public ObjectAssembler(StackingLinkedList<Level> state,
+            IRuntimeTypeSource typeSource,
+            ITopDownValueContext topDownValueContext,
+            IInstanceLifeCycleListener listener)
         {
-            StateCommuter = new StateCommuter(this, state, typeSource, topDownValueContext);
+            StateCommuter = new StateCommuter(state, typeSource, topDownValueContext, listener);
+            LifecycleListener = listener;
         }
+
+        public IInstanceLifeCycleListener LifecycleListener { get; set; }
 
         public StateCommuter StateCommuter { get; }
 
         private bool IsLevelOneAndThereIsRootInstance => StateCommuter.Level == 1 && rootInstance != null;
+        public ITopDownValueContext TopDownValueContext { get; }
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
 
         public IRuntimeTypeSource TypeSource { get; }
-
-        public InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; } = new InstanceLifeCycleHandler();
 
         public void Process(Instruction instruction)
         {
@@ -88,6 +92,16 @@ namespace OmniXaml.ObjectAssembler
             {
                 tempQualifier.Current.Collection = collection;
             }
+        }
+
+        private static IInstanceLifeCycleListener GetLifecycleListener(Settings settings)
+        {
+            if (settings?.InstanceLifeCycleListener != null)
+            {
+                return settings.InstanceLifeCycleListener;
+            }
+
+            return new NullLifecycleListener();
         }
 
         private MemberBase GetActualMemberFromMemberSpecifiedInInstruction(MemberBase specifiedMember)

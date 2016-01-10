@@ -6,8 +6,6 @@
 
     public class ObjectAssembler : IObjectAssembler
     {
-        public IRuntimeTypeSource TypeSource { get; }
-        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
         public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
@@ -16,17 +14,18 @@
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, settings), mapping);            
-        }        
+            objectAssembler = new TemplateHostingObjectAssembler(
+                new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, settings),
+                mapping);
+        }
+
+        public IRuntimeTypeSource TypeSource { get; }
+        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
+
+        public IInstanceLifeCycleListener LifecycleListener => objectAssembler.LifecycleListener;
 
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-
-        public InstanceLifeCycleHandler InstanceLifeCycleHandler
-        {
-            get { return objectAssembler.InstanceLifeCycleHandler; }
-            set { objectAssembler.InstanceLifeCycleHandler = value; }
-        }
 
         public void Process(Instruction instruction)
         {
@@ -36,6 +35,6 @@
         public void OverrideInstance(object instance)
         {
             objectAssembler.OverrideInstance(instance);
-        }      
+        }
     }
 }

@@ -20,8 +20,6 @@
             Console.WriteLine($"Searching an animal by name in this namescope (Zoo instance): \n\tRocky => {byName}");
             Console.ReadLine();
         }
-
-
     }
 
     internal class MyListener : IInstanceLifeCycleListener
@@ -30,7 +28,7 @@
         {
         }
 
-        public void OnAfterProperites(object instance)
+        public void OnAfterProperties(object instance)
         {
         }
 

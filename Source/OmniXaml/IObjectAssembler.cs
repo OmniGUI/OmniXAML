@@ -8,9 +8,9 @@
     {
         object Result { get; }
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; }
         IRuntimeTypeSource TypeSource { get; }
         ITopDownValueContext TopDownValueContext { get; }
+        IInstanceLifeCycleListener LifecycleListener { get; }
 
         void Process(Instruction instruction);
 
