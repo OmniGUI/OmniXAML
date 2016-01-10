@@ -12,7 +12,7 @@ namespace OmniXaml.ObjectAssembler
         private readonly XamlType rootInstanceXamlType;
         public ITopDownValueContext TopDownValueContext { get; }
 
-        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings settings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
             : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext)
         {
             Guard.ThrowIfNull(typeSource, nameof(typeSource));

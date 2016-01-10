@@ -2,6 +2,7 @@ namespace OmniXaml
 {
     using System;
     using System.IO;
+    using ObjectAssembler;
     using Parsers.ProtoParser;
 
     public class XmlLoader : ILoader
@@ -16,20 +17,12 @@ namespace OmniXaml
 
         public object Load(Stream stream)
         {
-            return Load(stream, parserFactory.CreateForReadingFree());
+            return Load(stream, parserFactory.Create(new Settings()));
         }
 
-        public object Load(Stream stream, object instance)
+        public object Load(Stream stream, Settings loadSettings)
         {
-            return Load(stream, parserFactory.CreateForReadingSpecificInstance(instance));
-        }
-
-        public object Load(Stream stream, LoadSettings loadSettings)
-        {
-            var parser = loadSettings.RootInstance == null
-                ? parserFactory.CreateForReadingFree()
-                : parserFactory.CreateForReadingSpecificInstance(loadSettings.RootInstance);
-
+            var parser = parserFactory.Create(loadSettings);
             return Load(stream, parser);
         }
 

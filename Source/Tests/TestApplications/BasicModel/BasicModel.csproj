@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultParserFactory.cs" />
-    <Compile Include="DefaultLoader.cs" />
     <Compile Include="Model\Zoo.cs" />
     <Compile Include="Model\Animal.cs" />
     <Compile Include="Program.cs" />

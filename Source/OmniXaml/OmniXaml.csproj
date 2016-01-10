@@ -40,6 +40,7 @@
     </Compile>
     <Compile Include="DefaultParserFactory.cs" />
     <Compile Include="DefaultLoader.cs" />
+    <Compile Include="IInstanceLifeCycleListener.cs" />
     <Compile Include="INameScope.cs" />
     <Compile Include="InstanceLifeCycleHandler.cs" />
     <Compile Include="ILoader.cs" />
@@ -50,7 +51,7 @@
     <Compile Include="ObjectAssembler\InstanceLifeCycleNotifier.cs" />
     <Compile Include="ObjectAssembler\InstanceProperties.cs" />
     <Compile Include="ObjectAssembler\NullLevel.cs" />
-    <Compile Include="ObjectAssembler\ObjectAssemblerSettings.cs" />
+    <Compile Include="ObjectAssembler\Settings.cs" />
     <Compile Include="ObjectAssembler\PreviousLevelWrapper.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />

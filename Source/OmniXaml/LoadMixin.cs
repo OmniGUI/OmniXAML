@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.IO;
     using Glass;
+    using ObjectAssembler;
     using Parsers;
     using Parsers.ProtoParser;
 
@@ -28,7 +29,7 @@
         {
             using (var stream = xml.FromUTF8ToStream())
             {
-                return loader.Load(stream, instance);
+                return loader.Load(stream, new Settings { RootInstance = instance });
             }
         }
     }

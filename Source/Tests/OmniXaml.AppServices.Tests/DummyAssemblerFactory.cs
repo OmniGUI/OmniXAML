@@ -14,7 +14,7 @@
             this.runtimeTypeSource = runtimeTypeSource;
         }
 
-        public IObjectAssembler CreateAssembler(ObjectAssemblerSettings settings)
+        public IObjectAssembler CreateAssembler(Settings settings)
         {
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());

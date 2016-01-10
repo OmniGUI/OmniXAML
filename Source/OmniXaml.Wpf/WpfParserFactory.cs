@@ -13,13 +13,6 @@ namespace OmniXaml.Wpf
             runtimeTypeSource = new WpfRuntimeTypeSource();
         }
 
-        public IParser CreateForReadingFree()
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
         private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var xamlInstructionParser = new OrderAwareInstructionParser(new InstructionParser(runtimeTypeSource));
@@ -37,14 +30,7 @@ namespace OmniXaml.Wpf
             return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
         }
 
-        public IParser CreateForReadingSpecificInstance(object rootInstance)
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
-        public IParser Create(ObjectAssemblerSettings settings)
+        public IParser Create(Settings settings)
         {
             var objectAssemblerForUndefinedRoot = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
 
@@ -53,7 +39,7 @@ namespace OmniXaml.Wpf
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new Settings { RootInstance = rootInstance });
         }
     }
 }

@@ -11,9 +11,9 @@ namespace OmniXaml
             this.typeSource = typeSource;
         }
 
-        public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
+        public IObjectAssembler CreateAssembler(Settings settings)
         {
-            return new ObjectAssembler.ObjectAssembler(typeSource, new TopDownValueContext(), objectAssemblerSettings);
+            return new ObjectAssembler.ObjectAssembler(typeSource, new TopDownValueContext(), settings);
         }
     }
 }

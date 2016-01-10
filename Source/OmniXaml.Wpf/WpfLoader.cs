@@ -1,6 +1,7 @@
 namespace OmniXaml.Wpf
 {
     using System.IO;
+    using OmniXaml.ObjectAssembler;
 
     public class WpfLoader : ILoader
     {
@@ -16,14 +17,9 @@ namespace OmniXaml.Wpf
             return innerLoader.Load(stream);
         }
 
-        public object Load(Stream stream, object rootInstance)
+        public object Load(Stream stream, Settings settings)
         {
-            return innerLoader.Load(stream, rootInstance);
-        }
-
-        public object Load(Stream stream, LoadSettings loadSettings)
-        {
-            throw new System.NotImplementedException();
+            return innerLoader.Load(stream, settings);
         }
     }
 }

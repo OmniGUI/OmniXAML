@@ -5,7 +5,7 @@
     using OmniXaml;
     using OmniXaml.Services.DotNetFx;
 
-    static class Program
+    internal static class Program
     {
         private static void Main()
         {

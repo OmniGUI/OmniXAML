@@ -10,13 +10,13 @@
         public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
         {
             TypeSource = typeSource;
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, objectAssemblerSettings), mapping);            
+            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, settings), mapping);            
         }        
 
         public object Result => objectAssembler.Result;

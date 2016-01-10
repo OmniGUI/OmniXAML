@@ -5,6 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
+    using ObjectAssembler;
 
     public class AutoInflatingTypeFactory : ITypeFactory
     {
@@ -39,7 +40,7 @@
             {
                 var instance = innerTypeFactory.Create(type, args);
                 var loader = xamlLoaderFactory(this);
-                var inflated = loader.Load(stream, instance);
+                var inflated = loader.Load(stream, new Settings { RootInstance = instance });
                 return inflated;
             }
         }
@@ -62,6 +63,4 @@
             return this.Create(type);
         }
     }
-
-   
 }

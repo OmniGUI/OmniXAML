@@ -36,7 +36,7 @@
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
-            var settings = new ObjectAssemblerSettings { RootInstance = instance };
+            var settings = new Settings { RootInstance = instance };
             var assembler = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext(), settings);
             return assembler;
         }

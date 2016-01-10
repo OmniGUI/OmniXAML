@@ -15,13 +15,6 @@ namespace OmniXaml.Tests.Common.NetCore
             this.runtimeTypeSource = runtimeTypeSource;
         }
 
-        public IParser CreateForReadingFree()
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
         private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var phaseParserKit = new PhaseParserKit(
@@ -32,26 +25,14 @@ namespace OmniXaml.Tests.Common.NetCore
             return new XmlParser(phaseParserKit);
         }
 
-        private ObjectAssembler GetObjectAssemblerForUndefinedRoot()
-        {
-            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
-        }
-
-        public IParser CreateForReadingSpecificInstance(object rootInstance)
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
-        public IParser Create(ObjectAssemblerSettings settings)
+        public IParser Create(Settings settings)
         {
             var objectAssemblerForUndefinedRoot = CreateObjectAssembler(settings);
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
-        private IObjectAssembler CreateObjectAssembler(ObjectAssemblerSettings settings)
+        private IObjectAssembler CreateObjectAssembler(Settings settings)
         {
             var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
 
@@ -59,17 +40,6 @@ namespace OmniXaml.Tests.Common.NetCore
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
 
             var templateAwareObjectAssembler = new TemplateHostingObjectAssembler(objectAssembler, mapping);
-            return templateAwareObjectAssembler;
-        }
-
-        private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
-        {
-            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
-
-            var mapping = new DeferredLoaderMapping();
-            mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
-
-            var templateAwareObjectAssembler = new TemplateHostingObjectAssembler(objectAssembler, mapping);            
             return templateAwareObjectAssembler;
         }
     }

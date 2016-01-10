@@ -13,13 +13,6 @@
             this.runtimeTypeSource = runtimeTypeSource;
         }
 
-        public IParser CreateForReadingFree()
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
         private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
             var xamlInstructionParser = new OrderAwareInstructionParser(new InstructionParser(runtimeTypeSource));
@@ -32,28 +25,11 @@
             return new XmlParser(phaseParserKit);
         }
 
-        private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
-        {
-            return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
-        }
-
-        public IParser CreateForReadingSpecificInstance(object rootInstance)
-        {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
-        public IParser Create(ObjectAssemblerSettings settings)
+        public IParser Create(Settings settings)
         {
             var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
 
             return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
-        private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
-        {
-            return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
         }
     }
 }
