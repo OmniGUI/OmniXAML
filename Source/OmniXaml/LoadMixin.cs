@@ -21,7 +21,7 @@
         {
             using (var stream = xml.FromUTF8ToStream())
             {
-                return loader.Load(stream);
+                return loader.Load(stream, new Settings());
             }
         }
 

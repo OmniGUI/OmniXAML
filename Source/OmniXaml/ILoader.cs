@@ -5,7 +5,6 @@
 
     public interface ILoader
     {
-        object Load(Stream stream);
         object Load(Stream stream, Settings settings);
     }
 }

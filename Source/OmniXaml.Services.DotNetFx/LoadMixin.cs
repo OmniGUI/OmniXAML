@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Services.DotNetFx
 {
     using System.IO;
+    using ObjectAssembler;
 
     public static class LoadMixin
     {
@@ -8,7 +9,7 @@
         {
             using (var stream = new FileStream(path, FileMode.Open))
             {
-                return loader.Load(stream);
+                return loader.Load(stream, new Settings());
             }
         }
     }

@@ -12,11 +12,6 @@ namespace OmniXaml.Wpf
             innerLoader = new XmlLoader(new WpfParserFactory());
         }
 
-        public object Load(Stream stream)
-        {
-            return innerLoader.Load(stream);
-        }
-
         public object Load(Stream stream, Settings settings)
         {
             return innerLoader.Load(stream, settings);

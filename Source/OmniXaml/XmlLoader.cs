@@ -15,11 +15,6 @@ namespace OmniXaml
             this.parserFactory = parserFactory;
         }
 
-        public object Load(Stream stream)
-        {
-            return Load(stream, parserFactory.Create(new Settings()));
-        }
-
         public object Load(Stream stream, Settings loadSettings)
         {
             var parser = parserFactory.Create(loadSettings);

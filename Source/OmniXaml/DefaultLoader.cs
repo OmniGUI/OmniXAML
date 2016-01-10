@@ -13,11 +13,6 @@
             xmlLoader = new XmlLoader(parserFactory);
         }
 
-        public object Load(Stream stream)
-        {
-            return xmlLoader.Load(stream);
-        }
-
         public object Load(Stream stream, Settings settings)
         {
             return xmlLoader.Load(stream, settings);
