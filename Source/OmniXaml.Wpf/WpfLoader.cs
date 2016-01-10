@@ -20,5 +20,10 @@ namespace OmniXaml.Wpf
         {
             return innerLoader.Load(stream, rootInstance);
         }
+
+        public object Load(Stream stream, LoadSettings loadSettings)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

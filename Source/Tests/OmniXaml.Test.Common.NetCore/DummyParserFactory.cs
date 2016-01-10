@@ -44,6 +44,24 @@ namespace OmniXaml.Tests.Common.NetCore
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
+        public IParser Create(ObjectAssemblerSettings settings)
+        {
+            var objectAssemblerForUndefinedRoot = CreateObjectAssembler(settings);
+
+            return CreateParser(objectAssemblerForUndefinedRoot);
+        }
+
+        private IObjectAssembler CreateObjectAssembler(ObjectAssemblerSettings settings)
+        {
+            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
+
+            var mapping = new DeferredLoaderMapping();
+            mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
+
+            var templateAwareObjectAssembler = new TemplateHostingObjectAssembler(objectAssembler, mapping);
+            return templateAwareObjectAssembler;
+        }
+
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
             var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });

@@ -23,5 +23,10 @@
         {
             return xmlLoader.Load(stream, instance);
         }
+
+        public object Load(Stream stream, LoadSettings loadSettings)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

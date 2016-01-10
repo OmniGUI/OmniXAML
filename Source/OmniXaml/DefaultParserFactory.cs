@@ -44,6 +44,13 @@
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
+        public IParser Create(ObjectAssemblerSettings settings)
+        {
+            var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
+
+            return CreateParser(objectAssemblerForUndefinedRoot);
+        }
+
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
             return new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });

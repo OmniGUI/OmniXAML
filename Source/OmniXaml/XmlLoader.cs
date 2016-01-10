@@ -24,6 +24,15 @@ namespace OmniXaml
             return Load(stream, parserFactory.CreateForReadingSpecificInstance(instance));
         }
 
+        public object Load(Stream stream, LoadSettings loadSettings)
+        {
+            var parser = loadSettings.RootInstance == null
+                ? parserFactory.CreateForReadingFree()
+                : parserFactory.CreateForReadingSpecificInstance(loadSettings.RootInstance);
+
+            return Load(stream, parser);
+        }
+
         private object Load(Stream stream, IParser parser)
         {
             try
