@@ -54,25 +54,25 @@ namespace OmniXaml.ObjectAssembler
             switch (instruction.InstructionType)
             {
                 case InstructionType.NamespaceDeclaration:
-                    command = new NamespaceDeclarationCommand(this, instruction.NamespaceDeclaration);
+                    command = new NamespaceDeclarationCommand(instruction.NamespaceDeclaration, StateCommuter);
                     break;
                 case InstructionType.StartObject:
-                    command = new StartObjectCommand(this, instruction.XamlType, rootInstance);
+                    command = new StartObjectCommand(StateCommuter, TypeSource, instruction.XamlType, rootInstance);
                     break;
                 case InstructionType.StartMember:
-                    command = new StartMemberCommand(this, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
+                    command = new StartMemberCommand(StateCommuter, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
                     break;
                 case InstructionType.Value:
-                    command = new ValueCommand(this, TopDownValueContext, (string) instruction.Value);
+                    command = new ValueCommand(StateCommuter, this.TypeSource, TopDownValueContext, (string)instruction.Value);
                     break;
                 case InstructionType.EndObject:
-                    command = new EndObjectCommand(this);
+                    command = new EndObjectCommand(StateCommuter, stateCommuter => Result = stateCommuter.Current.Instance);
                     break;
                 case InstructionType.EndMember:
-                    command = new EndMemberCommand(this, TopDownValueContext);
+                    command = new EndMemberCommand(TypeSource, StateCommuter);
                     break;
                 case InstructionType.GetObject:
-                    command = new GetObjectCommand(this);
+                    command = new GetObjectCommand(StateCommuter);
                     break;
                 default:
                     throw new ParseException($"The XamlInstructionType {instruction.InstructionType} has an unexpected value");
@@ -84,13 +84,12 @@ namespace OmniXaml.ObjectAssembler
         public void OverrideInstance(object instance)
         {
             StateCommuter.RaiseLevel();
-            var tempQualifier = StateCommuter;
-            tempQualifier.Current.Instance = instance;
+            StateCommuter.Current.Instance = instance;
 
             var collection = instance as ICollection;
             if (collection != null)
             {
-                tempQualifier.Current.Collection = collection;
+                StateCommuter.Current.Collection = collection;
             }
         }
 

@@ -1,11 +1,15 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using System;
     using System.Collections;
 
     public class EndObjectCommand : Command
     {
-        public EndObjectCommand(ObjectAssembler assembler) : base(assembler)
+        private readonly Action<StateCommuter> setResult;
+
+        public EndObjectCommand(StateCommuter stateCommuter, Action<StateCommuter> setResult) : base(stateCommuter)
         {
+            this.setResult = setResult;
         }
 
         public override void Execute()
@@ -25,8 +29,8 @@ namespace OmniXaml.ObjectAssembler.Commands
                 StateCommuter.RegisterInstanceNameToNamescope();
                 StateCommuter.NotifyEnd();
             }
-            
-            Assembler.Result = StateCommuter.Current.Instance;
+
+            setResult(StateCommuter);
             
             StateCommuter.DecreaseLevel();
         }

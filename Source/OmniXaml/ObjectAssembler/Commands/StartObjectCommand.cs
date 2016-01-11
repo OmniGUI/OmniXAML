@@ -5,11 +5,13 @@ namespace OmniXaml.ObjectAssembler.Commands
 
     public class StartObjectCommand : Command
     {
+        private readonly ITypeRepository typeRepository;
         private readonly XamlType xamlType;
         private readonly object rootInstance;
 
-        public StartObjectCommand(ObjectAssembler assembler, XamlType xamlType, object rootInstance) : base(assembler)
+        public StartObjectCommand(StateCommuter stateCommuter, ITypeRepository typeRepository, XamlType xamlType, object rootInstance) : base(stateCommuter)
         {
+            this.typeRepository = typeRepository;
             this.xamlType = xamlType;
             this.rootInstance = rootInstance;
         }
@@ -44,8 +46,8 @@ namespace OmniXaml.ObjectAssembler.Commands
                 {
                     tempQualifier.Current.Collection = collection;
                 }
-                var typeSource = Assembler.TypeSource;
-                var xamlTypeOfInstance = typeSource.GetByType(rootInstance.GetType());
+
+                var xamlTypeOfInstance = typeRepository.GetByType(rootInstance.GetType());
                 StateCommuter.Current.XamlType = xamlTypeOfInstance;
             }
         }

@@ -2,14 +2,13 @@ namespace OmniXaml.ObjectAssembler
 {
     public abstract class Command
     {
-        protected Command(ObjectAssembler assembler)
+        protected Command(StateCommuter stateCommuter)
         {
-            Assembler = assembler;
+            StateCommuter = stateCommuter;
         }
 
-        protected ObjectAssembler Assembler { get; }
+        protected StateCommuter StateCommuter { get; }
 
         public abstract void Execute();
-        protected StateCommuter StateCommuter => Assembler.StateCommuter;        
     }
 }

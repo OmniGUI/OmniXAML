@@ -4,7 +4,7 @@ namespace OmniXaml.ObjectAssembler.Commands
 
     public class GetObjectCommand : Command
     {
-        public GetObjectCommand(ObjectAssembler objectAssembler) : base(objectAssembler)
+        public GetObjectCommand(StateCommuter stateCommuter) : base(stateCommuter)
         {            
         }
 

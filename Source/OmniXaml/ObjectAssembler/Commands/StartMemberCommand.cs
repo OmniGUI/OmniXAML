@@ -9,7 +9,7 @@ namespace OmniXaml.ObjectAssembler.Commands
     {
         private readonly MemberBase member;
 
-        public StartMemberCommand(ObjectAssembler assembler, MemberBase member) : base(assembler)
+        public StartMemberCommand(StateCommuter stateCommuter, MemberBase member) : base(stateCommuter)
         {
             this.member = member;
         }

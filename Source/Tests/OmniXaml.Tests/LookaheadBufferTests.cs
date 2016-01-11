@@ -11,7 +11,7 @@
     [TestClass]
     public class LookaheadBufferTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private InstructionResources resources;
+        private readonly InstructionResources resources;
 
         public LookaheadBufferTests()
         {
