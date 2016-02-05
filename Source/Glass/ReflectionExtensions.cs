@@ -172,7 +172,9 @@
 
         public static IEnumerable<Type> AllExportedTypes(this IEnumerable<Assembly> assemblies)
         {
-            return assemblies.SelectMany(assembly => assembly.ExportedTypes);
+            return assemblies
+                .Where(assembly => !assembly.IsDynamic)
+                .SelectMany(assembly => assembly.ExportedTypes);
         }
 
         public static bool IsNullable(this Type type)
