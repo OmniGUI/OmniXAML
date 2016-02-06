@@ -13,11 +13,6 @@
         {
         }
 
-        protected override IMemberValuePlugin LookupXamlMemberValueConnector()
-        {
-            return new MemberValuePlugin(this);
-        }
-
         protected override IEnumerable<Member> LookupDependencies()
         {
             var underlyingType = DeclaringType.UnderlyingType;
