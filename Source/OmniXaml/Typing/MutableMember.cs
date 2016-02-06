@@ -15,12 +15,11 @@ namespace OmniXaml.Typing
             FeatureProvider = typeFeatureProvider;
             TypeRepository = typeRepository;
             DeclaringType = declaringType;
-            MemberValuePlugin = new MemberValuePlugin(this);
         }
 
         public ITypeRepository TypeRepository { get; }
         public XamlType DeclaringType { get; }
-        private IMemberValuePlugin MemberValuePlugin { get; }
+        public IMemberValuePlugin MemberValuePlugin => LookupXamlMemberValueConnector();
         public ITypeFeatureProvider FeatureProvider { get; }
 
         public abstract MethodInfo Getter { get; }
@@ -46,12 +45,17 @@ namespace OmniXaml.Typing
             return "Member: " + Name;
         }
 
-        public virtual void SetValue(object instance, object value)
+        protected virtual IMemberValuePlugin LookupXamlMemberValueConnector()
+        {
+            return new MemberValuePlugin(this);
+        }
+
+        public void SetValue(object instance, object value)
         {
             MemberValuePlugin.SetValue(instance, value);
         }
 
-        public virtual object GetValue(object instance)
+        public object GetValue(object instance)
         {
             return MemberValuePlugin.GetValue(instance);
         }
