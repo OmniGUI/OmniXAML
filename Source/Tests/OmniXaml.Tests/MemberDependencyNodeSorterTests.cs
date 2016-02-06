@@ -56,6 +56,18 @@
         }
 
         [TestMethod]
+        public void SortTwoComboBoxes()
+        {
+            var input = resources.TwoComboBoxesUnsorted;
+
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.TwoComboBoxesSorted;
+
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+        }
+
+        [TestMethod]
         public void SortMarkupExtension()
         {
             var input = resources.ListBoxSortedWithExtension;

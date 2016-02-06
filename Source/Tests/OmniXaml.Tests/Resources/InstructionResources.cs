@@ -1308,6 +1308,46 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public List<Instruction> TwoComboBoxesUnsorted
+        {
+            get
+            {
+                var result = new List<Instruction>(); 
+                result.Add(X.StartObject<Grid>());
+                result.Add(X.StartMember<Grid>(g => g.Children));
+                result.Add(X.GetObject());
+                result.Add(X.Items());
+                result.AddRange(ComboBoxUnsorted);
+                result.AddRange(ComboBoxUnsorted);
+                result.Add(X.EndMember());
+                result.Add(X.EndObject());
+                result.Add(X.EndMember());
+                result.Add(X.EndObject());
+
+                return result;
+            }
+        }
+
+        public List<Instruction> TwoComboBoxesSorted
+        {
+            get
+            {
+                var result = new List<Instruction>();
+                result.Add(X.StartObject<Grid>());
+                result.Add(X.StartMember<Grid>(g => g.Children));
+                result.Add(X.GetObject());
+                result.Add(X.Items());
+                result.AddRange(ComboBoxSorted);
+                result.AddRange(ComboBoxSorted);
+                result.Add(X.EndMember());
+                result.Add(X.EndObject());
+                result.Add(X.EndMember());
+                result.Add(X.EndObject());
+
+                return result;
+            }
+        }
+
         public List<Instruction> ListBoxSortedWithExtension
         {
             get
