@@ -451,14 +451,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Xaml\Wpf\Color.xaml">
+    <Page Include="Xaml\Wpf\ColorResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Xaml\Wpf\TextBlock.xaml">
-      <SubType>Designer</SubType>
-    </None>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
