@@ -75,6 +75,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;Window.Resources&gt;
+        ///    &lt;Color x:Key=&quot;color&quot;&gt;#ff808080&lt;/Color&gt;
+        ///  &lt;/Window.Resources&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string ColorResource {
+            get {
+                return ResourceManager.GetString("ColorResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;Hello from OmniXaml!&quot; Width=&quot;800&quot; Height=&quot;600&quot;&gt;
         ///  &lt;ListBox ItemsSource=&quot;{Binding Path=Collection}&quot;&gt;
         ///    &lt;ListBox.ItemTemplate&gt;
@@ -167,21 +181,22 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
-        ///    &lt;Grid&gt;
-        ///        &lt;Grid.RowDefinitions&gt;
-        ///            &lt;RowDefinition /&gt;
-        ///            &lt;RowDefinition /&gt;
-        ///            &lt;RowDefinition /&gt;
-        ///        &lt;/Grid.RowDefinitions&gt;
-        ///        &lt;TextBlock Text=&quot;Hola&quot;&gt;
-        ///            &lt;Grid.Row&gt;1&lt;/Grid.Row&gt;
-        ///        &lt;/TextBlock&gt;
-        ///        &lt;TextBlock Text=&quot;Hola&quot;&gt;
-        ///            &lt;Grid.Row&gt;1&lt;/Grid.Row&gt;
-        ///        &lt;/TextBlock&gt;
-        ///    &lt;/Grid&gt;
-        ///&lt;/Window&gt;.
+        ///   Looks up a localized string similar to &lt;Grid xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;&gt;
+        ///    &lt;Grid.RowDefinitions&gt;
+        ///        &lt;RowDefinition /&gt;
+        ///        &lt;RowDefinition /&gt;
+        ///        &lt;RowDefinition /&gt;
+        ///    &lt;/Grid.RowDefinitions&gt;
+        ///    &lt;TextBlock Text=&quot;Hola&quot;&gt;
+        ///        &lt;Grid.Row&gt;0&lt;/Grid.Row&gt;
+        ///    &lt;/TextBlock&gt;
+        ///    &lt;TextBlock Text=&quot;Tío&quot;&gt;
+        ///        &lt;Grid.Row&gt;1&lt;/Grid.Row&gt;
+        ///    &lt;/TextBlock&gt;
+        ///    &lt;TextBlock Text=&quot;¿Cómo vas?&quot;&gt;
+        ///        &lt;Grid.Row&gt;2&lt;/Grid.Row&gt;
+        ///    &lt;/TextBlock&gt;
+        ///&lt;/Grid&gt;.
         /// </summary>
         public static string NestedAttachedProperty {
             get {

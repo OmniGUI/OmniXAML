@@ -1,0 +1,6 @@
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Window.Resources>
+    <Color x:Key="color">#ff808080</Color>
+  </Window.Resources>
+</Window>

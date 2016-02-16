@@ -66,5 +66,11 @@
         {
             var visualTree = LoadXaml(Resources.Stage3);
         }
+
+        [TestMethod]
+        public void ColorResource()
+        {
+            var visualTree = LoadXaml(Resources.ColorResource);
+        }
     }
 }
