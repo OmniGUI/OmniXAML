@@ -141,8 +141,14 @@
 
         private IEnumerable<Instruction> InjectNodesForTypeThatRequiresInitialization()
         {
-            yield return Inject.Initialization();
             SetNextInstruction();
+
+            foreach (var member in ParseMembersOfObject())
+            {
+                yield return member;
+            }
+
+            yield return Inject.Initialization();
             yield return Inject.Value(CurrentText);
             yield return Inject.EndOfMember();
         }
