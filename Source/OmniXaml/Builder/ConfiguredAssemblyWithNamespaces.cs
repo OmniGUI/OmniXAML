@@ -18,9 +18,18 @@ namespace OmniXaml.Builder
 
         public Type Get(string typeName)
         {
-            var firstOrDefault = assembly.DefinedTypes.FirstOrDefault(info => info.Name == typeName);
+            foreach (var ns in strings)
+            {
+                var fullName = ns + '.' + typeName;
+                var firstOrDefault = assembly.DefinedTypes.FirstOrDefault(info => info.FullName == fullName);
 
-            return firstOrDefault?.AsType();
+                if (firstOrDefault != null)
+                {
+                    return firstOrDefault.AsType();
+                }
+            }
+
+            return null;
         }
     }
 }
