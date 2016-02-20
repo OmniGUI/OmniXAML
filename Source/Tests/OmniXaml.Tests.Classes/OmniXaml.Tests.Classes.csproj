@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
+    <Compile Include="Another\DummyChild.cs" />
     <Compile Include="CustomCollection.cs" />
     <Compile Include="ExtensionThatReturnsNull.cs" />
     <Compile Include="RootObject.cs" />

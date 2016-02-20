@@ -45,7 +45,7 @@ namespace OmniXaml.Tests.Resources
                         new PropertyOption(
                             "Converter",
                             new MarkupExtensionNode(
-                                new IdentifierNode("x", "TypeExtension"),
+                                new IdentifierNode("", "TypeExtension"),
                                 new OptionsCollection
                                 {
                                     new PositionalOption("FooBar")
