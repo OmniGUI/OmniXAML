@@ -7,17 +7,14 @@
     {
         public static bool TryParse(Type enumType, string value, out object result)
         {
-            try
+            if (Enum.IsDefined(enumType, value))
             {
-                var tryParse = Enum.Parse(enumType, value);
-                result = tryParse;
+                result = Enum.Parse(enumType, value);
                 return true;
             }
-            catch
-            {
-                result = 0;
-                return false;
-            }
+
+            result = null;
+            return false;
         }
     }
 }
