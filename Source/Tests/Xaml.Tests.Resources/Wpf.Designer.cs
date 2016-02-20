@@ -228,6 +228,20 @@ namespace Xaml.Tests.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot;
+        ///        xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot;&gt;
+        ///  &lt;Window.Resources&gt;
+        ///    &lt;SolidColorBrush x:Key=&quot;brush&quot;&gt;#ff808080&lt;/SolidColorBrush&gt;
+        ///  &lt;/Window.Resources&gt;
+        ///&lt;/Window&gt;.
+        /// </summary>
+        public static string SolidColorBrushResource {
+            get {
+                return ResourceManager.GetString("SolidColorBrushResource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;Window xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; Title=&quot;Hello OmniXaml!&quot;&gt;
         ///  &lt;Window.Content&gt;
         ///    &lt;Grid&gt;

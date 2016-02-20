@@ -35,4 +35,5 @@ using OmniXaml.Attributes;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: XmlnsDefinition("root", "OmniXaml.Tests.Classes")]
+[assembly: XmlnsDefinition("root", "OmniXaml.Tests.Classes.WpfLikeModel")]
 [assembly: XmlnsDefinition("another", "OmniXaml.Tests.Classes.Another")]

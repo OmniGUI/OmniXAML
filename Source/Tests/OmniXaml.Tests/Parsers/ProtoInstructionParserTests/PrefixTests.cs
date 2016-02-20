@@ -55,12 +55,12 @@
         public void ElementWithPrefixThatIsDefinedAfterwards()
         {
             var sut = CreateSut();
-            var actualNodes = sut.Parse(@"<a:DummyClass xmlns:a=""another""></a:DummyClass>").ToList();
+            var actualNodes = sut.Parse(@"<a:DummyChild xmlns:a=""another""></a:DummyChild>").ToList();
 
             var expectedInstructions = new Collection<ProtoInstruction>
             {
                 P.NamespacePrefixDeclaration(AnotherNs),
-                P.NonEmptyElement<DummyClass>(AnotherNs),
+                P.NonEmptyElement<OmniXaml.Tests.Classes.Another.DummyChild>(AnotherNs),
                 P.EndTag(),
             };
 

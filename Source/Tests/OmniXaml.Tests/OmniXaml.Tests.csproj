@@ -86,6 +86,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ConfiguredAssemblyWithNamespacesTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
     <Compile Include="NameScopeTests.cs" />
