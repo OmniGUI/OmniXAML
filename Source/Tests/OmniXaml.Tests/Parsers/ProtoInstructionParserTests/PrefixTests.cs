@@ -5,7 +5,7 @@
     using System.Linq;
     using Classes;
     using Classes.Another;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using OmniXaml.Parsers.ProtoParser;
     using Xunit;
 

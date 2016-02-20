@@ -2,7 +2,7 @@
 {
     using Builder;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using Typing;

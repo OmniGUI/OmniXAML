@@ -1,6 +1,6 @@
-﻿namespace OmniXaml.Tests.Common.NetCore
+﻿namespace OmniXaml.Tests.Common.DotNetFx
 {
-    using Tests.Common;
+    using Common;
 
     public class GivenARuntimeTypeSourceWithNodeBuildersNetCore : GivenARuntimeTypeSourceWithNodeBuilders
     {

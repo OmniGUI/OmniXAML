@@ -1,4 +1,4 @@
-﻿namespace SampleOmniXAML.Model
+﻿namespace BasicModel.Model
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

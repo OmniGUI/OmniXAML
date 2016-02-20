@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests.Common.NetCore
+﻿namespace OmniXaml.Tests.Common.DotNetFx
 {
     using Common;
 

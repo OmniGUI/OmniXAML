@@ -4,7 +4,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.MarkupExtensions;
     using Resources;

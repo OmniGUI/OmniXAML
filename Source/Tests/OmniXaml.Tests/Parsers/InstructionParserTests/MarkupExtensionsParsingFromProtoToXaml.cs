@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.Parser;
 

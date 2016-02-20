@@ -218,7 +218,7 @@
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
+    <ProjectReference Include="..\..\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj">
       <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
       <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>

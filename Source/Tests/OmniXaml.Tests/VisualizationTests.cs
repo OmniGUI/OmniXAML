@@ -2,7 +2,7 @@
 {
     using System.Collections.ObjectModel;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Visualization;
 

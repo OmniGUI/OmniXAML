@@ -2,7 +2,7 @@ namespace OmniXaml.Tests
 {
     using System.Collections.ObjectModel;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;

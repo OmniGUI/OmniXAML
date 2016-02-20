@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.AppServices.Tests
+﻿namespace OmniXaml.Services.Tests
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes.WpfLikeModel;

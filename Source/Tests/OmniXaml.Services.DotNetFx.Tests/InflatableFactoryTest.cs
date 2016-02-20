@@ -1,13 +1,13 @@
-﻿namespace OmniXaml.AppServices.NetCore.Tests
+﻿namespace OmniXaml.Services.DotNetFx.Tests
 {
     using System;
-    using AppServices.Tests;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Tests.Classes.WpfLikeModel;
-    using OmniXaml.Tests.Common.NetCore;
+    using OmniXaml.Tests.Common.DotNetFx;
     using Services;
     using Services.DotNetFx;
+    using Services.Tests;
 
     [TestClass]
     [Ignore]

@@ -2,7 +2,7 @@ namespace OmniXaml.Tests
 {
     using Classes;
     using Classes.WpfLikeModel;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using ObjectAssembler;
     using Resources;
     using TypeConversion;

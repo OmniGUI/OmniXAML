@@ -8,8 +8,8 @@
     <ProjectGuid>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.Tests.Common.NetCore</RootNamespace>
-    <AssemblyName>OmniXaml.Tests.Common.NetCore</AssemblyName>
+    <RootNamespace>OmniXaml.Tests.Common.DotNetFx</RootNamespace>
+    <AssemblyName>OmniXaml.Tests.Common.DotNetFx</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

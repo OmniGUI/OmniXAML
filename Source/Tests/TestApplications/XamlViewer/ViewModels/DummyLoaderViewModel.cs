@@ -5,7 +5,7 @@
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Tests.Common;
-    using OmniXaml.Tests.Common.NetCore;
+    using OmniXaml.Tests.Common.DotNetFx;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel

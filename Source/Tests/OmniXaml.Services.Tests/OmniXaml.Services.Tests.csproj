@@ -7,8 +7,8 @@
     <ProjectGuid>{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.AppServices.Tests</RootNamespace>
-    <AssemblyName>OmniXaml.AppServices.Tests</AssemblyName>
+    <RootNamespace>OmniXaml.Services.Tests</RootNamespace>
+    <AssemblyName>OmniXaml.Services.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -84,10 +84,6 @@
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
       <Name>OmniXaml.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
-      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
-      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Glass\Glass.csproj">
       <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
       <Name>Glass</Name>
@@ -103,6 +99,10 @@
     <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
       <Name>OmniXaml.Tests.Classes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj">
+      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
+      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj">
       <Project>{03EFD393-33D1-43E6-8835-1450459697F3}</Project>

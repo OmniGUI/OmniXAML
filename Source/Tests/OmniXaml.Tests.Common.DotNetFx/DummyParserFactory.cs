@@ -1,10 +1,10 @@
-namespace OmniXaml.Tests.Common.NetCore
+namespace OmniXaml.Tests.Common.DotNetFx
 {
-    using Parsers.ProtoParser;
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using ObjectAssembler;
     using Parsers.Parser;
+    using Parsers.ProtoParser;
     using TypeConversion;
 
     public class DummyParserFactory : IParserFactory

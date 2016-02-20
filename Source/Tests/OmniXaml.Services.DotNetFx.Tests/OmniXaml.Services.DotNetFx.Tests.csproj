@@ -7,8 +7,8 @@
     <ProjectGuid>{6DC9D410-E8CA-48A4-8725-697D75F33388}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml.AppServices.NetCore.Tests</RootNamespace>
-    <AssemblyName>OmniXaml.AppServices.NetCore.Tests</AssemblyName>
+    <RootNamespace>OmniXaml.Services.DotNetFx.Tests</RootNamespace>
+    <AssemblyName>OmniXaml.Services.DotNetFx.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -77,11 +77,11 @@
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.AppServices.Tests\OmniXaml.Services.Tests.csproj">
+    <ProjectReference Include="..\OmniXaml.Services.Tests\OmniXaml.Services.Tests.csproj">
       <Project>{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}</Project>
       <Name>OmniXaml.Services.Tests</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
+    <ProjectReference Include="..\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj">
       <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
       <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>

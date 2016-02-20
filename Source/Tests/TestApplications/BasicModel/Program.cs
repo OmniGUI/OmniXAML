@@ -1,4 +1,4 @@
-﻿namespace SampleOmniXAML
+﻿namespace BasicModel
 {
     using System;
     using Model;

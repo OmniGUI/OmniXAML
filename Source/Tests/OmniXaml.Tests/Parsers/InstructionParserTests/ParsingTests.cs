@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Reflection;
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.Parser;
     using Resources;

@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests.Parsers.ProtoInstructionParserTests
 {
     using System.Linq;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;

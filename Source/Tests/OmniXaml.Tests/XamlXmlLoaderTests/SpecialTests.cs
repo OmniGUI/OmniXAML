@@ -1,7 +1,7 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public abstract class SpecialTests : GivenARuntimeTypeSourceNetCore

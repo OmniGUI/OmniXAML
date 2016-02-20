@@ -4,7 +4,7 @@
     using Classes;
     using Classes.Templates;
     using Classes.WpfLikeModel;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
     using TypeConversion;

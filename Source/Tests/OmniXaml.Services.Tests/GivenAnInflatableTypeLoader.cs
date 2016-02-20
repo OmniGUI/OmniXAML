@@ -1,7 +1,7 @@
-namespace OmniXaml.AppServices.Tests
+namespace OmniXaml.Services.Tests
 {
     using System;
-    using OmniXaml.Tests.Common.NetCore;
+    using OmniXaml.Tests.Common.DotNetFx;
     using Services.DotNetFx;
 
     public class GivenAnInflatableTypeLoader : GivenARuntimeTypeSourceNetCore
