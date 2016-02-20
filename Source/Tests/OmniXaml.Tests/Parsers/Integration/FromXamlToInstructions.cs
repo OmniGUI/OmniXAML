@@ -183,12 +183,12 @@
 
         private ICollection<Instruction> ExtractNodesFromPullParser(string xml)
         {
-            var pullParser = new InstructionParser(TypeRuntimeTypeSource);
+            var pullParser = new InstructionParser(RuntimeTypeSource);
 
             using (var stream = new StringReader(xml))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                return pullParser.Parse(new ProtoInstructionParser(TypeRuntimeTypeSource).Parse(reader)).ToList();
+                return pullParser.Parse(new ProtoInstructionParser(RuntimeTypeSource).Parse(reader)).ToList();
             }
         }
 

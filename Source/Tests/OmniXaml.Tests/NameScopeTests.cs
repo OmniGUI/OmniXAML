@@ -5,6 +5,7 @@ namespace OmniXaml.Tests
     using Common.NetCore;
     using ObjectAssembler;
     using Resources;
+    using TypeConversion;
     using Xunit;
 
     public class NameScopeTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
@@ -14,15 +15,16 @@ namespace OmniXaml.Tests
 
         public NameScopeTests()
         {
-            sut = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext());
+            var topDownValueContext = new TopDownValueContext();
+            sut = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
             source = new InstructionResources(this);
         }
        
         [Fact]
         public void RegisterOneChildInNameScope()
         {
-            TypeRuntimeTypeSource.ClearNamescopes();
-            TypeRuntimeTypeSource.EnableNameScope<DummyClass>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<DummyClass>();
 
             sut.Process(source.ChildInNameScope);
             var actual = sut.Result;
@@ -34,8 +36,8 @@ namespace OmniXaml.Tests
         [Fact]
         public void RegisterChildInDeeperNameScope()
         {
-            TypeRuntimeTypeSource.ClearNamescopes();
-            TypeRuntimeTypeSource.EnableNameScope<Window>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<Window>();
 
             sut.Process(source.ChildInDeeperNameScope);
             var actual = sut.Result;

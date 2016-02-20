@@ -1,25 +1,27 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using TypeConversion;
     using Typing;
 
     public class ValueCommand : Command
     {
+        private readonly IValueContext valueContext;
         private readonly string value;
 
-        public ValueCommand(StateCommuter stateCommuter, ITypeRepository typeSource, ITopDownValueContext topDownValueContext, string value) : base(stateCommuter)
+        public ValueCommand(StateCommuter stateCommuter, IValueContext valueContext, string value) : base(stateCommuter)
         {
+            this.valueContext = valueContext;
             this.value = value;
-            ValuePipeLine = new ValuePipeline(typeSource, topDownValueContext);
         }
-
-        private ValuePipeline ValuePipeLine { get; }
 
         public override void Execute()
         {
             switch (StateCommuter.ValueProcessingMode)
             {
                 case ValueProcessingMode.InitializationValue:
-                    StateCommuter.Current.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.Current.XamlType);
+                    object compatibleValue;
+                    CommonValueConversion.TryConvert(value, StateCommuter.Current.XamlType, valueContext, out compatibleValue);
+                    StateCommuter.Current.Instance = compatibleValue;
                     StateCommuter.ValueProcessingMode = ValueProcessingMode.AssignToMember;
                     break;
 

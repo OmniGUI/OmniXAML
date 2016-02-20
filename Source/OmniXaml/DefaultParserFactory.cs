@@ -3,6 +3,7 @@
     using ObjectAssembler;
     using Parsers.Parser;
     using Parsers.ProtoParser;
+    using TypeConversion;
 
     public class DefaultParserFactory : IParserFactory
     {
@@ -27,7 +28,9 @@
 
         public IParser Create(Settings settings)
         {
-            var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
+            var topDownValueContext = new TopDownValueContext();
+            var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource,new ValueContext(runtimeTypeSource, topDownValueContext),
+                settings);
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }

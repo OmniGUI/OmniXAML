@@ -19,7 +19,7 @@
         private ProtoInstructionParser CreateSut()
         {
             
-            return new ProtoInstructionParser(TypeRuntimeTypeSource);
+            return new ProtoInstructionParser(RuntimeTypeSource);
         }
 
         [Fact]

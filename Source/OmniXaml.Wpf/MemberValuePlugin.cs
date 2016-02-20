@@ -4,7 +4,7 @@ namespace OmniXaml.Wpf
     using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
-    using OmniXaml.ObjectAssembler;
+    using TypeConversion;
     using Typing;
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
@@ -16,21 +16,24 @@ namespace OmniXaml.Wpf
             this.member = member;
         }
 
-        public override void SetValue(object instance, object value)
+        public override void SetValue(object instance, object value, IValueContext valueContext)
         {
             if (member.Name == "Value" && instance is Setter)
             {
                 var setter = (Setter) instance;                
                 var targetType = setter.Property.PropertyType;
-                var valuePipeline = new ValuePipeline(member.TypeRepository, null);
                 var xamlType = member.TypeRepository.GetByType(targetType);
-                base.SetValue(instance, valuePipeline.ConvertValueIfNecessary(value, xamlType));
+
+                object compatibleValue;
+                CommonValueConversion.TryConvert(value, xamlType, valueContext, out compatibleValue);
+
+                base.SetValue(instance, compatibleValue, valueContext);
             }
             else
             {
                 if (!TrySetDependencyProperty(instance, value))
                 {
-                    base.SetValue(instance, value);
+                    base.SetValue(instance, value, valueContext);
                 }
             }
         }
@@ -57,7 +60,7 @@ namespace OmniXaml.Wpf
 
         private static DependencyProperty GetDependencyProperty(Type type, string name)
         {
-            FieldInfo fieldInfo = type.GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var fieldInfo = type.GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             return (DependencyProperty) fieldInfo?.GetValue(null);
         }
     }

@@ -2,15 +2,18 @@ namespace OmniXaml.ObjectAssembler
 {
     using System.Collections;
     using System.Collections.ObjectModel;
+    using TypeConversion;
     using Typing;
 
     public class CurrentLevelWrapper
     {
         private readonly Level level;
+        private readonly IValueContext valueContext;
 
-        public CurrentLevelWrapper(Level level)
+        public CurrentLevelWrapper(Level level, IValueContext valueContext)
         {
             this.level = level;
+            this.valueContext = valueContext;
         }
 
         public string InstanceName
@@ -23,7 +26,7 @@ namespace OmniXaml.ObjectAssembler
             set
             {
                 var runtimeNameMember = XamlType.RuntimeNamePropertyMember;
-                runtimeNameMember?.SetValue(Instance, value);
+                runtimeNameMember?.SetValue(Instance, value, valueContext);
             }
         }
 

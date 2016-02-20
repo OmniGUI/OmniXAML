@@ -111,7 +111,7 @@
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="Resources\InstructionResources.cs" />
     <Compile Include="TypeRepositoryTests.cs" />
-    <Compile Include="NamespaceRegistryTest.cs" />
+    <Compile Include="NamespaceRegistryTests.cs" />
     <Compile Include="Parsers\Integration\FromXamlToInstructions.cs" />
     <Compile Include="XamlXmlLoaderTests\NameScopeTests.cs" />
     <Compile Include="XamlXmlLoaderTests\ParsingTests.cs" />

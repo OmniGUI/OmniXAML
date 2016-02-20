@@ -1,6 +1,7 @@
 namespace OmniXaml
 {
     using ObjectAssembler;
+    using TypeConversion;
 
     public class DefaultObjectAssemblerFactory : IObjectAssemblerFactory
     {
@@ -13,7 +14,8 @@ namespace OmniXaml
 
         public IObjectAssembler CreateAssembler(Settings settings)
         {
-            return new ObjectAssembler.ObjectAssembler(typeSource, new TopDownValueContext(), settings);
+            var topDownValueContext = new TopDownValueContext();
+            return new ObjectAssembler.ObjectAssembler(typeSource, new ValueContext(typeSource, topDownValueContext), settings);
         }
     }
 }

@@ -10,7 +10,7 @@
     using Typing;
 
     [TestClass]
-    public class NamespaceRegistryTest
+    public class NamespaceRegistryTests
     {
         private NamespaceRegistry registry;
         private Type type;

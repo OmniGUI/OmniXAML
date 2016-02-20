@@ -1,6 +1,7 @@
 namespace OmniXaml.Typing
 {
     using System.Reflection;
+    using TypeConversion;
 
     public class MemberValuePlugin : IMemberValuePlugin
     {
@@ -23,7 +24,7 @@ namespace OmniXaml.Typing
             }
         }
 
-        public virtual void SetValue(object instance, object value)
+        public virtual void SetValue(object instance, object value, IValueContext valueContext)
         {
             if (ValueSetter.IsStatic)
             {

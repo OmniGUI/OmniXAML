@@ -6,6 +6,8 @@ namespace OmniXaml.Tests
     using Glass;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
+    using ObjectAssembler.Commands;
+    using TypeConversion;
 
     [TestClass]
     public class ObjectAssemblerStateCommutationTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
@@ -17,14 +19,23 @@ namespace OmniXaml.Tests
             state.Push(new Level());
 
             var type = typeof(DummyClass);
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            IRuntimeTypeSource typeSource = RuntimeTypeSource;
+            ITopDownValueContext topDownValueContext = new TopDownValueContext();
+            var sut = CreateSut(state, typeSource, topDownValueContext);
 
             sut.Process(X.StartObject(type));
 
             var actualType = sut.StateCommuter.Current.XamlType;
 
-            var expectedType = TypeRuntimeTypeSource.GetByType(type);
+            var expectedType = RuntimeTypeSource.GetByType(type);
             Assert.AreEqual(expectedType, actualType);
+        }
+
+        private static ObjectAssembler CreateSut(StackingLinkedList<Level> state, IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext)
+        {
+            
+            var vc = new ValueContext(typeSource, topDownValueContext);
+            return new ObjectAssembler(state, typeSource, new NullLifecycleListener(), vc);
         }
 
         [TestMethod]
@@ -33,7 +44,7 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var dummyClass = new DummyClass();
-            var xamlType = TypeRuntimeTypeSource.GetByType(dummyClass.GetType());
+            var xamlType = RuntimeTypeSource.GetByType(dummyClass.GetType());
             state.Push(
                 new Level
                 {
@@ -49,7 +60,7 @@ namespace OmniXaml.Tests
                     Instance = childClass,
                 });
 
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.EndObject());
 
@@ -66,7 +77,7 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var dummyClass = new DummyClass();
-            var xamlType = TypeRuntimeTypeSource.GetByType(dummyClass.GetType());
+            var xamlType = RuntimeTypeSource.GetByType(dummyClass.GetType());
 
             state.Push(
                 new Level
@@ -76,8 +87,8 @@ namespace OmniXaml.Tests
                 });
 
             var xamlMember = xamlType.GetMember("Items");
-
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+       
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.StartMember<DummyClass>(d => d.Items));
 
@@ -94,12 +105,12 @@ namespace OmniXaml.Tests
             state.Push(
                 new Level
                 {
-                    XamlType = TypeRuntimeTypeSource.GetByType(type)
+                    XamlType = RuntimeTypeSource.GetByType(type)
                 });
 
-            var xamlMember = TypeRuntimeTypeSource.GetByType(type).GetMember("Items");
-
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            var xamlMember = RuntimeTypeSource.GetByType(type).GetMember("Items");
+          
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.StartMember<DummyClass>(d => d.Items));
 
@@ -114,7 +125,7 @@ namespace OmniXaml.Tests
             var state = new StackingLinkedList<Level>();
 
             var type = typeof(DummyClass);
-            var xamlMember = TypeRuntimeTypeSource.GetByType(type).GetMember("Items");
+            var xamlMember = RuntimeTypeSource.GetByType(type).GetMember("Items");
 
             state.Push(
                 new Level
@@ -123,7 +134,7 @@ namespace OmniXaml.Tests
                     Member = xamlMember,
                 });
 
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.GetObject());
 
@@ -143,12 +154,12 @@ namespace OmniXaml.Tests
                 {
                     Collection = collection,
                     IsGetObject = true,
-                    Member = TypeRuntimeTypeSource.GetByType(typeof(DummyClass)).GetMember("Items"),
+                    Member = RuntimeTypeSource.GetByType(typeof(DummyClass)).GetMember("Items"),
                 });
 
             state.Push(new Level());
-
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+         
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.StartObject<Item>());
             sut.Process(X.EndObject());
@@ -166,13 +177,13 @@ namespace OmniXaml.Tests
                 new Level
                 {
                     Collection = collection,
-                    Member = TypeRuntimeTypeSource.GetByType(typeof(DummyClass)).GetMember("Items"),
+                    Member = RuntimeTypeSource.GetByType(typeof(DummyClass)).GetMember("Items"),
                     IsGetObject = true,
                 });
 
-            state.Push(new Level { XamlType = TypeRuntimeTypeSource.GetByType(typeof(Item)) });
-
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            state.Push(new Level { XamlType = RuntimeTypeSource.GetByType(typeof(Item)) });
+          
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
 
             sut.Process(X.EndObject());
             sut.Process(X.EndObject());
@@ -185,7 +196,7 @@ namespace OmniXaml.Tests
         {
             var state = new StackingLinkedList<Level>();
 
-            var xamlType = TypeRuntimeTypeSource.GetByType(typeof(DummyClass));
+            var xamlType = RuntimeTypeSource.GetByType(typeof(DummyClass));
             state.Push(
                 new Level
                 {
@@ -198,11 +209,11 @@ namespace OmniXaml.Tests
             state.Push(
                 new Level
                 {
-                    XamlType = TypeRuntimeTypeSource.GetByType(typeof(DummyExtension)),
+                    XamlType = RuntimeTypeSource.GetByType(typeof(DummyExtension)),
                     CtorArguments = constructionArguments,
                 });
 
-            var sut = new ObjectAssembler(state, TypeRuntimeTypeSource, new TopDownValueContext(), new NullLifecycleListener());
+            var sut = CreateSut(state, RuntimeTypeSource, new TopDownValueContext());
             sut.Process(X.EndObject());
 
             Assert.AreEqual("Value", sut.Result);

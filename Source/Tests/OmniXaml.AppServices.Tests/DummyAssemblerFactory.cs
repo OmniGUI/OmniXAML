@@ -4,6 +4,7 @@
     using ObjectAssembler;
     using OmniXaml.Tests.Classes.Templates;
     using OmniXaml.Tests.Classes.WpfLikeModel;
+    using TypeConversion;
 
     internal class DummyAssemblerFactory : IObjectAssemblerFactory
     {
@@ -19,7 +20,9 @@
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
 
-            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var objectAssembler = new ObjectAssembler(runtimeTypeSource, valueConnectionContext, settings);
             return new TemplateHostingObjectAssembler(objectAssembler, mapping);
         }
 

@@ -55,7 +55,7 @@
         [TestMethod]
         public void GetByQualifiedName_ForTypeInDefaultNamespace()
         {
-            sut = new TypeRepository(TypeRuntimeTypeSource, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
+            sut = new TypeRepository(RuntimeTypeSource, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetByQualifiedName("DummyClass");
 

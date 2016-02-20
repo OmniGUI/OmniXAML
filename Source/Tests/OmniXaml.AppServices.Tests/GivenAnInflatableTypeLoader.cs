@@ -12,7 +12,7 @@ namespace OmniXaml.AppServices.Tests
         {
             Func<ITypeFactory, ILoader> loaderFactory = inflatableTypeFactory =>
             {
-                var parserFactory = new DummyParserFactory(TypeRuntimeTypeSource);
+                var parserFactory = new DummyParserFactory(RuntimeTypeSource);
                 return new XmlLoader(parserFactory);
             };            
 

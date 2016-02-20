@@ -16,7 +16,7 @@
         public void NameOnly()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeRuntimeTypeSource);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
             var expectedInstructions = new List<Instruction>
             {
@@ -31,7 +31,7 @@
         public void NameAndAttribute()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeRuntimeTypeSource);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new List<Instruction>
@@ -54,7 +54,7 @@
                 new PropertyOption("Property", new StringNode("Value")),
                 new PropertyOption("AnotherProperty", new StringNode("AnotherValue")),
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeRuntimeTypeSource);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new List<Instruction>
@@ -79,7 +79,7 @@
             {
                new PositionalOption("Option")
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeRuntimeTypeSource);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new Collection<Instruction>
@@ -98,7 +98,7 @@
         public void ComposedExtensionTemplateBindingWithConverter()
         {
             var tree = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeRuntimeTypeSource);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
             var expectedInstructions = new Collection<Instruction>

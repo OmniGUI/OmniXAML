@@ -18,7 +18,10 @@
             var runtimeTypeSource = CreateRuntimeTypeSource();
             var x = CreateBuilder(runtimeTypeSource);
 
-            var sut = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
+            var topDownValueContext = new TopDownValueContext();
+            
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var sut = new ObjectAssembler(runtimeTypeSource, valueConnectionContext);
 
             var batch = new Collection<Instruction>
             {
@@ -47,7 +50,9 @@
             var runtimeTypeSource = CreateRuntimeTypeSource();
             var x = CreateBuilder(runtimeTypeSource);
 
-            var sut = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var sut = new ObjectAssembler(runtimeTypeSource, valueConnectionContext);
 
             var batch = new Collection<Instruction>
             {

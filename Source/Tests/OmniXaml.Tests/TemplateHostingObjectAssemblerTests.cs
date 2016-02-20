@@ -7,6 +7,7 @@
     using Common.NetCore;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
+    using TypeConversion;
 
     [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
@@ -32,7 +33,10 @@
             var assembler = new DummyDeferredLoader();
             mapping.Map<Template>(t => t.Content, assembler);
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext()), mapping);                       
+            var topDownValueContext = new TopDownValueContext();
+            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
+
+            var sut = new TemplateHostingObjectAssembler(objectAssembler, mapping);                       
 
             foreach (var instruction in input)
             {

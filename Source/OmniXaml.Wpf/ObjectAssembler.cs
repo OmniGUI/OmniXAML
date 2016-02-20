@@ -3,6 +3,7 @@
     using System;
     using OmniXaml.ObjectAssembler;
     using OmniXaml.ObjectAssembler.Commands;
+    using TypeConversion;
 
     public class ObjectAssembler : IObjectAssembler
     {
@@ -14,8 +15,13 @@
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
+            var valueConnectionContext = new ValueContext(typeSource, topDownValueContext);
+
             objectAssembler = new TemplateHostingObjectAssembler(
-                new OmniXaml.ObjectAssembler.ObjectAssembler(typeSource, topDownValueContext, settings),
+                new OmniXaml.ObjectAssembler.ObjectAssembler(
+                    typeSource,
+                    valueConnectionContext,
+                    settings),
                 mapping);
         }
 

@@ -26,7 +26,7 @@
 
         private InstructionParser CreateSut()
         {
-            return new InstructionParser(TypeRuntimeTypeSource);
+            return new InstructionParser(RuntimeTypeSource);
         }
 
         [TestMethod]

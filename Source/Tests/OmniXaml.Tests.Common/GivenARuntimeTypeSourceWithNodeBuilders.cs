@@ -6,8 +6,8 @@ namespace OmniXaml.Tests.Common
     {
         protected GivenARuntimeTypeSourceWithNodeBuilders()
         {
-            X = new XamlInstructionBuilder(TypeRuntimeTypeSource);
-            P = new ProtoInstructionBuilder(TypeRuntimeTypeSource);
+            X = new XamlInstructionBuilder(RuntimeTypeSource);
+            P = new ProtoInstructionBuilder(RuntimeTypeSource);
         }
 
         public XamlInstructionBuilder X { get; }

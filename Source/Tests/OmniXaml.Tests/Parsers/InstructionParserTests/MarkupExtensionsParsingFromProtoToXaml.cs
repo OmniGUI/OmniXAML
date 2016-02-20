@@ -14,7 +14,7 @@
         
         public MarkupExtensionsParsingFromProtoToXaml()
         {            
-            sut = new InstructionParser(TypeRuntimeTypeSource);
+            sut = new InstructionParser(RuntimeTypeSource);
         }
 
         [TestMethod]

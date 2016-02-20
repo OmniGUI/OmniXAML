@@ -3,15 +3,18 @@ namespace OmniXaml.ObjectAssembler.Commands
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using TypeConversion;
     using Typing;
 
     public class EndMemberCommand : Command
     {
         private readonly ITypeRepository typeRepository;
+        private readonly IValueContext valueContext;
 
-        public EndMemberCommand(ITypeRepository typeRepository, StateCommuter stateCommuter) : base(stateCommuter)
+        public EndMemberCommand(ITypeRepository typeRepository, StateCommuter stateCommuter, IValueContext valueContext) : base(stateCommuter)
         {
             this.typeRepository = typeRepository;
+            this.valueContext = valueContext;
         }
 
         public override void Execute()
@@ -40,7 +43,8 @@ namespace OmniXaml.ObjectAssembler.Commands
             foreach (var ctorArg in arguments)
             {
                 var targetType = xamlTypes[i];
-                var compatibleValue = StateCommuter.ValuePipeline.ConvertValueIfNecessary(ctorArg.StringValue, targetType);
+                object compatibleValue;
+                CommonValueConversion.TryConvert(ctorArg.StringValue, targetType, valueContext, out compatibleValue);
                 ctorArg.Value = compatibleValue;
                 i++;
             }
@@ -54,7 +58,8 @@ namespace OmniXaml.ObjectAssembler.Commands
 
         private static ConstructorInfo SelectConstructor(XamlType xamlType, int count)
         {
-            return xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors.First(info => info.GetParameters().Count() == count);
+            var declaredConstructors = xamlType.UnderlyingType.GetTypeInfo().DeclaredConstructors;
+            return declaredConstructors.First(info => info.GetParameters().Length == count);
         }
 
         public override string ToString()

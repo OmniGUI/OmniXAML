@@ -8,6 +8,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
     using Resources;
+    using TypeConversion;
     using Xunit;
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
@@ -30,13 +31,19 @@
 
         private ObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext(), new Settings() { InstanceLifeCycleListener = new TestListener() });
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+            return new ObjectAssembler(RuntimeTypeSource, valueConnectionContext, new Settings { InstanceLifeCycleListener = new TestListener() });
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+
             var settings = new Settings { RootInstance = instance };
-            var assembler = new ObjectAssembler(TypeRuntimeTypeSource, new TopDownValueContext(), settings);
+
+            var assembler = new ObjectAssembler(RuntimeTypeSource, valueConnectionContext, settings);
             return assembler;
         }
 
@@ -247,7 +254,7 @@
         {
             sut.Process(source.InstanceWithChild);
 
-            var dummyClassXamlType = TypeRuntimeTypeSource.GetByType(typeof(DummyClass));
+            var dummyClassXamlType = RuntimeTypeSource.GetByType(typeof(DummyClass));
             var lastInstance = sut.TopDownValueContext.GetLastInstance(dummyClassXamlType);
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));

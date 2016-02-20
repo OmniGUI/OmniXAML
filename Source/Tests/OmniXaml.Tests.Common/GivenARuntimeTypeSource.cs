@@ -6,10 +6,10 @@ namespace OmniXaml.Tests.Common
     {
         protected GivenARuntimeTypeSource()
         {
-            TypeRuntimeTypeSource = new TestRuntimeTypeSource();
+            RuntimeTypeSource = new TestRuntimeTypeSource();
         }
 
-        protected TestRuntimeTypeSource TypeRuntimeTypeSource { get; }
+        protected TestRuntimeTypeSource RuntimeTypeSource { get; }
         public NamespaceDeclaration RootNs { get; } = new NamespaceDeclaration("root", string.Empty);
         public NamespaceDeclaration AnotherNs { get; } = new NamespaceDeclaration("another", "a");
         public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration(CoreTypes.SpecialNamespace, "x");

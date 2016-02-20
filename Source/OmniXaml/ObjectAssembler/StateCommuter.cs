@@ -5,27 +5,26 @@ namespace OmniXaml.ObjectAssembler
     using System.Reflection;
     using Commands;
     using Glass;
+    using TypeConversion;
     using Typing;
 
     public class StateCommuter
     {
         private readonly IInstanceLifeCycleListener lifecycleListener;
-        private readonly ITopDownValueContext topDownValueContext;
+        private readonly IValueContext valueContext;
         private StackingLinkedList<Level> stack;
 
         public StateCommuter(StackingLinkedList<Level> stack,
             IRuntimeTypeSource typeSource,
-            ITopDownValueContext topDownValueContext,
-            IInstanceLifeCycleListener lifecycleListener)
+            IInstanceLifeCycleListener lifecycleListener,
+            IValueContext valueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
             Guard.ThrowIfNull(typeSource, nameof(typeSource));
-            Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
             Stack = stack;
-            this.topDownValueContext = topDownValueContext;
             this.lifecycleListener = lifecycleListener;
-            ValuePipeline = new ValuePipeline(typeSource, topDownValueContext);
+            this.valueContext = valueContext;
         }
 
         public CurrentLevelWrapper Current { get; private set; }
@@ -35,7 +34,7 @@ namespace OmniXaml.ObjectAssembler
         public int Level => stack.Count;
 
         private bool HasParentToAssociate => Level > 1;
-        public ValuePipeline ValuePipeline { get; }
+        public IValueContext ValueContext => valueContext;
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
@@ -56,6 +55,8 @@ namespace OmniXaml.ObjectAssembler
         public InstanceProperties InstanceProperties => Current.InstanceProperties;
         public bool HasParent => !Previous.IsEmpty;
 
+        public ITopDownValueContext TopDownValueContext => valueContext.TopDownValueContext;
+
         public void SetKey(object value)
         {
             InstanceProperties.Key = value;
@@ -64,9 +65,10 @@ namespace OmniXaml.ObjectAssembler
         public void AssignChildToParentProperty()
         {
             var previousMember = (MutableMember) Previous.Member;
-            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
+            object compatibleValue;
+            CommonValueConversion.TryConvert(Current.Instance, previousMember.XamlType, valueContext, out compatibleValue);
 
-            previousMember.SetValue(Previous.Instance, compatibleValue);
+            previousMember.SetValue(Previous.Instance, compatibleValue, valueContext);
         }
 
         public void RaiseLevel()
@@ -77,7 +79,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void UpdateLevelWrappers()
         {
-            Current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            Current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel(), valueContext);
             Previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
@@ -99,7 +101,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void SaveCurrentInstanceToTopDownEnvironment()
         {
-            topDownValueContext.SetInstanceValue(Current.XamlType, Current.Instance);
+            TopDownValueContext.SetInstanceValue(Current.XamlType, Current.Instance);
         }
 
         private void MaterializeInstanceOfCurrentType()
@@ -128,8 +130,8 @@ namespace OmniXaml.ObjectAssembler
             {
                 TargetObject = Previous.Instance,
                 TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.Member.Name),
-                TypeRepository = ValuePipeline.TypeRepository,
-                TopDownValueContext = topDownValueContext
+                TypeRepository = ValueContext.TypeRepository,
+                TopDownValueContext = TopDownValueContext
             };
 
             return inflationContext;

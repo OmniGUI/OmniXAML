@@ -5,15 +5,15 @@
 
     public interface ITypeConverter
     {
-        object ConvertFrom(ITypeConverterContext context, CultureInfo culture, object value);
+        object ConvertFrom(IValueContext context, CultureInfo culture, object value);
 
         // ReSharper disable once UnusedMember.Global
-        object ConvertTo(ITypeConverterContext context, CultureInfo culture, object value, Type destinationType);
+        object ConvertTo(IValueContext context, CultureInfo culture, object value, Type destinationType);
 
         // ReSharper disable once UnusedMember.Global
-        bool CanConvertTo(ITypeConverterContext context, Type destinationType);
+        bool CanConvertTo(IValueContext context, Type destinationType);
 
         // ReSharper disable once UnusedMember.Global
-        bool CanConvertFrom(ITypeConverterContext context, Type sourceType);
+        bool CanConvertFrom(IValueContext context, Type sourceType);
     }
 }

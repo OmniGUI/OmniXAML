@@ -4,21 +4,22 @@ namespace OmniXaml.ObjectAssembler
     using System.Collections;
     using Commands;
     using Glass;
+    using TypeConversion;
     using Typing;
 
     public class ObjectAssembler : IObjectAssembler
     {
         private readonly object rootInstance;
         private readonly XamlType rootInstanceXamlType;
+        private readonly IValueContext valueContext;
 
-        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
-            : this(new StackingLinkedList<Level>(), typeSource, topDownValueContext, GetLifecycleListener(settings))
+        public ObjectAssembler(IRuntimeTypeSource typeSource, IValueContext valueContext, Settings settings = null)
+            : this(new StackingLinkedList<Level>(), typeSource, GetLifecycleListener(settings), valueContext)
         {
+            this.valueContext = valueContext;
             Guard.ThrowIfNull(typeSource, nameof(typeSource));
-            Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
 
             TypeSource = typeSource;
-            TopDownValueContext = topDownValueContext;
             StateCommuter.RaiseLevel();
 
             rootInstance = settings?.RootInstance;
@@ -28,19 +29,19 @@ namespace OmniXaml.ObjectAssembler
 
         public ObjectAssembler(StackingLinkedList<Level> state,
             IRuntimeTypeSource typeSource,
-            ITopDownValueContext topDownValueContext,
-            IInstanceLifeCycleListener listener)
+            IInstanceLifeCycleListener listener,
+            IValueContext context)
         {
-            StateCommuter = new StateCommuter(state, typeSource, topDownValueContext, listener);
+            StateCommuter = new StateCommuter(state, typeSource, listener, context);
             LifecycleListener = listener;
         }
-
-        public IInstanceLifeCycleListener LifecycleListener { get; set; }
 
         public StateCommuter StateCommuter { get; }
 
         private bool IsLevelOneAndThereIsRootInstance => StateCommuter.Level == 1 && rootInstance != null;
-        public ITopDownValueContext TopDownValueContext { get; }
+
+        public IInstanceLifeCycleListener LifecycleListener { get; set; }
+        public ITopDownValueContext TopDownValueContext => valueContext.TopDownValueContext;
 
         public object Result { get; set; }
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
@@ -63,13 +64,13 @@ namespace OmniXaml.ObjectAssembler
                     command = new StartMemberCommand(StateCommuter, GetActualMemberFromMemberSpecifiedInInstruction(instruction.Member));
                     break;
                 case InstructionType.Value:
-                    command = new ValueCommand(StateCommuter, this.TypeSource, TopDownValueContext, (string)instruction.Value);
+                    command = new ValueCommand(StateCommuter, valueContext, (string) instruction.Value);
                     break;
                 case InstructionType.EndObject:
                     command = new EndObjectCommand(StateCommuter, stateCommuter => Result = stateCommuter.Current.Instance);
                     break;
                 case InstructionType.EndMember:
-                    command = new EndMemberCommand(TypeSource, StateCommuter);
+                    command = new EndMemberCommand(TypeSource, StateCommuter, valueContext);
                     break;
                 case InstructionType.GetObject:
                     command = new GetObjectCommand(StateCommuter);

@@ -6,7 +6,7 @@
     {
         protected GivenAXmlLoader()
         {
-            Loader = new XmlLoader(new DummyParserFactory(TypeRuntimeTypeSource));
+            Loader = new XmlLoader(new DummyParserFactory(RuntimeTypeSource));
         }
 
         protected XmlLoader Loader { get; }

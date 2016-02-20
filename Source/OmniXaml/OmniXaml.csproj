@@ -88,7 +88,6 @@
     <Compile Include="ObjectAssembler\Commands\StartObjectCommand.cs" />
     <Compile Include="ObjectAssembler\ObjectAssembler.cs" />
     <Compile Include="ObjectAssembler\Commands\ValueCommand.cs" />
-    <Compile Include="ObjectAssembler\ValuePipeline.cs" />
     <Compile Include="ObjectAssembler\ValueProcessingMode.cs" />
     <Compile Include="Parsers\IParser.cs" />
     <Compile Include="Parsers\ProtoParser\IXmlReader.cs" />
@@ -100,8 +99,8 @@
     <Compile Include="Parsers\Parser\OrderAwareInstructionParser.cs" />
     <Compile Include="MemberDependencyNodeSorter.cs" />
     <Compile Include="TypeConversion\BuiltInConverters\TypeTypeConverter.cs" />
-    <Compile Include="TypeConversion\ITypeConverterContext.cs" />
-    <Compile Include="TypeConversion\TypeConverterContext.cs" />
+    <Compile Include="TypeConversion\IValueContext.cs" />
+    <Compile Include="TypeConversion\ValueContext.cs" />
     <Compile Include="TypeFactory.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="IDeferredLoader.cs" />
@@ -151,6 +150,7 @@
     <Compile Include="TypeFeatureProvider.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="Typing\AttachableMember.cs" />
+    <Compile Include="Typing\CommonValueConversion.cs" />
     <Compile Include="Typing\DependencyRegistration.cs" />
     <Compile Include="Typing\DependencyRegistrations.cs" />
     <Compile Include="Typing\Metadata.cs" />
