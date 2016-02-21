@@ -1,11 +1,15 @@
+Get the latest nighly NuGet packages with this NuGet feed! https://www.myget.org/F/omnixaml/api/v2
+
 # OmniXAML 
 ## The Cross-platform XAML Framework.
 
 [![Join the chat at https://gitter.im/SuperJMN/OmniXAML](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/SuperJMN/OmniXAML?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build status](https://ci.appveyor.com/api/projects/status/yyryrdbik5snckqh?svg=true)](https://ci.appveyor.com/project/SuperJMN/omnixaml)
 
 *I know you need it, I know you want it. I know you XAML!*
 
 ![Sample](https://cloud.githubusercontent.com/assets/3109851/8272107/1af21840-1837-11e5-85d5-e61c7c8e9679.png "Test Application")
+
 
 **OmniXAML is a library that allows you interpret XAML with ease. You can read XAML and get the object it represents, like a Window in WPF, a document, a diagram or whatever object you can describe.**
 
@@ -60,3 +64,4 @@ foreach (var thing in life)
    world.Shout(string.Format("XAML is the best language to describe {0}", thing);
 }
 ```
+
