@@ -1,30 +1,28 @@
 ﻿namespace Glass.Tests
 {
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class AutoKeyDictionaryTests
     {
-        [TestMethod]
+        [Fact]
         public void IndexerTestKeyExist()
         {
             var sut = new AutoKeyDictionary<int, string>(i => i + 1, i => i < 3);
             var value = "Pepito";
             sut.Add(2, value);
             var result = sut[1];
-            Assert.AreEqual(value, result);
+            Assert.Equal(value, result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
+        [Fact]
         public void IndexerTestKeyDoesNotExist()
         {
             var sut = new AutoKeyDictionary<int?, string>(i => i + 1, i => i < 2);
-            var result = sut[1];
+            Assert.Throws<KeyNotFoundException>(() => sut[1]);
         }
 
-        [TestMethod]
+        [Fact]
         public void TryGetTestKeyExist()
         {
             var sut = new AutoKeyDictionary<int, string>(i => i + 1, i => i < 3);
@@ -32,7 +30,7 @@
             sut.Add(2, expected);
             string actual;
             var result = sut.TryGetValue(1, out actual);
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

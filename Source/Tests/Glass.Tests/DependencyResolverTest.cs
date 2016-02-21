@@ -4,12 +4,11 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class DependencyResolverTest
     {
-        [TestMethod]
+        [Fact]
         public void SortTest()
         {
             var a = new Node("A");
@@ -25,10 +24,10 @@
             var expected = new List<Node> { d, e, c, b, a };
 
             var actual = DependencySorter.SortDependencies(new Collection<Node> { a, b, c, d, e }).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleTest()
         {
             var prop = new Node("Property");
@@ -39,10 +38,10 @@
             var expected = new List<Node> { prop, val };
 
             var actual = DependencySorter.SortDependencies(new Collection<Node> { prop, val }).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void AlreadySorted()
         {
             var a = new Node("A");
@@ -60,10 +59,10 @@
             var expected = new List<Node> { a, b, c, d, e };
 
             var actual = DependencySorter.SortDependencies(new Collection<Node> { a, b, c, d, e }).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void PartiallySorted()
         {
             var a = new Node("A");
@@ -81,11 +80,10 @@
             var expected = new List<Node> { a, b, c, e, d };
 
             var actual = DependencySorter.SortDependencies(new Collection<Node> { a, b, c, d, e }).ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void CircularDependency()
         {
             var a = new Node("A");
@@ -99,7 +97,7 @@
             c.Dependencies = new Collection<Node> { d, e };
             e.Dependencies = new Collection<Node> { a };
 
-            DependencySorter.SortDependencies(new Collection<Node> { a, b, c, d, e });
+            Assert.Throws<InvalidOperationException>(() => DependencySorter.SortDependencies(new Collection<Node> { a, b, c, d, e }));
         }
     }
 }

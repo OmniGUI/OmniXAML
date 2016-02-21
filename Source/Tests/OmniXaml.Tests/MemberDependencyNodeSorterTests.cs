@@ -4,10 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Resources;
 
-    [TestClass]
     public class MemberDependencyNodeSorterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
@@ -18,7 +17,7 @@
             resources = new InstructionResources(this);
         }
 
-        [TestMethod]
+        [Fact]
         public void SortWholeStyle()
         {
             var input = resources.StyleUnsorted;
@@ -27,11 +26,11 @@
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.StyleSorted;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void SortSetter()
         {
             var input = resources.SetterUnsorted;
@@ -40,10 +39,10 @@
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.SetterSorted;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void SortComboBox()
         {
             var input = resources.ComboBoxUnsorted;
@@ -52,10 +51,10 @@
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ComboBoxSorted;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void SortTwoComboBoxes()
         {
             var input = resources.TwoComboBoxesUnsorted;
@@ -64,10 +63,10 @@
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.TwoComboBoxesSorted;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void SortMarkupExtension()
         {
             var input = resources.ListBoxSortedWithExtension;
@@ -76,7 +75,7 @@
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ListBoxSortedWithExtension;
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
     }
 

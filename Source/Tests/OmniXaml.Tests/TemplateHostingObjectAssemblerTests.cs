@@ -5,14 +5,14 @@
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using ObjectAssembler;
     using TypeConversion;
+    using System.Collections.Generic;
 
-    [TestClass]
     public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        [TestMethod]
+        [Fact]
         public void SimpleTest()
         {
             var input = new Collection<Instruction>
@@ -44,14 +44,14 @@
             }
 
             var actualNodes = sut.NodeList;
-            var expectedInstructions = new Collection<Instruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.StartObject<Grid>(),
                 X.EndObject(),                
-            };
+            }.AsReadOnly();
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
-            Assert.IsNotNull(((Item) sut.Result).Template.Content);
+            Assert.Equal(expectedInstructions, actualNodes);
+            Assert.NotNull(((Item) sut.Result).Template.Content);
         }
     }    
 }

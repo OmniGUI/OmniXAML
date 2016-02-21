@@ -5,14 +5,13 @@
     using System.Linq;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using OmniXaml.Parsers.MarkupExtensions;
     using Resources;
 
-    [TestClass]
     public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {     
-        [TestMethod]
+        [Fact]
         public void NameOnly()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
@@ -24,10 +23,10 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void NameAndAttribute()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
@@ -43,10 +42,10 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void NameAndTwoAttributes()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection
@@ -69,10 +68,10 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void PositionalOption()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection
@@ -91,10 +90,10 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ComposedExtensionTemplateBindingWithConverter()
         {
             var tree = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
@@ -117,7 +116,7 @@
                 X.EndObject(),
             };
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
     }    
 }

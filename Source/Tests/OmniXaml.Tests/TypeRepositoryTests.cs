@@ -3,11 +3,10 @@
     using Builder;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Moq;
     using Typing;
 
-    [TestClass]
     public class TypeRepositoryTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly Mock<INamespaceRegistry> nsRegistryMock;
@@ -28,46 +27,41 @@
 
             nsRegistryMock.Setup(registry => registry.GetNamespace("clr-namespace:DummyNamespace;Assembly=DummyAssembly"))
                 .Returns(new ClrNamespace(type.Assembly, type.Namespace));
-        }
 
-        [TestInitialize]
-        public void Initialize()
-        {
             sut = new TypeRepository(nsRegistryMock.Object, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
         }
 
-        [TestMethod]
+        [Fact]
         public void GetWithFullAddressReturnsCorrectType()
         {          
             var xamlType = sut.GetByFullAddress(new XamlTypeName("root", "DummyClass"));
 
-            Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
+            Assert.Equal(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetWithFullAddressOfClrNamespaceReturnsTheCorrectType()
         {
             var xamlType = sut.GetByFullAddress(new XamlTypeName("clr-namespace:DummyNamespace;Assembly=DummyAssembly", "DummyClass"));
 
-            Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
+            Assert.Equal(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetByQualifiedName_ForTypeInDefaultNamespace()
         {
             sut = new TypeRepository(RuntimeTypeSource, new TypeFactoryDummy(), new TypeFeatureProviderDummy());
 
             var xamlType = sut.GetByQualifiedName("DummyClass");
 
-            Assert.AreEqual(xamlType.UnderlyingType, typeof(DummyClass));
+            Assert.Equal(xamlType.UnderlyingType, typeof(DummyClass));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotFoundException))]
+        [Fact]
         public void FullAddressOfUnknownThrowNotFound()
         {
             const string unreachableTypeName = "UnreachableType";
-            sut.GetByFullAddress(new XamlTypeName("root", unreachableTypeName));
+            Assert.Throws<TypeNotFoundException>(() => sut.GetByFullAddress(new XamlTypeName("root", unreachableTypeName)));
        }     
     }
 
@@ -78,7 +72,7 @@
             return new TypeFeatureProvider(null);
         }
 
-        [TestMethod]
+        [Fact]
         public void DependsOnRegister()
         {
             var sut = CreateSut();
@@ -87,10 +81,10 @@
             TypeRepositoryMixin.RegisterMetadata(sut, expectedMetadata);
 
             var metadata = sut.GetMetadata<DummyClass>();
-            Assert.AreEqual(expectedMetadata.AsNonGeneric(), metadata);
+            Assert.Equal(expectedMetadata.AsNonGeneric(), metadata);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetMetadata()
         {
             var sut = CreateSut();
@@ -100,10 +94,10 @@
             
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected.AsNonGeneric(), actual);
+            Assert.Equal(expected.AsNonGeneric(), actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetMetadataOfSubClass_ReturnsPreviousParentMetadata()
         {
             var sut = CreateSut();
@@ -112,10 +106,10 @@
             sut.RegisterMetadata(expected);
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected.AsNonGeneric(), actual);
+            Assert.Equal(expected.AsNonGeneric(), actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenMetadataDefinitionsForBothClassAndSubclass_GetMetadataOfSubClass_ReturnsItsOwnMetadata()
         {
             var sut = CreateSut();
@@ -125,10 +119,10 @@
             sut.RegisterMetadata(new GenericMetadata<DummyObject>());
             var actual = sut.GetMetadata<DummyClass>();
 
-            Assert.AreEqual(expected.AsNonGeneric(), actual);
+            Assert.Equal(expected.AsNonGeneric(), actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenMetadataDefinitionsForParentAndGrandParent_GetMetadataOfChild_ReturnsParentMetadata()
         {
             var sut = CreateSut();
@@ -139,7 +133,7 @@
 
             var actual = sut.GetMetadata<DummyChild>();
 
-            Assert.AreEqual(expected.AsNonGeneric(), actual);
+            Assert.Equal(expected.AsNonGeneric(), actual);
         }
     }
 }

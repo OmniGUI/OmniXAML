@@ -6,18 +6,16 @@
     using System.Reflection;
     using Builder;
     using Classes;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Typing;
 
-    [TestClass]
     public class NamespaceRegistryTests
     {
         private NamespaceRegistry registry;
         private Type type;
         private string clrNamespace;
 
-        [TestInitialize]
-        public void Initialize()
+        public NamespaceRegistryTests()
         {
             type = typeof(DummyClass);
             registry = new NamespaceRegistry();
@@ -29,40 +27,40 @@
                     .With(new[] { Route.Assembly(type.Assembly).WithNamespaces(new[] { type.Namespace }) }));
         }
 
-        [TestMethod]
+        [Fact]
         public void RegisterPrefixTest()
         {
-            CollectionAssert.AreEqual(
+            Assert.Equal(
                 registry.RegisteredPrefixes.ToList(),
                 new Collection<PrefixRegistration> {new PrefixRegistration("my", "target"), new PrefixRegistration("clr", clrNamespace)});
         }
 
-        [TestMethod]
+        [Fact]
         public void GetClrNsByPrefix()
         {
             var clrNs = registry.GetClrNamespaceByPrefix("clr");
             var expected = new ClrNamespace(type.GetTypeInfo().Assembly, type.Namespace);
-            Assert.AreEqual(expected, clrNs);            
+            Assert.Equal(expected, clrNs);            
         }
 
-        [TestMethod]
+        [Fact]
         public void GetXamlNamespaceOfNotRegisteredPrefix()
         {
-            Assert.IsNull(registry.GetXamlNamespace("unknown_namespace"));
+            Assert.Null(registry.GetXamlNamespace("unknown_namespace"));
         }
 
-        [TestMethod]
+        [Fact]
         public void GetNamespaceByPrefix()
         {
             var ns = registry.GetXamlNamespaceByPrefix("my");
-            Assert.AreEqual("target", ns.Name);
+            Assert.Equal("target", ns.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetNamespace()
         {            
             var ns = registry.GetXamlNamespace("target");
-            Assert.AreEqual("target", ns.Name);
+            Assert.Equal("target", ns.Name);
         }
     }
 }

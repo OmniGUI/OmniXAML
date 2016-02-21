@@ -3,92 +3,91 @@
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Media;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Resources = Xaml.Tests.Resources.Wpf;
 
-    [TestClass]
     public class LoadingTests : GivenAXamlXmlLoader
     {
-        [TestMethod]
+        [StaFact]
         public void Window()
         {
             var windowType = typeof(Window);           
 
             var actualInstance = LoadXaml(Resources.Window);
-            Assert.IsInstanceOfType(actualInstance, windowType);
+            Assert.IsType(windowType, actualInstance);
         }
 
-        [TestMethod]
+        [StaFact]
         public void WindowWithContent()
         {
             var windowType = typeof(Window);
             var textBlockType = typeof(TextBlock);
 
             var actualInstance = LoadXaml(Resources.WindowWithContent);
-            Assert.IsInstanceOfType(actualInstance, windowType);
+            Assert.IsType(windowType, actualInstance);
             var window = (Window)actualInstance;
-            Assert.IsInstanceOfType(window.Content, textBlockType);
+            Assert.IsType(textBlockType, window.Content);
             var textBlock = (TextBlock)window.Content;
-            Assert.AreEqual("Saludos cordiales!", textBlock.Text);
+            Assert.Equal("Saludos cordiales!", textBlock.Text);
         }
 
-        [TestMethod]
+        [StaFact]
         public void DataTemplate()
         {
             var visualTree = LoadXaml(Resources.DataTemplate);            
         }
 
-        [TestMethod]
+        [StaFact]
         public void ShowCase()
         {
             var visualTree = LoadXaml(Resources.ShowCase);
         }
 
-        [TestMethod]
-
+        [StaFact]
         public void MicroShowCase()
         {
             var visualTree = LoadXaml(Resources.MicroShowCase);
         }
 
-        [TestMethod]
-
+        [StaFact]
         public void Stage1()
         {
             var visualTree = LoadXaml(Resources.Stage1);
         }
 
+        [StaFact]
         public void Stage2()
         {
             var visualTree = LoadXaml(Resources.Stage2);
         }
 
+        [StaFact]
         public void Stage3()
         {
             var visualTree = LoadXaml(Resources.Stage3);
         }
 
-        [TestMethod]
+        [StaFact]
         public void ColorResource()
         {
             var visualTree = (Window)LoadXaml(Resources.ColorResource);
             var color = (Color)visualTree.FindResource("color");
-            Assert.AreEqual(0xff, color.A);
-            Assert.AreEqual(0x80, color.R);
-            Assert.AreEqual(0x80, color.G);
-            Assert.AreEqual(0x80, color.B);
+            Assert.Equal(0xff, color.A);
+            Assert.Equal(0x80, color.R);
+            Assert.Equal(0x80, color.G);
+            Assert.Equal(0x80, color.B);
         }
 
-        [TestMethod]
+        [StaFact]
         public void SolidColorBrushResource()
         {
             var visualTree = (Window)LoadXaml(Resources.SolidColorBrushResource);
             var brush = (SolidColorBrush)visualTree.FindResource("brush");
             var color = brush.Color;
-            Assert.AreEqual(0xff, color.A);
-            Assert.AreEqual(0x80, color.R);
-            Assert.AreEqual(0x80, color.G);
-            Assert.AreEqual(0x80, color.B);
+            Assert.Equal(0xff, color.A);
+            Assert.Equal(0x80, color.R);
+            Assert.Equal(0x80, color.G);
+            Assert.Equal(0x80, color.B);
         }
     }
 }
