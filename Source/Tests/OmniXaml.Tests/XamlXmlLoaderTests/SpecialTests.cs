@@ -2,11 +2,11 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
     public abstract class SpecialTests : GivenARuntimeTypeSourceNetCore
     {
-        [TestMethod]
+        [Fact]
         public void LoadWithRootInstance()
         {
             var dummy = new DummyClass
@@ -19,9 +19,9 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
 
             var actual = loader.FromString("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
 
-            Assert.IsInstanceOfType(actual, dummy.GetType());
-            Assert.AreEqual("Value", ((DummyClass)actual).SampleProperty);
-            Assert.AreEqual("Other value", ((DummyClass)actual).AnotherProperty);
+            Assert.IsType(dummy.GetType(), actual);
+            Assert.Equal("Value", ((DummyClass)actual).SampleProperty);
+            Assert.Equal("Other value", ((DummyClass)actual).AnotherProperty);
         }
     }
 }

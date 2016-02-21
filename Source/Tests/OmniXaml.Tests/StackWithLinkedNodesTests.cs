@@ -17,7 +17,7 @@
         {
             var sut = CreateSut();        
             sut.Push(1);
-            Xunit.Assert.Equal(1, sut.Current.Value);
+            Assert.Equal(1, sut.Current.Value);
         }
 
         [Fact]

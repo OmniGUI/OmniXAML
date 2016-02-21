@@ -5,13 +5,12 @@
     using System.Linq;
     using System.Xml;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
 
-    [TestClass]
     public class FromXamlToInstructions : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly InstructionResources source;
@@ -21,164 +20,163 @@
             source = new InstructionResources(this);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof (XmlException))]
+        [Fact]
         public void EmptyString()
         {
-            ExtractNodesFromPullParser(string.Empty);
+            Assert.Throws<XmlException>(() => ExtractNodesFromPullParser(string.Empty));
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleInstance()
         {
             var expectedInstructions = source.SingleInstance;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.SingleInstance);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void RootNamespace()
         {
             var expectedInstructions = source.SingleInstance;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.RootNamespace);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void InstanceWithStringPropertyAndNsDeclaration()
         {
             var expectedInstructions = source.ObjectWithMember;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.StringProperty);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void InstanceWithChild()
         {
             var expectedInstructions = source.InstanceWithChild;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.InstanceWithChild);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void DifferentNamespaces()
         {
             var expectedInstructions = source.DifferentNamespaces;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.DifferentNamespaces);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
         
-        [TestMethod]
+        [Fact]
         public void DifferentNamespacesAndMoreThanOneProperty()
         {
             var expectedInstructions = source.DifferentNamespacesAndMoreThanOneProperty;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.DifferentNamespacesAndMoreThanOneProperty);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ClassWithInnerCollection()
         {
             var expectedInstructions = source.CollectionWithOneItem;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.ClassWithInnerCollection);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionWithMoreThanOneItem()
         {
             var expectedInstructions = source.CollectionWithMoreThanOneItem;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.CollectionWithMoreThanOneItem);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void CollapsedTagWithProperty()
         {
             var expectedInstructions = source.CollapsedTagWithProperty;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.CollapsedTagWithProperty);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void CollectionWithClosedItemAndProperty()
         {
             var expectedInstructions = source.CollectionWithOneItemAndAMember;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.CollectionWithClosedItemAndProperty);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleExtension()
         {
             var expectedInstructions = source.SimpleExtension;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.SimpleExtension);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleExtensionWithOneAssignment()
         {
             var expectedInstructions = source.SimpleExtensionWithOneAssignment;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.SimpleExtensionWithOneAssignment);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyForCollectionOneElement()
         {
             var expectedInstructions = source.ContentPropertyForCollectionOneElement;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.ContentPropertyForCollectionOneElement);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyForCollectionMoreThanOneElement()
         {
             var expectedInstructions = source.ContentPropertyForCollectionMoreThanOneElement;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.ContentPropertyForCollectionMoreThanOneElement);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyForSingleProperty()
         {
             var expectedInstructions = source.ContentPropertyForSingleProperty;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.ContentPropertyForSingleMember);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
         private ICollection<Instruction> ExtractNodesFromPullParser(string xml)
@@ -192,14 +190,14 @@
             }
         }
 
-        [TestMethod]
+        [Fact]
         public void KeyDirective()
         {
             var expectedInstructions = source.KeyDirective2;
 
             var actualNodes = ExtractNodesFromPullParser(Dummy.KeyDirective);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
     }
 }

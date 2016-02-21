@@ -3,13 +3,12 @@
     using System.Collections.ObjectModel;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Visualization;
 
-    [TestClass]
     public class VisualizationTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {     
-        [TestMethod]
+        [Fact]
         public void ConvertToTags()
         {
             var col = new Collection<Instruction>()
@@ -26,7 +25,7 @@
             var result = NodeVisualizer.ToTags(col);
         }
 
-        [TestMethod]
+        [Fact]
         public void ConvertToNodes()
         {
             var col = new Collection<Instruction>()

@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Services.DotNetFx.Tests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using OmniXaml.Tests.Classes;
     using OmniXaml.Tests.Classes.WpfLikeModel;
     using OmniXaml.Tests.Common.DotNetFx;
@@ -9,19 +9,16 @@
     using Services.DotNetFx;
     using Services.Tests;
 
-    [TestClass]
-    [Ignore]
     public class InflatableFactoryTest
     {
-        [TestMethod]
-        
+        [Fact(Skip = "Ignore")]
         public void Window()
         {
             var sut = CreateSut();
 
             var myWindow = sut.Create<MyWindow>();
-            Assert.IsInstanceOfType(myWindow, typeof (MyWindow));
-            Assert.AreEqual(myWindow.Title, "Hello World :)");
+            Assert.IsType(typeof (MyWindow), myWindow);
+            Assert.Equal(myWindow.Title, "Hello World :)");
         }
 
         private static AutoInflatingTypeFactory CreateSut()
@@ -34,30 +31,30 @@
             return inflatableTypeFactory;
         }
 
-        [TestMethod]
+        [Fact(Skip = "Ignore")]
         public void UserControl()
         {
             var sut = CreateSut();
 
             var myWindow = sut.Create<WindowWithUserControl>();
-            Assert.IsInstanceOfType(myWindow, typeof (WindowWithUserControl));
-            Assert.AreEqual(myWindow.Title, "Hello World :)");
-            Assert.IsInstanceOfType(myWindow.Content, typeof (UserControl));
-            Assert.AreEqual("It's-a me, Mario", ((UserControl) myWindow.Content).Property);
+            Assert.IsType(typeof (WindowWithUserControl), myWindow);
+            Assert.Equal(myWindow.Title, "Hello World :)");
+            Assert.IsType(typeof (UserControl), myWindow.Content);
+            Assert.Equal("It's-a me, Mario", ((UserControl) myWindow.Content).Property);
         }
 
-        [TestMethod]
+        [Fact(Skip = "Ignore")]
         public void UserControlLoadingWithUri()
         {
             var sut = CreateSut();
 
             var myWindow = (Window) sut.Create(new Uri("WpfLikeModel/WindowWithUserControl.xaml", UriKind.Relative));
-            Assert.IsInstanceOfType(myWindow, typeof (WindowWithUserControl));
-            Assert.AreEqual(myWindow.Title, "Hello World :)");
-            Assert.IsInstanceOfType(myWindow.Content, typeof (UserControl));
+            Assert.IsType(typeof (WindowWithUserControl), myWindow);
+            Assert.Equal(myWindow.Title, "Hello World :)");
+            Assert.IsType(typeof (UserControl), myWindow.Content);
             var userControl = (UserControl) myWindow.Content;
-            Assert.AreEqual("It's-a me, Mario", userControl.Property);
-            Assert.IsInstanceOfType(userControl.Content, typeof (ChildClass));
+            Assert.Equal("It's-a me, Mario", userControl.Property);
+            Assert.IsType(typeof (ChildClass), userControl.Content);
         }
     }
 }

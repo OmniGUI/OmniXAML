@@ -5,14 +5,11 @@
     using Classes;
     using Classes.WpfLikeModel;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using ObjectAssembler;
     using Resources;
     using TypeConversion;
-    using Xunit;
-    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
-    [TestClass]
     public class ObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private InstructionResources source;
@@ -21,11 +18,6 @@
         public ObjectAssemblerTests()
         {
             source = new InstructionResources(this);
-        }
-
-        [TestInitialize]
-        public void Initialize()
-        {
             sut = CreateSut();
         }
 
@@ -47,17 +39,17 @@
             return assembler;
         }
 
-        [TestMethod]
+        [Fact]
         public void OneObject()
         {
             sut.Process(source.OneObject);
 
             var result = sut.Result;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
+            Assert.IsType(typeof(DummyClass), result);
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectWithMember()
         {
             sut.Process(source.ObjectWithMember);
@@ -65,8 +57,8 @@
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual("Property!", property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal("Property!", property);
         }
 
         [Fact]
@@ -78,8 +70,8 @@
             var result = sut.Result;
             var property = ((DummyClass)result).EnumProperty;
 
-            Xunit.Assert.IsType<DummyClass>(result);
-            Xunit.Assert.Equal(SomeEnum.One, property);
+            Assert.IsType<DummyClass>(result);
+            Assert.Equal(SomeEnum.One, property);
         }
 
         [Fact]
@@ -91,11 +83,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).EnumProperty;
 
-            Xunit.Assert.IsType<DummyClass>(result);
-            Xunit.Assert.Equal(SomeEnum.One, property);
+            Assert.IsType<DummyClass>(result);
+            Assert.Equal(SomeEnum.One, property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectWithTwoMembers()
         {
             sut.Process(source.ObjectWithTwoMembers);
@@ -104,12 +96,12 @@
             var property1 = ((DummyClass)result).SampleProperty;
             var property2 = ((DummyClass)result).AnotherProperty;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual("Property!", property1);
-            Assert.AreEqual("Another!", property2);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal("Property!", property1);
+            Assert.Equal("Another!", property2);
         }
 
-        [TestMethod]
+        [Fact]
         public void ObjectWithChild()
         {
             sut.Process(source.ObjectWithChild);
@@ -117,11 +109,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).Child;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.IsInstanceOfType(property, typeof(ChildClass));
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.IsType(typeof(ChildClass), property);
         }
 
-        [TestMethod]
+        [Fact]
         public void WithCollection()
         {
             sut.Process(source.CollectionWithMoreThanOneItem);
@@ -129,12 +121,12 @@
             var result = sut.Result;
             var children = ((DummyClass)result).Items;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual(3, children.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal(3, children.Count);
+            Assert.All(children, (child) => Assert.IsType(typeof(Item), child));
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionWithInnerCollection()
         {
             sut.Process(source.CollectionWithInnerCollection);
@@ -142,15 +134,15 @@
             var result = sut.Result;
             var children = ((DummyClass)result).Items;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual(3, children.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal(3, children.Count);
+            Assert.All(children, (child) => Assert.IsType(typeof(Item), child));
             var innerCollection = children[0].Children;
-            Assert.AreEqual(2, innerCollection.Count);
-            CollectionAssert.AllItemsAreInstancesOfType(innerCollection, typeof(Item));
+            Assert.Equal(2, innerCollection.Count);
+            Assert.All(innerCollection, (child) => Assert.IsType(typeof(Item), child));
         }
 
-        [TestMethod]
+        [Fact]
         public void WithCollectionAndInnerAttribute()
         {
             sut.Process(source.WithCollectionAndInnerAttribute);
@@ -160,12 +152,12 @@
             var firstChild = children.First();
             var property = firstChild.Title;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            CollectionAssert.AllItemsAreInstancesOfType(children, typeof(Item));
-            Assert.AreEqual("SomeText", property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.All(children, (child) => Assert.IsType(typeof(Item), child));
+            Assert.Equal("SomeText", property);
         }
 
-        [TestMethod]
+        [Fact]
         public void MemberWithIncompatibleTypes()
         {
             sut.Process(source.MemberWithIncompatibleTypes);
@@ -173,11 +165,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).Number;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual(12, property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal(12, property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionWithArgument()
         {
             sut.Process(source.ExtensionWithArgument);
@@ -185,11 +177,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual("Option", property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal("Option", property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionWithTwoArguments()
         {
             sut.Process(source.ExtensionWithTwoArguments);
@@ -197,11 +189,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual("OneSecond", property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal("OneSecond", property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionThatReturnsNull()
         {
             sut.Process(source.ExtensionThatReturnsNull);
@@ -209,11 +201,11 @@
             var result = sut.Result;
             var property = ((DummyClass)result).SampleProperty;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.IsNull(property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Null(property);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionWithNonStringArgument()
         {
             sut.Process(source.ExtensionWithNonStringArgument);
@@ -221,22 +213,22 @@
             var result = sut.Result;
             var property = ((DummyClass)result).Number;
 
-            Assert.IsInstanceOfType(result, typeof(DummyClass));
-            Assert.AreEqual(123, property);
+            Assert.IsType(typeof(DummyClass), result);
+            Assert.Equal(123, property);
         }
 
-        [TestMethod]
+        [Fact]
         public void KeyDirective()
         {
             sut.Process(source.KeyDirective);
 
             var actual = sut.Result;
-            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            Assert.IsType(typeof(DummyClass), actual);
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
-            Assert.IsTrue(dictionary.Count > 0);
+            Assert.True(dictionary.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
@@ -244,12 +236,12 @@
             sut.Process(source.GetString(sysNs));
 
             var actual = sut.Result;
-            Assert.IsInstanceOfType(actual, typeof(string));
-            Assert.AreEqual("Text", actual);
+            Assert.IsType(typeof(string), actual);
+            Assert.Equal("Text", actual);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void TopDownContainsOuterObject()
         {
             sut.Process(source.InstanceWithChild);
@@ -257,51 +249,49 @@
             var dummyClassXamlType = RuntimeTypeSource.GetByType(typeof(DummyClass));
             var lastInstance = sut.TopDownValueContext.GetLastInstance(dummyClassXamlType);
 
-            Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
+            Assert.IsType(typeof(DummyClass), lastInstance);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ParseException))]
+        [Fact]
         public void AttemptToAssignItemsToNonCollectionMember()
         {
-            sut.Process(source.AttemptToAssignItemsToNonCollectionMember);
+            Assert.Throws<ParseException>(() => sut.Process(source.AttemptToAssignItemsToNonCollectionMember));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ParseException))]
+        [Fact]
         public void TwoChildrenWithNoRoot_ShouldThrow()
         {
-            sut.Process(source.TwoRoots);
+            Assert.Throws<ParseException>(() => sut.Process(source.TwoRoots));
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyShouldBeAssignedBeforeChildIsAssociatedToItsParent()
         {
             sut.Process(source.ParentShouldReceiveInitializedChild);
             var parent = (SpyingParent)sut.Result;
-            Assert.IsTrue(parent.ChildHadNamePriorToBeingAssigned);
+            Assert.True(parent.ChildHadNamePriorToBeingAssigned);
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedCollection()
         {
             sut.Process(source.MixedCollection);
             var result = sut.Result;
-            Assert.IsInstanceOfType(result, typeof(ArrayList));
+            Assert.IsType(typeof(ArrayList), result);
             var arrayList = (ArrayList)result;
-            Assert.IsTrue(arrayList.Count > 0);
+            Assert.True(arrayList.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedCollectionWithRootInstance()
         {
             var root = new ArrayList();
             var assembler = CreateSutForLoadingSpecificInstance(root);
             assembler.Process(source.MixedCollection);
             var result = assembler.Result;
-            Assert.IsInstanceOfType(result, typeof(ArrayList));
+            Assert.IsType(typeof(ArrayList), result);
             var arrayList = (ArrayList)result;
-            Assert.IsTrue(arrayList.Count > 0);
+            Assert.True(arrayList.Count > 0);
         }
 
         [Fact]
@@ -312,7 +302,7 @@
             sut.Process(source.RootInstanceWithAttachableMember);
             var result = sut.Result;
             var attachedProperty = Container.GetProperty(result);
-            Xunit.Assert.Equal("Value", attachedProperty);
+            Assert.Equal("Value", attachedProperty);
         }
 
         [Fact]
@@ -325,8 +315,8 @@
 
             var firstChild = items.First();
             var attachedProperty = Container.GetProperty(firstChild);
-            Xunit.Assert.Equal(2, items.Count);
-            Xunit.Assert.Equal("Value", attachedProperty);
+            Assert.Equal(2, items.Count);
+            Assert.Equal("Value", attachedProperty);
         }
 
         [Fact]
@@ -337,7 +327,7 @@
             var instance = sut.Result;
             var col = Container.GetCollection(instance);
 
-            Xunit.Assert.NotEmpty(col);
+            Assert.NotEmpty(col);
         }
 
         [Fact]
@@ -345,7 +335,7 @@
         {
             var sut = CreateSut();
             sut.Process(source.CustomCollection);
-            Xunit.Assert.NotEmpty((IEnumerable)sut.Result);
+            Assert.NotEmpty((IEnumerable)sut.Result);
         }
 
         [Fact]
@@ -354,7 +344,7 @@
             var sut = CreateSut();
             sut.Process(source.PureCollection);
             var actual = (ArrayList)sut.Result;
-            Xunit.Assert.NotEmpty(actual);
+            Assert.NotEmpty(actual);
         }
 
         [Fact]
@@ -366,7 +356,7 @@
 
             var customCollection = actual.Collection;
 
-            Xunit.Assert.NotEmpty(customCollection);
+            Assert.NotEmpty(customCollection);
         }
 
         [Fact]
@@ -378,7 +368,7 @@
 
             var customCollection = actual.Collection;
 
-            Xunit.Assert.NotEmpty(customCollection);
+            Assert.NotEmpty(customCollection);
         }
 
         [Fact]
@@ -388,7 +378,7 @@
             sut.Process(source.ImplicitCollection);
             var actual = (RootObject)sut.Result;
 
-            Xunit.Assert.False(actual.CollectionWasReplaced);
+            Assert.False(actual.CollectionWasReplaced);
         }
 
         [Fact]
@@ -398,20 +388,20 @@
             sut.Process(source.ExplicitCollection);
             var actual = (RootObject)sut.Result;
 
-            Xunit.Assert.True(actual.CollectionWasReplaced);
+            Assert.True(actual.CollectionWasReplaced);
         }
 
-        [TestMethod]
+        [Fact]
         public void NamedObject_HasCorrectName()
         {
             sut.Process(source.NamedObject);
             var result = sut.Result;
             var tb = (TextBlock)result;
 
-            Assert.AreEqual("MyTextBlock", tb.Name);
+            Assert.Equal("MyTextBlock", tb.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedNamedObjects_HaveCorrectNames()
         {
             sut.Process(source.TwoNestedNamedObjects);
@@ -419,11 +409,11 @@
             var lbi = (ListBoxItem)result;
             var textBlock = (TextBlock)lbi.Content;
 
-            Assert.AreEqual("MyListBoxItem", lbi.Name);
-            Assert.AreEqual("MyTextBlock", textBlock.Name);
+            Assert.Equal("MyListBoxItem", lbi.Name);
+            Assert.Equal("MyTextBlock", textBlock.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void ListBoxWithItemAndTextBlockNoNames()
         {
             sut.Process(source.ListBoxWithItemAndTextBlockNoNames);
@@ -433,10 +423,10 @@
             var lvi = (ListBoxItem)lb.Items.First();
             var tb = lvi.Content;
 
-            Assert.IsInstanceOfType(tb, typeof(TextBlock));
+            Assert.IsType(typeof(TextBlock), tb);
         }
 
-        [TestMethod]
+        [Fact]
         public void ListBoxWithItemAndTextBlockWithNames_HaveCorrectNames()
         {
             sut.Process(source.ListBoxWithItemAndTextBlockWithNames);
@@ -446,28 +436,28 @@
             var lvi = (ListBoxItem)lb.Items.First();
             var tb = (TextBlock)lvi.Content;
 
-            Assert.AreEqual("MyListBox", lb.Name);
-            Assert.AreEqual("MyListBoxItem", lvi.Name);
-            Assert.AreEqual("MyTextBlock", tb.Name);
+            Assert.Equal("MyListBox", lb.Name);
+            Assert.Equal("MyListBoxItem", lvi.Name);
+            Assert.Equal("MyTextBlock", tb.Name);
         }
 
-        [TestMethod]
+        [Fact]
         public void DirectContentForOneToMany()
         {
             sut.Process(source.DirectContentForOneToMany);
         }
 
-        [TestMethod]
+        [Fact]
         public void CorrectInstanceSetupSequence()
         {
             var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
             sut.Process(source.InstanceWithChild);
 
             var listener = (TestListener)sut.LifecycleListener;
-            CollectionAssert.AreEqual(expectedSequence, listener.InvocationOrder);
+            Assert.Equal(expectedSequence.ToList().AsReadOnly(), listener.InvocationOrder);
         }
 
-        [TestMethod]
+        [Fact]
         public void MemberAfterInitalizationValue()
         {
             sut.Process(source.MemberAfterInitalizationValue);
@@ -476,8 +466,8 @@
             var str = root.Collection[0];
             var dummy = (DummyClass)root.Collection[1];
 
-            Assert.AreEqual("foo", str);
-            Assert.AreEqual(123, dummy.Number);
+            Assert.Equal("foo", str);
+            Assert.Equal(123, dummy.Number);
         }
     }
 }

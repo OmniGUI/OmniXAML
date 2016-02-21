@@ -5,10 +5,9 @@
     using Classes;
     using Classes.WpfLikeModel;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Resources;
 
-    [TestClass]
     public class LookaheadBufferTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly InstructionResources resources;
@@ -18,7 +17,7 @@
             resources = new InstructionResources(this);
         }
 
-        [TestMethod]
+        [Fact]
         public void LookAheadTest()
         {
             var look = new List<Instruction>
@@ -36,10 +35,10 @@
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
-            Assert.AreEqual(8, count);
+            Assert.Equal(8, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void LookAheadTestStartZero()
         {
             var instructions = new List<Instruction>();
@@ -47,10 +46,10 @@
             var enumerator = instructions.GetEnumerator();
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
-            Assert.AreEqual(0, count);
+            Assert.Equal(0, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void LookAheadTestStartMiniumLength()
         {
             var look = new List<Instruction>
@@ -62,10 +61,10 @@
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
-            Assert.AreEqual(2, count);
+            Assert.Equal(2, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void LookAheadTest10()
         {
             var look = new List<Instruction>
@@ -85,10 +84,10 @@
             var enumerator = look.GetEnumerator();
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
-            Assert.AreEqual(10, count);
+            Assert.Equal(10, count);
         }
 
-        [TestMethod]
+        [Fact]
         public void LookAheadTestWithGetObjectAndCollection()
         {
             var look = resources.ComboBoxUnsorted;
@@ -103,7 +102,7 @@
             enumerator.MoveNext();
             var count = LookaheadBuffer.GetUntilEndOfRoot(enumerator).Count();
 
-            Assert.AreEqual(expectedCount, count);
+            Assert.Equal(expectedCount, count);
         }
     }
 }

@@ -7,11 +7,13 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"        
         Title="{Binding Title}" Height="350" Width="525">
-    <Window.Resources>
-        <!--<Style x:Key="Style">
-            <Setter Value="12" Property="Margin"  />
-        </Style>-->
-    </Window.Resources>
+<Window.Resources>
+    <Style x:Key="Style">
+        <Setter Value="12" Property="Margin"  />
+    </Style>
+    <SolidColorBrush x:Key="RedBrush">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="GrayBrush">#ff808080</SolidColorBrush>
+</Window.Resources>
     <Grid>        
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -38,8 +40,8 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <TextBox Text="{Binding SelectedContact.Name}" />
-                <TextBox Grid.Row="1" Text="{Binding SelectedContact.Surname}" />
+                <TextBox Text="{Binding SelectedContact.Name}" Foreground="{StaticResource RedBrush}" />
+                <TextBox Grid.Row="1" Text="{Binding SelectedContact.Surname}" Foreground="{StaticResource GrayBrush}" />
                 <Image Margin="8"  Grid.Row="2"  Source="{Binding SelectedContact.Picture}" />
             </Grid>
         </GroupBox>

@@ -5,10 +5,9 @@
     using System.Linq;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using Resources;
 
-    [TestClass]
     public class InstructionTreeBuilderTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly InstructionResources source;
@@ -18,7 +17,7 @@
             source = new InstructionResources(this);
         }
 
-        [TestMethod]
+        [Fact]
         public void InstructionToNodeConversionWithLeadingAndTrailing()
         {
             var input = new List<Instruction>
@@ -38,10 +37,10 @@
                 }
             };
 
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void InstructionToNodeConversionWithLeadingBodyAndTrailing()
         {
             var input = new List<Instruction>
@@ -73,10 +72,10 @@
                 }
             };
 
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestReverseMembers()
         {
             var input = source.TestReverseMembers;
@@ -90,10 +89,10 @@
             var actualNodes = h.Children.SelectMany(node => node.Dump());
             var expectedInstructions = source.TestReverseMembersReverted;
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void TestReverseMembersWithCollection()
         {
             var input = source.TestReverseMembers;
@@ -107,10 +106,10 @@
             var actualNodes = h.Children.SelectMany(node => node.Dump());
             var expectedInstructions = source.TestReverseMembersReverted;
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void DependencySorting()
         {
             var input = source.TwoMembers;
@@ -124,11 +123,11 @@
             var actualNodes = h.Children.SelectMany(node => node.Dump());
             var expectedInstructions = source.TwoMembersReversed;
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
 
-        [TestMethod]
+        [Fact]
         public void GivenCollectionAndSimpleMember_AfterCreatingHierarchy_DumpReturnsTheOriginalInput()
         {
             var sut = new InstructionTreeBuilder();
@@ -137,7 +136,7 @@
 
             var nodes = instructionNodes.SelectMany(node => node.Dump()).ToList();
 
-            CollectionAssert.AreEqual(source.ComboBoxCollectionOnly.ToList(), nodes);
+            Assert.Equal(source.ComboBoxCollectionOnly.ToList(), nodes);
         }
     }
 }
