@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Common.DotNe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.DotNetFx.Tests", "Source\Tests\OmniXaml.Services.DotNetFx.Tests\OmniXaml.Services.DotNetFx.Tests.csproj", "{6DC9D410-E8CA-48A4-8725-697D75F33388}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample WPF App", "Source\Tests\TestApplications\TestApplication\Sample WPF App.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -121,6 +123,10 @@ Global
 		{6DC9D410-E8CA-48A4-8725-697D75F33388}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DC9D410-E8CA-48A4-8725-697D75F33388}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DC9D410-E8CA-48A4-8725-697D75F33388}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,5 +150,6 @@ Global
 		{CB1AE182-94D0-425D-BA64-E457378A96BE} = {1097E760-F02E-433D-ADE6-EC13F9CAEF91}
 		{35EBCD38-4ADA-4860-8F23-6D564C0E4C68} = {A3E121C9-F1A5-468B-940E-BF09C0414DB5}
 		{6DC9D410-E8CA-48A4-8725-697D75F33388} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
+		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D} = {1097E760-F02E-433D-ADE6-EC13F9CAEF91}
 	EndGlobalSection
 EndGlobal

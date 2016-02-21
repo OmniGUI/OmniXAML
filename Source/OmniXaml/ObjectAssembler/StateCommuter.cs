@@ -66,7 +66,13 @@ namespace OmniXaml.ObjectAssembler
         {
             var previousMember = (MutableMember) Previous.Member;
             object compatibleValue;
-            CommonValueConversion.TryConvert(Current.Instance, previousMember.XamlType, valueContext, out compatibleValue);
+
+            var success = CommonValueConversion.TryConvert(Current.Instance, previousMember.XamlType, valueContext, out compatibleValue);
+
+            if (!success)
+            {
+                compatibleValue = Current.Instance;
+            }
 
             previousMember.SetValue(Previous.Instance, compatibleValue, valueContext);
         }
@@ -95,13 +101,6 @@ namespace OmniXaml.ObjectAssembler
             {
                 MaterializeInstanceOfCurrentType();
             }
-
-            SaveCurrentInstanceToTopDownEnvironment();
-        }
-
-        private void SaveCurrentInstanceToTopDownEnvironment()
-        {
-            TopDownValueContext.SetInstanceValue(Current.XamlType, Current.Instance);
         }
 
         private void MaterializeInstanceOfCurrentType()

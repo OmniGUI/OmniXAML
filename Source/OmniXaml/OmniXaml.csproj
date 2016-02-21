@@ -53,6 +53,7 @@
     <Compile Include="ObjectAssembler\NullLifecycleListener.cs" />
     <Compile Include="ObjectAssembler\Settings.cs" />
     <Compile Include="ObjectAssembler\PreviousLevelWrapper.cs" />
+    <Compile Include="ObjectAssembler\StoredInstance.cs" />
     <Compile Include="ObjectAssembler\XamlSetValueEventArgs.cs" />
     <Compile Include="Attributes\ContentPropertyAttribute.cs" />
     <Compile Include="Attributes\XmlnsDefinitionAttribute.cs" />

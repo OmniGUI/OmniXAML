@@ -86,7 +86,6 @@
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
     <Compile Include="NameScopeTests.cs" />
-    <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="Resources\MarkupExtensionNodeResources.cs" />
     <Compile Include="Parsers\ProtoInstructionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\ProtoInstructionParserTests\PrefixTests.cs" />

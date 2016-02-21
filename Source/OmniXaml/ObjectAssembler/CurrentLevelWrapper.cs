@@ -30,6 +30,8 @@ namespace OmniXaml.ObjectAssembler
             }
         }
 
+        public XamlType InstanceXamlType => valueContext.TypeRepository.GetByType(Instance.GetType());
+
         public MemberBase Member
         {
             get { return level.Member; }
@@ -51,7 +53,17 @@ namespace OmniXaml.ObjectAssembler
         public object Instance
         {
             get { return level.Instance; }
-            set { level.Instance = value; }
+            set
+            {
+                level.Instance = value;
+
+                if (value!=null)
+                {
+                    var type = value.GetType();
+                    var xamlType = valueContext.TypeRepository.GetByType(type);
+                    valueContext.TopDownValueContext.Add(value, xamlType);
+                }
+            }
         }
 
         public XamlType XamlType

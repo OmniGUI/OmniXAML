@@ -4,7 +4,7 @@ namespace OmniXaml.ObjectAssembler.Commands
 
     public interface ITopDownValueContext
     {
-        void SetInstanceValue(XamlType xamlType, object instance);
+        void Add(object instance, XamlType xamlType);
         object GetLastInstance(XamlType xamlType);
     }
 }
