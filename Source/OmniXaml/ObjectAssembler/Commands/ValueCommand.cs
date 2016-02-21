@@ -1,24 +1,28 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using TypeConversion;
+    using Typing;
+
     public class ValueCommand : Command
     {
+        private readonly IValueContext valueContext;
         private readonly string value;
 
-        public ValueCommand(ObjectAssembler objectAssembler, ITopDownValueContext topDownValueContext, string value) : base(objectAssembler)
+        public ValueCommand(StateCommuter stateCommuter, IValueContext valueContext, string value) : base(stateCommuter)
         {
+            this.valueContext = valueContext;
             this.value = value;
-            ValuePipeLine = new ValuePipeline(objectAssembler.TypeContext, topDownValueContext);
         }
-
-        private ValuePipeline ValuePipeLine { get; }
 
         public override void Execute()
         {
             switch (StateCommuter.ValueProcessingMode)
             {
                 case ValueProcessingMode.InitializationValue:
-                    StateCommuter.Current.Instance = ValuePipeLine.ConvertValueIfNecessary(value, StateCommuter.Current.XamlType);
-            
+                    object compatibleValue;
+                    CommonValueConversion.TryConvert(value, StateCommuter.Current.XamlType, valueContext, out compatibleValue);
+                    StateCommuter.Current.Instance = compatibleValue;
+                    StateCommuter.ValueProcessingMode = ValueProcessingMode.AssignToMember;
                     break;
 
                 case ValueProcessingMode.Key:
@@ -43,7 +47,7 @@ namespace OmniXaml.ObjectAssembler.Commands
                     break;
 
                 default:
-                    throw new XamlParseException(
+                    throw new ParseException(
                         "Unexpected mode was set trying to process a Value XAML instruction. " +
                         $"We found \"{StateCommuter.ValueProcessingMode}\") and it cannot be handled.");
             }                                    

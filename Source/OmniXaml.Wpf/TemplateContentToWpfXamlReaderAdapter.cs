@@ -10,7 +10,7 @@ namespace OmniXaml.Wpf
 
     public class TemplateContentToWpfXamlReaderAdapter : XamlReader, IXamlIndexingReader
     {
-        private readonly IEnumerator<XamlInstruction> nodeStream;
+        private readonly IEnumerator<Instruction> nodeStream;
         private readonly TemplateContent templateContent;
         private bool hasReadSuccess;
 
@@ -21,7 +21,7 @@ namespace OmniXaml.Wpf
             this.templateContent = templateContent;
             SchemaContext = xamlSchemaContext;
 
-            var hydrator = new Hydrator(autoInflatingTypeFactory.Inflatables, templateContent.TypeContext);
+            var hydrator = new Hydrator(autoInflatingTypeFactory.Inflatables, templateContent.TypeSource);
             var hydratedNodes = hydrator.Hydrate(templateContent.Nodes);
 
             nodeStream = hydratedNodes.GetEnumerator();
@@ -31,7 +31,7 @@ namespace OmniXaml.Wpf
         public override bool IsEof => !hasReadSuccess;
         public override SystemXamlNsDeclaration Namespace => XamlTypeConversion.ToWpf(Current.NamespaceDeclaration);
         public override SystemXamlType Type => XamlTypeConversion.ToWpf(Current.XamlType, SchemaContext);
-        private XamlInstruction Current => nodeStream.Current;
+        private Instruction Current => nodeStream.Current;
         public override object Value => Current.Value;
         public override XamlMember Member => XamlTypeConversion.ToWpf(Current.Member, SchemaContext);
         public override XamlSchemaContext SchemaContext { get; }

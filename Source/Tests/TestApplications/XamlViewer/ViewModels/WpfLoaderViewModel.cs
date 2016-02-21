@@ -1,6 +1,5 @@
 ﻿namespace XamlViewer.ViewModels
 {
-    using System;
     using System.Collections;
     using System.Windows;
     using System.Windows.Input;
@@ -18,7 +17,7 @@
             IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(Dummy).Assembly, "Xaml.Tests.Resources.Wpf.resources");
             Snippets = snippetsProvider.Snippets;
             LoadCommand = new RelayCommand(o => LoadXamlForWpf(), o => Xaml != string.Empty);
-            WiringContext = new WpfWiringContext(new TypeFactory());
+            RuntimeTypeSource = new WpfRuntimeTypeSource();
         }
 
 
@@ -41,7 +40,7 @@
         {
             try
             {
-                var visualTree = new WpfXamlLoader().FromString(Xaml);
+                var visualTree = new WpfLoader().FromString(Xaml);
 
                 var window = GetVisualizerWindow(visualTree);
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -49,7 +48,7 @@
                 window.Show();
 
             }
-            catch (XamlLoadException e)
+            catch (LoadException e)
             {
                 ShowProblemLoadingError(e);
             }
@@ -67,7 +66,7 @@
             return window;
         }
 
-        private static void ShowProblemLoadingError(XamlLoadException e)
+        private static void ShowProblemLoadingError(LoadException e)
         {
             MessageBox.Show(
                 $"There has been a problem loading the XAML at line: {e.LineNumber} pos: {e.LinePosition}. Detailed exception: \n\nException:\n{e.ToString().GetFirstNChars(500)}",

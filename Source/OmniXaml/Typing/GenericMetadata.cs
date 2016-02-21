@@ -18,6 +18,14 @@ namespace OmniXaml.Typing
             return this;
         }
 
+        public GenericMetadata<T> WithContentProperty(Expression<Func<T, object>> nameOfPropertySelector)
+        {
+            ContentProperty = nameOfPropertySelector.GetFullPropertyName();
+            return this;
+        }
+
+        public string ContentProperty { get; set; }
+
         public GenericMetadata<T> WithRuntimeNameProperty(Expression<Func<T, object>> nameOfPropertySelector)
         {
             RuntimePropertyName = nameOfPropertySelector.GetFullPropertyName();

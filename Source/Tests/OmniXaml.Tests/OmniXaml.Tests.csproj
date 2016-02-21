@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\..\packages\xunit.runner.visualstudio.2.2.0-beta1-build1144\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\..\packages\xunit.runner.visualstudio.2.2.0-beta1-build1144\build\net20\xunit.runner.visualstudio.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -17,6 +18,8 @@
     <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,12 +40,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Moq, Version=4.2.1507.118, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Moq.4.2.1507.0118\lib\net40\Moq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sprache, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -55,16 +54,16 @@
       <HintPath>..\..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+    <Reference Include="xunit.assert, Version=2.2.0.3239, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.assert.2.2.0-beta1-build3239\lib\dotnet\xunit.assert.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+    <Reference Include="xunit.core, Version=2.2.0.3239, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.extensibility.core.2.2.0-beta1-build3239\lib\dotnet\xunit.core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+    <Reference Include="xunit.execution.desktop, Version=2.2.0.3239, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\xunit.extensibility.execution.2.2.0-beta1-build3239\lib\net45\xunit.execution.desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -83,41 +82,38 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BuiltInTypeConverterTests\IntTypeConverterTests.cs" />
-    <Compile Include="FeatureProviderBuilderTests.cs" />
+    <Compile Include="ConfiguredAssemblyWithNamespacesTests.cs" />
     <Compile Include="LookaheadBufferTests.cs" />
     <Compile Include="MetadataProvider.cs" />
     <Compile Include="NameScopeTests.cs" />
-    <Compile Include="ObjectAssemblerStateCommutationTests.cs" />
     <Compile Include="Resources\MarkupExtensionNodeResources.cs" />
-    <Compile Include="Parsers\XamlProtoInstructionParserTests\ParsingTests.cs" />
-    <Compile Include="Parsers\XamlProtoInstructionParserTests\PrefixTests.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\MemberNodesBlock.cs" />
+    <Compile Include="Parsers\ProtoInstructionParserTests\ParsingTests.cs" />
+    <Compile Include="Parsers\ProtoInstructionParserTests\PrefixTests.cs" />
+    <Compile Include="Parsers\InstructionParserTests\MemberNodesBlock.cs" />
     <Compile Include="SetupSequence.cs" />
     <Compile Include="StackWithLinkedNodesTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\ParsingTests.cs" />
     <Compile Include="Parsers\MarkupExtensionParserTests\MarkupExtensionNodeToXamlNodesConverterTests.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\ParsingTests.cs" />
+    <Compile Include="Parsers\InstructionParserTests\ParsingTests.cs" />
     <Compile Include="Resources\ProtoInstructionResources.cs" />
-    <Compile Include="Parsers\XamlInstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
+    <Compile Include="Parsers\InstructionParserTests\MarkupExtensionsParsingFromProtoToXaml.cs" />
     <Compile Include="TemplateHostingObjectAssemblerTests.cs" />
+    <Compile Include="TestListener.cs" />
     <Compile Include="TypeFactoryDummy.cs" />
     <Compile Include="TypeFeatureProviderDummy.cs" />
-    <Compile Include="BuiltInTypeConverterTests\TypeTypeConverterTests.cs" />
     <Compile Include="InstructionTreeBuilderTests.cs" />
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
-    <Compile Include="Resources\XamlInstructionResources.cs" />
-    <Compile Include="XamlTypeRepositoryTests.cs" />
-    <Compile Include="XamlNamespaceRegistryTest.cs" />
+    <Compile Include="Resources\InstructionResources.cs" />
+    <Compile Include="TypeRepositoryTests.cs" />
+    <Compile Include="NamespaceRegistryTests.cs" />
     <Compile Include="Parsers\Integration\FromXamlToInstructions.cs" />
-    <Compile Include="XamlNodesAssert.cs" />
     <Compile Include="XamlXmlLoaderTests\NameScopeTests.cs" />
     <Compile Include="XamlXmlLoaderTests\ParsingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="XamlXmlLoaderTests\MarkupExtensionsTests.cs" />
-    <Compile Include="XamlXmlLoaderTests\GivenAXamlXmlLoader.cs" />
+    <Compile Include="XamlXmlLoaderTests\GivenAXmlLoader.cs" />
     <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -133,13 +129,13 @@
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OmniXaml.Test.Common.NetCore\OmniXaml.Tests.Common.DotNetFx.csproj">
-      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
-      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj">
       <Project>{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}</Project>
       <Name>OmniXaml.Tests.Classes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj">
+      <Project>{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}</Project>
+      <Name>OmniXaml.Tests.Common.DotNetFx</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj">
       <Project>{03EFD393-33D1-43E6-8835-1450459697F3}</Project>
@@ -175,6 +171,12 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\..\packages\xunit.runner.visualstudio.2.2.0-beta1-build1144\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\packages\xunit.runner.visualstudio.2.2.0-beta1-build1144\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

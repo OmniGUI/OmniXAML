@@ -3,22 +3,19 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Classes;
-    using Classes.WpfLikeModel;
-    using Common;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Resources;
 
     [TestClass]
-    public class MemberDependencyNodeSorterTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
-        private readonly XamlInstructionResources resources;
+        private readonly InstructionResources resources;
 
         public MemberDependencyNodeSorterTests()
         {
-            resources = new XamlInstructionResources(this);
+            resources = new InstructionResources(this);
         }
 
         [TestMethod]
@@ -26,7 +23,7 @@
         {
             var input = resources.StyleUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.StyleSorted;
 
@@ -39,7 +36,7 @@
         {
             var input = resources.SetterUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.SetterSorted;
 
@@ -51,9 +48,21 @@
         {
             var input = resources.ComboBoxUnsorted;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ComboBoxSorted;
+
+            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+        }
+
+        [TestMethod]
+        public void SortTwoComboBoxes()
+        {
+            var input = resources.TwoComboBoxesUnsorted;
+
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
+            var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
+            var expectedInstructions = resources.TwoComboBoxesSorted;
 
             CollectionAssert.AreEqual(expectedInstructions, actualNodes);
         }
@@ -63,7 +72,7 @@
         {
             var input = resources.ListBoxSortedWithExtension;
 
-            var enumerator = new EnumeratorDebugWrapper<XamlInstruction>(input.GetEnumerator());
+            var enumerator = new EnumeratorDebugWrapper<Instruction>(input.GetEnumerator());
             var actualNodes = memberDependencyNodeSorter.Sort(enumerator).ToList();
             var expectedInstructions = resources.ListBoxSortedWithExtension;
 

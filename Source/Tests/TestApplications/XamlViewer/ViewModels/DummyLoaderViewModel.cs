@@ -4,9 +4,8 @@
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using OmniXaml;
-    using OmniXaml.Services.DotNetFx;
     using OmniXaml.Tests.Common;
-    using OmniXaml.Tests.Common.NetCore;
+    using OmniXaml.Tests.Common.DotNetFx;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel
@@ -22,7 +21,8 @@
             Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
-            WiringContext = new WiringContextMock(new TypeFactory(), Assemblies.AssembliesInAppFolder);
+
+            RuntimeTypeSource = new TestRuntimeTypeSource();
         }
 
         public IList Snippets { get; set; }
@@ -63,7 +63,7 @@
 
         private void LoadXaml()
         {
-            var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
+            var loader = new XmlLoader(new DummyParserFactory(RuntimeTypeSource));
             
             var rootObject = loader.FromString(Xaml);
             Representation = ConvertToViewNodes(rootObject);

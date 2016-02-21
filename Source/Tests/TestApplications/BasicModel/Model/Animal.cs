@@ -1,7 +1,10 @@
-﻿namespace SampleOmniXAML.Model
+﻿namespace BasicModel.Model
 {
+    using OmniXaml.Typing;
+
     public class Animal
     {
+        [Name]
         public string Name { get; set; }
         public string Species { get; set; }
 

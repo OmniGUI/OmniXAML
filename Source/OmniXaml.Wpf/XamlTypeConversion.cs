@@ -11,7 +11,7 @@ namespace OmniXaml.Wpf
 
     public static class XamlTypeConversion
     {
-        public static System.Xaml.XamlNodeType ToWpf(this XamlInstructionType nodeType)
+        public static System.Xaml.XamlNodeType ToWpf(this InstructionType nodeType)
         {
             return (System.Xaml.XamlNodeType)Enum.Parse(typeof(XamlNodeType), nodeType.ToString());
         }
@@ -31,17 +31,17 @@ namespace OmniXaml.Wpf
             return new XamlType(xamlType.UnderlyingType, context);
         }
 
-        public static XamlMember ToWpf(this XamlMemberBase member, XamlSchemaContext context)
+        public static XamlMember ToWpf(this MemberBase member, XamlSchemaContext context)
         {
             if (member.IsDirective)
             {
                 return GetDirective(member, context);
             }
 
-            return GetMember((MutableXamlMember) member, context);
+            return GetMember((MutableMember) member, context);
         }
 
-        private static XamlMember GetMember(MutableXamlMember member, XamlSchemaContext context)
+        private static XamlMember GetMember(MutableMember member, XamlSchemaContext context)
         {
             var declaringType = ToWpf(member.DeclaringType, context);
 
@@ -57,7 +57,7 @@ namespace OmniXaml.Wpf
             }
         }
 
-        private static XamlMember GetDirective(XamlMemberBase directive, XamlSchemaContext context)
+        private static XamlMember GetDirective(MemberBase directive, XamlSchemaContext context)
         {
             var directiveName = TranslateDirectiveName(directive);
 
@@ -69,7 +69,7 @@ namespace OmniXaml.Wpf
             return new DirectiveAdapter(xamlMember.First());
         }
 
-        private static string TranslateDirectiveName(XamlMemberBase member)
+        private static string TranslateDirectiveName(MemberBase member)
         {
             if (member.Name == "_MarkupExtensionParameters")
             {

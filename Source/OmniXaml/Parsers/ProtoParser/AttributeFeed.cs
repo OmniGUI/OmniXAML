@@ -37,7 +37,7 @@ namespace OmniXaml.Parsers.ProtoParser
                 return new NsPrefix("", assignment.Value);
             }
 
-            throw new XamlParseException($"Cannot extract a Namespace Prefix Definition from this assignment: {assignment}");
+            throw new ParseException($"Cannot extract a Namespace Prefix Definition from this assignment: {assignment}");
         }
 
         private static bool IsNamespaceDefinition(AttributeAssignment assignment)

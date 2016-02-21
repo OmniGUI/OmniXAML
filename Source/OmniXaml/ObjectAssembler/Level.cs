@@ -8,7 +8,7 @@ namespace OmniXaml.ObjectAssembler
     {
         public object Instance { get; set; }
         public XamlType XamlType { get; set; }
-        public XamlMemberBase XamlMember { get; set; }
+        public MemberBase Member { get; set; }
         public ICollection Collection { get; set; }
         public bool IsGetObject { get; set; }
         public Collection<ConstructionArgument> CtorArguments { get; set; }
@@ -18,7 +18,7 @@ namespace OmniXaml.ObjectAssembler
 
         protected bool Equals(Level other)
         {
-            return Equals(Instance, other.Instance) && Equals(XamlType, other.XamlType) && Equals(XamlMember, other.XamlMember) &&
+            return Equals(Instance, other.Instance) && Equals(XamlType, other.XamlType) && Equals(Member, other.Member) &&
                    IsGetObject == other.IsGetObject && Equals(Collection, other.Collection) &&
                    Equals(CtorArguments, other.CtorArguments);
         }
@@ -46,7 +46,7 @@ namespace OmniXaml.ObjectAssembler
             {
                 var hashCode = (Instance != null ? Instance.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (XamlType != null ? XamlType.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (XamlMember != null ? XamlMember.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Member != null ? Member.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ IsGetObject.GetHashCode();
                 hashCode = (hashCode * 397) ^ (Collection != null ? Collection.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (CtorArguments != null ? CtorArguments.GetHashCode() : 0);

@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Media;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Resources = Xaml.Tests.Resources.Wpf;
 
@@ -65,6 +66,29 @@
         public void Stage3()
         {
             var visualTree = LoadXaml(Resources.Stage3);
+        }
+
+        [TestMethod]
+        public void ColorResource()
+        {
+            var visualTree = (Window)LoadXaml(Resources.ColorResource);
+            var color = (Color)visualTree.FindResource("color");
+            Assert.AreEqual(0xff, color.A);
+            Assert.AreEqual(0x80, color.R);
+            Assert.AreEqual(0x80, color.G);
+            Assert.AreEqual(0x80, color.B);
+        }
+
+        [TestMethod]
+        public void SolidColorBrushResource()
+        {
+            var visualTree = (Window)LoadXaml(Resources.SolidColorBrushResource);
+            var brush = (SolidColorBrush)visualTree.FindResource("brush");
+            var color = brush.Color;
+            Assert.AreEqual(0xff, color.A);
+            Assert.AreEqual(0x80, color.R);
+            Assert.AreEqual(0x80, color.G);
+            Assert.AreEqual(0x80, color.B);
         }
     }
 }

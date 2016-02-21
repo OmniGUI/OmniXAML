@@ -1,13 +1,17 @@
-﻿namespace SampleOmniXAML.Model
+﻿namespace BasicModel.Model
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using OmniXaml;
     using OmniXaml.Attributes;
 
     [ContentProperty("Animals")]
-    public class Zoo
+    // ReSharper disable once UnusedMember.Global
+    public class Zoo : INameScope
     {
+        readonly IDictionary<string, Animal> animalNames = new Dictionary<string, Animal>();
+
         public Zoo()
         {
             Animals = new Collection<Animal>();
@@ -18,7 +22,22 @@
         public override string ToString()
         {
             var animalStrings = Animals.Select(animal => animal.ToString() + "\n") ;
-            return "Zoom with the following animals: \n" + string.Concat(animalStrings);
+            return "Zoo with the following animals: \n" + string.Concat(animalStrings);
+        }
+
+        public void Register(string name, object scopedElement)
+        {
+            animalNames.Add(name, (Animal) scopedElement);
+        }
+
+        public object Find(string name)
+        {
+            return animalNames[name];
+        }
+
+        public void Unregister(string name)
+        {
+            animalNames.Remove(name);
         }
     }
 }

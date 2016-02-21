@@ -32,6 +32,8 @@ namespace OmniXaml.Typing
 
         public string RuntimePropertyName { get; set; }
 
+        public string ContentProperty { get; set; }
+
 
         protected bool Equals(Metadata other)
         {

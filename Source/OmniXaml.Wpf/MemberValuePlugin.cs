@@ -4,40 +4,43 @@ namespace OmniXaml.Wpf
     using System.Reflection;
     using System.Windows;
     using System.Windows.Data;
-    using OmniXaml.ObjectAssembler;
+    using TypeConversion;
     using Typing;
 
     public class MemberValuePlugin : Typing.MemberValuePlugin
     {
-        private readonly MutableXamlMember xamlMember;
+        private readonly MutableMember member;
 
-        public MemberValuePlugin(MutableXamlMember xamlMember) : base(xamlMember)
+        public MemberValuePlugin(MutableMember member) : base(member)
         {
-            this.xamlMember = xamlMember;
+            this.member = member;
         }
 
-        public override void SetValue(object instance, object value)
+        public override void SetValue(object instance, object value, IValueContext valueContext)
         {
-            if (xamlMember.Name == "Value" && instance is Setter)
+            if (member.Name == "Value" && instance is Setter)
             {
                 var setter = (Setter) instance;                
                 var targetType = setter.Property.PropertyType;
-                var valuePipeline = new ValuePipeline(xamlMember.TypeRepository, null);
-                var xamlType = xamlMember.TypeRepository.GetXamlType(targetType);
-                base.SetValue(instance, valuePipeline.ConvertValueIfNecessary(value, xamlType));
+                var xamlType = member.TypeRepository.GetByType(targetType);
+
+                object compatibleValue;
+                CommonValueConversion.TryConvert(value, xamlType, valueContext, out compatibleValue);
+
+                base.SetValue(instance, compatibleValue, valueContext);
             }
             else
             {
                 if (!TrySetDependencyProperty(instance, value))
                 {
-                    base.SetValue(instance, value);
+                    base.SetValue(instance, value, valueContext);
                 }
             }
         }
 
         private bool TrySetDependencyProperty(object instance, object value)
         {
-            var dp = GetDependencyProperty(instance.GetType(), xamlMember.Name + "Property");
+            var dp = GetDependencyProperty(instance.GetType(), member.Name + "Property");
             if (dp == null)
             {
                 return false;
@@ -57,7 +60,7 @@ namespace OmniXaml.Wpf
 
         private static DependencyProperty GetDependencyProperty(Type type, string name)
         {
-            FieldInfo fieldInfo = type.GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var fieldInfo = type.GetField(name, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
             return (DependencyProperty) fieldInfo?.GetValue(null);
         }
     }

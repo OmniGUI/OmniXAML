@@ -1,14 +1,10 @@
-﻿// ReSharper disable UnusedMember.Global
-namespace XamlViewer.Views
+﻿namespace XamlViewer.Views
 {
     using System.Windows;
     using System.Windows.Controls;
     using OmniXaml;
 
-    /// <summary>
-    /// Interaction logic for XamlTextBox.xaml
-    /// </summary>
-    public partial class XamlTextBox : UserControl
+    public partial class XamlTextBox
     {
         public XamlTextBox()
         {
@@ -28,15 +24,15 @@ namespace XamlViewer.Views
 
         #endregion
 
-        #region WiringContext        
-        public static readonly DependencyProperty WiringContextProperty =
-          DependencyProperty.Register("WiringContext", typeof(WiringContext), typeof(XamlTextBox),
+        #region RuntimeTypeSource        
+        public static readonly DependencyProperty RuntimeTypeSourceProperty =
+          DependencyProperty.Register("RuntimeTypeSource", typeof(IRuntimeTypeSource), typeof(XamlTextBox),
             new FrameworkPropertyMetadata(null));
 
-        public WiringContext WiringContext
+        public IRuntimeTypeSource RuntimeTypeSource
         {
-            get { return (WiringContext)GetValue(WiringContextProperty); }
-            set { SetValue(WiringContextProperty, value); }
+            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeSourceProperty); }
+            set { SetValue(RuntimeTypeSourceProperty, value); }
         }
 
         #endregion

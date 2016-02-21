@@ -8,7 +8,6 @@
     using System.Linq;
     using System.Reflection;
     using System.Resources;
-    using XamlViewer;
 
     public class XamlSnippetProvider : IXamlSnippetProvider
     {

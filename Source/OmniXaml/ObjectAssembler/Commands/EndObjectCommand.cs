@@ -1,11 +1,15 @@
 namespace OmniXaml.ObjectAssembler.Commands
 {
+    using System;
     using System.Collections;
 
     public class EndObjectCommand : Command
     {
-        public EndObjectCommand(ObjectAssembler assembler) : base(assembler)
+        private readonly Action<StateCommuter> setResult;
+
+        public EndObjectCommand(StateCommuter stateCommuter, Action<StateCommuter> setResult) : base(stateCommuter)
         {
+            this.setResult = setResult;
         }
 
         public override void Execute()
@@ -17,29 +21,30 @@ namespace OmniXaml.ObjectAssembler.Commands
 
                 if (StateCommuter.Current.Instance is IMarkupExtension)
                 {
-                    object val = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension)StateCommuter.Current.Instance);
-                    StateCommuter tempQualifier = StateCommuter;
-                    tempQualifier.Current.Instance = val;
+                    ProcessCurrentIntanceValueWithMarkupExtension();               
+                }
 
-                    var collection = val as ICollection;
-                    if (collection != null)
-                    {
-                        tempQualifier.Current.Collection = collection;
-                    }
-                    StateCommuter.AssociateCurrentInstanceToParent();
-                }
-                else if (!StateCommuter.Current.WasInstanceAssignedRightAfterBeingCreated)
-                {
-                    StateCommuter.AssociateCurrentInstanceToParent();
-                }
+                StateCommuter.AssociateCurrentInstanceToParent();
 
                 StateCommuter.RegisterInstanceNameToNamescope();
                 StateCommuter.NotifyEnd();
             }
-            
-            Assembler.Result = StateCommuter.Current.Instance;
+
+            setResult(StateCommuter);
             
             StateCommuter.DecreaseLevel();
+        }
+
+        private void ProcessCurrentIntanceValueWithMarkupExtension()
+        {
+            var processedValue = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension) StateCommuter.Current.Instance);
+            StateCommuter.Current.Instance = processedValue;
+
+            var collection = processedValue as ICollection;
+            if (collection != null)
+            {
+                StateCommuter.Current.Collection = collection;
+            }
         }
 
         public override string ToString()

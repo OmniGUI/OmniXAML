@@ -4,22 +4,21 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
-    using Common;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using OmniXaml.Parsers.MarkupExtensions;
     using Resources;
 
     [TestClass]
-    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {     
         [TestMethod]
         public void NameOnly()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"));
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.EndObject(),
@@ -32,10 +31,10 @@
         public void NameAndAttribute()
         {
             var tree = new MarkupExtensionNode(new IdentifierNode("DummyExtension"), new OptionsCollection {new PropertyOption("Property", new StringNode("Value"))});
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -55,10 +54,10 @@
                 new PropertyOption("Property", new StringNode("Value")),
                 new PropertyOption("AnotherProperty", new StringNode("AnotherValue")),
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
-            var expectedInstructions = new List<XamlInstruction>
+            var expectedInstructions = new List<Instruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.StartMember<DummyExtension>(d => d.Property),
@@ -80,10 +79,10 @@
             {
                new PositionalOption("Option")
             });
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
-            var expectedInstructions = new Collection<XamlInstruction>
+            var expectedInstructions = new Collection<Instruction>
             {
                 X.StartObject<DummyExtension>(),
                 X.MarkupExtensionArguments(),
@@ -99,10 +98,10 @@
         public void ComposedExtensionTemplateBindingWithConverter()
         {
             var tree = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
-            var sut = new MarkupExtensionNodeToXamlNodesConverter(TypeContext);
+            var sut = new MarkupExtensionNodeToXamlNodesConverter(RuntimeTypeSource);
             var actualNodes = sut.ParseMarkupExtensionNode(tree).ToList();
 
-            var expectedInstructions = new Collection<XamlInstruction>
+            var expectedInstructions = new Collection<Instruction>
             {
                 X.StartObject<TemplateBindingExtension>(),
                     X.StartMember<TemplateBindingExtension>(d => d.Path),

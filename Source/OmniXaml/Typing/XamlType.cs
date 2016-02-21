@@ -10,7 +10,7 @@ namespace OmniXaml.Typing
 
     public class XamlType
     {
-        public XamlType(Type type, IXamlTypeRepository typeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
+        public XamlType(Type type, ITypeRepository typeRepository, ITypeFactory typeTypeFactory, ITypeFeatureProvider featureProvider)
         {
             Guard.ThrowIfNull(type, nameof(type));
             Guard.ThrowIfNull(typeRepository, nameof(typeRepository));
@@ -57,13 +57,13 @@ namespace OmniXaml.Typing
 
         public bool NeedsConstructionParameters => UnderlyingType.GetTypeInfo().DeclaredConstructors.All(info => info.GetParameters().Any());
         // ReSharper disable once MemberCanBeProtected.Global
-        public IXamlTypeRepository TypeRepository { get; }
+        public ITypeRepository TypeRepository { get; }
         // ReSharper disable once MemberCanBeProtected.Global
         public ITypeFactory TypeFactory { get; }
         // ReSharper disable once MemberCanBeProtected.Global
         public ITypeFeatureProvider FeatureProvider { get; }
 
-        public XamlMember ContentProperty
+        public Member ContentProperty
         {
             get
             {
@@ -74,7 +74,7 @@ namespace OmniXaml.Typing
                     return null;
                 }
 
-                var member = TypeRepository.GetXamlType(UnderlyingType).GetMember(propertyName);
+                var member = TypeRepository.GetByType(UnderlyingType).GetMember(propertyName);
                 return member;
             }
         }
@@ -109,17 +109,17 @@ namespace OmniXaml.Typing
             }
         }
 
-        public XamlMember GetMember(string name)
+        public Member GetMember(string name)
         {
             return LookupMember(name);
         }
 
-        protected virtual XamlMember LookupMember(string name)
+        protected virtual Member LookupMember(string name)
         {
-            return new XamlMember(name, this, TypeRepository, FeatureProvider);
+            return new Member(name, this, TypeRepository, FeatureProvider);
         }
 
-        public AttachableXamlMember GetAttachableMember(string name)
+        public AttachableMember GetAttachableMember(string name)
         {
             return LookupAttachableMember(name);
         }
@@ -135,13 +135,13 @@ namespace OmniXaml.Typing
         }
 
         public static XamlType Create(Type underlyingType,
-            IXamlTypeRepository xamlTypeRepository,
+            ITypeRepository typeRepository,
             ITypeFactory typeFactory,
             ITypeFeatureProvider featureProvider)
         {
-            Guard.ThrowIfNull(underlyingType, nameof(xamlTypeRepository));
+            Guard.ThrowIfNull(underlyingType, nameof(typeRepository));
 
-            return new XamlType(underlyingType, xamlTypeRepository, typeFactory, featureProvider);
+            return new XamlType(underlyingType, typeRepository, typeFactory, featureProvider);
         }
 
         public static XamlType CreateForBuiltInType(Type type)
@@ -151,14 +151,14 @@ namespace OmniXaml.Typing
             return new XamlType(type);
         }
 
-        protected virtual AttachableXamlMember LookupAttachableMember(string name)
+        protected virtual AttachableMember LookupAttachableMember(string name)
         {
             var getter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Get" + name);
             var setter = UnderlyingType.GetTypeInfo().GetDeclaredMethod("Set" + name);
             return TypeRepository.GetAttachableMember(name, getter, setter);
         }
 
-        public IEnumerable<XamlMemberBase> GetAllMembers()
+        public IEnumerable<MemberBase> GetAllMembers()
         {
             var properties = UnderlyingType.GetRuntimeProperties().Where(IsValidMember).ToList();
             return properties.Select(props => GetMember(props.Name));
@@ -177,7 +177,7 @@ namespace OmniXaml.Typing
             return instance as INameScope;
         }
 
-        public XamlMember RuntimeNamePropertyMember
+        public Member RuntimeNamePropertyMember
         {
             get
             {
@@ -186,7 +186,7 @@ namespace OmniXaml.Typing
                     return null;
                 }
 
-                var metadata = TypeRepository.GetMetadata(this);
+                var metadata = FeatureProvider.GetMetadata(UnderlyingType);
 
                 var runtimeNameProperty = metadata?.RuntimePropertyName;
 

@@ -4,16 +4,16 @@ namespace OmniXaml.Parsers.ProtoParser
 
     internal class DirectiveAssignment
     {
-        private readonly XamlDirective directive;
+        private readonly Directive directive;
         private readonly string value;
 
-        public DirectiveAssignment(XamlDirective directive, string value)
+        public DirectiveAssignment(Directive directive, string value)
         {
             this.directive = directive;
             this.value = value;
         }
 
-        public XamlDirective Directive => directive;
+        public Directive Directive => directive;
 
         public string Value => value;
     }

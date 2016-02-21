@@ -1,52 +1,45 @@
 namespace OmniXaml.Wpf
 {
     using OmniXaml.ObjectAssembler;
+    using Parsers.Parser;
     using Parsers.ProtoParser;
-    using Parsers.XamlInstructions;
 
-    public class WpfParserFactory : IXamlParserFactory
+    public class WpfParserFactory : IParserFactory
     {
-        private readonly IWiringContext wiringContext;
+        private readonly IRuntimeTypeSource runtimeTypeSource;
 
-        public WpfParserFactory(ITypeFactory typeFactory)
+        public WpfParserFactory()
         {
-            wiringContext = new WpfWiringContext(typeFactory);
+            runtimeTypeSource = new WpfRuntimeTypeSource();
         }
 
-        public IXamlParser CreateForReadingFree()
+        private IParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
         {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForUndefinedRoot();
-
-            return CreateParser(objectAssemblerForUndefinedRoot);
-        }
-
-        private IXamlParser CreateParser(IObjectAssembler objectAssemblerForUndefinedRoot)
-        {
-            var xamlInstructionParser = new OrderAwareXamlInstructionParser(new XamlInstructionParser(wiringContext));
+            var xamlInstructionParser = new OrderAwareInstructionParser(new InstructionParser(runtimeTypeSource));
 
             var phaseParserKit = new PhaseParserKit(
-                new XamlProtoInstructionParser(wiringContext.TypeContext),
+                new ProtoInstructionParser(runtimeTypeSource),
                 xamlInstructionParser,
                 objectAssemblerForUndefinedRoot);
 
-            return new XamlXmlParser(phaseParserKit);
+            return new XmlParser(phaseParserKit);
         }
 
         private IObjectAssembler GetObjectAssemblerForUndefinedRoot()
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext());
+            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext());
         }
 
-        public IXamlParser CreateForReadingSpecificInstance(object rootInstance)
+        public IParser Create(Settings settings)
         {
-            var objectAssemblerForUndefinedRoot = GetObjectAssemblerForSpecificRoot(rootInstance);
+            var objectAssemblerForUndefinedRoot = new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), settings);
 
             return CreateParser(objectAssemblerForUndefinedRoot);
         }
 
         private IObjectAssembler GetObjectAssemblerForSpecificRoot(object rootInstance)
         {
-            return new ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), new ObjectAssemblerSettings { RootInstance = rootInstance });
+            return new ObjectAssembler(runtimeTypeSource, new TopDownValueContext(), new Settings { RootInstance = rootInstance });
         }
     }
 }

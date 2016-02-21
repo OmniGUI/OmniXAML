@@ -12,7 +12,7 @@ namespace XamlViewer.ViewModels
             Xaml = string.Empty;
         }
 
-        public IWiringContext WiringContext { get; protected set; }
+        public IRuntimeTypeSource RuntimeTypeSource { get; protected set; }
 
         public string Xaml
         {

@@ -1,46 +1,49 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
     using Resources;
+    using TypeConversion;
     using Xunit;
     using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
     [TestClass]
-    public class ObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class ObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private XamlInstructionResources source;
+        private InstructionResources source;
         private IObjectAssembler sut;
-        private TopDownValueContext topDownValueContext;
 
         public ObjectAssemblerTests()
         {
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
 
         [TestInitialize]
         public void Initialize()
         {
-            topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(TypeContext, topDownValueContext);
+            sut = CreateSut();
         }
 
-        public IObjectAssembler CreateSut()
+        private ObjectAssembler CreateSut()
         {
-            return new ObjectAssembler(TypeContext, new TopDownValueContext());
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+            return new ObjectAssembler(RuntimeTypeSource, valueConnectionContext, new Settings { InstanceLifeCycleListener = new TestListener() });
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
-            var settings = new ObjectAssemblerSettings { RootInstance = instance };
-            var assembler = new ObjectAssembler(TypeContext, new TopDownValueContext(), settings);
+            var topDownValueContext = new TopDownValueContext();
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+
+            var settings = new Settings { RootInstance = instance };
+
+            var assembler = new ObjectAssembler(RuntimeTypeSource, valueConnectionContext, settings);
             return assembler;
         }
 
@@ -64,6 +67,32 @@
 
             Assert.IsInstanceOfType(result, typeof(DummyClass));
             Assert.AreEqual("Property!", property);
+        }
+
+        [Fact]
+        public void ObjectWithEnumMember()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ObjectWithEnumMember);
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).EnumProperty;
+
+            Xunit.Assert.IsType<DummyClass>(result);
+            Xunit.Assert.Equal(SomeEnum.One, property);
+        }
+
+        [Fact]
+        public void ObjectWithNullableEnumProperty()
+        {
+            var sut = CreateSut();
+            sut.Process(source.ObjectWithNullableEnumProperty);
+
+            var result = sut.Result;
+            var property = ((DummyClass)result).EnumProperty;
+
+            Xunit.Assert.IsType<DummyClass>(result);
+            Xunit.Assert.Equal(SomeEnum.One, property);
         }
 
         [TestMethod]
@@ -225,21 +254,21 @@
         {
             sut.Process(source.InstanceWithChild);
 
-            var dummyClassXamlType = TypeContext.GetXamlType(typeof(DummyClass));
-            var lastInstance = topDownValueContext.GetLastInstance(dummyClassXamlType);
+            var dummyClassXamlType = RuntimeTypeSource.GetByType(typeof(DummyClass));
+            var lastInstance = sut.TopDownValueContext.GetLastInstance(dummyClassXamlType);
 
             Assert.IsInstanceOfType(lastInstance, typeof(DummyClass));
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [ExpectedException(typeof(ParseException))]
         public void AttemptToAssignItemsToNonCollectionMember()
         {
             sut.Process(source.AttemptToAssignItemsToNonCollectionMember);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(XamlParseException))]
+        [ExpectedException(typeof(ParseException))]
         public void TwoChildrenWithNoRoot_ShouldThrow()
         {
             sut.Process(source.TwoRoots);
@@ -316,7 +345,7 @@
         {
             var sut = CreateSut();
             sut.Process(source.CustomCollection);
-            Xunit.Assert.NotEmpty((IEnumerable) sut.Result);
+            Xunit.Assert.NotEmpty((IEnumerable)sut.Result);
         }
 
         [Fact]
@@ -357,7 +386,7 @@
         {
             var sut = CreateSut();
             sut.Process(source.ImplicitCollection);
-            var actual = (RootObject) sut.Result;
+            var actual = (RootObject)sut.Result;
 
             Xunit.Assert.False(actual.CollectionWasReplaced);
         }
@@ -432,19 +461,23 @@
         public void CorrectInstanceSetupSequence()
         {
             var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
-            var actualSequence = new Collection<SetupSequence>();
-
-            sut.InstanceLifeCycleHandler = new InstanceLifeCycleHandler
-            {
-                OnBegin = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.Begin); },
-                AfterProperties = o => { if (o is ChildClass) actualSequence.Add(SetupSequence.AfterSetProperties); },
-                OnAssociatedToParent = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.AfterAssociatedToParent); },
-                OnEnd = o => { if (o is ChildClass)  actualSequence.Add(SetupSequence.End); }
-            };
-
             sut.Process(source.InstanceWithChild);
 
-            CollectionAssert.AreEqual(expectedSequence, actualSequence);
+            var listener = (TestListener)sut.LifecycleListener;
+            CollectionAssert.AreEqual(expectedSequence, listener.InvocationOrder);
+        }
+
+        [TestMethod]
+        public void MemberAfterInitalizationValue()
+        {
+            sut.Process(source.MemberAfterInitalizationValue);
+
+            var root = (RootObject)sut.Result;
+            var str = root.Collection[0];
+            var dummy = (DummyClass)root.Collection[1];
+
+            Assert.AreEqual("foo", str);
+            Assert.AreEqual(123, dummy.Number);
         }
     }
 }

@@ -2,56 +2,53 @@ namespace OmniXaml.Tests
 {
     using Classes;
     using Classes.WpfLikeModel;
-    using Common.NetCore;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Common.DotNetFx;
     using ObjectAssembler;
     using Resources;
+    using TypeConversion;
+    using Xunit;
 
-    [TestClass]
-    public class NameScopeTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class NameScopeTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionResources source;
+        private readonly InstructionResources source;
         private readonly ObjectAssembler sut;
 
         public NameScopeTests()
         {
-            sut = new ObjectAssembler(TypeContext, new TopDownValueContext());
-            source = new XamlInstructionResources(this);
+            var topDownValueContext = new TopDownValueContext();
+            sut = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
+            source = new InstructionResources(this);
         }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            WiringContext.ClearNamesCopes();
-        }
-
-        [TestMethod]
+       
+        [Fact]
         public void RegisterOneChildInNameScope()
         {
-            WiringContext.EnableNameScope<DummyClass>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<DummyClass>();
 
             sut.Process(source.ChildInNameScope);
             var actual = sut.Result;
             var childInScope = ((DummyObject)actual).Find("MyObject");
-            Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
+            Assert.IsType(typeof(ChildClass), childInScope);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void RegisterChildInDeeperNameScope()
         {
-            WiringContext.EnableNameScope<Window>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<Window>();
 
             sut.Process(source.ChildInDeeperNameScope);
             var actual = sut.Result;
             var textBlock1 = ((Window)actual).Find("MyTextBlock");
             var textBlock2 = ((Window)actual).Find("MyOtherTextBlock");
 
-            Assert.IsInstanceOfType(textBlock1, typeof(TextBlock));
-            Assert.IsInstanceOfType(textBlock2, typeof(TextBlock));
+            Assert.IsType(typeof(TextBlock), textBlock1);
+            Assert.IsType(typeof(TextBlock), textBlock2);
         }
 
-        [TestMethod]
+        [Fact]
         public void NameWithNoNamescopesToRegisterTo()
         {
             sut.Process(source.NameWithNoNamescopesToRegisterTo);

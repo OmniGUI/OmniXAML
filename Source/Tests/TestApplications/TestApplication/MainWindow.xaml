@@ -8,9 +8,9 @@
         WindowStartupLocation="CenterScreen"        
         Title="{Binding Title}" Height="350" Width="525">
     <Window.Resources>
-        <Style x:Key="Style">
+        <!--<Style x:Key="Style">
             <Setter Value="12" Property="Margin"  />
-        </Style>
+        </Style>-->
     </Window.Resources>
     <Grid>        
         <Grid.ColumnDefinitions>

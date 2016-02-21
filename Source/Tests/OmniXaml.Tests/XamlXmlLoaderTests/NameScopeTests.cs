@@ -4,15 +4,16 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Xaml.Tests.Resources;
 
-    [TestClass]
-    public class NameScopeTests : GivenAXamlXmlLoader
+    [TestClass]    
+    public class NameScopeTests : GivenAXmlLoader
     {
         [TestMethod]
         public void RegisterOneChildInNameScope()
         {
-            WiringContext.EnableNameScope<DummyClass>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.FromString(Dummy.ChildInNameScope);
+            var actualInstance = Loader.FromString(Dummy.ChildInNameScope);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }
@@ -20,9 +21,10 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
         [TestMethod]
         public void RegisterOneChildInNameScopeWithoutDirective()
         {
-            WiringContext.EnableNameScope<DummyClass>();
+            RuntimeTypeSource.ClearNamescopes();
+            RuntimeTypeSource.EnableNameScope<DummyClass>();
 
-            var actualInstance = XamlLoader.FromString(Dummy.ChildInNamescopeNoNameDirective);
+            var actualInstance = Loader.FromString(Dummy.ChildInNamescopeNoNameDirective);
             var childInScope = ((DummyObject)actualInstance).Find("MyObject");
             Assert.IsInstanceOfType(childInScope, typeof(ChildClass));
         }

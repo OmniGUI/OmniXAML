@@ -21,6 +21,15 @@ namespace OmniXaml.Tests.Classes
         public int Number { get; set; }
         public Collection<Item> Items { get; set; }
         public IDictionary<string, object> Resources { get; set; }
-        public Item Item { get; set; }        
+        public Item Item { get; set; }
+        public SomeEnum EnumProperty { get; set; }
+        public SomeEnum? NullableEnumProperty { get; set; }
+    }
+
+    public enum SomeEnum
+    {
+        One,
+        Two,
+        Three
     }
 }

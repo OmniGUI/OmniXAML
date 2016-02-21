@@ -112,7 +112,7 @@
         public void ComposedExtensionTemplateBindingWithConverter()
         {
             var actual =
-               MarkupExtensionParser.MarkupExtension.Parse("{TemplateBinding Path=IsFloatingWatermarkVisible, Converter={x:Type FooBar}}");
+               MarkupExtensionParser.MarkupExtension.Parse("{TemplateBinding Path=IsFloatingWatermarkVisible, Converter={Type FooBar}}");
 
             var expected = MarkupExtensionNodeResources.ComposedExtensionTemplateBindingWithConverter();
 

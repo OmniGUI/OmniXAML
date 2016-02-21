@@ -6,15 +6,15 @@
 
     public class MarkupExtensionNodeToXamlNodesConverter
     {
-        public MarkupExtensionNodeToXamlNodesConverter(ITypeContext typeContext)
+        public MarkupExtensionNodeToXamlNodesConverter(IRuntimeTypeSource typeSource)
         {
-            TypeContext = typeContext;
+            TypeSource = typeSource;
         }
 
-        public IEnumerable<XamlInstruction> ParseMarkupExtensionNode(MarkupExtensionNode tree)
+        public IEnumerable<Instruction> ParseMarkupExtensionNode(MarkupExtensionNode tree)
         {
             var identifierNode = tree.Identifier;
-            var xamlType = TypeContext.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
+            var xamlType = TypeSource.GetByPrefix(identifierNode.Prefix, identifierNode.TypeName);
             yield return Inject.StartOfObject(xamlType);
 
             foreach (var instruction in ParseArguments(tree.Options.OfType<PositionalOption>())) yield return instruction;
@@ -23,9 +23,9 @@
             yield return Inject.EndOfObject();
         }
 
-        private ITypeContext TypeContext { get; }
+        private IRuntimeTypeSource TypeSource { get; }
 
-        private static IEnumerable<XamlInstruction> ParseArguments(IEnumerable<PositionalOption> options)
+        private static IEnumerable<Instruction> ParseArguments(IEnumerable<PositionalOption> options)
         {
             var positionalOptions = options.ToList();
             if (positionalOptions.Any())
@@ -39,7 +39,7 @@
             }
         }
 
-        private IEnumerable<XamlInstruction> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
+        private IEnumerable<Instruction> ParseProperties(IEnumerable<PropertyOption> options, XamlType xamlType)
         {
             foreach (var option in options)
             {

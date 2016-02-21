@@ -7,6 +7,7 @@
     using System.Reflection;
     using Glass;
     using ObjectAssembler;
+    using ObjectAssembler.Commands;
     using Typing;
 
     public class TemplateHostingObjectAssembler : IObjectAssembler
@@ -14,7 +15,7 @@
         private readonly IObjectAssembler objectAssembler;
         private readonly DeferredLoaderMapping mapping;
         private bool recording;
-        private IList<XamlInstruction> nodeList;
+        private IList<Instruction> nodeList;
         private int depth;
         private IDeferredLoader assembler;
 
@@ -24,30 +25,27 @@
             this.mapping = mapping;
         }
 
-        public InstanceLifeCycleHandler InstanceLifeCycleHandler
-        {
-            get { return objectAssembler.InstanceLifeCycleHandler; }
-            set { objectAssembler.InstanceLifeCycleHandler = value; }
-        }
+        public IRuntimeTypeSource TypeSource => objectAssembler.TypeSource;
+        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
 
-        public ITypeContext TypeContext => objectAssembler.TypeContext;
+        public IInstanceLifeCycleListener LifecycleListener => objectAssembler.LifecycleListener;
 
-        public void Process(XamlInstruction instruction)
+        public void Process(Instruction instruction)
         {
             if (recording)
             {
-                if (instruction.InstructionType == XamlInstructionType.StartMember)
+                if (instruction.InstructionType == InstructionType.StartMember)
                 {
                     depth++;
                 }
 
-                if (instruction.InstructionType == XamlInstructionType.EndMember)
+                if (instruction.InstructionType == InstructionType.EndMember)
                 {
                     depth--;
                     if (depth == 0)
                     {
                         recording = false;
-                        var loaded = assembler.Load(new ReadOnlyCollection<XamlInstruction>(nodeList), this.objectAssembler.TypeContext);
+                        var loaded = assembler.Load(new ReadOnlyCollection<Instruction>(nodeList), this.objectAssembler.TypeSource);
                         objectAssembler.OverrideInstance(loaded);
                         objectAssembler.Process(instruction);
                     }
@@ -60,13 +58,13 @@
             }
             else
             {
-                if (instruction.InstructionType == XamlInstructionType.StartMember && !instruction.Member.IsDirective)
+                if (instruction.InstructionType == InstructionType.StartMember && !instruction.Member.IsDirective)
                 {                    
-                    var hasAssembler = TryGetDeferredAssembler((MutableXamlMember) instruction.Member, out assembler);
+                    var hasAssembler = TryGetDeferredAssembler((MutableMember) instruction.Member, out assembler);
                     if (hasAssembler)
                     {
                         recording = true;
-                        nodeList = new Collection<XamlInstruction>();
+                        nodeList = new Collection<Instruction>();
                         depth++;
                         objectAssembler.Process(instruction);
                     }
@@ -79,11 +77,11 @@
             }
         }
 
-        private bool TryGetDeferredAssembler(MutableXamlMember xamlMember, out IDeferredLoader loader)
+        private bool TryGetDeferredAssembler(MutableMember member, out IDeferredLoader loader)
         {
-            Guard.ThrowIfNull(xamlMember, nameof(xamlMember));
+            Guard.ThrowIfNull(member, nameof(member));
 
-            var propInfo = xamlMember.DeclaringType.UnderlyingType.GetRuntimeProperty(xamlMember.Name);
+            var propInfo = member.DeclaringType.UnderlyingType.GetRuntimeProperty(member.Name);
             if  (propInfo!=null)
             {
                 var success = mapping.TryGetMapping(propInfo, out loader);
@@ -105,6 +103,6 @@
         {            
         }
      
-        public IList NodeList => new ReadOnlyCollection<XamlInstruction>(nodeList);     
+        public IList NodeList => new ReadOnlyCollection<Instruction>(nodeList);     
     }
 }

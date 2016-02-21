@@ -37,7 +37,7 @@ namespace OmniXaml
 
         private static bool IsDirective(InstructionNode node)
         {
-            return node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member.IsDirective;
+            return node.Leading.InstructionType == InstructionType.StartMember && node.Leading.Member.IsDirective;
         }
 
         private static IEnumerable<InstructionNode> ShortByDependencies(List<InstructionNode> list)
@@ -47,7 +47,7 @@ namespace OmniXaml
                 return new List<InstructionNode>();
             }
 
-            var members = list.Select(node => (MutableXamlMember) node.Leading.Member).ToList();
+            var members = list.Select(node => (MutableMember) node.Leading.Member).ToList();
             var sortedList = members.SortDependencies();
             var finalDeps = sortedList.Where(sr => members.Contains(sr));
 
@@ -55,13 +55,13 @@ namespace OmniXaml
             return sortedNodes;
         }
 
-        private static IEnumerable<InstructionNode> SortNodesAccordingTo(List<InstructionNode> list, IEnumerable<MutableXamlMember> sortedList)
+        private static IEnumerable<InstructionNode> SortNodesAccordingTo(List<InstructionNode> list, IEnumerable<MutableMember> sortedList)
         {
             var sorted = new List<InstructionNode>();
 
             foreach (var xamlMember in sortedList)
             {
-                sorted.Add(list.First(node => xamlMember.Equals((MutableXamlMember) node.Leading.Member)));
+                sorted.Add(list.First(node => xamlMember.Equals((MutableMember) node.Leading.Member)));
             }
 
             return sorted;
@@ -74,7 +74,7 @@ namespace OmniXaml
 
         private static bool IsSortable(InstructionNode node)
         {
-            return node.Leading.InstructionType == XamlInstructionType.StartMember && node.Leading.Member is MutableXamlMember && !IsDirective(node);
+            return node.Leading.InstructionType == InstructionType.StartMember && node.Leading.Member is MutableMember && !IsDirective(node);
         }
 
         private static IEnumerable<InstructionNode> GetOthers(InstructionNode instructionNode)

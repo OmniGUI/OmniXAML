@@ -5,27 +5,26 @@ namespace OmniXaml.ObjectAssembler
     using System.Reflection;
     using Commands;
     using Glass;
+    using TypeConversion;
     using Typing;
 
     public class StateCommuter
     {
-        private readonly InstanceLifeCycleNotifier lifecycleNotifier;
-        private readonly ITopDownValueContext topDownValueContext;
+        private readonly IInstanceLifeCycleListener lifecycleListener;
+        private readonly IValueContext valueContext;
         private StackingLinkedList<Level> stack;
 
-        public StateCommuter(IObjectAssembler objectAssembler,
-            StackingLinkedList<Level> stack,
-            ITypeContext typeContext,
-            ITopDownValueContext topDownValueContext)
+        public StateCommuter(StackingLinkedList<Level> stack,
+            IRuntimeTypeSource typeSource,
+            IInstanceLifeCycleListener lifecycleListener,
+            IValueContext valueContext)
         {
             Guard.ThrowIfNull(stack, nameof(stack));
-            Guard.ThrowIfNull(typeContext, nameof(typeContext));
-            Guard.ThrowIfNull(topDownValueContext, nameof(topDownValueContext));
+            Guard.ThrowIfNull(typeSource, nameof(typeSource));
 
             Stack = stack;
-            this.topDownValueContext = topDownValueContext;
-            ValuePipeline = new ValuePipeline(typeContext, topDownValueContext);
-            lifecycleNotifier = new InstanceLifeCycleNotifier(objectAssembler);
+            this.lifecycleListener = lifecycleListener;
+            this.valueContext = valueContext;
         }
 
         public CurrentLevelWrapper Current { get; private set; }
@@ -35,11 +34,11 @@ namespace OmniXaml.ObjectAssembler
         public int Level => stack.Count;
 
         private bool HasParentToAssociate => Level > 1;
-        public ValuePipeline ValuePipeline { get; }
+        public IValueContext ValueContext => valueContext;
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
 
-        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableXamlMember) Previous.XamlMember);
+        public object ValueOfPreviousInstanceAndItsMember => GetValueTuple(Previous.Instance, (MutableMember) Previous.Member);
 
         private StackingLinkedList<Level> Stack
         {
@@ -56,6 +55,8 @@ namespace OmniXaml.ObjectAssembler
         public InstanceProperties InstanceProperties => Current.InstanceProperties;
         public bool HasParent => !Previous.IsEmpty;
 
+        public ITopDownValueContext TopDownValueContext => valueContext.TopDownValueContext;
+
         public void SetKey(object value)
         {
             InstanceProperties.Key = value;
@@ -63,10 +64,17 @@ namespace OmniXaml.ObjectAssembler
 
         public void AssignChildToParentProperty()
         {
-            var previousMember = (MutableXamlMember) Previous.XamlMember;
-            var compatibleValue = ValuePipeline.ConvertValueIfNecessary(Current.Instance, previousMember.XamlType);
+            var previousMember = (MutableMember) Previous.Member;
+            object compatibleValue;
 
-            previousMember.SetValue(Previous.Instance, compatibleValue);
+            var success = CommonValueConversion.TryConvert(Current.Instance, previousMember.XamlType, valueContext, out compatibleValue);
+
+            if (!success)
+            {
+                compatibleValue = Current.Instance;
+            }
+
+            previousMember.SetValue(Previous.Instance, compatibleValue, valueContext);
         }
 
         public void RaiseLevel()
@@ -77,7 +85,7 @@ namespace OmniXaml.ObjectAssembler
 
         private void UpdateLevelWrappers()
         {
-            Current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel());
+            Current = new CurrentLevelWrapper(stack.Current != null ? stack.CurrentValue : new NullLevel(), valueContext);
             Previous = new PreviousLevelWrapper(stack.Previous != null ? stack.PreviousValue : new NullLevel());
         }
 
@@ -93,13 +101,6 @@ namespace OmniXaml.ObjectAssembler
             {
                 MaterializeInstanceOfCurrentType();
             }
-
-            SaveCurrentInstanceToTopDownEnvironment();
-        }
-
-        private void SaveCurrentInstanceToTopDownEnvironment()
-        {
-            topDownValueContext.SetInstanceValue(Current.XamlType, Current.Instance);
         }
 
         private void MaterializeInstanceOfCurrentType()
@@ -107,13 +108,13 @@ namespace OmniXaml.ObjectAssembler
             var xamlType = Current.XamlType;
             if (xamlType == null)
             {
-                throw new XamlParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
+                throw new ParseException("A type must be set before invoking MaterializeInstanceOfCurrentType");
             }
             var parameters = GatherConstructionArguments();
             var instance = xamlType.CreateInstance(parameters);
 
             Current.Instance = instance;
-            lifecycleNotifier.NotifyBegin(instance);
+            lifecycleListener.OnBegin(instance);
         }
 
         public object GetValueProvidedByMarkupExtension(IMarkupExtension instance)
@@ -127,9 +128,9 @@ namespace OmniXaml.ObjectAssembler
             var inflationContext = new MarkupExtensionContext
             {
                 TargetObject = Previous.Instance,
-                TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.XamlMember.Name),
-                TypeRepository = ValuePipeline.TypeRepository,
-                TopDownValueContext = topDownValueContext
+                TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.Member.Name),
+                TypeRepository = ValueContext.TypeRepository,
+                TopDownValueContext = TopDownValueContext
             };
 
             return inflationContext;
@@ -160,7 +161,7 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !Current.IsMarkupExtension)
             {
-                lifecycleNotifier.NotifyAfterProperties(Current.Instance);
+                lifecycleListener.OnAfterProperties(Current.Instance);
 
                 if (Previous.CanHostChildren)
                 {
@@ -171,7 +172,7 @@ namespace OmniXaml.ObjectAssembler
                     AssignChildToParentProperty();
                 }
 
-                lifecycleNotifier.NotifyAssociatedToParent(Current.Instance);
+                lifecycleListener.OnAssociatedToParent(Current.Instance);
             }
         }
 
@@ -253,7 +254,7 @@ namespace OmniXaml.ObjectAssembler
             SetKey(null);
         }
 
-        private static object GetValueTuple(object instance, MutableXamlMember member)
+        private static object GetValueTuple(object instance, MutableMember member)
         {
             var xamlMemberBase = member;
             return xamlMemberBase.GetValue(instance);
@@ -266,7 +267,7 @@ namespace OmniXaml.ObjectAssembler
 
         public void NotifyEnd()
         {
-            lifecycleNotifier.NotifyEnd(Current.Instance);
+            lifecycleListener.OnEnd(Current.Instance);
         }
     }
 }

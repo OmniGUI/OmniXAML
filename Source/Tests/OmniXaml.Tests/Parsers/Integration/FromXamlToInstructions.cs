@@ -4,21 +4,21 @@
     using System.IO;
     using System.Linq;
     using System.Xml;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlInstructions;
     using Resources;
     using Xaml.Tests.Resources;
 
     [TestClass]
-    public class FromXamlToInstructions : GivenAWiringContextWithNodeBuildersNetCore
+    public class FromXamlToInstructions : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
-        private readonly XamlInstructionResources source;
+        private readonly InstructionResources source;
 
         public FromXamlToInstructions()
         {
-            source = new XamlInstructionResources(this);
+            source = new InstructionResources(this);
         }
 
         [TestMethod]
@@ -181,14 +181,14 @@
             CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        private ICollection<XamlInstruction> ExtractNodesFromPullParser(string xml)
+        private ICollection<Instruction> ExtractNodesFromPullParser(string xml)
         {
-            var pullParser = new XamlInstructionParser(WiringContext);
+            var pullParser = new InstructionParser(RuntimeTypeSource);
 
             using (var stream = new StringReader(xml))
             {
                 var reader = new XmlCompatibilityReader(stream);
-                return pullParser.Parse(new XamlProtoInstructionParser(TypeContext).Parse(reader)).ToList();
+                return pullParser.Parse(new ProtoInstructionParser(RuntimeTypeSource).Parse(reader)).ToList();
             }
         }
 

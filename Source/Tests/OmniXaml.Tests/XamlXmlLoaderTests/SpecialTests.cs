@@ -1,10 +1,10 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    public abstract class SpecialTests : GivenAWiringContextNetCore
+    public abstract class SpecialTests : GivenARuntimeTypeSourceNetCore
     {
         [TestMethod]
         public void LoadWithRootInstance()
@@ -15,7 +15,7 @@ namespace OmniXaml.Tests.XamlXmlLoaderTests
                 SampleProperty = "Will be overwritten"
             };
 
-            var loader = new XamlXmlLoader(new DummyXamlParserFactory(WiringContext));
+            var loader = new XmlLoader(new DummyParserFactory(RuntimeTypeSource));
 
             var actual = loader.FromString("<DummyClass xmlns=\"root\" SampleProperty=\"Value\" />", dummy);
 

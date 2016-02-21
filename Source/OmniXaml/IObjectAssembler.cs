@@ -2,15 +2,17 @@
 {
     using System;
     using ObjectAssembler;
+    using ObjectAssembler.Commands;
 
     public interface IObjectAssembler
     {
         object Result { get; }
         EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
-        InstanceLifeCycleHandler InstanceLifeCycleHandler { get; set; }
-        ITypeContext TypeContext { get; }
+        IRuntimeTypeSource TypeSource { get; }
+        ITopDownValueContext TopDownValueContext { get; }
+        IInstanceLifeCycleListener LifecycleListener { get; }
 
-        void Process(XamlInstruction instruction);
+        void Process(Instruction instruction);
 
         void OverrideInstance(object instance);      
     }

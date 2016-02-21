@@ -3,31 +3,37 @@
     using System;
     using OmniXaml.ObjectAssembler;
     using OmniXaml.ObjectAssembler.Commands;
+    using TypeConversion;
 
     public class ObjectAssembler : IObjectAssembler
     {
-        public ITypeContext TypeContext { get; set; }
         private readonly TemplateHostingObjectAssembler objectAssembler;
 
-        public ObjectAssembler(ITypeContext typeContext, ITopDownValueContext topDownValueContext, ObjectAssemblerSettings objectAssemblerSettings = null)
+        public ObjectAssembler(IRuntimeTypeSource typeSource, ITopDownValueContext topDownValueContext, Settings settings = null)
         {
-            TypeContext = typeContext;
+            TypeSource = typeSource;
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
 
-            objectAssembler = new TemplateHostingObjectAssembler(new OmniXaml.ObjectAssembler.ObjectAssembler(typeContext, topDownValueContext, objectAssemblerSettings), mapping);            
-        }        
+            var valueConnectionContext = new ValueContext(typeSource, topDownValueContext);
+
+            objectAssembler = new TemplateHostingObjectAssembler(
+                new OmniXaml.ObjectAssembler.ObjectAssembler(
+                    typeSource,
+                    valueConnectionContext,
+                    settings),
+                mapping);
+        }
+
+        public IRuntimeTypeSource TypeSource { get; }
+        public ITopDownValueContext TopDownValueContext => objectAssembler.TopDownValueContext;
+
+        public IInstanceLifeCycleListener LifecycleListener => objectAssembler.LifecycleListener;
 
         public object Result => objectAssembler.Result;
         public EventHandler<XamlSetValueEventArgs> XamlSetValueHandler { get; set; }
 
-        public InstanceLifeCycleHandler InstanceLifeCycleHandler
-        {
-            get { return objectAssembler.InstanceLifeCycleHandler; }
-            set { objectAssembler.InstanceLifeCycleHandler = value; }
-        }
-
-        public void Process(XamlInstruction instruction)
+        public void Process(Instruction instruction)
         {
             objectAssembler.Process(instruction);
         }
@@ -35,6 +41,6 @@
         public void OverrideInstance(object instance)
         {
             objectAssembler.OverrideInstance(instance);
-        }      
+        }
     }
 }

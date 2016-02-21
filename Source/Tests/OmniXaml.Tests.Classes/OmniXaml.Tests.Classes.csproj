@@ -14,6 +14,8 @@
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnotherExtension.cs" />
+    <Compile Include="Another\DummyChild.cs" />
     <Compile Include="CustomCollection.cs" />
     <Compile Include="ExtensionThatReturnsNull.cs" />
     <Compile Include="RootObject.cs" />

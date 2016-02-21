@@ -6,7 +6,6 @@
     using System.Linq;
     using Builder;
     using BuiltInConverters;
-    using Glass;
 
     public class TypeConverterProvider : ITypeConverterProvider
     {
@@ -50,22 +49,7 @@
             return Nullable.GetUnderlyingType(type) != null;
         }
 
-        public static ITypeConverterProvider FromAttributes(IEnumerable<Type> types)
-        {
-            var converterProvider = new TypeConverterProvider();
 
-            var defs = Extensions.GatherAttributes<TypeConverterAttribute, TypeConverterRegistration>(
-                types,
-                (type, attribute) => new TypeConverterRegistration(type, CreateConverterInstance(attribute)));
-
-            converterProvider.AddAll(defs);
-            return converterProvider;
-        }
-
-        private static ITypeConverter CreateConverterInstance(TypeConverterAttribute attribute)
-        {
-            return (ITypeConverter) Activator.CreateInstance(attribute.Converter, null);
-        }
 
         public IEnumerator<TypeConverterRegistration> GetEnumerator()
         {

@@ -4,17 +4,16 @@ namespace OmniXaml
     using System.Collections.Generic;
     using Builder;
     using TypeConversion;
+    using Typing;
 
     public class TypeFeatureProvider : ITypeFeatureProvider
     {
-        public TypeFeatureProvider(IContentPropertyProvider contentPropertyProvider, ITypeConverterProvider converterProvider)
+        private readonly MetadataProvider metadatas = new MetadataProvider();
+
+        public TypeFeatureProvider(ITypeConverterProvider converterProvider)
         {
-            ContentPropertyProvider = contentPropertyProvider;
             ConverterProvider = converterProvider;
         }
-
-
-        public IContentPropertyProvider ContentPropertyProvider { get; }
 
         public ITypeConverterProvider ConverterProvider { get; }
         public ITypeConverter GetTypeConverter(Type type)
@@ -29,16 +28,19 @@ namespace OmniXaml
 
         public string GetContentPropertyName(Type type)
         {
-            return ContentPropertyProvider.GetContentPropertyName(type);
-        }
-
-        public void AddContentProperty(ContentPropertyDefinition item)
-        {
-            ContentPropertyProvider.Add(item);
+            return metadatas.Get(type).ContentProperty;
         }
 
         public IEnumerable<TypeConverterRegistration> TypeConverters => ConverterProvider;
-        public IEnumerable<ContentPropertyDefinition> ContentProperties => ContentPropertyProvider;
-       
+        
+        public Metadata GetMetadata(Type type)
+        {
+            return metadatas.Get(type);
+        }
+
+        public void RegisterMetadata(Type type, Metadata metadata)
+        {
+            metadatas.Register(type, metadata);
+        }
     }
 }

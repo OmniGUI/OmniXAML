@@ -5,16 +5,16 @@ namespace OmniXaml.Visualization
 
     public class VisualizationNode
     {
-        public XamlInstruction XamlInstruction { get; }
+        public Instruction Instruction { get; }
 
-        public VisualizationNode(string name) : this(new XamlInstruction(XamlInstructionType.None))
+        public VisualizationNode(string name) : this(new Instruction(InstructionType.None))
         {
 
         }
 
-        public VisualizationNode(XamlInstruction xamlInstruction)
+        public VisualizationNode(Instruction instruction)
         {
-            this.XamlInstruction = xamlInstruction;           
+            this.Instruction = instruction;           
             this.Children = new Collection<VisualizationNode>();
         }
 

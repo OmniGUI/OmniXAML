@@ -9,14 +9,14 @@ namespace OmniXaml
         public InstructionNode()
         {
             Children = new Sequence<InstructionNode>();
-            Body = new Sequence<XamlInstruction>();
+            Body = new Sequence<Instruction>();
         }
-        public XamlInstruction Leading { get; set; }
+        public Instruction Leading { get; set; }
         public Sequence<InstructionNode> Children { get; set; }
-        public XamlInstruction Trailing { get; set; }
-        public Sequence<XamlInstruction> Body { get; }
+        public Instruction Trailing { get; set; }
+        public Sequence<Instruction> Body { get; }
 
-        public IEnumerable<XamlInstruction> Dump()
+        public IEnumerable<Instruction> Dump()
         {
             yield return Leading;
             foreach (var instruction in Body) { yield return instruction; }

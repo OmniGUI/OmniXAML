@@ -1,22 +1,21 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections.ObjectModel;
-    using Builder;
     using Classes;
     using Classes.Templates;
     using Classes.WpfLikeModel;
-    using Common;
-    using Common.NetCore;
+    using Common.DotNetFx;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using ObjectAssembler;
+    using TypeConversion;
 
     [TestClass]
-    public class TemplateHostingObjectAssemblerTests : GivenAWiringContextWithNodeBuildersNetCore
+    public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         [TestMethod]
         public void SimpleTest()
         {
-            var input = new Collection<XamlInstruction>
+            var input = new Collection<Instruction>
             {
                 X.StartObject<Item>(),
                 X.StartMember<Item>(i => i.Template),
@@ -34,7 +33,10 @@
             var assembler = new DummyDeferredLoader();
             mapping.Map<Template>(t => t.Content, assembler);
 
-            var sut = new TemplateHostingObjectAssembler(new ObjectAssembler(TypeContext, new TopDownValueContext()), mapping);                       
+            var topDownValueContext = new TopDownValueContext();
+            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
+
+            var sut = new TemplateHostingObjectAssembler(objectAssembler, mapping);                       
 
             foreach (var instruction in input)
             {
@@ -42,7 +44,7 @@
             }
 
             var actualNodes = sut.NodeList;
-            var expectedInstructions = new Collection<XamlInstruction>
+            var expectedInstructions = new Collection<Instruction>
             {
                 X.StartObject<Grid>(),
                 X.EndObject(),                

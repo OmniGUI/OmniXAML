@@ -7,56 +7,56 @@ namespace OmniXaml.ObjectAssembler.Commands
 
     public class StartMemberCommand : Command
     {
-        private readonly XamlMemberBase member;
+        private readonly MemberBase member;
 
-        public StartMemberCommand(ObjectAssembler assembler, XamlMemberBase member) : base(assembler)
+        public StartMemberCommand(StateCommuter stateCommuter, MemberBase member) : base(stateCommuter)
         {
             this.member = member;
         }
 
-        private static DirectiveKind GetDirectiveKind(XamlMemberBase xamlMember)
+        private static DirectiveKind GetDirectiveKind(MemberBase member)
         {
-            if (xamlMember.Equals(CoreTypes.Initialization))
+            if (member.Equals(CoreTypes.Initialization))
             {
                 return DirectiveKind.Initialization;
             }
-            if (xamlMember.Equals(CoreTypes.Items))
+            if (member.Equals(CoreTypes.Items))
             {
                 return DirectiveKind.Items;
             }
-            if (xamlMember.Equals(CoreTypes.Key))
+            if (member.Equals(CoreTypes.Key))
             {
                 return DirectiveKind.Key;
             }
-            if (xamlMember.Equals(CoreTypes.MarkupExtensionArguments))
+            if (member.Equals(CoreTypes.MarkupExtensionArguments))
             {
                 return DirectiveKind.MarkupExtensionArguments;
             }
-            if (xamlMember.Equals(CoreTypes.Name))
+            if (member.Equals(CoreTypes.Name))
             {
                 return DirectiveKind.Name;
             }
-            if (xamlMember.Equals(CoreTypes.UnknownContent))
+            if (member.Equals(CoreTypes.UnknownContent))
             {
                 return DirectiveKind.UnknownContent;
             }
 
 
-            throw new InvalidOperationException($"Unexpected XAML directive. The directive {xamlMember} has been found and we don't know how to handle it.");
+            throw new InvalidOperationException($"Unexpected XAML directive. The directive {member} has been found and we don't know how to handle it.");
         }
 
         public override void Execute()
         {
             var realMember = member;
 
-            var mutable = member as MutableXamlMember;
+            var mutable = member as MutableMember;
 
             if (mutable!=null && IsMemberEquivalentToNameDirective(mutable))
             {
                 realMember = CoreTypes.Name;
             }
 
-            StateCommuter.Current.XamlMember = realMember;
+            StateCommuter.Current.Member = realMember;
 
             if (realMember.IsDirective)
             {
@@ -68,7 +68,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
         }
 
-        private static bool IsMemberEquivalentToNameDirective(MutableXamlMember memberToCheck)
+        private static bool IsMemberEquivalentToNameDirective(MutableMember memberToCheck)
         {
             return Equals(memberToCheck, memberToCheck.DeclaringType.RuntimeNamePropertyMember);
         }
@@ -78,14 +78,14 @@ namespace OmniXaml.ObjectAssembler.Commands
             StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
         }
 
-        private void SetCommuterStateAccordingToDirective(XamlMemberBase xamlMemberBase)
+        private void SetCommuterStateAccordingToDirective(MemberBase memberBase)
         {
-            switch (GetDirectiveKind(xamlMemberBase))
+            switch (GetDirectiveKind(memberBase))
             {
                 case DirectiveKind.Items:
                     if (StateCommuter.HasParent && !StateCommuter.ParentIsOneToMany)
                     {
-                        throw new XamlParseException("Cannot assign a more than one item to a member that is not a collection.");
+                        throw new ParseException("Cannot assign a more than one item to a member that is not a collection.");
                     }
 
                     if (!StateCommuter.Current.IsGetObject)

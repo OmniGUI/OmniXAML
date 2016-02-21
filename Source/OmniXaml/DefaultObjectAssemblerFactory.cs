@@ -1,19 +1,21 @@
 namespace OmniXaml
 {
     using ObjectAssembler;
+    using TypeConversion;
 
     public class DefaultObjectAssemblerFactory : IObjectAssemblerFactory
     {
-        private readonly IWiringContext wiringContext;
+        private readonly IRuntimeTypeSource typeSource;
 
-        public DefaultObjectAssemblerFactory(IWiringContext wiringContext)
+        public DefaultObjectAssemblerFactory(IRuntimeTypeSource typeSource)
         {
-            this.wiringContext = wiringContext;
+            this.typeSource = typeSource;
         }
 
-        public IObjectAssembler CreateAssembler(ObjectAssemblerSettings objectAssemblerSettings)
+        public IObjectAssembler CreateAssembler(Settings settings)
         {
-            return new ObjectAssembler.ObjectAssembler(wiringContext.TypeContext, new TopDownValueContext(), objectAssemblerSettings);
+            var topDownValueContext = new TopDownValueContext();
+            return new ObjectAssembler.ObjectAssembler(typeSource, new ValueContext(typeSource, topDownValueContext), settings);
         }
     }
 }

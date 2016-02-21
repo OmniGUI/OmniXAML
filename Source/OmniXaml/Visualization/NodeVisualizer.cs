@@ -4,7 +4,7 @@ namespace OmniXaml.Visualization
 
     public static class NodeVisualizer
     {
-        public static IEnumerable<VisualizationTag> ToTags(IEnumerable<XamlInstruction> xamlNodes)
+        public static IEnumerable<VisualizationTag> ToTags(IEnumerable<Instruction> xamlNodes)
         {
             var enumerator = xamlNodes.GetEnumerator();
             var level = 0;
@@ -28,17 +28,17 @@ namespace OmniXaml.Visualization
             }
         }
 
-        private static bool LowersLevel(XamlInstruction current)
+        private static bool LowersLevel(Instruction current)
         {
             return current.InstructionType.ToString().Contains("End");
         }
 
-        private static bool RaisesLevel(XamlInstruction current)
+        private static bool RaisesLevel(Instruction current)
         {
-            return current.InstructionType.ToString().Contains("Start") || current.InstructionType == XamlInstructionType.GetObject;
+            return current.InstructionType.ToString().Contains("Start") || current.InstructionType == InstructionType.GetObject;
         }
 
-        public static VisualizationNode ToTree(IEnumerable<XamlInstruction> xamlNodes)
+        public static VisualizationNode ToTree(IEnumerable<Instruction> xamlNodes)
         {
             var enumerator = xamlNodes.GetEnumerator();
 

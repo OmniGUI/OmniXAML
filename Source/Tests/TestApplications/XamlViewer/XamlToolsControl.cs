@@ -3,13 +3,12 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Input;
     using Glass;
     using OmniXaml;
+    using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
-    using OmniXaml.Parsers.XamlInstructions;
     using OmniXaml.Visualization;
     using ViewModels;
     using Views;
@@ -32,10 +31,10 @@
           DependencyProperty.Register("Xaml", typeof(string), typeof(XamlToolsControl),
             new FrameworkPropertyMetadata(null));
 
-        #region WiringContext        
-        public static readonly DependencyProperty WiringContextProperty =
-          DependencyProperty.Register("WiringContext", typeof(WiringContext), typeof(XamlToolsControl),
-            new FrameworkPropertyMetadata((WiringContext)null));
+        #region RuntimeTypeSource        
+        public static readonly DependencyProperty RuntimeTypeSourceProperty =
+          DependencyProperty.Register("RuntimeTypeSource", typeof(IRuntimeTypeSource), typeof(XamlToolsControl),
+            new FrameworkPropertyMetadata((IRuntimeTypeSource)null));
 
         #region IsShowAlwaysEnabled        
         public static readonly DependencyProperty IsShowAlwaysEnabledProperty =
@@ -50,10 +49,10 @@
 
         #endregion
 
-        public WiringContext WiringContext
+        public IRuntimeTypeSource RuntimeTypeSource
         {
-            get { return (WiringContext)GetValue(WiringContextProperty); }
-            set { SetValue(WiringContextProperty, value); }
+            get { return (IRuntimeTypeSource)GetValue(RuntimeTypeSourceProperty); }
+            set { SetValue(RuntimeTypeSourceProperty, value); }
         }
 
         #endregion
@@ -83,12 +82,12 @@
             visualizerWindow.Show();
         }
 
-        private IEnumerable<XamlInstruction> ConvertToNodes(Stream stream)
+        private IEnumerable<Instruction> ConvertToNodes(Stream stream)
         {
             var reader = new XmlCompatibilityReader(stream);
-            var wiringContext = WiringContext;
-            var pullParser = new XamlInstructionParser(wiringContext);
-            var protoParser = new XamlProtoInstructionParser(wiringContext.TypeContext);
+            var runtimeTypeSource = RuntimeTypeSource;
+            var pullParser = new InstructionParser(runtimeTypeSource);
+            var protoParser = new ProtoInstructionParser(runtimeTypeSource);
             return pullParser.Parse(protoParser.Parse(reader)).ToList();
         }
     }

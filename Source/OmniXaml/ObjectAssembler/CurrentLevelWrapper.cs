@@ -2,15 +2,18 @@ namespace OmniXaml.ObjectAssembler
 {
     using System.Collections;
     using System.Collections.ObjectModel;
+    using TypeConversion;
     using Typing;
 
     public class CurrentLevelWrapper
     {
         private readonly Level level;
+        private readonly IValueContext valueContext;
 
-        public CurrentLevelWrapper(Level level)
+        public CurrentLevelWrapper(Level level, IValueContext valueContext)
         {
             this.level = level;
+            this.valueContext = valueContext;
         }
 
         public string InstanceName
@@ -23,14 +26,16 @@ namespace OmniXaml.ObjectAssembler
             set
             {
                 var runtimeNameMember = XamlType.RuntimeNamePropertyMember;
-                runtimeNameMember?.SetValue(Instance, value);
+                runtimeNameMember?.SetValue(Instance, value, valueContext);
             }
         }
 
-        public XamlMemberBase XamlMember
+        public XamlType InstanceXamlType => valueContext.TypeRepository.GetByType(Instance.GetType());
+
+        public MemberBase Member
         {
-            get { return level.XamlMember; }
-            set { level.XamlMember = value; }
+            get { return level.Member; }
+            set { level.Member = value; }
         }
 
         public bool IsGetObject
@@ -48,13 +53,17 @@ namespace OmniXaml.ObjectAssembler
         public object Instance
         {
             get { return level.Instance; }
-            set { level.Instance = value; }
-        }
+            set
+            {
+                level.Instance = value;
 
-        public bool WasInstanceAssignedRightAfterBeingCreated
-        {
-            get { return level.WasInstanceAssignedRightAfterBeingCreated; }
-            set { level.WasInstanceAssignedRightAfterBeingCreated = value; }
+                if (value!=null)
+                {
+                    var type = value.GetType();
+                    var xamlType = valueContext.TypeRepository.GetByType(type);
+                    valueContext.TopDownValueContext.Add(value, xamlType);
+                }
+            }
         }
 
         public XamlType XamlType
