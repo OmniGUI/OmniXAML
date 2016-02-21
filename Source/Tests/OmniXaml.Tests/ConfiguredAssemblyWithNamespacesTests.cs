@@ -2,12 +2,11 @@
 {
     using System.Reflection;
     using Builder;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class ConfiguredAssemblyWithNamespacesTests
     {
-        [TestMethod]
+        [Fact]
         public void LooksInCorrectNamespace()
         {
             var expectedType = typeof(OmniXaml.Tests.Classes.Another.DummyChild);
@@ -17,7 +16,7 @@
 
             var result = can.Get("DummyChild");
 
-            Assert.AreEqual(expectedType, result);
+            Assert.Equal(expectedType, result);
         }
     }
 }

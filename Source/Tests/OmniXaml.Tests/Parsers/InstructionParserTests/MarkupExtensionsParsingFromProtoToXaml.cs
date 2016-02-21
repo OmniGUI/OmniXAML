@@ -4,10 +4,9 @@
     using System.Linq;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using OmniXaml.Parsers.Parser;
 
-    [TestClass]
     public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly IInstructionParser sut;
@@ -17,7 +16,7 @@
             sut = new InstructionParser(RuntimeTypeSource);
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleExtension()
         {            
             var input = new List<ProtoInstruction>
@@ -40,10 +39,10 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionWithOption()
         {
             var input = new List<ProtoInstruction>
@@ -69,7 +68,7 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(expectedInstructions, actualNodes);
+            Assert.Equal(expectedInstructions, actualNodes);
         }
     }
 }

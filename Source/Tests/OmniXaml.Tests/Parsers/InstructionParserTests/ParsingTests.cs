@@ -5,12 +5,10 @@
     using System.Reflection;
     using Classes;
     using Common.DotNetFx;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using OmniXaml.Parsers.Parser;
     using Resources;
-    using Xunit;
 
-    [TestClass]
     public class ParsingTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
     {
         private readonly IInstructionParser sut;
@@ -29,7 +27,7 @@
             return new InstructionParser(RuntimeTypeSource);
         }
 
-        [TestMethod]
+        [Fact]
         public void NamespaceDeclarationOnly()
         {
             var input = new List<ProtoInstruction>
@@ -45,10 +43,10 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleInstanceCollapsed()
         {
             var input = protoResources.SingleCollapsed;
@@ -57,10 +55,10 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void SingleOpenAndClose()
         {
             var input = protoResources.SingleOpenAndClose;
@@ -69,72 +67,72 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void EmptyElementWithStringProperty()
         {
             var input = protoResources.EmptyElementWithStringProperty;
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(source.ObjectWithMember.ToList(), actualNodes.ToList());
+            Assert.Equal(source.ObjectWithMember.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void EmptyElementWithTwoStringProperties()
         {
             var input = protoResources.EmptyElementWithTwoStringProperties;
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(source.ObjectWithTwoMembers.ToList(), actualNodes.ToList());
+            Assert.Equal(source.ObjectWithTwoMembers.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ElementWith2NsDeclarations()
         {
             var input = protoResources.ElementWith2NsDeclarations2;
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(source.ElementWithTwoDeclarations.ToList(), actualNodes.ToList());
+            Assert.Equal(source.ElementWithTwoDeclarations.ToList(), actualNodes.ToList());
         }
 
 
 
-        [TestMethod]
+        [Fact]
         public void ElementWithNestedChild()
         {
             var input = protoResources.ElementWithNestedChild;
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(source.NestedChild.ToList(), actualNodes.ToList());
+            Assert.Equal(source.NestedChild.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ComplexNesting()
         {
             var input = protoResources.ComplexNesting;
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.ComplexNesting.ToList(), actualNodes);
+            Assert.Equal(source.ComplexNesting.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildCollection()
         {
             var input = protoResources.CollectionWithMoreThanOneItem;
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.CollectionWithMoreThanOneItem.ToList(), actualNodes);
+            Assert.Equal(source.CollectionWithMoreThanOneItem.ToList(), actualNodes);
         }
 
 
-        [TestMethod]
+        [Fact]
         public void NestedChildWithContentProperty()
         {
 
@@ -143,50 +141,50 @@
             var actual = sut.Parse(input).ToList();
 
             var expected = source.NestedChildWithContentProperty.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void NestedCollectionWithContentProperty()
         {
             var input = protoResources.NestedCollectionWithContentProperty;
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.CollectionWithMoreThanOneItem.ToList(), actualNodes);
+            Assert.Equal(source.CollectionWithMoreThanOneItem.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionsContentPropertyNesting()
         {
             var input = protoResources.ContentPropertyNesting;
             var actualNodes = sut.Parse(input).ToList();
             var expectedInstructions = source.ContentPropertyNesting;
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes);
+            Assert.Equal(expectedInstructions.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedProperties()
         {
             var input = protoResources.TwoNestedProperties;
             var actualNodes = sut.Parse(input).ToList();
             var expectedInstructions = source.TwoNestedProperties;
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes);
+            Assert.Equal(expectedInstructions.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedPropertiesUsingContentProperty()
         {
             var input = protoResources.TwoNestedPropertiesUsingContentProperty;
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.TwoNestedPropertiesUsingContentProperty.ToList(), actualNodes);
+            Assert.Equal(source.TwoNestedPropertiesUsingContentProperty.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem()
         {
 
@@ -194,46 +192,46 @@
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem.ToList(), actualNodes);
+            Assert.Equal(source.TwoNestedPropertiesOneOfThemUsesContentPropertyWithSingleItem.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedPropertiesWithContentPropertyAfter()
         {
-            CollectionAssert.AreEqual(
+            Assert.Equal(
                 source.MixedPropertiesWithContentPropertyAfter.ToList(),
                 sut.Parse(protoResources.MixedPropertiesWithContentPropertyAfter).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionWithMixedEmptyAndNotEmptyNestedElements()
         {
-            CollectionAssert.AreEqual(
+            Assert.Equal(
                 source.CollectionWithMixedEmptyAndNotEmptyNestedElements.ToList(),
                 sut.Parse(protoResources.CollectionWithMixedEmptyAndNotEmptyNestedElements).ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedPropertiesWithContentPropertyBefore()
         {
             var input = protoResources.MixedPropertiesWithContentPropertyBefore;
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.MixedPropertiesWithContentPropertyBefore.ToList(), actualNodes);
+            Assert.Equal(source.MixedPropertiesWithContentPropertyBefore.ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ImplicitContentPropertyWithImplicityCollection()
         {
             var input = protoResources.ImplicitContentPropertyWithImplicityCollection;
 
             var actualNodes = sut.Parse(input).ToList();
 
-            CollectionAssert.AreEqual(source.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection().ToList(), actualNodes);
+            Assert.Equal(source.CreateExpectedNodesForImplicitContentPropertyWithImplicityCollection().ToList(), actualNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void ClrNamespace()
         {
             var type = typeof(DummyClass);
@@ -254,10 +252,10 @@
 
             var actualNodes = sut.Parse(input);
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), actualNodes.ToList());
+            Assert.Equal(expectedInstructions.ToList(), actualNodes.ToList());
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpandedStringProperty()
         {
             var input = protoResources.ExpandedStringProperty;
@@ -267,18 +265,18 @@
             var actualNodes = sut.Parse(input);
             var xamlNodes = actualNodes.ToList();
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), xamlNodes);
+            Assert.Equal(expectedInstructions.ToList(), xamlNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void TextInInnerContent()
         {
             var actual = sut.Parse(protoResources.ContentPropertyInInnerContent).ToList();
             var expected = source.TextBlockWithText.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void String()
         {
             var sysNs = new NamespaceDeclaration("clr-namespace:System;assembly=mscorlib", "sys");
@@ -289,40 +287,40 @@
             var actualNodes = sut.Parse(input);
             var xamlNodes = actualNodes.ToList();
 
-            CollectionAssert.AreEqual(expectedInstructions.ToList(), xamlNodes);
+            Assert.Equal(expectedInstructions.ToList(), xamlNodes);
         }
 
-        [TestMethod]
+        [Fact]
         public void PureCollection()
         {
             var actual = sut.Parse(protoResources.PureCollection).ToList();
             var expected = source.PureCollection.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void MixedCollection()
         {
             var actual = sut.Parse(protoResources.MixedCollection).ToList();
             var expected = source.MixedCollection.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildInDeeperNameScopeWithNamesInTwoLevels()
         {
             var actual = sut.Parse(protoResources.ChildInDeeperNameScopeWithNamesInTwoLevels).ToList();
             var expected = source.ListBoxWithItemAndTextBlockWithNames.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void DirectContentForOneToMany()
         {
             var expected = source.DirectContentForOneToMany.ToList();
             var actual = sut.Parse(protoResources.DirectContentForOneToMany).ToList();
 
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -332,7 +330,7 @@
             var expected = source.ImplicitCollection.ToList();
             var actual = sut.Parse(protoResources.ImplicitCollection).ToList();
 
-            Xunit.Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -341,7 +339,7 @@
             var sut = CreateSut();
             var expected = source.ExplicitCollection.ToList();
             var actual = sut.Parse(protoResources.ExplicitCollection).ToList();
-            Xunit.Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -351,7 +349,7 @@
             var expected = source.AttachableMemberThatIsCollection.ToList();
             var actual = sut.Parse(protoResources.AttachableMemberThatIsCollection).ToList();
 
-            Xunit.Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
@@ -361,15 +359,15 @@
             var expected = source.AttachableMemberThatIsCollectionImplicit.ToList();
             var actual = sut.Parse(protoResources.AttachableMemberThatIsCollectionImplicit).ToList();
 
-            Xunit.Assert.Equal(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var actual = sut.Parse(protoResources.ExpandedAttachablePropertyAndItemBelow).ToList();
             var expected = source.ExpandedAttachablePropertyAndItemBelow.ToList();
-            CollectionAssert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

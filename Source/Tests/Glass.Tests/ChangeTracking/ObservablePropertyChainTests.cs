@@ -2,12 +2,11 @@
 {
     using System;
     using Glass.ChangeTracking;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class ObservablePropertyChainTests
     {
-        [TestMethod]
+        [Fact]
         public void SubscriptionToOneLevelPath()
         {
             var changeSource = new DummyViewModel();
@@ -17,10 +16,10 @@
             sut.Subscribe(o => actualText = o);
             changeSource.Text = "Hello world";
 
-            Assert.AreEqual("Hello world", actualText);
+            Assert.Equal("Hello world", actualText);
         }
 
-        [TestMethod]
+        [Fact]
         public void SubscriptionToTwoLevelPath()
         {
             var changeSource = new DummyViewModel { Child = new DummyViewModel() };
@@ -30,10 +29,10 @@
             sut.Subscribe(o => actualText = o);
             changeSource.Child.Text = "Hello world";
 
-            Assert.AreEqual("Hello world", actualText);
+            Assert.Equal("Hello world", actualText);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenSubscriptionToTwoLevelPath_WhenRootChanges_NotificationsShouldArrive()
         {
             var changeSource = new DummyViewModel { Child = new DummyViewModel { Text = "Old text" } };
@@ -43,10 +42,10 @@
             sut.Subscribe(o => actualText = o);
             changeSource.Child = new DummyViewModel { Text = "This is the real thing" };
 
-            Assert.AreEqual("This is the real thing", actualText);
+            Assert.Equal("This is the real thing", actualText);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenSubscriptionToTwoLevelPath_WhenRootChangesButValuesAreSame_NoNotificationAreReceived()
         {
             var changeSource = new DummyViewModel { Child = new DummyViewModel { Text = "Same" } };
@@ -56,10 +55,10 @@
             sut.Subscribe(o => hit = true);
             changeSource.Child = new DummyViewModel { Text = "Same" };
 
-            Assert.IsFalse(hit);
+            Assert.False(hit);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenSubscriptionToTwoLevelPath_WhenRootChangesInDifferentSteps_NotificationsShouldArrive()
         {
             var changeSource = new DummyViewModel { Child = new DummyViewModel { Text = "Old text" } };
@@ -70,34 +69,34 @@
             changeSource.Child = new DummyViewModel();
             changeSource.Child.Text = "This is the real thing";
 
-            Assert.AreEqual("This is the real thing", actualText);
+            Assert.Equal("This is the real thing", actualText);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenSubscriptionToTwoLevelPathToStruct_RetrievesTheCorrectValue()
         {
             var changeSource = new DummyViewModel { Child = new DummyViewModel { MyStruct = new MyStruct { Text = "My text" } } };
             var sut = new ObservablePropertyChain(changeSource, "Child.MyStruct.Text");
 
-            Assert.AreEqual("My text", sut.Value);
+            Assert.Equal("My text", sut.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void ValueTypeChain_WithOneLevel_ValueIsAccessed()
         {
             var root = new MyStruct { Text = "Hello" };
             var sut = new ValueTypePropertyChain(root, "Text");
 
-            Assert.AreEqual("Hello", sut.Value);
+            Assert.Equal("Hello", sut.Value);
         }
 
-        [TestMethod]
+        [Fact]
         public void ValueTypeChain_WithTwoLevels_ValueIsAccessed()
         {
             var root = new MyStruct { Child = new ChildStruct { Text = "Some text" } };
             var sut = new ValueTypePropertyChain(root, "Child.Text");
 
-            Assert.AreEqual("Some text", sut.Value);
+            Assert.Equal("Some text", sut.Value);
         }
     }
 }

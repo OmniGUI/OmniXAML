@@ -1,68 +1,67 @@
 ﻿namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
     using XamlResources = Xaml.Tests.Resources.Dummy;
 
-    [TestClass]
     public class MarkupExtensionsTests : GivenAXmlLoader
     {
-        [TestMethod]
+        [Fact]
         public void SimpleExtension()
         {
             var actualInstance = Loader.FromString(XamlResources.SimpleExtension);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Text From Markup Extension", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Text From Markup Extension", dummyClass.SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleExtensionWithPropertyAssignment()
         {
             var actualInstance = Loader.FromString(XamlResources.SimpleExtensionWithOneAssignment);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("SomeValue", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("SomeValue", dummyClass.SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExtensionThatRetrievesInteger()
         {
             var actualInstance = Loader.FromString("<DummyClass xmlns=\"root\" Number=\"{Int Number=123}\"/>");
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual(123, dummyClass.Number);
+            Assert.NotNull(dummyClass);
+            Assert.Equal(123, dummyClass.Number);
         }
 
-        [TestMethod]
+        [Fact]
         public void QuotedValue()
         {
             var actualInstance = Loader.FromString("<DummyClass xmlns=\"root\" SampleProperty=\"{Dummy Property=\'Some Value\'}\"/>");
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Some Value", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Some Value", dummyClass.SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void TwoQuotedValues()
         {
             
 
             var actualInstance = Loader.FromString(XamlResources.MarkupExtensionTwoQuotedValues);
 
-            Assert.IsInstanceOfType(actualInstance, typeof(DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Some Value", dummyClass.SampleProperty);
-            Assert.AreEqual("Another Value", dummyClass.AnotherProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Some Value", dummyClass.SampleProperty);
+            Assert.Equal("Another Value", dummyClass.AnotherProperty);
         }
     }
 }

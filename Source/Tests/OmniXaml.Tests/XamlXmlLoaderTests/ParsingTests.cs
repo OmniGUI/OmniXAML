@@ -6,214 +6,208 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
-    using Xaml.Tests.Resources;
     using Xunit;
-    using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
+    using Xaml.Tests.Resources;
 
-    [TestClass]
     public class ParsingTests : GivenAXmlLoader
     {
         private readonly Type expectedType = typeof (DummyClass);
 
-        [TestMethod]
-        [ExpectedException(typeof (LoadException))]
+        [Fact]
         public void EmptyStreamThrows()
         {
-            Loader.FromString(Dummy.Empty);
+            Assert.Throws<LoadException>(() => Loader.FromString(Dummy.Empty));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof (LoadException))]
+        [Fact]
         public void UnknownElementThrows()
         {
-            Loader.FromString(Dummy.UnknownType);
+            Assert.Throws<LoadException>(() => Loader.FromString(Dummy.UnknownType));
         }
 
-        [TestMethod]
-        [ExpectedException(typeof (LoadException))]
+        [Fact]
         public void BadFormatThrowsXamlReaderException()
         {
-            Loader.FromString(Dummy.BadFormat);
+            Assert.Throws<LoadException>(() => Loader.FromString(Dummy.BadFormat));
         }
 
-        [TestMethod]
+        [Fact]
         public void NoPrefixMapsToNamespaceAndReturnsTheCorrectInstance()
         {
             var actual = Loader.FromString(Dummy.RootNamespace);
-            Assert.IsInstanceOfType(actual, expectedType);
+            Assert.IsType(expectedType, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void SimpleXamlWithCollapsedTagsShouldReadLikeExplicitEndingTag()
         {
             var actual = Loader.FromString(Dummy.CollapsedTag);
-            Assert.IsInstanceOfType(actual, expectedType);
+            Assert.IsType(expectedType, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void DifferentNamespacesShouldReturnCorrectInstances()
         {
             var actual = Loader.FromString(Dummy.DifferentNamespaces);
-            Assert.IsInstanceOfType(actual, expectedType);
+            Assert.IsType(expectedType, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadInstanceWithChild()
         {
             var actualInstance = Loader.FromString(Dummy.InstanceWithChild);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof(DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
             Debug.Assert(dummyClass != null, "dummyClass != null");
-            Assert.IsInstanceOfType(dummyClass.Child, typeof (ChildClass));
+            Assert.IsType(typeof (ChildClass), dummyClass.Child);
         }
 
-        [TestMethod]
+        [Fact]
         public void ReadInstanceWithThreeLevelsOfNesting()
         {
             var root = Loader.FromString(Dummy.ThreeLevelsOfNesting);
 
             var dummy = root as DummyClass;
-            Assert.IsInstanceOfType(root, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), root); // The retrieved instance should be of type DummyClass
 
             Debug.Assert(dummy != null, "dummy != null");
             var level2Instance = dummy.Child;
-            Assert.IsNotNull(level2Instance);
+            Assert.NotNull(level2Instance);
 
             var level3Instance = level2Instance.Child;
-            Assert.IsNotNull(level3Instance);
+            Assert.NotNull(level3Instance);
         }
 
-        [TestMethod]
+        [Fact]
         public void KeyDirective()
         {
             var actual = Loader.FromString(Dummy.KeyDirective);
-            Assert.IsInstanceOfType(actual, typeof (DummyClass));
+            Assert.IsType(typeof (DummyClass), actual);
             var dictionary = (IDictionary) ((DummyClass) actual).Resources;
-            Assert.IsTrue(dictionary.Count > 0);
+            Assert.True(dictionary.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void String()
         {
             var actual = Loader.FromString(Dummy.String);
-            Assert.IsInstanceOfType(actual, typeof (string));
-            Assert.AreEqual("Text", actual);
+            Assert.IsType(typeof (string), actual);
+            Assert.Equal("Text", actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void StringAsProperty()
         {
             var actual = Loader.FromString(Dummy.StringAsProperty);
-            Assert.IsInstanceOfType(actual, typeof (DummyClass));
-            Assert.AreEqual("Text", ((DummyClass) actual).SampleProperty);
+            Assert.IsType(typeof (DummyClass), actual);
+            Assert.Equal("Text", ((DummyClass) actual).SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void StringWithWhitespace()
         {
             var actual = Loader.FromString(Dummy.StringWithWhitespace);
-            Assert.IsInstanceOfType(actual, typeof (string));
-            Assert.AreEqual("Text", actual);
+            Assert.IsType(typeof (string), actual);
+            Assert.Equal("Text", actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void Int()
         {
             var actual = Loader.FromString(Dummy.Int);
-            Assert.IsInstanceOfType(actual, typeof (int));
-            Assert.AreEqual(123, actual);
+            Assert.IsType(typeof (int), actual);
+            Assert.Equal(123, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void StringProperty()
         {
             var actualInstance = Loader.FromString(Dummy.StringProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Property!", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Property!", dummyClass.SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpandedStringProperty()
         {
             var actualInstance = Loader.FromString(Dummy.InnerContent);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Property!", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Property!", dummyClass.SampleProperty);
         }
 
-        [TestMethod]
+        [Fact]
         public void InnerContentIsContentProperty()
         {
             var actualInstance = Loader.FromString(Dummy.ContentPropertyInInnerContent);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (TextBlock), $"The retrieved instance should be of type {typeof (TextBlock)}");
+            Assert.IsType(typeof (TextBlock), actualInstance); // $"The retrieved instance should be of type {typeof (TextBlock)}"
             var dummyClass = actualInstance as TextBlock;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Hi all!!", dummyClass.Text);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Hi all!!", dummyClass.Text);
         }
 
-        [TestMethod]
+        [Fact]
         public void NonStringProperty()
         {
             var actualInstance = Loader.FromString(Dummy.NonStringProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass, "dummyClass != null");
-            Assert.AreEqual(1234, dummyClass.Number);
+            Assert.NotNull(dummyClass); // dummyClass != null
+            Assert.Equal(1234, dummyClass.Number);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildCollection()
         {
             var actualInstance = Loader.FromString(Dummy.ChildCollection);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.IsNotNull(dummyClass.Items);
-            Assert.AreEqual(3, dummyClass.Items.Count);
+            Assert.NotNull(dummyClass);
+            Assert.NotNull(dummyClass.Items);
+            Assert.Equal(3, dummyClass.Items.Count);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedProperty()
         {
             var actualInstance = Loader.FromString(Dummy.AttachedProperty);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual(Container.GetProperty(dummyClass), "Value");
+            Assert.NotNull(dummyClass);
+            Assert.Equal(Container.GetProperty(dummyClass), "Value");
         }
 
-        [TestMethod]
+        [Fact]
         public void Ignorable()
         {
             var actualInstance = Loader.FromString(Dummy.Ignorable);
 
-            Assert.IsInstanceOfType(actualInstance, typeof (DummyClass), "The retrieved instance should be of type DummyClass");
+            Assert.IsType(typeof (DummyClass), actualInstance); // The retrieved instance should be of type DummyClass
             var dummyClass = actualInstance as DummyClass;
-            Assert.IsNotNull(dummyClass);
-            Assert.AreEqual("Property!", dummyClass.SampleProperty);
+            Assert.NotNull(dummyClass);
+            Assert.Equal("Property!", dummyClass.SampleProperty);
         }
 
-        [TestMethod]        
+        [Fact]        
         public void DirectiveInSpecialNamespaceThatIsNotX()
         {
             var actual = Loader.FromString(Dummy.KeyDirectiveNotInX);
-            Assert.IsInstanceOfType(actual, typeof(DummyClass));
+            Assert.IsType(typeof(DummyClass), actual);
             var dictionary = (IDictionary)((DummyClass)actual).Resources;
-            Assert.IsTrue(dictionary.Count > 0);
+            Assert.True(dictionary.Count > 0);
         }
 
-        [TestMethod]
+        [Fact]
         public void ExpandedAttachablePropertyAndItemBelow()
         {
             var loadedObject = Loader.FromString(Dummy.ExpandedAttachablePropertyAndItemBelow);
@@ -222,15 +216,15 @@
 
             var firstChild = items.First();
             var attachedProperty = Container.GetProperty(firstChild);
-            Xunit.Assert.Equal(2, items.Count);
-            Xunit.Assert.Equal("Value", attachedProperty);
+            Assert.Equal(2, items.Count);
+            Assert.Equal("Value", attachedProperty);
         }
 
         [Fact]
         public void PureCollection()
         {
             var actualInstance = Loader.FromString(Dummy.PureCollection);
-            Xunit.Assert.NotEmpty((IEnumerable) actualInstance);
+            Assert.NotEmpty((IEnumerable) actualInstance);
         }
 
         [Fact]
@@ -239,10 +233,10 @@
             var instance = Loader.FromString(Dummy.AttachableMemberThatIsCollection);
             var col = Container.GetCollection(instance);
 
-            Xunit.Assert.NotEmpty(col);
+            Assert.NotEmpty(col);
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildInDeeperNameScopeWithNamesInTwoLevels_HaveCorrectNames()
         {
             var actual = Loader.FromString(Dummy.ChildInDeeperNameScopeWithNamesInTwoLevels);
@@ -252,9 +246,9 @@
             var lvi = (ListBoxItem)lb.Items.First();
             var tb = (TextBlock)lvi.Content;
 
-            Assert.AreEqual("MyListBox", lb.Name);
-            Assert.AreEqual("MyListBoxItem", lvi.Name);
-            Assert.AreEqual("MyTextBlock", tb.Name);
+            Assert.Equal("MyListBox", lb.Name);
+            Assert.Equal("MyListBoxItem", lvi.Name);
+            Assert.Equal("MyTextBlock", tb.Name);
         }
     }
 }
