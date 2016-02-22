@@ -450,11 +450,20 @@
         [Fact]
         public void CorrectInstanceSetupSequence()
         {
-            var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterSetProperties, SetupSequence.AfterAssociatedToParent, SetupSequence.End };
+            var expectedSequence = new[] { SetupSequence.Begin, SetupSequence.AfterAssociatedToParent, SetupSequence.AfterSetProperties, SetupSequence.End };
             sut.Process(source.InstanceWithChild);
 
             var listener = (TestListener)sut.LifecycleListener;
             Assert.Equal(expectedSequence.ToList().AsReadOnly(), listener.InvocationOrder);
+        }
+
+        [Fact]
+        public void ChildIsAssociatedBeforeItsPropertiesAreSet()
+        {
+            sut.Process(source.InstanceWithChildAndProperty);
+            var result = (DummyClass)sut.Result;
+           
+            Assert.False(result.TitleWasSetBeforeBeingAssociated);
         }
 
         [Fact]

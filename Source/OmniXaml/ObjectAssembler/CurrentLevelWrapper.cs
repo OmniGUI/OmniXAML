@@ -82,5 +82,11 @@ namespace OmniXaml.ObjectAssembler
         public bool IsMarkupExtension => Instance is IMarkupExtension;
 
         public InstanceProperties InstanceProperties => level.InstanceProperties;
+
+        public bool WasAssociatedRightAfterCreation
+        {
+            get { return level.WasInstanceAssignedRightAfterBeingCreated; }
+            set { level.WasInstanceAssignedRightAfterBeingCreated = value; }
+        }
     }
 }

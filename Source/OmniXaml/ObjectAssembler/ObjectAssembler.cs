@@ -67,7 +67,7 @@ namespace OmniXaml.ObjectAssembler
                     command = new ValueCommand(StateCommuter, valueContext, (string) instruction.Value);
                     break;
                 case InstructionType.EndObject:
-                    command = new EndObjectCommand(StateCommuter, stateCommuter => Result = stateCommuter.Current.Instance);
+                    command = new EndObjectCommand(StateCommuter, stateCommuter => Result = stateCommuter.Current.Instance, LifecycleListener);
                     break;
                 case InstructionType.EndMember:
                     command = new EndMemberCommand(TypeSource, StateCommuter, valueContext);

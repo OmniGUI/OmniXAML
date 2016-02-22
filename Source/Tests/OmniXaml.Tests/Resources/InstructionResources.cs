@@ -316,6 +316,26 @@ namespace OmniXaml.Tests.Resources
             }
         }
 
+        public IEnumerable<Instruction> InstanceWithChildAndProperty
+        {
+            get
+            {
+                return new List<Instruction>
+                {
+                    X.NamespacePrefixDeclaration(RootNs),
+                    X.StartObject<DummyClass>(),
+                    X.StartMember<DummyClass>(d => d.Child),
+                    X.StartObject(typeof (ChildClass)),
+                    X.StartMember<ChildClass>(ch => ch.Title),
+                    X.Value("I'm a child"),
+                    X.EndMember(),
+                    X.EndObject(),
+                    X.EndMember(),
+                    X.EndObject(),
+                };
+            }
+        }
+
         public IEnumerable<Instruction> ObjectWithChild
         {
             get

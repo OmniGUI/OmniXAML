@@ -64,7 +64,16 @@ namespace OmniXaml.ObjectAssembler.Commands
             }
             else
             {
-                ForceInstanceCreationOfCurrentType();
+                CreateInstanceOfCurrentTypeAndAssociateIfPossible();
+            }
+        }
+
+        private void CreateInstanceOfCurrentTypeAndAssociateIfPossible()
+        {
+            StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
+            if (!StateCommuter.WasAssociatedRightAfterCreation)
+            {
+                StateCommuter.AssociateCurrentInstanceToParentForCreation();
             }
         }
 
