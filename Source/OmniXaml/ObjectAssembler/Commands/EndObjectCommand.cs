@@ -6,14 +6,16 @@ namespace OmniXaml.ObjectAssembler.Commands
     public class EndObjectCommand : Command
     {
         private readonly Action<StateCommuter> setResult;
+        private readonly IInstanceLifeCycleListener lifyCycleListener;
 
-        public EndObjectCommand(StateCommuter stateCommuter, Action<StateCommuter> setResult) : base(stateCommuter)
+        public EndObjectCommand(StateCommuter stateCommuter, Action<StateCommuter> setResult, IInstanceLifeCycleListener lifyCycleListener) : base(stateCommuter)
         {
             this.setResult = setResult;
+            this.lifyCycleListener = lifyCycleListener;
         }
 
         public override void Execute()
-        {
+        {           
             if (!StateCommuter.Current.IsGetObject)
             {
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
@@ -23,10 +25,13 @@ namespace OmniXaml.ObjectAssembler.Commands
                 {
                     ProcessCurrentIntanceValueWithMarkupExtension();               
                 }
-
-                StateCommuter.AssociateCurrentInstanceToParent();
+                else if (!StateCommuter.WasAssociatedRightAfterCreation)
+                {
+                    StateCommuter.AssociateCurrentInstanceToParent();
+                }
 
                 StateCommuter.RegisterInstanceNameToNamescope();
+                lifyCycleListener.OnAfterProperties(StateCommuter.Current.Instance);
                 StateCommuter.NotifyEnd();
             }
 
@@ -45,6 +50,8 @@ namespace OmniXaml.ObjectAssembler.Commands
             {
                 StateCommuter.Current.Collection = collection;
             }
+
+            StateCommuter.AssociateCurrentInstanceToParent();
         }
 
         public override string ToString()

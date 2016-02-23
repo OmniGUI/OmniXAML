@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests.Classes
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Another;
@@ -8,6 +9,8 @@ namespace OmniXaml.Tests.Classes
     [ContentProperty("Items")]
     public class DummyClass : DummyObject
     {
+        private ChildClass child;
+
         public DummyClass()
         {
             Items = new Collection<Item>();
@@ -16,7 +19,20 @@ namespace OmniXaml.Tests.Classes
 
         public string SampleProperty { get; set; }
         public string AnotherProperty { get; set; }
-        public ChildClass Child { get; set; }
+
+        public ChildClass Child
+        {
+            get { return child; }
+            set
+            {
+                child = value;
+                if (child.Title != null)
+                {
+                    TitleWasSetBeforeBeingAssociated = true;
+                }
+            }
+        }
+
         public Foreigner ChildFromAnotherNamespace { get; set; }
         public int Number { get; set; }
         public Collection<Item> Items { get; set; }
@@ -24,6 +40,8 @@ namespace OmniXaml.Tests.Classes
         public Item Item { get; set; }
         public SomeEnum EnumProperty { get; set; }
         public SomeEnum? NullableEnumProperty { get; set; }
+
+        public bool TitleWasSetBeforeBeingAssociated { get; set; }
     }
 
     public enum SomeEnum

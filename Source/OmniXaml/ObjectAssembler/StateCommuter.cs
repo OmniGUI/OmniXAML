@@ -34,6 +34,9 @@ namespace OmniXaml.ObjectAssembler
         public int Level => stack.Count;
 
         private bool HasParentToAssociate => Level > 1;
+
+        public bool WasAssociatedRightAfterCreation => Current.WasAssociatedRightAfterCreation;
+
         public IValueContext ValueContext => valueContext;
 
         public ValueProcessingMode ValueProcessingMode { get; set; }
@@ -161,8 +164,6 @@ namespace OmniXaml.ObjectAssembler
         {
             if (HasParentToAssociate && !Current.IsMarkupExtension)
             {
-                lifecycleListener.OnAfterProperties(Current.Instance);
-
                 if (Previous.CanHostChildren)
                 {
                     AddChildToHost();
@@ -268,6 +269,12 @@ namespace OmniXaml.ObjectAssembler
         public void NotifyEnd()
         {
             lifecycleListener.OnEnd(Current.Instance);
+        }
+
+        public void AssociateCurrentInstanceToParentForCreation()
+        {
+            AssociateCurrentInstanceToParent();
+            Current.WasAssociatedRightAfterCreation = true;
         }
     }
 }
