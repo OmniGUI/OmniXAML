@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.DotNetFx.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample WPF App", "Source\Tests\TestApplications\TestApplication\Sample WPF App.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.ChangeTracking", "Glass.ChangeTracking\Glass.ChangeTracking.csproj", "{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.ChangeTracking", "Source\Glass.ChangeTracking\Glass.ChangeTracking.csproj", "{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>Glass</id>
+    <id>Glass.ChangeTracking</id>
     <version>#VERSION#</version>
-    <title>Glass</title>
+    <title>Glass ChangeTracking</title>
     <authors>José Manuel Nieto (@SuperJMN)</authors>
     <owners>José Manuel Nieto (@SuperJMN)</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -14,5 +14,10 @@
     <releaseNotes>Initial alpha release.</releaseNotes>
     <copyright>Copyright 2016</copyright>
     <tags>Glass OmniXAML Xaml Managed C# WPF Perspex MVVM UI</tags>
+    <dependencies>
+      <dependency id="Rx-Core" version="2.2.5" />
+      <dependency id="Rx-Interfaces" version="2.2.5" />
+      <dependency id="Rx-Linq" version="2.2.5" />
+    </dependencies>
   </metadata>
 </package>
