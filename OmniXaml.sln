@@ -5,29 +5,29 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml", "Source\OmniXaml\OmniXaml.csproj", "{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "Source\Tests\OmniXaml.Tests\OmniXaml.Tests.csproj", "{4A7491E9-E218-45F5-BF42-430247765630}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests", "Tests\OmniXaml.Tests\OmniXaml.Tests.csproj", "{4A7491E9-E218-45F5-BF42-430247765630}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{FCCAF8EF-B08E-4442-90B6-A41903CFB93A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass", "Source\Glass\Glass.csproj", "{B719FF91-BC7A-4145-8597-811D504FCFEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Classes", "Source\Tests\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj", "{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Classes", "Tests\OmniXaml.Tests.Classes\OmniXaml.Tests.Classes.csproj", "{E6FDA529-90C2-4DDA-9080-7E7EEF64B2CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Tests.Resources", "Source\Tests\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj", "{9B517520-4D99-4BF5-8219-A643F718F6DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xaml.Tests.Resources", "Tests\Xaml.Tests.Resources\Xaml.Tests.Resources.csproj", "{9B517520-4D99-4BF5-8219-A643F718F6DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.Tests", "Source\Tests\OmniXaml.Services.Tests\OmniXaml.Services.Tests.csproj", "{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.Tests", "Tests\OmniXaml.Services.Tests\OmniXaml.Services.Tests.csproj", "{BB3EEE9D-9962-4ADB-954A-E070B0C03CC8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.DotNetFx", "Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj", "{70B12EBB-E332-402E-BAF0-C55F38A6B753}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Common", "Source\Tests\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj", "{03EFD393-33D1-43E6-8835-1450459697F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Common", "Tests\OmniXaml.Tests.Common\OmniXaml.Tests.Common.csproj", "{03EFD393-33D1-43E6-8835-1450459697F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Wpf", "Source\OmniXaml.Wpf\OmniXaml.Wpf.csproj", "{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Wpf.Tests", "Source\Tests\OmniXaml.Wpf.Tests\OmniXaml.Wpf.Tests.csproj", "{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Wpf.Tests", "Tests\OmniXaml.Wpf.Tests\OmniXaml.Wpf.Tests.csproj", "{952C2CB6-BB38-471A-AD55-D68FCAC4A5CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test Applications", "Test Applications", "{1097E760-F02E-433D-ADE6-EC13F9CAEF91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAML Viewer", "Source\Tests\TestApplications\XamlViewer\XAML Viewer.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XAML Viewer", "TestApplications\XamlViewer\XAML Viewer.csproj", "{A49A57C4-6DB5-44A0-869B-39EED7884A0B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A3E121C9-F1A5-468B-940E-BF09C0414DB5}"
 EndProject
@@ -35,21 +35,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services", "Source
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.Mvvm", "Source\OmniXaml.Services.Mvvm\OmniXaml.Services.Mvvm.csproj", "{7784DA26-90C9-402E-8AAE-6D4D59C22D74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.Tests", "Source\Tests\Glass.Tests\Glass.Tests.csproj", "{6387E8C7-C9ED-4237-97C9-741A4FC56E59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.Tests", "Tests\Glass.Tests\Glass.Tests.csproj", "{6387E8C7-C9ED-4237-97C9-741A4FC56E59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicModel", "Source\Tests\TestApplications\BasicModel\BasicModel.csproj", "{CB1AE182-94D0-425D-BA64-E457378A96BE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicModel", "TestApplications\BasicModel\BasicModel.csproj", "{CB1AE182-94D0-425D-BA64-E457378A96BE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D42127E2-3E4B-448C-9481-A31B579FBCEE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2087C721-53A7-4636-BF02-C1EB0F7378AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Common.DotNetFx", "Source\Tests\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj", "{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Tests.Common.DotNetFx", "Tests\OmniXaml.Tests.Common.DotNetFx\OmniXaml.Tests.Common.DotNetFx.csproj", "{35EBCD38-4ADA-4860-8F23-6D564C0E4C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.DotNetFx.Tests", "Source\Tests\OmniXaml.Services.DotNetFx.Tests\OmniXaml.Services.DotNetFx.Tests.csproj", "{6DC9D410-E8CA-48A4-8725-697D75F33388}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmniXaml.Services.DotNetFx.Tests", "Tests\OmniXaml.Services.DotNetFx.Tests\OmniXaml.Services.DotNetFx.Tests.csproj", "{6DC9D410-E8CA-48A4-8725-697D75F33388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample WPF App", "Source\Tests\TestApplications\TestApplication\Sample WPF App.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample WPF App", "TestApplications\TestApplication\Sample WPF App.csproj", "{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.ChangeTracking", "Source\Glass.ChangeTracking\Glass.ChangeTracking.csproj", "{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glass.ChangeTracking.Tests", "Tests\Glass.ChangeTracking.Tests\Glass.ChangeTracking.Tests.csproj", "{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -133,6 +135,10 @@ Global
 		{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1972459C-D982-47DC-A7E4-FC76FC5EC8B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -158,5 +164,6 @@ Global
 		{6DC9D410-E8CA-48A4-8725-697D75F33388} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 		{70FEDBBC-AD3D-4AB9-8EC0-3306BE2E266D} = {1097E760-F02E-433D-ADE6-EC13F9CAEF91}
 		{1972459C-D982-47DC-A7E4-FC76FC5EC8B3} = {2087C721-53A7-4636-BF02-C1EB0F7378AC}
+		{AB770E77-F6CC-457F-BDCC-4A8CECDBDBEE} = {FCCAF8EF-B08E-4442-90B6-A41903CFB93A}
 	EndGlobalSection
 EndGlobal
