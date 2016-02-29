@@ -266,11 +266,6 @@ namespace OmniXaml.ObjectAssembler
             InstanceProperties.Name = value;
         }
 
-        public void NotifyEnd()
-        {
-            lifecycleListener.OnEnd(Current.Instance);
-        }
-
         public void AssociateCurrentInstanceToParentForCreation()
         {
             AssociateCurrentInstanceToParent();

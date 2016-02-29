@@ -21,9 +21,11 @@ namespace OmniXaml.ObjectAssembler.Commands
                 StateCommuter.CreateInstanceOfCurrentXamlTypeIfNotCreatedBefore();
                 StateCommuter.PutNameToCurrentInstanceIfAny();
 
-                if (StateCommuter.Current.Instance is IMarkupExtension)
+                var instance = StateCommuter.Current.Instance;
+
+                if (instance is IMarkupExtension)
                 {
-                    ProcessCurrentIntanceValueWithMarkupExtension();               
+                    ProcessCurrentInstanceValueWithMarkupExtension();               
                 }
                 else if (!StateCommuter.WasAssociatedRightAfterCreation)
                 {
@@ -31,8 +33,8 @@ namespace OmniXaml.ObjectAssembler.Commands
                 }
 
                 StateCommuter.RegisterInstanceNameToNamescope();
-                lifyCycleListener.OnAfterProperties(StateCommuter.Current.Instance);
-                StateCommuter.NotifyEnd();
+                lifyCycleListener.OnAfterProperties(instance);
+                lifyCycleListener.OnEnd(instance);
             }
 
             setResult(StateCommuter);
@@ -40,7 +42,7 @@ namespace OmniXaml.ObjectAssembler.Commands
             StateCommuter.DecreaseLevel();
         }
 
-        private void ProcessCurrentIntanceValueWithMarkupExtension()
+        private void ProcessCurrentInstanceValueWithMarkupExtension()
         {
             var processedValue = StateCommuter.GetValueProvidedByMarkupExtension((IMarkupExtension) StateCommuter.Current.Instance);
             StateCommuter.Current.Instance = processedValue;
