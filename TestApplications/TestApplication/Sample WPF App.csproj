@@ -37,11 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Grace, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Grace.2.4.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Grace.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Grace.Net, Version=2.4.2.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Grace.Net.2.4.2\lib\net45\Grace.Net.dll</HintPath>
+      <HintPath>..\..\packages\Grace.2.4.2\lib\portable-net45+netcore45+wpa81+wp8+MonoAndroid1+MonoTouch1\Grace.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
