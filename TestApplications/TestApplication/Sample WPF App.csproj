@@ -109,10 +109,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>

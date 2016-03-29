@@ -96,10 +96,6 @@
     <Compile Include="XamlXmlLoaderTests\SpecialTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
@@ -127,6 +123,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

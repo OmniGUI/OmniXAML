@@ -44,10 +44,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml\OmniXaml.csproj">
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>

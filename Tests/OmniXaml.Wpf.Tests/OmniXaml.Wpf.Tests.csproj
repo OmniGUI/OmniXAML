@@ -71,10 +71,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml.Wpf\OmniXaml.Wpf.csproj">
       <Project>{3F5DEBE4-D1D2-4190-9AEA-FDD4065FDED7}</Project>
       <Name>OmniXaml.Wpf</Name>
@@ -87,6 +83,9 @@
       <Project>{9b517520-4d99-4bf5-8219-a643f718f6dd}</Project>
       <Name>Xaml.Tests.Resources</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

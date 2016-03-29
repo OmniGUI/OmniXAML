@@ -64,10 +64,6 @@
       <Project>{B207C0CB-2BDF-4105-9E1D-1C5B98E98381}</Project>
       <Name>OmniXaml.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
@@ -91,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

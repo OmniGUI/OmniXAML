@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Glass.Core, Version=1.6.0.69, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glass.Core.1.6.0.69\lib\portable-net45+win+MonoAndroid10+xamarinios10+MonoTouch10\Glass.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -87,10 +91,6 @@
     <Compile Include="WpfTypeRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Glass\Glass.csproj">
-      <Project>{b719ff91-bc7a-4145-8597-811d504fcfef}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
@@ -107,6 +107,9 @@
       <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

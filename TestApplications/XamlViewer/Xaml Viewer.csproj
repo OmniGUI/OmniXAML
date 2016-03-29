@@ -52,6 +52,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Glass.Core, Version=1.6.0.69, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glass.Core.1.6.0.69\lib\portable-net45+win+MonoAndroid10+xamarinios10+MonoTouch10\Glass.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -194,10 +198,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Glass\Glass.csproj">
-      <Project>{B719FF91-BC7A-4145-8597-811D504FCFEF}</Project>
-      <Name>Glass</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
       <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
