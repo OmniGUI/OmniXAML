@@ -53,6 +53,15 @@
       <Name>OmniXaml.Tests.Classes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Glass.Core, Version=1.6.0.69, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Glass.Core.1.6.0.69\lib\portable-net45+win+MonoAndroid10+xamarinios10+MonoTouch10\Glass.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
