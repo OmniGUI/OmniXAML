@@ -3,7 +3,7 @@ namespace OmniXaml.Tests.Parsers.InstructionParserTests
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Glass;
+    using Glass.Core;
     using Typing;
 
     public class MemberNodesBlock : IDependency<MemberNodesBlock>

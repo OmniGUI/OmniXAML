@@ -3,7 +3,7 @@ namespace OmniXaml.Typing
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
     using ObjectAssembler;
     using TypeConversion;
 

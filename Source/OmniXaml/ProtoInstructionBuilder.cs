@@ -4,7 +4,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Linq.Expressions;
-    using Glass;
+    using Glass.Core;
     using Parsers.ProtoParser;
     using Typing;
 

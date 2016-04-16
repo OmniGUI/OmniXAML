@@ -5,7 +5,7 @@ namespace OmniXaml.Tests.Common
     using System.Reflection;
     using Builder;
     using Classes;
-    using Glass;
+    using Glass.Core;
     using TypeConversion;
     using Typing;
 

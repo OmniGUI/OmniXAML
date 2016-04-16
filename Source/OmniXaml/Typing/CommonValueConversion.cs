@@ -4,7 +4,7 @@ namespace OmniXaml.Typing
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
     using TypeConversion;
 
     public static class CommonValueConversion

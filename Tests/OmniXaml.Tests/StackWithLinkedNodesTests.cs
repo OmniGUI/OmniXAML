@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests
 {
     using System;
-    using Glass;
+    using Glass.Core;
     using Xunit;
 
     public class StackWithLinkedNodesTests

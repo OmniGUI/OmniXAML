@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using Glass;
+    using Glass.Core;
     using ObjectAssembler;
     using Parsers;
     using Parsers.ProtoParser;

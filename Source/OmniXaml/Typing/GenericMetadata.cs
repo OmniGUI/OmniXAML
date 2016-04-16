@@ -2,7 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Linq.Expressions;
-    using Glass;
+    using Glass.Core;
 
 
     public class GenericMetadata<T> : Metadata

@@ -4,7 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
 
     public class DeferredLoaderMapping 
     {

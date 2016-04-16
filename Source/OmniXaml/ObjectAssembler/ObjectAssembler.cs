@@ -3,7 +3,7 @@ namespace OmniXaml.ObjectAssembler
     using System;
     using System.Collections;
     using Commands;
-    using Glass;
+    using Glass.Core;
     using TypeConversion;
     using Typing;
 

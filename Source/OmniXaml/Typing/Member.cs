@@ -1,7 +1,7 @@
 namespace OmniXaml.Typing
 {
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
 
     public class Member : MutableMember
     {

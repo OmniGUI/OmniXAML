@@ -2,7 +2,7 @@ namespace OmniXaml
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Glass;
+    using Glass.Core;
     using Typing;
     using Visualization;
 

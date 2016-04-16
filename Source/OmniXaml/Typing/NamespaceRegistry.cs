@@ -6,7 +6,7 @@ namespace OmniXaml.Typing
     using System.Linq;
     using System.Reflection;
     using Builder;
-    using Glass;
+    using Glass.Core;
 
     public class NamespaceRegistry : INamespaceRegistry
     {

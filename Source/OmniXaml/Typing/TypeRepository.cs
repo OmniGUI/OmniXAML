@@ -2,7 +2,7 @@ namespace OmniXaml.Typing
 {
     using System;
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
 
     public class TypeRepository : ITypeRepository
     {

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Glass;
+    using Glass.Core;
 
     public class MetadataProvider
     {

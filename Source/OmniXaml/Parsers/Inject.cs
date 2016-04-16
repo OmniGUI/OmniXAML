@@ -1,6 +1,6 @@
 namespace OmniXaml.Parsers
 {
-    using Glass;
+    using Glass.Core;
     using Typing;
 
     internal static class Inject

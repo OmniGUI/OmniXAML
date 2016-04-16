@@ -2,7 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
-    using Glass;
+    using Glass.Core;
     using Typing;
 
     public class XamlInstructionBuilder

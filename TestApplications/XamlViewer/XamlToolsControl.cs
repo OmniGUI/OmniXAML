@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Windows;
     using System.Windows.Input;
-    using Glass;
+    using Glass.Core;
     using OmniXaml;
     using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;

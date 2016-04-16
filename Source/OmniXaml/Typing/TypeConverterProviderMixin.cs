@@ -3,7 +3,7 @@ namespace OmniXaml.Typing
     using System;
     using System.Collections.Generic;
     using Builder;
-    using Glass;
+    using Glass.Core;
     using TypeConversion;
 
     public static class TypeConverterProviderMixin

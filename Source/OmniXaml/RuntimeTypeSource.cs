@@ -4,7 +4,7 @@ namespace OmniXaml
     using System.Collections.Generic;
     using System.Reflection;
     using Builder;
-    using Glass;
+    using Glass.Core;
     using TypeConversion;
     using Typing;
 

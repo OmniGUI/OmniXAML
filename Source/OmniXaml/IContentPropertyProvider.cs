@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Builder;
-    using Glass;
+    using Glass.Core;
 
     public interface IContentPropertyProvider : IAdd<ContentPropertyDefinition>, IEnumerable<ContentPropertyDefinition>
     {

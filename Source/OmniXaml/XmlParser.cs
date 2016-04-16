@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System.Collections.Generic;
-    using Glass;
+    using Glass.Core;
     using Parsers.Parser;
     using Parsers.ProtoParser;
 
