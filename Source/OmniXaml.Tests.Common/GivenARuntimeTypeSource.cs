@@ -1,6 +1,9 @@
 namespace OmniXaml.Tests.Common
 {
+    using System.Collections.Generic;
     using Builder;
+    using ObjectAssembler;
+    using TypeConversion;
     using Typing;
 
     public class GivenARuntimeTypeSource
@@ -18,5 +21,12 @@ namespace OmniXaml.Tests.Common
         public NamespaceDeclaration SpecialNs { get; } = new NamespaceDeclaration(CoreTypes.SpecialNamespace, "x");
         public XamlInstructionBuilder X { get; }
         public ProtoInstructionBuilder P { get; }
+
+        protected IObjectAssembler CreateObjectAssembler()
+        {
+            var topDownValueContext = new TopDownValueContext();
+            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>()));
+            return objectAssembler;
+        }
     }
 }

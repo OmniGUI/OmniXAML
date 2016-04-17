@@ -33,8 +33,7 @@
             var assembler = new DummyDeferredLoader();
             mapping.Map<Template>(t => t.Content, assembler);
 
-            var topDownValueContext = new TopDownValueContext();
-            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>()));
+            var objectAssembler = CreateObjectAssembler();
 
             var sut = new TemplateHostingObjectAssembler(objectAssembler, mapping);                       
 
