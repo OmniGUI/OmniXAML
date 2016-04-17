@@ -21,7 +21,7 @@
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
 
             var topDownValueContext = new TopDownValueContext();
-            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext, settings.ParsingContext);
             var objectAssembler = new ObjectAssembler(runtimeTypeSource, valueConnectionContext, settings);
             return new TemplateHostingObjectAssembler(objectAssembler, mapping);
         }

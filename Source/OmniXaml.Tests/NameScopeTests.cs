@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests
 {
+    using System.Collections.Generic;
     using Classes;
     using Classes.WpfLikeModel;
     using Common.DotNetFx;
@@ -16,7 +17,7 @@ namespace OmniXaml.Tests
         public NameScopeTests()
         {
             var topDownValueContext = new TopDownValueContext();
-            sut = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
+            sut = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>()));
             source = new InstructionResources(this);
         }
        

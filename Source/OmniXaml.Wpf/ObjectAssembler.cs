@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.Wpf
 {
     using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using OmniXaml.ObjectAssembler;
     using OmniXaml.ObjectAssembler.Commands;
     using TypeConversion;
@@ -14,8 +16,8 @@
             TypeSource = typeSource;
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.AlternateTemplateContent, new DeferredLoader());
-
-            var valueConnectionContext = new ValueContext(typeSource, topDownValueContext);
+            var parsingDictionary = GetDictionary(settings);
+            var valueConnectionContext = new ValueContext(typeSource, topDownValueContext, parsingDictionary);
 
             objectAssembler = new TemplateHostingObjectAssembler(
                 new OmniXaml.ObjectAssembler.ObjectAssembler(
@@ -23,6 +25,21 @@
                     valueConnectionContext,
                     settings),
                 mapping);
+        }
+
+        private static IReadOnlyDictionary<string, object> GetDictionary(Settings settings)
+        {
+            IReadOnlyDictionary<string, object> dict;
+            if (settings != null)
+            {
+                dict = settings.ParsingContext;
+            }
+            else
+            {
+                dict = new ReadOnlyDictionary<string, object>(new Dictionary<string, object>());
+            }
+
+            return dict;
         }
 
         public IRuntimeTypeSource TypeSource { get; }

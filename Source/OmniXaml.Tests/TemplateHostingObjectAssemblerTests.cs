@@ -34,7 +34,7 @@
             mapping.Map<Template>(t => t.Content, assembler);
 
             var topDownValueContext = new TopDownValueContext();
-            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext));
+            var objectAssembler = new ObjectAssembler(RuntimeTypeSource, new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>()));
 
             var sut = new TemplateHostingObjectAssembler(objectAssembler, mapping);                       
 

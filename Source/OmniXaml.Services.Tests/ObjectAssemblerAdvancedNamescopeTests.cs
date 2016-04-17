@@ -20,7 +20,7 @@
 
             var topDownValueContext = new TopDownValueContext();
             
-            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext, new Dictionary<string, object>());
             var sut = new ObjectAssembler(runtimeTypeSource, valueConnectionContext);
 
             var batch = new Collection<Instruction>
@@ -51,7 +51,7 @@
             var x = CreateBuilder(runtimeTypeSource);
 
             var topDownValueContext = new TopDownValueContext();
-            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext);
+            var valueConnectionContext = new ValueContext(runtimeTypeSource, topDownValueContext, new Dictionary<string, object>());
             var sut = new ObjectAssembler(runtimeTypeSource, valueConnectionContext);
 
             var batch = new Collection<Instruction>

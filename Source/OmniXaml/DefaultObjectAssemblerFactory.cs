@@ -1,5 +1,6 @@
 namespace OmniXaml
 {
+    using System.Collections.Generic;
     using ObjectAssembler;
     using TypeConversion;
 
@@ -15,7 +16,7 @@ namespace OmniXaml
         public IObjectAssembler CreateAssembler(Settings settings)
         {
             var topDownValueContext = new TopDownValueContext();
-            return new ObjectAssembler.ObjectAssembler(typeSource, new ValueContext(typeSource, topDownValueContext), settings);
+            return new ObjectAssembler.ObjectAssembler(typeSource, new ValueContext(typeSource, topDownValueContext, new Dictionary<string, object>()), settings);
         }
     }
 }

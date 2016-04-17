@@ -1,14 +1,12 @@
 ﻿namespace OmniXaml
 {
     using System.Reflection;
-    using ObjectAssembler.Commands;
-    using Typing;
+    using TypeConversion;
 
     public class MarkupExtensionContext
     {
         public object TargetObject { get; set; }
         public PropertyInfo TargetProperty { get; set; }
-        public ITypeRepository TypeRepository { get; set; }
-        public ITopDownValueContext TopDownValueContext { get; set; }
+        public IValueContext ValueContext { get; set; }        
     }
 }

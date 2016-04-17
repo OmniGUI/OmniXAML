@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests
 {
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
@@ -24,14 +25,14 @@
         private ObjectAssembler CreateSut()
         {
             var topDownValueContext = new TopDownValueContext();
-            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>());
             return new ObjectAssembler(RuntimeTypeSource, valueConnectionContext, new Settings { InstanceLifeCycleListener = new TestListener() });
         }
 
         public IObjectAssembler CreateSutForLoadingSpecificInstance(object instance)
         {
             var topDownValueContext = new TopDownValueContext();
-            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext);
+            var valueConnectionContext = new ValueContext(RuntimeTypeSource, topDownValueContext, new Dictionary<string, object>());
 
             var settings = new Settings { RootInstance = instance };
 

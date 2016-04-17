@@ -132,8 +132,7 @@ namespace OmniXaml.ObjectAssembler
             {
                 TargetObject = Previous.Instance,
                 TargetProperty = Previous.Instance.GetType().GetRuntimeProperty(Previous.Member.Name),
-                TypeRepository = ValueContext.TypeRepository,
-                TopDownValueContext = TopDownValueContext
+                ValueContext = ValueContext,                
             };
 
             return inflationContext;

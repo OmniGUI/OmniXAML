@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BasicModel</RootNamespace>
     <AssemblyName>BasicModel</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -52,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Model.xaml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -59,15 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Source\OmniXaml.Services.DotNetFx\OmniXaml.Services.DotNetFx.csproj">
-      <Project>{70b12ebb-e332-402e-baf0-c55f38a6b753}</Project>
+      <Project>{70B12EBB-E332-402E-BAF0-C55F38A6B753}</Project>
       <Name>OmniXaml.Services.DotNetFx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Source\OmniXaml.Services\OmniXaml.Services.csproj">
-      <Project>{b207c0cb-2bdf-4105-9e1d-1c5b98e98381}</Project>
-      <Name>OmniXaml.Services</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Source\OmniXaml\OmniXaml.csproj">
-      <Project>{0d9cc1de-84c3-40d7-9cc5-b7751e0b25d1}</Project>
+      <Project>{0D9CC1DE-84C3-40D7-9CC5-B7751E0B25D1}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
   </ItemGroup>

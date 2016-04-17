@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml
 {
+    using System.Collections.Generic;
     using ObjectAssembler;
     using Parsers.Parser;
     using Parsers.ProtoParser;
@@ -29,7 +30,7 @@
         public IParser Create(Settings settings)
         {
             var topDownValueContext = new TopDownValueContext();
-            var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource,new ValueContext(runtimeTypeSource, topDownValueContext),
+            var objectAssemblerForUndefinedRoot = new ObjectAssembler.ObjectAssembler(runtimeTypeSource,new ValueContext(runtimeTypeSource, topDownValueContext, new Dictionary<string, object>()),
                 settings);
 
             return CreateParser(objectAssemblerForUndefinedRoot);

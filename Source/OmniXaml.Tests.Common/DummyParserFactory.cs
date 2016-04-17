@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests.Common.DotNetFx
 {
+    using System.Collections.Generic;
     using Classes.Templates;
     using Classes.WpfLikeModel;
     using ObjectAssembler;
@@ -37,7 +38,7 @@ namespace OmniXaml.Tests.Common.DotNetFx
         {
             var topDownValueContext = new TopDownValueContext();
 
-            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new ValueContext(runtimeTypeSource, topDownValueContext), settings);
+            var objectAssembler = new ObjectAssembler(runtimeTypeSource, new ValueContext(runtimeTypeSource, topDownValueContext, new Dictionary<string, object>()), settings);
 
             var mapping = new DeferredLoaderMapping();
             mapping.Map<DataTemplate>(template => template.Content, new DummyDeferredLoader());
