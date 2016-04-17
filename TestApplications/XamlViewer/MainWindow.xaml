@@ -24,7 +24,7 @@
         <StackPanel x:Key="Guidelines" Margin="10">
             <TextBlock TextWrapping="Wrap" TextAlignment="Justify" Margin="4" >
                 <Run>In order to load (inflate) XAML you need to choose a model of objects.</Run>
-                <Run>You can choose WPF or Dummy. </Run>
+                <Run>You can choose WPF or Dummy </Run>
             </TextBlock>
             <StackPanel Margin="4">
                 <BulletDecorator>

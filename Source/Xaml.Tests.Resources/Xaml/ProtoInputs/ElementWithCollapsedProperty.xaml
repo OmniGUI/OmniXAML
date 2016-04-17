@@ -1,0 +1,9 @@
+﻿<DummyClass xmlns="root" SampleProperty="Sample">
+  <DummyClass.Child>
+    <ChildClass>
+      <ChildClass.Content>
+        <Item Text="Value!"/>
+      </ChildClass.Content>
+    </ChildClass>
+  </DummyClass.Child>
+</DummyClass>

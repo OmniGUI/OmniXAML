@@ -1,12 +1,11 @@
 ﻿namespace XamlViewer.ViewModels
 {
-    using System.Collections;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Tests.Common;
     using OmniXaml.Tests.Common.DotNetFx;
-    using XamlResources = Xaml.Tests.Resources.Dummy;
 
     public class DummyLoaderViewModel : XamlVisualizerViewModel
     {
@@ -16,16 +15,16 @@
 
         public DummyLoaderViewModel()
         {
-            IXamlSnippetProvider snippetsProvider = new XamlSnippetProvider(typeof(XamlResources).Assembly, "Xaml.Tests.Resources.Dummy.resources");
+            IXamlSnippetProvider snippetsProvider = new SnippetProvider("Xaml\\Dummy");
             Snippets = snippetsProvider.Snippets;
-            Xaml = XamlResources.ChildCollection;
+            //Xaml = XamlResources.ChildCollection;
             SetSelectedItemCommand = new RelayCommand(o => SelectedItem = (InstanceNodeViewModel)o, o => o != null);
             LoadCommand = new RelayCommand(Execute.Safely(o => LoadXaml()), o => Xaml != string.Empty);
 
             RuntimeTypeSource = new TestRuntimeTypeSource();
         }
 
-        public IList Snippets { get; set; }
+        public IEnumerable<Snippet> Snippets { get; set; }
 
         public InstanceNodeViewModel SelectedItem
         {

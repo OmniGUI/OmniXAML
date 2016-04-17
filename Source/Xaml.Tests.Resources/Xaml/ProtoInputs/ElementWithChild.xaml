@@ -1,0 +1,5 @@
+﻿<DummyClass xmlns="root" >
+  <DummyClass.Child>
+    <ChildClass />
+  </DummyClass.Child>
+</DummyClass>

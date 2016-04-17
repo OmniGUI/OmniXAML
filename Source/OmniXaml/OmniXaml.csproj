@@ -38,6 +38,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DefaultInstanceLifeCycleListener.cs" />
     <Compile Include="DefaultParserFactory.cs" />
     <Compile Include="DefaultLoader.cs" />
     <Compile Include="IInstanceLifeCycleListener.cs" />
