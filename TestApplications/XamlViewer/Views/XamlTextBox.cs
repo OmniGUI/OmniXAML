@@ -1,7 +1,6 @@
 ﻿namespace XamlViewer.Views
 {
     using System.Windows;
-    using System.Windows.Controls;
     using OmniXaml;
 
     public partial class XamlTextBox

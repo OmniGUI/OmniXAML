@@ -37,13 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DummyParserFactory.cs" />
-    <Compile Include="GivenAWiringContextNetCore.cs" />
-    <Compile Include="GivenAWiringContextWithNodeBuildersNetCore.cs" />
     <Compile Include="TestRuntimeTypeSource.cs" />
     <Compile Include="XamlTypeMock.cs" />
     <Compile Include="TestTypeRepository.cs" />
     <Compile Include="GivenARuntimeTypeSource.cs" />
-    <Compile Include="GivenARuntimeTypeSourceWithNodeBuilders.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

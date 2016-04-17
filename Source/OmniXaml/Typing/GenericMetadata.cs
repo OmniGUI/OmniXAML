@@ -4,7 +4,6 @@ namespace OmniXaml.Typing
     using System.Linq.Expressions;
     using Glass.Core;
 
-
     public class GenericMetadata<T> : Metadata
     {
         public GenericMetadata<T> WithMemberDependency(Expression<Func<T, object>> property, Expression<Func<T, object>> dependsOn)
@@ -23,8 +22,6 @@ namespace OmniXaml.Typing
             ContentProperty = nameOfPropertySelector.GetFullPropertyName();
             return this;
         }
-
-        public string ContentProperty { get; set; }
 
         public GenericMetadata<T> WithRuntimeNameProperty(Expression<Func<T, object>> nameOfPropertySelector)
         {

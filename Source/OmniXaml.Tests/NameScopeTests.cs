@@ -3,13 +3,13 @@ namespace OmniXaml.Tests
     using System.Collections.Generic;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common.DotNetFx;
+    using Common;
     using ObjectAssembler;
     using Resources;
     using TypeConversion;
     using Xunit;
 
-    public class NameScopeTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class NameScopeTests : GivenARuntimeTypeSource
     {
         private readonly InstructionResources source;
         private readonly ObjectAssembler sut;

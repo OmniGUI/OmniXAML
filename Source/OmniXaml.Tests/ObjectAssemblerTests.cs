@@ -5,13 +5,13 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using ObjectAssembler;
     using Resources;
     using TypeConversion;
 
-    public class ObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class ObjectAssemblerTests : GivenARuntimeTypeSource
     {
         private InstructionResources source;
         private IObjectAssembler sut;

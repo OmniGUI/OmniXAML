@@ -94,6 +94,7 @@
     <Compile Include="TypeFeatureProviderDummy.cs" />
     <Compile Include="InstructionTreeBuilderTests.cs" />
     <Compile Include="MemberDependencyNodeSorterTests.cs" />
+    <Compile Include="TypeFeatureProviderTests.cs" />
     <Compile Include="VisualizationTests.cs" />
     <Compile Include="ObjectAssemblerTests.cs" />
     <Compile Include="Resources\InstructionResources.cs" />

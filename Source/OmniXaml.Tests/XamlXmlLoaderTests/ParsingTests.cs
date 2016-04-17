@@ -6,7 +6,6 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Parsers.Integration;
     using Xunit;
     using Xaml.Tests.Resources;
 

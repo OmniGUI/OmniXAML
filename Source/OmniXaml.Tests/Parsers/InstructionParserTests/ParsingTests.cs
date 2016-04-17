@@ -4,12 +4,12 @@
     using System.Linq;
     using System.Reflection;
     using Classes;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using OmniXaml.Parsers.Parser;
     using Resources;
 
-    public class ParsingTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class ParsingTests : GivenARuntimeTypeSource
     {
         private readonly IInstructionParser sut;
         private readonly ProtoInstructionResources protoResources;

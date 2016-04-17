@@ -4,11 +4,11 @@
     using System.Linq;
     using Classes;
     using Classes.WpfLikeModel;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using Resources;
 
-    public class LookaheadBufferTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class LookaheadBufferTests : GivenARuntimeTypeSource
     {
         private readonly InstructionResources resources;
 

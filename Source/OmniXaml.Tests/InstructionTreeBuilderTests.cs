@@ -4,11 +4,11 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using Resources;
 
-    public class InstructionTreeBuilderTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class InstructionTreeBuilderTests : GivenARuntimeTypeSource
     {
         private readonly InstructionResources source;
 

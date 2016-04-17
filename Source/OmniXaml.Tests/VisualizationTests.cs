@@ -2,16 +2,16 @@
 {
     using System.Collections.ObjectModel;
     using Classes;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using Visualization;
 
-    public class VisualizationTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class VisualizationTests : GivenARuntimeTypeSource
     {     
         [Fact]
         public void ConvertToTags()
         {
-            var col = new Collection<Instruction>()
+            var col = new Collection<Instruction>
             {
                 X.NamespacePrefixDeclaration(RootNs),
                 X.StartObject<DummyClass>(),

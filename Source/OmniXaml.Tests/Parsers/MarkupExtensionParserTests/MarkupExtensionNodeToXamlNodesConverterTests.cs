@@ -4,12 +4,12 @@
     using System.Collections.ObjectModel;
     using System.Linq;
     using Classes;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using OmniXaml.Parsers.MarkupExtensions;
     using Resources;
 
-    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class MarkupExtensionNodeToXamlNodesConverterTests : GivenARuntimeTypeSource
     {     
         [Fact]
         public void NameOnly()

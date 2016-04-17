@@ -58,9 +58,7 @@
     <Compile Include="ObjectAssemblerAdvancedNamescopeTests.cs" />
     <Compile Include="DummyAssemblerFactory.cs" />
     <Compile Include="DummyAutoInflatingTypeFactory.cs" />
-    <Compile Include="GivenAnInflatableTypeLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="InflatableTests.cs" />
     <Compile Include="TypeFactoryMock.cs" />
   </ItemGroup>
   <ItemGroup>

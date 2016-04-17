@@ -4,15 +4,14 @@
     using System.IO;
     using System.Linq;
     using System.Xml;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using OmniXaml.Parsers.Parser;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
-    using Xaml.Tests.Resources;
     using File = Xaml.Tests.Resources.File;
 
-    public class FromXamlToInstructions : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class FromXamlToInstructions : GivenARuntimeTypeSource
     {
         private readonly InstructionResources source;
 

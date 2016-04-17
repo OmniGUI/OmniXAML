@@ -1,7 +1,6 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
-    using Parsers.Integration;
     using Xunit;
     using Xaml.Tests.Resources;
   

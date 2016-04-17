@@ -4,7 +4,6 @@ namespace OmniXaml.Typing
     using System.Linq;
     using System.Reflection;
     using Glass.Core;
-    using ObjectAssembler;
     using TypeConversion;
 
     public abstract class MutableMember : MemberBase, IDependency<Member>

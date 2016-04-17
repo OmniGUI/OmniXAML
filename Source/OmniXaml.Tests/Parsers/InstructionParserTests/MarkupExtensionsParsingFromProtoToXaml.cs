@@ -3,11 +3,11 @@
     using System.Collections.Generic;
     using System.Linq;
     using Classes;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using OmniXaml.Parsers.Parser;
 
-    public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class MarkupExtensionsParsingFromProtoToXaml : GivenARuntimeTypeSource
     {
         private readonly IInstructionParser sut;
         

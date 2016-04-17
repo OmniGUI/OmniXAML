@@ -4,13 +4,13 @@
     using Classes;
     using Classes.Templates;
     using Classes.WpfLikeModel;
-    using Common.DotNetFx;
     using Xunit;
     using ObjectAssembler;
     using TypeConversion;
     using System.Collections.Generic;
+    using Common;
 
-    public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class TemplateHostingObjectAssemblerTests : GivenARuntimeTypeSource
     {
         [Fact]
         public void SimpleTest()

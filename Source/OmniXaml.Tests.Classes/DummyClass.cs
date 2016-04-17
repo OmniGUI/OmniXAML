@@ -1,6 +1,5 @@
 namespace OmniXaml.Tests.Classes
 {
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Another;

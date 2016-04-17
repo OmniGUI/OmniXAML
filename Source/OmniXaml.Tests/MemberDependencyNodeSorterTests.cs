@@ -3,11 +3,11 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Common.DotNetFx;
+    using Common;
     using Xunit;
     using Resources;
 
-    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class MemberDependencyNodeSorterTests : GivenARuntimeTypeSource
     {
         private readonly MemberDependencyNodeSorter memberDependencyNodeSorter = new MemberDependencyNodeSorter();
         private readonly InstructionResources resources;

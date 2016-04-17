@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.Resources
 
     public class InstructionResources
     {
-        public InstructionResources(GivenARuntimeTypeSourceWithNodeBuilders source)
+        public InstructionResources(GivenARuntimeTypeSource source)
         {
             RootNs = source.RootNs;
             AnotherNs = source.AnotherNs;

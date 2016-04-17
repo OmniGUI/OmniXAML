@@ -1,13 +1,13 @@
 ﻿namespace OmniXaml.Tests.Parsers.ProtoInstructionParserTests
 {
     using System.Linq;
-    using Common.DotNetFx;
+    using Common;
     using OmniXaml.Parsers.ProtoParser;
     using Resources;
     using Xaml.Tests.Resources;
     using Xunit;
 
-    public class ParsingTests : GivenARuntimeTypeSourceWithNodeBuildersNetCore
+    public class ParsingTests : GivenARuntimeTypeSource
     {
         private readonly ProtoInstructionResources source;
 

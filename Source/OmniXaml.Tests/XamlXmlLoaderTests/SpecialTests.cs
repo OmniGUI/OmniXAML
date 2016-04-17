@@ -1,10 +1,11 @@
 namespace OmniXaml.Tests.XamlXmlLoaderTests
 {
     using Classes;
+    using Common;
     using Common.DotNetFx;
     using Xunit;
 
-    public abstract class SpecialTests : GivenARuntimeTypeSourceNetCore
+    public abstract class SpecialTests : GivenARuntimeTypeSource
     {
         [Fact]
         public void LoadWithRootInstance()

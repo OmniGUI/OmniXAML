@@ -1,13 +1,11 @@
 ﻿namespace XamlViewer.ViewModels
 {
-    using System.Collections;
     using System.Collections.Generic;
     using System.Windows;
     using System.Windows.Input;
     using OmniXaml;
     using OmniXaml.Wpf;
     using XamlViewer;
-    using Xaml.Tests.Resources;
 
     public class WpfLoaderViewModel : XamlVisualizerViewModel
     {
