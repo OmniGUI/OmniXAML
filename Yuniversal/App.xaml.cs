@@ -71,7 +71,7 @@ namespace Yuniversal
             {
                 if (rootFrame.Content == null)
                 {
-                    var objectBuilder = new ObjectBuilder(new InstanceCreator());
+                    var objectBuilder = new ObjectBuilder(new InstanceCreator(), new SourceValueConverter());
                     var page = (Page) objectBuilder.Create(
                         new ContructionNode
                         {

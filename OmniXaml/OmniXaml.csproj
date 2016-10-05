@@ -42,6 +42,7 @@
     <Compile Include="ContructionNode.cs" />
     <Compile Include="IInstanceCreator.cs" />
     <Compile Include="InstanceCreator.cs" />
+    <Compile Include="ISourceValueConverter.cs" />
     <Compile Include="ObjectBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
