@@ -72,24 +72,24 @@ namespace Yuniversal
                 if (rootFrame.Content == null)
                 {
                     var objectBuilder = new ObjectBuilder(new InstanceCreator(), new SourceValueConverter());
-                    var page = (Page) objectBuilder.Create(
-                        new ContructionNode
-                        {
-                            InstanceType = typeof(Page),
-                            Assignments = new List<PropertyAssignment>
-                            {
-                                new PropertyAssignment
-                                {
-                                    Property = new Property
-                                    {
-                                        Name = "Title",
-                                    },
-                                    SourceValue = "Pepito",
-                                }
-                            }
-                        });
+                    //var page = (Page) objectBuilder.Create(
+                    //    new ContructionNode
+                    //    {
+                    //        InstanceType = typeof(Page),
+                    //        Assignments = new List<PropertyAssignment>
+                    //        {
+                    //            new PropertyAssignment
+                    //            {
+                    //                Property = new Property
+                    //                {
+                    //                    Name = "Title",
+                    //                },
+                    //                SourceValue = "Pepito",
+                    //            }
+                    //        }
+                    //    });
 
-                    rootFrame.Content = page;
+                    //rootFrame.Content = page;
 
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation

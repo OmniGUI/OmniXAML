@@ -31,40 +31,38 @@
             foreach (var propertyAssignment in propertyAssignments)
             {
                 EnsureValidAssigment(propertyAssignment);
-
-                var type = instance.GetType();
-                var propertyInfo = type.GetRuntimeProperties().First(info => info.Name == propertyAssignment.Property.Name);
+                var property = propertyAssignment.Property;
 
                 if (propertyAssignment.SourceValue != null)
                 {
-                    var value = sourceValueConverter.GetCompatibleValue(propertyInfo.PropertyType, propertyAssignment.SourceValue);
-                    propertyInfo.SetValue(instance, value);
+                    var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
+                    property.SetValue(instance, value);
                 }
                 else 
                 {
                     var values = propertyAssignment.Children.Select(Create);
 
-                    if (IsCollection(propertyInfo))
+                    if (IsCollection(property.PropertyType))
                     {
-                        AssignValuesToCollection(values, instance, propertyInfo);
+                        AssignValuesToCollection(values, instance, property);
                     }
                     else
                     {
-                        AssignValuesToNonCollection(instance, values, propertyInfo);
+                        AssignValuesToNonCollection(instance, values, property);
                     }                    
                 }                
             }
         }
 
-        private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, PropertyInfo propertyInfo)
+        private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, Property property)
         {
             var value = values.First();
-            propertyInfo.SetValue(instance, value);
+            property.SetValue(instance, value);
         }
 
-        private void AssignValuesToCollection(IEnumerable<object> values, object instance, PropertyInfo propertyInfo)
+        private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property propery)
         {
-            var valueOfProperty = propertyInfo.GetValue(instance);
+            var valueOfProperty = propery.GetValue(instance);
             var collection = (IList) valueOfProperty;
 
             foreach (var value in values)
@@ -73,9 +71,9 @@
             }
         }
 
-        private bool IsCollection(PropertyInfo propertyInfo)
+        private bool IsCollection(Type propertyInfo)
         {
-            var typeInfo = propertyInfo.PropertyType.GetTypeInfo();
+            var typeInfo = propertyInfo.GetTypeInfo();
             return typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
         }
 
