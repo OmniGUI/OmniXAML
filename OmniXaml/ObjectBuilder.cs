@@ -19,11 +19,15 @@
 
         public object Create(ContructionNode node)
         {
-            var instance = creator.Create(node.InstanceType);
-
+            var instance = CreateInstance(node);
             ApplyAssignments(instance, node.Assignments);
 
             return instance;
+        }
+
+        private object CreateInstance(ContructionNode node)
+        {
+            return creator.Create(node.InstanceType);
         }
 
         private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments)
@@ -54,15 +58,15 @@
             }
         }
 
-        private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, Property property)
+        private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, Property standardProperty)
         {
             var value = values.First();
-            property.SetValue(instance, value);
+            standardProperty.SetValue(instance, value);
         }
 
-        private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property propery)
+        private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
         {
-            var valueOfProperty = propery.GetValue(instance);
+            var valueOfProperty = property.GetValue(instance);
             var collection = (IList) valueOfProperty;
 
             foreach (var value in values)

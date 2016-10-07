@@ -39,13 +39,17 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AttachedProperty.cs" />
     <Compile Include="ContructionNode.cs" />
+    <Compile Include="Glass\ReflectionExtensions.cs" />
     <Compile Include="IInstanceCreator.cs" />
     <Compile Include="InstanceCreator.cs" />
     <Compile Include="ISourceValueConverter.cs" />
     <Compile Include="ObjectBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Property.cs" />
+    <Compile Include="SourceValueConverter.cs" />
+    <Compile Include="StandardProperty.cs" />
     <Compile Include="PropertyAssignment.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

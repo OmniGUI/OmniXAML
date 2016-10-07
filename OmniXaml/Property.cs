@@ -1,33 +1,33 @@
 ﻿namespace OmniXaml
 {
     using System;
-    using System.Reflection;
+    using System.Linq.Expressions;
+    using Glass;
 
-    public class Property
+    public abstract class Property
     {
-        private readonly MethodInfo getter;
-        private readonly MethodInfo setter;
-        private PropertyInfo propInfo;
+        public abstract object GetValue(object instance);
+        public abstract void SetValue(object instance, object value);
+        public abstract Type PropertyType { get; }
 
-        public Property(Type type, string propertyName)
+        public static Property RegularProperty<T>(Expression<Func<T, object>> propertySelector)
         {
-            propInfo = type.GetRuntimeProperty(propertyName);
-            getter = propInfo.GetMethod;
-            setter = propInfo.SetMethod;            
+            return RegularProperty(typeof(T), propertySelector.GetFullPropertyName());
         }
 
-        public string Name { get; set; }
-
-        public object GetValue(object instance)
+        public static Property RegularProperty(Type type, string propertyName)
         {
-            return getter.Invoke(instance, null);
+            return new StandardProperty(type, propertyName);
         }
 
-        public Type PropertyType => propInfo.PropertyType;
-
-        public object SetValue(object instance, object value)
+        public static Property FromAttached<T>(string propertyName)
         {
-            return setter.Invoke(instance, new []{ value } );
+            return FromAttached(typeof(T), propertyName);
+        }
+
+        public static Property FromAttached(Type type, string propertyName)
+        {
+            return new AttachedProperty(type, propertyName);
         }
     }
 }
