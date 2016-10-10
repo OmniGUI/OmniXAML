@@ -1,9 +1,0 @@
-﻿{
-  "supports": {},
-  "dependencies": {
-    "xunit": "2.1.0"
-  },
-  "frameworks": {
-    ".NETPortable,Version=v4.6,Profile=Profile151": {}
-  }
-}

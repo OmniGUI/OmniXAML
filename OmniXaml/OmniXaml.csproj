@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachedProperty.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="ContructionNode.cs" />
     <Compile Include="Glass\ReflectionExtensions.cs" />
     <Compile Include="IInstanceCreator.cs" />
