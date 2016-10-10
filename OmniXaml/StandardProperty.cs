@@ -9,9 +9,9 @@
         private readonly MethodInfo setter;
         private readonly Type propertyType;
 
-        public StandardProperty(Type type, string propertyName)
+        public StandardProperty(Type owner, string propertyName) : base(owner, propertyName)
         {
-            var propInfo = type.GetRuntimeProperty(propertyName);
+            var propInfo = owner.GetRuntimeProperty(propertyName);
 
             getter = propInfo.GetMethod;
             setter = propInfo.SetMethod;
@@ -29,5 +29,7 @@
         {
             setter.Invoke(instance, new []{ value } );
         }
+
+      
     }
 }

@@ -6,14 +6,15 @@
 
     public class AttachedProperty : Property
     {
+
         private readonly MethodInfo getter;
         private readonly MethodInfo setter;
         private readonly Type propertyType;
 
-        public AttachedProperty(Type type, string propertyName)
+        public AttachedProperty(Type owner, string propertyName) : base(owner, propertyName)
         {
-            getter = type.GetRuntimeMethods().First(info => IsGetter(propertyName, info));
-            setter = type.GetRuntimeMethods().First(info => IsSetter(propertyName, info));
+            getter = owner.GetRuntimeMethods().First(info => IsGetter(propertyName, info));
+            setter = owner.GetRuntimeMethods().First(info => IsSetter(propertyName, info));
 
             EnsureTypesAreSame();
 
@@ -44,6 +45,11 @@
         public override void SetValue(object instance, object value)
         {
             setter.Invoke(null, new []{ instance, value, } );
+        }
+
+        public override string ToString()
+        {
+            return $"{{{Owner.Name}.{PropertyName}}}";
         }
     }
 }

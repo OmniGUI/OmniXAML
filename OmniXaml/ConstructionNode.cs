@@ -12,5 +12,10 @@
 
         public Type InstanceType { get; set; }
         public IEnumerable<PropertyAssignment> Assignments { get; set; } = new List<PropertyAssignment>();
+
+        public override string ToString()
+        {
+            return $"[{InstanceType.Name}]";
+        }
     }
 }

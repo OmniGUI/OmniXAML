@@ -6,6 +6,15 @@
 
     public abstract class Property
     {
+        protected Type Owner { get; }
+        protected string PropertyName { get; }
+
+        public Property(Type owner, string propertyName)
+        {
+            Owner = owner;
+            PropertyName = propertyName;
+        }
+
         public abstract object GetValue(object instance);
         public abstract void SetValue(object instance, object value);
         public abstract Type PropertyType { get; }
@@ -28,6 +37,11 @@
         public static Property FromAttached(Type type, string propertyName)
         {
             return new AttachedProperty(type, propertyName);
+        }
+
+        public override string ToString()
+        {
+            return $"{Owner.Name}.{PropertyName}";
         }
     }
 }
