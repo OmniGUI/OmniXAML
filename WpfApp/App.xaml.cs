@@ -1,6 +1,7 @@
 ﻿namespace WpfApplication1
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
@@ -235,10 +236,8 @@
             var type = typeof(Window);
             var ass = type.Assembly;
 
-            var sut = new XamlToTreeParser(ass, type.Namespace);
-            var tree = sut.Parse("<Window>" +
-                                     "<Window.Content>Hola</Window.Content>" +
-                                 "</Window>");
+            var sut = new XamlToTreeParser(ass, new[] {type.Namespace, typeof(TextBlock).Namespace});
+            var tree = sut.Parse(File.ReadAllText("MainWindow.xml"));
             return tree;
         }
     }

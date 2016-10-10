@@ -14,7 +14,7 @@ namespace OmniXaml.Tests
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
 
-            var sut = new XamlToTreeParser(ass, "OmniXaml.Tests.Model");
+            var sut = new XamlToTreeParser(ass, new[] {"OmniXaml.Tests.Model"});
             var tree = sut.Parse("<Window Title=\"Saludos\" />");
         }
 
@@ -23,9 +23,20 @@ namespace OmniXaml.Tests
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
 
-            var sut = new XamlToTreeParser(ass, "OmniXaml.Tests.Model");
+            var sut = new XamlToTreeParser(ass, new[] {"OmniXaml.Tests.Model"});
             var tree = sut.Parse("<Window>" +
                                      "<Window.Content>Hola</Window.Content>" +
+                                 "</Window>");
+        }
+
+        [TestMethod]
+        public void TestMethod3()
+        {
+            var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
+
+            var sut = new XamlToTreeParser(ass, new[] {"OmniXaml.Tests.Model"});
+            var tree = sut.Parse("<Window>" +
+                                     "<Window.Content><TextBlock /></Window.Content>" +
                                  "</Window>");
         }
     }  

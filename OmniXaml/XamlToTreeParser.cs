@@ -6,16 +6,17 @@
     using System.Linq;
     using System.Reflection;
     using System.Xml.Linq;
+    using Glass;
 
     public class XamlToTreeParser
     {
         private readonly Assembly assembly;
-        private readonly string ns;
+        private readonly IEnumerable<string> namespaces;
 
-        public XamlToTreeParser(Assembly assembly, string ns)
+        public XamlToTreeParser(Assembly assembly, IEnumerable<string> namespaces)
         {
             this.assembly = assembly;
-            this.ns = ns;
+            this.namespaces = namespaces;
         }
 
 
@@ -28,7 +29,7 @@
 
         private ConstructionNode ProcessNode(XElement node)
         {
-            var type = LocateType(node);
+            var type = LocateType(node.Name.LocalName);
             var directAssignments = GetAssignments(type, node).ToList();
             var nestedAssignments = ProcessInner(type, node.Nodes().Cast<XElement>()).ToList();
 
@@ -45,9 +46,17 @@
             var prop = node.Name;
             var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
             var propertyName = new string(name.ToArray());
-            var value = node.Value;
-            
-            return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value}; 
+
+            if (string.IsNullOrEmpty(node.Value))
+            {
+                var children = node.Elements().Select(ProcessNode);
+                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), Children = children };
+            }
+            else
+            {
+                var value = node.Value;
+                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };
+            }
         }
 
         private IEnumerable<PropertyAssignment> GetAssignments(Type type, XElement node)
@@ -57,18 +66,34 @@
 
         private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
         {
-            var assignment = new PropertyAssignment()
+            var assignment = new PropertyAssignment
             {
-                Property = Property.RegularProperty(type, attribute.Name.LocalName),
+                Property = ResolveProperty(type, attribute),
                 SourceValue = attribute.Value,
             };
             return assignment;
         }
 
-        private Type LocateType(XElement element)
-        {            
-            var type = assembly.GetType($"{ns}.{element.Name}");
-            return type;
+        private Property ResolveProperty(Type type, XAttribute attribute)
+        {
+            var nameLocalName = attribute.Name.LocalName;
+            if (nameLocalName.Contains('.'))
+            {
+                var dot = nameLocalName.IndexOf('.');
+                var ownerName = nameLocalName.Take(dot).AsString();
+                var propertyName = nameLocalName.Skip(dot + 1).AsString();
+                var ownerType = LocateType(ownerName);
+                return Property.FromAttached(ownerType, propertyName);
+            }
+            else
+            {
+                return Property.RegularProperty(type, nameLocalName);
+            }            
+        }
+
+        private Type LocateType(string elementName)
+        {
+            return namespaces.Select(ns => assembly.GetType($"{ns}.{elementName}")).First(t => t != null);
         }
     }
 }

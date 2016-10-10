@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttachedProperty.cs" />
+    <Compile Include="Glass\StringExtensions.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />
     <Compile Include="Glass\ReflectionExtensions.cs" />

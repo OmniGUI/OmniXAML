@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="XamlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
