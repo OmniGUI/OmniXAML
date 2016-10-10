@@ -73,7 +73,7 @@ namespace Yuniversal
                 {
                     var objectBuilder = new ObjectBuilder(new InstanceCreator(), new SourceValueConverter());
                     //var page = (Page) objectBuilder.Create(
-                    //    new ContructionNode
+                    //    new ConstructionNode
                     //    {
                     //        InstanceType = typeof(Page),
                     //        Assignments = new List<PropertyAssignment>

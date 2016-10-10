@@ -51,7 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Model\Window.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="XamlTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

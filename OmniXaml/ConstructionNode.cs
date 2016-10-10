@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public class ContructionNode
+    public class ConstructionNode
     {
-        public ContructionNode(Type type)
+        public ConstructionNode(Type type)
         {
             InstanceType = type;
         }

@@ -17,7 +17,7 @@
             this.sourceValueConverter = sourceValueConverter;
         }
 
-        public object Create(ContructionNode node)
+        public object Create(ConstructionNode node)
         {
             var instance = CreateInstance(node);
             ApplyAssignments(instance, node.Assignments);
@@ -25,7 +25,7 @@
             return instance;
         }
 
-        private object CreateInstance(ContructionNode node)
+        private object CreateInstance(ConstructionNode node)
         {
             return creator.Create(node.InstanceType);
         }

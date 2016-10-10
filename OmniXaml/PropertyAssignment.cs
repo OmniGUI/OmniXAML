@@ -6,6 +6,6 @@
     {
         public Property Property { get; set; }
         public string SourceValue { get; set; }
-        public IEnumerable<ContructionNode> Children { get; set; }
+        public IEnumerable<ConstructionNode> Children { get; set; }
     }
 }

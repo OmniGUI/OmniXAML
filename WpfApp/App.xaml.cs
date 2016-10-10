@@ -1,6 +1,7 @@
 ﻿namespace WpfApplication1
 {
     using System.Collections.Generic;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using Context;
@@ -18,7 +19,7 @@
             var objectBuilder = new ObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter());
             //var contructionNodes = new[]
             //{
-            //    new ContructionNode
+            //    new ConstructionNode
             //    {
             //        InstanceType = typeof(TextBlock),
             //        Assignments = new[]
@@ -35,7 +36,7 @@
             //            },
             //        }
             //    },
-            //    new ContructionNode
+            //    new ConstructionNode
             //    {
             //        InstanceType = typeof(TextBlock),
             //        Assignments = new[]
@@ -55,7 +56,7 @@
             //};
 
             //var window = (Window) objectBuilder.Create(
-            //    new ContructionNode
+            //    new ConstructionNode
             //    {
             //        InstanceType = typeof(Window),
             //        Assignments = new List<PropertyAssignment>
@@ -93,7 +94,7 @@
 
             //                Children = new[]
             //                {
-            //                    new ContructionNode
+            //                    new ConstructionNode
             //                    {
             //                        InstanceType = typeof(Grid),
             //                        Assignments = new[]
@@ -108,13 +109,13 @@
             //                                Property = new Property {Name = "ColumnDefinitions"},
             //                                Children = new[]
             //                                {
-            //                                    new ContructionNode
+            //                                    new ConstructionNode
             //                                    {
             //                                        InstanceType = typeof(ColumnDefinition),
             //                                        Assignments =
             //                                            new[] {new PropertyAssignment {Property = new Property() {Name = "Width"}, SourceValue = "2*",},}
             //                                    },
-            //                                    new ContructionNode
+            //                                    new ConstructionNode
             //                                    {
             //                                        InstanceType = typeof(ColumnDefinition),
             //                                        Assignments =
@@ -130,76 +131,74 @@
             //        }
             //    });
 
-            var window = (Window) objectBuilder.Create(
-                new ContructionNode(typeof(Window))
+            var contructionNode = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new List<PropertyAssignment>
                 {
-                    Assignments = new List<PropertyAssignment>
+                    new PropertyAssignment
                     {
-                        new PropertyAssignment
+                        Property = Property.RegularProperty(typeof(Window), "Content"),
+                        Children = new List<ConstructionNode>
                         {
-                            Property = Property.RegularProperty(typeof(Window), "Content"),
-                            Children = new List<ContructionNode>
+                            new ConstructionNode(typeof(Grid))
                             {
-                                new ContructionNode(typeof(Grid))
+                                Assignments = new List<PropertyAssignment>
                                 {
-                                    Assignments = new List<PropertyAssignment>
+                                    new PropertyAssignment
                                     {
-                                        new PropertyAssignment
+                                        Property = Property.RegularProperty<Grid>(g => g.Children),
+                                        Children = new List<ConstructionNode>
                                         {
-                                            Property = Property.RegularProperty<Grid>(g => g.Children),
-                                            Children = new List<ContructionNode>
+                                            new ConstructionNode(typeof(TextBlock))
                                             {
-                                                new ContructionNode(typeof(TextBlock))
-                                                {
-                                                    Assignments =
-                                                        new List<PropertyAssignment>
-                                                        {
-                                                            new PropertyAssignment
-                                                            {
-                                                                Property = Property.RegularProperty(typeof(TextBlock), "Text"),
-                                                                SourceValue = "Saludos cordiales!!"
-                                                            }
-                                                        }
-                                                },
-                                                new ContructionNode(typeof(TextBlock))
-                                                {
-                                                    Assignments = new List<PropertyAssignment>
+                                                Assignments =
+                                                    new List<PropertyAssignment>
                                                     {
-                                                        new PropertyAssignment {Property = Property.FromAttached<Grid>("Column"), SourceValue = "1"},
                                                         new PropertyAssignment
                                                         {
-                                                            Property = Property.RegularProperty<TextBlock>(t => t.Text),
+                                                            Property = Property.RegularProperty(typeof(TextBlock), "Text"),
                                                             SourceValue = "Saludos cordiales!!"
                                                         }
                                                     }
+                                            },
+                                            new ConstructionNode(typeof(TextBlock))
+                                            {
+                                                Assignments = new List<PropertyAssignment>
+                                                {
+                                                    new PropertyAssignment {Property = Property.FromAttached<Grid>("Column"), SourceValue = "1"},
+                                                    new PropertyAssignment
+                                                    {
+                                                        Property = Property.RegularProperty<TextBlock>(t => t.Text),
+                                                        SourceValue = "Saludos cordiales!!"
+                                                    }
                                                 }
                                             }
-                                        },
-                                        new PropertyAssignment
+                                        }
+                                    },
+                                    new PropertyAssignment
+                                    {
+                                        Property = Property.RegularProperty<Grid>(d => d.ColumnDefinitions),
+                                        Children = new List<ConstructionNode>
                                         {
-                                            Property = Property.RegularProperty<Grid>(d => d.ColumnDefinitions),
-                                            Children = new List<ContructionNode>
+                                            new ConstructionNode(typeof(ColumnDefinition))
                                             {
-                                                new ContructionNode(typeof(ColumnDefinition))
+                                                Assignments = new List<PropertyAssignment>
                                                 {
-                                                    Assignments = new List<PropertyAssignment>
+                                                    new PropertyAssignment
                                                     {
-                                                        new PropertyAssignment
-                                                        {
-                                                            Property = Property.RegularProperty<ColumnDefinition>(d => d.Width),
-                                                            SourceValue = "3*"
-                                                        }
+                                                        Property = Property.RegularProperty<ColumnDefinition>(d => d.Width),
+                                                        SourceValue = "3*"
                                                     }
-                                                },
-                                                new ContructionNode(typeof(ColumnDefinition))
+                                                }
+                                            },
+                                            new ConstructionNode(typeof(ColumnDefinition))
+                                            {
+                                                Assignments = new List<PropertyAssignment>
                                                 {
-                                                    Assignments = new List<PropertyAssignment>
+                                                    new PropertyAssignment
                                                     {
-                                                        new PropertyAssignment
-                                                        {
-                                                            Property = Property.RegularProperty<ColumnDefinition>(d => d.Width),
-                                                            SourceValue = "2*"
-                                                        }
+                                                        Property = Property.RegularProperty<ColumnDefinition>(d => d.Width),
+                                                        SourceValue = "2*"
                                                     }
                                                 }
                                             }
@@ -207,23 +206,40 @@
                                     }
                                 }
                             }
-                        },
-                        new PropertyAssignment
-                        {
-                            Property = Property.RegularProperty(typeof(Window), "Title"),
-                            SourceValue = "¿Cómo va la cosa?"
-                        },
-                        new PropertyAssignment
-                        {
-                            Property = Property.FromAttached(typeof(Grid), "Row"),
-                            SourceValue = "1"
                         }
+                    },
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty(typeof(Window), "Title"),
+                        SourceValue = "¿Cómo va la cosa?"
+                    },
+                    new PropertyAssignment
+                    {
+                        Property = Property.FromAttached(typeof(Grid), "Row"),
+                        SourceValue = "1"
                     }
-                });
+                }
+            };
+
+            var cons = GetConstructionNode();
+
+            var window = (Window) objectBuilder.Create(cons);
 
             //window.Content = new TextBlock { Text = "Hola" };
             window.Show();
             MainWindow = window;
+        }
+
+        private ConstructionNode GetConstructionNode()
+        {
+            var type = typeof(Window);
+            var ass = type.Assembly;
+
+            var sut = new XamlToTreeParser(ass, type.Namespace);
+            var tree = sut.Parse("<Window>" +
+                                     "<Window.Content>Hola</Window.Content>" +
+                                 "</Window>");
+            return tree;
         }
     }
 }
