@@ -31,13 +31,21 @@
         {
             var type = LocateType(node.Name.LocalName);
             var directAssignments = GetAssignments(type, node).ToList();
-            var nestedAssignments = ProcessInner(type, node.Nodes().Cast<XElement>()).ToList();
+            var nestedAssignments = ProcessInner(type, node.Nodes().OfType<XElement>()).ToList();
 
-            return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments) };
+            var ctorArgs = new List<string>();
+
+            if (!string.IsNullOrEmpty(node.Value))
+            {
+                ctorArgs.Add(node.Value);
+            }
+
+            return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments), InjectableArguments = ctorArgs };
         }
 
         private IEnumerable<PropertyAssignment> ProcessInner(Type type, IEnumerable<XElement> nodes)
         {
+
             return nodes.Select(node => ProcessProperty(type, node));
         }
 

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     public class ConstructionNode
     {
@@ -11,7 +12,8 @@
         }
 
         public Type InstanceType { get; set; }
-        public IEnumerable<PropertyAssignment> Assignments { get; set; } = new List<PropertyAssignment>();
+        public IEnumerable<PropertyAssignment> Assignments { get; set; } = new Collection<PropertyAssignment>();
+        public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
 
         public override string ToString()
         {
