@@ -17,7 +17,11 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Yuniversal
 {
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using Windows.Storage;
     using OmniXaml;
+    using WpfApplication1.Context;
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -39,7 +43,7 @@ namespace Yuniversal
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -71,25 +75,15 @@ namespace Yuniversal
             {
                 if (rootFrame.Content == null)
                 {
-                    var objectBuilder = new ObjectBuilder(new InstanceCreator(), new SourceValueConverter());
-                    //var page = (Page) objectBuilder.Create(
-                    //    new ConstructionNode
-                    //    {
-                    //        InstanceType = typeof(Page),
-                    //        Assignments = new List<PropertyAssignment>
-                    //        {
-                    //            new PropertyAssignment
-                    //            {
-                    //                Property = new Property
-                    //                {
-                    //                    Name = "Title",
-                    //                },
-                    //                SourceValue = "Pepito",
-                    //            }
-                    //        }
-                    //    });
+                    var type = typeof(Page);
+                    var xamlCreator = new XamlToTreeParser(typeof(Page).GetTypeInfo().Assembly, new []{type.Namespace});
+                    var xaml = await GetXaml();
 
-                    //rootFrame.Content = page;
+                    var constructionNode = xamlCreator.Parse(xaml);
+                    var objectBuilder = new ObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter());
+
+                    var rootFrameContent = (Page) objectBuilder.Create(constructionNode);
+                    rootFrame.Content = rootFrameContent;
 
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
@@ -101,6 +95,14 @@ namespace Yuniversal
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private static async Task<string> GetXaml()
+        {
+            var uri = new Uri("ms-appx:///MainWindow.xml");
+            var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            var xaml = await FileIO.ReadTextAsync(file);
+            return xaml;
         }
 
         /// <summary>

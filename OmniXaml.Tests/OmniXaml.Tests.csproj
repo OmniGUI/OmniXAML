@@ -53,8 +53,9 @@
     <Compile Include="Model\MyImmutable.cs" />
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
-    <Compile Include="XamlTests.cs" />
+    <Compile Include="XamlToTreeParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XamlToTreeParserTests2.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">

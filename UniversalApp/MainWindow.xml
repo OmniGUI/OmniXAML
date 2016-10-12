@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Page>
+  <Page.Content>
+    <Grid>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="3*" />
+        <ColumnDefinition Width="2*" />
+      </Grid.ColumnDefinitions>
+      <Grid.Children>
+        <Border Background="#AABBCCDD" />
+        <TextBlock Text="¿Cómo va la cosa?" />
+        <TextBlock Grid.Column="1" Text="Pues va muy bien" />
+      </Grid.Children>
+    </Grid>
+  </Page.Content>
+</Page>

@@ -7,7 +7,7 @@ namespace OmniXaml.Tests
     using System.Reflection;
 
     [TestClass]
-    public class XamlTests
+    public class XamlToTreeParserTests
     {
         [TestMethod]
         public void ObjectAndDirectProperties()

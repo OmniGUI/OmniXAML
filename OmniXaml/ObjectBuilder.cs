@@ -42,7 +42,7 @@
                     var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
                     property.SetValue(instance, value);
                 }
-                else 
+                else
                 {
                     var values = propertyAssignment.Children.Select(Create);
 
@@ -53,8 +53,8 @@
                     else
                     {
                         AssignValuesToNonCollection(instance, values, property);
-                    }                    
-                }                
+                    }
+                }
             }
         }
 
@@ -67,11 +67,29 @@
         private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
         {
             var valueOfProperty = property.GetValue(instance);
-            var collection = (IList) valueOfProperty;
 
             foreach (var value in values)
             {
-                collection.Add(value);
+                UniversalAdd(valueOfProperty, value);
+            }
+        }
+
+        private static void UniversalAdd(object collection, object item)
+        {
+            var addMethod = collection.GetType().GetTypeInfo().ImplementedInterfaces.SelectMany(x => x.GetRuntimeMethods()).First(n => n.Name == "Add");
+            if (addMethod == null || addMethod.GetParameters().Length != 1)
+            {
+                // handle your error
+                return;
+            }
+            ParameterInfo parameter = addMethod.GetParameters().First();
+            if (parameter.ParameterType.GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
+            {
+                addMethod.Invoke(collection, new[] { item });
+            }
+            else
+            {
+                // handle your error
             }
         }
 
