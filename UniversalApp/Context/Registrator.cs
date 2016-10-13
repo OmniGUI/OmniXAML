@@ -27,7 +27,7 @@
         private static GridLength GetGridLength(string s)
         {
             if (s.Contains("Auto"))
-                return new GridLength(double.NaN, GridUnitType.Auto);
+                return new GridLength(0, GridUnitType.Auto);
 
             if (s.EndsWith("*"))
             {

@@ -28,8 +28,6 @@
         public override void SetValue(object instance, object value)
         {
             setter.Invoke(instance, new []{ value } );
-        }
-
-      
+        }      
     }
 }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Reflection;
 
     public class SourceValueConverter : ISourceValueConverter
     {
@@ -23,6 +24,11 @@
             if (converters.TryGetValue(targetType, out converter))
             {
                 return converter(sourceValue);
+            }
+
+            if (targetType.GetTypeInfo().IsEnum)
+            {
+                return Enum.Parse(targetType, sourceValue);
             }
 
             return sourceValue;

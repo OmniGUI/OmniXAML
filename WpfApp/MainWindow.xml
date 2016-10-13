@@ -9,7 +9,7 @@
       </Grid.ColumnDefinitions>
       <Grid.Children>
         <Border Background="#AABBCCDD"></Border>
-        <TextBlock Text="¿Cómo va la cosa?"></TextBlock>
+        <TextBlock Text="¿Cómo va la cosa?" TextAlignment="Center" />
         <TextBlock Grid.Column="1" Text="Pues va muy bien" />
       </Grid.Children>
     </Grid>
