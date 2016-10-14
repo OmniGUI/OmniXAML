@@ -17,7 +17,7 @@
                 return "Content";
             }
 
-            throw new InvalidOperationException();
+            return null;
         }
     }
 }
