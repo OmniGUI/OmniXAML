@@ -13,6 +13,7 @@
             sourceValueConverter.Add(typeof(Thickness), value => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
             sourceValueConverter.Add(typeof(Brush), value => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
             sourceValueConverter.Add(typeof(GridLength), value => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
+            sourceValueConverter.Add(typeof(ImageSource), value => new ImageSourceConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
             return sourceValueConverter;
         }
     }
