@@ -1,17 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Window>
-  <Window.Content>
-    <Grid>
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="3*" />
-        <ColumnDefinition Width="2*" />
-      </Grid.ColumnDefinitions>
-      <Grid.Children>
-        <Border Background="#AABBCCDD"></Border>
-        <TextBlock Text="¿Cómo va la cosa?" TextAlignment="Center" />
-        <TextBlock Grid.Column="1" Text="Pues va muy bien" />
-      </Grid.Children>
-    </Grid>
-  </Window.Content>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="3*" />
+      <ColumnDefinition Width="2*" />
+    </Grid.ColumnDefinitions>
+    <Grid.Children>
+      <Border Background="#AABBCCDD" />
+      <TextBlock Text="¿Cómo va la cosa?" TextAlignment="Center" />
+      <TextBlock Grid.Column="1" Text="Pues va muy bien" />
+      <Button  Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">ACEPTAR GORDO</Button>
+    </Grid.Children>
+  </Grid>
 </Window>

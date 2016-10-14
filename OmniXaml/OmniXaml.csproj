@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="Glass\StringExtensions.cs" />
+    <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="InjectableMembers.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />

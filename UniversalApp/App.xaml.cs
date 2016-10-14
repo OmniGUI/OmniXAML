@@ -76,7 +76,7 @@ namespace Yuniversal
                 if (rootFrame.Content == null)
                 {
                     var type = typeof(Page);
-                    var xamlCreator = new XamlToTreeParser(typeof(Page).GetTypeInfo().Assembly, new []{type.Namespace});
+                    var xamlCreator = new XamlToTreeParser(typeof(Page).GetTypeInfo().Assembly, new []{type.Namespace}, new ContentPropertyProvider());
                     var xaml = await GetXaml();
 
                     var constructionNode = xamlCreator.Parse(xaml);

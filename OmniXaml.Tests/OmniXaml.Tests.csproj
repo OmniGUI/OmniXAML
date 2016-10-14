@@ -50,6 +50,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ContentPropertyProvider.cs" />
     <Compile Include="Model\MyImmutable.cs" />
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />

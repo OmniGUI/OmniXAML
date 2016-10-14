@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Xml;
     using System.Xml.Linq;
     using Glass;
 
@@ -12,11 +13,13 @@
     {
         private readonly Assembly assembly;
         private readonly IEnumerable<string> namespaces;
+        private readonly IContentPropertyProvider contentPropertyProvider;
 
-        public XamlToTreeParser(Assembly assembly, IEnumerable<string> namespaces)
+        public XamlToTreeParser(Assembly assembly, IEnumerable<string> namespaces, IContentPropertyProvider contentPropertyProvider)
         {
             this.assembly = assembly;
             this.namespaces = namespaces;
+            this.contentPropertyProvider = contentPropertyProvider;
         }
 
 
@@ -31,22 +34,49 @@
         {
             var type = LocateType(node.Name.LocalName);
             var directAssignments = GetAssignments(type, node).ToList();
-            var nestedAssignments = ProcessInner(type, node.Nodes().OfType<XElement>()).ToList();
+            var nestedAssignments = ProcessInnerElements(type, node.Nodes().OfType<XElement>()).ToList();
 
             var ctorArgs = new List<string>();
 
-            if (!string.IsNullOrEmpty(node.Value))
+            var nodeFirstNode = node.FirstNode;
+            if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
             {
-                ctorArgs.Add(node.Value);
+                var directContent = ((XText)nodeFirstNode).Value;
+                var contentProperty = contentPropertyProvider.GetContentProperty(type);
+                if (contentProperty == null)
+                {
+                    ctorArgs.Add(directContent);
+                }
+                else
+                {
+                    var assignment = new PropertyAssignment() { Property = Property.RegularProperty(type, contentProperty), SourceValue = directContent };
+                    return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments).Concat(new[] { assignment }), };
+                }
             }
 
             return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments), InjectableArguments = ctorArgs };
         }
 
-        private IEnumerable<PropertyAssignment> ProcessInner(Type type, IEnumerable<XElement> nodes)
+        private IEnumerable<PropertyAssignment> ProcessInnerElements(Type type, IEnumerable<XElement> nodes)
         {
 
-            return nodes.Select(node => ProcessProperty(type, node));
+            return nodes.Select(node =>
+            {
+                if (IsProperty(node))
+                {
+                    return ProcessProperty(type, node);
+                }
+                else
+                {
+                    var ctorNode = this.ProcessNode(node);
+                    return new PropertyAssignment() { Property = Property.RegularProperty(type, contentPropertyProvider.GetContentProperty(type)), Children = new[] { ctorNode } };
+                }
+            });
+        }
+
+        private static bool IsProperty(XElement node)
+        {
+            return node.Name.LocalName.Contains(".");
         }
 
         private PropertyAssignment ProcessProperty(Type type, XElement node)
@@ -55,15 +85,16 @@
             var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
             var propertyName = new string(name.ToArray());
 
-            if (string.IsNullOrEmpty(node.Value))
+            var nodeFirstNode = node.FirstNode;
+            if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
             {
-                var children = node.Elements().Select(ProcessNode);
-                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), Children = children };
+                var value = ((XText)nodeFirstNode).Value;
+                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };                
             }
             else
             {
-                var value = node.Value;
-                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };
+                var children = node.Elements().Select(ProcessNode);
+                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), Children = children };
             }
         }
 
@@ -96,7 +127,7 @@
             else
             {
                 return Property.RegularProperty(type, nameLocalName);
-            }            
+            }
         }
 
         private Type LocateType(string elementName)

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.IO;
-    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
     using Context;
@@ -236,7 +235,7 @@
             var type = typeof(Window);
             var ass = type.Assembly;
 
-            var sut = new XamlToTreeParser(ass, new[] {type.Namespace, typeof(TextBlock).Namespace});
+            var sut = new XamlToTreeParser(ass, new[] {type.Namespace, typeof(TextBlock).Namespace}, new ContentPropertyProvider());
             var tree = sut.Parse(File.ReadAllText("MainWindow.xml"));
             return tree;
         }

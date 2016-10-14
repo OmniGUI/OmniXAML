@@ -102,6 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CollectionWrapper.cs" />
+    <Compile Include="Context\ContentPropertyProvider.cs" />
     <Compile Include="Context\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

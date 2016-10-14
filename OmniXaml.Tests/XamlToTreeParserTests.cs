@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OmniXaml.Tests
 {
@@ -18,7 +17,7 @@ namespace OmniXaml.Tests
         private static ConstructionNode Parse(string xaml)
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
-            var sut = new XamlToTreeParser(ass, new[] { "OmniXaml.Tests.Model" });
+            var sut = new XamlToTreeParser(ass, new[] { "OmniXaml.Tests.Model" }, new ContentPropertyProvider());
             var tree = sut.Parse(xaml);
             return tree;
         }
@@ -39,6 +38,24 @@ namespace OmniXaml.Tests
         public void ImmutableFromContent()
         {
             var tree = Parse("<MyImmutable>hola</MyImmutable>");
+        }
+
+        [TestMethod]
+        public void ContentPropertyDirectContent()
+        {
+            var tree = Parse("<Window><TextBlock /></Window>");
+        }
+
+        [TestMethod]
+        public void ContentPropertyDirectContentText()
+        {
+            var tree = Parse("<TextBlock>Hello</TextBlock>");
+        }
+
+        [TestMethod]
+        public void ContentPropertyDirectContentTextInsideChild()
+        {
+            var tree = Parse("<Window><TextBlock>Saludos cordiales</TextBlock></Window>");
         }
     }
 }
