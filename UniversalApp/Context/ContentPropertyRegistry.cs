@@ -5,7 +5,7 @@
     using Windows.UI.Xaml.Controls;
     using OmniXaml;
 
-    public class ContentPropertyProvider : IContentPropertyProvider
+    public class ContentPropertyRegistry : IContentPropertyRegistry
     {
         public string GetContentProperty(Type type)
         {

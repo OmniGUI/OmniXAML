@@ -102,7 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CollectionWrapper.cs" />
-    <Compile Include="Context\ContentPropertyProvider.cs" />
+    <Compile Include="Context\ContentPropertyRegistry.cs" />
     <Compile Include="Context\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -115,6 +115,9 @@
     <Content Include="MainWindow.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="mario.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />

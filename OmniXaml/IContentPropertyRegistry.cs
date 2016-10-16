@@ -2,7 +2,7 @@
 {
     using System;
 
-    public interface IContentPropertyProvider
+    public interface IContentPropertyRegistry
     {
         string GetContentProperty(Type type);
     }

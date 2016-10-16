@@ -89,7 +89,7 @@ namespace Yuniversal
                         .With(configuredAssemblyWithNamespaces);
                     directory.AddNamespace(xamlNamespace);
 
-                    var xamlCreator = new XamlToTreeParser(new ContentPropertyProvider(), directory);
+                    var xamlCreator = new XamlToTreeParser(new ContentPropertyRegistry(), directory);
                     var xaml = await GetXaml();
 
                     var constructionNode = xamlCreator.Parse(xaml);

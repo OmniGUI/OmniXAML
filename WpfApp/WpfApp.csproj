@@ -64,7 +64,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\ContentPropertyProvider.cs" />
+    <Compile Include="Context\ContentPropertyRegistry.cs" />
     <Compile Include="Context\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

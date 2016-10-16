@@ -21,7 +21,7 @@ namespace OmniXaml.Tests
             var typeDirectory = new TypeDirectory();
             typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
             typeDirectory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
-            var sut = new XamlToTreeParser(new ContentPropertyProvider(), typeDirectory);
+            var sut = new XamlToTreeParser(new ContentPropertyRegistry(), typeDirectory);
             var tree = sut.Parse(xaml);
             return tree;
         }

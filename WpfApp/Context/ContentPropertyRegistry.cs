@@ -5,7 +5,7 @@
     using System.Windows.Markup;
     using OmniXaml;
 
-    internal class ContentPropertyProvider : IContentPropertyProvider
+    internal class ContentPropertyRegistry : IContentPropertyRegistry
     {
         public string GetContentProperty(Type type)
         {

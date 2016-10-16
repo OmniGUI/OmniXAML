@@ -42,7 +42,7 @@
                 .With(configuredAssemblyWithNamespaces);
             directory.AddNamespace(xamlNamespace);
 
-            var sut = new XamlToTreeParser(new ContentPropertyProvider(), directory);
+            var sut = new XamlToTreeParser(new ContentPropertyRegistry(), directory);
             var tree = sut.Parse(File.ReadAllText("Sample.xml"));
             return tree;
         }

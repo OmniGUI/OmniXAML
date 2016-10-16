@@ -11,12 +11,12 @@
 
     public class XamlToTreeParser
     {
-        private readonly IContentPropertyProvider contentPropertyProvider;
+        private readonly IContentPropertyRegistry contentPropertyRegistry;
         private readonly ITypeDirectory typeDirectory;
 
-        public XamlToTreeParser(IContentPropertyProvider contentPropertyProvider, ITypeDirectory typeDirectory)
+        public XamlToTreeParser(IContentPropertyRegistry contentPropertyRegistry, ITypeDirectory typeDirectory)
         {
-            this.contentPropertyProvider = contentPropertyProvider;
+            this.contentPropertyRegistry = contentPropertyRegistry;
             this.typeDirectory = typeDirectory;
         }
 
@@ -40,7 +40,7 @@
             if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
             {
                 var directContent = ((XText)nodeFirstNode).Value;
-                var contentProperty = contentPropertyProvider.GetContentProperty(type);
+                var contentProperty = contentPropertyRegistry.GetContentProperty(type);
                 if (contentProperty == null)
                 {
                     ctorArgs.Add(directContent);
@@ -67,7 +67,7 @@
                 else
                 {
                     var ctorNode = this.ProcessNode(node);
-                    return new PropertyAssignment() { Property = Property.RegularProperty(type, contentPropertyProvider.GetContentProperty(type)), Children = new[] { ctorNode } };
+                    return new PropertyAssignment() { Property = Property.RegularProperty(type, contentPropertyRegistry.GetContentProperty(type)), Children = new[] { ctorNode } };
                 }
             });
         }

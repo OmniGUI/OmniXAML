@@ -46,7 +46,7 @@
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="Glass.Core\StringExtensions.cs" />
-    <Compile Include="IContentPropertyProvider.cs" />
+    <Compile Include="IContentPropertyRegistry.cs" />
     <Compile Include="InjectableMember.cs" />
     <Compile Include="TypeLocation\AddressPack.cs" />
     <Compile Include="TypeLocation\AssemblyNameConfig.cs" />

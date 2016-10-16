@@ -3,7 +3,7 @@
     using System;
     using Model;
 
-    internal class ContentPropertyProvider : IContentPropertyProvider
+    internal class ContentPropertyRegistry : IContentPropertyRegistry
     {
         public string GetContentProperty(Type type)
         {
