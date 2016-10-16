@@ -21,7 +21,15 @@
             {
                 return "Content";
             }
+            if (typeof(ItemsControl).IsAssignableFrom(type))
+            {
+                return "Items";
+            }
             if (typeof(TextBlock) == type)
+            {
+                return "Text";
+            }
+            if (typeof(TextBox) == type)
             {
                 return "Text";
             }

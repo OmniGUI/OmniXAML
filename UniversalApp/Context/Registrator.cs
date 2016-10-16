@@ -1,11 +1,13 @@
 ﻿namespace Yuniversal.Context
 {
+    using System;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
     using Windows.UI;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
+    using Windows.UI.Xaml.Media.Imaging;
     using OmniXaml;
     using OmniXaml.Glass.Core;
 
@@ -17,7 +19,14 @@
             sourceValueConverter.Add(typeof(Thickness), value => ConvertToThickness(value));
             sourceValueConverter.Add(typeof(Brush), value => ConvertToSolidBrush(value));
             sourceValueConverter.Add(typeof(GridLength), value => GetGridLength(value));
+            sourceValueConverter.Add(typeof(ImageSource), value => ConvertToBitmap(value));
             return sourceValueConverter;
+        }
+
+        private static object ConvertToBitmap(string value)
+        {
+            var convertToBitmap = new BitmapImage(new Uri($"ms-appx:///{value}"));
+            return convertToBitmap;
         }
 
         private static GridLength GetGridLength(string s)

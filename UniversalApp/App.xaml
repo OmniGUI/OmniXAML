@@ -6,10 +6,7 @@
     RequestedTheme="Light">
 
     <Application.Resources>
-        <local:CollectionWrapper x:Key="MyCol">
-            <x:String>Hola</x:String>
-            <x:String>Tío</x:String>
-        </local:CollectionWrapper>
+      
     </Application.Resources>
 
 </Application>

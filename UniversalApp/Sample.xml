@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Page>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <!--<Menu >
+      <MenuItem Header="Archivo">
+        <MenuItem Header="Abrir" />
+        <MenuItem Header="Guardar" />
+        <MenuItem Header="Guardar como…" />
+        <MenuItem Header="Salir" />
+      </MenuItem>
+    </Menu>-->
+    <ListView Grid.Row="1" HorizontalContentAlignment="Stretch">
+      <ListViewItem>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="114"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Image Source="mario.png"  />
+          <TextBox Grid.Column="1">It's-a me!</TextBox>
+        </Grid>
+      </ListViewItem>
+      <ListViewItem>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="114"/>
+            <ColumnDefinition/>
+          </Grid.ColumnDefinitions>
+          <Image Source="mario.png"  />
+          <TextBox Grid.Column="1" Text="It's-a me!" />
+        </Grid>
+      </ListViewItem>
+    </ListView>
+  </Grid>
+</Page>
+

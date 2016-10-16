@@ -112,7 +112,7 @@ namespace Yuniversal
 
         private static async Task<string> GetXaml()
         {
-            var uri = new Uri("ms-appx:///MainWindow.xml");
+            var uri = new Uri("ms-appx:///Sample.xml");
             var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             var xaml = await FileIO.ReadTextAsync(file);
             return xaml;
