@@ -17,10 +17,12 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Yuniversal
 {
+    using System.Reflection;
     using System.Threading.Tasks;
     using Windows.Storage;
     using Context;
     using OmniXaml;
+    using OmniXaml.TypeLocation;
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -75,7 +77,19 @@ namespace Yuniversal
                 if (rootFrame.Content == null)
                 {
                     var type = typeof(Page);
-                    var xamlCreator = new XamlToTreeParser(new ContentPropertyProvider(), null);
+                    ITypeDirectory directory = new TypeDirectory();
+
+                    directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+
+                    var configuredAssemblyWithNamespaces = Route
+                        .Assembly(type.GetTypeInfo().Assembly)
+                        .WithNamespaces("Windows.UI.Xaml.Controls");
+                    var xamlNamespace = XamlNamespace
+                        .Map("root")
+                        .With(configuredAssemblyWithNamespaces);
+                    directory.AddNamespace(xamlNamespace);
+
+                    var xamlCreator = new XamlToTreeParser(new ContentPropertyProvider(), directory);
                     var xaml = await GetXaml();
 
                     var constructionNode = xamlCreator.Parse(xaml);
