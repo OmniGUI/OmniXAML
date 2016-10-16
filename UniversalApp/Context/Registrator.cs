@@ -20,6 +20,8 @@
             sourceValueConverter.Add(typeof(Brush), value => ConvertToSolidBrush(value));
             sourceValueConverter.Add(typeof(GridLength), value => GetGridLength(value));
             sourceValueConverter.Add(typeof(ImageSource), value => ConvertToBitmap(value));
+            sourceValueConverter.Add(typeof(bool), s => bool.Parse(s));
+            sourceValueConverter.Add(typeof(FontFamily), s => new FontFamily(s));
             return sourceValueConverter;
         }
 
