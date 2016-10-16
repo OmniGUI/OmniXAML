@@ -1,17 +1,13 @@
-﻿namespace WpfApplication1.Context
+﻿namespace Yuniversal.Context
 {
-    using System;
-    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
-    using System.Windows;
     using Windows.UI;
     using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Media;
     using OmniXaml;
-    using OmniXaml.Glass;
+    using OmniXaml.Glass.Core;
 
     public static class Registrator
     {

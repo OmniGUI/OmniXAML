@@ -17,7 +17,7 @@ namespace OmniXaml.Tests
         private static ConstructionNode Parse(string xaml)
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
-            var sut = new XamlToTreeParser(ass, new[] { "OmniXaml.Tests.Model" }, new ContentPropertyProvider());
+            var sut = new XamlToTreeParser(new ContentPropertyProvider(), null);
             var tree = sut.Parse(xaml);
             return tree;
         }

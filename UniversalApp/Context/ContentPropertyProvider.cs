@@ -1,9 +1,8 @@
-﻿namespace Yuniversal
+﻿namespace Yuniversal.Context
 {
     using System;
     using System.Reflection;
     using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Markup;
     using OmniXaml;
 
     public class ContentPropertyProvider : IContentPropertyProvider

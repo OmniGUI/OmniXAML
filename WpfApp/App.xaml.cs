@@ -3,10 +3,9 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Windows;
-    using System.Windows.Controls;
-    using System.Windows.Media.Effects;
     using Context;
     using OmniXaml;
+    using OmniXaml.TypeLocation;
 
     /// <summary>
     ///     Interaction logic for App.xaml
@@ -31,7 +30,19 @@
             var type = typeof(Window);
             var ass = type.Assembly;
 
-            var sut = new XamlToTreeParser(ass, new[] {type.Namespace, typeof(TextBlock).Namespace, typeof(BlurEffect).Namespace }, new ContentPropertyProvider());
+            ITypeDirectory directory = new TypeDirectory();
+
+            directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+
+            var configuredAssemblyWithNamespaces = Route
+                .Assembly(ass)
+                .WithNamespaces("System.Windows", "System.Windows.Controls");
+            var xamlNamespace = XamlNamespace
+                .Map("root")
+                .With(configuredAssemblyWithNamespaces);
+            directory.AddNamespace(xamlNamespace);
+
+            var sut = new XamlToTreeParser(new ContentPropertyProvider(), directory);
             var tree = sut.Parse(File.ReadAllText("Sample.xml"));
             return tree;
         }

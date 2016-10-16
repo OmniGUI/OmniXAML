@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public class AttachedProperty : Property
+    internal class AttachedProperty : Property
     {
 
         private readonly MethodInfo getter;

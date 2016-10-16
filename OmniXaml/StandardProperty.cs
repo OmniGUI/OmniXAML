@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
 
-    public class StandardProperty : Property
+    internal class StandardProperty : Property
     {
         private readonly MethodInfo getter;
         private readonly MethodInfo setter;

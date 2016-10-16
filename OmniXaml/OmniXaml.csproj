@@ -39,13 +39,29 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Glass.Core\Extensions.cs" />
+    <Compile Include="Glass.Core\IAdd.cs" />
+    <Compile Include="Glass.Core\Utils.cs" />
+    <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
-    <Compile Include="Glass\StringExtensions.cs" />
+    <Compile Include="Glass.Core\StringExtensions.cs" />
     <Compile Include="IContentPropertyProvider.cs" />
     <Compile Include="InjectableMembers.cs" />
+    <Compile Include="TypeLocation\AddressPack.cs" />
+    <Compile Include="TypeLocation\AssemblyNameConfig.cs" />
+    <Compile Include="TypeLocation\ClrNamespace.cs" />
+    <Compile Include="TypeLocation\ConfiguredAssembly.cs" />
+    <Compile Include="TypeLocation\ConfiguredAssemblyWithNamespaces.cs" />
+    <Compile Include="ITypeDirectory.cs" />
+    <Compile Include="TypeLocation\Namespace.cs" />
+    <Compile Include="TypeDirectory.cs" />
+    <Compile Include="TypeLocation\PrefixRegistration.cs" />
+    <Compile Include="TypeLocation\Route.cs" />
+    <Compile Include="TypeLocation\XamlNamespace.cs" />
+    <Compile Include="TypeLocation\XmlnsDefinitionAttribute.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />
-    <Compile Include="Glass\ReflectionExtensions.cs" />
+    <Compile Include="Glass.Core\ReflectionExtensions.cs" />
     <Compile Include="IInstanceCreator.cs" />
     <Compile Include="InstanceCreator.cs" />
     <Compile Include="ISourceValueConverter.cs" />

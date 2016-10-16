@@ -4,22 +4,20 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Reflection;
     using System.Xml;
     using System.Xml.Linq;
     using Glass;
+    using Glass.Core;
 
     public class XamlToTreeParser
     {
-        private readonly Assembly assembly;
-        private readonly IEnumerable<string> namespaces;
         private readonly IContentPropertyProvider contentPropertyProvider;
+        private readonly ITypeDirectory typeDirectory;
 
-        public XamlToTreeParser(Assembly assembly, IEnumerable<string> namespaces, IContentPropertyProvider contentPropertyProvider)
+        public XamlToTreeParser(IContentPropertyProvider contentPropertyProvider, ITypeDirectory typeDirectory)
         {
-            this.assembly = assembly;
-            this.namespaces = namespaces;
             this.contentPropertyProvider = contentPropertyProvider;
+            this.typeDirectory = typeDirectory;
         }
 
 
@@ -130,9 +128,9 @@
             }
         }
 
-        private Type LocateType(string elementName)
+        private Type LocateType(string typeName)
         {
-            return namespaces.Select(ns => assembly.GetType($"{ns}.{elementName}")).First(t => t != null);
+            return typeDirectory.GetTypeByPrefix(string.Empty, typeName);
         }
     }
 }

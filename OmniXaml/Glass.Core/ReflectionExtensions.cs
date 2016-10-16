@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Glass
+﻿namespace OmniXaml.Glass.Core
 {
     using System;
     using System.Collections.Generic;

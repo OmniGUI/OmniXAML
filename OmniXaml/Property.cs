@@ -3,6 +3,7 @@
     using System;
     using System.Linq.Expressions;
     using Glass;
+    using Glass.Core;
 
     public abstract class Property
     {

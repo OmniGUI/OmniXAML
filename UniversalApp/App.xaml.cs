@@ -17,11 +17,10 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Yuniversal
 {
-    using System.Reflection;
     using System.Threading.Tasks;
     using Windows.Storage;
+    using Context;
     using OmniXaml;
-    using WpfApplication1.Context;
 
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
@@ -76,7 +75,7 @@ namespace Yuniversal
                 if (rootFrame.Content == null)
                 {
                     var type = typeof(Page);
-                    var xamlCreator = new XamlToTreeParser(typeof(Page).GetTypeInfo().Assembly, new []{type.Namespace}, new ContentPropertyProvider());
+                    var xamlCreator = new XamlToTreeParser(new ContentPropertyProvider(), null);
                     var xaml = await GetXaml();
 
                     var constructionNode = xamlCreator.Parse(xaml);

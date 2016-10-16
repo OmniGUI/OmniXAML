@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Glass.Core;
 
     public class ObjectBuilder
     {
@@ -70,28 +71,11 @@
 
             foreach (var value in values)
             {
-                UniversalAdd(valueOfProperty, value);
+                Utils.UniversalAdd(valueOfProperty, value);
             }
         }
 
-        private static void UniversalAdd(object collection, object item)
-        {
-            var addMethod = collection.GetType().GetTypeInfo().ImplementedInterfaces.SelectMany(x => x.GetRuntimeMethods()).First(n => n.Name == "Add");
-            if (addMethod == null || addMethod.GetParameters().Length != 1)
-            {
-                // handle your error
-                return;
-            }
-            ParameterInfo parameter = addMethod.GetParameters().First();
-            if (parameter.ParameterType.GetTypeInfo().IsAssignableFrom(item.GetType().GetTypeInfo()))
-            {
-                addMethod.Invoke(collection, new[] { item });
-            }
-            else
-            {
-                // handle your error
-            }
-        }
+
 
         private bool IsCollection(Type propertyInfo)
         {
