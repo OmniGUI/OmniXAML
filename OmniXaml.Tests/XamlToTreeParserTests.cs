@@ -4,6 +4,7 @@ namespace OmniXaml.Tests
 {
     using System.IO;
     using System.Reflection;
+    using TypeLocation;
 
     [TestClass]
     public class XamlToTreeParserTests
@@ -17,7 +18,10 @@ namespace OmniXaml.Tests
         private static ConstructionNode Parse(string xaml)
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
-            var sut = new XamlToTreeParser(new ContentPropertyProvider(), null);
+            var typeDirectory = new TypeDirectory();
+            typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+            typeDirectory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
+            var sut = new XamlToTreeParser(new ContentPropertyProvider(), typeDirectory);
             var tree = sut.Parse(xaml);
             return tree;
         }

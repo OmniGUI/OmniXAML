@@ -7,7 +7,7 @@
 
     public class InstanceCreator : IInstanceCreator
     {
-        public object Create(Type type, IEnumerable<InjectableMembers> injectableMembers = null)
+        public object Create(Type type, IEnumerable<InjectableMember> injectableMembers = null)
         {
             var ctor = SelectCtor(type);
             return ctor.Invoke(null);

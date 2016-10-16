@@ -62,7 +62,21 @@
         private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, Property standardProperty)
         {
             var value = values.First();
+
+            value = ApplyValueConversionIfApplicable(value);
+
             standardProperty.SetValue(instance, value);
+        }
+
+        private static object ApplyValueConversionIfApplicable(object value)
+        {
+            var me = value as IMarkupExtension;
+            if (me != null)
+            {
+                return me.GetValue();
+            }
+
+            return value;
         }
 
         private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
@@ -77,9 +91,14 @@
 
 
 
-        private bool IsCollection(Type propertyInfo)
+        private bool IsCollection(Type type)
         {
-            var typeInfo = propertyInfo.GetTypeInfo();
+            if (type == typeof(string))
+            {
+                return false;
+            }
+
+            var typeInfo = type.GetTypeInfo();
             return typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
         }
 
