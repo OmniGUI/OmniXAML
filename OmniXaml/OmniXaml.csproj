@@ -40,11 +40,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExtendedObjectBuilder.cs" />
+    <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
     <Compile Include="Glass.Core\Utils.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="IObjectBuilder.cs" />
+    <Compile Include="Metadata\DependencyRegistration.cs" />
+    <Compile Include="Metadata\DependencyRegistrations.cs" />
+    <Compile Include="Metadata\GenericMetadata.cs" />
+    <Compile Include="Metadata\IMetadataProvider.cs" />
+    <Compile Include="Metadata\Metadata.cs" />
+    <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="Glass.Core\StringExtensions.cs" />

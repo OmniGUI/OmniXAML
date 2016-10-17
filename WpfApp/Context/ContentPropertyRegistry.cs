@@ -3,11 +3,19 @@
     using System;
     using System.Reflection;
     using System.Windows.Markup;
-    using OmniXaml;
+    using OmniXaml.Metadata;
 
-    internal class ContentPropertyRegistry : IContentPropertyRegistry
+    public class MetadataProvider : IMetadataProvider
     {
-        public string GetContentProperty(Type type)
+        public Metadata Get(Type type)
+        {
+            return new Metadata
+            {
+                ContentProperty = GetContentProperty(type),
+            };
+        }
+
+        private string GetContentProperty(Type type)
         {
             var contentPropertyAttribute = type.GetTypeInfo().GetCustomAttribute<ContentPropertyAttribute>();
             return contentPropertyAttribute?.Name;

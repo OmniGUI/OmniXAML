@@ -3,14 +3,23 @@
     using System;
     using System.Linq;
     using System.Reflection;
+    using OmniXaml.Metadata;
 
-    internal class ContentPropertyRegistry : OmniXaml.IContentPropertyRegistry
+    public class MetadataProvider : IMetadataProvider
     {
-        public string GetContentProperty(Type type)
+        public Metadata Get(Type type)
+        {
+            return new Metadata
+            {
+                ContentProperty = GetContentProperty(type),
+            };
+        }
+
+        private string GetContentProperty(Type type)
         {
             var contentProperty = type.GetRuntimeProperties()
-                .First(info => info.GetCustomAttribute(typeof(Avalonia.Metadata.ContentAttribute)) != null);
-                
+               .First(info => info.GetCustomAttribute(typeof(Avalonia.Metadata.ContentAttribute)) != null);
+
             return contentProperty.Name;
         }
     }

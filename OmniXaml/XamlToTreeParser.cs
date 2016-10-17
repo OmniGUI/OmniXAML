@@ -6,18 +6,18 @@
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
-    using Glass;
     using Glass.Core;
+    using Metadata;
 
     public class XamlToTreeParser
     {
-        private readonly IContentPropertyRegistry contentPropertyRegistry;
         private readonly ITypeDirectory typeDirectory;
+        private readonly IMetadataProvider metadataProvider;
 
-        public XamlToTreeParser(IContentPropertyRegistry contentPropertyRegistry, ITypeDirectory typeDirectory)
+        public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider)
         {
-            this.contentPropertyRegistry = contentPropertyRegistry;
             this.typeDirectory = typeDirectory;
+            this.metadataProvider = metadataProvider;
         }
 
 
@@ -40,7 +40,7 @@
             if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
             {
                 var directContent = ((XText)nodeFirstNode).Value;
-                var contentProperty = contentPropertyRegistry.GetContentProperty(type);
+                var contentProperty = metadataProvider.Get(type).ContentProperty;
                 if (contentProperty == null)
                 {
                     ctorArgs.Add(directContent);
@@ -67,7 +67,7 @@
                 else
                 {
                     var ctorNode = this.ProcessNode(node);
-                    return new PropertyAssignment() { Property = Property.RegularProperty(type, contentPropertyRegistry.GetContentProperty(type)), Children = new[] { ctorNode } };
+                    return new PropertyAssignment() { Property = Property.RegularProperty(type, metadataProvider.Get(type).ContentProperty), Children = new[] { ctorNode } };
                 }
             });
         }

@@ -57,7 +57,7 @@ namespace AvaloniaApp
                 .With(configuredAssemblyWithNamespaces);
             directory.AddNamespace(xamlNamespace);
 
-            var sut = new XamlToTreeParser(new ContentPropertyRegistry(), directory);
+            var sut = new XamlToTreeParser(directory, new MetadataProvider());
             var tree = sut.Parse(File.ReadAllText("Sample.xml"));
             return tree;
         }

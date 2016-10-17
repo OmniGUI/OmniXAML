@@ -4,6 +4,8 @@ namespace OmniXaml.Tests
 {
     using System.IO;
     using System.Reflection;
+    using Metadata;
+    using Model;
     using TypeLocation;
 
     [TestClass]
@@ -21,7 +23,15 @@ namespace OmniXaml.Tests
             var typeDirectory = new TypeDirectory();
             typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
             typeDirectory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
-            var sut = new XamlToTreeParser(new ContentPropertyRegistry(), typeDirectory);
+
+            var metadataProvider = new MetadataProvider();
+            metadataProvider.Register(
+                typeof(TextBlock),
+                new GenericMetadata<TextBlock>()
+                    .WithContentProperty(tb => tb.Text));
+
+            var sut = new XamlToTreeParser(typeDirectory, metadataProvider);
+
             var tree = sut.Parse(xaml);
             return tree;
         }

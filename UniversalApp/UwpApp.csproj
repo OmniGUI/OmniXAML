@@ -101,7 +101,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Context\ContentPropertyRegistry.cs" />
+    <Compile Include="Context\MetadataProvider.cs" />
     <Compile Include="Context\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
