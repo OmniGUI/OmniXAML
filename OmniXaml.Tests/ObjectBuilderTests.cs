@@ -8,32 +8,36 @@ namespace OmniXaml.Tests
     [TestClass]
     public class ObjectBuilderTests
     {
-        //[TestMethod]
-        //public void ObjectAndDirectProperties()
-        //{
-        //    var tree = Parse("<Window Title=\"Saludos\" />");
-        //}
+        [TestMethod]
+        public void TemplateContent()
+        {
+            var node = new ConstructionNode(typeof(ItemsControl))
+            {
+                Assignments = new List<PropertyAssignment>
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<ItemsControl>(control => control.ItemTemplate),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode(typeof(DataTemplate))
+                            {
+                                Assignments = new[]
+                                {
+                                    new PropertyAssignment
+                                    {
+                                        Property = Property.RegularProperty<DataTemplate>(template => template.Content),
+                                        Children = new[] { new ConstructionNode(typeof(TextBlock)),}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                }
+            };
 
-        //private static ConstructionNode Parse(string xaml)
-        //{
-        //    var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
-        //    var sut = new XamlToTreeParser(ass, new[] { "OmniXaml.Tests.Model" });
-        //    var tree = sut.Parse(xaml);
-        //    return tree;
-        //}
-
-        //[TestMethod]
-        //public void InnerStringProperty()
-        //{
-        //    var tree = Parse("<Window><Window.Content>Hola</Window.Content></Window>");
-        //}
-
-        //[TestMethod]
-        //public void InnerComplexProperty()
-        //{
-        //    var tree = Parse("<Window><Window.Content><TextBlock /></Window.Content></Window>");
-        //}
-
+            var obj = Create(node);
+        }
 
         [TestMethod]
         public void GivenSimpleExtensionThatProvidesAString_TheStringIsProvided()
@@ -51,21 +55,24 @@ namespace OmniXaml.Tests
                     }
             };
 
-            var node = new ConstructionNode(typeof(TextBlock)) { Assignments = new []{new PropertyAssignment()
+            var node = new ConstructionNode(typeof(TextBlock))
+            {
+                Assignments = new[]{new PropertyAssignment()
             {
                 Property = Property.RegularProperty<TextBlock>(tb => tb.Text),
                 Children = new []{ constructionNode}
-            }, }};
+            }, }
+            };
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock() { Text = " MyText"}, b);
+            Assert.AreEqual(new TextBlock() { Text = "MyText" }, b);
         }
 
         [TestMethod]
         public void ImmutableFromContent()
         {
-            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new [] { "Hola"}};
+            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "Hola" } };
             var myImmutable = new MyImmutable("Hola");
             var actual = Create(node);
 
@@ -74,7 +81,8 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            return new ObjectBuilder(new InstanceCreator(), new SourceValueConverter()).Create(node);
+            var builder = new TemplateAwareObjectBuilder(new InstanceCreator(), new SourceValueConverter());
+            return builder.Create(node);
         }
     }
 }

@@ -7,8 +7,8 @@
 
     public abstract class Property
     {
-        protected Type Owner { get; }
-        protected string PropertyName { get; }
+        public Type Owner { get; }
+        public string PropertyName { get; }
 
         public Property(Type owner, string propertyName)
         {
@@ -43,6 +43,30 @@
         public override string ToString()
         {
             return $"{Owner.Name}.{PropertyName}";
+        }
+
+        protected bool Equals(Property other)
+        {
+            return Owner == other.Owner && string.Equals(PropertyName, other.PropertyName);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+                return false;
+            if (ReferenceEquals(this, obj))
+                return true;
+            if (obj.GetType() != this.GetType())
+                return false;
+            return Equals((Property) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                return ((Owner?.GetHashCode() ?? 0)*397) ^ (PropertyName != null ? PropertyName.GetHashCode() : 0);
+            }
         }
     }
 }

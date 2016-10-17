@@ -51,8 +51,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="ContentPropertyRegistry.cs" />
+    <Compile Include="Model\ItemsControl.cs" />
+    <Compile Include="Model\DataTemplate.cs" />
     <Compile Include="Model\MyImmutable.cs" />
     <Compile Include="Model\SimpleExtension.cs" />
+    <Compile Include="Model\TemplateContent.cs" />
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="SimpleExtension.cs" />

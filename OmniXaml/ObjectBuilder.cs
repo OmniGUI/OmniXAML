@@ -7,7 +7,7 @@
     using System.Reflection;
     using Glass.Core;
 
-    public class ObjectBuilder
+    public class ObjectBuilder : IObjectBuilder
     {
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
@@ -35,37 +35,39 @@
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
-                EnsureValidAssigment(propertyAssignment);
-                var property = propertyAssignment.Property;
+                ApplyAssignment(instance, propertyAssignment);
+            }
+        }
 
-                if (propertyAssignment.SourceValue != null)
+        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment)
+        {
+            EnsureValidAssigment(propertyAssignment);
+            var property = propertyAssignment.Property;
+
+            if (propertyAssignment.SourceValue != null)
+            {
+                var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
+                property.SetValue(instance, value);
+            }
+            else
+            {
+                var values = propertyAssignment.Children.Select(Create);
+
+                if (IsCollection(property.PropertyType))
                 {
-                    var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
-                    property.SetValue(instance, value);
+                    AssignValuesToCollection(values, instance, property);
                 }
                 else
                 {
-                    var values = propertyAssignment.Children.Select(Create);
-
-                    if (IsCollection(property.PropertyType))
-                    {
-                        AssignValuesToCollection(values, instance, property);
-                    }
-                    else
-                    {
-                        AssignValuesToNonCollection(instance, values, property);
-                    }
+                    AssignFirstValueToNonCollection(instance, values.First(), property);
                 }
             }
         }
 
-        private static void AssignValuesToNonCollection(object instance, IEnumerable<object> values, Property standardProperty)
+        protected virtual void AssignFirstValueToNonCollection(object instance, object value, Property property)
         {
-            var value = values.First();
-
             value = ApplyValueConversionIfApplicable(value);
-
-            standardProperty.SetValue(instance, value);
+            property.SetValue(instance, value);            
         }
 
         private static object ApplyValueConversionIfApplicable(object value)
@@ -88,9 +90,7 @@
                 Utils.UniversalAdd(valueOfProperty, value);
             }
         }
-
-
-
+        
         private bool IsCollection(Type type)
         {
             if (type == typeof(string))
