@@ -81,7 +81,7 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            var builder = new TemplateAwareObjectBuilder(new InstanceCreator(), new SourceValueConverter());
+            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter());
             return builder.Create(node);
         }
     }

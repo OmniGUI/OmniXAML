@@ -39,6 +39,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
     <Compile Include="Glass.Core\Utils.cs" />

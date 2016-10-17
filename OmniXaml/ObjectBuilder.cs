@@ -65,21 +65,9 @@
         }
 
         protected virtual void AssignFirstValueToNonCollection(object instance, object value, Property property)
-        {
-            value = ApplyValueConversionIfApplicable(value);
-            property.SetValue(instance, value);            
-        }
-
-        private static object ApplyValueConversionIfApplicable(object value)
-        {
-            var me = value as IMarkupExtension;
-            if (me != null)
-            {
-                return me.GetValue();
-            }
-
-            return value;
-        }
+        {           
+            property.SetValue(instance, value);
+        }      
 
         private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
         {
