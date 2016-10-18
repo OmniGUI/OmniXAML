@@ -2,6 +2,7 @@ namespace OmniXaml.Tests
 {
     using System.Collections.Generic;
     using System.Reflection;
+    using Metadata;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
 
@@ -81,7 +82,7 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter());
+            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter(), Context.GetMetadataProvider());
             return builder.Create(node);
         }
     }

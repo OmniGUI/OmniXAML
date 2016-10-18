@@ -3,9 +3,9 @@
     public class TemplateContent
     {
         private readonly ConstructionNode node;
-        private readonly ObjectBuilder builder;
+        private readonly IObjectBuilder builder;
 
-        public TemplateContent(ConstructionNode node, ObjectBuilder builder)
+        public TemplateContent(ConstructionNode node, IObjectBuilder builder)
         {
             this.node = node;
             this.builder = builder;

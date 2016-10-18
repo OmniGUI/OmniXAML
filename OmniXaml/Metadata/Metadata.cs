@@ -35,7 +35,7 @@ namespace OmniXaml.Metadata
 
         public string ContentProperty { get; set; }
 
-        public FragmentLoadingInfo FragmentLoading { get; set; }
+        public FragmentLoadingInfo FragmentLoaderInfo { get; set; }
 
         protected bool Equals(Metadata other)
         {
@@ -72,10 +72,6 @@ namespace OmniXaml.Metadata
     {
         public Type Type { get; set; }
         public string PropertyName { get; set; }
-    }
-
-    public interface IConstructionFragmentLoader
-    {
-
+        public IConstructionFragmentLoader Loader { get; set; }
     }
 }

@@ -33,5 +33,17 @@ namespace OmniXaml.Metadata
         {
             return new Metadata { RuntimePropertyName = RuntimePropertyName, PropertyDependencies  = PropertyDependencies};
         }
+
+        public GenericMetadata<T> WithFragmentLoader(Expression<Func<T, object>> nameOfPropertySelector, IConstructionFragmentLoader fragmentLoader)
+        {
+            FragmentLoaderInfo = new FragmentLoadingInfo()
+            {
+                PropertyName = nameOfPropertySelector.GetFullPropertyName(),
+                Type = typeof(T),
+                Loader = fragmentLoader,
+            };
+
+            return this;
+        }
     }
 }

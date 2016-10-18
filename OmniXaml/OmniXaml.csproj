@@ -49,6 +49,7 @@
     <Compile Include="Metadata\DependencyRegistration.cs" />
     <Compile Include="Metadata\DependencyRegistrations.cs" />
     <Compile Include="Metadata\GenericMetadata.cs" />
+    <Compile Include="Metadata\IConstructionFragmentLoader.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />

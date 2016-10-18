@@ -24,13 +24,9 @@ namespace OmniXaml.Tests
             typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
             typeDirectory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
 
-            var metadataProvider = new MetadataProvider();
-            metadataProvider.Register(
-                typeof(TextBlock),
-                new GenericMetadata<TextBlock>()
-                    .WithContentProperty(tb => tb.Text));
+           
 
-            var sut = new XamlToTreeParser(typeDirectory, metadataProvider);
+            var sut = new XamlToTreeParser(typeDirectory, Context.GetMetadataProvider());
 
             var tree = sut.Parse(xaml);
             return tree;

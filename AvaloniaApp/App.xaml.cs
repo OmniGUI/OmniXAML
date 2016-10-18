@@ -1,18 +1,13 @@
-﻿using System;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Diagnostics;
-using Avalonia.Logging.Serilog;
-using Avalonia.Themes.Default;
-using Avalonia.Markup.Xaml;
-using Serilog;
-
-namespace AvaloniaApp
+﻿namespace AvaloniaApp
 {
     using System.IO;
     using Context;
-    using OmniXaml;
-    using OmniXaml.TypeLocation;
+    using Avalonia;
+    using Avalonia.Controls;
+    using Avalonia.Diagnostics;
+    using Avalonia.Logging.Serilog;
+    using Avalonia.Markup.Xaml;
+    using Serilog;
 
     class App : Application
     {
@@ -31,37 +26,11 @@ namespace AvaloniaApp
                 .UseDirect2D1()
                 .SetupWithoutStarting();
 
-            var objectBuilder = new ObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter());
-            var cons = GetConstructionNode();
-
-            var window = (Window)objectBuilder.Create(cons);
+            var window = (Window)new XamlLoader().Load(File.ReadAllText("Sample.xml"));
             window.Show();
 
             Current.Run(window);
         }
-
-        private static ConstructionNode GetConstructionNode()
-        {
-            var type = typeof(Window);
-            var ass = type.Assembly;
-
-            ITypeDirectory directory = new TypeDirectory();
-
-            directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
-
-            var configuredAssemblyWithNamespaces = Route
-                .Assembly(ass)
-                .WithNamespaces("Avalonia.Controls");
-            var xamlNamespace = XamlNamespace
-                .Map("root")
-                .With(configuredAssemblyWithNamespaces);
-            directory.AddNamespace(xamlNamespace);
-
-            var sut = new XamlToTreeParser(directory, new MetadataProvider());
-            var tree = sut.Parse(File.ReadAllText("Sample.xml"));
-            return tree;
-        }
-
 
         public static void AttachDevTools(Window window)
         {

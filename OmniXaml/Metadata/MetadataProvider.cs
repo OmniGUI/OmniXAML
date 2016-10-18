@@ -9,6 +9,11 @@
     {
         private readonly IDictionary<string, AutoKeyDictionary<Type, object>> lookupDictionaries = new Dictionary<string, AutoKeyDictionary<Type, object>>();
 
+        public void Register<T>(GenericMetadata<T> medataData)
+        {
+            Register(typeof(T), medataData);
+        }
+
         public void Register(Type type, Metadata medataData)
         {
             foreach (var propertyInfo in medataData.GetType().GetRuntimeProperties())

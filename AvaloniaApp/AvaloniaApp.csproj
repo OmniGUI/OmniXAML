@@ -174,8 +174,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="MainWindow.xaml" />
-    <Compile Include="Context\ContentPropertyProvider.cs" />
+    <Compile Include="Context\MetadataProvider.cs" />
+    <Compile Include="Context\HackedValueContext.cs" />
     <Compile Include="Context\Registrator.cs" />
+    <Compile Include="Context\XamlLoader.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

@@ -6,16 +6,19 @@
     using System.Linq;
     using System.Reflection;
     using Glass.Core;
+    using Metadata;
 
     public class ObjectBuilder : IObjectBuilder
     {
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
+        private readonly IMetadataProvider metadataProvider;
 
-        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter)
+        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IMetadataProvider metadataProvider)
         {
             this.creator = creator;
             this.sourceValueConverter = sourceValueConverter;
+            this.metadataProvider = metadataProvider;
         }
 
         public object Create(ConstructionNode node)
@@ -51,7 +54,7 @@
             }
             else
             {
-                var values = propertyAssignment.Children.Select(Create);
+                var values = propertyAssignment.Children.Select(node => GatedCreate(instance, property, node));
 
                 if (IsCollection(property.PropertyType))
                 {
@@ -64,10 +67,15 @@
             }
         }
 
+        protected  virtual object GatedCreate(object instance, Property property, ConstructionNode node)
+        {
+            return Create(node);
+        }
+
         protected virtual void AssignFirstValueToNonCollection(object instance, object value, Property property)
-        {           
+        {
             property.SetValue(instance, value);
-        }      
+        }
 
         private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
         {
@@ -78,7 +86,7 @@
                 Utils.UniversalAdd(valueOfProperty, value);
             }
         }
-        
+
         private bool IsCollection(Type type)
         {
             if (type == typeof(string))

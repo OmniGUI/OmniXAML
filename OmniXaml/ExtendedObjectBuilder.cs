@@ -1,21 +1,35 @@
 ﻿namespace OmniXaml
 {
+    using Metadata;
+
     public class ExtendedObjectBuilder : ObjectBuilder
     {
-        public ExtendedObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter) : base(creator, sourceValueConverter)
+        private readonly IMetadataProvider metadataProvider;
+
+        public ExtendedObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IMetadataProvider metadataProvider)
+            : base(creator, sourceValueConverter, metadataProvider)
         {
+            this.metadataProvider = metadataProvider;
         }
 
         protected override void AssignFirstValueToNonCollection(object instance, object value, Property property)
         {
             var finalValue = ApplyValueConversionIfApplicable(value);
+            base.AssignFirstValueToNonCollection(instance, finalValue, property);
+        }
 
-            if (instance.GetType().Name == "DataTemplate" && property.PropertyName == "Content")
+        protected override object GatedCreate(object instance, Property property, ConstructionNode node)
+        {
+            var metadata = metadataProvider.Get(instance.GetType());
+            var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
+
+            if (fragmentLoaderInfo != null && instance.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)
             {
+                return fragmentLoaderInfo.Loader.Load(node, this);
             }
             else
             {
-                base.AssignFirstValueToNonCollection(instance, finalValue, property);
+                return base.GatedCreate(instance, property, node);
             }
         }
 
