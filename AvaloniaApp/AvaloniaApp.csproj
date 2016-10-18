@@ -170,6 +170,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
+    <Compile Include="Adapters\ConstructionFragmentLoader.cs" />
+    <Compile Include="Adapters\OmniDataTemplate.cs" />
+    <Compile Include="Adapters\TemplateContent.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

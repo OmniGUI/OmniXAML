@@ -1,6 +1,7 @@
 ﻿namespace AvaloniaApp
 {
     using System.IO;
+    using System.Linq;
     using Context;
     using Avalonia;
     using Avalonia.Controls;
@@ -27,6 +28,11 @@
                 .SetupWithoutStarting();
 
             var window = (Window)new XamlLoader().Load(File.ReadAllText("Sample.xml"));
+
+            var grid = (Grid)window.Content;
+            var listBox = grid.Children.OfType<ListBox>().First();
+            listBox.Items = new[] { "hola" };
+
             window.Show();
 
             Current.Run(window);

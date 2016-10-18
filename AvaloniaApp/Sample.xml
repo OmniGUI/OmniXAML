@@ -15,7 +15,7 @@
       </MenuItem>
     </Menu>
     <ListBox Grid.Row="1">
-      <ListBoxItem>
+      <!--<ListBoxItem>
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="114"/>
@@ -35,7 +35,12 @@
           <TextBox Grid.Column="1" Text="It's-a me!">           
           </TextBox>
         </Grid>
-      </ListBoxItem>
+      </ListBoxItem>-->
+      <ListBox.ItemTemplate>
+        <OmniDataTemplate>
+          <Button>Salud y buenos alimentos</Button>
+        </OmniDataTemplate>
+      </ListBox.ItemTemplate>
     </ListBox>
   </Grid>
 </Window>

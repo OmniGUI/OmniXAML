@@ -1,5 +1,6 @@
 ﻿namespace AvaloniaApp.Context
 {
+    using Adapters;
     using Avalonia.Controls;
     using OmniXaml;
     using OmniXaml.TypeLocation;
@@ -21,15 +22,19 @@
             
             var type = typeof(Window);
             var ass = type.Assembly;
-            var configuredAssemblyWithNamespaces = Route
-                .Assembly(ass)
-                .WithNamespaces("Avalonia.Controls");
-            var xamlNamespace = XamlNamespace
-                .Map("root")
-                .With(configuredAssemblyWithNamespaces);
-            typeDirectory.AddNamespace(xamlNamespace);
+            typeDirectory.AddNamespace(
+                    XamlNamespace
+                        .Map("root")
+                        .With(
+                            Route
+                                .Assembly(ass)
+                                .WithNamespaces("Avalonia.Controls"),
+                            Route
+                                .Assembly(typeof(OmniDataTemplate).Assembly)
+                                .WithNamespaces(typeof(OmniDataTemplate).Namespace)));
+          
 
-            directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+            typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
 
             return typeDirectory;
         }
