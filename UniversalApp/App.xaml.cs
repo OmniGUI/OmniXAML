@@ -66,27 +66,15 @@ namespace Yuniversal
             {
                 if (rootFrame.Content == null)
                 {
-                    var type = typeof(Page);
-                    ITypeDirectory directory = new TypeDirectory();
+                    var xaml = await GetXaml("Sample.xml");
+                    var page = (Page)new XamlLoader().Load(xaml);
 
-                    directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+                    var splitView = (SplitView)page.Content;
+                    var frame = (Frame) splitView.Content;
+                    var listView = (ListView) frame.Content;
+                    listView.ItemsSource = new[] {"Hola", "Tío"};
 
-                    var configuredAssemblyWithNamespaces = Route
-                        .Assembly(type.GetTypeInfo().Assembly)
-                        .WithNamespaces("Windows.UI.Xaml.Controls");
-                    var xamlNamespace = XamlNamespace
-                        .Map("root")
-                        .With(configuredAssemblyWithNamespaces);
-                    directory.AddNamespace(xamlNamespace);
-
-                    var xamlCreator = new XamlToTreeParser(directory, new MetadataProvider());
-                    var xaml = await GetXaml();
-
-                    var constructionNode = xamlCreator.Parse(xaml);
-                    var objectBuilder = new ObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter());
-
-                    var rootFrameContent = (Page) objectBuilder.Create(constructionNode);
-                    rootFrame.Content = rootFrameContent;
+                    rootFrame.Content = page;
 
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
@@ -100,9 +88,9 @@ namespace Yuniversal
             }
         }
 
-        private static async Task<string> GetXaml()
+        private static async Task<string> GetXaml(string fileName)
         {
-            var uri = new Uri("ms-appx:///Sample.xml");
+            var uri = new Uri($"ms-appx:///{fileName}");
             var file = await StorageFile.GetFileFromApplicationUriAsync(uri);
             var xaml = await FileIO.ReadTextAsync(file);
             return xaml;

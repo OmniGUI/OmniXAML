@@ -98,9 +98,13 @@
     <None Include="UniversalApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\ConstructionFragmentLoader.cs" />
+    <Compile Include="Adapters\OmniDataTemplate.cs" />
+    <Compile Include="Adapters\TemplateContent.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Context\XamlLoader.cs" />
     <Compile Include="Context\MetadataProvider.cs" />
     <Compile Include="Context\Registrator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
