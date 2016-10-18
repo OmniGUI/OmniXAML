@@ -38,7 +38,9 @@
       </ListBoxItem>-->
       <ListBox.ItemTemplate>
         <OmniDataTemplate>
-          <Button>Salud y buenos alimentos</Button>
+          <Button>
+            <OmniBinding Path="Title"></OmniBinding>
+          </Button>
         </OmniDataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>

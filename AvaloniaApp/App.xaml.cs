@@ -31,7 +31,8 @@
 
             var grid = (Grid)window.Content;
             var listBox = grid.Children.OfType<ListBox>().First();
-            listBox.Items = new[] { "hola" };
+            listBox.Items = new[] { "hola", "tío", "cómo estás?" };
+            listBox.DataContext = new MainViewModel();
 
             window.Show();
 
@@ -54,5 +55,14 @@
                 .CreateLogger());
 #endif
         }
+    }
+
+    internal class MainViewModel
+    {
+        public MainViewModel()
+        {
+            Title = "Título";
+        }
+        public string Title { get; set; }
     }
 }

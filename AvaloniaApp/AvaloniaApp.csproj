@@ -171,6 +171,7 @@
   <ItemGroup>
     <EmbeddedResource Include="App.xaml" />
     <Compile Include="Adapters\ConstructionFragmentLoader.cs" />
+    <Compile Include="Adapters\OmniBinding.cs" />
     <Compile Include="Adapters\OmniDataTemplate.cs" />
     <Compile Include="Adapters\TemplateContent.cs" />
     <Compile Include="App.xaml.cs">
@@ -198,6 +199,7 @@
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{84ae3f65-b4dc-43e0-b2d0-df0b188e8602}</Project>
       <Name>OmniXaml</Name>
+      <Aliases>global,OmniXamlV2</Aliases>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
