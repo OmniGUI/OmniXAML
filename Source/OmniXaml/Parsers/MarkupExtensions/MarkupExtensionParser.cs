@@ -38,26 +38,33 @@ namespace OmniXaml.Parsers.MarkupExtensions
 
         public static readonly Parser<char> IdentifierFirst = Parse.Letter.Or(Parse.Char('_'));
 
-        private static readonly Parser<TreeNode> QuotedValue = from firstQuote in Parse.Char(Quote)
-                                                               from identifier in Parse.CharExcept(new[] { Quote, OpenCurly, CloseCurly }).Many()
-                                                               from secondQuote in Parse.Char(Quote)
-                                                               select new StringNode(new string(identifier.ToArray()));
+        private static readonly Parser<TreeNode> QuotedValue =
+            from firstQuote in Parse.Char(Quote)
+            from identifier in Parse.CharExcept(new[] {Quote, OpenCurly, CloseCurly}).Many()
+            from secondQuote in Parse.Char(Quote)
+            select new StringNode(new string(identifier.ToArray()));
 
         private static readonly Parser<string> Identifier =
             from first in IdentifierFirst.Once().Text()
             from rest in IdentifierChar.Many().Text()
             select first + rest;
 
-        private static readonly Parser<TreeNode> DirectValue = from value in ValidChars.Many()
-                                                               select new StringNode(new string(value.ToArray()));
+        private static readonly Parser<TreeNode> DirectValue =
+             from value in ValidChars.Many()
+             select new StringNode(new string(value.ToArray()));
 
         private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.', '[', ']', '(', ')', '!', '$', '#'));
 
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
 
         public static readonly Parser<AssignmentNode> Assignment = from prop in Identifier
+                                                                   from trailing in Parse.WhiteSpace.Many()
                                                                    from eqSign in Parse.Char(EqualSign)
+                                                                   from trailing2 in Parse.WhiteSpace.Many()
+
                                                                    from value in AssignmentSource
+                                                                   from trailing3 in Parse.WhiteSpace.Many()
+
                                                                    select new AssignmentNode(prop, value);
 
         private static readonly Parser<Option> Positional = from value in ValidChars.Many()

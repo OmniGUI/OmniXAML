@@ -58,6 +58,63 @@
         }
 
         [Fact]
+        public void ExtensionWithPositionalAndAssignmentOptionsAndSpaces()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property='Some Value', OtherProperty=OtherValue}");
+            var options = new OptionsCollection { new PropertyOption("Property", new StringNode("Some Value")), new PropertyOption("OtherProperty", new StringNode("OtherValue")) };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
+        public void PropertyWithQuotedValueAndSpaces()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property= 'Some Value' }");
+            var options = new OptionsCollection { new PropertyOption("Property", new StringNode("Some Value"))};
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
+        public void PropertyWithDirectValueAndSpaces()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property = SomeValue }");
+            var options = new OptionsCollection { new PropertyOption("Property", new StringNode("SomeValue")) };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
+        public void PropertyWithMoreThanOneSpaceBetweenTokensPropertiesOnly()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy   Property  =   SomeValue    }");
+            var options = new OptionsCollection { new PropertyOption("Property", new StringNode("SomeValue")) };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
+        public void PropertyWithMoreThanOneSpaceBetweenTokensWithPositional()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy  Arg1,  Arg2,   Property  =   SomeValue    }");
+            var options = new OptionsCollection
+            {
+                new PositionalOption("Arg1"),
+                new PositionalOption("Arg2"),
+                new PropertyOption("Property", new StringNode("SomeValue"))
+            };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
+        public void PropertyWithDirectValueAndSpacesMultipleAssignments()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property = SomeValue , Other='Other value'}");
+            var options = new OptionsCollection
+            {
+                new PropertyOption("Property", new StringNode("SomeValue")),
+                new PropertyOption("Other", new StringNode("Other value")),
+            };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        }
+
+        [Fact]
         public void AssignmentOfDirectValue()
         {
             var actual = MarkupExtensionParser.Assignment.Parse("Property=SomeValue");
@@ -118,6 +175,21 @@
             Assert.Equal(expected, actual);
         }
 
+        //[Fact]
+        //public void AssignmentOfDirectValueWithSpaces()
+        //{
+        //    var actual = MarkupExtensionParser.Assignment.Parse(" Property = SomeValue ");
+        //    Assert.Equal(new AssignmentNode("Property", new StringNode("SomeValue")), actual);
+        //}
+
+        //[Fact]
+        //public void ExtensionWithSpaces()
+        //{
+        //    var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property=hola}");
+        //    var options = new OptionsCollection { new PositionalOption("Value"), new PropertyOption("Property", new StringNode("hola")) };
+        //    Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
+        //}
+
         [Fact]
         public void ComposedExtension()
         {
@@ -129,5 +201,19 @@
 
             Assert.Equal(expected, actual);
         }
+
+        //[Fact]
+        //public void Identifier()
+        //{
+        //    var identifier = MarkupExtensionParser.Identifier.Parse(" MyIdentifier ");
+        //    Assert.Equal("MyIdentifier", identifier);            
+        //}
+
+        //[Fact]
+        //public void IdentifierWithDot()
+        //{
+        //    var identifier = MarkupExtensionParser.Identifier.Parse(" My.Identifier ");
+        //    Assert.Equal("My.Identifier", identifier);
+        //}
     }
 }
