@@ -38,7 +38,7 @@
             var me = value as IMarkupExtension;
             if (me != null)
             {
-                return me.GetValue();
+                return me.GetValue(null);
             }
 
             return value;

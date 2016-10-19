@@ -2,6 +2,6 @@
 {
     public interface IMarkupExtension
     {
-        object GetValue();
+        object GetValue(MarkupExtensionContext context);
     }
 }

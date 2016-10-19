@@ -46,6 +46,7 @@
     <Compile Include="Glass.Core\Utils.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="IObjectBuilder.cs" />
+    <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="Metadata\DependencyRegistration.cs" />
     <Compile Include="Metadata\DependencyRegistrations.cs" />
     <Compile Include="Metadata\GenericMetadata.cs" />
