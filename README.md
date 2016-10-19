@@ -1,3 +1,6 @@
+
+STAY TUNED! Version 2 is being developed!
+
 Get the latest nighly NuGet packages with this NuGet feed! https://www.myget.org/F/omnixaml/api/v2
 
 # OmniXAML 
