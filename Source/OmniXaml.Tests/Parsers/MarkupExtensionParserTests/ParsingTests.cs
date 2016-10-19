@@ -175,20 +175,20 @@
             Assert.Equal(expected, actual);
         }
 
-        //[Fact]
-        //public void AssignmentOfDirectValueWithSpaces()
-        //{
-        //    var actual = MarkupExtensionParser.Assignment.Parse(" Property = SomeValue ");
-        //    Assert.Equal(new AssignmentNode("Property", new StringNode("SomeValue")), actual);
-        //}
+        [Fact]
+        public void AssignmentOfDirectValueWithSpaces()
+        {
+            var actual = MarkupExtensionParser.Assignment.Parse("Property = SomeValue");
+            Assert.Equal(new AssignmentNode("Property", new StringNode("SomeValue")), actual);
+        }
 
-        //[Fact]
-        //public void ExtensionWithSpaces()
-        //{
-        //    var actual = MarkupExtensionParser.MarkupExtension.Parse("{Dummy Property=hola}");
-        //    var options = new OptionsCollection { new PositionalOption("Value"), new PropertyOption("Property", new StringNode("hola")) };
-        //    Assert.Equal(new MarkupExtensionNode(new IdentifierNode("DummyExtension"), options), actual);
-        //}
+        [Fact]
+        public void PositionalWithSpecialChars()
+        {
+            var actual = MarkupExtensionParser.MarkupExtension.Parse("{Binding Foo^.Bar}");
+            var options = new OptionsCollection { new PositionalOption("Foo^.Bar") };
+            Assert.Equal(new MarkupExtensionNode(new IdentifierNode("BindingExtension"), options), actual);
+        }
 
         [Fact]
         public void ComposedExtension()
@@ -202,18 +202,24 @@
             Assert.Equal(expected, actual);
         }
 
-        //[Fact]
-        //public void Identifier()
-        //{
-        //    var identifier = MarkupExtensionParser.Identifier.Parse(" MyIdentifier ");
-        //    Assert.Equal("MyIdentifier", identifier);            
-        //}
+        [Theory]
+        [InlineData("MyIdentifier")]
+        [InlineData("Identifier123")]
+        [InlineData("Identifier_Suffix_123")]
+        public void Identifier(string str)
+        {
+            var identifier = MarkupExtensionParser.Identifier.Parse(str);
+            Assert.Equal(str, identifier);
+        }
 
-        //[Fact]
-        //public void IdentifierWithDot()
-        //{
-        //    var identifier = MarkupExtensionParser.Identifier.Parse(" My.Identifier ");
-        //    Assert.Equal("My.Identifier", identifier);
-        //}
+        [Theory]
+        [InlineData("#other.Tag")]
+        [InlineData("!HasErrors")]
+        [InlineData("Name^.Length")]
+        public void PositionalWithDot(string str)
+        {
+            var positional = MarkupExtensionParser.Positional.Parse(str);
+            Assert.Equal(new PositionalOption(str), positional);
+        }
     }
 }

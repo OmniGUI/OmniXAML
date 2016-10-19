@@ -44,7 +44,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
             from secondQuote in Parse.Char(Quote)
             select new StringNode(new string(identifier.ToArray()));
 
-        private static readonly Parser<string> Identifier =
+        public static readonly Parser<string> Identifier =
             from first in IdentifierFirst.Once().Text()
             from rest in IdentifierChar.Many().Text()
             select first + rest;
@@ -53,7 +53,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
              from value in ValidChars.Many()
              select new StringNode(new string(value.ToArray()));
 
-        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.', '[', ']', '(', ')', '!', '$', '#'));
+        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.', '[', ']', '(', ')', '!', '$', '#', '^'));
 
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
 
@@ -67,7 +67,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
 
                                                                    select new AssignmentNode(prop, value);
 
-        private static readonly Parser<Option> Positional = from value in ValidChars.Many()
+        public static readonly Parser<Option> Positional = from value in ValidChars.Many()
                                                             select new PositionalOption(new string(value.ToArray()));
 
         private static readonly Parser<Option> Attribute = from identifier in Assignment
