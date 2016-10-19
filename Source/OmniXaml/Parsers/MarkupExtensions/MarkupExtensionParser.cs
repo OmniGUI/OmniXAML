@@ -53,7 +53,7 @@ namespace OmniXaml.Parsers.MarkupExtensions
              from value in ValidChars.Many()
              select new StringNode(new string(value.ToArray()));
 
-        private static Parser<char> ValidChars => Parse.LetterOrDigit.Or(Parse.Chars(':', '.', '[', ']', '(', ')', '!', '$', '#', '^'));
+        private static Parser<char> ValidChars => Parse.AnyChar.Except(Parse.Chars(Quote, OpenCurly, CloseCurly, EqualSign, Comma).Or(Parse.WhiteSpace));
 
         private static readonly Parser<TreeNode> StringValueNode = QuotedValue.Or(DirectValue);
 
