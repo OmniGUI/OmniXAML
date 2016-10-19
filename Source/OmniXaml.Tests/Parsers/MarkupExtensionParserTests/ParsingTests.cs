@@ -1,11 +1,13 @@
 ﻿namespace OmniXaml.Tests.Parsers.MarkupExtensionParserTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Xunit;
     using OmniXaml.Parsers.MarkupExtensions;
     using Resources;
     using Sprache;
+    using ParseException = OmniXaml.ParseException;
 
     public class ParsingTests
     {
@@ -220,6 +222,15 @@
         {
             var positional = MarkupExtensionParser.Positional.Parse(str);
             Assert.Equal(new PositionalOption(str), positional);
+        }
+
+        [Theory]
+        [InlineData("{Dummy Hello")]
+        [InlineData("{Dummy Property=SomeValue")]
+        [InlineData("{Dummy Arg1, Arg2, Property='Some value'")]
+        public void UnfinishedExtension(string str)
+        {
+            Assert.Throws<Sprache.ParseException>(() => MarkupExtensionParser.MarkupExtension.Parse(str));
         }
     }
 }
