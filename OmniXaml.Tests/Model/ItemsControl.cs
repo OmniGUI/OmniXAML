@@ -1,11 +1,11 @@
 namespace OmniXaml.Tests.Model
 {
-    using System.Collections.ObjectModel;
+    using System.Collections.Generic;
 
     public class ItemsControl
     {
         public DataTemplate ItemTemplate { get; set; }
-        public Collection<object> Children { get; set; }
+        public ICollection<object> Items { get; set; } = new List<object>();
 
         protected bool Equals(ItemsControl other)
         {

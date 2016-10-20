@@ -20,7 +20,7 @@
 
             metadataProvider.Register(
                 new GenericMetadata<ItemsControl>()
-                    .WithContentProperty(tb => tb.Children));
+                    .WithContentProperty(tb => tb.Items));
 
             metadataProvider.Register(
                 new GenericMetadata<DataTemplate>()

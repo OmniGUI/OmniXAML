@@ -1,5 +1,6 @@
 namespace OmniXaml.Tests
 {
+    using System.Collections;
     using System.Collections.Generic;
     using System.Reflection;
     using Metadata;
@@ -68,6 +69,28 @@ namespace OmniXaml.Tests
             var b = Create(node);
 
             Assert.AreEqual(new TextBlock() { Text = "MyText" }, b);
+        }
+
+        [TestMethod]
+        public void GivenExtensionThatProvidesCollection_TheCollectionIsProvided()
+        {
+            var extensionNode = new ConstructionNode(typeof(CollectionExtension));
+
+            var node = new ConstructionNode(typeof(ItemsControl))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<ItemsControl>(tb => tb.Items),
+                        Children = new[] {extensionNode}
+                    },
+                }
+            };
+
+            var result = (ItemsControl)Create(node);
+            Assert.IsNotNull(result.Items);
+            Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
         }
 
         [Ignore]

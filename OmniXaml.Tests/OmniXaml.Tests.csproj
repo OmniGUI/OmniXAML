@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="ContentPropertyRegistry.cs" />
     <Compile Include="Context.cs" />
+    <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
     <Compile Include="Model\ItemsControl.cs" />
     <Compile Include="Model\DataTemplate.cs" />

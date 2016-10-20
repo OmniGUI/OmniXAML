@@ -59,7 +59,7 @@
 
                 if (IsCollection(property.PropertyType))
                 {
-                    AssignValuesToCollection(values, instance, property);
+                    AssignValuesToCollection(values.Select(o => new AssignmentTarget(instance, property, o)), instance, property);
                 }
                 else
                 {
@@ -78,13 +78,14 @@
             assignmentTarget.ExecuteAssignment();
         }
 
-        private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
+        private void AssignValuesToCollection(IEnumerable<AssignmentTarget> assignments, object instance, Property property)
         {
             var valueOfProperty = property.GetValue(instance);
 
-            foreach (var value in values)
+            foreach (var assignmentTarget in assignments)
             {
-                Utils.UniversalAdd(valueOfProperty, value);
+                var converted = Transform(assignmentTarget);
+                Utils.UniversalAdd(valueOfProperty, converted.Value);
             }
         }
 
