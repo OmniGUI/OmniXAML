@@ -6,26 +6,27 @@
     using System.Linq;
     using System.Reflection;
     using Glass.Core;
-    using Metadata;
 
     public class ObjectBuilder : IObjectBuilder
     {
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
-        private readonly IMetadataProvider metadataProvider;
+        private readonly IInstanceLifecycleSignaler signaler;
 
-        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IMetadataProvider metadataProvider)
+        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IInstanceLifecycleSignaler signaler)
         {
             this.creator = creator;
             this.sourceValueConverter = sourceValueConverter;
-            this.metadataProvider = metadataProvider;
+            this.signaler = signaler;
         }
 
         public object Create(ConstructionNode node)
         {
+            
             var instance = CreateInstance(node);
+            signaler.BeforeAssigments(instance);
             ApplyAssignments(instance, node.Assignments);
-
+            signaler.AfterAssigments(instance);
             return instance;
         }
 
@@ -62,7 +63,7 @@
                 }
                 else
                 {
-                    AssignFirstValueToNonCollection(instance, values.First(), property);
+                    OnPropertyAssignment(new AssignmentTarget(instance, property, values.First()));                    
                 }
             }
         }
@@ -72,9 +73,9 @@
             return Create(node);
         }
 
-        protected virtual void AssignFirstValueToNonCollection(object instance, object value, Property property)
+        protected virtual void OnPropertyAssignment(AssignmentTarget assignmentTarget)
         {
-            property.SetValue(instance, value);
+            assignmentTarget.ExecuteAssignment();
         }
 
         private void AssignValuesToCollection(IEnumerable<object> values, object instance, Property property)
@@ -108,6 +109,11 @@
             {
                 throw new InvalidOperationException("Children is empty.");
             }
+        }
+
+        protected virtual AssignmentTarget Transform(AssignmentTarget assignmentTarget)
+        {
+            return assignmentTarget;
         }
     }
 }

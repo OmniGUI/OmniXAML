@@ -9,6 +9,11 @@
         public static IMetadataProvider GetMetadataProvider()
         {
             var metadataProvider = new MetadataProvider();
+
+            metadataProvider.Register(
+                new GenericMetadata<Window>()
+                    .WithContentProperty(tb => tb.Content));
+
             metadataProvider.Register(
                 new GenericMetadata<TextBlock>()
                     .WithContentProperty(tb => tb.Text));

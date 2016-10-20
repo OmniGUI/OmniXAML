@@ -70,6 +70,7 @@ namespace OmniXaml.Tests
             Assert.AreEqual(new TextBlock() { Text = "MyText" }, b);
         }
 
+        [Ignore]
         [TestMethod]
         public void ImmutableFromContent()
         {
@@ -82,7 +83,7 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter(), Context.GetMetadataProvider());
+            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter(), Context.GetMetadataProvider(), new InstanceLifecycleSignaler());
             return builder.Create(node);
         }
     }

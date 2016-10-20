@@ -47,8 +47,10 @@
                 }
                 else
                 {
-                    var assignment = new PropertyAssignment() { Property = Property.RegularProperty(type, contentProperty), SourceValue = directContent };
-                    return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments).Concat(new[] { assignment }), };
+                    var property = Property.RegularProperty(type, contentProperty);
+                    var assignment = new PropertyAssignment() { Property = property, SourceValue = directContent };
+                    var propertyAssignments = directAssignments.Concat(nestedAssignments).Concat(new[] { assignment });
+                    return new ConstructionNode(type) { Assignments = propertyAssignments, };
                 }
             }
 
@@ -57,19 +59,21 @@
 
         private IEnumerable<PropertyAssignment> ProcessInnerElements(Type type, IEnumerable<XElement> nodes)
         {
+            return nodes.Select(
+                node => IsProperty(node)
+                    ? ProcessExplicityProperty(type, node)
+                    : ProcessImplicityProperty(type, node));
+        }
 
-            return nodes.Select(node =>
+        private PropertyAssignment ProcessImplicityProperty(Type type, XElement node)
+        {
+            var ctorNode = ProcessNode(node);
+            var contentProperty = metadataProvider.Get(type).ContentProperty;
+            if (contentProperty == null)
             {
-                if (IsProperty(node))
-                {
-                    return ProcessProperty(type, node);
-                }
-                else
-                {
-                    var ctorNode = this.ProcessNode(node);
-                    return new PropertyAssignment() { Property = Property.RegularProperty(type, metadataProvider.Get(type).ContentProperty), Children = new[] { ctorNode } };
-                }
-            });
+                throw new XamlParserException($"Cannot assign node. The content property of the type {type} cannot be found");
+            }
+            return new PropertyAssignment() {Property = Property.RegularProperty(type, contentProperty), Children = new[] {ctorNode}};
         }
 
         private static bool IsProperty(XElement node)
@@ -77,7 +81,7 @@
             return node.Name.LocalName.Contains(".");
         }
 
-        private PropertyAssignment ProcessProperty(Type type, XElement node)
+        private PropertyAssignment ProcessExplicityProperty(Type type, XElement node)
         {
             var prop = node.Name;
             var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
@@ -133,4 +137,4 @@
             return typeDirectory.GetTypeByPrefix(string.Empty, typeName);
         }
     }
-}
+} 

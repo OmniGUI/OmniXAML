@@ -39,12 +39,15 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssignmentTarget.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
     <Compile Include="Glass.Core\Utils.cs" />
+    <Compile Include="IInstanceLifecycleSignaler.cs" />
     <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="InstanceLifecycleSignaler.cs" />
     <Compile Include="IObjectBuilder.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="Metadata\DependencyRegistration.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="TypeLocation\Route.cs" />
     <Compile Include="TypeLocation\XamlNamespace.cs" />
     <Compile Include="TypeLocation\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="XamlParserException.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />
     <Compile Include="Glass.Core\ReflectionExtensions.cs" />

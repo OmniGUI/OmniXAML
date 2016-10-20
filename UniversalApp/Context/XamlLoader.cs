@@ -44,7 +44,7 @@
         public object Load(string xaml)
         {
 
-            var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter(), metadataProvider);
+            var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter(), metadataProvider, new InstanceLifecycleSignaler());
             var cons = GetConstructionNode(xaml);
             return objectBuilder.Create(cons);
         }
