@@ -6,18 +6,21 @@
     using System.Linq;
     using System.Reflection;
     using Glass.Core;
+    using Metadata;
 
     public class ObjectBuilder : IObjectBuilder
     {
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
         private readonly IInstanceLifecycleSignaler signaler;
+        private readonly IMetadataProvider metadataProvider;
 
-        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IInstanceLifecycleSignaler signaler)
+        public ObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IInstanceLifecycleSignaler signaler, IMetadataProvider metadataProvider)
         {
             this.creator = creator;
             this.sourceValueConverter = sourceValueConverter;
             this.signaler = signaler;
+            this.metadataProvider = metadataProvider;
         }
 
         public object Create(ConstructionNode node)
@@ -55,30 +58,69 @@
             }
             else
             {
-                var values = propertyAssignment.Children.Select(node => GatedCreate(instance, property, node));
-
-                if (IsCollection(property.PropertyType))
+                if (propertyAssignment.Children.Count() == 1)
                 {
-                    AssignValuesToCollection(values.Select(o => new AssignmentTarget(instance, property, o)), instance, property);
+                    var first = propertyAssignment.Children.First();
+                    var value = CreateForChild(instance, property, first);
+                    var converted = Transform(new Assignment(instance, property, value));
+
+                    Assign(converted);                    
                 }
                 else
                 {
-                    OnPropertyAssignment(new AssignmentTarget(instance, property, values.First()));                    
-                }
+                    foreach (var constructionNode in propertyAssignment.Children)
+                    {
+                        var value = Create(constructionNode);
+                        var converted = Transform(new Assignment(instance, property, value));
+                        Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);                        
+                    }
+                }          
             }
         }
 
-        protected  virtual object GatedCreate(object instance, Property property, ConstructionNode node)
+        protected virtual void Assign(Assignment converted)
         {
-            return Create(node);
+            converted.ExecuteAssignment();
         }
 
-        protected virtual void OnPropertyAssignment(AssignmentTarget assignmentTarget)
+        protected Assignment Transform(Assignment assignment)
         {
-            assignmentTarget.ExecuteAssignment();
+            var me = assignment.Value as IMarkupExtension;
+            if (me != null)
+            {
+                var value = me.GetValue(null);
+                assignment = assignment.ChangeValue(value);
+            }
+
+            return assignment;
         }
 
-        private void AssignValuesToCollection(IEnumerable<AssignmentTarget> assignments, object instance, Property property)
+        protected object CreateForChild(object instance, Property property, ConstructionNode node)
+        {
+            var metadata = metadataProvider.Get(instance.GetType());
+            var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
+
+            if (fragmentLoaderInfo != null && instance.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)
+            {
+                return fragmentLoaderInfo.Loader.Load(node, this);
+            }
+            else
+            {
+                return Create(node);
+            }
+        }
+
+        //protected virtual object CreateForChild(object instance, Property property, ConstructionNode node)
+        //{
+        //    return Create(node);
+        //}
+
+        //protected virtual void OnPropertyAssignment(Assignment assignment)
+        //{
+        //    assignment.ExecuteAssignment();
+        //}
+
+        private void AssignValuesToCollection(IEnumerable<Assignment> assignments, object instance, Property property)
         {
             var valueOfProperty = property.GetValue(instance);
 
@@ -87,18 +129,7 @@
                 var converted = Transform(assignmentTarget);
                 Utils.UniversalAdd(valueOfProperty, converted.Value);
             }
-        }
-
-        private bool IsCollection(Type type)
-        {
-            if (type == typeof(string))
-            {
-                return false;
-            }
-
-            var typeInfo = type.GetTypeInfo();
-            return typeof(IEnumerable).GetTypeInfo().IsAssignableFrom(typeInfo);
-        }
+        }     
 
         private void EnsureValidAssigment(PropertyAssignment propertyAssignment)
         {
@@ -110,11 +141,6 @@
             {
                 throw new InvalidOperationException("Children is empty.");
             }
-        }
-
-        protected virtual AssignmentTarget Transform(AssignmentTarget assignmentTarget)
-        {
-            return assignmentTarget;
-        }
+        }       
     }
 }

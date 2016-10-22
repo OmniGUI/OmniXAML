@@ -1,8 +1,8 @@
 ﻿namespace OmniXaml
 {
-    public class AssignmentTarget
+    public class Assignment
     {
-        public AssignmentTarget(object instance, Property property, object value)
+        public Assignment(object instance, Property property, object value)
         {
             Instance = instance;
             Value = value;
@@ -20,9 +20,9 @@
             Property.SetValue(Instance, Value);
         }
 
-        public AssignmentTarget ChangeValue(object value)
+        public Assignment ChangeValue(object value)
         {
-            return new AssignmentTarget(Instance, Property, value);
+            return new Assignment(Instance, Property, value);
         }
     }
 }

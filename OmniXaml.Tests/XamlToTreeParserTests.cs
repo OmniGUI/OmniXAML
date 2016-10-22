@@ -20,13 +20,11 @@ namespace OmniXaml.Tests
         private static ConstructionNode Parse(string xaml)
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
-            var typeDirectory = new TypeDirectory();
-            typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
-            typeDirectory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
+            var directory = new TypeDirectory();
+            directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
+            directory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));           
 
-           
-
-            var sut = new XamlToTreeParser(typeDirectory, Context.GetMetadataProvider());
+            var sut = new XamlToTreeParser(directory, Context.GetMetadataProvider(), new[] { new InlineParser(directory), });
 
             var tree = sut.Parse(xaml);
             return tree;
@@ -66,6 +64,12 @@ namespace OmniXaml.Tests
         public void ContentPropertyDirectContentTextInsideChild()
         {
             var tree = Parse("<Window><TextBlock>Saludos cordiales</TextBlock></Window>");
+        }
+
+        [TestMethod]
+        public void MarkupExtension()
+        {
+            var tree = Parse(@"<Window Content=""{Simple}"" />");
         }
     }
 }

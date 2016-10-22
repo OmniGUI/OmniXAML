@@ -6,7 +6,7 @@
     {
         public object GetValue(MarkupExtensionContext context)
         {
-            return new Collection<string> {"Item 1", "Item 2"};
+            return new Collection<object> {"Item 1", "Item 2"};
         }
     }
 }

@@ -39,14 +39,28 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssignmentTarget.cs" />
+    <Compile Include="Assignment.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
+    <Compile Include="Glass.Core\TypeExtensions.cs" />
     <Compile Include="Glass.Core\Utils.cs" />
+    <Compile Include="IInlineParser.cs" />
     <Compile Include="IInstanceLifecycleSignaler.cs" />
     <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="InlineParser.cs" />
+    <Compile Include="InlineParsers\Extensions\AssignmentNode.cs" />
+    <Compile Include="InlineParsers\Extensions\IdentifierNode.cs" />
+    <Compile Include="InlineParsers\Extensions\MarkupExtensionNode.cs" />
+    <Compile Include="InlineParsers\Extensions\MarkupExtensionNodeToConstructionNodeConverter.cs" />
+    <Compile Include="InlineParsers\Extensions\MarkupExtensionParser.cs" />
+    <Compile Include="InlineParsers\Extensions\Option.cs" />
+    <Compile Include="InlineParsers\Extensions\OptionsCollection.cs" />
+    <Compile Include="InlineParsers\Extensions\PositionalOption.cs" />
+    <Compile Include="InlineParsers\Extensions\PropertyOption.cs" />
+    <Compile Include="InlineParsers\Extensions\StringNode.cs" />
+    <Compile Include="InlineParsers\Extensions\TreeNode.cs" />
     <Compile Include="InstanceLifecycleSignaler.cs" />
     <Compile Include="IObjectBuilder.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
@@ -88,6 +102,7 @@
     <Compile Include="StandardProperty.cs" />
     <Compile Include="PropertyAssignment.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

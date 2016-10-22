@@ -13,11 +13,13 @@
     {
         private readonly ITypeDirectory typeDirectory;
         private readonly IMetadataProvider metadataProvider;
+        private readonly IEnumerable<IInlineParser> inlineParsers;
 
-        public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider)
+        public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers)
         {
             this.typeDirectory = typeDirectory;
             this.metadataProvider = metadataProvider;
+            this.inlineParsers = inlineParsers;
         }
 
 
@@ -90,7 +92,8 @@
             var nodeFirstNode = node.FirstNode;
             if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
             {
-                var value = ((XText)nodeFirstNode).Value;
+                var value = ((XText)nodeFirstNode).Value;               
+
                 return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };                
             }
             else
@@ -107,10 +110,20 @@
 
         private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
         {
+            var value = attribute.Value;
+            var property = ResolveProperty(type, attribute);
+
+            var parser = inlineParsers.FirstOrDefault(p => p.CanParse(value));
+            if (parser != null)
+            {
+                var constructionNode = parser.Parse(value);
+                return new PropertyAssignment { Property = Property.RegularProperty(type, property.PropertyName), Children = new[] { constructionNode } };
+            }
+
             var assignment = new PropertyAssignment
             {
-                Property = ResolveProperty(type, attribute),
-                SourceValue = attribute.Value,
+                Property = property,
+                SourceValue = value,
             };
             return assignment;
         }

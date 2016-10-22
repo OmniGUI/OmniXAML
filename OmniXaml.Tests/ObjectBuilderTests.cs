@@ -2,8 +2,7 @@ namespace OmniXaml.Tests
 {
     using System.Collections;
     using System.Collections.Generic;
-    using System.Reflection;
-    using Metadata;
+    using System.Linq;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
 
@@ -29,12 +28,12 @@ namespace OmniXaml.Tests
                                     new PropertyAssignment
                                     {
                                         Property = Property.RegularProperty<DataTemplate>(template => template.Content),
-                                        Children = new[] { new ConstructionNode(typeof(TextBlock)),}
+                                        Children = new[] {new ConstructionNode(typeof(TextBlock))}
                                     }
                                 }
                             }
                         }
-                    },
+                    }
                 }
             };
 
@@ -59,16 +58,19 @@ namespace OmniXaml.Tests
 
             var node = new ConstructionNode(typeof(TextBlock))
             {
-                Assignments = new[]{new PropertyAssignment()
-            {
-                Property = Property.RegularProperty<TextBlock>(tb => tb.Text),
-                Children = new []{ constructionNode}
-            }, }
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<TextBlock>(tb => tb.Text),
+                        Children = new[] {constructionNode}
+                    }
+                }
             };
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock() { Text = "MyText" }, b);
+            Assert.AreEqual(new TextBlock {Text = "MyText"}, b);
         }
 
         [TestMethod]
@@ -84,20 +86,48 @@ namespace OmniXaml.Tests
                     {
                         Property = Property.RegularProperty<ItemsControl>(tb => tb.Items),
                         Children = new[] {extensionNode}
-                    },
+                    }
                 }
             };
 
-            var result = (ItemsControl)Create(node);
+            var result = (ItemsControl) Create(node);
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
+        }
+
+        [TestMethod]
+        public void Collection()
+        {
+            var items = new[]
+            {
+                new ConstructionNode(typeof(TextBlock)),
+                new ConstructionNode(typeof(TextBlock)),
+                new ConstructionNode(typeof(TextBlock))
+            };
+
+            var node = new ConstructionNode(typeof(ItemsControl))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<ItemsControl>(tb => tb.Items),
+                        Children = items
+                    }
+                }
+            };
+
+            var result = (ItemsControl) Create(node);
+            Assert.IsNotNull(result.Items);
+            Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
+            Assert.IsTrue(result.Items.Any());
         }
 
         [Ignore]
         [TestMethod]
         public void ImmutableFromContent()
         {
-            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "Hola" } };
+            var node = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"Hola"}};
             var myImmutable = new MyImmutable("Hola");
             var actual = Create(node);
 
@@ -106,7 +136,11 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            var builder = new ExtendedObjectBuilder(new InstanceCreator(), new SourceValueConverter(), Context.GetMetadataProvider(), new InstanceLifecycleSignaler());
+            var builder = new ExtendedObjectBuilder(
+                new InstanceCreator(),
+                new SourceValueConverter(),
+                Context.GetMetadataProvider(),
+                new InstanceLifecycleSignaler());
             return builder.Create(node);
         }
     }
