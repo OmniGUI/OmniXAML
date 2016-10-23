@@ -40,9 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assignment.cs" />
+    <Compile Include="ConstructionContext.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
+    <Compile Include="Glass.Core\Guard.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
     <Compile Include="Glass.Core\TypeExtensions.cs" />
     <Compile Include="Glass.Core\Utils.cs" />

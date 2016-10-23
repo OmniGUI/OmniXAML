@@ -71,5 +71,11 @@ namespace OmniXaml.Tests
         {
             var tree = Parse(@"<Window Content=""{Simple}"" />");
         }
+
+        [TestMethod]
+        public void CData()
+        {
+            var tree = Parse(@"<Window><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
+        }
     }
 }

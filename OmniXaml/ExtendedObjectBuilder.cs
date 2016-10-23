@@ -1,48 +1,42 @@
 ﻿namespace OmniXaml
 {
-    using Metadata;
+    using System;
 
     public class ExtendedObjectBuilder : ObjectBuilder
     {
-        private readonly IMetadataProvider metadataProvider;
+        private readonly Func<Assignment, ConstructionContext, MarkupExtensionContext> createExtensionContext;
 
-        public ExtendedObjectBuilder(IInstanceCreator creator, ISourceValueConverter sourceValueConverter, IMetadataProvider metadataProvider, IInstanceLifecycleSignaler signaler)
-            : base(creator, sourceValueConverter, signaler, metadataProvider)
+        public ExtendedObjectBuilder(ConstructionContext constructionContext, Func<Assignment, ConstructionContext, MarkupExtensionContext> createExtensionContext)
+            : base(constructionContext)
         {
-            this.metadataProvider = metadataProvider;
+            this.createExtensionContext = createExtensionContext;
         }
 
-        //protected override void OnPropertyAssignment(Assignment assignmentTarget)
-        //{
-        //    assignmentTarget = Transform(assignmentTarget);
-        //    assignmentTarget.ExecuteAssignment();
-        //}
+        protected override Assignment Transform(Assignment assignment)
+        {
+            var me = assignment.Value as IMarkupExtension;
+            if (me != null)
+            {
+                var value = me.GetValue(createExtensionContext(assignment, ConstructionContext));
+                assignment = assignment.ChangeValue(value);
+            }
 
-        //protected override Assignment Transform(Assignment assignmentTarget)
-        //{
-        //    var me = assignmentTarget.Value as IMarkupExtension;
-        //    if (me != null)
-        //    {
-        //        var value = me.GetValue(null);
-        //        assignmentTarget = assignmentTarget.ChangeValue(value);
-        //    }
+            return base.Transform(assignment);
+        }
 
-        //    return assignmentTarget;
-        //}
+        protected override object CreateForChild(object instance, Property property, ConstructionNode node)
+        {
+            var metadata = ConstructionContext.MetadataProvider.Get(instance.GetType());
+            var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
 
-        //protected override object CreateForChild(object instance, Property property, ConstructionNode node)
-        //{
-        //    var metadata = metadataProvider.Get(instance.GetType());
-        //    var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
-
-        //    if (fragmentLoaderInfo != null && instance.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)
-        //    {
-        //        return fragmentLoaderInfo.Loader.Load(node, this);
-        //    }
-        //    else
-        //    {
-        //        return base.CreateForChild(instance, property, node);
-        //    }
-        //}
+            if (fragmentLoaderInfo != null && instance.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)
+            {
+                return fragmentLoaderInfo.Loader.Load(node, this);
+            }
+            else
+            {
+                return base.CreateForChild(instance, property, node);
+            }
+        }       
     }
 }

@@ -90,7 +90,7 @@
             var propertyName = new string(name.ToArray());
 
             var nodeFirstNode = node.FirstNode;
-            if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
+            if (nodeFirstNode != null && (nodeFirstNode.NodeType == XmlNodeType.Text || nodeFirstNode.NodeType == XmlNodeType.CDATA))
             {
                 var value = ((XText)nodeFirstNode).Value;               
 
