@@ -2,6 +2,7 @@ namespace OmniXaml.TypeLocation
 {
     using System;
     using System.Reflection;
+    using Glass.Core;
 
     public class ClrNamespace : Namespace
     {
@@ -26,7 +27,7 @@ namespace OmniXaml.TypeLocation
 
         protected bool Equals(ClrNamespace other)
         {
-            return assembly.Equals(other.assembly) && string.Equals(ns, other.ns);
+            return assembly.Equals(other.assembly) && String.Equals(ns, other.ns);
         }
 
         public override bool Equals(object obj)
@@ -52,6 +53,31 @@ namespace OmniXaml.TypeLocation
             {
                 return (assembly.GetHashCode() * 397) ^ ns.GetHashCode();
             }
+        }
+
+        public static ClrNamespace ExtractNamespace(string formattedClrString)
+        {
+            var startOfNamespace = formattedClrString.IndexOf(":", StringComparison.Ordinal) + 1;
+            var endOfNamespace = formattedClrString.IndexOf(";", startOfNamespace, StringComparison.Ordinal);
+
+            if (endOfNamespace < 0)
+                endOfNamespace = formattedClrString.Length - startOfNamespace;
+
+            var ns = formattedClrString.Substring(startOfNamespace, endOfNamespace - startOfNamespace);
+
+            var remainingPartStart = startOfNamespace + ns.Length + 1;
+            var remainingPartLenght = formattedClrString.Length - remainingPartStart;
+            var assemblyPart = formattedClrString.Substring(remainingPartStart, remainingPartLenght);
+
+            var assembly = GetAssembly(assemblyPart);
+
+            return new ClrNamespace(assembly, ns);
+        }
+
+        public static Assembly GetAssembly(string assemblyPart)
+        {
+            var dicotomize = assemblyPart.Dicotomize('=');
+            return Assembly.Load(new AssemblyName(dicotomize.Item2));
         }
     }
 }

@@ -9,7 +9,7 @@
         IEnumerable<PrefixRegistration> RegisteredPrefixes { get; }
         Namespace GetNamespaceByPrefix(string prefix);
         void RegisterPrefix(PrefixRegistration prefixRegistration);
-        XamlNamespace GetXamlNamespace(string ns);
+        XamlNamespace GetXamlNamespace(string namespaceName);
         Namespace GetNamespace(string name);
         XamlNamespace GetXamlNamespaceByPrefix(string prefix);
         void AddNamespace(XamlNamespace xamlNamespace);

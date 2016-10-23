@@ -43,8 +43,14 @@
 
         public object Load(string xaml)
         {
+            var constructionContext = new ConstructionContext(
+                new InstanceCreator(),
+                Registrator.GetSourceValueConverter(),
+                metadataProvider,
+                new InstanceLifecycleSignaler());
 
-            var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(), Registrator.GetSourceValueConverter(), metadataProvider, new InstanceLifecycleSignaler());
+            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
+
             var cons = GetConstructionNode(xaml);
             return objectBuilder.Create(cons);
         }

@@ -8,6 +8,7 @@
     using System.Xml.Linq;
     using Glass.Core;
     using Metadata;
+    using TypeLocation;
 
     public class XamlToTreeParser
     {
@@ -32,7 +33,7 @@
 
         private ConstructionNode ProcessNode(XElement node)
         {
-            var type = LocateType(node.Name.LocalName);
+            var type = LocateType(node.Name);
             var directAssignments = GetAssignments(type, node).ToList();
             var nestedAssignments = ProcessInnerElements(type, node.Nodes().OfType<XElement>()).ToList();
 
@@ -50,7 +51,7 @@
                 else
                 {
                     var property = Property.RegularProperty(type, contentProperty);
-                    var assignment = new PropertyAssignment() { Property = property, SourceValue = directContent };
+                    var assignment = new PropertyAssignment { Property = property, SourceValue = directContent };
                     var propertyAssignments = directAssignments.Concat(nestedAssignments).Concat(new[] { assignment });
                     return new ConstructionNode(type) { Assignments = propertyAssignments, };
                 }
@@ -105,7 +106,10 @@
 
         private IEnumerable<PropertyAssignment> GetAssignments(Type type, XElement node)
         {
-            return node.Attributes().Select(attribute => ToAssignment(type, attribute));
+            return node
+                .Attributes()
+                .Where(attribute => !attribute.IsNamespaceDeclaration)
+                .Select(attribute => ToAssignment(type, attribute));
         }
 
         private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
@@ -133,10 +137,13 @@
             var nameLocalName = attribute.Name.LocalName;
             if (nameLocalName.Contains('.'))
             {
+                
                 var dot = nameLocalName.IndexOf('.');
                 var ownerName = nameLocalName.Take(dot).AsString();
                 var propertyName = nameLocalName.Skip(dot + 1).AsString();
-                var ownerType = LocateType(ownerName);
+
+                XName xname = attribute.Name.NamespaceName == string.Empty ? XName.Get(ownerName, attribute.Parent.Name.NamespaceName) : XName.Get(ownerName, attribute.Name.NamespaceName);
+                var ownerType = LocateType(xname);
                 return Property.FromAttached(ownerType, propertyName);
             }
             else
@@ -145,9 +152,13 @@
             }
         }
 
-        private Type LocateType(string typeName)
+        private Type LocateType(XName typeName)
         {
-            return typeDirectory.GetTypeByPrefix(string.Empty, typeName);
+            return typeDirectory.GetTypeByFullAddres(new Address()
+            {
+                 Namespace = typeName.NamespaceName,
+                 TypeName = typeName.LocalName,
+            });
         }
     }
 } 

@@ -58,6 +58,8 @@
     <Compile Include="Context.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
+    <Compile Include="Model\Custom\CustomControl.cs" />
+    <Compile Include="Model\Custom\CustomGrid.cs" />
     <Compile Include="Model\ItemsControl.cs" />
     <Compile Include="Model\DataTemplate.cs" />
     <Compile Include="Model\MyImmutable.cs" />

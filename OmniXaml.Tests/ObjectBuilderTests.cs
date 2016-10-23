@@ -136,11 +136,15 @@ namespace OmniXaml.Tests
 
         private static object Create(ConstructionNode node)
         {
-            var builder = new ExtendedObjectBuilder(
-                new InstanceCreator(),
+            var constructionContext = new ConstructionContext(new InstanceCreator(),
                 new SourceValueConverter(),
                 Context.GetMetadataProvider(),
                 new InstanceLifecycleSignaler());
+
+            var builder = new ExtendedObjectBuilder(
+                constructionContext,
+                (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
+
             return builder.Create(node);
         }
     }

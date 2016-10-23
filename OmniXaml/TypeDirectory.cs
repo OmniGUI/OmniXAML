@@ -4,13 +4,12 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Reflection;
     using Glass.Core;
     using TypeLocation;
 
     public class TypeDirectory : ITypeDirectory
     {
-        private const string ClrNamespace = "clr-namespace:";
+        private const string ClrNamespace = "using:";
         private readonly IDictionary<string, ClrNamespace> clrNamespaces = new Dictionary<string, ClrNamespace>();
         private readonly ICollection<PrefixRegistration> prefixRegistrations = new Collection<PrefixRegistration>();
         private readonly IDictionary<string, string> registeredPrefixes = new Dictionary<string, string>();
@@ -46,14 +45,18 @@
             registeredPrefixes.Add(prefixRegistration.Prefix, ns);
         }
 
-        public XamlNamespace GetXamlNamespace(string ns)
+        public XamlNamespace GetXamlNamespace(string namespaceName)
         {
-            var xamlNamespace = xamlNamespaces.FirstOrDefault(ns1 => ns1.Name == ns);
+            var xamlNamespace = xamlNamespaces.FirstOrDefault(ns => ns.Name == namespaceName);
             return xamlNamespace;
         }
 
         public Namespace GetNamespace(string name)
         {
+            if (IsClrNamespace(name))
+            {
+                return TypeLocation.ClrNamespace.ExtractNamespace(name);
+            }
             return xamlNamespaces.FirstOrDefault(xamlNamespace => xamlNamespace.Name == name);
         }
 
@@ -128,32 +131,7 @@
         private void RegisterWhenItsClrNs(string prefix, string ns)
         {
             if (IsClrNamespace(ns))
-                clrNamespaces.Add(prefix, ExtractNamespace(ns));
-        }
-
-        private static ClrNamespace ExtractNamespace(string formattedClrString)
-        {
-            var startOfNamespace = formattedClrString.IndexOf(":", StringComparison.Ordinal) + 1;
-            var endOfNamespace = formattedClrString.IndexOf(";", startOfNamespace, StringComparison.Ordinal);
-
-            if (endOfNamespace < 0)
-                endOfNamespace = formattedClrString.Length - startOfNamespace;
-
-            var ns = formattedClrString.Substring(startOfNamespace, endOfNamespace - startOfNamespace);
-
-            var remainingPartStart = startOfNamespace + ns.Length + 1;
-            var remainingPartLenght = formattedClrString.Length - remainingPartStart;
-            var assemblyPart = formattedClrString.Substring(remainingPartStart, remainingPartLenght);
-
-            var assembly = GetAssembly(assemblyPart);
-
-            return new ClrNamespace(assembly, ns);
-        }
-
-        private static Assembly GetAssembly(string assemblyPart)
-        {
-            var dicotomize = assemblyPart.Dicotomize('=');
-            return Assembly.Load(new AssemblyName(dicotomize.Item2));
+                clrNamespaces.Add(prefix, TypeLocation.ClrNamespace.ExtractNamespace(ns));
         }
 
         private static bool IsClrNamespace(string ns)
