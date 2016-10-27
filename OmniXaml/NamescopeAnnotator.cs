@@ -11,7 +11,7 @@
 
         public void NewInstance(object instance)
         {
-            if (instance.GetType().Name == "Window")
+            if (instance.GetType().Name == "Window" || instance.GetType().Name=="Zoo")
             {
                 var namescope = new Namescope(instance);
                 mappings.Add(instance, namescope);

@@ -36,6 +36,7 @@
             var type = LocateType(node.Name);
             var directAssignments = GetAssignments(type, node).ToList();
             var nestedAssignments = ProcessInnerElements(type, node.Nodes().OfType<XElement>()).ToList();
+            var name = GetName(node);
 
             var ctorArgs = new List<string>();
 
@@ -53,11 +54,17 @@
                     var property = Property.RegularProperty(type, contentProperty);
                     var assignment = new PropertyAssignment { Property = property, SourceValue = directContent };
                     var propertyAssignments = directAssignments.Concat(nestedAssignments).Concat(new[] { assignment });
-                    return new ConstructionNode(type) { Assignments = propertyAssignments, };
+                    return new ConstructionNode(type) { Assignments = propertyAssignments, Name = name };
                 }
             }
 
-            return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments), InjectableArguments = ctorArgs };
+            return new ConstructionNode(type) { Assignments = directAssignments.Concat(nestedAssignments), InjectableArguments = ctorArgs, Name = name };
+        }
+
+        private string GetName(XElement node)
+        {
+            var nameAttr = node.Attributes().FirstOrDefault(attribute => attribute.Name.LocalName == "Name");
+            return nameAttr?.Value;
         }
 
         private IEnumerable<PropertyAssignment> ProcessInnerElements(Type type, IEnumerable<XElement> nodes)
@@ -76,7 +83,7 @@
             {
                 throw new XamlParserException($"Cannot assign node. The content property of the type {type} cannot be found");
             }
-            return new PropertyAssignment() {Property = Property.RegularProperty(type, contentProperty), Children = new[] {ctorNode}};
+            return new PropertyAssignment() { Property = Property.RegularProperty(type, contentProperty), Children = new[] { ctorNode } };
         }
 
         private static bool IsProperty(XElement node)
@@ -93,9 +100,9 @@
             var nodeFirstNode = node.FirstNode;
             if (nodeFirstNode != null && (nodeFirstNode.NodeType == XmlNodeType.Text || nodeFirstNode.NodeType == XmlNodeType.CDATA))
             {
-                var value = ((XText)nodeFirstNode).Value;               
+                var value = ((XText)nodeFirstNode).Value;
 
-                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };                
+                return new PropertyAssignment { Property = Property.RegularProperty(type, propertyName), SourceValue = value };
             }
             else
             {
@@ -108,8 +115,13 @@
         {
             return node
                 .Attributes()
-                .Where(attribute => !attribute.IsNamespaceDeclaration)
+                .Where(IsAssignment)
                 .Select(attribute => ToAssignment(type, attribute));
+        }
+
+        private static bool IsAssignment(XAttribute attribute)
+        {
+            return !attribute.IsNamespaceDeclaration && attribute.Name.Namespace != "special";
         }
 
         private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
@@ -137,7 +149,7 @@
             var nameLocalName = attribute.Name.LocalName;
             if (nameLocalName.Contains('.'))
             {
-                
+
                 var dot = nameLocalName.IndexOf('.');
                 var ownerName = nameLocalName.Take(dot).AsString();
                 var propertyName = nameLocalName.Skip(dot + 1).AsString();
@@ -156,9 +168,9 @@
         {
             return typeDirectory.GetTypeByFullAddres(new Address()
             {
-                 Namespace = typeName.NamespaceName,
-                 TypeName = typeName.LocalName,
+                Namespace = typeName.NamespaceName,
+                TypeName = typeName.LocalName,
             });
         }
     }
-} 
+}

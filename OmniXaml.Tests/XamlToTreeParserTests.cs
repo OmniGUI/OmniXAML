@@ -1,7 +1,9 @@
 ﻿namespace OmniXaml.Tests
 {
+    using System.Collections.Generic;
     using System.Reflection;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Model;
     using TypeLocation;
 
     [TestClass]
@@ -61,6 +63,31 @@
         public void ContentPropertyDirectContentTextInsideChild()
         {
             var tree = Parse(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
+        }
+
+        [TestMethod]
+        public void Namescope()
+        {
+            var actualNode = Parse(@"<Window xmlns:x=""special"" xmlns=""root"" ><TextBlock x:Name=""One"" /></Window>");
+            var expectedNode = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new List<PropertyAssignment>()
+                {
+                    new PropertyAssignment()
+                    {
+                        Property = Property.RegularProperty<Window>(w => w.Content),
+                        Children = new List<ConstructionNode>()
+                        {
+                            new ConstructionNode(typeof(TextBlock))
+                            {
+                                Name = "One",
+                            }
+                        }
+                    }
+                }
+            };
+
+            Assert.AreEqual(expectedNode, actualNode);
         }
 
         [TestMethod]
