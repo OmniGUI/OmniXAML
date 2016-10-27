@@ -1,4 +1,0 @@
-namespace OmniXaml.Tests
-{
-   
-}

@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Glass.Core;
-    using Metadata;
 
     public class ObjectBuilder : IObjectBuilder
     {
@@ -12,8 +11,6 @@
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
         private readonly IInstanceLifecycleSignaler signaler;
-        private readonly IMetadataProvider metadataProvider;
-
 
 
         public ObjectBuilder(ConstructionContext constructionContext)
@@ -22,33 +19,43 @@
             creator = constructionContext.Creator;
             sourceValueConverter = constructionContext.SourceValueConverter;
             signaler = constructionContext.Signaler;
-            metadataProvider = constructionContext.MetadataProvider;
         }
 
-        public object Create(ConstructionNode node)
+        public object Create(ConstructionNode node, object instance, INamescopeAnnotator annotator)
         {
+            ApplyAssignments(instance, node.Assignments, annotator);            
+            return instance;
+        }
 
-            var instance = CreateInstance(node);
+        public object Create(ConstructionNode node, INamescopeAnnotator annotator)
+        {
+            var instance = CreateInstance(node, annotator);
             signaler.BeforeAssigments(instance);
-            ApplyAssignments(instance, node.Assignments);
+            ApplyAssignments(instance, node.Assignments, annotator);
             signaler.AfterAssigments(instance);
             return instance;
         }
 
-        private object CreateInstance(ConstructionNode node)
+        private object CreateInstance(ConstructionNode node, INamescopeAnnotator annotator)
         {
-            return creator.Create(node.InstanceType);
+            var instance = creator.Create(node.InstanceType);
+            annotator.NewInstance(instance);
+            if (node.Name != null)
+            {
+                annotator.RegisterName(node.Name, instance);
+            }
+            return instance;
         }
 
-        private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments)
+        private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, INamescopeAnnotator annotator)
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
-                ApplyAssignment(instance, propertyAssignment);
+                ApplyAssignment(instance, propertyAssignment, annotator);
             }
         }
 
-        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment)
+        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, INamescopeAnnotator nsAnnotator)
         {
             EnsureValidAssigment(propertyAssignment);
             var property = propertyAssignment.Property;
@@ -63,7 +70,7 @@
                 if (propertyAssignment.Children.Count() == 1)
                 {
                     var first = propertyAssignment.Children.First();
-                    var value = CreateForChild(instance, property, first);
+                    var value = CreateForChild(instance, property, first, nsAnnotator);
                     var converted = Transform(new Assignment(instance, property, value));
 
                     Assign(converted);
@@ -72,7 +79,7 @@
                 {
                     foreach (var constructionNode in propertyAssignment.Children)
                     {
-                        var value = Create(constructionNode);
+                        var value = Create(constructionNode, nsAnnotator);
                         var converted = Transform(new Assignment(instance, property, value));
                         Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
                     }
@@ -82,7 +89,14 @@
 
         protected virtual void Assign(Assignment converted)
         {
-            converted.ExecuteAssignment();
+            if (converted.Property.PropertyType.IsCollection())
+            {
+                Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
+            }
+            else
+            {
+                converted.ExecuteAssignment();
+            }
         }
 
         protected virtual Assignment Transform(Assignment assignment)
@@ -90,9 +104,9 @@
             return assignment;
         }
 
-        protected virtual object CreateForChild(object instance, Property property, ConstructionNode node)
+        protected virtual object CreateForChild(object instance, Property property, ConstructionNode node, INamescopeAnnotator nsAnnotator)
         {
-            return Create(node);
+            return Create(node, nsAnnotator);
         }
 
         private void EnsureValidAssigment(PropertyAssignment propertyAssignment)

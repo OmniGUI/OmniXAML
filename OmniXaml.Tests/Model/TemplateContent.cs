@@ -13,7 +13,7 @@
 
         public object Load()
         {
-            return builder.Create(node);
+            return builder.Create(node, new NamescopeAnnotator());
         }
 
         protected bool Equals(TemplateContent other)

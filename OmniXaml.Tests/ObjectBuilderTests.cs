@@ -70,7 +70,7 @@ namespace OmniXaml.Tests
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock {Text = "MyText"}, b);
+            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.ResultingObject);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl) Create(node);
+            var result = (ItemsControl) Create(node).ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
         }
@@ -117,7 +117,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl) Create(node);
+            var result = (ItemsControl) Create(node).ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
             Assert.IsTrue(result.Items.Any());
@@ -129,14 +129,105 @@ namespace OmniXaml.Tests
         {
             var node = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"Hola"}};
             var myImmutable = new MyImmutable("Hola");
-            var actual = Create(node);
+            var fixture = Create(node);
 
-            Assert.AreEqual(myImmutable, actual);
+            Assert.AreEqual(myImmutable, fixture.ResultingObject);
         }
 
-        private static object Create(ConstructionNode node)
+        [TestMethod]
+        public void LoadInstanceSameType()
         {
-            var constructionContext = new ConstructionContext(new InstanceCreator(),
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Title),
+                        SourceValue = "My title"
+                    }
+                }
+            };
+
+            var expected = new Window {Content = "My content"};
+            var fixture = Create(node, expected);
+
+            Assert.IsTrue(ReferenceEquals(expected, fixture.ResultingObject));
+            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.ResultingObject);
+        }
+
+        [TestMethod]
+        public void Namescope()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode<TextBlock> {Name = "MyTextBlock"}
+                        }
+                    }
+                }
+            };
+
+            var actual = Create(node);
+            var textBlock = actual.Annotator.Find("MyTextBlock", actual.ResultingObject);
+            Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
+        }
+
+        [TestMethod]
+        public void NamescopeLevel()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode<ItemsControl>
+                            {
+                                Assignments = new List<PropertyAssignment>()
+                                {
+                                    new PropertyAssignment()
+                                    {
+                                        Property = Property.RegularProperty<ItemsControl>(c => c.Items),
+                                        Children = new ConstructionNode[]
+                                        {
+                                            new ConstructionNode<TextBlock>
+                                            {
+                                                Name = "One"
+                                            },
+                                            new ConstructionNode<TextBlock>
+                                            {
+                                                Name = "Two"
+                                            },
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var actual = Create(node);
+            var one = actual.Annotator.Find("One", actual.ResultingObject);
+            var two = actual.Annotator.Find("Two", actual.ResultingObject);
+            Assert.IsInstanceOfType(one, typeof(TextBlock));
+            Assert.IsInstanceOfType(two, typeof(TextBlock));
+        }
+
+        private CreationFixture Create(ConstructionNode node, object rootInstance)
+        {
+            var constructionContext = new ConstructionContext(
+                new InstanceCreator(),
                 new SourceValueConverter(),
                 Context.GetMetadataProvider(),
                 new InstanceLifecycleSignaler());
@@ -145,7 +236,32 @@ namespace OmniXaml.Tests
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            return builder.Create(node);
+            var namescopeAnnotator = new NamescopeAnnotator();
+            return new CreationFixture()
+            {
+                ResultingObject = builder.Create(node, rootInstance, namescopeAnnotator),
+                Annotator = namescopeAnnotator,
+            };
+        }
+
+        private static CreationFixture Create(ConstructionNode node)
+        {
+            var constructionContext = new ConstructionContext(
+                new InstanceCreator(),
+                new SourceValueConverter(),
+                Context.GetMetadataProvider(),
+                new InstanceLifecycleSignaler());
+
+            var builder = new ExtendedObjectBuilder(
+                constructionContext,
+                (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
+
+            var namescopeAnnotator = new NamescopeAnnotator();
+            return new CreationFixture()
+            {
+                ResultingObject = builder.Create(node, namescopeAnnotator),
+                Annotator = namescopeAnnotator,
+            };
         }
     }
 }

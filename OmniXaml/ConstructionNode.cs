@@ -13,6 +13,7 @@
         }
 
         public Type InstanceType { get; set; }
+        public string Name { get; set; }
         public IEnumerable<PropertyAssignment> Assignments { get; set; } = new Collection<PropertyAssignment>();
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
 
@@ -48,6 +49,13 @@
                 hashCode = (hashCode*397) ^ (InjectableArguments != null ? InjectableArguments.GetHashCode() : 0);
                 return hashCode;
             }
+        }
+    }
+
+    public class ConstructionNode<T> : ConstructionNode
+    {
+        public ConstructionNode() : base(typeof(T))
+        {
         }
     }
 }

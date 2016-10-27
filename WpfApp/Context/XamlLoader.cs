@@ -4,16 +4,15 @@
     using OmniXaml;
     using OmniXaml.TypeLocation;
 
-    public class XamlLoader
+    public class XamlLoader : IXamlLoader
     {
-        private readonly MetadataProvider metadataProvider;
         private readonly TypeDirectory directory;
+        private readonly ConstructionContext constructionContext;
 
         public XamlLoader()
         {
-            metadataProvider = new MetadataProvider();
+            var metadataProvider = new MetadataProvider();
             
-
             var type = typeof(Window);
             var ass = type.Assembly;
 
@@ -27,25 +26,33 @@
                 .Map("root")
                 .With(configuredAssemblyWithNamespaces);
             directory.AddNamespace(xamlNamespace);
+
+            constructionContext = new ConstructionContext(
+               new InstanceCreator(),
+               Registrator.GetSourceValueConverter(),
+               metadataProvider,
+               new InstanceLifecycleSignaler());
         }
 
         public object Load(string xaml)
         {
-            var constructionContext = new ConstructionContext(
-                new InstanceCreator(),
-                Registrator.GetSourceValueConverter(),
-                metadataProvider,
-                new InstanceLifecycleSignaler());
-
+            var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            var cons = GetConstructionNode(xaml);
-            return objectBuilder.Create(cons);
+            return objectBuilder.Create(cn, new NamescopeAnnotator());
+        }
+
+
+        public object Load(string xaml, object intance)
+        {
+            var cn = GetConstructionNode(xaml);
+            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
+            return objectBuilder.Create(cn, new NamescopeAnnotator());
         }
 
         private ConstructionNode GetConstructionNode(string xaml)
         {
-            var sut = new XamlToTreeParser(directory, new MetadataProvider(), new[] { new InlineParser(directory), });
-            var tree = sut.Parse(xaml);
+            var parser = new XamlToTreeParser(directory, new MetadataProvider(), new[] { new InlineParser(directory), });
+            var tree = parser.Parse(xaml);
             return tree;
         }
     }

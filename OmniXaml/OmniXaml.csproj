@@ -43,14 +43,17 @@
     <Compile Include="ConstructionContext.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
+    <Compile Include="Glass.Core\StackingLinkedList.cs" />
     <Compile Include="Glass.Core\Extensions.cs" />
     <Compile Include="Glass.Core\Guard.cs" />
     <Compile Include="Glass.Core\IAdd.cs" />
+    <Compile Include="Glass.Core\StackingLinkedListMixin.cs" />
     <Compile Include="Glass.Core\TypeExtensions.cs" />
     <Compile Include="Glass.Core\Utils.cs" />
     <Compile Include="IInlineParser.cs" />
     <Compile Include="IInstanceLifecycleSignaler.cs" />
     <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="INamescopeAnnotator.cs" />
     <Compile Include="InlineParser.cs" />
     <Compile Include="InlineParsers\Extensions\AssignmentNode.cs" />
     <Compile Include="InlineParsers\Extensions\IdentifierNode.cs" />
@@ -65,6 +68,7 @@
     <Compile Include="InlineParsers\Extensions\TreeNode.cs" />
     <Compile Include="InstanceLifecycleSignaler.cs" />
     <Compile Include="IObjectBuilder.cs" />
+    <Compile Include="IXamlLoader.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="Metadata\DependencyRegistration.cs" />
     <Compile Include="Metadata\DependencyRegistrations.cs" />
@@ -73,6 +77,8 @@
     <Compile Include="Metadata\IMetadataProvider.cs" />
     <Compile Include="Metadata\Metadata.cs" />
     <Compile Include="Metadata\MetadataProvider.cs" />
+    <Compile Include="Namescope.cs" />
+    <Compile Include="NamescopeAnnotator.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="Glass.Core\StringExtensions.cs" />
