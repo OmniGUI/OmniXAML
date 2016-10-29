@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assignment.cs" />
+    <Compile Include="AssignmentsExtractor.cs" />
     <Compile Include="ConstructionContext.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
