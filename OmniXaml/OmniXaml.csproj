@@ -69,6 +69,7 @@
     <Compile Include="InstanceLifecycleSignaler.cs" />
     <Compile Include="IObjectBuilder.cs" />
     <Compile Include="IXamlLoader.cs" />
+    <Compile Include="IXamlToTreeParser.cs" />
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="Metadata\DependencyRegistration.cs" />
     <Compile Include="Metadata\DependencyRegistrations.cs" />

@@ -2,7 +2,7 @@ namespace OmniXaml.Tests.Model
 {
     using System.Collections.Generic;
 
-    public class ItemsControl
+    public class ItemsControl : ModelObject
     {
         public DataTemplate ItemTemplate { get; set; }
         public ICollection<object> Items { get; set; } = new List<object>();

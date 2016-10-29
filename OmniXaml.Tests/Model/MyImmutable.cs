@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    public class MyImmutable
+    public class MyImmutable : ModelObject
     {
         private readonly string arg;
 

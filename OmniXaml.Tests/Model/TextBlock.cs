@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    public class TextBlock
+    public class TextBlock : ModelObject
     {
         public string Text { get; set; }
 

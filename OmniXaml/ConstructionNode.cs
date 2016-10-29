@@ -24,9 +24,9 @@
 
         protected bool Equals(ConstructionNode other)
         {
-            return Equals(InstanceType, other.InstanceType) 
-                && Enumerable.SequenceEqual(Assignments, other.Assignments) && 
-                Enumerable.SequenceEqual(InjectableArguments, other.InjectableArguments);
+            return string.Equals(Name, other.Name) && InstanceType == other.InstanceType
+                && Assignments.SequenceEqual(other.Assignments) && 
+                InjectableArguments.SequenceEqual(other.InjectableArguments);
         }
 
         public override bool Equals(object obj)

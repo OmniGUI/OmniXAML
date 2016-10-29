@@ -12,6 +12,7 @@
 
             metadataProvider.Register(
                 new GenericMetadata<Window>()
+                .WithRuntimeNameProperty(window => window.Name)
                     .WithContentProperty(tb => tb.Content));
 
             metadataProvider.Register(
