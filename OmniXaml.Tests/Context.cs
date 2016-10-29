@@ -11,8 +11,11 @@
             var metadataProvider = new MetadataProvider();
 
             metadataProvider.Register(
-                new GenericMetadata<Window>()
-                .WithRuntimeNameProperty(window => window.Name)
+                new GenericMetadata<ModelObject>()
+                    .WithRuntimeNameProperty(tb => tb.Name));
+
+            metadataProvider.Register(
+                new GenericMetadata<Window>()                
                     .WithContentProperty(tb => tb.Content));
 
             metadataProvider.Register(

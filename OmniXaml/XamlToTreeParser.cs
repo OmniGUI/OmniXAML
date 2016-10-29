@@ -12,9 +12,9 @@
     public class XamlToTreeParser : IXamlToTreeParser
     {
         private readonly AssignmentExtractor assignmentExtractor;
+        private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
         private readonly ITypeDirectory typeDirectory;
-        private readonly DirectiveExtractor directiveExtractor;
 
         public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers)
         {
@@ -35,49 +35,44 @@
         private ConstructionNode ProcessNode(XElement node)
         {
             var type = LocateType(node.Name);
-            var allAssignments = assignmentExtractor.GetAssignments(type, node);
+            var rawAssigments = assignmentExtractor.GetAssignments(type, node);
             var directives = directiveExtractor.GetDirectives(node);
 
-            var nameAssignment = GetNameProperties(type, directives, allAssignments);
-
-            if (nameAssignment.NameAssignment != null)
-            {
-                allAssignments = allAssignments.Concat(new[] { nameAssignment.NameAssignment });
-            }
+            var instanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
             var ctorArgs = GetCtorArgs(node, type);
 
-            return new ConstructionNode(type) { Assignments = allAssignments, InjectableArguments = ctorArgs, Name = nameAssignment.Name };
+            return new ConstructionNode(type) { Assignments = instanceProperties.Assignments, InjectableArguments = ctorArgs, Name = instanceProperties.Name };
         }
 
-        private NameProperties GetNameProperties(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> allAssignments)
+        private InstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> assignments)
         {
-            var name = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
+            var allAssignments = assignments.ToList();
+
+            var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
+            string name = null;
+            IEnumerable<PropertyAssignment> finalAssignments = allAssignments;
 
-            var firstOrDefault = allAssignments.FirstOrDefault(assignment => assignment.Property.PropertyName == namePropertyName);
-            if (namePropertyName != null && firstOrDefault != null)
+            var nameAssignment = allAssignments.FirstOrDefault(assignment => assignment.Property.PropertyName == namePropertyName);
+            if (namePropertyName != null && nameAssignment != null)
             {
-                return new NameProperties()
-                {
-                    Name = firstOrDefault.SourceValue,
-                };
+                name = nameAssignment.SourceValue;
+                finalAssignments = allAssignments;
+            }
+            else if (nameDirectiveValue != null && namePropertyName != null)
+            {
+                name = nameDirectiveValue;
+                var nameAssigment = new PropertyAssignment { SourceValue = nameDirectiveValue, Property = Property.RegularProperty(type, namePropertyName) };
+                finalAssignments = allAssignments.Concat(new[] { nameAssigment });
             }
 
-            PropertyAssignment propertyAssignment = null;
-            if (name != null && namePropertyName != null)
-            {
-                propertyAssignment = new PropertyAssignment { SourceValue = name, Property = Property.RegularProperty(type, namePropertyName) };
-            }
-
-            return new NameProperties
+            return new InstanceProperties
             {
                 Name = name,
-                NameAssignment = propertyAssignment,
+                Assignments = finalAssignments,
             };
         }
-
-
 
         private Type LocateType(XName typeName)
         {
@@ -105,9 +100,9 @@
         }
     }
 
-    internal class NameProperties
+    internal class InstanceProperties
     {
         public string Name { get; set; }
-        public PropertyAssignment NameAssignment { get; set; }
+        public IEnumerable<PropertyAssignment> Assignments { get; set; }
     }
 }

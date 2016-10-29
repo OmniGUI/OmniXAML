@@ -81,6 +81,7 @@
                             new ConstructionNode(typeof(TextBlock))
                             {
                                 Name = "One",
+                                Assignments = new []{ new PropertyAssignment() { Property = Property.RegularProperty<TextBlock>(block => block.Name), SourceValue = "One"} }
                             }
                         }
                     }
