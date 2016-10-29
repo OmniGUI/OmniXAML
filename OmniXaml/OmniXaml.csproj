@@ -40,8 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assignment.cs" />
-    <Compile Include="AssignmentsExtractor.cs" />
+    <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="ConstructionContext.cs" />
+    <Compile Include="Directive.cs" />
+    <Compile Include="DirectiveExtractor.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
     <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
     <Compile Include="Glass.Core\StackingLinkedList.cs" />

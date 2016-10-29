@@ -9,14 +9,16 @@
     using Metadata;
     using TypeLocation;
 
-    public class AssignmentsExtractor
+    public class AssignmentExtractor
     {
         private readonly IEnumerable<IInlineParser> inlineParsers;
         private readonly IMetadataProvider metadataProvider;
         private readonly Func<XElement, ConstructionNode> parser;
         private readonly ITypeDirectory typeDirectory;
 
-        public AssignmentsExtractor(IMetadataProvider metadataProvider,
+        private const string SpecialNamespace = "special";
+
+        public AssignmentExtractor(IMetadataProvider metadataProvider,
             ITypeDirectory typeDirectory,
             IEnumerable<IInlineParser> inlineParsers,
             Func<XElement, ConstructionNode> parser)
@@ -34,7 +36,7 @@
                 .Concat(GetAssignmentsFromInnerElements(type, node.Nodes().OfType<XElement>()));
         }
 
-        private IEnumerable<PropertyAssignment> GetAssignmentsFromContent(Type type, XElement node)
+        private IEnumerable<PropertyAssignment> GetAssignmentsFromContent(Type type, XContainer node)
         {
             var nodeFirstNode = node.FirstNode;
             if ((nodeFirstNode != null) && (nodeFirstNode.NodeType == XmlNodeType.Text) && (metadataProvider.Get(type).ContentProperty != null))
@@ -96,7 +98,7 @@
 
         private static bool IsAssignment(XAttribute attribute)
         {
-            return !attribute.IsNamespaceDeclaration && (attribute.Name.Namespace != "special");
+            return !(attribute.IsNamespaceDeclaration || attribute.Name.Namespace == SpecialNamespace);
         }
 
         private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
@@ -116,6 +118,7 @@
                 Property = property,
                 SourceValue = value
             };
+
             return assignment;
         }
 

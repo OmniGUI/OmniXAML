@@ -7,7 +7,7 @@
     {
         public Property Property { get; set; }
         public string SourceValue { get; set; }
-        public IEnumerable<ConstructionNode> Children { get; set; }
+        public IEnumerable<ConstructionNode> Children { get; set; } = new List<ConstructionNode>();
 
         public override string ToString()
         {

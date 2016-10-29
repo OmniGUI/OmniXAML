@@ -11,15 +11,17 @@
 
     public class XamlToTreeParser : IXamlToTreeParser
     {
-        private readonly AssignmentsExtractor assignmentsExtractor;
+        private readonly AssignmentExtractor assignmentExtractor;
         private readonly IMetadataProvider metadataProvider;
         private readonly ITypeDirectory typeDirectory;
+        private readonly DirectiveExtractor directiveExtractor;
 
         public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers)
         {
             this.typeDirectory = typeDirectory;
             this.metadataProvider = metadataProvider;
-            assignmentsExtractor = new AssignmentsExtractor(metadataProvider, typeDirectory, inlineParsers, ProcessNode);
+            assignmentExtractor = new AssignmentExtractor(metadataProvider, typeDirectory, inlineParsers, ProcessNode);
+            directiveExtractor = new DirectiveExtractor();
         }
 
 
@@ -27,18 +29,55 @@
         {
             var xm = XDocument.Load(new StringReader(xml));
             var node = xm.FirstNode;
-            return ProcessNode((XElement) node);
+            return ProcessNode((XElement)node);
         }
 
         private ConstructionNode ProcessNode(XElement node)
         {
             var type = LocateType(node.Name);
-            var allAssignments = assignmentsExtractor.GetAssignments(type, node);
+            var allAssignments = assignmentExtractor.GetAssignments(type, node);
+            var directives = directiveExtractor.GetDirectives(node);
+
+            var nameAssignment = GetNameProperties(type, directives, allAssignments);
+
+            if (nameAssignment.NameAssignment != null)
+            {
+                allAssignments = allAssignments.Concat(new[] { nameAssignment.NameAssignment });
+            }
 
             var ctorArgs = GetCtorArgs(node, type);
 
-            return new ConstructionNode(type) {Assignments = allAssignments, InjectableArguments = ctorArgs};
+            return new ConstructionNode(type) { Assignments = allAssignments, InjectableArguments = ctorArgs, Name = nameAssignment.Name };
         }
+
+        private NameProperties GetNameProperties(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> allAssignments)
+        {
+            var name = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
+            var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
+
+            var firstOrDefault = allAssignments.FirstOrDefault(assignment => assignment.Property.PropertyName == namePropertyName);
+            if (namePropertyName != null && firstOrDefault != null)
+            {
+                return new NameProperties()
+                {
+                    Name = firstOrDefault.SourceValue,
+                };
+            }
+
+            PropertyAssignment propertyAssignment = null;
+            if (name != null && namePropertyName != null)
+            {
+                propertyAssignment = new PropertyAssignment { SourceValue = name, Property = Property.RegularProperty(type, namePropertyName) };
+            }
+
+            return new NameProperties
+            {
+                Name = name,
+                NameAssignment = propertyAssignment,
+            };
+        }
+
+
 
         private Type LocateType(XName typeName)
         {
@@ -57,19 +96,18 @@
             var nodeFirstNode = node.FirstNode;
             if ((nodeFirstNode != null) && (nodeFirstNode.NodeType == XmlNodeType.Text))
             {
-                var directContent = ((XText) nodeFirstNode).Value;
+                var directContent = ((XText)nodeFirstNode).Value;
                 var contentProperty = metadataProvider.Get(type).ContentProperty;
                 if (contentProperty == null)
                     ctorArgs.Add(directContent);
             }
             return ctorArgs;
         }
+    }
 
-
-        private string GetName(XElement node)
-        {
-            var nameAttr = node.Attributes().FirstOrDefault(attribute => attribute.Name.LocalName == "Name");
-            return nameAttr?.Value;
-        }
+    internal class NameProperties
+    {
+        public string Name { get; set; }
+        public PropertyAssignment NameAssignment { get; set; }
     }
 }

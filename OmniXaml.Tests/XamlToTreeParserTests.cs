@@ -23,7 +23,7 @@
             directory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
             directory.AddNamespace(XamlNamespace.Map("custom").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model.Custom")));
 
-            var sut = new XamlToTreeParser(directory, Context.GetMetadataProvider(), new[] {new InlineParser(directory)});
+            var sut = new XamlToTreeParser(directory, Context.GetMetadataProvider(), new[] { new InlineParser(directory) });
 
             var tree = sut.Parse(xaml);
             return tree;
@@ -65,7 +65,7 @@
             var tree = Parse(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void Namescope()
         {
             var actualNode = Parse(@"<Window xmlns:x=""special"" xmlns=""root"" ><TextBlock x:Name=""One"" /></Window>");
@@ -124,18 +124,28 @@
             var tree = Parse(@"<Window xmlns=""using:OmniXaml.Tests.Model;Assembly=OmniXaml.Tests"" />");
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void Name()
         {
             var tree = Parse(@"<Window xmlns=""root"" Name=""MyWindow"" />");
-            Assert.AreEqual(new ConstructionNode(typeof(Window)) { Name = "MyWindow"}, tree);
+            Assert.AreEqual(new ConstructionNode(typeof(Window))
+            {
+                Name = "MyWindow",
+                Assignments = new[] { new PropertyAssignment() { Property = Property.RegularProperty<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+            }, tree);
         }
 
-        [TestMethod, Ignore]
+        [TestMethod]
         public void XName()
         {
             var tree = Parse(@"<Window xmlns=""root"" xmlns:x=""special"" x:Name=""MyWindow"" />");
-            Assert.AreEqual(new ConstructionNode(typeof(Window)) { Name = "MyWindow" }, tree);
+            Assert.AreEqual(
+                new ConstructionNode(typeof(Window))
+                {
+                    Name = "MyWindow",
+                    Assignments = new[] { new PropertyAssignment() { Property = Property.RegularProperty<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+                },
+                tree);
         }
 
     }
