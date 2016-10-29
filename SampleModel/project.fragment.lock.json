@@ -1,6 +1,23 @@
 {
   "version": 2,
   "exports": {
+    "OmniXaml.Attributes/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/OmniXaml.Attributes.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OmniXaml.Attributes.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OmniXaml.Attributes.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "OmniXaml/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.2",

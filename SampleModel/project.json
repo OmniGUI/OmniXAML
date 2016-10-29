@@ -17,6 +17,9 @@
       "dependencies": {
         "OmniXaml": {
           "target": "project"
+        },
+        "OmniXaml.Attributes": {
+          "target": "project"
         }
       }
     }

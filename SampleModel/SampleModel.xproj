@@ -16,6 +16,7 @@
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.Attributes.csproj" />
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />

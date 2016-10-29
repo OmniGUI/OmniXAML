@@ -1,6 +1,5 @@
 namespace OmniXaml.Metadata
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
@@ -66,12 +65,5 @@ namespace OmniXaml.Metadata
                 return ((PropertyDependencies != null ? PropertyDependencies.GetHashCode() : 0) * 397) ^ (RuntimePropertyName != null ? RuntimePropertyName.GetHashCode() : 0);
             }
         }
-    }
-
-    public class FragmentLoadingInfo
-    {
-        public Type Type { get; set; }
-        public string PropertyName { get; set; }
-        public IConstructionFragmentLoader Loader { get; set; }
     }
 }
