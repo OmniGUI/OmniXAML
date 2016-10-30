@@ -38,14 +38,19 @@
             var rawAssigments = assignmentExtractor.GetAssignments(type, node);
             var directives = directiveExtractor.GetDirectives(node);
 
-            var instanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
+            var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
             var ctorArgs = GetCtorArgs(node, type);
 
-            return new ConstructionNode(type) { Assignments = instanceProperties.Assignments, InjectableArguments = ctorArgs, Name = instanceProperties.Name };
+            return new ConstructionNode(type)
+            {
+                Assignments = attributeBasedInstanceProperties.Assignments,
+                InjectableArguments = ctorArgs,
+                Name = attributeBasedInstanceProperties.Name
+            };
         }
 
-        private InstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> assignments)
+        private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> assignments)
         {
             var allAssignments = assignments.ToList();
 
@@ -67,7 +72,7 @@
                 finalAssignments = allAssignments.Concat(new[] { nameAssigment });
             }
 
-            return new InstanceProperties
+            return new AttributeBasedInstanceProperties
             {
                 Name = name,
                 Assignments = finalAssignments,
@@ -100,7 +105,7 @@
         }
     }
 
-    internal class InstanceProperties
+    internal class AttributeBasedInstanceProperties
     {
         public string Name { get; set; }
         public IEnumerable<PropertyAssignment> Assignments { get; set; }
