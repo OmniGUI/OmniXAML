@@ -239,7 +239,7 @@ namespace OmniXaml.Tests
             var namescopeAnnotator = new NamescopeAnnotator();
             return new CreationFixture()
             {
-                ResultingObject = builder.Create(node, rootInstance, namescopeAnnotator),
+                ResultingObject = builder.Create(node, rootInstance, new CreationContext(new NamescopeAnnotator(), null)),
                 Annotator = namescopeAnnotator,
             };
         }
@@ -259,7 +259,7 @@ namespace OmniXaml.Tests
             var namescopeAnnotator = new NamescopeAnnotator();
             return new CreationFixture()
             {
-                ResultingObject = builder.Create(node, namescopeAnnotator),
+                ResultingObject = builder.Create(node, new CreationContext(namescopeAnnotator, null)),
                 Annotator = namescopeAnnotator,
             };
         }

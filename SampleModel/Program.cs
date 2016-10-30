@@ -21,7 +21,7 @@
         {
             var objectConstructor = new ObjectBuilder(new ConstructionContext(new InstanceCreator(), new SourceValueConverter(), new MetadataProvider(), new InstanceLifecycleSignaler()));
             var namescopeAnnotator = new NamescopeAnnotator();
-            var construct = objectConstructor.Create(ctNode, namescopeAnnotator);
+            var construct = objectConstructor.Create(ctNode, new CreationContext(namescopeAnnotator, null));
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 

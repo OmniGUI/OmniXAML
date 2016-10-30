@@ -2,7 +2,7 @@
 {
     public interface IObjectBuilder
     {
-        object Create(ConstructionNode node, INamescopeAnnotator annotator);
-        object Create(ConstructionNode node, object instance, INamescopeAnnotator annotator);
+        object Create(ConstructionNode node, CreationContext creationContext);
+        object Create(ConstructionNode node, object instance, CreationContext creationContext);
     }
 }
