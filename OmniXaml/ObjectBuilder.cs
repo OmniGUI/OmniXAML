@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Ambient;
     using Glass.Core;
 
     public class ObjectBuilder : IObjectBuilder
@@ -23,7 +24,7 @@
 
         public object Create(ConstructionNode node, object instance, CreationContext creationContext)
         {
-            ApplyAssignments(instance, node.Assignments, creationContext);            
+            ApplyAssignments(instance, node.Assignments, creationContext);
             return instance;
         }
 
@@ -64,6 +65,7 @@
             {
                 var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
                 property.SetValue(instance, value);
+                OnAssigmentExecuted(new Assignment(instance, property, value), creationContext);
             }
             else
             {
@@ -73,7 +75,7 @@
                     var value = CreateForChild(instance, property, first, creationContext);
                     var converted = Transform(new Assignment(instance, property, value));
 
-                    Assign(converted);
+                    Assign(converted, creationContext);
                 }
                 else
                 {
@@ -87,7 +89,7 @@
             }
         }
 
-        protected virtual void Assign(Assignment converted)
+        protected virtual void Assign(Assignment converted, CreationContext creationContext)
         {
             if (converted.Property.PropertyType.IsCollection())
             {
@@ -96,7 +98,18 @@
             else
             {
                 converted.ExecuteAssignment();
+                OnAssigmentExecuted(converted, creationContext);
             }
+        }
+
+        protected void OnAssigmentExecuted(Assignment assignment, CreationContext creationContext)
+        {
+            creationContext.AmbientRegistrator.RegisterAssignment(
+                new AmbientPropertyAssignment
+                {
+                    Property = assignment.Property,
+                    Value = assignment.Value
+                });
         }
 
         protected virtual Assignment Transform(Assignment assignment)
@@ -120,9 +133,5 @@
                 throw new InvalidOperationException("Children is empty.");
             }
         }
-    }
-
-    public interface IAmbientRegistrator
-    {
     }
 }

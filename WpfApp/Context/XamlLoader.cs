@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using OmniXaml;
+    using OmniXaml.Ambient;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader : IXamlLoader
@@ -38,7 +39,7 @@
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), null));
+            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator()));
         }
 
 
@@ -46,7 +47,7 @@
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), null));
+            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator()));
         }
 
         private ConstructionNode GetConstructionNode(string xaml)

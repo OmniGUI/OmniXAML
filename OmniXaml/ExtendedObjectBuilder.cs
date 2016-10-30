@@ -18,7 +18,7 @@
             if (me != null)
             {
                 var value = me.GetValue(createExtensionContext(assignment, ConstructionContext));
-                assignment = assignment.ChangeValue(value);
+                assignment = assignment.ReplaceValue(value);
             }
 
             return base.Transform(assignment);

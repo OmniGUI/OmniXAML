@@ -20,7 +20,7 @@
             Property.SetValue(Instance, Value);
         }
 
-        public Assignment ChangeValue(object value)
+        public Assignment ReplaceValue(object value)
         {
             return new Assignment(Instance, Property, value);
         }

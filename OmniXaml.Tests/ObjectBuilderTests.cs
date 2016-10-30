@@ -3,6 +3,7 @@ namespace OmniXaml.Tests
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using Ambient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
 
@@ -70,7 +71,7 @@ namespace OmniXaml.Tests
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.ResultingObject);
+            Assert.AreEqual(new TextBlock { Text = "MyText" }, b.ResultingObject);
         }
 
         [TestMethod]
@@ -90,7 +91,8 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl) Create(node).ResultingObject;
+            var creationFixture = Create(node);
+            var result = (ItemsControl)creationFixture.ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
         }
@@ -117,7 +119,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl) Create(node).ResultingObject;
+            var result = (ItemsControl)Create(node).ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
             Assert.IsTrue(result.Items.Any());
@@ -127,7 +129,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void ImmutableFromContent()
         {
-            var node = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"Hola"}};
+            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "Hola" } };
             var myImmutable = new MyImmutable("Hola");
             var fixture = Create(node);
 
@@ -149,11 +151,11 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var expected = new Window {Content = "My content"};
+            var expected = new Window { Content = "My content" };
             var fixture = Create(node, expected);
 
             Assert.IsTrue(ReferenceEquals(expected, fixture.ResultingObject));
-            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.ResultingObject);
+            Assert.AreEqual(new Window { Content = "My content", Title = "My title" }, fixture.ResultingObject);
         }
 
         [TestMethod]
@@ -175,8 +177,50 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var textBlock = actual.Annotator.Find("MyTextBlock", actual.ResultingObject);
+            var textBlock = actual.CreationContext.Annotator.Find("MyTextBlock", actual.ResultingObject);
             Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
+        }
+
+        [TestMethod]
+        public void AmbientDirectValue()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        SourceValue = "Hello",
+                    }
+                }
+            };
+
+            var result = Create(node);
+            var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello" }, };
+
+            CollectionAssert.AreEqual(assigments, result.CreationContext.AmbientRegistrator.Assigments.ToList());
+        }
+
+        [TestMethod]
+        public void AmbientInnerNode()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>() { new ConstructionNode(typeof(TextBlock))},
+                    }
+                }
+            };
+
+            var result = Create(node);
+            var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock() }, };
+
+            CollectionAssert.AreEqual(assigments, result.CreationContext.AmbientRegistrator.Assigments.ToList());
         }
 
         [TestMethod]
@@ -193,9 +237,9 @@ namespace OmniXaml.Tests
                         {
                             new ConstructionNode<ItemsControl>
                             {
-                                Assignments = new List<PropertyAssignment>()
+                                Assignments = new List<PropertyAssignment>
                                 {
-                                    new PropertyAssignment()
+                                    new PropertyAssignment
                                     {
                                         Property = Property.RegularProperty<ItemsControl>(c => c.Items),
                                         Children = new ConstructionNode[]
@@ -207,7 +251,7 @@ namespace OmniXaml.Tests
                                             new ConstructionNode<TextBlock>
                                             {
                                                 Name = "Two"
-                                            },
+                                            }
                                         }
                                     }
                                 }
@@ -218,8 +262,8 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var one = actual.Annotator.Find("One", actual.ResultingObject);
-            var two = actual.Annotator.Find("Two", actual.ResultingObject);
+            var one = actual.CreationContext.Annotator.Find("One", actual.ResultingObject);
+            var two = actual.CreationContext.Annotator.Find("Two", actual.ResultingObject);
             Assert.IsInstanceOfType(one, typeof(TextBlock));
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
@@ -236,11 +280,11 @@ namespace OmniXaml.Tests
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var namescopeAnnotator = new NamescopeAnnotator();
-            return new CreationFixture()
+            var creationContext = new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator());
+            return new CreationFixture
             {
-                ResultingObject = builder.Create(node, rootInstance, new CreationContext(new NamescopeAnnotator(), null)),
-                Annotator = namescopeAnnotator,
+                ResultingObject = builder.Create(node, rootInstance, creationContext),
+                CreationContext = creationContext
             };
         }
 
@@ -256,11 +300,11 @@ namespace OmniXaml.Tests
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var namescopeAnnotator = new NamescopeAnnotator();
-            return new CreationFixture()
+            var creationContext = new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator());
+            return new CreationFixture
             {
-                ResultingObject = builder.Create(node, new CreationContext(namescopeAnnotator, null)),
-                Annotator = namescopeAnnotator,
+                ResultingObject = builder.Create(node, creationContext),
+                CreationContext = creationContext
             };
         }
     }

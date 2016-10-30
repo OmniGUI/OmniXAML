@@ -39,6 +39,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ambient\AmbientPropertyAssignment.cs" />
+    <Compile Include="Ambient\AmbientRegistrator.cs" />
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="ConstructionContext.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Glass.Core\StackingLinkedListMixin.cs" />
     <Compile Include="Glass.Core\TypeExtensions.cs" />
     <Compile Include="Glass.Core\Utils.cs" />
+    <Compile Include="Ambient\IAmbientRegistrator.cs" />
     <Compile Include="IInlineParser.cs" />
     <Compile Include="IInstanceLifecycleSignaler.cs" />
     <Compile Include="IMarkupExtension.cs" />
