@@ -48,7 +48,7 @@
                 Registrator.GetSourceValueConverter(),
                 metadataProvider);
 
-            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
+            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context, tc) => new MarkupExtensionContext(assignment, context, directory, tc));
 
             var cons = GetConstructionNode(xaml);
             return objectBuilder.Create(cons, new TrackingContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));

@@ -299,7 +299,7 @@ namespace OmniXaml.Tests
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
-                (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
+                (assignment, context, tc) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory(), tc));
 
             var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
 
@@ -319,7 +319,7 @@ namespace OmniXaml.Tests
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
-                (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
+                (assignment, context, tc) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory(), tc));
 
             var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture

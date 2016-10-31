@@ -72,7 +72,7 @@
                 {
                     var first = propertyAssignment.Children.First();
                     var value = CreateForChild(instance, property, first, trackingContext);
-                    var converted = Transform(new Assignment(instance, property, value));
+                    var converted = Transform(new Assignment(instance, property, value), trackingContext);
 
                     Assign(converted, trackingContext);
                 }
@@ -81,7 +81,7 @@
                     foreach (var constructionNode in propertyAssignment.Children)
                     {
                         var value = Create(constructionNode, trackingContext);
-                        var converted = Transform(new Assignment(instance, property, value));
+                        var converted = Transform(new Assignment(instance, property, value), trackingContext);
                         Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
                     }
                 }
@@ -112,7 +112,7 @@
             trackingContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
-        protected virtual Assignment Transform(Assignment assignment)
+        protected virtual Assignment Transform(Assignment assignment, TrackingContext trackingContext)
         {
             return assignment;
         }
