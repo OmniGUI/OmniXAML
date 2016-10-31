@@ -19,9 +19,9 @@
 
         private static ConstructionResult Construct(ConstructionNode ctNode)
         {
-            var objectConstructor = new ObjectBuilder(new ConstructionContext(new InstanceCreator(), new SourceValueConverter(), new MetadataProvider(), new InstanceLifecycleSignaler()));
+            var objectConstructor = new ObjectBuilder(new ConstructionContext(new InstanceCreator(), new SourceValueConverter(), new MetadataProvider()));
             var namescopeAnnotator = new NamescopeAnnotator();
-            var construct = objectConstructor.Create(ctNode, new CreationContext(namescopeAnnotator, null));
+            var construct = objectConstructor.Create(ctNode, new TrackingContext(namescopeAnnotator, null, new InstanceLifecycleSignaler()));
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 

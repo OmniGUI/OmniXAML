@@ -31,15 +31,14 @@
             constructionContext = new ConstructionContext(
                new InstanceCreator(),
                Registrator.GetSourceValueConverter(),
-               metadataProvider,
-               new InstanceLifecycleSignaler());
+               metadataProvider);
         }
 
         public object Load(string xaml)
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator()));
+            return objectBuilder.Create(cn, new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler()));
         }
 
 
@@ -47,7 +46,7 @@
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator()));
+            return objectBuilder.Create(cn, new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler()));
         }
 
         private ConstructionNode GetConstructionNode(string xaml)

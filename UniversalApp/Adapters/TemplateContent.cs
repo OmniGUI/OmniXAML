@@ -15,7 +15,7 @@
 
         public object Load()
         {
-            return builder.Create(node, new CreationContext(new NamescopeAnnotator(), null));
+            return builder.Create(node, new TrackingContext(new NamescopeAnnotator(), null, new InstanceLifecycleSignaler()));
         }
 
         protected bool Equals(TemplateContent other)

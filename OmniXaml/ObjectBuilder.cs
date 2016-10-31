@@ -11,7 +11,6 @@
         protected ConstructionContext ConstructionContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
-        private readonly IInstanceLifecycleSignaler signaler;
 
 
         public ObjectBuilder(ConstructionContext constructionContext)
@@ -19,44 +18,43 @@
             ConstructionContext = constructionContext;
             creator = constructionContext.Creator;
             sourceValueConverter = constructionContext.SourceValueConverter;
-            signaler = constructionContext.Signaler;
         }
 
-        public object Create(ConstructionNode node, object instance, CreationContext creationContext)
+        public object Create(ConstructionNode node, object instance, TrackingContext trackingContext)
         {
-            ApplyAssignments(instance, node.Assignments, creationContext);
+            ApplyAssignments(instance, node.Assignments, trackingContext);
             return instance;
         }
 
-        public object Create(ConstructionNode node, CreationContext creationContext)
+        public object Create(ConstructionNode node, TrackingContext trackingContext)
         {
-            var instance = CreateInstance(node, creationContext);
-            signaler.BeforeAssigments(instance);
-            ApplyAssignments(instance, node.Assignments, creationContext);
-            signaler.AfterAssigments(instance);
+            var instance = CreateInstance(node, trackingContext);
+            trackingContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
+            ApplyAssignments(instance, node.Assignments, trackingContext);
+            trackingContext.InstanceLifecycleSignaler.AfterAssigments(instance);
             return instance;
         }
 
-        private object CreateInstance(ConstructionNode node, CreationContext creationContext)
+        private object CreateInstance(ConstructionNode node, TrackingContext trackingContext)
         {
             var instance = creator.Create(node.InstanceType);
-            creationContext.Annotator.NewInstance(instance);
+            trackingContext.Annotator.NewInstance(instance);
             if (node.Name != null)
             {
-                creationContext.Annotator.RegisterName(node.Name, instance);
+                trackingContext.Annotator.RegisterName(node.Name, instance);
             }
             return instance;
         }
 
-        private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, CreationContext creationContext)
+        private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, TrackingContext trackingContext)
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
-                ApplyAssignment(instance, propertyAssignment, creationContext);
+                ApplyAssignment(instance, propertyAssignment, trackingContext);
             }
         }
 
-        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, CreationContext creationContext)
+        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext)
         {
             EnsureValidAssigment(propertyAssignment);
             var property = propertyAssignment.Property;
@@ -65,23 +63,23 @@
             {
                 var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
                 property.SetValue(instance, value);
-                OnAssigmentExecuted(new Assignment(instance, property, value), creationContext);
+                OnAssigmentExecuted(new Assignment(instance, property, value), trackingContext);
             }
             else
             {
                 if (propertyAssignment.Children.Count() == 1)
                 {
                     var first = propertyAssignment.Children.First();
-                    var value = CreateForChild(instance, property, first, creationContext);
+                    var value = CreateForChild(instance, property, first, trackingContext);
                     var converted = Transform(new Assignment(instance, property, value));
 
-                    Assign(converted, creationContext);
+                    Assign(converted, trackingContext);
                 }
                 else
                 {
                     foreach (var constructionNode in propertyAssignment.Children)
                     {
-                        var value = Create(constructionNode, creationContext);
+                        var value = Create(constructionNode, trackingContext);
                         var converted = Transform(new Assignment(instance, property, value));
                         Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
                     }
@@ -89,7 +87,7 @@
             }
         }
 
-        protected virtual void Assign(Assignment converted, CreationContext creationContext)
+        protected virtual void Assign(Assignment converted, TrackingContext trackingContext)
         {
             if (converted.Property.PropertyType.IsCollection())
             {
@@ -98,13 +96,13 @@
             else
             {
                 converted.ExecuteAssignment();
-                OnAssigmentExecuted(converted, creationContext);
+                OnAssigmentExecuted(converted, trackingContext);
             }
         }
 
-        protected void OnAssigmentExecuted(Assignment assignment, CreationContext creationContext)
+        protected void OnAssigmentExecuted(Assignment assignment, TrackingContext trackingContext)
         {
-            creationContext.AmbientRegistrator.RegisterAssignment(
+            trackingContext.AmbientRegistrator.RegisterAssignment(
                 new AmbientPropertyAssignment
                 {
                     Property = assignment.Property,
@@ -117,9 +115,9 @@
             return assignment;
         }
 
-        protected virtual object CreateForChild(object instance, Property property, ConstructionNode node, CreationContext creationContext)
+        protected virtual object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)
         {
-            return Create(node, creationContext);
+            return Create(node, trackingContext);
         }
 
         private void EnsureValidAssigment(PropertyAssignment propertyAssignment)

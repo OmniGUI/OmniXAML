@@ -24,7 +24,7 @@
             return base.Transform(assignment);
         }
 
-        protected override object CreateForChild(object instance, Property property, ConstructionNode node, CreationContext creationContext)
+        protected override object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)
         {
             var metadata = ConstructionContext.MetadataProvider.Get(instance.GetType());
             var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
@@ -35,7 +35,7 @@
             }
             else
             {
-                return base.CreateForChild(instance, property, node, creationContext);
+                return base.CreateForChild(instance, property, node, trackingContext);
             }
         }       
     }

@@ -177,7 +177,7 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var textBlock = actual.CreationContext.Annotator.Find("MyTextBlock", actual.ResultingObject);
+            var textBlock = actual.TrackingContext.Annotator.Find("MyTextBlock", actual.ResultingObject);
             Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
         }
 
@@ -199,7 +199,7 @@ namespace OmniXaml.Tests
             var result = Create(node);
             var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello" }, };
 
-            CollectionAssert.AreEqual(assigments, result.CreationContext.AmbientRegistrator.Assigments.ToList());
+            CollectionAssert.AreEqual(assigments, result.TrackingContext.AmbientRegistrator.Assigments.ToList());
         }
 
         [TestMethod]
@@ -220,7 +220,7 @@ namespace OmniXaml.Tests
             var result = Create(node);
             var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock() }, };
 
-            CollectionAssert.AreEqual(assigments, result.CreationContext.AmbientRegistrator.Assigments.ToList());
+            CollectionAssert.AreEqual(assigments, result.TrackingContext.AmbientRegistrator.Assigments.ToList());
         }
 
         [TestMethod]
@@ -262,8 +262,8 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var one = actual.CreationContext.Annotator.Find("One", actual.ResultingObject);
-            var two = actual.CreationContext.Annotator.Find("Two", actual.ResultingObject);
+            var one = actual.TrackingContext.Annotator.Find("One", actual.ResultingObject);
+            var two = actual.TrackingContext.Annotator.Find("Two", actual.ResultingObject);
             Assert.IsInstanceOfType(one, typeof(TextBlock));
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
@@ -273,18 +273,17 @@ namespace OmniXaml.Tests
             var constructionContext = new ConstructionContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
-                Context.GetMetadataProvider(),
-                new InstanceLifecycleSignaler());
+                Context.GetMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var creationContext = new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator());
+            var creationContext = new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, rootInstance, creationContext),
-                CreationContext = creationContext
+                TrackingContext = creationContext
             };
         }
 
@@ -293,18 +292,17 @@ namespace OmniXaml.Tests
             var constructionContext = new ConstructionContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
-                Context.GetMetadataProvider(),
-                new InstanceLifecycleSignaler());
+                Context.GetMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var creationContext = new CreationContext(new NamescopeAnnotator(), new AmbientRegistrator());
+            var creationContext = new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, creationContext),
-                CreationContext = creationContext
+                TrackingContext = creationContext
             };
         }
     }

@@ -44,7 +44,7 @@
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="ConstructionContext.cs" />
-    <Compile Include="CreationContext.cs" />
+    <Compile Include="TrackingContext.cs" />
     <Compile Include="Directive.cs" />
     <Compile Include="DirectiveExtractor.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />

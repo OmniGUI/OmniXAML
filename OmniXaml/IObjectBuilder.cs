@@ -2,7 +2,7 @@
 {
     public interface IObjectBuilder
     {
-        object Create(ConstructionNode node, CreationContext creationContext);
-        object Create(ConstructionNode node, object instance, CreationContext creationContext);
+        object Create(ConstructionNode node, TrackingContext trackingContext);
+        object Create(ConstructionNode node, object instance, TrackingContext trackingContext);
     }
 }

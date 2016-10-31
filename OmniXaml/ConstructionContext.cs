@@ -6,20 +6,16 @@
     {
         public ConstructionContext(IInstanceCreator creator,
             ISourceValueConverter sourceValueConverter,
-            IMetadataProvider metadataProvider,
-            IInstanceLifecycleSignaler signaler)
+            IMetadataProvider metadataProvider)
         {
             Creator = creator;
             SourceValueConverter = sourceValueConverter;
-            Signaler = signaler;
             MetadataProvider = metadataProvider;
         }
 
         public IInstanceCreator Creator { get; }
 
         public ISourceValueConverter SourceValueConverter { get; }
-
-        public IInstanceLifecycleSignaler Signaler { get; }
 
         public IMetadataProvider MetadataProvider { get; }
     }
