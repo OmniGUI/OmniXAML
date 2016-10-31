@@ -39,6 +39,7 @@
         {
             var instance = creator.Create(node.InstanceType);
             trackingContext.Annotator.NewInstance(instance);
+            trackingContext.AmbientRegistrator.RegisterInstance(instance);
             if (node.Name != null)
             {
                 trackingContext.Annotator.RegisterName(node.Name, instance);
@@ -102,12 +103,13 @@
 
         protected void OnAssigmentExecuted(Assignment assignment, TrackingContext trackingContext)
         {
-            trackingContext.AmbientRegistrator.RegisterAssignment(
-                new AmbientPropertyAssignment
-                {
-                    Property = assignment.Property,
-                    Value = assignment.Value
-                });
+            var ambientPropertyAssignment = new AmbientPropertyAssignment
+            {
+                Property = assignment.Property,
+                Value = assignment.Value
+            };
+
+            trackingContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
         protected virtual Assignment Transform(Assignment assignment)

@@ -203,6 +203,27 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
+        public void AmbientInstances()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        SourceValue = "Hello",
+                    }
+                }
+            };
+
+            var result = Create(node);
+            var instances = new[] { new Window { Content = "Hello" } };
+
+            CollectionAssert.AreEqual(instances, result.TrackingContext.AmbientRegistrator.Instances.ToList());
+        }
+
+        [TestMethod]
         public void AmbientInnerNode()
         {
             var node = new ConstructionNode(typeof(Window))
