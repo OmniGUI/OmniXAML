@@ -51,7 +51,7 @@
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
 
             var cons = GetConstructionNode(xaml);
-            return objectBuilder.Create(cons, new TrackingContext(new NamescopeAnnotator(), null, new InstanceLifecycleSignaler()));
+            return objectBuilder.Create(cons, new TrackingContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
         }
 
         private ConstructionNode GetConstructionNode(string xaml)

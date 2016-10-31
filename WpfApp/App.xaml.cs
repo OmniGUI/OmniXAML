@@ -13,7 +13,7 @@
         {
             base.OnStartup(e);
 
-            var window = (Window) new XamlLoader().Load(File.ReadAllText("Sample.xml"));
+            var window = (Window) new XamlLoader().Load(File.ReadAllText("Sample.xml")).Instance;
 
             window.Show();
             MainWindow = window;

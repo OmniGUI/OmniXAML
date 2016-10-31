@@ -1,9 +1,6 @@
 namespace OmniXaml.TypeLocation
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
 
     public class XamlNamespace : Namespace
     {
@@ -22,24 +19,6 @@ namespace OmniXaml.TypeLocation
         }
 
         public AddressPack Addresses => addressPack;
-
-        public static IEnumerable<XamlNamespace> DefinedInAssemblies(IEnumerable<Assembly> assemblies)
-        {
-            var namespaces = from a in assemblies
-                let attributes = a.GetCustomAttributes<XmlnsDefinitionAttribute>()
-                from byNamespace in attributes.GroupBy(arg => arg.XmlNamespace)
-                let name = byNamespace.Key
-                let clrNamespaces = byNamespace.Select(arg => arg.ClrNamespace)
-                select Map(name)
-                    .With(
-                        new[]
-                        {
-                            Route.Assembly(a)
-                                .WithNamespaces(clrNamespaces.ToArray())
-                        });
-
-            return namespaces;
-        }
 
         public static AssemblyNameConfig Map(string root)
         {

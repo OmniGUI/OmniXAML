@@ -1,8 +1,8 @@
 ﻿namespace OmniXaml.Attributes
 {
     using System;
-    using System.Linq;
     using System.Reflection;
+    using Glass.Core;
     using Metadata;
 
     public class AttributeBasedMetadataProvider : IMetadataProvider
@@ -11,21 +11,23 @@
         {
             return new Metadata
             {
-                ContentProperty = GetAttributeFromProperty<ContentAttribute, string>(type, (info, attribute) => info.Name),
-                RuntimePropertyName = GetAttributeFromProperty<NameAttribute, string>(type, (info, attribute) => info.Name),
+                ContentProperty = type.GetAttributeFromProperty<ContentAttribute, string>((info, attribute) => info.Name),
+                RuntimePropertyName = type.GetAttributeFromProperty<NameAttribute, string>((info, attribute) => info.Name),
+                IsNamescope = type.GetAttributeFromType<NamescopeAttribute, NamescopeAttribute>(attribute => attribute) != null,
+                FragmentLoaderInfo = type.GetAttributeFromProperty<FragmentLoaderAttribute, FragmentLoaderInfo>((info, attribute) => GetFragmentLoaderInfo(type, info, attribute))
             };
         }
 
-        private static O GetAttributeFromProperty<T, O>(Type type, Func<PropertyInfo, T, O> selector) where T : Attribute
+        private static FragmentLoaderInfo GetFragmentLoaderInfo(Type type, PropertyInfo propInfo, FragmentLoaderAttribute attribute)
         {
-            var attributes = from prop in type.GetRuntimeProperties()
-                             let attr = prop.GetCustomAttribute<T>()
-                             where attr != null
-                             select new { prop, attr };
+            var constructionFragmentLoader = (IConstructionFragmentLoader) Activator.CreateInstance(attribute.FragmentLoader);
 
-            var single = attributes.SingleOrDefault();
-
-            return single != null ? selector(single.prop, single.attr) : default(O);
+            return new FragmentLoaderInfo
+            {
+                Loader = constructionFragmentLoader, 
+                Type = type,
+                PropertyName = propInfo.Name,
+            };
         }
     }
 }

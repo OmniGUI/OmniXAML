@@ -1,8 +1,8 @@
-﻿namespace WpfApplication1.Context
+﻿namespace OmniXaml
 {
     public interface IXamlLoader
     {
-        object Load(string xaml);
-        object Load(string xaml, object intance);
+        ConstructionResult Load(string xaml);
+        ConstructionResult Load(string xaml, object intance);
     }
 }

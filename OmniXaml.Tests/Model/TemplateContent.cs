@@ -1,5 +1,7 @@
 ﻿namespace OmniXaml.Tests.Model
 {
+    using Metadata;
+
     public class TemplateContent
     {
         private readonly ConstructionNode node;
@@ -13,7 +15,7 @@
 
         public object Load()
         {
-            return builder.Create(node, new TrackingContext(new NamescopeAnnotator(), null, new InstanceLifecycleSignaler()));
+            return builder.Create(node, new TrackingContext(new NamescopeAnnotator(new MetadataProvider()), null, new InstanceLifecycleSignaler()));
         }
 
         protected bool Equals(TemplateContent other)

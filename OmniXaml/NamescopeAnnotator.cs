@@ -3,15 +3,22 @@
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using Glass.Core.Glass.Core;
+    using Metadata;
 
     public class NamescopeAnnotator : INamescopeAnnotator
     {
+        private readonly IMetadataProvider metadataProvider;
         private readonly StackingLinkedList<Namescope> namescopes = new StackingLinkedList<Namescope>();
         private readonly IDictionary<object, Namescope> mappings = new ConcurrentDictionary<object, Namescope>();
 
-        public void NewInstance(object instance)
+        public NamescopeAnnotator(IMetadataProvider metadataProvider)
         {
-            if (instance.GetType().Name == "Window" || instance.GetType().Name=="Zoo")
+            this.metadataProvider = metadataProvider;
+        }
+
+        public void TrackNewInstance(object instance)
+        {
+            if (metadataProvider.Get(instance.GetType()).IsNamescope)
             {
                 var namescope = new Namescope(instance);
                 mappings.Add(instance, namescope);

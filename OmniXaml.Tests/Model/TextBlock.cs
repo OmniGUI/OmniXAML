@@ -1,7 +1,10 @@
 ﻿namespace OmniXaml.Tests.Model
 {
+    using Attributes;
+
     public class TextBlock : ModelObject
     {
+        [Content]
         public string Text { get; set; }
 
         protected bool Equals(TextBlock other)

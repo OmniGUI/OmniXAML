@@ -1,8 +1,12 @@
 ﻿namespace OmniXaml.Tests.Model
 {
+    using Attributes;
+
+    [Namescope]
     internal class Window : ModelObject
     {
         public string Title { get; set; }
+        [Content]
         public object Content { get; set; }
 
         public override string ToString()

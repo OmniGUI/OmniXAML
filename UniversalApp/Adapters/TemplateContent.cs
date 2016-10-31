@@ -1,6 +1,7 @@
 ﻿namespace Yuniversal.Adapters
 {
     using OmniXaml;
+    using OmniXaml.Metadata;
 
     public class TemplateContent
     {
@@ -15,7 +16,7 @@
 
         public object Load()
         {
-            return builder.Create(node, new TrackingContext(new NamescopeAnnotator(), null, new InstanceLifecycleSignaler()));
+            return builder.Create(node, new TrackingContext(new NamescopeAnnotator(new MetadataProvider()), null, new InstanceLifecycleSignaler()));
         }
 
         protected bool Equals(TemplateContent other)

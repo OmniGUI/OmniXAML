@@ -8,8 +8,8 @@
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Media;
     using Windows.UI.Xaml.Media.Imaging;
+    using Glass.Core;
     using OmniXaml;
-    using OmniXaml.Glass.Core;
 
     public static class Registrator
     {
@@ -68,8 +68,6 @@
             var ctor = typeof(Thickness).GetConstructors().First(info => info.GetParameters().Length == 4);
             var parameters = values.Cast<object>().ToArray();
             return (Thickness) ctor.Invoke(parameters);
-        }
-
-        
+        }        
     }
 }

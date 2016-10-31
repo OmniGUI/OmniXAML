@@ -4,6 +4,7 @@ namespace OmniXaml.Tests
     using System.Collections.Generic;
     using System.Linq;
     using Ambient;
+    using Attributes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
 
@@ -294,13 +295,14 @@ namespace OmniXaml.Tests
             var constructionContext = new ConstructionContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
-                Context.GetMetadataProvider());
+                new AttributeBasedMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var creationContext = new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, rootInstance, creationContext),
@@ -313,13 +315,13 @@ namespace OmniXaml.Tests
             var constructionContext = new ConstructionContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
-                Context.GetMetadataProvider());
+                new AttributeBasedMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
                 (assignment, context) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory()));
 
-            var creationContext = new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, creationContext),

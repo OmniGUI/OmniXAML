@@ -1,10 +1,10 @@
-﻿namespace OmniXaml.Glass.Core
+﻿namespace Glass.Core
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     namespace Glass.Core
     {
-        using System.Collections.Generic;
-        using System.Linq;
-
         public class StackingLinkedList<T>
         {
             private readonly LinkedList<T> linkedList = new LinkedList<T>();

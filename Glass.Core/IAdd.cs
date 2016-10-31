@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Glass.Core
+﻿namespace Glass.Core
 {
     public interface IAdd<in T>
     {

@@ -15,6 +15,9 @@
     "netcoreapp1.0": {
       "imports": "dnxcore50",
       "dependencies": {
+        "Glass.Core": {
+          "target": "project"
+        },
         "OmniXaml": {
           "target": "project"
         },

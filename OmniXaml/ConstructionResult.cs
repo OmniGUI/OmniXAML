@@ -1,8 +1,6 @@
-﻿namespace SampleModel
+﻿namespace OmniXaml
 {
-    using OmniXaml;
-
-    internal class ConstructionResult
+    public class ConstructionResult
     {
         public object Instance { get; set; }
         public INamescopeAnnotator NamescopeAnnotator { get; set; }

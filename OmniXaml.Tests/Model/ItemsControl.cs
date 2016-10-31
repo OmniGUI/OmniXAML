@@ -1,10 +1,12 @@
 namespace OmniXaml.Tests.Model
 {
     using System.Collections.Generic;
+    using Attributes;
 
     public class ItemsControl : ModelObject
     {
         public DataTemplate ItemTemplate { get; set; }
+        [Content]
         public ICollection<object> Items { get; set; } = new List<object>();
 
         protected bool Equals(ItemsControl other)

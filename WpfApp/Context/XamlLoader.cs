@@ -34,19 +34,23 @@
                metadataProvider);
         }
 
-        public object Load(string xaml)
+        public ConstructionResult Load(string xaml)
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            var namescopeAnnotator = new NamescopeAnnotator(constructionContext.MetadataProvider);
+            var instance = objectBuilder.Create(cn, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            return new ConstructionResult(instance, namescopeAnnotator);
         }
 
 
-        public object Load(string xaml, object intance)
+        public ConstructionResult Load(string xaml, object intance)
         {
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context) => new MarkupExtensionContext(assignment, context, directory));
-            return objectBuilder.Create(cn, new TrackingContext(new NamescopeAnnotator(), new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            var namescopeAnnotator = new NamescopeAnnotator(constructionContext.MetadataProvider);
+            var instance = objectBuilder.Create(cn, intance, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            return new ConstructionResult(instance, namescopeAnnotator);
         }
 
         private ConstructionNode GetConstructionNode(string xaml)

@@ -38,7 +38,7 @@
         private object CreateInstance(ConstructionNode node, TrackingContext trackingContext)
         {
             var instance = creator.Create(node.InstanceType);
-            trackingContext.Annotator.NewInstance(instance);
+            trackingContext.Annotator.TrackNewInstance(instance);
             trackingContext.AmbientRegistrator.RegisterInstance(instance);
             if (node.Name != null)
             {

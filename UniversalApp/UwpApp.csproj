@@ -139,6 +139,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">
+      <Project>{4AEFCFCF-5514-44B1-ACEF-93D40528A0BC}</Project>
+      <Name>Glass.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{84AE3F65-B4DC-43E0-B2D0-DF0B188E8602}</Project>
       <Name>OmniXaml</Name>

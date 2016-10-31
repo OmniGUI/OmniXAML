@@ -1,6 +1,23 @@
 {
   "version": 2,
   "exports": {
+    "Glass.Core/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/Glass.Core.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Glass.Core.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Glass.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
     "OmniXaml.Attributes/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.2",

@@ -44,18 +44,11 @@
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="ConstructionContext.cs" />
+    <Compile Include="ConstructionResult.cs" />
     <Compile Include="TrackingContext.cs" />
     <Compile Include="Directive.cs" />
     <Compile Include="DirectiveExtractor.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />
-    <Compile Include="Glass.Core\AutoKeyDictionary.cs" />
-    <Compile Include="Glass.Core\StackingLinkedList.cs" />
-    <Compile Include="Glass.Core\Extensions.cs" />
-    <Compile Include="Glass.Core\Guard.cs" />
-    <Compile Include="Glass.Core\IAdd.cs" />
-    <Compile Include="Glass.Core\StackingLinkedListMixin.cs" />
-    <Compile Include="Glass.Core\TypeExtensions.cs" />
-    <Compile Include="Glass.Core\Utils.cs" />
     <Compile Include="Ambient\IAmbientRegistrator.cs" />
     <Compile Include="IInlineParser.cs" />
     <Compile Include="IInstanceLifecycleSignaler.cs" />
@@ -80,7 +73,7 @@
     <Compile Include="MarkupExtensionContext.cs" />
     <Compile Include="Metadata\DependencyRegistration.cs" />
     <Compile Include="Metadata\DependencyRegistrations.cs" />
-    <Compile Include="Metadata\FragmentLoadingInfo.cs" />
+    <Compile Include="Metadata\FragmentLoaderInfo.cs" />
     <Compile Include="Metadata\GenericMetadata.cs" />
     <Compile Include="Metadata\IConstructionFragmentLoader.cs" />
     <Compile Include="Metadata\IMetadataProvider.cs" />
@@ -90,7 +83,6 @@
     <Compile Include="NamescopeAnnotator.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
-    <Compile Include="Glass.Core\StringExtensions.cs" />
     <Compile Include="IContentPropertyRegistry.cs" />
     <Compile Include="InjectableMember.cs" />
     <Compile Include="TypeLocation\AddressPack.cs" />
@@ -108,7 +100,6 @@
     <Compile Include="XamlParserException.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />
-    <Compile Include="Glass.Core\ReflectionExtensions.cs" />
     <Compile Include="IInstanceCreator.cs" />
     <Compile Include="InstanceCreator.cs" />
     <Compile Include="ISourceValueConverter.cs" />
@@ -119,7 +110,12 @@
     <Compile Include="StandardProperty.cs" />
     <Compile Include="PropertyAssignment.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">
+      <Project>{4aefcfcf-5514-44b1-acef-93d40528a0bc}</Project>
+      <Name>Glass.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

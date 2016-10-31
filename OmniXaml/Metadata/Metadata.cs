@@ -34,7 +34,9 @@ namespace OmniXaml.Metadata
 
         public string ContentProperty { get; set; }
 
-        public FragmentLoadingInfo FragmentLoaderInfo { get; set; }
+        public FragmentLoaderInfo FragmentLoaderInfo { get; set; }
+
+        public bool IsNamescope { get; set; }
 
         protected bool Equals(Metadata other)
         {

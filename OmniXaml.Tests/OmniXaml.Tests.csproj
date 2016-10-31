@@ -54,8 +54,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ContentPropertyRegistry.cs" />
-    <Compile Include="Context.cs" />
     <Compile Include="CreationFixture.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
@@ -74,6 +72,10 @@
     <Compile Include="ObjectBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.Attributes.csproj">
+      <Project>{4153120e-85ed-4ceb-ad0b-d5372744dde8}</Project>
+      <Name>OmniXaml.Attributes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
       <Project>{84ae3f65-b4dc-43e0-b2d0-df0b188e8602}</Project>
       <Name>OmniXaml</Name>

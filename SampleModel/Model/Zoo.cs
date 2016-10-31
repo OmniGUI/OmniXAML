@@ -5,7 +5,7 @@
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    // ReSharper disable once UnusedMember.Global
+    [Namescope]
     public class Zoo
     {
         readonly IDictionary<string, Animal> animalNames = new Dictionary<string, Animal>();

@@ -1,7 +1,13 @@
 ﻿namespace OmniXaml.Tests.Model
 {
+    using System;
+    using Attributes;
+
+    [Namescope]
     public class DataTemplate
     {
+        [Content]
+        [FragmentLoader(FragmentLoader = typeof(ConstructionFragmentLoader))]
         public TemplateContent Content { get; set; }
 
         protected bool Equals(DataTemplate other)
@@ -24,5 +30,5 @@
         {
             return (Content != null ? Content.GetHashCode() : 0);
         }
-    }
+    }   
 }

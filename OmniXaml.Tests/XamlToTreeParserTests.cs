@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Reflection;
+    using Attributes;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using TypeLocation;
@@ -23,7 +24,7 @@
             directory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
             directory.AddNamespace(XamlNamespace.Map("custom").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model.Custom")));
 
-            var sut = new XamlToTreeParser(directory, Context.GetMetadataProvider(), new[] { new InlineParser(directory) });
+            var sut = new XamlToTreeParser(directory, new AttributeBasedMetadataProvider(), new[] { new InlineParser(directory) });
 
             var tree = sut.Parse(xaml);
             return tree;

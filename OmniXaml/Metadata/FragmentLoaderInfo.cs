@@ -2,7 +2,7 @@ namespace OmniXaml.Metadata
 {
     using System;
 
-    public class FragmentLoadingInfo
+    public class FragmentLoaderInfo
     {
         public Type Type { get; set; }
         public string PropertyName { get; set; }
