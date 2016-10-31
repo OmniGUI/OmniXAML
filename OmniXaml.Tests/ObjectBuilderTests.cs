@@ -292,7 +292,7 @@ namespace OmniXaml.Tests
 
         private CreationFixture Create(ConstructionNode node, object rootInstance)
         {
-            var constructionContext = new ConstructionContext(
+            var constructionContext = new StaticContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
                 new AttributeBasedMetadataProvider());
@@ -312,7 +312,7 @@ namespace OmniXaml.Tests
 
         private static CreationFixture Create(ConstructionNode node)
         {
-            var constructionContext = new ConstructionContext(
+            var constructionContext = new StaticContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
                 new AttributeBasedMetadataProvider());

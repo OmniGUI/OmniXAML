@@ -4,6 +4,6 @@
 
     public interface ISourceValueConverter
     {
-        object GetCompatibleValue(Type targetType, string sourceValue);
+        object GetCompatibleValue(SuperContext superContext, Type targetType, string sourceValue);
     }
 }

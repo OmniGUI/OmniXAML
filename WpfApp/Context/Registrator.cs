@@ -10,10 +10,10 @@
         public static ISourceValueConverter GetSourceValueConverter()
         {
             var sourceValueConverter = new SourceValueConverter();
-            sourceValueConverter.Add(typeof(Thickness), value => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
-            sourceValueConverter.Add(typeof(Brush), value => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
-            sourceValueConverter.Add(typeof(GridLength), value => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
-            sourceValueConverter.Add(typeof(ImageSource), value => new ImageSourceConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
+            sourceValueConverter.Add(typeof(Thickness), (value, b) => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
+            sourceValueConverter.Add(typeof(Brush), (value, b) => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
+            sourceValueConverter.Add(typeof(GridLength), (value, b) => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
+            sourceValueConverter.Add(typeof(ImageSource), (value, b) => new ImageSourceConverter().ConvertFrom(null, CultureInfo.CurrentCulture, value));
             return sourceValueConverter;
         }
     }

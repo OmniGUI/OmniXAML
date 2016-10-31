@@ -43,8 +43,9 @@
     <Compile Include="Ambient\AmbientRegistrator.cs" />
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
-    <Compile Include="ConstructionContext.cs" />
+    <Compile Include="StaticContext.cs" />
     <Compile Include="ConstructionResult.cs" />
+    <Compile Include="SuperContext.cs" />
     <Compile Include="TrackingContext.cs" />
     <Compile Include="Directive.cs" />
     <Compile Include="DirectiveExtractor.cs" />

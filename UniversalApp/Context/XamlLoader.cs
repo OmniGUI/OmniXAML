@@ -43,7 +43,7 @@
 
         public object Load(string xaml)
         {
-            var constructionContext = new ConstructionContext(
+            var constructionContext = new StaticContext(
                 new InstanceCreator(),
                 Registrator.GetSourceValueConverter(),
                 metadataProvider);

@@ -8,16 +8,16 @@
 
     public class ObjectBuilder : IObjectBuilder
     {
-        protected ConstructionContext ConstructionContext { get; }
+        protected StaticContext StaticContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
 
 
-        public ObjectBuilder(ConstructionContext constructionContext)
+        public ObjectBuilder(StaticContext staticContext)
         {
-            ConstructionContext = constructionContext;
-            creator = constructionContext.Creator;
-            sourceValueConverter = constructionContext.SourceValueConverter;
+            StaticContext = staticContext;
+            creator = staticContext.Creator;
+            sourceValueConverter = staticContext.SourceValueConverter;
         }
 
         public object Create(ConstructionNode node, object instance, TrackingContext trackingContext)
@@ -62,7 +62,7 @@
 
             if (propertyAssignment.SourceValue != null)
             {
-                var value = sourceValueConverter.GetCompatibleValue(property.PropertyType, propertyAssignment.SourceValue);
+                var value = sourceValueConverter.GetCompatibleValue(new SuperContext(trackingContext, StaticContext), property.PropertyType, propertyAssignment.SourceValue);
                 property.SetValue(instance, value);
                 OnAssigmentExecuted(new Assignment(instance, property, value), trackingContext);
             }
