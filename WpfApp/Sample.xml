@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Window xmlns="root" Title="Window" Height="300" Width="300">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+    </Grid.RowDefinitions>
+    <Menu>
+      <MenuItem Header="Archivo">
+        <MenuItem Header="Abrir" />
+        <MenuItem Header="Guardar" />
+        <MenuItem Header="Guardar como…" />
+        <MenuItem Header="Salir" />
+      </MenuItem>
+    </Menu>
+    <ListView HorizontalContentAlignment="Stretch">
+      <ListViewItem>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="114" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Image Source="mario.png" />
+          <TextBox>It's-a me!</TextBox>
+        </Grid>
+      </ListViewItem>
+      <ListViewItem>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="114" />
+            <ColumnDefinition />
+          </Grid.ColumnDefinitions>
+          <Image Source="mario.png" />
+          <TextBox Text="It's-a me!">
+          </TextBox>
+        </Grid>
+      </ListViewItem>
+    </ListView>
+  </Grid>
+</Window>

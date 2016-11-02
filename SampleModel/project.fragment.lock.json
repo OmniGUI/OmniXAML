@@ -1,0 +1,56 @@
+{
+  "version": 2,
+  "exports": {
+    "Glass.Core/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/Glass.Core.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/Glass.Core.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/Glass.Core.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "OmniXaml.DefaultLoader/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/OmniXaml.DefaultLoader.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OmniXaml.DefaultLoader.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OmniXaml.DefaultLoader.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    },
+    "OmniXaml/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/OmniXaml.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OmniXaml.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OmniXaml.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
+    }
+  }
+}

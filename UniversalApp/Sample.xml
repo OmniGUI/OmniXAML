@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Page>
+
+  <SplitView IsPaneOpen="True"
+             DisplayMode="Inline"
+             OpenPaneLength="296">
+    <SplitView.Content>
+      <Frame>
+        <ListView Grid.Row="1" HorizontalContentAlignment="Stretch">
+          <ListViewItem>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="114" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Image Source="mario.png" />
+              <TextBox Grid.Column="1">It's-a me!</TextBox>
+            </Grid>
+          </ListViewItem>
+          <ListViewItem>
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="114" />
+                <ColumnDefinition />
+              </Grid.ColumnDefinitions>
+              <Image Source="mario.png" />
+              <TextBox Grid.Column="1" Text="It's-a me!" />
+            </Grid>
+          </ListViewItem>
+        </ListView>
+      </Frame>
+    </SplitView.Content>
+    <SplitView.Pane>
+      <StackPanel>
+        <Button FontFamily="Segoe MDL2 Assets" Content="&#xE700;" />
+        <TextBox>Hola</TextBox>
+        <TextBox>Hola</TextBox>
+        <TextBox>Hola</TextBox>
+      </StackPanel>
+
+    </SplitView.Pane>
+  </SplitView>
+
+
+</Page>

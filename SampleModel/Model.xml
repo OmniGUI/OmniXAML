@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Zoo xmlns="root" xmlns:x="special">
+    <Animal x:Name="Rocky" Species="Dog" />
+    <Animal x:Name="Sophie" Species="Turtle" />
+    <Animal x:Name="Steve" Species="Fox" />
+</Zoo>

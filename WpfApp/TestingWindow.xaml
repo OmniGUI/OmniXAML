@@ -1,0 +1,63 @@
+﻿<Window x:Class="WpfApplication1.TestingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Window" Height="300" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Menu >
+            <MenuItem Header="Archivo">
+                <MenuItem Header="Abrir" />
+                <MenuItem Header="Guardar" />
+                <MenuItem Header="Guardar como…" />
+                <MenuItem Header="Salir" />
+            </MenuItem>
+        </Menu>
+        <ListView Grid.Row="1" HorizontalContentAlignment="Stretch">
+            <ListViewItem>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="114"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="mario.png"  />
+                    <TextBox Grid.Column="1">It's-a me!</TextBox>
+                </Grid>
+            </ListViewItem>
+            <ListViewItem>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="114"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="mario.png"  />
+                    <TextBox Grid.Column="1" Text="It's-a me!">
+                        <TextBox.Effect>
+                            <BlurEffect />
+                        </TextBox.Effect>
+                    </TextBox>
+                </Grid>
+            </ListViewItem>
+        </ListView>
+    </Grid>
+</Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
