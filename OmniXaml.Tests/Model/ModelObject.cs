@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    using Attributes;
+    using DefaultLoader;
 
     public class ModelObject
     {

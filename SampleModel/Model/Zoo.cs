@@ -1,9 +1,9 @@
 ﻿namespace SampleModel.Model
 {
-    using OmniXaml.Attributes;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using OmniXaml.DefaultLoader;
 
     [Namescope]
     public class Zoo

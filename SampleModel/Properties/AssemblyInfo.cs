@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
+using OmniXaml.DefaultLoader;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
@@ -17,5 +18,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("7f47081f-6d93-4193-b4b7-c746eaf89be1")]
 
-[assembly: OmniXaml.Attributes.XmlnsPrefix("root", "")]
+[assembly: XmlnsPrefix("root", "")]
 [assembly: OmniXaml.TypeLocation.XmlnsDefinition("root", "SampleModel.Model")]

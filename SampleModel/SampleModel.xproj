@@ -17,7 +17,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Glass.Core\Glass.Core.csproj" />
-    <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.Attributes.csproj" />
+    <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.DefaultLoader.csproj" />
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.targets" Condition="'$(VSToolsPath)' != ''" />

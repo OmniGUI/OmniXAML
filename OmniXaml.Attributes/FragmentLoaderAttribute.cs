@@ -1,7 +1,6 @@
-﻿namespace OmniXaml.Attributes
+﻿namespace OmniXaml.DefaultLoader
 {
     using System;
-    using Metadata;
 
     [AttributeUsage(AttributeTargets.Property)]
     public class FragmentLoaderAttribute : Attribute

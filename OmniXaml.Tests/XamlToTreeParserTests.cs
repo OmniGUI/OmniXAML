@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Reflection;
-    using Attributes;
+    using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using TypeLocation;

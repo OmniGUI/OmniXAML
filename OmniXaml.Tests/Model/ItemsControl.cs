@@ -1,7 +1,7 @@
 namespace OmniXaml.Tests.Model
 {
     using System.Collections.Generic;
-    using Attributes;
+    using DefaultLoader;
 
     public class ItemsControl : ModelObject
     {

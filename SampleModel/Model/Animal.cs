@@ -1,7 +1,7 @@
-﻿using OmniXaml.Attributes;
-
-namespace SampleModel.Model
+﻿namespace SampleModel.Model
 {
+    using OmniXaml.DefaultLoader;
+
     public class Animal
     {
         [Name]

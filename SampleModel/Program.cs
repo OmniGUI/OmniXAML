@@ -2,7 +2,7 @@
 {
     using System.IO;
     using System.Reflection;
-    using OmniXaml.Attributes;
+    using OmniXaml.DefaultLoader;
 
     public class Program
     {

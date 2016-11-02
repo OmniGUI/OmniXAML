@@ -1,7 +1,7 @@
 ﻿namespace SampleModel
 {
     using Model;
-    using OmniXaml.Attributes;
+    using OmniXaml.DefaultLoader;
     using OmniXaml.Metadata;
 
     public static class Context

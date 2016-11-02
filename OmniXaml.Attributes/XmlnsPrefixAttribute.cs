@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Attributes
+﻿namespace OmniXaml.DefaultLoader
 {
     using System;
 

@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using Glass.Core;
     using TypeLocation;
 
     public class TypeDirectory : ITypeDirectory
@@ -93,6 +94,16 @@
                     $"Error trying to resolve a XamlType: The type {address.TypeName} has not been found into the namespace '{address.Namespace}'");
 
             return correspondingType;
+        }
+
+        public Type GetByPrefixedName(string prefixedName)
+        {
+            var tuple = prefixedName.Dicotomize(':');
+
+            var prefix = tuple.Item2 == null ? string.Empty : tuple.Item1;
+            var typeName = tuple.Item2 ?? tuple.Item1;
+
+            return GetTypeByPrefix(prefix, typeName);
         }
 
         private string GetXamlNamespaceNameByPrefix(string prefix)

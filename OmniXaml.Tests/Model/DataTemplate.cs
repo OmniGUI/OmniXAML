@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests.Model
 {
     using System;
-    using Attributes;
+    using DefaultLoader;
 
     [Namescope]
     public class DataTemplate

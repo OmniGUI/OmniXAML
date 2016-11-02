@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Attributes
+﻿namespace OmniXaml.DefaultLoader
 {
     using System;
     using System.Collections.Generic;
@@ -89,6 +89,11 @@
         public Type GetTypeByFullAddres(Address address)
         {
             return inner.GetTypeByFullAddres(address);
+        }
+
+        public Type GetByPrefixedName(string prefixedName)
+        {
+            return inner.GetByPrefixedName(prefixedName);
         }
     }
 }

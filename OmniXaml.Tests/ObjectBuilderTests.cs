@@ -4,7 +4,7 @@ namespace OmniXaml.Tests
     using System.Collections.Generic;
     using System.Linq;
     using Ambient;
-    using Attributes;
+    using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
 

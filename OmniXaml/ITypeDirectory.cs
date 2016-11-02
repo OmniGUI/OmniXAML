@@ -14,5 +14,6 @@
         void AddNamespace(XamlNamespace xamlNamespace);
         Type GetTypeByPrefix(string prefix, string typeName);
         Type GetTypeByFullAddres(Address address);
+        Type GetByPrefixedName(string prefixedName);
     }
 }
