@@ -7,7 +7,7 @@
 
     public class XamlLoader : IXamlLoader
     {
-        private readonly StaticContext staticContext;
+        private readonly ObjectBuilderContext objectBuilderContext;
         private readonly ITypeDirectory directory;
         private readonly AttributeBasedMetadataProvider metadataProvider;
 
@@ -15,7 +15,7 @@
         {
             directory = new AttributeBasedTypeDirectory(assemblies);
             metadataProvider = new AttributeBasedMetadataProvider();
-            staticContext = new StaticContext(new InstanceCreator(), new SourceValueConverter(), metadataProvider);
+            objectBuilderContext = new ObjectBuilderContext(new InstanceCreator(), new SourceValueConverter(), metadataProvider);
         }
 
         public ConstructionResult Load(string xaml)
@@ -36,9 +36,10 @@
 
         private ConstructionResult Construct(ConstructionNode ctNode)
         {
-            var objectConstructor = new ObjectBuilder(staticContext);
+            
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
             var trackingContext = new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var objectConstructor = new ObjectBuilder(objectBuilderContext, (assignment, context, arg3) => new ValueContext(assignment, context, directory, trackingContext));
             var construct = objectConstructor.Create(ctNode, trackingContext);
             return new ConstructionResult(construct, namescopeAnnotator);
         }

@@ -16,12 +16,12 @@
         public static ISourceValueConverter GetSourceValueConverter()
         {
             var sourceValueConverter = new SourceValueConverter();
-            sourceValueConverter.Add(typeof(Thickness), (value, b) => ConvertToThickness(value));
-            sourceValueConverter.Add(typeof(Brush), (value, b) => ConvertToSolidBrush(value));
-            sourceValueConverter.Add(typeof(GridLength), (value, b) => GetGridLength(value));
-            sourceValueConverter.Add(typeof(ImageSource), (value, b) => ConvertToBitmap(value));
-            sourceValueConverter.Add(typeof(bool), (value, b) => bool.Parse(value));
-            sourceValueConverter.Add(typeof(FontFamily), (value, b) => new FontFamily(value));
+            sourceValueConverter.Add(typeof(Thickness), value => ConvertToThickness((string) value.Assignment.Value));
+            sourceValueConverter.Add(typeof(Brush), value => ConvertToSolidBrush((string)value.Assignment.Value));
+            sourceValueConverter.Add(typeof(GridLength), value => GetGridLength((string)value.Assignment.Value));
+            sourceValueConverter.Add(typeof(ImageSource), value => ConvertToBitmap((string)value.Assignment.Value));
+            sourceValueConverter.Add(typeof(bool), value => bool.Parse((string)value.Assignment.Value));
+            sourceValueConverter.Add(typeof(FontFamily), value => new FontFamily((string)value.Assignment.Value));
             return sourceValueConverter;
         }
 

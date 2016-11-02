@@ -8,7 +8,7 @@
     public class XamlLoader : IXamlLoader
     {
         private readonly TypeDirectory directory;
-        private readonly StaticContext staticContext;
+        private readonly ObjectBuilderContext objectBuilderContext;
 
         public XamlLoader()
         {
@@ -28,7 +28,7 @@
                 .With(configuredAssemblyWithNamespaces);
             directory.AddNamespace(xamlNamespace);
 
-            staticContext = new StaticContext(
+            objectBuilderContext = new ObjectBuilderContext(
                new InstanceCreator(),
                Registrator.GetSourceValueConverter(),
                metadataProvider);
@@ -37,8 +37,8 @@
         public ConstructionResult Load(string xaml)
         {
             var cn = GetConstructionNode(xaml);
-            var objectBuilder = new ExtendedObjectBuilder(staticContext, (assignment, context, tc) => new MarkupExtensionContext(assignment, context, directory, tc));
-            var namescopeAnnotator = new NamescopeAnnotator(staticContext.MetadataProvider);
+            var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
+            var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
             var instance = objectBuilder.Create(cn, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
             return new ConstructionResult(instance, namescopeAnnotator);
         }
@@ -47,8 +47,8 @@
         public ConstructionResult Load(string xaml, object intance)
         {
             var cn = GetConstructionNode(xaml);
-            var objectBuilder = new ExtendedObjectBuilder(staticContext, (assignment, context, tc) => new MarkupExtensionContext(assignment, context, directory, tc));
-            var namescopeAnnotator = new NamescopeAnnotator(staticContext.MetadataProvider);
+            var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
+            var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
             var instance = objectBuilder.Create(cn, intance, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
             return new ConstructionResult(instance, namescopeAnnotator);
         }

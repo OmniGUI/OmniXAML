@@ -4,12 +4,12 @@
 
     public class ExtendedObjectBuilder : ObjectBuilder
     {
-        private readonly Func<Assignment, StaticContext, TrackingContext, MarkupExtensionContext> createExtensionContext;
+        private readonly Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext;
 
-        public ExtendedObjectBuilder(StaticContext staticContext, Func<Assignment, StaticContext, TrackingContext, MarkupExtensionContext> createExtensionContext)
-            : base(staticContext)
+        public ExtendedObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext)
+            : base(objectBuilderContext, createValueContext)
         {
-            this.createExtensionContext = createExtensionContext;
+            this.createValueContext = createValueContext;
         }
 
         protected override Assignment ToCompatibleValue(Assignment assignment, TrackingContext trackingContext)
@@ -17,7 +17,7 @@
             var me = assignment.Value as IMarkupExtension;
             if (me != null)
             {
-                var value = me.GetValue(createExtensionContext(assignment, StaticContext, trackingContext));
+                var value = me.GetValue(createValueContext(assignment, ObjectBuilderContext, trackingContext));
                 assignment = assignment.ReplaceValue(value);
             }
 
@@ -26,7 +26,7 @@
 
         protected override object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)
         {
-            var metadata = StaticContext.MetadataProvider.Get(instance.GetType());
+            var metadata = ObjectBuilderContext.MetadataProvider.Get(instance.GetType());
             var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
 
             if (fragmentLoaderInfo != null && instance.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)

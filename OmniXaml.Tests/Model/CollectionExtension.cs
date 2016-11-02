@@ -4,7 +4,7 @@
 
     public class CollectionExtension : IMarkupExtension
     {
-        public object GetValue(MarkupExtensionContext context)
+        public object GetValue(ValueContext context)
         {
             return new Collection<object> {"Item 1", "Item 2"};
         }

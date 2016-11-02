@@ -2,7 +2,7 @@
 {
     public class SimpleExtension : IMarkupExtension
     {
-        public object GetValue(MarkupExtensionContext context)
+        public object GetValue(ValueContext context)
         {
             return Property;
         }

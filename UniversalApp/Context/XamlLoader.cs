@@ -43,12 +43,12 @@
 
         public object Load(string xaml)
         {
-            var constructionContext = new StaticContext(
+            var constructionContext = new ObjectBuilderContext(
                 new InstanceCreator(),
                 Registrator.GetSourceValueConverter(),
                 metadataProvider);
 
-            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context, tc) => new MarkupExtensionContext(assignment, context, directory, tc));
+            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
 
             var cons = GetConstructionNode(xaml);
             return objectBuilder.Create(cons, new TrackingContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));

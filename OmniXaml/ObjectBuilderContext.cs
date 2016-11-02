@@ -2,9 +2,9 @@
 {
     using Metadata;
 
-    public class StaticContext
+    public class ObjectBuilderContext
     {
-        public StaticContext(IInstanceCreator creator,
+        public ObjectBuilderContext(IInstanceCreator creator,
             ISourceValueConverter sourceValueConverter,
             IMetadataProvider metadataProvider)
         {

@@ -6,12 +6,12 @@
 
     public class SourceValueConverter : ISourceValueConverter
     {
-        readonly Dictionary<Type, Func<string, SuperContext, object>> converters = new Dictionary<Type, Func<string, SuperContext, object>>();
+        readonly Dictionary<Type, Func<ValueContext, object>> converters = new Dictionary<Type, Func<ValueContext, object>>();
 
-        public object GetCompatibleValue(SuperContext superContext, Assignment assignment)
+        public object GetCompatibleValue(ValueContext valueContext)
         {
-            var targetType = assignment.Property.PropertyType;
-            var sourceValue = (string)assignment.Value;
+            var targetType = valueContext.Assignment.Property.PropertyType;
+            var sourceValue = (string)valueContext.Assignment.Value;
 
             if (targetType == typeof(int))
             {
@@ -23,10 +23,10 @@
                 return int.Parse(sourceValue);
             }
 
-            Func<string, SuperContext, object> converter;
+            Func<ValueContext, object> converter;
             if (converters.TryGetValue(targetType, out converter))
             {
-                return converter(sourceValue, superContext);
+                return converter(valueContext);
             }
 
             if (targetType.GetTypeInfo().IsEnum)
@@ -37,7 +37,7 @@
             return sourceValue;
         }
 
-        public void Add(Type type, Func<string, SuperContext, object> func)
+        public void Add(Type type, Func<ValueContext, object> func)
         {
             converters.Add(type, func);
         }

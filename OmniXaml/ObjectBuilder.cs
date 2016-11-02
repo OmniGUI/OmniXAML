@@ -8,16 +8,18 @@
 
     public class ObjectBuilder : IObjectBuilder
     {
-        protected StaticContext StaticContext { get; }
+        private readonly Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext;
+        protected ObjectBuilderContext ObjectBuilderContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
 
 
-        public ObjectBuilder(StaticContext staticContext)
+        public ObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext)
         {
-            StaticContext = staticContext;
-            creator = staticContext.Creator;
-            sourceValueConverter = staticContext.SourceValueConverter;
+            this.createValueContext = createValueContext;
+            ObjectBuilderContext = objectBuilderContext;
+            creator = objectBuilderContext.Creator;
+            sourceValueConverter = objectBuilderContext.SourceValueConverter;
         }
 
         public object Create(ConstructionNode node, object instance, TrackingContext trackingContext)
@@ -126,7 +128,8 @@
         {
             if (assignment.Value is string)
             {
-                var compatibleValue = sourceValueConverter.GetCompatibleValue(new SuperContext(trackingContext, StaticContext), assignment);
+                var valueContext = createValueContext(assignment, ObjectBuilderContext, trackingContext);
+                var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return assignment.ReplaceValue(compatibleValue);
             }
             else

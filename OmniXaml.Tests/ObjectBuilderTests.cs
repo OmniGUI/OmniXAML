@@ -311,14 +311,14 @@ namespace OmniXaml.Tests
 
         private CreationFixture Create(ConstructionNode node, object rootInstance)
         {
-            var constructionContext = new StaticContext(
+            var constructionContext = new ObjectBuilderContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
                 new AttributeBasedMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
-                (assignment, context, tc) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory(), tc));
+                (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
 
             var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
 
@@ -331,14 +331,14 @@ namespace OmniXaml.Tests
 
         private static CreationFixture Create(ConstructionNode node)
         {
-            var constructionContext = new StaticContext(
+            var constructionContext = new ObjectBuilderContext(
                 new InstanceCreator(),
                 new SourceValueConverter(),
                 new AttributeBasedMetadataProvider());
 
             var builder = new ExtendedObjectBuilder(
                 constructionContext,
-                (assignment, context, tc) => new MarkupExtensionContext(assignment, constructionContext, new TypeDirectory(), tc));
+                (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
 
             var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture

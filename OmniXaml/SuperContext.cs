@@ -2,14 +2,14 @@
 {
     public class SuperContext
     {
-        public SuperContext(TrackingContext trackingContext, StaticContext staticContext)
+        public SuperContext(TrackingContext trackingContext, ObjectBuilderContext objectBuilderContext)
         {
             TrackingContext = trackingContext;
-            StaticContext = staticContext;
+            ObjectBuilderContext = objectBuilderContext;
         }
 
         public TrackingContext TrackingContext { get; }
 
-        public StaticContext StaticContext { get; }
+        public ObjectBuilderContext ObjectBuilderContext { get; }
     }
 }

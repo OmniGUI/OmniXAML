@@ -1,18 +1,18 @@
 ﻿namespace OmniXaml
 {
-    public class MarkupExtensionContext
+    public class ValueContext
     {
 
-        public StaticContext StaticContext { get; }
+        public ObjectBuilderContext ObjectBuilderContext { get; }
         public Assignment Assignment { get; }
         public ITypeDirectory TypeDirectory { get; }
         public TrackingContext TrackingContext { get; set; }
 
-        public MarkupExtensionContext(Assignment assignment, StaticContext staticContext, ITypeDirectory directory, TrackingContext trackingContext)
+        public ValueContext(Assignment assignment, ObjectBuilderContext objectBuilderContext, ITypeDirectory directory, TrackingContext trackingContext)
         {
             TypeDirectory = directory;
             TrackingContext = trackingContext;
-            StaticContext = staticContext;
+            ObjectBuilderContext = objectBuilderContext;
             Assignment = assignment;
         }
     }
