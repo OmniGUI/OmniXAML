@@ -8,8 +8,11 @@
     {
         readonly Dictionary<Type, Func<string, SuperContext, object>> converters = new Dictionary<Type, Func<string, SuperContext, object>>();
 
-        public object GetCompatibleValue(SuperContext superContext, Type targetType, string sourceValue)
+        public object GetCompatibleValue(SuperContext superContext, Assignment assignment)
         {
+            var targetType = assignment.Property.PropertyType;
+            var sourceValue = (string)assignment.Value;
+
             if (targetType == typeof(int))
             {
                 return int.Parse(sourceValue);

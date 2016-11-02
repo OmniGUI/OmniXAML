@@ -60,35 +60,45 @@
             EnsureValidAssigment(propertyAssignment);
             var property = propertyAssignment.Property;
 
-            if (propertyAssignment.SourceValue != null)
+            if (propertyAssignment.Children.Count() == 1 || propertyAssignment.SourceValue != null)
             {
-                var value = sourceValueConverter.GetCompatibleValue(new SuperContext(trackingContext, StaticContext), property.PropertyType, propertyAssignment.SourceValue);
-                property.SetValue(instance, value);
-                OnAssigmentExecuted(new Assignment(instance, property, value), trackingContext);
+                ApplySingleAssignment(instance, propertyAssignment, trackingContext, property);
             }
             else
             {
-                if (propertyAssignment.Children.Count() == 1)
-                {
-                    var first = propertyAssignment.Children.First();
-                    var value = CreateForChild(instance, property, first, trackingContext);
-                    var converted = Transform(new Assignment(instance, property, value), trackingContext);
-
-                    Assign(converted, trackingContext);
-                }
-                else
-                {
-                    foreach (var constructionNode in propertyAssignment.Children)
-                    {
-                        var value = Create(constructionNode, trackingContext);
-                        var converted = Transform(new Assignment(instance, property, value), trackingContext);
-                        Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
-                    }
-                }
+                ApplyMultiAssignment(instance, propertyAssignment, trackingContext, property);
             }
         }
 
-        protected virtual void Assign(Assignment converted, TrackingContext trackingContext)
+        private void ApplyMultiAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext, Property property)
+        {
+            foreach (var constructionNode in propertyAssignment.Children)
+            {
+                var value = Create(constructionNode, trackingContext);
+                var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), trackingContext);
+                Utils.UniversalAdd(compatibleValue.Property.GetValue(compatibleValue.Instance), compatibleValue.Value);
+            }
+        }
+
+        private void ApplySingleAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext, Property property)
+        {
+            object value;
+            if (propertyAssignment.SourceValue == null)
+            {
+                var first = propertyAssignment.Children.First();
+                value = CreateForChild(instance, property, first, trackingContext);
+            }
+            else
+            {
+                value = propertyAssignment.SourceValue;
+            }
+
+            var assignment = new Assignment(instance, property, value);
+            var converted = ToCompatibleValue(assignment, trackingContext);
+            PerformAssigment(converted, trackingContext);
+        }
+
+        protected virtual void PerformAssigment(Assignment converted, TrackingContext trackingContext)
         {
             if (converted.Property.PropertyType.IsCollection())
             {
@@ -112,9 +122,17 @@
             trackingContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
-        protected virtual Assignment Transform(Assignment assignment, TrackingContext trackingContext)
+        protected virtual Assignment ToCompatibleValue(Assignment assignment, TrackingContext trackingContext)
         {
-            return assignment;
+            if (assignment.Value is string)
+            {
+                var compatibleValue = sourceValueConverter.GetCompatibleValue(new SuperContext(trackingContext, StaticContext), assignment);
+                return assignment.ReplaceValue(compatibleValue);
+            }
+            else
+            {
+                return assignment;
+            }
         }
 
         protected virtual object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)

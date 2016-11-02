@@ -225,6 +225,25 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
+        public void BasicProperty()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Height),
+                        SourceValue = "12",
+                    }
+                }
+            };
+
+            var creationFixture = Create(node);
+            Assert.AreEqual(new Window { Height = 12}, creationFixture.ResultingObject );
+        }
+
+        [TestMethod]
         public void AmbientInnerNode()
         {
             var node = new ConstructionNode(typeof(Window))

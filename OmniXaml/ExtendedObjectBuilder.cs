@@ -12,7 +12,7 @@
             this.createExtensionContext = createExtensionContext;
         }
 
-        protected override Assignment Transform(Assignment assignment, TrackingContext trackingContext)
+        protected override Assignment ToCompatibleValue(Assignment assignment, TrackingContext trackingContext)
         {
             var me = assignment.Value as IMarkupExtension;
             if (me != null)
@@ -21,7 +21,7 @@
                 assignment = assignment.ReplaceValue(value);
             }
 
-            return base.Transform(assignment, trackingContext);
+            return base.ToCompatibleValue(assignment, trackingContext);
         }
 
         protected override object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)
