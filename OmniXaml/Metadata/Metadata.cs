@@ -26,7 +26,7 @@ namespace OmniXaml.Metadata
             }
 
             return from dependency in PropertyDependencies
-                   where dependency.Property == name
+                   where dependency.PropertyName == name
                    select dependency.DependsOn;
         }
 

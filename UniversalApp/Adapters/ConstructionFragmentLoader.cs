@@ -5,9 +5,9 @@ namespace Yuniversal.Adapters
 
     public class ConstructionFragmentLoader : IConstructionFragmentLoader
     {
-        public object Load(ConstructionNode node, IObjectBuilder builder, TrackingContext trackingContext)
+        public object Load(ConstructionNode node, IObjectBuilder builder, BuildContext buildContext)
         {
-            return new TemplateContent(node, builder, trackingContext);
+            return new TemplateContent(node, builder, buildContext);
         }
     }
 }

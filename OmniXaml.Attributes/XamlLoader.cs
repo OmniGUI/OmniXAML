@@ -38,7 +38,7 @@
         {
             
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
-            var trackingContext = new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
             var objectConstructor = new ObjectBuilder(objectBuilderContext, (assignment, context, arg3) => new ValueContext(assignment, context, directory, trackingContext));
             var construct = objectConstructor.Create(ctNode, trackingContext);
             return new ConstructionResult(construct, namescopeAnnotator);

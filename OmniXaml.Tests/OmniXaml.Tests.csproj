@@ -64,6 +64,7 @@
     <Compile Include="Model\ModelObject.cs" />
     <Compile Include="Model\MyImmutable.cs" />
     <Compile Include="Model\SimpleExtension.cs" />
+    <Compile Include="Model\Style.cs" />
     <Compile Include="Model\TemplateContent.cs" />
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />

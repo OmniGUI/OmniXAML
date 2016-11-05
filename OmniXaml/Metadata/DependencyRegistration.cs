@@ -2,18 +2,18 @@ namespace OmniXaml.Metadata
 {
     public struct DependencyRegistration
     {
-        public string Property { get; set; }
+        public string PropertyName { get; set; }
         public string DependsOn { get; set; }
 
-        public DependencyRegistration(string property, string dependsOn)
+        public DependencyRegistration(string propertyName, string dependsOn)
         {
-            Property = property;
+            PropertyName = propertyName;
             DependsOn = dependsOn;
         }
 
         public bool Equals(DependencyRegistration other)
         {
-            return string.Equals(Property, other.Property) && string.Equals(DependsOn, other.DependsOn);
+            return string.Equals(PropertyName, other.PropertyName) && string.Equals(DependsOn, other.DependsOn);
         }
 
         public override bool Equals(object obj)
@@ -29,13 +29,13 @@ namespace OmniXaml.Metadata
         {
             unchecked
             {
-                return ((Property != null ? Property.GetHashCode() : 0)*397) ^ (DependsOn != null ? DependsOn.GetHashCode() : 0);
+                return ((PropertyName != null ? PropertyName.GetHashCode() : 0)*397) ^ (DependsOn != null ? DependsOn.GetHashCode() : 0);
             }
         }
 
         public override string ToString()
         {
-            return Property + " depends on " + DependsOn;
+            return PropertyName + " depends on " + DependsOn;
         }
     }
 }

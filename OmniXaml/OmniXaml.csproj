@@ -45,8 +45,7 @@
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="ObjectBuilderContext.cs" />
     <Compile Include="ConstructionResult.cs" />
-    <Compile Include="SuperContext.cs" />
-    <Compile Include="TrackingContext.cs" />
+    <Compile Include="BuildContext.cs" />
     <Compile Include="Directive.cs" />
     <Compile Include="DirectiveExtractor.cs" />
     <Compile Include="ExtendedObjectBuilder.cs" />

@@ -40,9 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoKeyDictionary.cs" />
+    <Compile Include="DependencySorter.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="IAdd.cs" />
+    <Compile Include="IDependency.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReflectionExtensions.cs" />
     <Compile Include="StackingLinkedList.cs" />

@@ -8,13 +8,13 @@
 
     public class ObjectBuilder : IObjectBuilder
     {
-        private readonly Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext;
+        private readonly Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext;
         protected ObjectBuilderContext ObjectBuilderContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
 
 
-        public ObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, TrackingContext, ValueContext> createValueContext)
+        public ObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext)
         {
             this.createValueContext = createValueContext;
             ObjectBuilderContext = objectBuilderContext;
@@ -22,73 +22,73 @@
             sourceValueConverter = objectBuilderContext.SourceValueConverter;
         }
 
-        public object Create(ConstructionNode node, object instance, TrackingContext trackingContext)
+        public object Create(ConstructionNode node, object instance, BuildContext buildContext)
         {
-            ApplyAssignments(instance, node.Assignments, trackingContext);
+            ApplyAssignments(instance, node.Assignments, buildContext);
             return instance;
         }
 
-        public object Create(ConstructionNode node, TrackingContext trackingContext)
+        public object Create(ConstructionNode node, BuildContext buildContext)
         {
-            var instance = CreateInstance(node, trackingContext);
-            trackingContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
-            ApplyAssignments(instance, node.Assignments, trackingContext);
-            trackingContext.InstanceLifecycleSignaler.AfterAssigments(instance);
+            var instance = CreateInstance(node, buildContext);
+            buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
+            ApplyAssignments(instance, node.Assignments, buildContext);
+            buildContext.InstanceLifecycleSignaler.AfterAssigments(instance);
             return instance;
         }
 
-        private object CreateInstance(ConstructionNode node, TrackingContext trackingContext)
+        private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
             var instance = creator.Create(node.InstanceType);
-            trackingContext.Annotator.TrackNewInstance(instance);
-            trackingContext.AmbientRegistrator.RegisterInstance(instance);
+            buildContext.NamescopeAnnotator.TrackNewInstance(instance);
+            buildContext.AmbientRegistrator.RegisterInstance(instance);
             if (node.Name != null)
             {
-                trackingContext.Annotator.RegisterName(node.Name, instance);
+                buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
             }
             return instance;
         }
 
-        private void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, TrackingContext trackingContext)
+        protected virtual void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, BuildContext buildContext)
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
-                ApplyAssignment(instance, propertyAssignment, trackingContext);
+                ApplyAssignment(instance, propertyAssignment, buildContext);
             }
         }
 
-        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext)
+        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext)
         {
             EnsureValidAssigment(propertyAssignment);
             var property = propertyAssignment.Property;
 
             if (propertyAssignment.Children.Count() == 1 || propertyAssignment.SourceValue != null)
             {
-                ApplySingleAssignment(instance, propertyAssignment, trackingContext, property);
+                ApplySingleAssignment(instance, propertyAssignment, buildContext, property);
             }
             else
             {
-                ApplyMultiAssignment(instance, propertyAssignment, trackingContext, property);
+                ApplyMultiAssignment(instance, propertyAssignment, buildContext, property);
             }
         }
 
-        private void ApplyMultiAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext, Property property)
+        private void ApplyMultiAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext, Property property)
         {
             foreach (var constructionNode in propertyAssignment.Children)
             {
-                var value = Create(constructionNode, trackingContext);
-                var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), trackingContext);
+                var value = Create(constructionNode, buildContext);
+                var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), buildContext);
                 Utils.UniversalAdd(compatibleValue.Property.GetValue(compatibleValue.Instance), compatibleValue.Value);
             }
         }
 
-        private void ApplySingleAssignment(object instance, PropertyAssignment propertyAssignment, TrackingContext trackingContext, Property property)
+        private void ApplySingleAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext, Property property)
         {
             object value;
             if (propertyAssignment.SourceValue == null)
             {
                 var first = propertyAssignment.Children.First();
-                value = CreateForChild(instance, property, first, trackingContext);
+                value = CreateChildProperty(instance, property, first, buildContext);
             }
             else
             {
@@ -96,11 +96,11 @@
             }
 
             var assignment = new Assignment(instance, property, value);
-            var converted = ToCompatibleValue(assignment, trackingContext);
-            PerformAssigment(converted, trackingContext);
+            var converted = ToCompatibleValue(assignment, buildContext);
+            PerformAssigment(converted, buildContext);
         }
 
-        protected virtual void PerformAssigment(Assignment converted, TrackingContext trackingContext)
+        protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext)
         {
             if (converted.Property.PropertyType.IsCollection())
             {
@@ -109,11 +109,11 @@
             else
             {
                 converted.ExecuteAssignment();
-                OnAssigmentExecuted(converted, trackingContext);
+                OnAssigmentExecuted(converted, buildContext);
             }
         }
 
-        protected void OnAssigmentExecuted(Assignment assignment, TrackingContext trackingContext)
+        protected void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
         {
             var ambientPropertyAssignment = new AmbientPropertyAssignment
             {
@@ -121,14 +121,14 @@
                 Value = assignment.Value
             };
 
-            trackingContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
+            buildContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
-        protected virtual Assignment ToCompatibleValue(Assignment assignment, TrackingContext trackingContext)
+        protected virtual Assignment ToCompatibleValue(Assignment assignment, BuildContext buildContext)
         {
             if (assignment.Value is string)
             {
-                var valueContext = createValueContext(assignment, ObjectBuilderContext, trackingContext);
+                var valueContext = createValueContext(assignment, ObjectBuilderContext, buildContext);
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return assignment.ReplaceValue(compatibleValue);
             }
@@ -138,9 +138,9 @@
             }
         }
 
-        protected virtual object CreateForChild(object instance, Property property, ConstructionNode node, TrackingContext trackingContext)
+        protected virtual object CreateChildProperty(object parent, Property property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
         {
-            return Create(node, trackingContext);
+            return Create(nodeToBeCreated, buildContext);
         }
 
         private void EnsureValidAssigment(PropertyAssignment propertyAssignment)

@@ -39,7 +39,7 @@
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
             var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
-            var instance = objectBuilder.Create(cn, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            var instance = objectBuilder.Create(cn, new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
             return new ConstructionResult(instance, namescopeAnnotator);
         }
 
@@ -49,7 +49,7 @@
             var cn = GetConstructionNode(xaml);
             var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
             var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
-            var instance = objectBuilder.Create(cn, intance, new TrackingContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            var instance = objectBuilder.Create(cn, intance, new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
             return new ConstructionResult(instance, namescopeAnnotator);
         }
 

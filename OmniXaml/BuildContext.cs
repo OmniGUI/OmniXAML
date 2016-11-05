@@ -3,16 +3,16 @@
     using System.Collections.Generic;
     using Ambient;
 
-    public class TrackingContext
+    public class BuildContext
     {
-        public TrackingContext(INamescopeAnnotator annotator, IAmbientRegistrator ambientRegistrator, IInstanceLifecycleSignaler instanceLifecycleSignaler)
+        public BuildContext(INamescopeAnnotator namescopeAnnotator, IAmbientRegistrator ambientRegistrator, IInstanceLifecycleSignaler instanceLifecycleSignaler)
         {
-            Annotator = annotator;
+            NamescopeAnnotator = namescopeAnnotator;
             AmbientRegistrator = ambientRegistrator;
             InstanceLifecycleSignaler = instanceLifecycleSignaler;
         }
 
-        public INamescopeAnnotator Annotator { get; }
+        public INamescopeAnnotator NamescopeAnnotator { get; }
 
         public IAmbientRegistrator AmbientRegistrator { get; }
         public IInstanceLifecycleSignaler InstanceLifecycleSignaler { get; }

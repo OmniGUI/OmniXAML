@@ -12,6 +12,30 @@ namespace OmniXaml.Tests
     public class ObjectBuilderTests
     {
         [TestMethod]
+        public void Dependency()
+        {
+            var node = new ConstructionNode(typeof(Style))
+            {
+                Assignments = new List<PropertyAssignment>
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Style>(control => control.Value),
+                        SourceValue = "Value",
+                    },
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Style>(control => control.TargetType),
+                        SourceValue = "NameOfSomeType",
+                    }
+                }
+            };
+
+            var obj = (Style) Create(node).ResultingObject;
+            Assert.IsTrue(obj.RightOrder);
+        }
+
+        [TestMethod]
         public void TemplateContent()
         {
             var node = new ConstructionNode(typeof(ItemsControl))
@@ -178,7 +202,7 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var textBlock = actual.TrackingContext.Annotator.Find("MyTextBlock", actual.ResultingObject);
+            var textBlock = actual.BuildContext.NamescopeAnnotator.Find("MyTextBlock", actual.ResultingObject);
             Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
         }
 
@@ -200,7 +224,7 @@ namespace OmniXaml.Tests
             var result = Create(node);
             var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello" }, };
 
-            CollectionAssert.AreEqual(assigments, result.TrackingContext.AmbientRegistrator.Assigments.ToList());
+            CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
 
         [TestMethod]
@@ -221,7 +245,7 @@ namespace OmniXaml.Tests
             var result = Create(node);
             var instances = new[] { new Window { Content = "Hello" } };
 
-            CollectionAssert.AreEqual(instances, result.TrackingContext.AmbientRegistrator.Instances.ToList());
+            CollectionAssert.AreEqual(instances, result.BuildContext.AmbientRegistrator.Instances.ToList());
         }
 
         [TestMethod]
@@ -261,7 +285,7 @@ namespace OmniXaml.Tests
             var result = Create(node);
             var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock() }, };
 
-            CollectionAssert.AreEqual(assigments, result.TrackingContext.AmbientRegistrator.Assigments.ToList());
+            CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
 
         [TestMethod]
@@ -303,8 +327,8 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var one = actual.TrackingContext.Annotator.Find("One", actual.ResultingObject);
-            var two = actual.TrackingContext.Annotator.Find("Two", actual.ResultingObject);
+            var one = actual.BuildContext.NamescopeAnnotator.Find("One", actual.ResultingObject);
+            var two = actual.BuildContext.NamescopeAnnotator.Find("Two", actual.ResultingObject);
             Assert.IsInstanceOfType(one, typeof(TextBlock));
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
@@ -320,12 +344,12 @@ namespace OmniXaml.Tests
                 constructionContext,
                 (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
 
-            var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var creationContext = new BuildContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
 
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, rootInstance, creationContext),
-                TrackingContext = creationContext
+                BuildContext = creationContext
             };
         }
 
@@ -340,11 +364,11 @@ namespace OmniXaml.Tests
                 constructionContext,
                 (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
 
-            var creationContext = new TrackingContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var creationContext = new BuildContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
             return new CreationFixture
             {
                 ResultingObject = builder.Create(node, creationContext),
-                TrackingContext = creationContext
+                BuildContext = creationContext
             };
         }
     }

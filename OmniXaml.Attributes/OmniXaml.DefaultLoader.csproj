@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="AttributeBasedMetadataProvider.cs" />
     <Compile Include="AttributeBasedTypeDirectory.cs" />
+    <Compile Include="DependsOnAttribute.cs" />
     <Compile Include="FragmentLoaderAttribute.cs" />
     <Compile Include="ContentAttribute.cs" />
     <Compile Include="NameAttribute.cs" />

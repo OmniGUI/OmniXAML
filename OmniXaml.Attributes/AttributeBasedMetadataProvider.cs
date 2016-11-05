@@ -14,11 +14,27 @@
                 ContentProperty = type.GetAttributeFromProperty<ContentAttribute, string>((info, attribute) => info.Name),
                 RuntimePropertyName = type.GetAttributeFromProperty<NameAttribute, string>((info, attribute) => info.Name),
                 IsNamescope = type.GetAttributeFromType<NamescopeAttribute, NamescopeAttribute>(attribute => attribute) != null,
-                FragmentLoaderInfo = type.GetAttributeFromProperty<FragmentLoaderAttribute, FragmentLoaderInfo>((info, attribute) => GetFragmentLoaderInfo(type, info, attribute))
+                FragmentLoaderInfo = type.GetAttributeFromProperty<FragmentLoaderAttribute, FragmentLoaderInfo>((info, attribute) => GetFragmentLoaderInfo(type, info, attribute)),
+                PropertyDependencies = GetDependencyRegistrations(type),
             };
         }
 
-        private static FragmentLoaderInfo GetFragmentLoaderInfo(Type type, PropertyInfo propInfo, FragmentLoaderAttribute attribute)
+        private DependencyRegistrations GetDependencyRegistrations(Type type)
+        {
+            var regs = type.GetAttributesFromProperties<DependsOnAttribute, DependencyRegistration>(GetDependencyRegistration);
+            return new DependencyRegistrations(regs);
+        }
+
+        private DependencyRegistration GetDependencyRegistration(PropertyInfo info, DependsOnAttribute attribute)
+        {
+            return new DependencyRegistration
+            {
+                PropertyName = info.Name,
+                DependsOn = attribute.DependentPropertyName,
+            };
+        }
+
+        private static FragmentLoaderInfo GetFragmentLoaderInfo(Type type, MemberInfo memberInfo, FragmentLoaderAttribute attribute)
         {
             var constructionFragmentLoader = (IConstructionFragmentLoader) Activator.CreateInstance(attribute.FragmentLoader);
 
@@ -26,7 +42,7 @@
             {
                 Loader = constructionFragmentLoader, 
                 Type = type,
-                PropertyName = propInfo.Name,
+                PropertyName = memberInfo.Name,
             };
         }
     }

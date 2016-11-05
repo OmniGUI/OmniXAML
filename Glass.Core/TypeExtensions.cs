@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
@@ -34,6 +35,16 @@
             var single = attributes.SingleOrDefault();
 
             return single != null ? selector(single.prop, single.attr) : default(TSelector);
+        }
+
+        public static IEnumerable<TSelector> GetAttributesFromProperties<TAttribute, TSelector>(this Type type, Func<PropertyInfo, TAttribute, TSelector> selector) where TAttribute : Attribute
+        {
+            var attributes = from prop in type.GetRuntimeProperties()
+                             let attr = prop.GetCustomAttribute<TAttribute>()
+                             where attr != null
+                             select new { prop, attr };
+
+            return attributes.Select(arg => selector(arg.prop, arg.attr));
         }
     }
 }

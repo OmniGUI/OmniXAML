@@ -6,18 +6,18 @@
     {
         private readonly ConstructionNode node;
         private readonly IObjectBuilder builder;
-        private readonly TrackingContext trackingContext;
+        private readonly BuildContext buildContext;
 
-        public TemplateContent(ConstructionNode node, IObjectBuilder builder, TrackingContext trackingContext)
+        public TemplateContent(ConstructionNode node, IObjectBuilder builder, BuildContext buildContext)
         {
             this.node = node;
             this.builder = builder;
-            this.trackingContext = trackingContext;
+            this.buildContext = buildContext;
         }
 
         public object Load()
         {
-            return builder.Create(node, trackingContext);
+            return builder.Create(node, buildContext);
         }
 
         protected bool Equals(TemplateContent other)

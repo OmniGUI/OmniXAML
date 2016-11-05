@@ -6,12 +6,12 @@
         public ObjectBuilderContext ObjectBuilderContext { get; }
         public Assignment Assignment { get; }
         public ITypeDirectory TypeDirectory { get; }
-        public TrackingContext TrackingContext { get; set; }
+        public BuildContext BuildContext { get; set; }
 
-        public ValueContext(Assignment assignment, ObjectBuilderContext objectBuilderContext, ITypeDirectory directory, TrackingContext trackingContext)
+        public ValueContext(Assignment assignment, ObjectBuilderContext objectBuilderContext, ITypeDirectory directory, BuildContext buildContext)
         {
             TypeDirectory = directory;
-            TrackingContext = trackingContext;
+            BuildContext = buildContext;
             ObjectBuilderContext = objectBuilderContext;
             Assignment = assignment;
         }
