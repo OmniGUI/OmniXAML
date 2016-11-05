@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Ambient;
     using Glass.Core;
 
@@ -24,6 +25,7 @@
 
         public object Create(ConstructionNode node, object instance, BuildContext buildContext)
         {
+            buildContext.AmbientRegistrator.RegisterInstance(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
             return instance;
         }
@@ -102,14 +104,24 @@
 
         protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext)
         {
-            if (converted.Property.PropertyType.IsCollection())
+            if (converted.Property.IsEvent && converted.Value is string)
             {
-                Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
+                var rootInstance = buildContext.AmbientRegistrator.Instances.First();
+                var callbackMethodInfo = rootInstance.GetType()
+                    .GetRuntimeMethods().First(method => method.Name.Equals(converted.Value));
+                converted.Property.SetValue(converted.Instance, callbackMethodInfo.CreateDelegate(converted.Property.PropertyType, rootInstance));
             }
             else
             {
-                converted.ExecuteAssignment();
-                OnAssigmentExecuted(converted, buildContext);
+                if (converted.Property.PropertyType.IsCollection())
+                {
+                    Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
+                }
+                else
+                {
+                    converted.ExecuteAssignment();
+                    OnAssigmentExecuted(converted, buildContext);
+                }
             }
         }
 

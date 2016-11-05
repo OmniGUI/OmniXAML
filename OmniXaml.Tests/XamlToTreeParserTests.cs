@@ -150,5 +150,12 @@
                 tree);
         }
 
+        [TestMethod]
+        public void RegularEvent()
+        {
+            var tree = Parse(@"<Window xmlns=""root"">
+                                <Button Click=""OnClick"" />
+                               </Window>");
+        }
     }
 }

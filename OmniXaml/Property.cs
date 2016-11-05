@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq.Expressions;
+    using System.Reflection;
     using Glass;
     using Glass.Core;
 
@@ -19,15 +20,25 @@
         public abstract object GetValue(object instance);
         public abstract void SetValue(object instance, object value);
         public abstract Type PropertyType { get; }
+        public abstract bool IsEvent { get; }
 
         public static Property RegularProperty<T>(Expression<Func<T, object>> propertySelector)
         {
-            return RegularProperty(typeof(T), propertySelector.GetFullPropertyName());
+            return RegularPropertyOrEvent(typeof(T), propertySelector.GetFullPropertyName());
         }
 
-        public static Property RegularProperty(Type type, string propertyName)
+        public static Property RegularPropertyOrEvent(Type type, string propertyOrEventName)
         {
-            return new StandardProperty(type, propertyName);
+            if (type.GetRuntimeProperty(propertyOrEventName) != null)
+            {
+                return new StandardProperty(type, propertyOrEventName);
+            }
+            else if(type.GetRuntimeEvent(propertyOrEventName) != null)
+            {
+                return new StandardEvent(type, propertyOrEventName);
+            }
+
+            throw new XamlParserException($"No property or event named {propertyOrEventName} found on type {type}");
         }
 
         public static Property FromAttached<T>(string propertyName)

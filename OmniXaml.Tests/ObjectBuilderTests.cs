@@ -7,6 +7,7 @@ namespace OmniXaml.Tests
     using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using System;
 
     [TestClass]
     public class ObjectBuilderTests
@@ -268,6 +269,40 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
+        public void BasicEvent()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new PropertyAssignment
+                    {
+                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode<Button>
+                            {
+                                Assignments = new[]
+                                {
+                                    new PropertyAssignment
+                                    {
+                                        Property = Property.RegularPropertyOrEvent(typeof(Button), nameof(Button.Click)),
+                                        SourceValue = nameof(TestWindow.OnClick)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var root = new TestWindow();
+            var creationFixture = Create(node, root);
+
+            Assert.AreEqual(root, creationFixture.ResultingObject);
+        }
+
+        [TestMethod]
         public void AmbientInnerNode()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -370,6 +405,12 @@ namespace OmniXaml.Tests
                 ResultingObject = builder.Create(node, creationContext),
                 BuildContext = creationContext
             };
+        }
+
+        private class TestWindow : Window
+        {
+            internal void OnClick(object sender, EventArgs args)
+            { }
         }
     }
 }
