@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
 
@@ -85,5 +86,28 @@
                     Expression.Call(Expression.Convert(instanceParameter, method.DeclaringType), method, arguments),
                 parameterExpressions.Values), instanceParameter).Compile();
         }
+
+        public static IEnumerable<Type> AllExportedTypes(this IEnumerable<Assembly> assemblies)
+        {
+            return assemblies
+                .Where(assembly => !assembly.IsDynamic)
+                .SelectMany(assembly => assembly.ExportedTypes);
+        }
+
+        public static bool IsNullable(this Type type)
+        {
+            if (!type.GetTypeInfo().IsValueType)
+            {
+                return true; // ref-type
+            }
+
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                return true; // Nullable<T>
+            }
+
+            return false; // value-type
+        }
+
     }
 }
