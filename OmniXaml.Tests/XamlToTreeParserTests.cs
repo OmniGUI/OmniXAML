@@ -72,17 +72,17 @@
             var actualNode = Parse(@"<Window xmlns:x=""special"" xmlns=""root"" ><TextBlock x:Name=""One"" /></Window>");
             var expectedNode = new ConstructionNode(typeof(Window))
             {
-                Assignments = new List<PropertyAssignment>()
+                Assignments = new List<MemberAssignment>()
                 {
-                    new PropertyAssignment()
+                    new MemberAssignment()
                     {
-                        Property = Property.FromStandard<Window>(w => w.Content),
+                        Member = Member.FromStandard<Window>(w => w.Content),
                         Children = new List<ConstructionNode>()
                         {
                             new ConstructionNode(typeof(TextBlock))
                             {
                                 Name = "One",
-                                Assignments = new []{ new PropertyAssignment() { Property = Property.FromStandard<TextBlock>(block => block.Name), SourceValue = "One"} }
+                                Assignments = new []{ new MemberAssignment() { Member = Member.FromStandard<TextBlock>(block => block.Name), SourceValue = "One"} }
                             }
                         }
                     }
@@ -133,7 +133,7 @@
             Assert.AreEqual(new ConstructionNode(typeof(Window))
             {
                 Name = "MyWindow",
-                Assignments = new[] { new PropertyAssignment() { Property = Property.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+                Assignments = new[] { new MemberAssignment() { Member = Member.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
             }, tree);
         }
 
@@ -145,7 +145,7 @@
                 new ConstructionNode(typeof(Window))
                 {
                     Name = "MyWindow",
-                    Assignments = new[] { new PropertyAssignment() { Property = Property.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+                    Assignments = new[] { new MemberAssignment() { Member = Member.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
                 },
                 tree);
         }

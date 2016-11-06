@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace OmniXaml
 {
-    internal class StandardEvent : Property
+    internal class StandardEvent : Member
     {
         private EventInfo eventInfo;
 
@@ -12,7 +12,7 @@ namespace OmniXaml
             eventInfo = owner.GetRuntimeEvent(eventName);
         }
 
-        public override Type PropertyType => eventInfo.EventHandlerType;
+        public override Type MemberType => eventInfo.EventHandlerType;
 
         public override object GetValue(object instance)
         {

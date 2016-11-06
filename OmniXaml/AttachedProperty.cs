@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Reflection;
 
-    internal class AttachedProperty : Property
+    internal class AttachedProperty : Member
     {
 
         private readonly MethodInfo getter;
@@ -40,7 +40,7 @@
             return getter.Invoke(instance, null);
         }
 
-        public override Type PropertyType => propertyType;
+        public override Type MemberType => propertyType;
 
         public override void SetValue(object instance, object value)
         {
@@ -49,7 +49,7 @@
 
         public override string ToString()
         {
-            return $"{{{Owner.Name}.{PropertyName}}}";
+            return $"{{{Owner.Name}.{MemberName}}}";
         }
     }
 }

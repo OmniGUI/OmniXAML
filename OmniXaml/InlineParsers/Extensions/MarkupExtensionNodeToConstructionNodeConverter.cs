@@ -28,28 +28,28 @@
             };
         }
 
-        private IEnumerable<PropertyAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)
+        private IEnumerable<MemberAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)
         {
             return propertyOptions.Select(
                 option =>
                 {
-                    var property = Property.FromStandard(parentType, option.Property);
+                    var property = Member.FromStandard(parentType, option.Property);
                     
 
                     var stringNode = option.Value as StringNode;
                     if (stringNode != null)
                     {
-                        return new PropertyAssignment
+                        return new MemberAssignment
                         {
-                            Property = property,
+                            Member = property,
                             SourceValue = stringNode.Value,
                         };
                     }
 
                     var markupExtensionNode = option.Value as MarkupExtensionNode;
-                    return new PropertyAssignment
+                    return new MemberAssignment
                     {
-                        Property = property,
+                        Member = property,
                         Children = new [] { Convert(markupExtensionNode) }
                     };
                 });

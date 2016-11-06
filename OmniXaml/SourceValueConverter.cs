@@ -11,7 +11,7 @@
 
         public object GetCompatibleValue(ValueContext valueContext)
         {
-            var targetType = valueContext.Assignment.Property.PropertyType;
+            var targetType = valueContext.Assignment.Member.MemberType;
             var sourceValue = (string)valueContext.Assignment.Value;
 
             if (targetType == typeof(int))
@@ -29,7 +29,7 @@
                 var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
                 var callbackMethodInfo = rootInstance.GetType()
                     .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
-                return callbackMethodInfo.CreateDelegate(valueContext.Assignment.Property.PropertyType, rootInstance);
+                return callbackMethodInfo.CreateDelegate(valueContext.Assignment.Member.MemberType, rootInstance);
             }
 
             Func<ValueContext, object> converter;

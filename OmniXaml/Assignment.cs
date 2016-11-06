@@ -2,27 +2,27 @@
 {
     public class Assignment
     {
-        public Assignment(object instance, Property property, object value)
+        public Assignment(object instance, Member property, object value)
         {
             Instance = instance;
             Value = value;
-            Property = property;
+            Member = property;
         }
 
         public object Instance { get; }
 
         public object Value { get; }
 
-        public Property Property { get; }
+        public Member Member { get; }
 
         public void ExecuteAssignment()
         {
-            Property.SetValue(Instance, Value);
+            Member.SetValue(Instance, Value);
         }
 
         public Assignment ReplaceValue(object value)
         {
-            return new Assignment(Instance, Property, value);
+            return new Assignment(Instance, Member, value);
         }
     }
 }

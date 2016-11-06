@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace OmniXaml
 {
-    internal class AttachedEvent : Property
+    internal class AttachedEvent : Member
     {
         private readonly object eventObject;
         private readonly Func<object, Delegate> addHandlerDelegate;
@@ -25,7 +25,7 @@ namespace OmniXaml
             raiseEventMethod = owner.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
         }
 
-        public override Type PropertyType =>
+        public override Type MemberType =>
             addHandlerMethod.GetParameters()[1].ParameterType; // The second parameter is always the callback
 
         public override object GetValue(object instance)
