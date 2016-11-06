@@ -26,11 +26,11 @@
             }
         }
 
-        public void RaiseEvent(object routedEvent, EventArgs args)
+        public void RaiseEvent(AttachedEventArgs args)
         {
-            if (handlers.ContainsKey(routedEvent))
+            if (handlers.ContainsKey(args.Event))
             {
-                handlers[routedEvent]?.Invoke(args);
+                handlers[args.Event]?.Invoke(args);
             }
         }
 

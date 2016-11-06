@@ -322,7 +322,7 @@ namespace OmniXaml.Tests
             var root = new TestWindow();
             var creationFixture = Create(node, root);
 
-            root.RaiseEvent(Window.LoadedEvent, EventArgs.Empty);
+            root.RaiseEvent(new AttachedEventArgs { Event = Window.LoadedEvent });
 
             Assert.IsTrue(root.WindowLoaded);
         }

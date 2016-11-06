@@ -19,12 +19,7 @@ namespace OmniXaml
                     .OrderBy(method => method.GetParameters().Length)
                     .First();
 
-            for (var currentType = owner.GetType();
-                currentType == typeof(object) || raiseEventMethod != null;
-                currentType = currentType.GetTypeInfo().BaseType)
-            {
-                raiseEventMethod = currentType.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
-            }
+            raiseEventMethod = owner.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
         }
 
         public override bool IsEvent => true;
