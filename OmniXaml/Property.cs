@@ -21,7 +21,6 @@
         public abstract object GetValue(object instance);
         public abstract void SetValue(object instance, object value);
         public abstract Type PropertyType { get; }
-        public abstract bool IsEvent { get; }
 
         public static Property FromStandard<T>(Expression<Func<T, object>> propertySelector)
         {

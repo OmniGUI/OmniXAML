@@ -24,7 +24,7 @@
                 return int.Parse(sourceValue);
             }
 
-            if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()) && valueContext.Assignment.Property.IsEvent)
+            if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
             {
                 var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
                 var callbackMethodInfo = rootInstance.GetType()

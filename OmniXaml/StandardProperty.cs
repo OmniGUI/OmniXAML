@@ -25,8 +25,6 @@
 
         public override Type PropertyType => propertyType;
 
-        public override bool IsEvent => false;
-
         public override void SetValue(object instance, object value)
         {
             setter.Invoke(instance, new []{ value } );

@@ -14,8 +14,6 @@ namespace OmniXaml
 
         public override Type PropertyType => eventInfo.EventHandlerType;
 
-        public override bool IsEvent => true;
-
         public override object GetValue(object instance)
         {
             return eventInfo.RaiseMethod.CreateDelegate(eventInfo.EventHandlerType, instance);

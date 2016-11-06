@@ -25,8 +25,6 @@ namespace OmniXaml
             raiseEventMethod = owner.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
         }
 
-        public override bool IsEvent => true;
-
         public override Type PropertyType =>
             addHandlerMethod.GetParameters()[1].ParameterType; // The second parameter is always the callback
 
