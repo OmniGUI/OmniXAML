@@ -33,7 +33,7 @@
             return propertyOptions.Select(
                 option =>
                 {
-                    var property = Property.RegularPropertyOrEvent(parentType, option.Property);
+                    var property = Property.FromStandard(parentType, option.Property);
                     
 
                     var stringNode = option.Value as StringNode;

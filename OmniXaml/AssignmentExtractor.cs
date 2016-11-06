@@ -43,7 +43,7 @@
             {
                 var directContent = ((XText) nodeFirstNode).Value;
                 var contentProperty = metadataProvider.Get(type).ContentProperty;
-                var property = Property.RegularPropertyOrEvent(type, contentProperty);
+                var property = Property.FromStandard(type, contentProperty);
                 yield return new PropertyAssignment {Property = property, SourceValue = directContent};
             }
         }
@@ -63,7 +63,7 @@
             if (contentProperty == null)
                 throw new XamlParserException($"Cannot assign node. The content property of the type {type} cannot be found");
 
-            return new PropertyAssignment {Property = Property.RegularPropertyOrEvent(type, contentProperty), Children = new[] {constructionNode}};
+            return new PropertyAssignment {Property = Property.FromStandard(type, contentProperty), Children = new[] {constructionNode}};
         }
 
         private static bool IsProperty(XElement node)
@@ -82,10 +82,10 @@
             {
                 var value = ((XText) nodeFirstNode).Value;
 
-                return new PropertyAssignment {Property = Property.RegularPropertyOrEvent(type, propertyName), SourceValue = value};
+                return new PropertyAssignment {Property = Property.FromStandard(type, propertyName), SourceValue = value};
             }
             var children = node.Elements().Select(parser);
-            return new PropertyAssignment {Property = Property.RegularPropertyOrEvent(type, propertyName), Children = children};
+            return new PropertyAssignment {Property = Property.FromStandard(type, propertyName), Children = children};
         }
 
         public IEnumerable<PropertyAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
@@ -110,7 +110,7 @@
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value);
-                return new PropertyAssignment {Property = Property.RegularPropertyOrEvent(type, property.PropertyName), Children = new[] {constructionNode}};
+                return new PropertyAssignment {Property = Property.FromStandard(type, property.PropertyName), Children = new[] {constructionNode}};
             }
 
             var assignment = new PropertyAssignment
@@ -137,7 +137,7 @@
                 var ownerType = LocateType(xname);
                 return Property.FromAttached(ownerType, propertyName);
             }
-            return Property.RegularPropertyOrEvent(type, nameLocalName);
+            return Property.FromStandard(type, nameLocalName);
         }
 
         private Type LocateType(XName typeName)

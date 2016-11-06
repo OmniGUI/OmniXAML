@@ -25,7 +25,7 @@
 
         public override Type PropertyType => propertyType;
 
-        public override bool IsEvent => true;
+        public override bool IsEvent => false;
 
         public override void SetValue(object instance, object value)
         {

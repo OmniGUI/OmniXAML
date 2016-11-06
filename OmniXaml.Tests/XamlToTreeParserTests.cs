@@ -76,13 +76,13 @@
                 {
                     new PropertyAssignment()
                     {
-                        Property = Property.RegularProperty<Window>(w => w.Content),
+                        Property = Property.FromStandard<Window>(w => w.Content),
                         Children = new List<ConstructionNode>()
                         {
                             new ConstructionNode(typeof(TextBlock))
                             {
                                 Name = "One",
-                                Assignments = new []{ new PropertyAssignment() { Property = Property.RegularProperty<TextBlock>(block => block.Name), SourceValue = "One"} }
+                                Assignments = new []{ new PropertyAssignment() { Property = Property.FromStandard<TextBlock>(block => block.Name), SourceValue = "One"} }
                             }
                         }
                     }
@@ -133,7 +133,7 @@
             Assert.AreEqual(new ConstructionNode(typeof(Window))
             {
                 Name = "MyWindow",
-                Assignments = new[] { new PropertyAssignment() { Property = Property.RegularProperty<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+                Assignments = new[] { new PropertyAssignment() { Property = Property.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
             }, tree);
         }
 
@@ -145,7 +145,7 @@
                 new ConstructionNode(typeof(Window))
                 {
                     Name = "MyWindow",
-                    Assignments = new[] { new PropertyAssignment() { Property = Property.RegularProperty<Window>(window => window.Name), SourceValue = "MyWindow" }, }
+                    Assignments = new[] { new PropertyAssignment() { Property = Property.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" }, }
                 },
                 tree);
         }
@@ -156,6 +156,12 @@
             var tree = Parse(@"<Window xmlns=""root"">
                                 <Button Click=""OnClick"" />
                                </Window>");
+        }
+
+        [TestMethod]
+        public void AttachedEvent()
+        {
+            var tree = Parse(@"<Window xmlns=""root"" Window.Loaded=""OnLoad"" />");
         }
     }
 }

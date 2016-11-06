@@ -9,5 +9,10 @@ namespace OmniXaml.Tests.Model
     public class Button : ModelObject
     {
         public event EventHandler Click;
+
+        public void ClickButton()
+        {
+            Click?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

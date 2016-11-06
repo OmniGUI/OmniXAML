@@ -5,6 +5,7 @@
     using System.Reflection;
     using Glass;
     using Glass.Core;
+    using System.Linq;
 
     public abstract class Property
     {
@@ -22,12 +23,12 @@
         public abstract Type PropertyType { get; }
         public abstract bool IsEvent { get; }
 
-        public static Property RegularProperty<T>(Expression<Func<T, object>> propertySelector)
+        public static Property FromStandard<T>(Expression<Func<T, object>> propertySelector)
         {
-            return RegularPropertyOrEvent(typeof(T), propertySelector.GetFullPropertyName());
+            return FromStandard(typeof(T), propertySelector.GetFullPropertyName());
         }
 
-        public static Property RegularPropertyOrEvent(Type type, string propertyOrEventName)
+        public static Property FromStandard(Type type, string propertyOrEventName)
         {
             if (type.GetRuntimeProperty(propertyOrEventName) != null)
             {
@@ -46,9 +47,17 @@
             return FromAttached(typeof(T), propertyName);
         }
 
-        public static Property FromAttached(Type type, string propertyName)
+        public static Property FromAttached(Type type, string propertyOrEventName)
         {
-            return new AttachedProperty(type, propertyName);
+            // If there is a method that looks like an attached property accessor, then assume this is an attached property
+            if (type.GetRuntimeMethods().Any(info => info.Name == $"Get{propertyOrEventName}"))
+            {
+                return new AttachedProperty(type, propertyOrEventName);
+            }
+            else
+            {
+                return new AttachedEvent(type, propertyOrEventName);
+            }
         }
 
         public override string ToString()

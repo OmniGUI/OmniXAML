@@ -68,7 +68,7 @@
             else if (nameDirectiveValue != null && namePropertyName != null)
             {
                 name = nameDirectiveValue;
-                var nameAssigment = new PropertyAssignment { SourceValue = nameDirectiveValue, Property = Property.RegularPropertyOrEvent(type, namePropertyName) };
+                var nameAssigment = new PropertyAssignment { SourceValue = nameDirectiveValue, Property = Property.FromStandard(type, namePropertyName) };
                 finalAssignments = allAssignments.Concat(new[] { nameAssigment });
             }
 

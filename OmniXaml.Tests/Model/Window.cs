@@ -5,6 +5,8 @@
     [Namescope]
     internal class Window : ModelObject
     {
+        public static readonly object LoadedEvent = new object();
+
         public string Title { get; set; }
         [Content]
         public object Content { get; set; }
