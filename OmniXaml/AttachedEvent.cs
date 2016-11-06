@@ -8,16 +8,19 @@ namespace OmniXaml
     internal class AttachedEvent : Property
     {
         private readonly object eventObject;
+        private readonly Func<object, Delegate> addHandlerDelegate;
         private readonly MethodInfo addHandlerMethod;
         private readonly MethodInfo raiseEventMethod;
 
         public AttachedEvent(Type owner, string propertyName) : base(owner, propertyName)
         {
             eventObject = owner.GetRuntimeField($"{propertyName}Event").GetValue(null);
+
             addHandlerMethod = owner.GetRuntimeMethods()
                     .Where(method => method.Name == "AddHandler")
                     .OrderBy(method => method.GetParameters().Length)
                     .First();
+            addHandlerDelegate = addHandlerMethod.GetDelegateWithDefaultParameterValuesBound();
 
             raiseEventMethod = owner.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
         }
@@ -34,8 +37,7 @@ namespace OmniXaml
 
         public override void SetValue(object instance, object value)
         {
-            var addHandlerDelegate = Utils.GetDelegateWithDefaultParameterValuesBound(instance, addHandlerMethod);
-            addHandlerDelegate.DynamicInvoke(eventObject, value);
+            addHandlerDelegate(instance).DynamicInvoke(eventObject, value);
         }
     }
 }
