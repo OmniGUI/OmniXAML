@@ -151,7 +151,7 @@
         }
 
         [TestMethod]
-        public void RegularEvent()
+        public void BasicEvent()
         {
             var tree = Parse(@"<Window xmlns=""root"">
                                 <Button Click=""OnClick"" />

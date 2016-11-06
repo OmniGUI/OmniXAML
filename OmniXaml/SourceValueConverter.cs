@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     public class SourceValueConverter : ISourceValueConverter
@@ -21,6 +22,14 @@
             if (targetType == typeof(double))
             {
                 return int.Parse(sourceValue);
+            }
+
+            if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()) && valueContext.Assignment.Property.IsEvent)
+            {
+                var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
+                var callbackMethodInfo = rootInstance.GetType()
+                    .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
+                return callbackMethodInfo.CreateDelegate(valueContext.Assignment.Property.PropertyType, rootInstance);
             }
 
             Func<ValueContext, object> converter;

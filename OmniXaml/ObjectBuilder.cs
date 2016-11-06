@@ -104,24 +104,14 @@
 
         protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext)
         {
-            if (converted.Property.IsEvent && converted.Value is string)
+            if (converted.Property.PropertyType.IsCollection())
             {
-                var rootInstance = buildContext.AmbientRegistrator.Instances.First();
-                var callbackMethodInfo = rootInstance.GetType()
-                    .GetRuntimeMethods().First(method => method.Name.Equals(converted.Value));
-                converted.Property.SetValue(converted.Instance, callbackMethodInfo.CreateDelegate(converted.Property.PropertyType, rootInstance));
+                Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
             }
             else
             {
-                if (converted.Property.PropertyType.IsCollection())
-                {
-                    Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
-                }
-                else
-                {
-                    converted.ExecuteAssignment();
-                    OnAssigmentExecuted(converted, buildContext);
-                }
+                converted.ExecuteAssignment();
+                OnAssigmentExecuted(converted, buildContext);
             }
         }
 
