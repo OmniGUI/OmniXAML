@@ -81,12 +81,30 @@
 
         private Type LocateType(XName typeName)
         {
-            return typeDirectory.GetTypeByFullAddres(
-                new Address
-                {
-                    Namespace = typeName.NamespaceName,
-                    TypeName = typeName.LocalName
-                });
+            var exactType = new Address
+            {
+                Namespace = typeName.NamespaceName,
+                TypeName = typeName.LocalName
+            };
+
+            var extensionType = new Address
+            {
+                Namespace = typeName.NamespaceName,
+                TypeName = typeName.LocalName + "Extension",
+            };
+
+            var type = typeDirectory.GetTypeByFullAddres(exactType);
+            if (type == null)
+            {
+                type = typeDirectory.GetTypeByFullAddres(extensionType);
+            }
+
+            if (type == null)
+            {
+                throw new XamlParserException($"Cannot locate the type {exactType}");
+            }
+            
+            return type;
         }
 
         private IEnumerable<string> GetCtorArgs(XContainer node, Type type)

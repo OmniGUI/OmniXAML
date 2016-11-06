@@ -74,9 +74,6 @@
 
             var type = ns.Get(typeName);
 
-            if (type == null)
-                throw new Exception($"The type \"{{{prefix}:{typeName}}} cannot be found\"");
-
             return type;
         }
 
@@ -88,10 +85,6 @@
                 throw new Exception($"Error trying to resolve a XamlType: Cannot find the namespace '{address.Namespace}'");
 
             var correspondingType = ns.Get(address.TypeName);
-
-            if (correspondingType == null)
-                throw new Exception(
-                    $"Error trying to resolve a XamlType: The type {address.TypeName} has not been found into the namespace '{address.Namespace}'");
 
             return correspondingType;
         }

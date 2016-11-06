@@ -91,10 +91,10 @@ namespace OmniXaml.InlineParsers.Extensions
         private static readonly Parser<IdentifierNode> IdentifierWithPrefix = from prefix in Identifier
                                                                               from colon in Parse.Char(Colon)
                                                                               from typeName in Identifier
-                                                                              select new IdentifierNode(prefix, typeName + "Extension");
+                                                                              select new IdentifierNode(prefix, typeName);
 
         private static readonly Parser<IdentifierNode> IdentifierWithoutPrefix = from id in Identifier
-                                                                                 select new IdentifierNode(id + "Extension");
+                                                                                 select new IdentifierNode(id);
 
         private static readonly Parser<IdentifierNode> XamlTypeIdentifier = IdentifierWithPrefix.Or(IdentifierWithoutPrefix);
 
