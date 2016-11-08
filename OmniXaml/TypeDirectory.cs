@@ -77,7 +77,7 @@
             return type;
         }
 
-        public Type GetTypeByFullAddres(Address address)
+        public Type GetTypeByFullAddress(Address address)
         {
             var ns = GetNamespace(address.Namespace);
 

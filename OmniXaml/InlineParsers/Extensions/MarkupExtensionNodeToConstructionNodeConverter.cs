@@ -16,7 +16,7 @@
         public ConstructionNode Convert(MarkupExtensionNode tree)
         {
             var identifier = tree.Identifier;
-            var type = typeDirectory.GetTypeByPrefix(identifier.Prefix, identifier.TypeName);
+            var type = LocateType(identifier);
 
             var arguments = ParseArguments(tree.Options.OfType<PositionalOption>());
             var assignments = ParseAssignments(tree.Options.OfType<PropertyOption>(), type);
@@ -26,6 +26,23 @@
                 InjectableArguments = arguments,
                 Assignments = assignments,
             };
+        }
+
+        private Type LocateType(IdentifierNode identifier)
+        {
+            var type = typeDirectory.GetTypeByPrefix(identifier.Prefix, identifier.TypeName);
+            
+            if (type == null)
+            {
+                type = typeDirectory.GetTypeByPrefix(identifier.Prefix, identifier.TypeName + "Extension");
+            }
+
+            if (type == null)
+            {
+                throw new XamlParserException($"Cannot locate the type {identifier}:{identifier.TypeName}");
+            }
+
+            return type;
         }
 
         private IEnumerable<PropertyAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)

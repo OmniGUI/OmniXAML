@@ -142,7 +142,7 @@
 
         private Type LocateType(XName typeName)
         {
-            return typeDirectory.GetTypeByFullAddres(
+            return typeDirectory.GetTypeByFullAddress(
                 new Address
                 {
                     Namespace = typeName.NamespaceName,

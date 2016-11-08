@@ -93,10 +93,10 @@
                 TypeName = typeName.LocalName + "Extension",
             };
 
-            var type = typeDirectory.GetTypeByFullAddres(exactType);
+            var type = typeDirectory.GetTypeByFullAddress(exactType);
             if (type == null)
             {
-                type = typeDirectory.GetTypeByFullAddres(extensionType);
+                type = typeDirectory.GetTypeByFullAddress(extensionType);
             }
 
             if (type == null)

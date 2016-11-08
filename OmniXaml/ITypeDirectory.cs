@@ -13,7 +13,7 @@
         Namespace GetNamespace(string name);
         void AddNamespace(XamlNamespace xamlNamespace);
         Type GetTypeByPrefix(string prefix, string typeName);
-        Type GetTypeByFullAddres(Address address);
+        Type GetTypeByFullAddress(Address address);
         Type GetByPrefixedName(string prefixedName);
     }
 }

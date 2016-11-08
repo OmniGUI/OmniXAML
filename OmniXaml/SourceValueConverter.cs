@@ -8,9 +8,8 @@
     {
         readonly Dictionary<Type, Func<ValueContext, object>> converters = new Dictionary<Type, Func<ValueContext, object>>();
 
-        public object GetCompatibleValue(ValueContext valueContext)
+        public object GetCompatibleValue(ValueContext valueContext, Type targetType)
         {
-            var targetType = valueContext.Assignment.Property.PropertyType;
             var sourceValue = (string)valueContext.Assignment.Value;
 
             if (targetType == typeof(int))
@@ -35,6 +34,12 @@
             }
 
             return sourceValue;
+        }
+
+        public object GetCompatibleValue(ValueContext valueContext)
+        {
+            var targetType = valueContext.Assignment.Property.PropertyType;
+            return GetCompatibleValue(valueContext, targetType);
         }
 
         public void Add(Type type, Func<ValueContext, object> func)
