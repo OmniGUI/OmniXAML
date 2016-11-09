@@ -43,6 +43,10 @@
     <Compile Include="Ambient\AmbientRegistrator.cs" />
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
+    <Compile Include="ContextFactory.cs" />
+    <Compile Include="IContextFactory.cs" />
+    <Compile Include="IConverterContextFactory.cs" />
+    <Compile Include="IExtensionContextFactory.cs" />
     <Compile Include="ObjectBuilderContext.cs" />
     <Compile Include="ConstructionResult.cs" />
     <Compile Include="BuildContext.cs" />

@@ -1,12 +1,15 @@
 namespace OmniXaml.Tests
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
     using Ambient;
     using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Model.Custom;
 
     [TestClass]
     public class ObjectBuilderTests
@@ -21,12 +24,12 @@ namespace OmniXaml.Tests
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Style>(control => control.Value),
-                        SourceValue = "Value",
+                        SourceValue = "Value"
                     },
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Style>(control => control.TargetType),
-                        SourceValue = "NameOfSomeType",
+                        SourceValue = "NameOfSomeType"
                     }
                 }
             };
@@ -96,7 +99,7 @@ namespace OmniXaml.Tests
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock { Text = "MyText" }, b.ResultingObject);
+            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.ResultingObject);
         }
 
         [TestMethod]
@@ -117,7 +120,7 @@ namespace OmniXaml.Tests
             };
 
             var creationFixture = Create(node);
-            var result = (ItemsControl)creationFixture.ResultingObject;
+            var result = (ItemsControl) creationFixture.ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
         }
@@ -144,18 +147,27 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl)Create(node).ResultingObject;
+            var result = (ItemsControl) Create(node).ResultingObject;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
             Assert.IsTrue(result.Items.Any());
         }
 
-        [Ignore]
         [TestMethod]
         public void ImmutableFromContent()
         {
-            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "Hola" } };
+            var node = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"Hola"}};
             var myImmutable = new MyImmutable("Hola");
+            var fixture = Create(node);
+
+            Assert.AreEqual(myImmutable, fixture.ResultingObject);
+        }
+
+        [TestMethod]
+        public void ParametrizedExtension()
+        {
+            var node = new ConstructionNode(typeof(ParametrizedExtension)) { InjectableArguments = new[] { "Hola" } };
+            var myImmutable = new ParametrizedExtension("Hola");
             var fixture = Create(node);
 
             Assert.AreEqual(myImmutable, fixture.ResultingObject);
@@ -176,11 +188,11 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var expected = new Window { Content = "My content" };
+            var expected = new Window {Content = "My content"};
             var fixture = Create(node, expected);
 
             Assert.IsTrue(ReferenceEquals(expected, fixture.ResultingObject));
-            Assert.AreEqual(new Window { Content = "My content", Title = "My title" }, fixture.ResultingObject);
+            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.ResultingObject);
         }
 
         [TestMethod]
@@ -216,13 +228,13 @@ namespace OmniXaml.Tests
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        SourceValue = "Hello",
+                        SourceValue = "Hello"
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello" }, };
+            var assigments = new[] {new AmbientPropertyAssignment {Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello"}};
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -237,13 +249,13 @@ namespace OmniXaml.Tests
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        SourceValue = "Hello",
+                        SourceValue = "Hello"
                     }
                 }
             };
 
             var result = Create(node);
-            var instances = new[] { new Window { Content = "Hello" } };
+            var instances = new[] {new Window {Content = "Hello"}};
 
             CollectionAssert.AreEqual(instances, result.BuildContext.AmbientRegistrator.Instances.ToList());
         }
@@ -258,13 +270,13 @@ namespace OmniXaml.Tests
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Window>(tb => tb.Height),
-                        SourceValue = "12",
+                        SourceValue = "12"
                     }
                 }
             };
 
             var creationFixture = Create(node);
-            Assert.AreEqual(new Window { Height = 12}, creationFixture.ResultingObject );
+            Assert.AreEqual(new Window {Height = 12}, creationFixture.ResultingObject);
         }
 
         [TestMethod]
@@ -277,13 +289,14 @@ namespace OmniXaml.Tests
                     new PropertyAssignment
                     {
                         Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode>() { new ConstructionNode(typeof(TextBlock))},
+                        Children = new List<ConstructionNode> {new ConstructionNode(typeof(TextBlock))}
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[] { new AmbientPropertyAssignment { Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock() }, };
+            var assigments = new[]
+                {new AmbientPropertyAssignment {Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock()}};
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -333,41 +346,39 @@ namespace OmniXaml.Tests
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
 
-        private CreationFixture Create(ConstructionNode node, object rootInstance)
+        private static CreationFixture Create(ConstructionNode node, object rootInstance)
         {
-            var constructionContext = new ObjectBuilderContext(
-                new InstanceCreator(),
-                new SourceValueConverter(),
-                new AttributeBasedMetadataProvider());
-
-            var builder = new ExtendedObjectBuilder(
-                constructionContext,
-                (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
-
-            var creationContext = new BuildContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
-
-            return new CreationFixture
-            {
-                ResultingObject = builder.Create(node, rootInstance, creationContext),
-                BuildContext = creationContext
-            };
+            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, rootInstance, context));
         }
 
         private static CreationFixture Create(ConstructionNode node)
         {
+            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, context));
+        }
+
+        private static CreationFixture CreateWithParams(ConstructionNode node, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)
+        {
             var constructionContext = new ObjectBuilderContext(
-                new InstanceCreator(),
                 new SourceValueConverter(),
                 new AttributeBasedMetadataProvider());
 
-            var builder = new ExtendedObjectBuilder(
-                constructionContext,
-                (assignment, context, tc) => new ValueContext(assignment, constructionContext, new TypeDirectory(), tc));
+            var creationContext = new BuildContext(
+                new NamescopeAnnotator(constructionContext.MetadataProvider),
+                new AmbientRegistrator(),
+                new InstanceLifecycleSignaler());
 
-            var creationContext = new BuildContext(new NamescopeAnnotator(constructionContext.MetadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var executingAssembly = new[] {Assembly.GetExecutingAssembly()};
+
+            var attributeBasedTypeDirectory = new AttributeBasedTypeDirectory(executingAssembly);
+            var builder =
+                new ExtendedObjectBuilder(
+                    new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, attributeBasedTypeDirectory),
+                    constructionContext,
+                    new ContextFactory(attributeBasedTypeDirectory, constructionContext));
+
             return new CreationFixture
             {
-                ResultingObject = builder.Create(node, creationContext),
+                ResultingObject = createFunc(builder, node, creationContext),
                 BuildContext = creationContext
             };
         }

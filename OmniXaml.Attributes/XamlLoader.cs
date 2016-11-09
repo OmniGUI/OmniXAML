@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using Ambient;
+    using Tests;
 
     public class XamlLoader : IXamlLoader
     {
@@ -39,7 +40,7 @@
             
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
-            var objectConstructor = new ObjectBuilder(objectBuilderContext, (assignment, context, arg3) => new ValueContext(assignment, context, directory, trackingContext));
+            var objectConstructor = new ObjectBuilder(objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var construct = objectConstructor.Create(ctNode, trackingContext);
             return new ConstructionResult(construct, namescopeAnnotator);
         }

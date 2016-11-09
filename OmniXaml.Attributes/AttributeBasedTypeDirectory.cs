@@ -86,10 +86,10 @@
             return inner.GetTypeByPrefix(prefix, typeName);
         }
 
-        public Type GetTypeByFullAddres(Address address)
+        public Type GetTypeByFullAddress(Address address)
         {
-            return inner.GetTypeByFullAddres(address);
-        }
+            return inner.GetTypeByFullAddress(address);
+        }      
 
         public Type GetByPrefixedName(string prefixedName)
         {

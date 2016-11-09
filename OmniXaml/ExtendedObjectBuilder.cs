@@ -1,20 +1,18 @@
 ﻿namespace OmniXaml
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Glass.Core;
-    using Glass.Core.Glass.Core;
     using Metadata;
 
     public class ExtendedObjectBuilder : ObjectBuilder
     {
-        private readonly Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext;
+        private readonly IContextFactory contextFactory;
 
-        public ExtendedObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext)
-            : base(objectBuilderContext, createValueContext)
+        public ExtendedObjectBuilder(IInstanceCreator creator, ObjectBuilderContext objectBuilderContext, IContextFactory contextFactory)
+            : base(creator, objectBuilderContext, contextFactory)
         {
-            this.createValueContext = createValueContext;
+            this.contextFactory = contextFactory;
         }
 
         protected override void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, BuildContext buildContext)
@@ -38,7 +36,7 @@
             var me = assignment.Value as IMarkupExtension;
             if (me != null)
             {
-                var value = me.GetValue(createValueContext(assignment, ObjectBuilderContext, buildContext));
+                var value = me.GetValue(contextFactory.CreateExtensionContext(assignment, buildContext));
                 assignment = assignment.ReplaceValue(value);
             }
 

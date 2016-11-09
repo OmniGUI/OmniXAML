@@ -5,20 +5,22 @@
     using System.Linq;
     using Ambient;
     using Glass.Core;
+    using Tests;
 
     public class ObjectBuilder : IObjectBuilder
     {
-        private readonly Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext;
+        private readonly IConverterContextFactory contextFactory;
+
         protected ObjectBuilderContext ObjectBuilderContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
 
 
-        public ObjectBuilder(ObjectBuilderContext objectBuilderContext, Func<Assignment, ObjectBuilderContext, BuildContext, ValueContext> createValueContext)
+        public ObjectBuilder(IInstanceCreator creator, ObjectBuilderContext objectBuilderContext, IConverterContextFactory contextFactory)
         {
-            this.createValueContext = createValueContext;
+            this.contextFactory = contextFactory;
             ObjectBuilderContext = objectBuilderContext;
-            creator = objectBuilderContext.Creator;
+            this.creator = creator;
             sourceValueConverter = objectBuilderContext.SourceValueConverter;
         }
 
@@ -39,7 +41,7 @@
 
         private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
-            var instance = creator.Create(node.InstanceType);
+            var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
             buildContext.NamescopeAnnotator.TrackNewInstance(instance);
             buildContext.AmbientRegistrator.RegisterInstance(instance);
             if (node.Name != null)
@@ -128,7 +130,7 @@
         {
             if (assignment.Value is string)
             {
-                var valueContext = createValueContext(assignment, ObjectBuilderContext, buildContext);
+                var valueContext = contextFactory.CreateConverterContext(assignment.Property.PropertyType, assignment.Value, buildContext);
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return assignment.ReplaceValue(compatibleValue);
             }
