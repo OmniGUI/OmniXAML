@@ -76,6 +76,10 @@
     <Compile Include="ObjectBuilderTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">
+      <Project>{4aefcfcf-5514-44b1-acef-93d40528a0bc}</Project>
+      <Name>Glass.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.DefaultLoader.csproj">
       <Project>{4153120e-85ed-4ceb-ad0b-d5372744dde8}</Project>
       <Name>OmniXaml.DefaultLoader</Name>

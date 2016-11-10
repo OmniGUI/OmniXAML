@@ -131,7 +131,7 @@
         {
             if (assignment.Value is string)
             {
-                var valueContext = contextFactory.CreateConverterContext(assignment.Property.PropertyType, assignment.Value, buildContext);
+                var valueContext = contextFactory.CreateConverterContext(assignment.Member.MemberType, assignment.Value, buildContext);
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return assignment.ReplaceValue(compatibleValue);
             }

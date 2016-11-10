@@ -45,7 +45,7 @@
             return type;
         }
 
-        private IEnumerable<MameberAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)
+        private IEnumerable<MemberAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)
         {
             return propertyOptions.Select(
                 option =>
