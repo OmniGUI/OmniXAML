@@ -9,6 +9,7 @@ namespace OmniXaml.Tests
     using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using System;
     using Model.Custom;
 
     [TestClass]
@@ -19,17 +20,17 @@ namespace OmniXaml.Tests
         {
             var node = new ConstructionNode(typeof(Style))
             {
-                Assignments = new List<PropertyAssignment>
+                Assignments = new List<MemberAssignment>
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Style>(control => control.Value),
-                        SourceValue = "Value"
+                        Member = Member.FromStandard<Style>(control => control.Value),
+                        SourceValue = "Value",
                     },
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Style>(control => control.TargetType),
-                        SourceValue = "NameOfSomeType"
+                        Member = Member.FromStandard<Style>(control => control.TargetType),
+                        SourceValue = "NameOfSomeType",
                     }
                 }
             };
@@ -43,20 +44,20 @@ namespace OmniXaml.Tests
         {
             var node = new ConstructionNode(typeof(ItemsControl))
             {
-                Assignments = new List<PropertyAssignment>
+                Assignments = new List<MemberAssignment>
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<ItemsControl>(control => control.ItemTemplate),
+                        Member = Member.FromStandard<ItemsControl>(control => control.ItemTemplate),
                         Children = new List<ConstructionNode>
                         {
                             new ConstructionNode(typeof(DataTemplate))
                             {
                                 Assignments = new[]
                                 {
-                                    new PropertyAssignment
+                                    new MemberAssignment
                                     {
-                                        Property = Property.RegularProperty<DataTemplate>(template => template.Content),
+                                        Member = Member.FromStandard<DataTemplate>(template => template.Content),
                                         Children = new[] {new ConstructionNode(typeof(TextBlock))}
                                     }
                                 }
@@ -75,11 +76,11 @@ namespace OmniXaml.Tests
             var constructionNode = new ConstructionNode(typeof(SimpleExtension))
             {
                 Assignments =
-                    new List<PropertyAssignment>
+                    new List<MemberAssignment>
                     {
-                        new PropertyAssignment
+                        new MemberAssignment
                         {
-                            Property = Property.RegularProperty<SimpleExtension>(extension => extension.Property),
+                            Member = Member.FromStandard<SimpleExtension>(extension => extension.Property),
                             SourceValue = "MyText"
                         }
                     }
@@ -89,9 +90,9 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<TextBlock>(tb => tb.Text),
+                        Member = Member.FromStandard<TextBlock>(tb => tb.Text),
                         Children = new[] {constructionNode}
                     }
                 }
@@ -111,9 +112,9 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<ItemsControl>(tb => tb.Items),
+                        Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
                         Children = new[] {extensionNode}
                     }
                 }
@@ -139,9 +140,9 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<ItemsControl>(tb => tb.Items),
+                        Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
                         Children = items
                     }
                 }
@@ -180,9 +181,9 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Title),
+                        Member = Member.FromStandard<Window>(tb => tb.Title),
                         SourceValue = "My title"
                     }
                 }
@@ -202,9 +203,9 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
                         Children = new List<ConstructionNode>
                         {
                             new ConstructionNode<TextBlock> {Name = "MyTextBlock"}
@@ -225,16 +226,16 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        SourceValue = "Hello"
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
+                        SourceValue = "Hello",
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[] {new AmbientPropertyAssignment {Property = Property.RegularProperty<Window>(window => window.Content), Value = "Hello"}};
+            var assigments = new[] { new AmbientMemberAssignment { Property = Member.FromStandard<Window>(window => window.Content), Value = "Hello" }, };
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -246,10 +247,10 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        SourceValue = "Hello"
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
+                        SourceValue = "Hello",
                     }
                 }
             };
@@ -267,10 +268,10 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Height),
-                        SourceValue = "12"
+                        Member = Member.FromStandard<Window>(tb => tb.Height),
+                        SourceValue = "12",
                     }
                 }
             };
@@ -280,23 +281,81 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
+        public void BasicEvent()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode<Button>
+                            {
+                                Assignments = new[]
+                                {
+                                    new MemberAssignment
+                                    {
+                                        Member = Member.FromStandard(typeof(Button), nameof(Button.Click)),
+                                        SourceValue = nameof(TestWindow.OnClick)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            var root = new TestWindow();
+            var creationFixture = Create(node, root);
+
+            (root.Content as Button).ClickButton();
+
+            Assert.IsTrue(root.ButtonClicked);
+        }
+
+        [TestMethod]
+        public void AttachedEvent()
+        {
+            var node = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromAttached(typeof(Window), "Loaded"),
+                        SourceValue = nameof(TestWindow.OnLoad)
+                    }
+                }
+            };
+
+            var root = new TestWindow();
+            var creationFixture = Create(node, root);
+
+            root.RaiseEvent(new AttachedEventArgs { Event = Window.LoadedEvent });
+
+            Assert.IsTrue(root.WindowLoaded);
+        }
+
+        [TestMethod]
         public void AmbientInnerNode()
         {
             var node = new ConstructionNode(typeof(Window))
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode> {new ConstructionNode(typeof(TextBlock))}
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
+                        Children = new List<ConstructionNode>() { new ConstructionNode(typeof(TextBlock))},
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[]
-                {new AmbientPropertyAssignment {Property = Property.RegularProperty<Window>(window => window.Content), Value = new TextBlock()}};
+            var assigments = new[] { new AmbientMemberAssignment { Property = Member.FromStandard<Window>(window => window.Content), Value = new TextBlock() }, };
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -308,18 +367,18 @@ namespace OmniXaml.Tests
             {
                 Assignments = new[]
                 {
-                    new PropertyAssignment
+                    new MemberAssignment
                     {
-                        Property = Property.RegularProperty<Window>(tb => tb.Content),
+                        Member = Member.FromStandard<Window>(tb => tb.Content),
                         Children = new List<ConstructionNode>
                         {
                             new ConstructionNode<ItemsControl>
                             {
-                                Assignments = new List<PropertyAssignment>
+                                Assignments = new List<MemberAssignment>
                                 {
-                                    new PropertyAssignment
+                                    new MemberAssignment
                                     {
-                                        Property = Property.RegularProperty<ItemsControl>(c => c.Items),
+                                        Member = Member.FromStandard<ItemsControl>(c => c.Items),
                                         Children = new ConstructionNode[]
                                         {
                                             new ConstructionNode<TextBlock>
@@ -381,6 +440,22 @@ namespace OmniXaml.Tests
                 ResultingObject = createFunc(builder, node, creationContext),
                 BuildContext = creationContext
             };
+        }
+
+        private class TestWindow : Window
+        {
+            internal bool ButtonClicked { get; private set; } = false;
+            internal bool WindowLoaded { get; private set; } = false;
+
+            internal void OnClick(object sender, EventArgs args)
+            {
+                ButtonClicked = true;
+            }
+
+            internal void OnLoad(EventArgs args)
+            {
+                WindowLoaded = true;
+            }
         }
     }
 }

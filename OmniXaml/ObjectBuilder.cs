@@ -26,6 +26,7 @@
 
         public object Create(ConstructionNode node, object instance, BuildContext buildContext)
         {
+            buildContext.AmbientRegistrator.RegisterInstance(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
             return instance;
         }
@@ -51,7 +52,7 @@
             return instance;
         }
 
-        protected virtual void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, BuildContext buildContext)
+        protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> propertyAssignments, BuildContext buildContext)
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
@@ -59,10 +60,10 @@
             }
         }
 
-        private void ApplyAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext)
+        private void ApplyAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext)
         {
             EnsureValidAssigment(propertyAssignment);
-            var property = propertyAssignment.Property;
+            var property = propertyAssignment.Member;
 
             if (propertyAssignment.Children.Count() == 1 || propertyAssignment.SourceValue != null)
             {
@@ -74,17 +75,17 @@
             }
         }
 
-        private void ApplyMultiAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext, Property property)
+        private void ApplyMultiAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext, Member property)
         {
             foreach (var constructionNode in propertyAssignment.Children)
             {
                 var value = Create(constructionNode, buildContext);
                 var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), buildContext);
-                Utils.UniversalAdd(compatibleValue.Property.GetValue(compatibleValue.Instance), compatibleValue.Value);
+                Utils.UniversalAdd(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value);
             }
         }
 
-        private void ApplySingleAssignment(object instance, PropertyAssignment propertyAssignment, BuildContext buildContext, Property property)
+        private void ApplySingleAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext, Member property)
         {
             object value;
             if (propertyAssignment.SourceValue == null)
@@ -104,9 +105,9 @@
 
         protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext)
         {
-            if (converted.Property.PropertyType.IsCollection())
+            if (converted.Member.MemberType.IsCollection())
             {
-                Utils.UniversalAdd(converted.Property.GetValue(converted.Instance), converted.Value);
+                Utils.UniversalAdd(converted.Member.GetValue(converted.Instance), converted.Value);
             }
             else
             {
@@ -117,9 +118,9 @@
 
         protected void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
         {
-            var ambientPropertyAssignment = new AmbientPropertyAssignment
+            var ambientPropertyAssignment = new AmbientMemberAssignment
             {
-                Property = assignment.Property,
+                Property = assignment.Member,
                 Value = assignment.Value
             };
 
@@ -140,12 +141,12 @@
             }
         }
 
-        protected virtual object CreateChildProperty(object parent, Property property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        protected virtual object CreateChildProperty(object parent, Member property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
         {
             return Create(nodeToBeCreated, buildContext);
         }
 
-        private void EnsureValidAssigment(PropertyAssignment propertyAssignment)
+        private void EnsureValidAssigment(MemberAssignment propertyAssignment)
         {
             if (propertyAssignment.SourceValue != null && propertyAssignment.Children != null && propertyAssignment.Children.Any())
             {

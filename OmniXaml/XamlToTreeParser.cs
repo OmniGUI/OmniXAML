@@ -50,16 +50,16 @@
             };
         }
 
-        private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<PropertyAssignment> assignments)
+        private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<MemberAssignment> assignments)
         {
             var allAssignments = assignments.ToList();
 
             var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
             string name = null;
-            IEnumerable<PropertyAssignment> finalAssignments = allAssignments;
+            IEnumerable<MemberAssignment> finalAssignments = allAssignments;
 
-            var nameAssignment = allAssignments.FirstOrDefault(assignment => assignment.Property.PropertyName == namePropertyName);
+            var nameAssignment = allAssignments.FirstOrDefault(assignment => assignment.Member.MemberName == namePropertyName);
             if (namePropertyName != null && nameAssignment != null)
             {
                 name = nameAssignment.SourceValue;
@@ -68,7 +68,7 @@
             else if (nameDirectiveValue != null && namePropertyName != null)
             {
                 name = nameDirectiveValue;
-                var nameAssigment = new PropertyAssignment { SourceValue = nameDirectiveValue, Property = Property.RegularProperty(type, namePropertyName) };
+                var nameAssigment = new MemberAssignment { SourceValue = nameDirectiveValue, Member = Member.FromStandard(type, namePropertyName) };
                 finalAssignments = allAssignments.Concat(new[] { nameAssigment });
             }
 
@@ -126,6 +126,6 @@
     internal class AttributeBasedInstanceProperties
     {
         public string Name { get; set; }
-        public IEnumerable<PropertyAssignment> Assignments { get; set; }
+        public IEnumerable<MemberAssignment> Assignments { get; set; }
     }
 }

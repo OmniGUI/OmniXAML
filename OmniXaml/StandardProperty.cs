@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
 
-    internal class StandardProperty : Property
+    internal class StandardProperty : Member
     {
         private readonly MethodInfo getter;
         private readonly MethodInfo setter;
@@ -23,7 +23,7 @@
             return getter.Invoke(instance, null);
         }
 
-        public override Type PropertyType => propertyType;
+        public override Type MemberType => propertyType;
 
         public override void SetValue(object instance, object value)
         {

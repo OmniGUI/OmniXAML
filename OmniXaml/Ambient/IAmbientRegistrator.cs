@@ -4,8 +4,8 @@
 
     public interface IAmbientRegistrator
     {
-        void RegisterAssignment(AmbientPropertyAssignment assignment);
-        IEnumerable<AmbientPropertyAssignment> Assigments { get; }
+        void RegisterAssignment(AmbientMemberAssignment assignment);
+        IEnumerable<AmbientMemberAssignment> Assigments { get; }
         IEnumerable<object> Instances { get; }
         void RegisterInstance(object instance);
     }

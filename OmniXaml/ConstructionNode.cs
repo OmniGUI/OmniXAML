@@ -14,7 +14,7 @@
 
         public Type InstanceType { get; set; }
         public string Name { get; set; }
-        public IEnumerable<PropertyAssignment> Assignments { get; set; } = new Collection<PropertyAssignment>();
+        public IEnumerable<MemberAssignment> Assignments { get; set; } = new Collection<MemberAssignment>();
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
 
         public override string ToString()

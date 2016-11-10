@@ -2,12 +2,12 @@ namespace OmniXaml.Ambient
 {
     using System.Reflection;
 
-    public class AmbientPropertyAssignment
+    public class AmbientMemberAssignment
     {
-        public Property Property { get; set; }
+        public Member Property { get; set; }
         public object Value { get; set; }
 
-        protected bool Equals(AmbientPropertyAssignment other)
+        protected bool Equals(AmbientMemberAssignment other)
         {
             return Equals(Property, other.Property) && Equals(Value, other.Value);
         }
@@ -20,7 +20,7 @@ namespace OmniXaml.Ambient
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;
-            return Equals((AmbientPropertyAssignment) obj);
+            return Equals((AmbientMemberAssignment) obj);
         }
 
         public override int GetHashCode()

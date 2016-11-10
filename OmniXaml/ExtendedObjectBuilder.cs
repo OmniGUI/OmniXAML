@@ -15,14 +15,14 @@
             this.contextFactory = contextFactory;
         }
 
-        protected override void ApplyAssignments(object instance, IEnumerable<PropertyAssignment> propertyAssignments, BuildContext buildContext)
+        protected override void ApplyAssignments(object instance, IEnumerable<MemberAssignment> propertyAssignments, BuildContext buildContext)
         {
             var sortedAssigments = SortAssigmentsByDependencies(propertyAssignments.ToList());
 
             base.ApplyAssignments(instance, sortedAssigments, buildContext);
         }
 
-        private IEnumerable<PropertyAssignment> SortAssigmentsByDependencies(IList<PropertyAssignment> propertyAssignments)
+        private IEnumerable<MemberAssignment> SortAssigmentsByDependencies(IList<MemberAssignment> propertyAssignments)
         {
             var dependencies =
                 propertyAssignments.Select(
@@ -43,12 +43,12 @@
             return base.ToCompatibleValue(assignment, buildContext);
         }
 
-        protected override object CreateChildProperty(object parent, Property property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        protected override object CreateChildProperty(object parent, Member property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
         {
             var metadata = ObjectBuilderContext.MetadataProvider.Get(parent.GetType());
             var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
 
-            if (fragmentLoaderInfo != null && parent.GetType() == fragmentLoaderInfo.Type && property.PropertyName == fragmentLoaderInfo.PropertyName)
+            if (fragmentLoaderInfo != null && parent.GetType() == fragmentLoaderInfo.Type && property.MemberName == fragmentLoaderInfo.PropertyName)
             {
                 return fragmentLoaderInfo.Loader.Load(nodeToBeCreated, this, buildContext);
             }
@@ -61,26 +61,26 @@
 
     public class Dependency : IDependency<Dependency>
     {
-        public PropertyAssignment Assignment { get; }
+        public MemberAssignment Assignment { get; }
 
-        public Dependency(PropertyAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<PropertyAssignment> propertyAssignments)
+        public Dependency(MemberAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<MemberAssignment> propertyAssignments)
         {
             this.Assignment = assignment;
             Dependencies = GetDependencies(assignment, metadataProvider, propertyAssignments);
         }
 
-        private IEnumerable<Dependency> GetDependencies(PropertyAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<PropertyAssignment> propertyAssignments)
+        private IEnumerable<Dependency> GetDependencies(MemberAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<MemberAssignment> propertyAssignments)
         {
-            var dependencyRegistrations = metadataProvider.Get(assignment.Property.Owner).PropertyDependencies;
+            var dependencyRegistrations = metadataProvider.Get(assignment.Member.Owner).PropertyDependencies;
 
             if (dependencyRegistrations == null)
             {
                 return new List<Dependency>();
             }            
 
-            var registrations = dependencyRegistrations.Where(registration => registration.DependsOn == assignment.Property.PropertyName).ToList();
+            var registrations = dependencyRegistrations.Where(registration => registration.DependsOn == assignment.Member.MemberName).ToList();
 
-            var dependencies = registrations.Select(registration => propertyAssignments.First(propertyAssignment => registration.PropertyName == propertyAssignment.Property.PropertyName));
+            var dependencies = registrations.Select(registration => propertyAssignments.First(propertyAssignment => registration.PropertyName == propertyAssignment.Member.MemberName));
 
             return dependencies.Select(propertyAssignment => new Dependency(propertyAssignment, metadataProvider, propertyAssignments));
         }

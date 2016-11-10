@@ -54,6 +54,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Model\AttachedEventArgs.cs" />
+    <Compile Include="Model\Button.cs" />
     <Compile Include="CreationFixture.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />

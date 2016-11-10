@@ -29,26 +29,26 @@
             this.parser = parser;
         }
 
-        public IEnumerable<PropertyAssignment> GetAssignments(Type type, XElement node)
+        public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement node)
         {
             return GetAssignmentsFromAttributes(type, node)
                 .Concat(GetAssignmentsFromContent(type, node))
                 .Concat(GetAssignmentsFromInnerElements(type, node.Nodes().OfType<XElement>()));
         }
 
-        private IEnumerable<PropertyAssignment> GetAssignmentsFromContent(Type type, XContainer node)
+        private IEnumerable<MemberAssignment> GetAssignmentsFromContent(Type type, XContainer node)
         {
             var nodeFirstNode = node.FirstNode;
             if ((nodeFirstNode != null) && (nodeFirstNode.NodeType == XmlNodeType.Text) && (metadataProvider.Get(type).ContentProperty != null))
             {
                 var directContent = ((XText) nodeFirstNode).Value;
                 var contentProperty = metadataProvider.Get(type).ContentProperty;
-                var property = Property.RegularProperty(type, contentProperty);
-                yield return new PropertyAssignment {Property = property, SourceValue = directContent};
+                var property = Member.FromStandard(type, contentProperty);
+                yield return new MemberAssignment {Member = property, SourceValue = directContent};
             }
         }
 
-        private IEnumerable<PropertyAssignment> GetAssignmentsFromInnerElements(Type type, IEnumerable<XElement> nodes)
+        private IEnumerable<MemberAssignment> GetAssignmentsFromInnerElements(Type type, IEnumerable<XElement> nodes)
         {
             return nodes.Select(
                 node => IsProperty(node)
@@ -56,14 +56,14 @@
                     : ProcessImplicityProperty(type, node));
         }
 
-        private PropertyAssignment ProcessImplicityProperty(Type type, XElement node)
+        private MemberAssignment ProcessImplicityProperty(Type type, XElement node)
         {
             var constructionNode = parser(node);
             var contentProperty = metadataProvider.Get(type).ContentProperty;
             if (contentProperty == null)
                 throw new XamlParserException($"Cannot assign node. The content property of the type {type} cannot be found");
 
-            return new PropertyAssignment {Property = Property.RegularProperty(type, contentProperty), Children = new[] {constructionNode}};
+            return new MemberAssignment {Member = Member.FromStandard(type, contentProperty), Children = new[] {constructionNode}};
         }
 
         private static bool IsProperty(XElement node)
@@ -71,7 +71,7 @@
             return node.Name.LocalName.Contains(".");
         }
 
-        private PropertyAssignment ProcessExplicityProperty(Type type, XElement node)
+        private MemberAssignment ProcessExplicityProperty(Type type, XElement node)
         {
             var prop = node.Name;
             var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
@@ -82,13 +82,13 @@
             {
                 var value = ((XText) nodeFirstNode).Value;
 
-                return new PropertyAssignment {Property = Property.RegularProperty(type, propertyName), SourceValue = value};
+                return new MemberAssignment {Member = Member.FromStandard(type, propertyName), SourceValue = value};
             }
             var children = node.Elements().Select(parser);
-            return new PropertyAssignment {Property = Property.RegularProperty(type, propertyName), Children = children};
+            return new MemberAssignment {Member = Member.FromStandard(type, propertyName), Children = children};
         }
 
-        public IEnumerable<PropertyAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
+        public IEnumerable<MemberAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
         {
             return node
                 .Attributes()
@@ -101,7 +101,7 @@
             return !(attribute.IsNamespaceDeclaration || attribute.Name.Namespace == SpecialNamespace);
         }
 
-        private PropertyAssignment ToAssignment(Type type, XAttribute attribute)
+        private MemberAssignment ToAssignment(Type type, XAttribute attribute)
         {
             var value = attribute.Value;
             var property = ResolveProperty(type, attribute);
@@ -110,19 +110,19 @@
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value);
-                return new PropertyAssignment {Property = Property.RegularProperty(type, property.PropertyName), Children = new[] {constructionNode}};
+                return new MemberAssignment {Member = Member.FromStandard(type, property.MemberName), Children = new[] {constructionNode}};
             }
 
-            var assignment = new PropertyAssignment
+            var assignment = new MemberAssignment
             {
-                Property = property,
+                Member = property,
                 SourceValue = value
             };
 
             return assignment;
         }
 
-        private Property ResolveProperty(Type type, XAttribute attribute)
+        private Member ResolveProperty(Type type, XAttribute attribute)
         {
             var nameLocalName = attribute.Name.LocalName;
             if (nameLocalName.Contains('.'))
@@ -135,9 +135,9 @@
                     ? XName.Get(ownerName, attribute.Parent.Name.NamespaceName)
                     : XName.Get(ownerName, attribute.Name.NamespaceName);
                 var ownerType = LocateType(xname);
-                return Property.FromAttached(ownerType, propertyName);
+                return Member.FromAttached(ownerType, propertyName);
             }
-            return Property.RegularProperty(type, nameLocalName);
+            return Member.FromStandard(type, nameLocalName);
         }
 
         private Type LocateType(XName typeName)

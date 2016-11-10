@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Reflection;
 
     public class SourceValueConverter : ISourceValueConverter
@@ -10,8 +11,8 @@
 
         public object GetCompatibleValue(ConverterValueContext valueContext)
         {
-            var sourceValue = (string)valueContext.Value;
-            var targetType = valueContext.TargetType;
+            var targetType = valueContext.Assignment.Member.MemberType;
+            var sourceValue = (string)valueContext.Assignment.Value;
 
             if (targetType == typeof(int))
             {
@@ -21,6 +22,14 @@
             if (targetType == typeof(double))
             {
                 return int.Parse(sourceValue);
+            }
+
+            if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
+            {
+                var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
+                var callbackMethodInfo = rootInstance.GetType()
+                    .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
+                return callbackMethodInfo.CreateDelegate(valueContext.Assignment.Member.MemberType, rootInstance);
             }
 
             Func<ConverterValueContext, object> converter;
