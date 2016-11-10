@@ -1,8 +1,12 @@
 ﻿namespace WpfApplication1.Context
 {
+    using System;
+    using System.Globalization;
     using System.Windows;
+    using System.Windows.Media;
     using OmniXaml;
     using OmniXaml.Ambient;
+    using OmniXaml.Tests;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader : IXamlLoader
@@ -13,7 +17,7 @@
         public XamlLoader()
         {
             var metadataProvider = new MetadataProvider();
-            
+
             var type = typeof(Window);
             var ass = type.Assembly;
 
@@ -28,34 +32,45 @@
                 .With(configuredAssemblyWithNamespaces);
             directory.AddNamespace(xamlNamespace);
 
-            objectBuilderContext = new ObjectBuilderContext(
-               new InstanceCreator(),
-               Registrator.GetSourceValueConverter(),
-               metadataProvider);
+            var sourceValueConverter = GetSourceValueConverter();
+            objectBuilderContext = new ObjectBuilderContext(sourceValueConverter, metadataProvider);
+        }
+
+        private static SourceValueConverter GetSourceValueConverter()
+        {
+            var sourceValueConverter = new SourceValueConverter();
+            sourceValueConverter.Add(typeof(Thickness), context => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(Brush), context => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(GridLength), context => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(ImageSource), context => new ImageSourceConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            return sourceValueConverter;
         }
 
         public ConstructionResult Load(string xaml)
         {
-            var cn = GetConstructionNode(xaml);
-            var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ConverterValueContext(assignment, context, directory, tc), (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
-            var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
-            var instance = objectBuilder.Create(cn, new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
-            return new ConstructionResult(instance, namescopeAnnotator);
+            return CreateWithParams(xaml, (builder, node, context) => builder.Create(node, context));
         }
-
 
         public ConstructionResult Load(string xaml, object intance)
         {
-            var cn = GetConstructionNode(xaml);
-            var objectBuilder = new ExtendedObjectBuilder(objectBuilderContext, (assignment, context, tc) => new ConverterValueContext(assignment, context, directory, tc), (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
+            return CreateWithParams(xaml, (builder, node, context) => builder.Create(node, intance, context));
+        }
+
+        public ConstructionResult CreateWithParams(string xaml, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)
+        {
+            var constructionNode = GetConstructionNode(xaml);
+            var sourceValueConverter = GetSourceValueConverter();
+            var instanceCreator = new InstanceCreator(sourceValueConverter, objectBuilderContext, directory);
+            var objectBuilder = new ExtendedObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
-            var instance = objectBuilder.Create(cn, intance, new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()));
+            var buildContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var instance = createFunc(objectBuilder, constructionNode, buildContext);
             return new ConstructionResult(instance, namescopeAnnotator);
         }
 
         private ConstructionNode GetConstructionNode(string xaml)
         {
-            var parser = new XamlToTreeParser(directory, new MetadataProvider(), new[] { new InlineParser(directory), });
+            var parser = new XamlToTreeParser(directory, new MetadataProvider(), new[] { new InlineParser(directory) });
             var tree = parser.Parse(xaml);
             return tree;
         }

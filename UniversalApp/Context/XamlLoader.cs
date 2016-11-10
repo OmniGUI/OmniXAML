@@ -4,6 +4,7 @@
     using Windows.UI.Xaml.Controls;
     using Adapters;
     using OmniXaml;
+    using OmniXaml.Tests;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader
@@ -44,11 +45,10 @@
         public object Load(string xaml)
         {
             var constructionContext = new ObjectBuilderContext(
-                new InstanceCreator(),
                 Registrator.GetSourceValueConverter(),
                 metadataProvider);
 
-            var objectBuilder = new ExtendedObjectBuilder(constructionContext, (type, obj, context, tc) => new ConverterValueContext(type, obj, context, directory, tc), (assignment, context, tc) => new ValueContext(assignment, context, directory, tc));
+            var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, directory), constructionContext, new ContextFactory(directory, constructionContext));
 
             var cons = GetConstructionNode(xaml);
             return objectBuilder.Create(cons, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));

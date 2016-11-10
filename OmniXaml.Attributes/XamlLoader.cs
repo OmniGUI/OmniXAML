@@ -16,7 +16,7 @@
         {
             directory = new AttributeBasedTypeDirectory(assemblies);
             metadataProvider = new AttributeBasedMetadataProvider();
-            objectBuilderContext = new ObjectBuilderContext(new InstanceCreator(), new SourceValueConverter(), metadataProvider);
+            objectBuilderContext = new ObjectBuilderContext(new SourceValueConverter(), metadataProvider);
         }
 
         public ConstructionResult Load(string xaml)
@@ -37,14 +37,13 @@
 
         private ConstructionResult Construct(ConstructionNode ctNode)
         {
-            
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
-            var objectConstructor = new ObjectBuilder(objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
+            var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
+            var objectConstructor = new ObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var construct = objectConstructor.Create(ctNode, trackingContext);
             return new ConstructionResult(construct, namescopeAnnotator);
         }
-
 
         private ConstructionNode Parse(string xaml)
         {
