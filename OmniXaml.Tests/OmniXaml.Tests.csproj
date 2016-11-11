@@ -57,6 +57,7 @@
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />
     <Compile Include="CreationFixture.cs" />
+    <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
     <Compile Include="Model\Custom\CustomControl.cs" />
@@ -71,9 +72,14 @@
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="Model\Custom\ParametrizedExtension.cs" />
-    <Compile Include="XamlToTreeParserTests.cs" />
+    <Compile Include="XmlParser\CollectionsTests.cs" />
+    <Compile Include="XmlParser\EventsTests.cs" />
+    <Compile Include="XmlParser\NamescopeTests.cs" />
+    <Compile Include="XmlParser\NameTests.cs" />
+    <Compile Include="XmlParser\StandardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ObjectBuilderTests.cs" />
+    <Compile Include="XmlParser\XamlToTreeParserTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">

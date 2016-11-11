@@ -20,7 +20,7 @@
 
         public object Create(Type type, BuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
         {
-            var ctor = SelectCtor(type);
+            var ctor = SelectCtor(type, injectableMembers);
             return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());            
         }
 
@@ -36,28 +36,14 @@
             return converter.GetCompatibleValue(new ConverterValueContext(targetType, value, objectBuilderContext, directory, context));
         }
 
-        private static ConstructorInfo SelectCtor(Type type)
-        {
-            return GetParameterlessCtor(type) ?? FirstCtorWithMostArguments(type);
-        }
-
-        private static ConstructorInfo FirstCtorWithMostArguments(Type type)
+        private static ConstructorInfo SelectCtor(Type type, IEnumerable<InjectableMember> injectableMembers)
         {
             var ctorsByNumOfArgs = from ctor in type.GetTypeInfo().DeclaredConstructors
-                where ctor.IsPublic
-                orderby ctor.GetParameters().Length descending
-                select ctor;
+                                          where ctor.IsPublic
+                                          orderby ctor.GetParameters().Length descending
+                                          select ctor;
 
-            return ctorsByNumOfArgs.First();
-        }
-
-        private static ConstructorInfo GetParameterlessCtor(Type type)
-        {
-            var parameterlessCtors = from ctor in type.GetTypeInfo().DeclaredConstructors
-                where ctor.IsPublic && !ctor.GetParameters().Any()
-                select ctor;
-
-            return parameterlessCtors.FirstOrDefault();
+            return ctorsByNumOfArgs.First(info => info.GetParameters().Length <= injectableMembers.Count());
         }
     }
 }
