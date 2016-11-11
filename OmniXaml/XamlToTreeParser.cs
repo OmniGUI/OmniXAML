@@ -40,14 +40,35 @@
 
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
+            var children = GetChildren(type, node);
+
             var ctorArgs = GetCtorArgs(node, type);
 
             return new ConstructionNode(type)
             {
                 Assignments = attributeBasedInstanceProperties.Assignments,
                 InjectableArguments = ctorArgs,
-                Name = attributeBasedInstanceProperties.Name
+                Name = attributeBasedInstanceProperties.Name,
+                Children = children,
             };
+        }
+
+        private IEnumerable<ConstructionNode> GetChildren(Type type, XElement node)
+        {
+            var hasContentProperty = metadataProvider.Get(type).ContentProperty != null;
+
+            if (!hasContentProperty)
+            {
+                var childNodes = node.Nodes().OfType<XElement>().Where(element => !IsProperty(element));
+                return childNodes.Select(ProcessNode);
+            }
+
+            return new List<ConstructionNode>();
+        }
+
+        private static bool IsProperty(XElement node)
+        {
+            return node.Name.LocalName.Contains(".");
         }
 
         private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<MemberAssignment> assignments)

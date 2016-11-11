@@ -16,11 +16,19 @@ namespace OmniXaml.Tests.XmlParser
         [TestMethod]
         public void Collection()
         {
-            var tree = Parse(@"<Collection xmlns=""root""><TextBlock/></Collection>");
+            var tree = Parse(@"<Collection Title=""My title"" xmlns=""root""><TextBlock/></Collection>");
             Assert.AreEqual(
                 new ConstructionNode(typeof(Collection))
                 {
-                    Assignments = new[] { new MemberAssignment { Children = new[] { new ConstructionNode(typeof(TextBlock)) } } }
+                    Assignments = new[]
+                    {
+                        new MemberAssignment {SourceValue = "My title", Member = Member.FromStandard<Collection>(collection => collection.Title)},
+                    },
+                    Children = new []
+                    {
+                        new ConstructionNode(typeof(TextBlock)), 
+                    }
+                    
                 },
                 tree);
         }

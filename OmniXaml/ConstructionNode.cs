@@ -16,17 +16,18 @@
         public string Name { get; set; }
         public IEnumerable<MemberAssignment> Assignments { get; set; } = new Collection<MemberAssignment>();
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
+        public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
 
         public override string ToString()
         {
             return $"[{InstanceType.Name}]";
         }
 
+
         protected bool Equals(ConstructionNode other)
         {
-            return string.Equals(Name, other.Name) && InstanceType == other.InstanceType
-                && Enumerable.SequenceEqual(Assignments, other.Assignments) && 
-                Enumerable.SequenceEqual(InjectableArguments, other.InjectableArguments);
+            return Equals(InstanceType, other.InstanceType) && string.Equals(Name, other.Name) && Assignments.SequenceEqual(other.Assignments) &&
+                   InjectableArguments.SequenceEqual(other.InjectableArguments) && Children.SequenceEqual(other.Children);
         }
 
         public override bool Equals(object obj)
@@ -35,7 +36,7 @@
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != this.GetType())
+            if (obj.GetType() != GetType())
                 return false;
             return Equals((ConstructionNode) obj);
         }
@@ -44,9 +45,11 @@
         {
             unchecked
             {
-                var hashCode = (InstanceType != null ? InstanceType.GetHashCode() : 0);
+                var hashCode = InstanceType != null ? InstanceType.GetHashCode() : 0;
+                hashCode = (hashCode*397) ^ (Name != null ? Name.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Assignments != null ? Assignments.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (InjectableArguments != null ? InjectableArguments.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Children != null ? Children.GetHashCode() : 0);
                 return hashCode;
             }
         }

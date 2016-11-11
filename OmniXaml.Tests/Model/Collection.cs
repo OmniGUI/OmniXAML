@@ -4,6 +4,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public class Collection : Collection<object>
-    {       
+    {
+        public string Title { get; set; }       
     }
 }

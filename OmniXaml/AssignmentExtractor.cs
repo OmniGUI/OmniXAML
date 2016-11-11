@@ -31,9 +31,19 @@
 
         public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement node)
         {
+            IEnumerable<XElement> innerElementsThatCanBeAssigments;
+            if (metadataProvider.Get(type).ContentProperty == null)
+            {
+                innerElementsThatCanBeAssigments = node.Nodes().OfType<XElement>().Where(IsProperty);
+            }
+            else
+            {
+                innerElementsThatCanBeAssigments = node.Nodes().OfType<XElement>();
+            }
+            
             return GetAssignmentsFromAttributes(type, node)
                 .Concat(GetAssignmentsFromContent(type, node))
-                .Concat(GetAssignmentsFromInnerElements(type, node.Nodes().OfType<XElement>()));
+                .Concat(GetAssignmentsFromInnerElements(type, innerElementsThatCanBeAssigments));
         }
 
         private IEnumerable<MemberAssignment> GetAssignmentsFromContent(Type type, XContainer node)
