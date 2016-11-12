@@ -127,7 +127,7 @@ namespace OmniXaml.Tests
         }
 
         [TestMethod]
-        public void Collection()
+        public void CollectionProperty()
         {
             var items = new[]
             {
@@ -405,6 +405,30 @@ namespace OmniXaml.Tests
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
 
+
+        [TestMethod]
+        public void Collection()
+        {
+            var tree = new ConstructionNode(typeof(Collection))
+            {
+                Assignments = new[]
+               {
+                    new MemberAssignment {SourceValue = "My title", Member = Member.FromStandard<Collection>(collection => collection.Title)}
+                },
+                Children = new[]
+               {
+                    new ConstructionNode(typeof(TextBlock))
+                }
+            };
+
+            var actual = Create(tree).ResultingObject;
+
+            var expected = new Collection {new TextBlock() };
+            expected.Title = "My title";
+
+            Assert.AreEqual(expected, actual);
+        }
+
         private static CreationFixture Create(ConstructionNode node, object rootInstance)
         {
             return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, rootInstance, context));
@@ -442,20 +466,6 @@ namespace OmniXaml.Tests
             };
         }
 
-        private class TestWindow : Window
-        {
-            internal bool ButtonClicked { get; private set; } = false;
-            internal bool WindowLoaded { get; private set; } = false;
-
-            internal void OnClick(object sender, EventArgs args)
-            {
-                ButtonClicked = true;
-            }
-
-            internal void OnLoad(EventArgs args)
-            {
-                WindowLoaded = true;
-            }
-        }
+       
     }
 }

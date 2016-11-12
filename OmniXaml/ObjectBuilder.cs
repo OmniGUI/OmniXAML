@@ -28,7 +28,17 @@
         {
             buildContext.AmbientRegistrator.RegisterInstance(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
+            CreateChildren(instance, node.Children, buildContext);
             return instance;
+        }
+
+        private void CreateChildren(object parent, IEnumerable<ConstructionNode> children, BuildContext buildContext)
+        {
+            foreach (var constructionNode in children)
+            {
+                var value = Create(constructionNode, buildContext);
+                Utils.UniversalAdd(parent, value);
+            }
         }
 
         public object Create(ConstructionNode node, BuildContext buildContext)
@@ -36,6 +46,7 @@
             var instance = CreateInstance(node, buildContext);
             buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
+            CreateChildren(instance, node.Children, buildContext);
             buildContext.InstanceLifecycleSignaler.AfterAssigments(instance);
             return instance;
         }
