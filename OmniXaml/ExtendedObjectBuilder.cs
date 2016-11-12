@@ -24,11 +24,19 @@
 
         private IEnumerable<MemberAssignment> SortAssigmentsByDependencies(IList<MemberAssignment> propertyAssignments)
         {
-            var dependencies =
-                propertyAssignments.Select(
-                    assignment => new Dependency(assignment, ObjectBuilderContext.MetadataProvider, propertyAssignments.Except(new[] {assignment})));
+            var dependencies = GetDependencies(propertyAssignments);
             var sortedAssigments = dependencies.SortDependencies();
             return sortedAssigments.Select(dependency => dependency.Assignment);
+        }
+
+        private IEnumerable<Dependency> GetDependencies(IList<MemberAssignment> propertyAssignments)
+        {
+            return propertyAssignments.Select(
+                assignment =>
+                {
+                    var memberAssignments = propertyAssignments.Except(new[] {assignment});
+                    return new Dependency(assignment, ObjectBuilderContext.MetadataProvider, memberAssignments);
+                });
         }
 
         protected override Assignment ToCompatibleValue(Assignment assignment, BuildContext buildContext)
@@ -66,7 +74,7 @@
         public Dependency(MemberAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<MemberAssignment> propertyAssignments)
         {
             this.Assignment = assignment;
-            Dependencies = GetDependencies(assignment, metadataProvider, propertyAssignments);
+            Dependencies = GetDependencies(assignment, metadataProvider, propertyAssignments).ToList();
         }
 
         private IEnumerable<Dependency> GetDependencies(MemberAssignment assignment, IMetadataProvider metadataProvider, IEnumerable<MemberAssignment> propertyAssignments)
@@ -78,9 +86,9 @@
                 return new List<Dependency>();
             }            
 
-            var registrations = dependencyRegistrations.Where(registration => registration.DependsOn == assignment.Member.MemberName).ToList();
+            var registrations = dependencyRegistrations.Where(registration => registration.PropertyName == assignment.Member.MemberName).ToList();
 
-            var dependencies = registrations.Select(registration => propertyAssignments.First(propertyAssignment => registration.PropertyName == propertyAssignment.Member.MemberName));
+            var dependencies = registrations.Select(registration => propertyAssignments.First(propertyAssignment => registration.DependsOn == propertyAssignment.Member.MemberName));
 
             return dependencies.Select(propertyAssignment => new Dependency(propertyAssignment, metadataProvider, propertyAssignments));
         }

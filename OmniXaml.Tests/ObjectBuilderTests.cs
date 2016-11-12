@@ -9,33 +9,56 @@ namespace OmniXaml.Tests
     using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-    using System;
     using Model.Custom;
 
     [TestClass]
     public class ObjectBuilderTests
     {
         [TestMethod]
-        public void Dependency()
+        public void DependencyWhenWrongOrder()
         {
-            var node = new ConstructionNode(typeof(Style))
+            var node = new ConstructionNode(typeof(Setter))
             {
                 Assignments = new List<MemberAssignment>
                 {
                     new MemberAssignment
                     {
-                        Member = Member.FromStandard<Style>(control => control.Value),
-                        SourceValue = "Value",
+                        Member = Member.FromStandard<Setter>(control => control.Value),
+                        SourceValue = "Value"
                     },
                     new MemberAssignment
                     {
-                        Member = Member.FromStandard<Style>(control => control.TargetType),
-                        SourceValue = "NameOfSomeType",
+                        Member = Member.FromStandard<Setter>(control => control.Property),
+                        SourceValue = "NameOfSomeType"
                     }
                 }
             };
 
-            var obj = (Style) Create(node).ResultingObject;
+            var obj = (Setter) Create(node).ResultingObject;
+            Assert.IsTrue(obj.RightOrder);
+        }
+
+        [TestMethod]
+        public void DependencyWhenRightOrder()
+        {
+            var node = new ConstructionNode(typeof(Setter))
+            {
+                Assignments = new List<MemberAssignment>
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<Setter>(control => control.Property),
+                        SourceValue = "NameOfSomeType"
+                    },
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<Setter>(control => control.Value),
+                        SourceValue = "Value"
+                    }
+                }
+            };
+
+            var obj = (Setter) Create(node).ResultingObject;
             Assert.IsTrue(obj.RightOrder);
         }
 
@@ -167,7 +190,7 @@ namespace OmniXaml.Tests
         [TestMethod]
         public void ParametrizedExtension()
         {
-            var node = new ConstructionNode(typeof(ParametrizedExtension)) { InjectableArguments = new[] { "Hola" } };
+            var node = new ConstructionNode(typeof(ParametrizedExtension)) {InjectableArguments = new[] {"Hola"}};
             var myImmutable = new ParametrizedExtension("Hola");
             var fixture = Create(node);
 
@@ -229,13 +252,13 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(tb => tb.Content),
-                        SourceValue = "Hello",
+                        SourceValue = "Hello"
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[] { new AmbientMemberAssignment { Property = Member.FromStandard<Window>(window => window.Content), Value = "Hello" }, };
+            var assigments = new[] {new AmbientMemberAssignment {Property = Member.FromStandard<Window>(window => window.Content), Value = "Hello"}};
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -250,7 +273,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(tb => tb.Content),
-                        SourceValue = "Hello",
+                        SourceValue = "Hello"
                     }
                 }
             };
@@ -271,7 +294,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(tb => tb.Height),
-                        SourceValue = "12",
+                        SourceValue = "12"
                     }
                 }
             };
@@ -334,7 +357,7 @@ namespace OmniXaml.Tests
             var root = new TestWindow();
             var creationFixture = Create(node, root);
 
-            root.RaiseEvent(new AttachedEventArgs { Event = Window.LoadedEvent });
+            root.RaiseEvent(new AttachedEventArgs {Event = Window.LoadedEvent});
 
             Assert.IsTrue(root.WindowLoaded);
         }
@@ -349,13 +372,13 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode>() { new ConstructionNode(typeof(TextBlock))},
+                        Children = new List<ConstructionNode> {new ConstructionNode(typeof(TextBlock))}
                     }
                 }
             };
 
             var result = Create(node);
-            var assigments = new[] { new AmbientMemberAssignment { Property = Member.FromStandard<Window>(window => window.Content), Value = new TextBlock() }, };
+            var assigments = new[] {new AmbientMemberAssignment {Property = Member.FromStandard<Window>(window => window.Content), Value = new TextBlock()}};
 
             CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
         }
@@ -412,18 +435,18 @@ namespace OmniXaml.Tests
             var tree = new ConstructionNode(typeof(Collection))
             {
                 Assignments = new[]
-               {
+                {
                     new MemberAssignment {SourceValue = "My title", Member = Member.FromStandard<Collection>(collection => collection.Title)}
                 },
                 Children = new[]
-               {
+                {
                     new ConstructionNode(typeof(TextBlock))
                 }
             };
 
             var actual = Create(tree).ResultingObject;
 
-            var expected = new Collection {new TextBlock() };
+            var expected = new Collection {new TextBlock()};
             expected.Title = "My title";
 
             Assert.AreEqual(expected, actual);
@@ -465,7 +488,5 @@ namespace OmniXaml.Tests
                 BuildContext = creationContext
             };
         }
-
-       
     }
 }

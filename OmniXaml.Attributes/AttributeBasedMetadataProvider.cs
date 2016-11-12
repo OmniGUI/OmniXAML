@@ -30,7 +30,7 @@
             return new DependencyRegistration
             {
                 PropertyName = info.Name,
-                DependsOn = attribute.DependentPropertyName,
+                DependsOn = attribute.Dependency,
             };
         }
 

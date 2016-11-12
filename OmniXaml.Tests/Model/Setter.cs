@@ -2,20 +2,21 @@
 {
     using DefaultLoader;
 
-    public class Style
+    public class Setter
     {
         private string value;
 
-        [DependsOn("Value")]
-        public string TargetType { get; set; }
+        
+        public string Property { get; set; }
 
+        [DependsOn(nameof(Property))]
         public string Value
         {
             get { return value; }
             set
             {
                 this.value = value;
-                if (TargetType != null)
+                if (Property != null)
                 {
                     RightOrder = true;
                 }

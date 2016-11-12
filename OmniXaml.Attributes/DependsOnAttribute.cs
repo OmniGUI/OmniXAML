@@ -7,8 +7,8 @@
     {
         public DependsOnAttribute(string nameOfDependency)
         {
-            DependentPropertyName = nameOfDependency;
+            Dependency = nameOfDependency;
         }
-        public string DependentPropertyName { get; set; }
+        public string Dependency { get; set; }
     }
 }
