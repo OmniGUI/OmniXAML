@@ -46,6 +46,7 @@
     <Compile Include="AttachedEvent.cs" />
     <Compile Include="ContextFactory.cs" />
     <Compile Include="ConverterValueContext.cs" />
+    <Compile Include="Dependency.cs" />
     <Compile Include="IContextFactory.cs" />
     <Compile Include="IConverterContextFactory.cs" />
     <Compile Include="IExtensionContextFactory.cs" />
