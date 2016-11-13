@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -17,17 +18,17 @@
         public IEnumerable<MemberAssignment> Assignments { get; set; } = new Collection<MemberAssignment>();
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
         public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
+        public object Key { get; set; }
 
         public override string ToString()
         {
             return $"[{InstanceType.Name}]";
         }
 
-
         protected bool Equals(ConstructionNode other)
         {
-            return Equals(InstanceType, other.InstanceType) && string.Equals(Name, other.Name) && Assignments.SequenceEqual(other.Assignments) &&
-                   InjectableArguments.SequenceEqual(other.InjectableArguments) && Children.SequenceEqual(other.Children);
+            return InstanceType == other.InstanceType && string.Equals(Name, other.Name) && Enumerable.SequenceEqual(Assignments, other.Assignments) &&
+                   Enumerable.SequenceEqual(InjectableArguments, other.InjectableArguments) && Enumerable.SequenceEqual(Children, other.Children) && Equals(Key, other.Key);
         }
 
         public override bool Equals(object obj)
@@ -50,6 +51,7 @@
                 hashCode = (hashCode*397) ^ (Assignments != null ? Assignments.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (InjectableArguments != null ? InjectableArguments.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Children != null ? Children.GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Key != null ? Key.GetHashCode() : 0);
                 return hashCode;
             }
         }

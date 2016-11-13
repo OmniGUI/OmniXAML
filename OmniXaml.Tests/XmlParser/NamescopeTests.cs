@@ -10,7 +10,7 @@ namespace OmniXaml.Tests.XmlParser
         [TestMethod]
         public void Namescope()
         {
-            var actualNode = Parse(@"<Window xmlns:x=""special"" xmlns=""root"" ><TextBlock x:Name=""One"" /></Window>");
+            var actualNode = Parse(@"<Window xmlns:x=""special"" xmlns=""root""><TextBlock x:Name=""One"" /></Window>");
             var expectedNode = new ConstructionNode(typeof(Window))
             {
                 Assignments = new List<MemberAssignment>

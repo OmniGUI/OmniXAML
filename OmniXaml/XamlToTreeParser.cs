@@ -35,8 +35,8 @@
         private ConstructionNode ProcessNode(XElement node)
         {
             var type = LocateType(node.Name);
-            var rawAssigments = assignmentExtractor.GetAssignments(type, node);
-            var directives = directiveExtractor.GetDirectives(node);
+            var rawAssigments = assignmentExtractor.GetAssignments(type, node).ToList();
+            var directives = directiveExtractor.GetDirectives(node).ToList();
 
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
@@ -46,9 +46,10 @@
 
             return new ConstructionNode(type)
             {
-                Assignments = attributeBasedInstanceProperties.Assignments,
-                InjectableArguments = ctorArgs,
                 Name = attributeBasedInstanceProperties.Name,
+                Key = attributeBasedInstanceProperties.Key,
+                Assignments = attributeBasedInstanceProperties.Assignments,
+                InjectableArguments = ctorArgs,                
                 Children = children,
             };
         }
@@ -71,11 +72,13 @@
             return node.Name.LocalName.Contains(".");
         }
 
-        private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IEnumerable<Directive> directives, IEnumerable<MemberAssignment> assignments)
+        private AttributeBasedInstanceProperties CombineDirectivesAndAssigments(Type type, IList<Directive> directives, IList<MemberAssignment> assignments)
         {
-            var allAssignments = assignments.ToList();
+            var allAssignments = assignments;
 
             var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
+            var key = directives.FirstOrDefault(directive => directive.Name == "Key")?.Value;
+
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
             string name = null;
             IEnumerable<MemberAssignment> finalAssignments = allAssignments;
@@ -96,7 +99,8 @@
             return new AttributeBasedInstanceProperties
             {
                 Name = name,
-                Assignments = finalAssignments,
+                Key = key,
+                Assignments = finalAssignments,                
             };
         }
 
@@ -148,5 +152,6 @@
     {
         public string Name { get; set; }
         public IEnumerable<MemberAssignment> Assignments { get; set; }
+        public string Key { get; set; }
     }
 }
