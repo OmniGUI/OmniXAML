@@ -11,12 +11,11 @@
 
     public class AssignmentExtractor
     {
+        private const string SpecialNamespace = "special";
         private readonly IEnumerable<IInlineParser> inlineParsers;
         private readonly IMetadataProvider metadataProvider;
         private readonly Func<XElement, ConstructionNode> parser;
         private readonly ITypeDirectory typeDirectory;
-
-        private const string SpecialNamespace = "special";
 
         public AssignmentExtractor(IMetadataProvider metadataProvider,
             ITypeDirectory typeDirectory,
@@ -33,14 +32,10 @@
         {
             IEnumerable<XElement> innerElementsThatCanBeAssigments;
             if (metadataProvider.Get(type).ContentProperty == null)
-            {
                 innerElementsThatCanBeAssigments = node.Nodes().OfType<XElement>().Where(IsProperty);
-            }
             else
-            {
                 innerElementsThatCanBeAssigments = node.Nodes().OfType<XElement>();
-            }
-            
+
             return GetAssignmentsFromAttributes(type, node)
                 .Concat(GetAssignmentsFromContent(type, node))
                 .Concat(GetAssignmentsFromInnerElements(type, innerElementsThatCanBeAssigments));
@@ -87,15 +82,31 @@
             var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
             var propertyName = new string(name.ToArray());
 
+            var member = ResolveProperty(type, node);
+
             var nodeFirstNode = node.FirstNode;
             if ((nodeFirstNode != null) && ((nodeFirstNode.NodeType == XmlNodeType.Text) || (nodeFirstNode.NodeType == XmlNodeType.CDATA)))
             {
                 var value = ((XText) nodeFirstNode).Value;
 
-                return new MemberAssignment {Member = Member.FromStandard(type, propertyName), SourceValue = value};
+                return new MemberAssignment {Member = member, SourceValue = value};
             }
             var children = node.Elements().Select(parser);
-            return new MemberAssignment {Member = Member.FromStandard(type, propertyName), Children = children};
+            return new MemberAssignment {Member = member, Children = children};
+        }
+
+        private Member ResolveProperty(Type type, XElement element)
+        {
+            var nameLocalName = element.Name.LocalName;
+
+            var dot = nameLocalName.IndexOf('.');
+            var propertyName = nameLocalName.Skip(dot + 1).AsString();
+            
+            var ownerType = LocateType(element.Name);
+
+            if (ownerType == type)
+                return Member.FromStandard(ownerType, propertyName);
+            return Member.FromAttached(ownerType, propertyName);
         }
 
         public IEnumerable<MemberAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
@@ -108,7 +119,7 @@
 
         private static bool IsAssignment(XAttribute attribute)
         {
-            return !(attribute.IsNamespaceDeclaration || attribute.Name.Namespace == SpecialNamespace);
+            return !(attribute.IsNamespaceDeclaration || (attribute.Name.Namespace == SpecialNamespace));
         }
 
         private MemberAssignment ToAssignment(Type type, XAttribute attribute)
@@ -120,7 +131,7 @@
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value);
-                return new MemberAssignment {Member = Member.FromStandard(type, property.MemberName), Children = new[] {constructionNode}};
+                return new MemberAssignment {Member = property, Children = new[] {constructionNode}};
             }
 
             var assignment = new MemberAssignment
@@ -141,7 +152,7 @@
                 var ownerName = nameLocalName.Take(dot).AsString();
                 var propertyName = nameLocalName.Skip(dot + 1).AsString();
 
-                var xname = attribute.Name.NamespaceName == String.Empty
+                var xname = attribute.Name.NamespaceName == string.Empty
                     ? XName.Get(ownerName, attribute.Parent.Name.NamespaceName)
                     : XName.Get(ownerName, attribute.Name.NamespaceName);
                 var ownerType = LocateType(xname);

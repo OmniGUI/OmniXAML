@@ -12,35 +12,38 @@
         public object GetCompatibleValue(ConverterValueContext valueContext)
         {
             var targetType = valueContext.TargetType;
-            var sourceValue = (string)valueContext.Value;
+            var sourceValue = valueContext.Value as string;
 
-            if (targetType == typeof(int))
+            if (sourceValue != null)
             {
-                return int.Parse(sourceValue);
-            }
+                if (targetType == typeof(int))
+                {
+                    return int.Parse(sourceValue);
+                }
 
-            if (targetType == typeof(double))
-            {
-                return int.Parse(sourceValue);
-            }
+                if (targetType == typeof(double))
+                {
+                    return int.Parse(sourceValue);
+                }
 
-            if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
-            {
-                var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
-                var callbackMethodInfo = rootInstance.GetType()
-                    .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
-                return callbackMethodInfo.CreateDelegate(valueContext.TargetType, rootInstance);
-            }
+                if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
+                {
+                    var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
+                    var callbackMethodInfo = rootInstance.GetType()
+                        .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
+                    return callbackMethodInfo.CreateDelegate(valueContext.TargetType, rootInstance);
+                }
 
-            Func<ConverterValueContext, object> converter;
-            if (converters.TryGetValue(targetType, out converter))
-            {
-                return converter(valueContext);
-            }
+                Func<ConverterValueContext, object> converter;
+                if (converters.TryGetValue(targetType, out converter))
+                {
+                    return converter(valueContext);
+                }
 
-            if (targetType.GetTypeInfo().IsEnum)
-            {
-                return Enum.Parse(targetType, sourceValue);
+                if (targetType.GetTypeInfo().IsEnum)
+                {
+                    return Enum.Parse(targetType, sourceValue);
+                }                
             }
 
             return sourceValue;
