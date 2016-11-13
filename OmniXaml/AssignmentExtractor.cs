@@ -99,13 +99,16 @@
         {
             var nameLocalName = element.Name.LocalName;
 
+
             var dot = nameLocalName.IndexOf('.');
+            var ownerName = nameLocalName.Take(dot).AsString();
             var propertyName = nameLocalName.Skip(dot + 1).AsString();
             
-            var ownerType = LocateType(element.Name);
+            var ownerType = LocateType(XName.Get(ownerName, element.Name.NamespaceName));
 
             if (ownerType == type)
                 return Member.FromStandard(ownerType, propertyName);
+
             return Member.FromAttached(ownerType, propertyName);
         }
 
