@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.XmlParser
 {
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Model;
 
     [TestClass]
     public class StandardTests : XamlToTreeParserTestsBase
@@ -21,6 +22,26 @@
         public void InnerComplexProperty()
         {
             var tree = Parse(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
+        }
+
+
+        [TestMethod]
+        public void AttachedPropertyInsideElement()
+        {
+            var tree = Parse(@"<Window xmlns=""root""><Grid.Row>1</Grid.Row></Window>");
+            Assert.AreEqual(
+                new ConstructionNode(typeof(Window))
+                {
+                    Assignments = new[]
+                    {
+                        new MemberAssignment
+                        {
+                            Member = Member.FromAttached<Grid>("Row"),
+                            SourceValue = "1"
+                        },
+                    }
+                },
+                tree);
         }
 
         [TestMethod]

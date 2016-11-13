@@ -78,19 +78,15 @@
 
         private MemberAssignment ProcessExplicityProperty(Type type, XElement node)
         {
-            var prop = node.Name;
-            var name = prop.LocalName.SkipWhile(c => c != '.').Skip(1);
-            var propertyName = new string(name.ToArray());
-
             var member = ResolveProperty(type, node);
 
             var nodeFirstNode = node.FirstNode;
             if ((nodeFirstNode != null) && ((nodeFirstNode.NodeType == XmlNodeType.Text) || (nodeFirstNode.NodeType == XmlNodeType.CDATA)))
             {
                 var value = ((XText) nodeFirstNode).Value;
-
                 return new MemberAssignment {Member = member, SourceValue = value};
             }
+
             var children = node.Elements().Select(parser);
             return new MemberAssignment {Member = member, Children = children};
         }
@@ -112,7 +108,7 @@
             return Member.FromAttached(ownerType, propertyName);
         }
 
-        public IEnumerable<MemberAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
+        private IEnumerable<MemberAssignment> GetAssignmentsFromAttributes(Type type, XElement node)
         {
             return node
                 .Attributes()

@@ -36,7 +36,6 @@
                             .WithNamespaces(typeof(OmniDataTemplate).Namespace))
             );
 
-
             typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
 
             return typeDirectory;
