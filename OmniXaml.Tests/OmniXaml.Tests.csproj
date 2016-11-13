@@ -56,7 +56,7 @@
   <ItemGroup>
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />
-    <Compile Include="CreationFixture.cs" />
+    <Compile Include="ObjectBuilderTests\CreationFixture.cs" />
     <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
@@ -74,6 +74,8 @@
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="Model\Custom\ParametrizedExtension.cs" />
+    <Compile Include="ObjectBuilderTests\Dictionaries.cs" />
+    <Compile Include="ObjectBuilderTests\ObjectBuilderTestsBase.cs" />
     <Compile Include="XmlParser\CollectionsTests.cs" />
     <Compile Include="XmlParser\Dictionaries.cs" />
     <Compile Include="XmlParser\EventsTests.cs" />
@@ -82,7 +84,7 @@
     <Compile Include="Model\ResourceDictionary.cs" />
     <Compile Include="XmlParser\StandardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObjectBuilderTests.cs" />
+    <Compile Include="ObjectBuilderTests\Standard.cs" />
     <Compile Include="XmlParser\XamlToTreeParserTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>

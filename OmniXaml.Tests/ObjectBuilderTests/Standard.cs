@@ -1,18 +1,15 @@
-namespace OmniXaml.Tests
+namespace OmniXaml.Tests.ObjectBuilderTests
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using Ambient;
-    using DefaultLoader;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using Model.Custom;
 
     [TestClass]
-    public class ObjectBuilderTests
+    public class Standard : ObjectBuilderTestsBase
     {
         [TestMethod]
         public void DependencyWhenWrongOrder()
@@ -34,7 +31,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var obj = (Setter) Create(node).ResultingObject;
+            var obj = (Setter) Create(node).Result;
             Assert.IsTrue(obj.RightOrder);
         }
 
@@ -58,7 +55,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var obj = (Setter) Create(node).ResultingObject;
+            var obj = (Setter) Create(node).Result;
             Assert.IsTrue(obj.RightOrder);
         }
 
@@ -123,7 +120,7 @@ namespace OmniXaml.Tests
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.ResultingObject);
+            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.Result);
         }
 
         [TestMethod]
@@ -144,7 +141,7 @@ namespace OmniXaml.Tests
             };
 
             var creationFixture = Create(node);
-            var result = (ItemsControl) creationFixture.ResultingObject;
+            var result = (ItemsControl) creationFixture.Result;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
         }
@@ -171,7 +168,7 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var result = (ItemsControl) Create(node).ResultingObject;
+            var result = (ItemsControl) Create(node).Result;
             Assert.IsNotNull(result.Items);
             Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
             Assert.IsTrue(result.Items.Any());
@@ -184,7 +181,7 @@ namespace OmniXaml.Tests
             var myImmutable = new MyImmutable("Hola");
             var fixture = Create(node);
 
-            Assert.AreEqual(myImmutable, fixture.ResultingObject);
+            Assert.AreEqual(myImmutable, fixture.Result);
         }
 
         [TestMethod]
@@ -194,7 +191,7 @@ namespace OmniXaml.Tests
             var myImmutable = new ParametrizedExtension("Hola");
             var fixture = Create(node);
 
-            Assert.AreEqual(myImmutable, fixture.ResultingObject);
+            Assert.AreEqual(myImmutable, fixture.Result);
         }
 
         [TestMethod]
@@ -215,8 +212,8 @@ namespace OmniXaml.Tests
             var expected = new Window {Content = "My content"};
             var fixture = Create(node, expected);
 
-            Assert.IsTrue(ReferenceEquals(expected, fixture.ResultingObject));
-            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.ResultingObject);
+            Assert.IsTrue(ReferenceEquals(expected, fixture.Result));
+            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.Result);
         }
 
         [TestMethod]
@@ -238,7 +235,7 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var textBlock = actual.BuildContext.NamescopeAnnotator.Find("MyTextBlock", actual.ResultingObject);
+            var textBlock = actual.BuildContext.NamescopeAnnotator.Find("MyTextBlock", actual.Result);
             Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
         }
 
@@ -300,7 +297,7 @@ namespace OmniXaml.Tests
             };
 
             var creationFixture = Create(node);
-            Assert.AreEqual(new Window {Height = 12}, creationFixture.ResultingObject);
+            Assert.AreEqual(new Window {Height = 12}, creationFixture.Result);
         }
 
         [TestMethod]
@@ -422,8 +419,8 @@ namespace OmniXaml.Tests
             };
 
             var actual = Create(node);
-            var one = actual.BuildContext.NamescopeAnnotator.Find("One", actual.ResultingObject);
-            var two = actual.BuildContext.NamescopeAnnotator.Find("Two", actual.ResultingObject);
+            var one = actual.BuildContext.NamescopeAnnotator.Find("One", actual.Result);
+            var two = actual.BuildContext.NamescopeAnnotator.Find("Two", actual.Result);
             Assert.IsInstanceOfType(one, typeof(TextBlock));
             Assert.IsInstanceOfType(two, typeof(TextBlock));
         }
@@ -444,49 +441,12 @@ namespace OmniXaml.Tests
                 }
             };
 
-            var actual = Create(tree).ResultingObject;
+            var actual = Create(tree).Result;
 
             var expected = new Collection {new TextBlock()};
             expected.Title = "My title";
 
             Assert.AreEqual(expected, actual);
-        }
-
-        private static CreationFixture Create(ConstructionNode node, object rootInstance)
-        {
-            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, rootInstance, context));
-        }
-
-        private static CreationFixture Create(ConstructionNode node)
-        {
-            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, context));
-        }
-
-        private static CreationFixture CreateWithParams(ConstructionNode node, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)
-        {
-            var constructionContext = new ObjectBuilderContext(
-                new SourceValueConverter(),
-                new AttributeBasedMetadataProvider());
-
-            var creationContext = new BuildContext(
-                new NamescopeAnnotator(constructionContext.MetadataProvider),
-                new AmbientRegistrator(),
-                new InstanceLifecycleSignaler());
-
-            var executingAssembly = new[] {Assembly.GetExecutingAssembly()};
-
-            var attributeBasedTypeDirectory = new AttributeBasedTypeDirectory(executingAssembly);
-            var builder =
-                new ExtendedObjectBuilder(
-                    new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, attributeBasedTypeDirectory),
-                    constructionContext,
-                    new ContextFactory(attributeBasedTypeDirectory, constructionContext));
-
-            return new CreationFixture
-            {
-                ResultingObject = createFunc(builder, node, creationContext),
-                BuildContext = creationContext
-            };
         }
     }
 }

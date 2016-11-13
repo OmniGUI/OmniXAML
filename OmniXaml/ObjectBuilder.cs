@@ -37,7 +37,14 @@
             foreach (var constructionNode in children)
             {
                 var value = Create(constructionNode, buildContext);
-                Utils.UniversalAdd(parent, value);
+                if (constructionNode.Key == null)
+                {
+                    Utils.UniversalAdd(parent, value);
+                }
+                else
+                {
+                    Utils.UniversalAddToDictionary(parent, value, constructionNode.Key); 
+                }
             }
         }
 
