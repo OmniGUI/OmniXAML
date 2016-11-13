@@ -18,7 +18,7 @@
         public IEnumerable<MemberAssignment> Assignments { get; set; } = new Collection<MemberAssignment>();
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
         public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
-        public object Key { get; set; }
+        public string Key { get; set; }
 
         public override string ToString()
         {

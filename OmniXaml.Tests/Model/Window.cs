@@ -11,6 +11,8 @@
         [Content]
         public object Content { get; set; }
 
+        public ResourceDictionary Resources { get; set; } = new ResourceDictionary();
+
         public override string ToString()
         {
             return $"{nameof(Title)}: {Title}, {nameof(Content)}: {Content}";
@@ -18,7 +20,7 @@
 
         protected bool Equals(Window other)
         {
-            return string.Equals(Title, other.Title) && Equals(Content, other.Content);
+            return string.Equals(Title, other.Title) && Equals(Content, other.Content) && Equals(Resources, other.Resources);
         }
 
         public override bool Equals(object obj)

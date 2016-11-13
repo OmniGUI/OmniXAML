@@ -43,7 +43,7 @@
                 }
                 else
                 {
-                    Utils.UniversalAddToDictionary(parent, value, constructionNode.Key); 
+                    Utils.UniversalAddToDictionary(parent, value, constructionNode.Key);
                 }
             }
         }
@@ -99,16 +99,26 @@
             {
                 var value = Create(constructionNode, buildContext);
                 var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), buildContext);
-                Utils.UniversalAdd(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value);
+
+                if (constructionNode.Key == null)
+                {
+                    Utils.UniversalAdd(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value);
+                }
+                else
+                {
+                    Utils.UniversalAddToDictionary(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value, constructionNode.Key);
+                }
             }
         }
 
         private void ApplySingleAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext, Member property)
         {
             object value;
+            string key = null;
             if (propertyAssignment.SourceValue == null)
             {
                 var first = propertyAssignment.Children.First();
+                key = first.Key;
                 value = CreateChildProperty(instance, property, first, buildContext);
             }
             else
@@ -118,14 +128,21 @@
 
             var assignment = new Assignment(instance, property, value);
             var converted = ToCompatibleValue(assignment, buildContext);
-            PerformAssigment(converted, buildContext);
+            PerformAssigment(converted, buildContext, key);
         }
 
-        protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext)
+        protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext, string key)
         {
             if (converted.Member.MemberType.IsCollection())
             {
-                Utils.UniversalAdd(converted.Member.GetValue(converted.Instance), converted.Value);
+                if (key == null)
+                {
+                    Utils.UniversalAdd(converted.Member.GetValue(converted.Instance), converted.Value);
+                }
+                else
+                {
+                    Utils.UniversalAddToDictionary(converted.Member.GetValue(converted.Instance), converted.Value, key);
+                }
             }
             else
             {
