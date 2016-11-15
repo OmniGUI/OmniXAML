@@ -5,13 +5,10 @@
     using System.Linq;
     using Ambient;
     using Glass.Core;
-    using Tests;
 
     public class ObjectBuilder : IObjectBuilder
     {
         private readonly IConverterContextFactory contextFactory;
-
-        protected ObjectBuilderContext ObjectBuilderContext { get; }
         private readonly IInstanceCreator creator;
         private readonly ISourceValueConverter sourceValueConverter;
 
@@ -24,28 +21,14 @@
             sourceValueConverter = objectBuilderContext.SourceValueConverter;
         }
 
+        protected ObjectBuilderContext ObjectBuilderContext { get; }
+
         public object Create(ConstructionNode node, object instance, BuildContext buildContext)
         {
             buildContext.AmbientRegistrator.RegisterInstance(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
             CreateChildren(instance, node.Children, buildContext);
             return instance;
-        }
-
-        private void CreateChildren(object parent, IEnumerable<ConstructionNode> children, BuildContext buildContext)
-        {
-            foreach (var constructionNode in children)
-            {
-                var value = Create(constructionNode, buildContext);
-                if (constructionNode.Key == null)
-                {
-                    Utils.UniversalAdd(parent, value);
-                }
-                else
-                {
-                    Utils.UniversalAddToDictionary(parent, value, constructionNode.Key);
-                }
-            }
         }
 
         public object Create(ConstructionNode node, BuildContext buildContext)
@@ -58,15 +41,40 @@
             return instance;
         }
 
+        private void CreateChildren(object parent, IEnumerable<ConstructionNode> children, BuildContext buildContext)
+        {
+            foreach (var constructionNode in children)
+            {
+                var child = Create(constructionNode, buildContext);
+                var association = new ChildAssociation(parent, child, constructionNode.Key);
+
+                Associate(association);
+            }
+        }
+
+        private static void Associate(ChildAssociation childAssociation)
+        {
+            if (childAssociation.Key == null)
+            {
+                Utils.UniversalAdd(childAssociation.Parent, childAssociation.Child);                
+            }
+            else
+            {
+                Utils.UniversalAddToDictionary(childAssociation.Parent, childAssociation.Child, childAssociation.Key);
+            }
+        }
+
         private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
             var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
             buildContext.NamescopeAnnotator.TrackNewInstance(instance);
             buildContext.AmbientRegistrator.RegisterInstance(instance);
+
             if (node.Name != null)
             {
                 buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
             }
+
             return instance;
         }
 
@@ -74,7 +82,7 @@
         {
             foreach (var propertyAssignment in propertyAssignments)
             {
-                ApplyAssignment(instance, propertyAssignment, buildContext);
+                ApplyAssignment(instance, propertyAssignment, buildContext);                
             }
         }
 
@@ -83,9 +91,9 @@
             EnsureValidAssigment(propertyAssignment);
             var property = propertyAssignment.Member;
 
-            if (propertyAssignment.Children.Count() == 1 || propertyAssignment.SourceValue != null)
+            if ((propertyAssignment.Children.Count() == 1) || (propertyAssignment.SourceValue != null))
             {
-                ApplySingleAssignment(instance, propertyAssignment, buildContext, property);
+                ApplySingleAssignment(instance, propertyAssignment, buildContext, property);                
             }
             else
             {
@@ -100,14 +108,10 @@
                 var value = Create(constructionNode, buildContext);
                 var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), buildContext);
 
-                if (constructionNode.Key == null)
-                {
-                    Utils.UniversalAdd(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value);
-                }
-                else
-                {
-                    Utils.UniversalAddToDictionary(compatibleValue.Member.GetValue(compatibleValue.Instance), compatibleValue.Value, constructionNode.Key);
-                }
+                var parent = compatibleValue.Member.GetValue(compatibleValue.Instance);
+                var pendingAdd = new ChildAssociation(parent, compatibleValue.Value, constructionNode.Key);
+
+                Associate(pendingAdd);
             }
         }
 
@@ -135,14 +139,10 @@
         {
             if (converted.Member.MemberType.IsCollection())
             {
-                if (key == null)
-                {
-                    Utils.UniversalAdd(converted.Member.GetValue(converted.Instance), converted.Value);
-                }
-                else
-                {
-                    Utils.UniversalAddToDictionary(converted.Member.GetValue(converted.Instance), converted.Value, key);
-                }
+                var parent = converted.Member.GetValue(converted.Instance);
+                var child = converted.Value;
+                var pendingAdd = new ChildAssociation(parent, child, key);
+                Associate(pendingAdd);
             }
             else
             {
@@ -170,10 +170,8 @@
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return assignment.ReplaceValue(compatibleValue);
             }
-            else
-            {
-                return assignment;
-            }
+
+            return assignment;
         }
 
         protected virtual object CreateChildProperty(object parent, Member property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
@@ -183,11 +181,12 @@
 
         private void EnsureValidAssigment(MemberAssignment propertyAssignment)
         {
-            if (propertyAssignment.SourceValue != null && propertyAssignment.Children != null && propertyAssignment.Children.Any())
+            if ((propertyAssignment.SourceValue != null) && (propertyAssignment.Children != null) && propertyAssignment.Children.Any())
             {
-                throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");
+                throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");                
             }
-            if (propertyAssignment.SourceValue == null && !propertyAssignment.Children.Any())
+
+            if ((propertyAssignment.SourceValue == null) && !propertyAssignment.Children.Any())
             {
                 throw new InvalidOperationException("Children is empty.");
             }

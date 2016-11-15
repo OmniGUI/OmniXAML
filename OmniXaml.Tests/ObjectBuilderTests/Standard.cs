@@ -3,7 +3,6 @@ namespace OmniXaml.Tests.ObjectBuilderTests
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Ambient;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using Model.Custom;
@@ -11,54 +10,6 @@ namespace OmniXaml.Tests.ObjectBuilderTests
     [TestClass]
     public class Standard : ObjectBuilderTestsBase
     {
-        [TestMethod]
-        public void DependencyWhenWrongOrder()
-        {
-            var node = new ConstructionNode(typeof(Setter))
-            {
-                Assignments = new List<MemberAssignment>
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Setter>(control => control.Value),
-                        SourceValue = "Value"
-                    },
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Setter>(control => control.Property),
-                        SourceValue = "NameOfSomeType"
-                    }
-                }
-            };
-
-            var obj = (Setter) Create(node).Result;
-            Assert.IsTrue(obj.RightOrder);
-        }
-
-        [TestMethod]
-        public void DependencyWhenRightOrder()
-        {
-            var node = new ConstructionNode(typeof(Setter))
-            {
-                Assignments = new List<MemberAssignment>
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Setter>(control => control.Property),
-                        SourceValue = "NameOfSomeType"
-                    },
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Setter>(control => control.Value),
-                        SourceValue = "Value"
-                    }
-                }
-            };
-
-            var obj = (Setter) Create(node).Result;
-            Assert.IsTrue(obj.RightOrder);
-        }
-
         [TestMethod]
         public void TemplateContent()
         {
@@ -216,70 +167,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.Result);
         }
 
-        [TestMethod]
-        public void Namescope()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode>
-                        {
-                            new ConstructionNode<TextBlock> {Name = "MyTextBlock"}
-                        }
-                    }
-                }
-            };
-
-            var actual = Create(node);
-            var textBlock = actual.BuildContext.NamescopeAnnotator.Find("MyTextBlock", actual.Result);
-            Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
-        }
-
-        [TestMethod]
-        public void AmbientDirectValue()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        SourceValue = "Hello"
-                    }
-                }
-            };
-
-            var result = Create(node);
-            var assigments = new[] {new AmbientMemberAssignment {Property = Member.FromStandard<Window>(window => window.Content), Value = "Hello"}};
-
-            CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
-        }
-
-        [TestMethod]
-        public void AmbientInstances()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        SourceValue = "Hello"
-                    }
-                }
-            };
-
-            var result = Create(node);
-            var instances = new[] {new Window {Content = "Hello"}};
-
-            CollectionAssert.AreEqual(instances, result.BuildContext.AmbientRegistrator.Instances.ToList());
-        }
+    
 
         [TestMethod]
         public void BasicProperty()
@@ -300,130 +188,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             Assert.AreEqual(new Window {Height = 12}, creationFixture.Result);
         }
 
-        [TestMethod]
-        public void BasicEvent()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode>
-                        {
-                            new ConstructionNode<Button>
-                            {
-                                Assignments = new[]
-                                {
-                                    new MemberAssignment
-                                    {
-                                        Member = Member.FromStandard(typeof(Button), nameof(Button.Click)),
-                                        SourceValue = nameof(TestWindow.OnClick)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+       
 
-            var root = new TestWindow();
-            var creationFixture = Create(node, root);
+    
 
-            (root.Content as Button).ClickButton();
 
-            Assert.IsTrue(root.ButtonClicked);
-        }
-
-        [TestMethod]
-        public void AttachedEvent()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromAttached(typeof(Window), "Loaded"),
-                        SourceValue = nameof(TestWindow.OnLoad)
-                    }
-                }
-            };
-
-            var root = new TestWindow();
-            var creationFixture = Create(node, root);
-
-            root.RaiseEvent(new AttachedEventArgs {Event = Window.LoadedEvent});
-
-            Assert.IsTrue(root.WindowLoaded);
-        }
-
-        [TestMethod]
-        public void AmbientInnerNode()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode> {new ConstructionNode(typeof(TextBlock))}
-                    }
-                }
-            };
-
-            var result = Create(node);
-            var assigments = new[] {new AmbientMemberAssignment {Property = Member.FromStandard<Window>(window => window.Content), Value = new TextBlock()}};
-
-            CollectionAssert.AreEqual(assigments, result.BuildContext.AmbientRegistrator.Assigments.ToList());
-        }
-
-        [TestMethod]
-        public void NamescopeLevel()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new List<ConstructionNode>
-                        {
-                            new ConstructionNode<ItemsControl>
-                            {
-                                Assignments = new List<MemberAssignment>
-                                {
-                                    new MemberAssignment
-                                    {
-                                        Member = Member.FromStandard<ItemsControl>(c => c.Items),
-                                        Children = new ConstructionNode[]
-                                        {
-                                            new ConstructionNode<TextBlock>
-                                            {
-                                                Name = "One"
-                                            },
-                                            new ConstructionNode<TextBlock>
-                                            {
-                                                Name = "Two"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
-
-            var actual = Create(node);
-            var one = actual.BuildContext.NamescopeAnnotator.Find("One", actual.Result);
-            var two = actual.BuildContext.NamescopeAnnotator.Find("Two", actual.Result);
-            Assert.IsInstanceOfType(one, typeof(TextBlock));
-            Assert.IsInstanceOfType(two, typeof(TextBlock));
-        }
 
 
         [TestMethod]

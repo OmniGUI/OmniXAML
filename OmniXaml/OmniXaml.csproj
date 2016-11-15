@@ -89,6 +89,7 @@
     <Compile Include="Metadata\MetadataProvider.cs" />
     <Compile Include="Namescope.cs" />
     <Compile Include="NamescopeAnnotator.cs" />
+    <Compile Include="ChildAssociation.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />

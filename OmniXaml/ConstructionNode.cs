@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Reflection;
 
     public class ConstructionNode
     {
@@ -37,8 +38,9 @@
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != GetType())
+            if (!(obj is ConstructionNode))
                 return false;
+
             return Equals((ConstructionNode) obj);
         }
 

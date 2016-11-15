@@ -2,8 +2,8 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System;
     using System.Reflection;
-    using Ambient;
     using DefaultLoader;
+    using OmniXaml.Ambient;
 
     public class ObjectBuilderTestsBase
     {

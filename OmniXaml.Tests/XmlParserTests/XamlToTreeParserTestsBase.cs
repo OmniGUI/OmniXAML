@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.XmlParser
+namespace OmniXaml.Tests.XmlParserTests
 {
     using System.Reflection;
     using DefaultLoader;
