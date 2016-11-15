@@ -23,7 +23,7 @@
 
                 if (targetType == typeof(double))
                 {
-                    return int.Parse(sourceValue);
+                    return double.Parse(sourceValue);
                 }
 
                 if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))

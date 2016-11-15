@@ -20,8 +20,19 @@
 
         public object Create(Type type, BuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
         {
+            if (type.GetTypeInfo().IsPrimitive)
+            {
+                return CreatePrimitive(type, injectableMembers.First().Value, context);
+            }
+
             var ctor = SelectCtor(type, injectableMembers);
             return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());            
+        }
+
+        private object CreatePrimitive(Type type, object o, BuildContext context)
+        {
+            var converterValueContext = new ConverterValueContext(type, o, objectBuilderContext, directory, context);
+            return objectBuilderContext.SourceValueConverter.GetCompatibleValue(converterValueContext);
         }
 
         private object Call(ConstructorInfo ctor, BuildContext context, IEnumerable<InjectableMember> injectableMembers)
