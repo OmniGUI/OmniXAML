@@ -23,8 +23,7 @@
         {
             var tree = Parse(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
         }
-
-
+        
         [TestMethod]
         public void AttachedPropertyInsideElement()
         {
@@ -67,9 +66,7 @@
         {
             var tree = Parse(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
         }
-
-       
-
+        
         [TestMethod]
         public void MarkupExtension()
         {

@@ -31,5 +31,29 @@ namespace OmniXaml.Tests.XmlParserTests
 
             Assert.AreEqual(expected, tree);
         }
+
+        [TestMethod]
+        public void PropertyThatIsCollection()
+        {
+            var tree = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>");
+            var expected = new ConstructionNode(typeof(ItemsControl))
+            {
+                Assignments = new[]
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
+                        Children = new[]
+                        {
+                            new ConstructionNode(typeof(TextBlock)),
+                            new ConstructionNode(typeof(TextBlock)),
+                            new ConstructionNode(typeof(TextBlock)),
+                        }
+                    }
+                },
+            };
+
+            Assert.AreEqual(expected, tree);
+        }
     }
 }
