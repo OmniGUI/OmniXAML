@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reactive.Linq;
     using System.Xml;
     using System.Xml.Linq;
     using Metadata;
@@ -27,11 +28,30 @@
 
         public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement element)
         {
+            EnsureValidAssignments(element);
+
             var fromAttributes = FromAttributes(type, element);
             var fromPropertyElements = FromPropertyElements(type, element);
             var fromContentProperty = FromContentProperty(type, element);
 
             return fromAttributes.Concat(fromContentProperty).Concat(fromPropertyElements);
+        }
+
+        private static void EnsureValidAssignments(XContainer element)
+        {
+            var numberOfChanges = element
+                .Elements()                
+                .ToObservable()
+                .Select(IsProperty)
+                .DistinctUntilChanged()
+                .Count()
+                .ToEnumerable()
+                .First();
+
+            if (numberOfChanges > 2)
+            {
+                throw new ParseException("Property elements cannot be in the middle of an element's content. They must be before or after the content.");
+            }
         }
 
         private IEnumerable<MemberAssignment> FromContentProperty(Type type, XElement element)

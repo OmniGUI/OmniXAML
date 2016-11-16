@@ -36,6 +36,40 @@
             CollectionAssert.AreEqual(expected, assigments);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(ParseException))]
+        public void ElementOrdering_InvalidPropertyElementOrder()
+        {
+            Parse(@"<ItemsControl xmlns=""root"">
+<TextBlock/>
+<ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
+<TextBlock/>
+</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+           
+        }
+
+        [TestMethod]
+        public void ElementOrdering_PropertyAfterDirectContent()
+        {
+            Parse(@"<ItemsControl xmlns=""root"">
+<TextBlock/>
+<TextBlock/>
+<ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
+</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+
+        }
+
+        [TestMethod]
+        public void ElementOrdering_PropertyBeforeDirectContent()
+        {
+            Parse(@"<ItemsControl xmlns=""root"">
+<ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
+<TextBlock/>
+<TextBlock/>
+</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+
+        }
+
         private static List<MemberAssignment> Parse(string xaml, Func<object, ConstructionNode> parser)
         {
             var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly>() { Assembly.GetExecutingAssembly() });
@@ -70,7 +104,5 @@
 
             CollectionAssert.AreEqual(expected, assigments);
         }
-    }
-
-    
+    }    
 }

@@ -91,6 +91,7 @@
     <Compile Include="Namescope.cs" />
     <Compile Include="NamescopeAnnotator.cs" />
     <Compile Include="ChildAssociation.cs" />
+    <Compile Include="ParseException.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="TypeLocation\Address.cs" />
