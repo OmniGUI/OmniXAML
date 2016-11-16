@@ -5,6 +5,7 @@ namespace OmniXaml.Tests.Model
 
     public class ItemsControl : ModelObject
     {
+        public string HeaderText { get; set; }
         public DataTemplate ItemTemplate { get; set; }
         [Content]
         public ICollection<object> Items { get; set; } = new List<object>();

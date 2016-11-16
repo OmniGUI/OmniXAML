@@ -11,7 +11,7 @@
 
     public class XamlToTreeParser : IXamlToTreeParser
     {
-        private readonly AssignmentExtractor assignmentExtractor;
+        private readonly IAssignmentExtractor assignmentExtractor;
         private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
         private readonly ITypeDirectory typeDirectory;
@@ -20,11 +20,10 @@
         {
             this.typeDirectory = typeDirectory;
             this.metadataProvider = metadataProvider;
-            assignmentExtractor = new AssignmentExtractor(metadataProvider, typeDirectory, inlineParsers, ProcessNode);
+            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, new Resolver(typeDirectory), ProcessNode);
             directiveExtractor = new DirectiveExtractor();
         }
-
-
+        
         public ConstructionNode Parse(string xml)
         {
             var xm = XDocument.Load(new StringReader(xml));
