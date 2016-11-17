@@ -17,7 +17,7 @@
 
         public object Load()
         {
-            return builder.Create(node, buildContext);
+            return builder.Inflate(node, buildContext);
         }
 
         protected bool Equals(TemplateContent other)

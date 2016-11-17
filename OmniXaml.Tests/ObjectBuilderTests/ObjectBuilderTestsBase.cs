@@ -9,12 +9,12 @@ namespace OmniXaml.Tests.ObjectBuilderTests
     {
         protected static CreationFixture Create(ConstructionNode node, object rootInstance)
         {
-            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, rootInstance, context));
+            return CreateWithParams(node, (builder, ctNode, context) => builder.Inflate(ctNode, rootInstance, context));
         }
 
         protected static CreationFixture Create(ConstructionNode node)
         {
-            return CreateWithParams(node, (builder, ctNode, context) => builder.Create(ctNode, context));
+            return CreateWithParams(node, (builder, ctNode, context) => builder.Inflate(ctNode, context));
         }
 
         private static CreationFixture CreateWithParams(ConstructionNode node, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)

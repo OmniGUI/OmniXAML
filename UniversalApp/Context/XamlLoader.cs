@@ -50,7 +50,7 @@
             var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, directory), constructionContext, new ContextFactory(directory, constructionContext));
 
             var cons = GetConstructionNode(xaml);
-            return objectBuilder.Create(cons, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
+            return objectBuilder.Inflate(cons, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
         }
 
         private ConstructionNode GetConstructionNode(string xaml)

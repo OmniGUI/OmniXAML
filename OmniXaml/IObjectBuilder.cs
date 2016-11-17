@@ -2,7 +2,7 @@
 {
     public interface IObjectBuilder
     {
-        object Create(ConstructionNode node, BuildContext buildContext);
-        object Create(ConstructionNode node, object instance, BuildContext buildContext);
+        object Inflate(ConstructionNode node, BuildContext buildContext);
+        object Inflate(ConstructionNode node, object instance, BuildContext buildContext);
     }
 }

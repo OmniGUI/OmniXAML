@@ -41,7 +41,7 @@
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
             var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
             var objectConstructor = new ObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
-            var construct = objectConstructor.Create(ctNode, trackingContext);
+            var construct = objectConstructor.Inflate(ctNode, trackingContext);
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 

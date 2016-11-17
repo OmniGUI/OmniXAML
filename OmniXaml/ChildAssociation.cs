@@ -3,14 +3,12 @@
     internal class ChildAssociation
     {
         public object Parent { get; private set; }
-        public object Child { get; private set; }
-        public string Key { get; private set; }
+        public KeyedInstance Child { get; private set; }
 
-        public ChildAssociation(object parent, object child, string key)
+        public ChildAssociation(object parent, KeyedInstance child)
         {
             Parent = parent;
             Child = child;
-            Key = key;
         }
     }
 }

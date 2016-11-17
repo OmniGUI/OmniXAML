@@ -23,30 +23,42 @@
 
         protected ObjectBuilderContext ObjectBuilderContext { get; }
 
-        public object Create(ConstructionNode node, object instance, BuildContext buildContext)
+        public object Inflate(ConstructionNode node, object instance, BuildContext buildContext)
         {
             buildContext.AmbientRegistrator.RegisterInstance(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
-            CreateChildren(instance, node.Children, buildContext);
+            InflateChildren(node.Children, instance, buildContext);
             return instance;
         }
 
-        public object Create(ConstructionNode node, BuildContext buildContext)
+        public object Inflate(ConstructionNode node, BuildContext buildContext)
         {
-            var instance = CreateInstance(node, buildContext);
+            var instance = InflateNodeCore(node, buildContext);
             buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
-            CreateChildren(instance, node.Children, buildContext);
+            InflateChildren(node.Children, instance, buildContext);
             buildContext.InstanceLifecycleSignaler.AfterAssigments(instance);
             return instance;
         }
 
-        private void CreateChildren(object parent, IEnumerable<ConstructionNode> children, BuildContext buildContext)
+        private object InflateNodeCore(ConstructionNode node, BuildContext buildContext)
+        {
+            var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
+            buildContext.NamescopeAnnotator.TrackNewInstance(instance);
+            buildContext.AmbientRegistrator.RegisterInstance(instance);
+
+            if (node.Name != null)
+                buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
+
+            return instance;
+        }
+
+        private void InflateChildren(IEnumerable<ConstructionNode> children, object parent, BuildContext buildContext)
         {
             foreach (var constructionNode in children)
             {
-                var child = Create(constructionNode, buildContext);
-                var association = new ChildAssociation(parent, child, constructionNode.Key);
+                var child = Inflate(constructionNode, buildContext);
+                var association = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(association);
             }
@@ -54,104 +66,61 @@
 
         private static void Associate(ChildAssociation childAssociation)
         {
-            if (childAssociation.Key == null)
-            {
-                Utils.UniversalAdd(childAssociation.Parent, childAssociation.Child);                
-            }
+            var childInstance = childAssociation.Child.Instance;
+            var childKey = childAssociation.Child.Key;
+            var parent = childAssociation.Parent;
+
+            if (childKey == null)
+                Collection.UniversalAdd(parent, childInstance);
             else
-            {
-                Utils.UniversalAddToDictionary(childAssociation.Parent, childAssociation.Child, childAssociation.Key);
-            }
+                Collection.UniversalAddToDictionary(parent, childInstance, childKey);
         }
-
-        private object CreateInstance(ConstructionNode node, BuildContext buildContext)
+        
+        private void ApplyAssignment(MemberAssignment assignment, object target, BuildContext buildContext)
         {
-            var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
-            buildContext.NamescopeAnnotator.TrackNewInstance(instance);
-            buildContext.AmbientRegistrator.RegisterInstance(instance);
+            EnsureValidAssigment(assignment);
+            var property = assignment.Member;
 
-            if (node.Name != null)
-            {
-                buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
-            }
-
-            return instance;
-        }
-
-        protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> propertyAssignments, BuildContext buildContext)
-        {
-            foreach (var propertyAssignment in propertyAssignments)
-            {
-                ApplyAssignment(instance, propertyAssignment, buildContext);                
-            }
-        }
-
-        private void ApplyAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext)
-        {
-            EnsureValidAssigment(propertyAssignment);
-            var property = propertyAssignment.Member;
-
-            if ((propertyAssignment.Children.Count() == 1) || (propertyAssignment.SourceValue != null))
-            {
-                ApplySingleAssignment(instance, propertyAssignment, buildContext, property);                
-            }
+            if ((assignment.Children.Count() == 1) || (assignment.SourceValue != null))
+                ApplySingleAssignment(assignment, target, buildContext, property);
             else
-            {
-                ApplyMultiAssignment(instance, propertyAssignment, buildContext, property);
-            }
+                ApplyMultiAssignment(assignment, target, buildContext, property);
         }
 
-        private void ApplyMultiAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext, Member property)
+        private void ApplyMultiAssignment(MemberAssignment assignment, object instance, BuildContext buildContext, Member property)
         {
-            foreach (var constructionNode in propertyAssignment.Children)
+            foreach (var constructionNode in assignment.Children)
             {
-                var value = Create(constructionNode, buildContext);
-                var compatibleValue = ToCompatibleValue(new Assignment(instance, property, value), buildContext);
+                var originalValue = Inflate(constructionNode, buildContext);
+                var child = MakeCompatible(instance, new ConversionRequest(property, originalValue), buildContext);
 
-                var parent = compatibleValue.Member.GetValue(compatibleValue.Instance);
-                var pendingAdd = new ChildAssociation(parent, compatibleValue.Value, constructionNode.Key);
+                var parent = property.GetValue(instance);
+                var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(pendingAdd);
             }
         }
 
-        private void ApplySingleAssignment(object instance, MemberAssignment propertyAssignment, BuildContext buildContext, Member property)
+        private void ApplySingleAssignment(MemberAssignment assignment, object instance, BuildContext buildContext, Member member)
         {
             object value;
             string key = null;
-            if (propertyAssignment.SourceValue == null)
+            if (assignment.SourceValue == null)
             {
-                var first = propertyAssignment.Children.First();
+                var first = assignment.Children.First();
                 key = first.Key;
-                value = CreateChildProperty(instance, property, first, buildContext);
+                value = CreateChildProperty(instance, member, first, buildContext);
             }
             else
             {
-                value = propertyAssignment.SourceValue;
+                value = assignment.SourceValue;
             }
 
-            var assignment = new Assignment(instance, property, value);
-            var converted = ToCompatibleValue(assignment, buildContext);
-            PerformAssigment(converted, buildContext, key);
+            var compatibleValue = MakeCompatible(instance, new ConversionRequest(member, value), buildContext);
+            PerformAssigment(new Assignment(new KeyedInstance(instance, key), member, compatibleValue), buildContext);
         }
 
-        protected virtual void PerformAssigment(Assignment converted, BuildContext buildContext, string key)
-        {
-            if (converted.Member.MemberType.IsCollection())
-            {
-                var parent = converted.Member.GetValue(converted.Instance);
-                var child = converted.Value;
-                var pendingAdd = new ChildAssociation(parent, child, key);
-                Associate(pendingAdd);
-            }
-            else
-            {
-                converted.ExecuteAssignment();
-                OnAssigmentExecuted(converted, buildContext);
-            }
-        }
-
-        protected void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
+        private static void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
         {
             var ambientPropertyAssignment = new AmbientMemberAssignment
             {
@@ -162,34 +131,54 @@
             buildContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
-        protected virtual Assignment ToCompatibleValue(Assignment assignment, BuildContext buildContext)
+        protected virtual object MakeCompatible(object instance, ConversionRequest conversionRequest, BuildContext buildContext)
         {
-            if (assignment.Value is string)
+            var value = conversionRequest.Value;
+
+            if (value is string)
             {
-                var valueContext = contextFactory.CreateConverterContext(assignment.Member.MemberType, assignment.Value, buildContext);
+                var valueContext = contextFactory.CreateConverterContext(conversionRequest.Member.MemberType, value, buildContext);
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
-                return assignment.ReplaceValue(compatibleValue);
+                return compatibleValue;
             }
 
-            return assignment;
+            return value;
         }
 
-        protected virtual object CreateChildProperty(object parent, Member property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        protected virtual void PerformAssigment(Assignment assignment, BuildContext buildContext)
         {
-            return Create(nodeToBeCreated, buildContext);
-        }
-
-        private void EnsureValidAssigment(MemberAssignment propertyAssignment)
-        {
-            if ((propertyAssignment.SourceValue != null) && (propertyAssignment.Children != null) && propertyAssignment.Children.Any())
+            if (assignment.Member.MemberType.IsCollection())
             {
-                throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");                
+                var parent = assignment.Member.GetValue(assignment.Target.Instance);
+                var child = assignment.Value;
+                var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, assignment.Target.Key));
+                Associate(pendingAdd);
             }
-
-            if ((propertyAssignment.SourceValue == null) && !propertyAssignment.Children.Any())
+            else
             {
+                assignment.ExecuteAssignment();
+                OnAssigmentExecuted(assignment, buildContext);
+            }
+        }
+
+        protected virtual object CreateChildProperty(object parent, Member member, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        {
+            return Inflate(nodeToBeCreated, buildContext);
+        }
+
+        protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> assigments, BuildContext buildContext)
+        {
+            foreach (var propertyAssignment in assigments)
+                ApplyAssignment(propertyAssignment, instance, buildContext);
+        }
+
+        private static void EnsureValidAssigment(MemberAssignment assignment)
+        {
+            if ((assignment.SourceValue != null) && (assignment.Children != null) && assignment.Children.Any())
+                throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");
+
+            if ((assignment.SourceValue == null) && !assignment.Children.Any())
                 throw new InvalidOperationException("Children is empty.");
-            }
         }
     }
 }

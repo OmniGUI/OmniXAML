@@ -2,14 +2,14 @@
 {
     public class Assignment
     {
-        public Assignment(object instance, Member property, object value)
+        public Assignment(KeyedInstance target, Member property, object value)
         {
-            Instance = instance;
+            Target = target;
             Value = value;
             Member = property;
         }
 
-        public object Instance { get; }
+        public KeyedInstance Target { get; }
 
         public object Value { get; }
 
@@ -17,12 +17,7 @@
 
         public void ExecuteAssignment()
         {
-            Member.SetValue(Instance, Value);
-        }
-
-        public Assignment ReplaceValue(object value)
-        {
-            return new Assignment(Instance, Member, value);
+            Member.SetValue(Target.Instance, Value);
         }
     }
 }

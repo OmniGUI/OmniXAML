@@ -14,9 +14,9 @@
             this.contextFactory = contextFactory;
         }
 
-        protected override void ApplyAssignments(object instance, IEnumerable<MemberAssignment> propertyAssignments, BuildContext buildContext)
+        protected override void ApplyAssignments(object instance, IEnumerable<MemberAssignment> assigments, BuildContext buildContext)
         {
-            var sortedAssigments = SortAssigmentsByDependencies(propertyAssignments.ToList());
+            var sortedAssigments = SortAssigmentsByDependencies(assigments.ToList());
 
             base.ApplyAssignments(instance, sortedAssigments, buildContext);
         }
@@ -38,30 +38,31 @@
                 });
         }
 
-        protected override Assignment ToCompatibleValue(Assignment assignment, BuildContext buildContext)
+        protected override object MakeCompatible(object instance, ConversionRequest conversionRequest, BuildContext buildContext)
         {
-            var me = assignment.Value as IMarkupExtension;
+            var me = conversionRequest.Value as IMarkupExtension;
+            object finalValue= conversionRequest.Value;
             if (me != null)
             {
-                var value = me.GetValue(contextFactory.CreateExtensionContext(assignment, buildContext));
-                assignment = assignment.ReplaceValue(value);
+                var value = me.GetValue(contextFactory.CreateExtensionContext(new Assignment(new KeyedInstance(instance), conversionRequest.Member, conversionRequest.Value), buildContext));
+                finalValue = value;
             }
 
-            return base.ToCompatibleValue(assignment, buildContext);
+            return base.MakeCompatible(instance, new ConversionRequest(conversionRequest.Member, finalValue), buildContext);
         }
 
-        protected override object CreateChildProperty(object parent, Member property, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        protected override object CreateChildProperty(object parent, Member member, ConstructionNode nodeToBeCreated, BuildContext buildContext)
         {
             var metadata = ObjectBuilderContext.MetadataProvider.Get(parent.GetType());
             var fragmentLoaderInfo = metadata.FragmentLoaderInfo;
 
-            if (fragmentLoaderInfo != null && parent.GetType() == fragmentLoaderInfo.Type && property.MemberName == fragmentLoaderInfo.PropertyName)
+            if (fragmentLoaderInfo != null && parent.GetType() == fragmentLoaderInfo.Type && member.MemberName == fragmentLoaderInfo.PropertyName)
             {
                 return fragmentLoaderInfo.Loader.Load(nodeToBeCreated, this, buildContext);
             }
             else
             {
-                return base.CreateChildProperty(parent, property, nodeToBeCreated, buildContext);
+                return base.CreateChildProperty(parent, member, nodeToBeCreated, buildContext);
             }
         }       
     }

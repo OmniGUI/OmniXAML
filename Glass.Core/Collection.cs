@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Reflection;
 
-    public static class Utils
+    public static class Collection
     {
         public static void UniversalAdd(object collection, object item)
         {

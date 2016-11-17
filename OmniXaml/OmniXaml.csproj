@@ -43,6 +43,7 @@
     <Compile Include="Ambient\AmbientRegistrator.cs" />
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
+    <Compile Include="KeyedInstance.cs" />
     <Compile Include="OldAssignmentExtractor.cs" />
     <Compile Include="AttachedEvent.cs" />
     <Compile Include="ConstructionNode`1.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="NamescopeAnnotator.cs" />
     <Compile Include="ChildAssociation.cs" />
     <Compile Include="ParseException.cs" />
+    <Compile Include="ConversionRequest.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="TypeLocation\Address.cs" />
