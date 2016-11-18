@@ -46,7 +46,7 @@
                 }                
             }
 
-            return sourceValue;
+            return valueContext.Value;
         }
 
        
