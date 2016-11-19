@@ -55,7 +55,7 @@
 
         private ConstructionNode GetConstructionNode(string xaml)
         {
-            var sut = new XamlToTreeParser(directory, metadataProvider, new []{new InlineParser(directory), });
+            var sut = new XamlToTreeParser(metadataProvider, new []{new InlineParser(directory), }, new Resolver(directory));
             var tree = sut.Parse(xaml);
             return tree;
         }

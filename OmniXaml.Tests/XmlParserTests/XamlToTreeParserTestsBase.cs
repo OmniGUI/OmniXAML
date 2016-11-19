@@ -14,7 +14,7 @@ namespace OmniXaml.Tests.XmlParserTests
             directory.AddNamespace(XamlNamespace.Map("root").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model")));
             directory.AddNamespace(XamlNamespace.Map("custom").With(Route.Assembly(ass).WithNamespaces("OmniXaml.Tests.Model.Custom")));
 
-            var sut = new XamlToTreeParser(directory, new AttributeBasedMetadataProvider(), new[] {new InlineParser(directory)});
+            var sut = new XamlToTreeParser(new AttributeBasedMetadataProvider(), new[] {new InlineParser(directory)}, new Resolver(directory));
 
             var tree = sut.Parse(xaml);
             return tree;

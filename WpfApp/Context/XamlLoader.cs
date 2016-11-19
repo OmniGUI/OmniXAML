@@ -70,7 +70,7 @@
 
         private ConstructionNode GetConstructionNode(string xaml)
         {
-            var parser = new XamlToTreeParser(directory, new MetadataProvider(), new[] { new InlineParser(directory) });
+            var parser = new XamlToTreeParser(new MetadataProvider(), new[] { new InlineParser(directory) }, new Resolver(directory));
             var tree = parser.Parse(xaml);
             return tree;
         }

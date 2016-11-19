@@ -7,20 +7,19 @@
     using System.Xml;
     using System.Xml.Linq;
     using Metadata;
-    using TypeLocation;
 
     public class XamlToTreeParser : IXamlToTreeParser
     {
         private readonly IAssignmentExtractor assignmentExtractor;
         private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
-        private readonly ITypeDirectory typeDirectory;
+        private readonly IResolver resolver;
 
-        public XamlToTreeParser(ITypeDirectory typeDirectory, IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers)
+        public XamlToTreeParser(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver)
         {
-            this.typeDirectory = typeDirectory;
             this.metadataProvider = metadataProvider;
-            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, new Resolver(typeDirectory), ProcessNode);
+            this.resolver = resolver;
+            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, resolver, ProcessNode);
             directiveExtractor = new DirectiveExtractor();
         }
         
@@ -33,7 +32,7 @@
 
         private ConstructionNode ProcessNode(XElement node)
         {
-            var type = LocateType(node.Name);
+            var type = resolver.LocateType(node.Name);
             var rawAssigments = assignmentExtractor.GetAssignments(type, node).ToList();
             var directives = directiveExtractor.GetDirectives(node).ToList();
 
@@ -103,34 +102,6 @@
             };
         }
 
-        private Type LocateType(XName typeName)
-        {
-            var exactType = new Address
-            {
-                Namespace = typeName.NamespaceName,
-                TypeName = typeName.LocalName
-            };
-
-            var extensionType = new Address
-            {
-                Namespace = typeName.NamespaceName,
-                TypeName = typeName.LocalName + "Extension",
-            };
-
-            var type = typeDirectory.GetTypeByFullAddress(exactType);
-            if (type == null)
-            {
-                type = typeDirectory.GetTypeByFullAddress(extensionType);
-            }
-
-            if (type == null)
-            {
-                throw new XamlParserException($"Cannot locate the type {exactType}");
-            }
-            
-            return type;
-        }
-
         private IEnumerable<string> GetCtorArgs(XContainer node, Type type)
         {
             var ctorArgs = new List<string>();
@@ -145,12 +116,5 @@
             }
             return ctorArgs;
         }
-    }
-
-    internal class AttributeBasedInstanceProperties
-    {
-        public string Name { get; set; }
-        public IEnumerable<MemberAssignment> Assignments { get; set; }
-        public string Key { get; set; }
     }
 }

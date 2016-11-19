@@ -43,6 +43,8 @@
     <Compile Include="Ambient\AmbientRegistrator.cs" />
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
+    <Compile Include="AttributeBasedInstanceProperties.cs" />
+    <Compile Include="IResolver.cs" />
     <Compile Include="KeyedInstance.cs" />
     <Compile Include="OldAssignmentExtractor.cs" />
     <Compile Include="AttachedEvent.cs" />

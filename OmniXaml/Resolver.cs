@@ -6,7 +6,7 @@
     using Glass.Core;
     using TypeLocation;
 
-    public class Resolver
+    public class Resolver : IResolver
     {
         private readonly ITypeDirectory typeDirectory;
 
@@ -50,7 +50,7 @@
             return Member.FromStandard(type, nameLocalName);
         }
 
-        private Type LocateType(XName typeName)
+        public Type LocateType(XName typeName)
         {
             return typeDirectory.GetTypeByFullAddress(
                 new Address

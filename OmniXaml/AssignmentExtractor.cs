@@ -13,12 +13,12 @@
         private readonly IMetadataProvider metadataProvider;
 
         private readonly IEnumerable<IInlineParser> inlineParsers;
-        private readonly Resolver resolver;
+        private readonly IResolver resolver;
         private readonly Func<XElement, ConstructionNode> createFunc;
 
         private const string SpecialNamespace = "special";
 
-        public AssignmentExtractor(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, Resolver resolver, Func<XElement, ConstructionNode> createFunc)
+        public AssignmentExtractor(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver, Func<XElement, ConstructionNode> createFunc)
         {
             this.metadataProvider = metadataProvider;
             this.inlineParsers = inlineParsers;

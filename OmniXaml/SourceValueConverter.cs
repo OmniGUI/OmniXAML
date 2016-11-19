@@ -26,6 +26,11 @@
                     return double.Parse(sourceValue);
                 }
 
+                if (targetType == typeof(bool))
+                {
+                    return bool.Parse(sourceValue);
+                }
+
                 if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
                 {
                     var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
