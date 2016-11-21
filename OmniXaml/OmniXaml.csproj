@@ -102,6 +102,7 @@
     <Compile Include="PrefixedTypeResolver.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
+    <Compile Include="StringUtils.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="IContentPropertyRegistry.cs" />

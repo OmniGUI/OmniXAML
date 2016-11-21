@@ -3,6 +3,6 @@
     public interface IXamlLoader
     {
         ConstructionResult Load(string xaml);
-        ConstructionResult Load(string xaml, object intance);
+        ConstructionResult Load(string xaml, object rootInstance);
     }
 }

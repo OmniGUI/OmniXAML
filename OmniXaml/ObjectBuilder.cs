@@ -25,7 +25,11 @@
 
         public object Inflate(ConstructionNode node, BuildContext buildContext, object instance = null)
         {
-            buildContext.PrefixedTypeResolver.Root = node;
+            if (buildContext.PrefixedTypeResolver.Root == null)
+            {
+                buildContext.PrefixedTypeResolver.Root = node;
+            }
+            
             return InflateCore(node, buildContext, instance);
         }
 
