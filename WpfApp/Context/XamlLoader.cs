@@ -53,7 +53,7 @@
 
         public ConstructionResult Load(string xaml, object intance)
         {
-            return CreateWithParams(xaml, (builder, node, context) => builder.Inflate(node, intance, context));
+            return CreateWithParams(xaml, (builder, node, context) => builder.Inflate(node, context, intance));
         }
 
         public ConstructionResult CreateWithParams(string xaml, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)

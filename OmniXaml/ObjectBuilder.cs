@@ -23,17 +23,24 @@
 
         protected ObjectBuilderContext ObjectBuilderContext { get; }
 
-        public object Inflate(ConstructionNode node, object instance, BuildContext buildContext)
+        public object Inflate(ConstructionNode node, BuildContext buildContext, object instance = null)
         {
-            buildContext.AmbientRegistrator.RegisterInstance(instance);
-            ApplyAssignments(instance, node.Assignments, buildContext);
-            InflateChildren(node.Children, instance, buildContext);
-            return instance;
+            return InflateCore(node, buildContext, instance);
         }
 
-        public object Inflate(ConstructionNode node, BuildContext buildContext)
+        private object InflateCore(ConstructionNode node, BuildContext buildContext, object instance = null)
         {
-            var instance = InflateNodeCore(node, buildContext);
+            buildContext.CurrentNode = node;
+
+            if (instance == null)
+            {
+                instance = CreateInstance(node, buildContext);
+            }
+            else
+            {
+                buildContext.AmbientRegistrator.RegisterInstance(instance);
+            }
+
             buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
             ApplyAssignments(instance, node.Assignments, buildContext);
             InflateChildren(node.Children, instance, buildContext);
@@ -41,7 +48,7 @@
             return instance;
         }
 
-        private object InflateNodeCore(ConstructionNode node, BuildContext buildContext)
+        private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
             var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
             buildContext.NamescopeAnnotator.TrackNewInstance(instance);
@@ -57,7 +64,7 @@
         {
             foreach (var constructionNode in children)
             {
-                var child = Inflate(constructionNode, buildContext);
+                var child = InflateCore(constructionNode, buildContext);
                 var association = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(association);
@@ -91,7 +98,7 @@
         {
             foreach (var constructionNode in assignment.Children)
             {
-                var originalValue = Inflate(constructionNode, buildContext);
+                var originalValue = InflateCore(constructionNode, buildContext);
                 var child = MakeCompatible(instance, new ConversionRequest(property, originalValue), buildContext);
 
                 var parent = property.GetValue(instance);
@@ -163,7 +170,7 @@
 
         protected virtual object CreateChildProperty(object parent, Member member, ConstructionNode nodeToBeCreated, BuildContext buildContext)
         {
-            return Inflate(nodeToBeCreated, buildContext);
+            return InflateCore(nodeToBeCreated, buildContext);
         }
 
         protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> assigments, BuildContext buildContext)

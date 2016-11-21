@@ -17,5 +17,6 @@
         public IAmbientRegistrator AmbientRegistrator { get; }
         public IInstanceLifecycleSignaler InstanceLifecycleSignaler { get; }
         public IDictionary<string, object> Bag { get; set; } = new Dictionary<string, object>();
+        public ConstructionNode CurrentNode { get; set; }
     }
 }
