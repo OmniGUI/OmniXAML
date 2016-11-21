@@ -3,14 +3,19 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Tests.Namespaces;
+    using TypeLocation;
 
     public class MarkupExtensionNodeToConstructionNodeConverter
     {
+        private const string ExtensionSuffix = "Extension";
         private readonly ITypeDirectory typeDirectory;
+        private readonly Func<string, string> getNsFromPrefix;
 
-        public MarkupExtensionNodeToConstructionNodeConverter(ITypeDirectory typeDirectory)
+        public MarkupExtensionNodeToConstructionNodeConverter(ITypeDirectory typeDirectory, Func<string, string> getNsFromPrefix)
         {
             this.typeDirectory = typeDirectory;
+            this.getNsFromPrefix = getNsFromPrefix;
         }
 
         public ConstructionNode Convert(MarkupExtensionNode tree)
@@ -30,16 +35,17 @@
 
         private Type LocateType(IdentifierNode identifier)
         {
-            var type = typeDirectory.GetTypeByPrefix(identifier.Prefix, identifier.TypeName);
+            var ns = getNsFromPrefix(identifier.Prefix);
+            var type = typeDirectory.GetTypeByFullAddress(new Address(ns, identifier.TypeName));
             
             if (type == null)
             {
-                type = typeDirectory.GetTypeByPrefix(identifier.Prefix, identifier.TypeName + "Extension");
+                type = typeDirectory.GetTypeByFullAddress(new Address(ns, identifier.TypeName + ExtensionSuffix));
             }
 
             if (type == null)
             {
-                throw new XamlParserException($"Cannot locate the type {identifier}:{identifier.TypeName}");
+                throw new XamlParserException($"Cannot locate the type {identifier.Prefix}:{identifier.TypeName}");
             }
 
             return type;

@@ -17,7 +17,7 @@
         [TestMethod]
         public void ContentPropertyWithChildren()
         {
-            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", (e, a) => new ConstructionNode(typeof(TextBlock)));
 
             var expected = new[]
             {
@@ -44,7 +44,7 @@
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
-</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
            
         }
 
@@ -55,7 +55,7 @@
 <TextBlock/>
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
-</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
 
         }
 
@@ -66,16 +66,16 @@
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
 <TextBlock/>
-</ItemsControl>", element => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
 
         }
 
-        private static List<MemberAssignment> Parse(string xaml, Func<object, ConstructionNode> parser)
+        private static List<MemberAssignment> Parse(string xaml, Func<XElement, IPrefixAnnotator, ConstructionNode> parser)
         {
             var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly>() { Assembly.GetExecutingAssembly() });
             var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0], new Resolver(typeDirectory), parser);
 
-            var assigments = sut.GetAssignments(typeof(ItemsControl), XElement.Parse(xaml)).ToList();
+            var assigments = sut.GetAssignments(typeof(ItemsControl), XElement.Parse(xaml), new PrefixAnnotator()).ToList();
             return assigments;
         }
 
@@ -88,10 +88,7 @@
 </ItemsControl>";
 
             var constructionNode = new ConstructionNode(typeof(string));
-            var assigments = Parse(xaml, element =>
-             {
-                 return constructionNode;
-             });
+            var assigments = Parse(xaml, (element, annotator) => constructionNode);
 
             var expected = new[]
             {

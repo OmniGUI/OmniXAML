@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Xml.Linq;
     using Glass.Core;
+    using Tests.Namespaces;
     using TypeLocation;
 
     public class Resolver : IResolver

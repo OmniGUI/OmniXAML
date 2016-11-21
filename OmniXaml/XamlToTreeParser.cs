@@ -7,6 +7,7 @@
     using System.Xml;
     using System.Xml.Linq;
     using Metadata;
+    using TypeLocation;
 
     public class XamlToTreeParser : IXamlToTreeParser
     {
@@ -14,35 +15,41 @@
         private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
         private readonly IResolver resolver;
+        private readonly IPrefixAnnotator prefixAnnotator;
 
         public XamlToTreeParser(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver)
         {
             this.metadataProvider = metadataProvider;
             this.resolver = resolver;
-            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, resolver, ProcessNode);
+            Func<XElement, IPrefixAnnotator, ConstructionNode> func = (node, annotator) => ProcessNode(node, annotator);
+            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, resolver, func);
             directiveExtractor = new DirectiveExtractor();
         }
-        
-        public ConstructionNode Parse(string xml)
+
+        public ParseResult Parse(string xml, IPrefixAnnotator prefixAnnotator)
         {
-            var xm = XDocument.Load(new StringReader(xml));
-            var node = xm.FirstNode;
-            return ProcessNode((XElement)node);
+            var xDocument = XDocument.Load(new StringReader(xml));
+            var node = xDocument.FirstNode;
+            return new ParseResult()
+            {
+                Root = ProcessNode((XElement) node, prefixAnnotator),
+                PrefixAnnotator = prefixAnnotator,
+            };
         }
 
-        private ConstructionNode ProcessNode(XElement node)
+        private ConstructionNode ProcessNode(XElement node, IPrefixAnnotator annotator)
         {
             var type = resolver.LocateType(node.Name);
-            var rawAssigments = assignmentExtractor.GetAssignments(type, node).ToList();
+            var rawAssigments = assignmentExtractor.GetAssignments(type, node, annotator).ToList();
             var directives = directiveExtractor.GetDirectives(node).ToList();
 
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
-            var children = GetChildren(type, node);
+            var children = GetChildren(type, node, annotator);
 
             var ctorArgs = GetCtorArgs(node, type);
 
-            return new ConstructionNode(type)
+            var constructionNode = new ConstructionNode(type)
             {
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
@@ -50,16 +57,44 @@
                 InjectableArguments = ctorArgs,                
                 Children = children,
             };
+
+            AnnotatePrefixes(node, annotator, constructionNode);
+
+            return constructionNode;
         }
 
-        private IEnumerable<ConstructionNode> GetChildren(Type type, XElement node)
+        private static void AnnotatePrefixes(XElement node, IPrefixAnnotator annotator, ConstructionNode constructionNode)
+        {
+            var prefixes = GetPrefixes(node).ToList();
+            if (prefixes.Any())
+            {
+                annotator.Annotate(constructionNode, prefixes);
+            }
+        }
+
+        private static IEnumerable<PrefixDeclaration> GetPrefixes(XElement node)
+        {
+            return node
+                .Attributes()
+                .Where(attribute => attribute.IsNamespaceDeclaration)
+                .Select(
+                    attribute =>
+                    {
+                        var isEmpty = attribute.Name.NamespaceName == "";
+                        return isEmpty
+                            ? new PrefixDeclaration(string.Empty, attribute.Value)
+                            : new PrefixDeclaration(attribute.Name.LocalName, attribute.Value);
+                    });
+        }
+
+        private IEnumerable<ConstructionNode> GetChildren(Type type, XElement node, IPrefixAnnotator annotator)
         {
             var hasContentProperty = metadataProvider.Get(type).ContentProperty != null;
 
             if (!hasContentProperty)
             {
                 var childNodes = node.Nodes().OfType<XElement>().Where(element => !IsProperty(element));
-                return childNodes.Select(ProcessNode);
+                return childNodes.Select(e => ProcessNode(e, annotator));
             }
 
             return new List<ConstructionNode>();

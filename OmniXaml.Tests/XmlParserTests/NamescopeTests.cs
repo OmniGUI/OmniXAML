@@ -30,7 +30,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 }
             };
 
-            Assert.AreEqual(expectedNode, actualNode);
+            Assert.AreEqual(expectedNode, actualNode.Root);
         }
     }
 }

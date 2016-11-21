@@ -14,11 +14,11 @@
 
         private readonly IEnumerable<IInlineParser> inlineParsers;
         private readonly IResolver resolver;
-        private readonly Func<XElement, ConstructionNode> createFunc;
+        private readonly Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc;
 
         private const string SpecialNamespace = "special";
 
-        public AssignmentExtractor(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver, Func<XElement, ConstructionNode> createFunc)
+        public AssignmentExtractor(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver, Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc)
         {
             this.metadataProvider = metadataProvider;
             this.inlineParsers = inlineParsers;
@@ -26,13 +26,13 @@
             this.createFunc = createFunc;
         }
 
-        public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement element)
+        public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement element, IPrefixAnnotator annotator)
         {
             EnsureValidAssignments(element);
 
             var fromAttributes = FromAttributes(type, element);
-            var fromPropertyElements = FromPropertyElements(type, element);
-            var fromContentProperty = FromContentProperty(type, element);
+            var fromPropertyElements = FromPropertyElements(type, element, annotator);
+            var fromContentProperty = FromContentProperty(type, element, annotator);
 
             return fromAttributes.Concat(fromContentProperty).Concat(fromPropertyElements);
         }
@@ -54,7 +54,7 @@
             }
         }
 
-        private IEnumerable<MemberAssignment> FromContentProperty(Type type, XElement element)
+        private IEnumerable<MemberAssignment> FromContentProperty(Type type, XElement element, IPrefixAnnotator annotator)
         {
             var propertyElements = element.Elements().Where(xElement => !IsProperty(xElement)).ToList();
             var contentProperty = metadataProvider.Get(type).ContentProperty;
@@ -63,25 +63,25 @@
                 yield return new MemberAssignment
                 {
                     Member = Member.FromStandard(type, contentProperty),
-                    Children = propertyElements.Select(createFunc)
+                    Children = propertyElements.Select(e => createFunc(e, annotator)).ToList(),
                 };
             }
         }
 
-        private IEnumerable<MemberAssignment> FromPropertyElements(Type type, XElement element)
+        private IEnumerable<MemberAssignment> FromPropertyElements(Type type, XElement element, IPrefixAnnotator annotator)
         {
             var propertyElements = element.Elements().Where(IsProperty);
 
             foreach (var propertyElement in propertyElements)
             {
-                yield return FromPropertyElement(type, propertyElement);
+                yield return FromPropertyElement(type, propertyElement, annotator);
             }
         }
 
-        private MemberAssignment FromPropertyElement(Type type, XElement propertyElement)
+        private MemberAssignment FromPropertyElement(Type type, XElement propertyElement, IPrefixAnnotator annotator)
         {
             var member = resolver.ResolveProperty(type, propertyElement);
-            var children = propertyElement.Elements().Select(createFunc);
+            var children = propertyElement.Elements().Select(e => createFunc(e, annotator));
 
             var directValue = GetDirectValue(propertyElement);
 
@@ -120,7 +120,7 @@
             var inlineParser = inlineParsers.FirstOrDefault(p => p.CanParse(value));
             if (inlineParser != null)
             {
-                var constructionNode = inlineParser.Parse(value);
+                var constructionNode = inlineParser.Parse(value, prefix => GetNamespaceFromPrefix(attribute, prefix));
                 return new MemberAssignment { Member = property, Children = new[] { constructionNode } };
             }
 
@@ -131,6 +131,19 @@
             };
 
             return assignment;
+        }
+
+        private static string GetNamespaceFromPrefix(XAttribute attribute, string prefix)
+        {
+            var attributeParent = attribute.Parent;
+
+            if (prefix == string.Empty)
+            {
+                var defaultNamespace = attributeParent.GetDefaultNamespace();
+                return defaultNamespace.NamespaceName;
+            }
+            
+            return attributeParent.GetNamespaceOfPrefix(prefix).NamespaceName;
         }
 
         private static bool IsProperty(XElement node)

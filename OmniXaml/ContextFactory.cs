@@ -1,6 +1,7 @@
-namespace OmniXaml.Tests
+namespace OmniXaml
 {
     using System;
+    using Tests.Namespaces;
 
     public class ContextFactory : IContextFactory
     {

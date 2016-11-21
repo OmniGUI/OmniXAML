@@ -44,6 +44,8 @@
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="AttributeBasedInstanceProperties.cs" />
+    <Compile Include="IPrefixAnnotator.cs" />
+    <Compile Include="IPrefixedTypeResolver.cs" />
     <Compile Include="IResolver.cs" />
     <Compile Include="KeyedInstance.cs" />
     <Compile Include="OldAssignmentExtractor.cs" />
@@ -96,6 +98,8 @@
     <Compile Include="ChildAssociation.cs" />
     <Compile Include="ParseException.cs" />
     <Compile Include="ConversionRequest.cs" />
+    <Compile Include="PrefixAnnotator.cs" />
+    <Compile Include="PrefixedTypeResolver.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="TypeLocation\Address.cs" />
@@ -107,10 +111,10 @@
     <Compile Include="TypeLocation\ClrNamespace.cs" />
     <Compile Include="TypeLocation\ConfiguredAssembly.cs" />
     <Compile Include="TypeLocation\ConfiguredAssemblyWithNamespaces.cs" />
-    <Compile Include="ITypeDirectory.cs" />
+    <Compile Include="TypeLocation\ITypeDirectory.cs" />
     <Compile Include="TypeLocation\Namespace.cs" />
-    <Compile Include="TypeDirectory.cs" />
-    <Compile Include="TypeLocation\PrefixRegistration.cs" />
+    <Compile Include="TypeLocation\TypeDirectory.cs" />
+    <Compile Include="TypeLocation\PrefixDeclaration.cs" />
     <Compile Include="TypeLocation\Route.cs" />
     <Compile Include="TypeLocation\XamlNamespace.cs" />
     <Compile Include="TypeLocation\XmlnsDefinitionAttribute.cs" />

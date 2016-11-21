@@ -2,6 +2,12 @@
 {
     public interface IXamlToTreeParser
     {
-        ConstructionNode Parse(string xml);
+        ParseResult Parse(string xml, IPrefixAnnotator annotator);
+    }
+
+    public class ParseResult
+    {
+        public ConstructionNode Root { get; set; }
+        public IPrefixAnnotator PrefixAnnotator { get; set; }
     }
 }

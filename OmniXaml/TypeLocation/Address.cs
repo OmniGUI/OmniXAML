@@ -2,6 +2,15 @@
 {
     public class Address
     {
+        public Address()
+        {            
+        }
+
+        public Address(string ns, string typeName)
+        {
+            Namespace = ns;
+            TypeName = typeName;
+        }
         public string Namespace { get; set; }
         public string TypeName { get; set; }
 

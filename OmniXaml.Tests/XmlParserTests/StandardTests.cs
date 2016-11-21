@@ -40,7 +40,7 @@
                         },
                     }
                 },
-                tree);
+                tree.Root);
         }
 
         [TestMethod]

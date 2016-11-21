@@ -16,7 +16,7 @@
 
             var actual = Parse(@"<ResourceDictionary xmlns:x=""special"" xmlns=""root""><TextBlock x:Key=""MyKey"" /></ResourceDictionary>");
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual.Root);
         }
     }
 }

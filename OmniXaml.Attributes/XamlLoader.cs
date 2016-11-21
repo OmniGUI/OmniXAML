@@ -5,6 +5,7 @@
     using System.Reflection;
     using Ambient;
     using Tests;
+    using Tests.Namespaces;
 
     public class XamlLoader : IXamlLoader
     {
@@ -22,7 +23,7 @@
         public ConstructionResult Load(string xaml)
         {
             var ct = Parse(xaml);
-            return Construct(ct);
+            return Construct(ct.Root);
         }
 
         public ConstructionResult Load(string xaml, object intance)
@@ -45,11 +46,11 @@
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 
-        private ConstructionNode Parse(string xaml)
+        private ParseResult Parse(string xaml)
         {
             var sut = new XamlToTreeParser(metadataProvider, new[] {new InlineParser(directory)}, new Resolver(directory));
 
-            var tree = sut.Parse(xaml);
+            var tree = sut.Parse(xaml, new PrefixAnnotator());
             return tree;
         }
     }

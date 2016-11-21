@@ -26,13 +26,13 @@
         </Grid>
       </ListViewItem>
       <ListViewItem>
-        <Grid>
+        <Grid xmlns:wow="using:WpfApp;assembly=WpfApp">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="114" />
             <ColumnDefinition />
           </Grid.ColumnDefinitions>
           <Image Source="mario.png" />
-          <TextBox Text="It's-a me!">
+          <TextBox Text="{wow:MyExtension}">
           </TextBox>
         </Grid>
       </ListViewItem>

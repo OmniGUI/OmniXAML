@@ -1,4 +1,4 @@
-﻿namespace WpfApplication1.Context
+﻿namespace WpfApp.Context
 {
     using System;
     using System.Reflection;

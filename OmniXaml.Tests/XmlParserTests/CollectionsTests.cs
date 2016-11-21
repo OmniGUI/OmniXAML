@@ -10,7 +10,7 @@ namespace OmniXaml.Tests.XmlParserTests
         public void EmptyCollection()
         {
             var tree = Parse(@"<Collection xmlns=""root""></Collection>");
-            Assert.AreEqual(new ConstructionNode(typeof(Collection)), tree);
+            Assert.AreEqual(new ConstructionNode(typeof(Collection)), tree.Root);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 }
             };
 
-            Assert.AreEqual(expected, tree);
+            Assert.AreEqual(expected, tree.Root);
         }
 
         [TestMethod]
@@ -53,7 +53,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 },
             };
 
-            Assert.AreEqual(expected, tree);
+            Assert.AreEqual(expected, tree.Root);
         }
     }
 }

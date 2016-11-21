@@ -5,12 +5,13 @@
     using Adapters;
     using OmniXaml;
     using OmniXaml.Tests;
+    using OmniXaml.Tests.Namespaces;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader
     {
         private readonly MetadataProvider metadataProvider;
-        private readonly TypeDirectory directory;
+        private readonly ITypeDirectory directory;
 
         public XamlLoader()
         {
@@ -18,27 +19,23 @@
             directory = RegisterTypeLocation();
         }
 
-        private TypeDirectory RegisterTypeLocation()
+        private ITypeDirectory RegisterTypeLocation()
         {
-            var typeDirectory = new TypeDirectory();
+
 
             var type = typeof(Page);
             var ass = type.GetTypeInfo().Assembly;
-            typeDirectory.AddNamespace(
-                XamlNamespace
-                    .Map("root")
-                    .With(
-                        Route
-                            .Assembly(ass)
-                            .WithNamespaces(type.Namespace),
-                        Route
-                            .Assembly(typeof(OmniDataTemplate).GetTypeInfo().Assembly)
-                            .WithNamespaces(typeof(OmniDataTemplate).Namespace))
-            );
+            var xamlNamespace = XamlNamespace
+                .Map("root")
+                .With(
+                    Route
+                        .Assembly(ass)
+                        .WithNamespaces(type.Namespace),
+                    Route
+                        .Assembly(typeof(OmniDataTemplate).GetTypeInfo().Assembly)
+                        .WithNamespaces(typeof(OmniDataTemplate).Namespace));
 
-            typeDirectory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
-
-            return typeDirectory;
+            return new TypeDirectory(new[] { xamlNamespace });
         }
 
         public object Load(string xaml)
@@ -50,13 +47,13 @@
             var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, directory), constructionContext, new ContextFactory(directory, constructionContext));
 
             var cons = GetConstructionNode(xaml);
-            return objectBuilder.Inflate(cons, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
+            return objectBuilder.Inflate(cons.Root, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
         }
 
-        private ConstructionNode GetConstructionNode(string xaml)
+        private ParseResult GetConstructionNode(string xaml)
         {
-            var sut = new XamlToTreeParser(metadataProvider, new []{new InlineParser(directory), }, new Resolver(directory));
-            var tree = sut.Parse(xaml);
+            var sut = new XamlToTreeParser(metadataProvider, new[] { new InlineParser(directory), }, new Resolver(directory));
+            var tree = sut.Parse(xaml, new PrefixAnnotator());
             return tree;
         }
     }

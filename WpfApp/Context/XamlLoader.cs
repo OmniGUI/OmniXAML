@@ -1,49 +1,28 @@
-﻿namespace WpfApplication1.Context
+﻿namespace WpfApp.Context
 {
     using System;
+    using System.ComponentModel;
+    using System.ComponentModel.Design;
     using System.Globalization;
     using System.Windows;
     using System.Windows.Media;
+    using System.Windows.Media.Imaging;
     using OmniXaml;
     using OmniXaml.Ambient;
-    using OmniXaml.Tests;
+    using OmniXaml.Tests.Namespaces;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader : IXamlLoader
     {
-        private readonly TypeDirectory directory;
+        private readonly ITypeDirectory typeDirectory;
         private readonly ObjectBuilderContext objectBuilderContext;
 
         public XamlLoader()
         {
+            typeDirectory = GetTypeDirectory();
             var metadataProvider = new MetadataProvider();
-
-            var type = typeof(Window);
-            var ass = type.Assembly;
-
-            directory = new TypeDirectory();
-            directory.RegisterPrefix(new PrefixRegistration(string.Empty, "root"));
-
-            var configuredAssemblyWithNamespaces = Route
-                .Assembly(ass)
-                .WithNamespaces("System.Windows", "System.Windows.Controls");
-            var xamlNamespace = XamlNamespace
-                .Map("root")
-                .With(configuredAssemblyWithNamespaces);
-            directory.AddNamespace(xamlNamespace);
-
             var sourceValueConverter = GetSourceValueConverter();
             objectBuilderContext = new ObjectBuilderContext(sourceValueConverter, metadataProvider);
-        }
-
-        private static SourceValueConverter GetSourceValueConverter()
-        {
-            var sourceValueConverter = new SourceValueConverter();
-            sourceValueConverter.Add(typeof(Thickness), context => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
-            sourceValueConverter.Add(typeof(Brush), context => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
-            sourceValueConverter.Add(typeof(GridLength), context => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
-            sourceValueConverter.Add(typeof(ImageSource), context => new ImageSourceConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
-            return sourceValueConverter;
         }
 
         public ConstructionResult Load(string xaml)
@@ -56,22 +35,49 @@
             return CreateWithParams(xaml, (builder, node, context) => builder.Inflate(node, context, intance));
         }
 
-        public ConstructionResult CreateWithParams(string xaml, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)
+        private ITypeDirectory GetTypeDirectory()
         {
-            var constructionNode = GetConstructionNode(xaml);
+            var configuredAssemblyWithNamespaces = Route
+                .Assembly(typeof(Window).Assembly)
+                .WithNamespaces("System.Windows", "System.Windows.Controls");
+            var xamlNamespace = XamlNamespace
+                .Map("root")
+                .With(configuredAssemblyWithNamespaces);
+
+            return new TypeDirectory(new[] {xamlNamespace});
+        }
+
+        private static SourceValueConverter GetSourceValueConverter()
+        {
+            var sourceValueConverter = new SourceValueConverter();
+            sourceValueConverter.Add(typeof(Thickness), context => new ThicknessConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(Brush), context => new BrushConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(GridLength), context => new GridLengthConverter().ConvertFrom(null, CultureInfo.CurrentCulture, context.Value));
+            sourceValueConverter.Add(typeof(ImageSource), context => new BitmapImage(new Uri((string) context.Value, UriKind.Relative)));
+            return sourceValueConverter;
+        }
+
+        private ConstructionResult CreateWithParams(string xaml, Func<IObjectBuilder, ConstructionNode, BuildContext, object> createFunc)
+        {
+            var parseResult = GetConstructionNode(xaml);
             var sourceValueConverter = GetSourceValueConverter();
-            var instanceCreator = new InstanceCreator(sourceValueConverter, objectBuilderContext, directory);
-            var objectBuilder = new ExtendedObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
+            var instanceCreator = new InstanceCreator(sourceValueConverter, objectBuilderContext, typeDirectory);
+            var objectBuilder = new ExtendedObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(typeDirectory, objectBuilderContext));
             var namescopeAnnotator = new NamescopeAnnotator(objectBuilderContext.MetadataProvider);
-            var buildContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
-            var instance = createFunc(objectBuilder, constructionNode, buildContext);
+            var buildContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler())
+            {
+                PrefixAnnotator = parseResult.PrefixAnnotator,
+                PrefixedTypeResolver = new PrefixedTypeResolver(parseResult.PrefixAnnotator, typeDirectory)
+            };
+
+            var instance = createFunc(objectBuilder, parseResult.Root, buildContext);
             return new ConstructionResult(instance, namescopeAnnotator);
         }
 
-        private ConstructionNode GetConstructionNode(string xaml)
+        private ParseResult GetConstructionNode(string xaml)
         {
-            var parser = new XamlToTreeParser(new MetadataProvider(), new[] { new InlineParser(directory) }, new Resolver(directory));
-            var tree = parser.Parse(xaml);
+            var parser = new XamlToTreeParser(new MetadataProvider(), new[] {new InlineParser(typeDirectory)}, new Resolver(typeDirectory));
+            var tree = parser.Parse(xaml, new PrefixAnnotator());
             return tree;
         }
     }

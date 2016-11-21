@@ -1,24 +1,24 @@
 ﻿namespace OmniXaml.TypeLocation
 {
-    public class PrefixRegistration
+    public class PrefixDeclaration
     {
         private readonly string prefix;
 
-        private readonly string ns;
+        private readonly string namespaceName;
 
-        public PrefixRegistration(string prefix, string ns)
+        public PrefixDeclaration(string prefix, string namespaceName)
         {
             this.prefix = prefix;
-            this.ns = ns;
+            this.namespaceName = namespaceName;
         }
 
         public string Prefix => prefix;
 
-        public string Ns => ns;
+        public string NamespaceName => namespaceName;
 
-        protected bool Equals(PrefixRegistration other)
+        protected bool Equals(PrefixDeclaration other)
         {
-            return string.Equals(prefix, other.prefix) && string.Equals(ns, other.ns);
+            return string.Equals(prefix, other.prefix) && string.Equals(namespaceName, other.namespaceName);
         }
 
         public override bool Equals(object obj)
@@ -38,15 +38,20 @@
                 return false;
             }
 
-            return Equals((PrefixRegistration)obj);
+            return Equals((PrefixDeclaration)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return (prefix.GetHashCode() * 397) ^ ns.GetHashCode();
+                return (prefix.GetHashCode() * 397) ^ namespaceName.GetHashCode();
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Prefix {Prefix} => {NamespaceName}";
         }
     }
 }

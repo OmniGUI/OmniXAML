@@ -1,4 +1,4 @@
-﻿namespace WpfApplication1
+﻿namespace WpfApp
 {
     using System.IO;
     using System.Windows;

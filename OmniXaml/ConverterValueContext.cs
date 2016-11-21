@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using Tests.Namespaces;
 
     public class ConverterValueContext
     {

@@ -16,7 +16,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     Name = "MyWindow",
                     Assignments = new[] { new MemberAssignment { Member = Member.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" } }
                 },
-                tree);
+                tree.Root);
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     Name = "MyWindow",
                     Assignments = new[] { new MemberAssignment { Member = Member.FromStandard<Window>(window => window.Name), SourceValue = "MyWindow" } }
                 },
-                tree);
+                tree.Root);
         }
     }
 }
