@@ -20,7 +20,7 @@ namespace OmniXaml.Tests.XmlParserTests
             var directory = new TypeDirectory(namespaces);
 
             var resolver = new Resolver(directory);
-            var sut = new XamlToTreeParser(new AttributeBasedMetadataProvider(), new[] {new InlineParser(directory, resolver) }, resolver);
+            var sut = new XamlToTreeParser(new AttributeBasedMetadataProvider(), new[] {new InlineParser(resolver) }, resolver);
 
             var prefixAnnotator = new PrefixAnnotator();
             var tree = sut.Parse(xaml, prefixAnnotator );
