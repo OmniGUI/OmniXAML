@@ -4,8 +4,6 @@
     using Windows.UI.Xaml.Controls;
     using Adapters;
     using OmniXaml;
-    using OmniXaml.Tests;
-    using OmniXaml.Tests.Namespaces;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader
@@ -21,8 +19,6 @@
 
         private ITypeDirectory RegisterTypeLocation()
         {
-
-
             var type = typeof(Page);
             var ass = type.GetTypeInfo().Assembly;
             var xamlNamespace = XamlNamespace

@@ -1,11 +1,10 @@
-﻿namespace OmniXaml.DefaultLoader
+﻿namespace OmniXaml.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Ambient;
-    using Tests;
-    using Tests.Namespaces;
+    using TypeLocation;
 
     public class XamlLoader : IXamlLoader
     {

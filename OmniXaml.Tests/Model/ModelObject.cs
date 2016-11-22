@@ -1,8 +1,8 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    using DefaultLoader;
     using System;
     using System.Collections.Generic;
+    using Attributes;
 
     public class ModelObject
     {

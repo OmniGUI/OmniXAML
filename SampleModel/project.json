@@ -18,9 +18,9 @@
         "OmniXaml": {
           "target": "project"
         },
-        "OmniXaml.DefaultLoader": {
+        "OmniXaml.Attributes": {
           "target": "project"
-        }      }
+        }     }
     }
   }
 }

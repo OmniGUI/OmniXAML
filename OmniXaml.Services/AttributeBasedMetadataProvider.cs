@@ -1,7 +1,8 @@
-﻿namespace OmniXaml.DefaultLoader
+﻿namespace OmniXaml.Services
 {
     using System;
     using System.Reflection;
+    using Attributes;
     using Glass.Core;
     using Metadata;
 

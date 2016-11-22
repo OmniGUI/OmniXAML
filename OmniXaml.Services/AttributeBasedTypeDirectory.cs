@@ -1,10 +1,9 @@
-﻿namespace OmniXaml.DefaultLoader
+﻿namespace OmniXaml.Services
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Tests.Namespaces;
     using TypeLocation;
 
     public class AttributeBasedTypeDirectory : ITypeDirectory

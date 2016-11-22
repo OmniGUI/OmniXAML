@@ -2,11 +2,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System;
     using System.Reflection;
-    using DefaultLoader;
     using Model;
     using Model.Custom;
     using Namespaces;
     using OmniXaml.Ambient;
+    using Services;
     using TypeLocation;
 
     public class ObjectBuilderTestsBase

@@ -6,10 +6,10 @@
     using System.Reflection;
     using System.Xml;
     using System.Xml.Linq;
-    using DefaultLoader;
     using Metadata;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Services;
 
     [TestClass]
     public class AssignmentExtractorTests
