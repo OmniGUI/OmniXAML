@@ -9,19 +9,19 @@
         [TestMethod]
         public void ObjectAndDirectProperties()
         {
-            var tree = Parse(@"<Window xmlns=""root"" Title=""Saludos"" />");
+            var parseResult = Parse(@"<Window xmlns=""root"" Title=""Saludos"" />");
         }
 
         [TestMethod]
         public void InnerStringProperty()
         {
-            var tree = Parse(@"<Window xmlns=""root""><Window.Content>Hola</Window.Content></Window>");
+            var parseResult = Parse(@"<Window xmlns=""root""><Window.Content>Hola</Window.Content></Window>");
         }
 
         [TestMethod]
         public void InnerComplexProperty()
         {
-            var tree = Parse(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
+            var parseResult = Parse(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
         }
         
         [TestMethod]
@@ -46,31 +46,31 @@
         [TestMethod]
         public void ImmutableFromContent()
         {
-            var tree = Parse(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
+            var parseResult = Parse(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
         }
 
         [TestMethod]
         public void ContentPropertyDirectContent()
         {
-            var tree = Parse(@"<Window xmlns=""root""><TextBlock /></Window>");
+            var parseResult = Parse(@"<Window xmlns=""root""><TextBlock /></Window>");
         }
 
         [TestMethod]
         public void ContentPropertyDirectContentText()
         {
-            var tree = Parse(@"<TextBlock xmlns=""root"">Hello</TextBlock>");
+            var parseResult = Parse(@"<TextBlock xmlns=""root"">Hello</TextBlock>");
         }
 
         [TestMethod]
         public void ContentPropertyDirectContentTextInsideChild()
         {
-            var tree = Parse(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
+            var parseResult = Parse(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
         }
         
         [TestMethod]
         public void MarkupExtension()
         {
-            var tree = Parse(@"<Window xmlns=""root"" Content=""{Simple}"" />");
+            var parseResult = Parse(@"<Window xmlns=""root"" Content=""{Simple}"" />");
         }
 
         [TestMethod]
@@ -78,12 +78,6 @@
         public void InlineMarkupExtension_ThatPointsTo_TypeNotImplementing_The_Correct_Interface()
         {
             Parse(@"<Window xmlns=""root"" Content=""{TextBlock}"" />");
-        }
-
-        [TestMethod]
-        public void CData()
-        {
-            var tree = Parse(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
         }
 
         [TestMethod]

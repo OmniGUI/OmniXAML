@@ -10,15 +10,17 @@
 
     public class AssignmentExtractor : IAssignmentExtractor
     {
-        private readonly IMetadataProvider metadataProvider;
-
-        private readonly IEnumerable<IInlineParser> inlineParsers;
-        private readonly IResolver resolver;
+        private const string SpecialNamespace = "special";
         private readonly Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc;
 
-        private const string SpecialNamespace = "special";
+        private readonly IEnumerable<IInlineParser> inlineParsers;
+        private readonly IMetadataProvider metadataProvider;
+        private readonly IResolver resolver;
 
-        public AssignmentExtractor(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver, Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc)
+        public AssignmentExtractor(IMetadataProvider metadataProvider,
+            IEnumerable<IInlineParser> inlineParsers,
+            IResolver resolver,
+            Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc)
         {
             this.metadataProvider = metadataProvider;
             this.inlineParsers = inlineParsers;
@@ -63,24 +65,36 @@
                 yield break;
             }
 
-            var propertyElements = element.Elements().Where(xElement => !IsProperty(xElement)).ToList();
+            var propertyElements = GetPropertyElements(element);
 
-            if (propertyElements.Any())
+            var propertyElementsList = propertyElements.ToList();
+
+            if (propertyElementsList.Any())
             {
                 yield return new MemberAssignment
                 {
                     Member = Member.FromStandard(type, contentProperty),
-                    Children = propertyElements.Select(e => createFunc(e, annotator)).ToList(),
+                    Children = propertyElementsList.Select(e => createFunc(e, annotator)).ToList()
                 };
             }
-            else if (element.FirstNode?.NodeType == XmlNodeType.Text)
+            else
             {
-                yield return new MemberAssignment
+                var elementFirstNode = element.FirstNode;
+
+                if (elementFirstNode != null && IsText(elementFirstNode))
                 {
-                    Member = Member.FromStandard(type, contentProperty),
-                    SourceValue = ((XText)element.FirstNode).Value,
-                };
+                    yield return new MemberAssignment
+                    {
+                        Member = Member.FromStandard(type, contentProperty),
+                        SourceValue = ((XText) elementFirstNode).Value
+                    };
+                }
             }
+        }
+
+        private static IEnumerable<XElement> GetPropertyElements(XContainer parent)
+        {
+            return from e in parent.Elements() where !IsProperty(e) select e;
         }
 
         private IEnumerable<MemberAssignment> FromPropertyElements(Type type, XElement element, IPrefixAnnotator annotator)
@@ -100,18 +114,23 @@
 
             var directValue = GetDirectValue(propertyElement);
 
-            return new MemberAssignment { Member = member, Children = children, SourceValue = directValue };
+            return new MemberAssignment {Member = member, Children = children, SourceValue = directValue};
         }
 
         private static string GetDirectValue(XContainer node)
         {
             var nodeFirstNode = node.FirstNode;
-            if (nodeFirstNode != null && nodeFirstNode.NodeType == XmlNodeType.Text)
+            if (nodeFirstNode != null && IsText(nodeFirstNode))
             {
-                return ((XText)nodeFirstNode).Value;
+                return ((XText) nodeFirstNode).Value;
             }
 
             return null;
+        }
+
+        private static bool IsText(XNode nodeFirstNode)
+        {
+            return nodeFirstNode.NodeType == XmlNodeType.Text || nodeFirstNode.NodeType == XmlNodeType.CDATA;
         }
 
         private IEnumerable<MemberAssignment> FromAttributes(Type type, XElement element)
@@ -124,7 +143,7 @@
 
         private static bool IsAssignment(XAttribute attribute)
         {
-            return !(attribute.IsNamespaceDeclaration || (attribute.Name.Namespace == SpecialNamespace));
+            return !(attribute.IsNamespaceDeclaration || attribute.Name.Namespace == SpecialNamespace);
         }
 
         private MemberAssignment ToAssignment(Type type, XAttribute attribute)
@@ -136,7 +155,7 @@
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value, prefix => GetNamespaceFromPrefix(attribute, prefix));
-                return new MemberAssignment { Member = property, Children = new[] { constructionNode } };
+                return new MemberAssignment {Member = property, Children = new[] {constructionNode}};
             }
 
             var assignment = new MemberAssignment
