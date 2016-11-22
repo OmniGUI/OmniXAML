@@ -9,6 +9,7 @@
 
     public class Resolver : IResolver
     {
+        private const string ExtensionSuffix = "Extension";
         private readonly ITypeDirectory typeDirectory;
 
         public Resolver(ITypeDirectory typeDirectory)
@@ -51,14 +52,63 @@
             return Member.FromStandard(type, nameLocalName);
         }
 
-        public Type LocateType(XName typeName)
+        public Type LocateType(XName typeXName)
         {
-            return typeDirectory.GetTypeByFullAddress(
-                new Address
-                {
-                    Namespace = typeName.NamespaceName,
-                    TypeName = typeName.LocalName
-                });
+            var ns = typeXName.NamespaceName;
+            var typeName = typeXName.LocalName;
+
+            var type = typeDirectory.GetTypeByFullAddress(new Address(ns, typeName));
+
+            if (type == null)
+            {
+                var extensionType = typeDirectory.GetTypeByFullAddress(new Address(ns, typeName + ExtensionSuffix));
+
+                if ((extensionType != null) && extensionType.IsExtension())
+                    type = extensionType;
+            }
+
+            if (type == null)
+                throw new TypeNotFoundException($"Cannot not find the type {typeXName}");
+
+            return type;
+        }
+
+        public Type LocateMarkupExtension(XName typeXName)
+        {
+            var ns = typeXName.NamespaceName;
+
+            var typeName = typeXName.LocalName;
+            var typeNameWithSuffix = typeName + ExtensionSuffix;
+
+            var typeLookup = new[]
+            {
+                typeDirectory.GetTypeByFullAddress(new Address(ns, typeName)),
+                typeDirectory.GetTypeByFullAddress(new Address(ns, typeNameWithSuffix))
+            };
+
+            var candidates = (from r in typeLookup
+                where r != null
+                select r).ToList();
+
+            var markupExtensions = from type in candidates
+                where type.IsExtension()
+                select type;
+
+            var extensions = markupExtensions as Type[] ?? markupExtensions.ToArray();
+
+            if (!candidates.Any())
+                throw new TypeNotFoundException(
+                    $@"Cannot find a Markup Extension for ""{typeXName}"". We haven't found any type that is name either {typeName} or {typeNameWithSuffix}.");
+
+
+            if (candidates.Any() && !extensions.Any())
+            {
+                var candidatesMessage = string.Join(",", candidates.Select(type => type.Name));
+                throw new TypeNotFoundException(
+                    $@"Cannot find a Markup Extension for ""{typeXName}"". We found {candidates.Count}: {candidatesMessage}, but none of the is a Markup Extension.");
+            }
+
+            return extensions.First();
         }
     }
 }

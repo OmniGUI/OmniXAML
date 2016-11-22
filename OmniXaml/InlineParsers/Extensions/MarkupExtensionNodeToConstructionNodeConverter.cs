@@ -3,25 +3,26 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Tests.Namespaces;
+    using System.Reflection;
+    using System.Xml.Linq;
     using TypeLocation;
 
     public class MarkupExtensionNodeToConstructionNodeConverter
     {
-        private const string ExtensionSuffix = "Extension";
-        private readonly ITypeDirectory typeDirectory;
         private readonly Func<string, string> getNsFromPrefix;
+        private readonly IResolver resolver;
 
-        public MarkupExtensionNodeToConstructionNodeConverter(ITypeDirectory typeDirectory, Func<string, string> getNsFromPrefix)
+        public MarkupExtensionNodeToConstructionNodeConverter(Func<string, string> getNsFromPrefix, IResolver resolver)
         {
-            this.typeDirectory = typeDirectory;
             this.getNsFromPrefix = getNsFromPrefix;
+            this.resolver = resolver;
         }
 
         public ConstructionNode Convert(MarkupExtensionNode tree)
         {
             var identifier = tree.Identifier;
-            var type = LocateType(identifier);
+            var ns = getNsFromPrefix(identifier.Prefix);
+            var type = resolver.LocateMarkupExtension(XName.Get(identifier.TypeName, ns));
 
             var arguments = ParseArguments(tree.Options.OfType<PositionalOption>());
             var assignments = ParseAssignments(tree.Options.OfType<PropertyOption>(), type);
@@ -32,32 +33,14 @@
                 Assignments = assignments,
             };
         }
-
-        private Type LocateType(IdentifierNode identifier)
-        {
-            var ns = getNsFromPrefix(identifier.Prefix);
-            var type = typeDirectory.GetTypeByFullAddress(new Address(ns, identifier.TypeName));
-            
-            if (type == null)
-            {
-                type = typeDirectory.GetTypeByFullAddress(new Address(ns, identifier.TypeName + ExtensionSuffix));
-            }
-
-            if (type == null)
-            {
-                throw new XamlParserException($"Cannot locate the type {identifier.Prefix}:{identifier.TypeName}");
-            }
-
-            return type;
-        }
-
+        
         private IEnumerable<MemberAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)
         {
             return propertyOptions.Select(
                 option =>
                 {
                     var property = Member.FromStandard(parentType, option.Property);
-                    
+
 
                     var stringNode = option.Value as StringNode;
                     if (stringNode != null)
@@ -73,7 +56,7 @@
                     return new MemberAssignment
                     {
                         Member = property,
-                        Children = new [] { Convert(markupExtensionNode) }
+                        Children = new[] { Convert(markupExtensionNode) }
                     };
                 });
         }

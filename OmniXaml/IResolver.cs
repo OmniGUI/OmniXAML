@@ -7,6 +7,7 @@
     {
         Member ResolveProperty(Type type, XElement element);
         Member ResolveProperty(Type type, XAttribute attribute);
-        Type LocateType(XName typeName);
+        Type LocateType(XName typeXName);
+        Type LocateMarkupExtension(XName typeXName);
     }
 }

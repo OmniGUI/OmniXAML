@@ -76,7 +76,8 @@
 
         private ParseResult GetConstructionNode(string xaml)
         {
-            var parser = new XamlToTreeParser(new MetadataProvider(), new[] {new InlineParser(typeDirectory)}, new Resolver(typeDirectory));
+            var resolver = new Resolver(typeDirectory);
+            var parser = new XamlToTreeParser(new MetadataProvider(), new[] {new InlineParser(typeDirectory, resolver) }, resolver);
             var tree = parser.Parse(xaml, new PrefixAnnotator());
             return tree;
         }
