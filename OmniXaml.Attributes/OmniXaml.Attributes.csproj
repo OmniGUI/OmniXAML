@@ -45,6 +45,7 @@
     <Compile Include="NameAttribute.cs" />
     <Compile Include="NamescopeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlnsDefinitionAttribute.cs" />
     <Compile Include="XmlnsPrefixAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
