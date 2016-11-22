@@ -1,8 +1,8 @@
 namespace OmniXaml.Tests.XmlParserTests
 {
     using System.Reflection;
-    using DefaultLoader;
     using Namespaces;
+    using Services;
     using TypeLocation;
 
     public class XamlToTreeParserTestsBase

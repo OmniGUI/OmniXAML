@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    using DefaultLoader;
+    using Attributes;
 
     [Namescope]
     internal class Window : ModelObject

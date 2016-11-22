@@ -119,7 +119,6 @@
     <Compile Include="TypeLocation\PrefixDeclaration.cs" />
     <Compile Include="TypeLocation\Route.cs" />
     <Compile Include="TypeLocation\XamlNamespace.cs" />
-    <Compile Include="TypeLocation\XmlnsDefinitionAttribute.cs" />
     <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="XamlParserException.cs" />
     <Compile Include="XamlToTreeParser.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml
 {
-    using Tests.Namespaces;
+    using TypeLocation;
 
     public class ExtensionValueContext
     {

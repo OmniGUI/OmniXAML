@@ -9,7 +9,6 @@
     using System.Windows.Media.Imaging;
     using OmniXaml;
     using OmniXaml.Ambient;
-    using OmniXaml.Tests.Namespaces;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader : IXamlLoader

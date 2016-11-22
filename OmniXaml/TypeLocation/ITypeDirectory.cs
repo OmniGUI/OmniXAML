@@ -1,7 +1,6 @@
-﻿namespace OmniXaml.Tests.Namespaces
+﻿namespace OmniXaml.TypeLocation
 {
     using System;
-    using TypeLocation;
 
     public interface ITypeDirectory
     {
