@@ -1,4 +1,4 @@
-namespace OmniXaml.TypeLocation
+namespace OmniXaml.Attributes
 {
     using System;
 
