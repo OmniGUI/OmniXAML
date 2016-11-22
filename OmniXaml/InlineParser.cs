@@ -3,16 +3,13 @@
     using System;
     using InlineParsers.Extensions;
     using Sprache;
-    using Tests.Namespaces;
 
     public class InlineParser : IInlineParser
     {
-        private readonly ITypeDirectory typeDirectory;
         private readonly IResolver resolver;
 
-        public InlineParser(ITypeDirectory typeDirectory, IResolver resolver)
+        public InlineParser(IResolver resolver)
         {
-            this.typeDirectory = typeDirectory;
             this.resolver = resolver;
         }
 
