@@ -103,6 +103,7 @@
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="StringUtils.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="TypeLocation\Address.cs" />
     <Compile Include="AttachedProperty.cs" />
     <Compile Include="IContentPropertyRegistry.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="TypeLocation\Route.cs" />
     <Compile Include="TypeLocation\XamlNamespace.cs" />
     <Compile Include="TypeLocation\XmlnsDefinitionAttribute.cs" />
+    <Compile Include="TypeNotFoundException.cs" />
     <Compile Include="XamlParserException.cs" />
     <Compile Include="XamlToTreeParser.cs" />
     <Compile Include="ConstructionNode.cs" />

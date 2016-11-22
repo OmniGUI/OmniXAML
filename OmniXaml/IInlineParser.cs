@@ -6,6 +6,6 @@
     {
 
         bool CanParse(string inline);
-        ConstructionNode Parse(string inline, Func<string, string> resolver);
+        ConstructionNode Parse(string inline, Func<string, string> prefixResolver);
     }
 }

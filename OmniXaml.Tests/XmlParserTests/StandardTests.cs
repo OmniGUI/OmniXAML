@@ -74,6 +74,13 @@
         }
 
         [TestMethod]
+        [ExpectedException(typeof(TypeNotFoundException))]
+        public void InlineMarkupExtension_ThatPointsTo_TypeNotImplementing_The_Correct_Interface()
+        {
+            Parse(@"<Window xmlns=""root"" Content=""{TextBlock}"" />");
+        }
+
+        [TestMethod]
         public void CData()
         {
             var tree = Parse(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");

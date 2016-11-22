@@ -48,7 +48,8 @@
 
         private ParseResult Parse(string xaml)
         {
-            var sut = new XamlToTreeParser(metadataProvider, new[] {new InlineParser(directory)}, new Resolver(directory));
+            var resolver = new Resolver(directory);
+            var sut = new XamlToTreeParser(metadataProvider, new[] {new InlineParser(directory, resolver) }, resolver);
 
             var tree = sut.Parse(xaml, new PrefixAnnotator());
             return tree;
