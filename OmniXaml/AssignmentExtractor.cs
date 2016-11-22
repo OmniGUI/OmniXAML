@@ -40,7 +40,7 @@
         private static void EnsureValidAssignments(XContainer element)
         {
             var numberOfChanges = element
-                .Elements()                
+                .Elements()
                 .ToObservable()
                 .Select(IsProperty)
                 .DistinctUntilChanged()
@@ -56,14 +56,29 @@
 
         private IEnumerable<MemberAssignment> FromContentProperty(Type type, XElement element, IPrefixAnnotator annotator)
         {
-            var propertyElements = element.Elements().Where(xElement => !IsProperty(xElement)).ToList();
             var contentProperty = metadataProvider.Get(type).ContentProperty;
-            if (propertyElements.Any() && contentProperty != null)
+
+            if (contentProperty == null)
+            {
+                yield break;
+            }
+
+            var propertyElements = element.Elements().Where(xElement => !IsProperty(xElement)).ToList();
+
+            if (propertyElements.Any())
             {
                 yield return new MemberAssignment
                 {
                     Member = Member.FromStandard(type, contentProperty),
                     Children = propertyElements.Select(e => createFunc(e, annotator)).ToList(),
+                };
+            }
+            else if (element.FirstNode?.NodeType == XmlNodeType.Text)
+            {
+                yield return new MemberAssignment
+                {
+                    Member = Member.FromStandard(type, contentProperty),
+                    SourceValue = ((XText)element.FirstNode).Value,
                 };
             }
         }
@@ -142,7 +157,7 @@
                 var defaultNamespace = attributeParent.GetDefaultNamespace();
                 return defaultNamespace.NamespaceName;
             }
-            
+
             return attributeParent.GetNamespaceOfPrefix(prefix).NamespaceName;
         }
 

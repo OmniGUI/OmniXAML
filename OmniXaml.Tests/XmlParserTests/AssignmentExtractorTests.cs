@@ -12,12 +12,12 @@
     using Model;
 
     [TestClass]
-    public class AssigmentExtractorTests
+    public class AssignmentExtractorTests
     {
         [TestMethod]
         public void ContentPropertyWithChildren()
         {
-            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", (e, a) => new ConstructionNode(typeof(TextBlock)));
+            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
 
             var expected = new[]
             {
@@ -37,6 +37,23 @@
         }
 
         [TestMethod]
+        public void ContentPropertyText()
+        {
+            var assigments = Parse(@"<TextBlock xmlns=""root"">Hola</TextBlock>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(TextBlock));
+
+            var expected = new[]
+            {
+                new MemberAssignment
+                {
+                    Member = Member.FromStandard<TextBlock>(collection => collection.Text),
+                    SourceValue = "Hola",
+                }
+            };
+
+            CollectionAssert.AreEqual(expected, assigments);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ParseException))]
         public void ElementOrdering_InvalidPropertyElementOrder()
         {
@@ -44,7 +61,7 @@
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
            
         }
 
@@ -55,7 +72,7 @@
 <TextBlock/>
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
 
         }
 
@@ -66,16 +83,16 @@
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
 <TextBlock/>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)));
+</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
 
         }
 
-        private static List<MemberAssignment> Parse(string xaml, Func<XElement, IPrefixAnnotator, ConstructionNode> parser)
+        private static List<MemberAssignment> Parse(string xaml, Func<XElement, IPrefixAnnotator, ConstructionNode> parser, Type type)
         {
             var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly>() { Assembly.GetExecutingAssembly() });
             var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0], new Resolver(typeDirectory), parser);
 
-            var assigments = sut.GetAssignments(typeof(ItemsControl), XElement.Parse(xaml), new PrefixAnnotator()).ToList();
+            var assigments = sut.GetAssignments(type, XElement.Parse(xaml), new PrefixAnnotator()).ToList();
             return assigments;
         }
 
@@ -88,7 +105,7 @@
 </ItemsControl>";
 
             var constructionNode = new ConstructionNode(typeof(string));
-            var assigments = Parse(xaml, (element, annotator) => constructionNode);
+            var assigments = Parse(xaml, (element, annotator) => constructionNode, typeof(ItemsControl));
 
             var expected = new[]
             {

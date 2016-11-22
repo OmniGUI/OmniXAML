@@ -117,7 +117,7 @@
     <Compile Include="ObjectBuilderTests\Namescopes.cs" />
     <Compile Include="ObjectBuilderTests\ObjectBuilderTestsBase.cs" />
     <Compile Include="XmlParserTests\AnnotatorTests.cs" />
-    <Compile Include="XmlParserTests\AssigmentExtractorTests.cs" />
+    <Compile Include="XmlParserTests\AssignmentExtractorTests.cs" />
     <Compile Include="XmlParserTests\CollectionsTests.cs" />
     <Compile Include="XmlParserTests\Dictionaries.cs" />
     <Compile Include="XmlParserTests\EventsTests.cs" />
