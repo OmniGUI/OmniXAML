@@ -9,14 +9,14 @@ namespace OmniXaml.Tests.XmlParserTests
         [TestMethod]
         public void EmptyCollection()
         {
-            var tree = Parse(@"<Collection xmlns=""root""></Collection>");
+            var tree = ParseResult(@"<Collection xmlns=""root""></Collection>");
             Assert.AreEqual(new ConstructionNode(typeof(Collection)), tree.Root);
         }
 
         [TestMethod]
         public void Collection()
         {
-            var tree = Parse(@"<Collection Title=""My title"" xmlns=""root""><TextBlock/></Collection>");
+            var tree = ParseResult(@"<Collection Title=""My title"" xmlns=""root""><TextBlock/></Collection>");
             var expected = new ConstructionNode(typeof(Collection))
             {
                 Assignments = new[]
@@ -35,7 +35,7 @@ namespace OmniXaml.Tests.XmlParserTests
         [TestMethod]
         public void PropertyThatIsCollection()
         {
-            var tree = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>");
+            var tree = ParseResult(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>");
             var expected = new ConstructionNode(typeof(ItemsControl))
             {
                 Assignments = new[]

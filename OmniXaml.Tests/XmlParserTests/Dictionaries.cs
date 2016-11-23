@@ -14,7 +14,7 @@
                 Children = new[] {new ConstructionNode(typeof(TextBlock)) {Key = "MyKey"},}
             };
 
-            var actual = Parse(@"<ResourceDictionary xmlns:x=""special"" xmlns=""root""><TextBlock x:Key=""MyKey"" /></ResourceDictionary>");
+            var actual = ParseResult(@"<ResourceDictionary xmlns:x=""special"" xmlns=""root""><TextBlock x:Key=""MyKey"" /></ResourceDictionary>");
 
             Assert.AreEqual(expected, actual.Root);
         }

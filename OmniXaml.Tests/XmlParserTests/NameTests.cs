@@ -9,7 +9,7 @@ namespace OmniXaml.Tests.XmlParserTests
         [TestMethod]
         public void Name()
         {
-            var tree = Parse(@"<Window xmlns=""root"" Name=""MyWindow"" />");
+            var tree = ParseResult(@"<Window xmlns=""root"" Name=""MyWindow"" />");
             Assert.AreEqual(
                 new ConstructionNode(typeof(Window))
                 {
@@ -22,7 +22,7 @@ namespace OmniXaml.Tests.XmlParserTests
         [TestMethod]
         public void XName()
         {
-            var tree = Parse(@"<Window xmlns=""root"" xmlns:x=""special"" x:Name=""MyWindow"" />");
+            var tree = ParseResult(@"<Window xmlns=""root"" xmlns:x=""special"" x:Name=""MyWindow"" />");
             Assert.AreEqual(
                 new ConstructionNode(typeof(Window))
                 {

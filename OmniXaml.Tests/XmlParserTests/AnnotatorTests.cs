@@ -9,7 +9,7 @@
         public void NormalTest()
         {
             var xaml = @"<Window xmlns=""root"" xmlns:a=""one"" />";
-            var p = Parse(xaml);
+            var p = ParseResult(xaml);
         }
 
         [TestMethod]
@@ -17,7 +17,7 @@
         {
             var xaml = @"<Window xmlns=""root"">
 <TextBlock xmlns:a=""one"" /></Window>";
-            var p = Parse(xaml);
+            var p = ParseResult(xaml);
         }
     }
 }

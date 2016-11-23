@@ -9,7 +9,7 @@
         [TestMethod]
         public void CDataInsidePropertyElement()
         {
-            var parseResult = Parse(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
+            var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
 
             var expected = new ConstructionNode(typeof(Window))
             {
@@ -29,7 +29,7 @@
         [TestMethod]
         public void CDataAsContentProperty()
         {
-            var parseResult = Parse(@"<Window xmlns=""root""><![CDATA[Hello]]></Window>");
+            var parseResult = ParseResult(@"<Window xmlns=""root""><![CDATA[Hello]]></Window>");
 
             var expected = new ConstructionNode(typeof(Window))
             {

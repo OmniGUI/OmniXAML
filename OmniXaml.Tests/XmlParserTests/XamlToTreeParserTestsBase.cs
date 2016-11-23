@@ -7,7 +7,7 @@ namespace OmniXaml.Tests.XmlParserTests
 
     public class XamlToTreeParserTestsBase
     {
-        protected static ParseResult Parse(string xaml)
+        protected static ParseResult ParseResult(string xaml)
         {
             var ass = Assembly.Load(new AssemblyName("OmniXaml.Tests"));
            
