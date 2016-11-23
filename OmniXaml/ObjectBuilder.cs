@@ -43,7 +43,7 @@
             }
             else
             {
-                buildContext.AmbientRegistrator.RegisterInstance(instance);
+                NotifyNewInstance(buildContext, instance);
             }
 
             buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
@@ -53,11 +53,16 @@
             return instance;
         }
 
+        private static void NotifyNewInstance(BuildContext buildContext, object instance)
+        {
+            buildContext.NamescopeAnnotator.TrackNewInstance(instance);
+            buildContext.AmbientRegistrator.RegisterInstance(instance);
+        }
+
         private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
             var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
-            buildContext.NamescopeAnnotator.TrackNewInstance(instance);
-            buildContext.AmbientRegistrator.RegisterInstance(instance);
+            NotifyNewInstance(buildContext, instance);
 
             if (node.Name != null)
                 buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);

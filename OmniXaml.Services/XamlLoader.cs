@@ -19,29 +19,19 @@
             objectBuilderContext = new ObjectBuilderContext(new SourceValueConverter(), metadataProvider);
         }
 
-        public ConstructionResult Load(string xaml)
+        public ConstructionResult Load(string xaml, object intance = null)
         {
             var ct = Parse(xaml);
-            return Construct(ct.Root);
+            return Construct(ct.Root, intance);
         }
 
-        public ConstructionResult Load(string xaml, object intance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public static XamlLoader FromAttributes(params Assembly[] assemblies)
-        {
-            return new XamlLoader(assemblies);
-        }
-
-        private ConstructionResult Construct(ConstructionNode ctNode)
+        private ConstructionResult Construct(ConstructionNode ctNode, object intance)
         {
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
             var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
             var objectConstructor = new ObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
-            var construct = objectConstructor.Inflate(ctNode, trackingContext);
+            var construct = objectConstructor.Inflate(ctNode, trackingContext, intance);
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 
