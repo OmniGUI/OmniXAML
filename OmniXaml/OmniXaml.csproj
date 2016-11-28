@@ -44,6 +44,7 @@
     <Compile Include="Assignment.cs" />
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="AttributeBasedInstanceProperties.cs" />
+    <Compile Include="DelegateParser.cs" />
     <Compile Include="IPrefixAnnotator.cs" />
     <Compile Include="IPrefixedTypeResolver.cs" />
     <Compile Include="IResolver.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="ConversionRequest.cs" />
     <Compile Include="PrefixAnnotator.cs" />
     <Compile Include="PrefixedTypeResolver.cs" />
+    <Compile Include="PrimitiveParser.cs" />
     <Compile Include="Resolver.cs" />
     <Compile Include="StandardEvent.cs" />
     <Compile Include="StringUtils.cs" />

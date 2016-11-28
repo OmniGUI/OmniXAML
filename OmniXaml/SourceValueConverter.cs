@@ -7,59 +7,43 @@
 
     public class SourceValueConverter : ISourceValueConverter
     {
-        readonly Dictionary<Type, Func<ConverterValueContext, object>> converters = new Dictionary<Type, Func<ConverterValueContext, object>>();
+        private readonly Dictionary<Type, Func<ConverterValueContext, object>> converters = new Dictionary<Type, Func<ConverterValueContext, object>>();
 
         public object GetCompatibleValue(ConverterValueContext valueContext)
         {
             var targetType = valueContext.TargetType;
             var sourceValue = valueContext.Value as string;
 
-            if (sourceValue != null)
+            if (sourceValue == null)
             {
-                if (targetType == typeof(int))
-                {
-                    return int.Parse(sourceValue);
-                }
+                return valueContext.Value;
+            }
 
-                if (targetType == typeof(double))
-                {
-                    return double.Parse(sourceValue);
-                }
+            object result;
+            if (PrimitiveParser.TryParse(targetType, sourceValue, out result))
+            {
+                return result;                
+            }
 
-                if (targetType == typeof(bool))
-                {
-                    return bool.Parse(sourceValue);
-                }
+            if (DelegateParser.TryParse(sourceValue, targetType, valueContext.BuildContext.AmbientRegistrator.Instances.FirstOrDefault(), out result))
+            {
+                return result;
+            }
+            
+            Func<ConverterValueContext, object> converter;
+            if (converters.TryGetValue(targetType, out converter))
+            {
+                return converter(valueContext);
+            }
 
-                if (targetType == typeof(float))
-                {
-                    return float.Parse(sourceValue);
-                }
-
-                if (typeof(Delegate).GetTypeInfo().IsAssignableFrom(targetType.GetTypeInfo()))
-                {
-                    var rootInstance = valueContext.BuildContext.AmbientRegistrator.Instances.First();
-                    var callbackMethodInfo = rootInstance.GetType()
-                        .GetRuntimeMethods().First(method => method.Name.Equals(sourceValue));
-                    return callbackMethodInfo.CreateDelegate(valueContext.TargetType, rootInstance);
-                }
-
-                Func<ConverterValueContext, object> converter;
-                if (converters.TryGetValue(targetType, out converter))
-                {
-                    return converter(valueContext);
-                }
-
-                if (targetType.GetTypeInfo().IsEnum)
-                {
-                    return Enum.Parse(targetType, sourceValue);
-                }                
+            if (targetType.GetTypeInfo().IsEnum)
+            {
+                return Enum.Parse(targetType, sourceValue);
             }
 
             return valueContext.Value;
         }
 
-       
         public void Add(Type type, Func<ConverterValueContext, object> func)
         {
             converters.Add(type, func);

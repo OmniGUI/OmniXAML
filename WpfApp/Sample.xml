@@ -22,7 +22,7 @@
             <ColumnDefinition />
           </Grid.ColumnDefinitions>
           <Image Source="mario.png" />
-          <TextBoxs>It's-a me!</TextBoxs>
+          <TextBox>It's-a me!</TextBox>
         </Grid>
       </ListViewItem>
       <ListViewItem>
