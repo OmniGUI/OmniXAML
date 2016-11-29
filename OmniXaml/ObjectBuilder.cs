@@ -40,16 +40,16 @@
             if (instance == null)
             {
                 instance = CreateInstance(node, buildContext);
+                buildContext.InstanceLifecycleSignaler.OnBegin(instance);
             }
             else
             {
                 NotifyNewInstance(buildContext, instance);
             }
-
-            buildContext.InstanceLifecycleSignaler.BeforeAssigments(instance);
+            
             ApplyAssignments(instance, node.Assignments, buildContext);
             InflateChildren(node.Children, instance, buildContext);
-            buildContext.InstanceLifecycleSignaler.AfterAssigments(instance);
+            buildContext.InstanceLifecycleSignaler.EndEnd(instance);
             return instance;
         }
 
@@ -77,22 +77,33 @@
                 var child = InflateCore(constructionNode, buildContext);
                 var association = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
-                Associate(association);
+                Associate(association, buildContext);
             }
         }
 
-        private static void Associate(ChildAssociation childAssociation)
+        private void Associate(ChildAssociation childAssociation, BuildContext buildContext)
         {
             var childInstance = childAssociation.Child.Instance;
             var childKey = childAssociation.Child.Key;
             var parent = childAssociation.Parent;
 
             if (childKey == null)
+            {
                 Collection.UniversalAdd(parent, childInstance);
+            }
             else
+            {
                 Collection.UniversalAddToDictionary(parent, childInstance, childKey);
+            }
+
+            OnInstanceAssociated(buildContext, childInstance);
         }
-        
+
+        protected void OnInstanceAssociated(BuildContext buildContext, object childInstance)
+        {
+            buildContext.InstanceLifecycleSignaler.AfterAssociatedToParent(childInstance);
+        }
+
         private void ApplyAssignment(MemberAssignment assignment, object target, BuildContext buildContext)
         {
             EnsureValidAssigment(assignment);
@@ -114,7 +125,7 @@
                 var parent = property.GetValue(instance);
                 var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
-                Associate(pendingAdd);
+                Associate(pendingAdd, buildContext);
             }
         }
 
@@ -169,7 +180,7 @@
                 var parent = assignment.Member.GetValue(assignment.Target.Instance);
                 var child = assignment.Value;
                 var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, assignment.Target.Key));
-                Associate(pendingAdd);
+                Associate(pendingAdd, buildContext);
             }
             else
             {

@@ -2,6 +2,7 @@ namespace OmniXaml
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Reflection;
 
@@ -13,20 +14,28 @@ namespace OmniXaml
         {
             var typeInfo = targetType.GetTypeInfo();
 
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.InvariantCulture;
 
             MethodInfo converter;
             if (Parsers.TryGetValue(targetType, out converter))
             {
-                result = converter.Invoke(null, new object[] { sourceValue });
-                return true;
+                var parameters = new object[] { sourceValue, null };
+                var tryParse = converter.Invoke(null, parameters);
+                result = parameters[1];
+                return (bool)tryParse;
+                
             }
 
             if (typeInfo.IsPrimitive && targetType != typeof(IntPtr) && targetType != typeof(UIntPtr))
             {
                 var method = GetParseMethod(targetType);
-                result = method.Invoke(null, new object[] { sourceValue });
+
                 Parsers.Add(targetType, method);
-                return true;
+
+                var parameters = new object[] { sourceValue, null };
+                var tryParse = method.Invoke(null, parameters);
+                result = parameters[1];
+                return (bool)tryParse;
             }
 
             result = null;
@@ -39,8 +48,8 @@ namespace OmniXaml
                 mi =>
                 {
                     var parameterInfos = mi.GetParameters();
-                    var hasUniqueStringArgument = parameterInfos.Length == 1 && parameterInfos.First().ParameterType == typeof(string);
-                    return mi.Name == "Parse" && hasUniqueStringArgument;
+                    var hasUniqueStringArgument = parameterInfos.Length == 2 && parameterInfos.First().ParameterType == typeof(string);
+                    return mi.Name == "TryParse" && hasUniqueStringArgument;
                 });
         }
     }

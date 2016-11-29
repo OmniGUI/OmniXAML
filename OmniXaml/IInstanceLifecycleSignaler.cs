@@ -2,7 +2,8 @@
 {
     public interface IInstanceLifecycleSignaler
     {
-        void BeforeAssigments(object instance);
-        void AfterAssigments(object instance);
+        void OnBegin(object instance);
+        void EndEnd(object instance);
+        void AfterAssociatedToParent(object instance);
     }
 }
