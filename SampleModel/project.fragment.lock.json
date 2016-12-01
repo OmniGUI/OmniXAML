@@ -18,17 +18,17 @@
         }
       }
     },
-    "OmniXaml.DefaultLoader/1.0.0": {
+    "OmniXaml.Attributes/1.0.0": {
       "type": "project",
       "framework": ".NETStandard,Version=v1.2",
       "compile": {
-        "bin/Debug/OmniXaml.DefaultLoader.dll": {}
+        "bin/Debug/OmniXaml.Attributes.dll": {}
       },
       "runtime": {
-        "bin/Debug/OmniXaml.DefaultLoader.dll": {}
+        "bin/Debug/OmniXaml.Attributes.dll": {}
       },
       "contentFiles": {
-        "bin/Debug/OmniXaml.DefaultLoader.pdb": {
+        "bin/Debug/OmniXaml.Attributes.pdb": {
           "buildAction": "None",
           "codeLanguage": "any",
           "copyToOutput": true

@@ -10,7 +10,7 @@ namespace OmniXaml.Tests.Namespaces
     using TypeLocation;
 
     [TestClass]
-    public class UnitTest1
+    public class PrefixAnnotatorTests
     {
         [TestMethod]
         public void ParentPrefixesAreAvailableInChild()

@@ -7,9 +7,12 @@
         [Content]
         public string Text { get; set; }
 
+        public TextWrapping TextWrapping { get; set; }
+
+
         protected bool Equals(TextBlock other)
         {
-            return string.Equals(Text, other.Text);
+            return base.Equals(other) && string.Equals(Text, other.Text) && TextWrapping == other.TextWrapping;
         }
 
         public override bool Equals(object obj)
@@ -20,12 +23,18 @@
                 return true;
             if (obj.GetType() != this.GetType())
                 return false;
-            return Equals((TextBlock) obj);
+            return Equals((TextBlock)obj);
         }
 
         public override int GetHashCode()
         {
-            return (Text != null ? Text.GetHashCode() : 0);
+            unchecked
+            {
+                int hashCode = base.GetHashCode();
+                hashCode = (hashCode * 397) ^ (Text != null ? Text.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (int)TextWrapping;
+                return hashCode;
+            }
         }
     }
 }

@@ -188,13 +188,25 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             Assert.AreEqual(new Window {Height = 12}, creationFixture.Result);
         }
 
-       
+        [TestMethod]
+        public void EnumProperty()
+        {
+            var node = new ConstructionNode(typeof(TextBlock))
+            {
+                Assignments = new[]
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<TextBlock>(tb => tb.TextWrapping),
+                        SourceValue = "NoWrap"
+                    }
+                }
+            };
 
-    
-
-
-
-
+            var creationFixture = Create(node);
+            Assert.AreEqual(new TextBlock { TextWrapping = TextWrapping.NoWrap }, creationFixture.Result);
+        }
+        
         [TestMethod]
         public void Collection()
         {

@@ -2,12 +2,14 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Globalization;
     using System.Linq;
-    using System.Reflection;
 
     public class SourceValueConverter : ISourceValueConverter
     {
-        private readonly Dictionary<Type, Func<ConverterValueContext, object>> converters = new Dictionary<Type, Func<ConverterValueContext, object>>();
+        private readonly Dictionary<Type, Func<ConverterValueContext, object>> standardConverters = new Dictionary<Type, Func<ConverterValueContext, object>>();
+        private readonly ISet<TypeConverter> typeConverters = new HashSet<TypeConverter>();
 
         public object GetCompatibleValue(ConverterValueContext valueContext)
         {
@@ -20,33 +22,52 @@
             }
 
             object result;
-            if (PrimitiveParser.TryParse(targetType, sourceValue, out result))
-            {
-                return result;                
-            }
-
-            if (DelegateParser.TryParse(sourceValue, targetType, valueContext.BuildContext.AmbientRegistrator.Instances.FirstOrDefault(), out result))
+            if (BuiltItConversionParser.TryParse(targetType, sourceValue, out result))
             {
                 return result;
             }
-            
+
+            var delegateParent = valueContext.BuildContext.AmbientRegistrator.Instances.FirstOrDefault();
+            if (DelegateParser.TryParse(sourceValue, targetType, delegateParent, out result))
+            {
+                return result;
+            }
+
             Func<ConverterValueContext, object> converter;
-            if (converters.TryGetValue(targetType, out converter))
+            if (standardConverters.TryGetValue(targetType, out converter))
             {
                 return converter(valueContext);
             }
 
-            if (targetType.GetTypeInfo().IsEnum)
+            if (ConvertersTryParse(sourceValue, valueContext, out result))
             {
-                return Enum.Parse(targetType, sourceValue);
+                return result;
             }
 
             return valueContext.Value;
         }
 
+        private bool ConvertersTryParse(string sourceValue, ConverterValueContext valueContext, out object result)
+        {
+            var converter = typeConverters.FirstOrDefault(typeConverter => typeConverter.CanConvertFrom(typeof(string)));
+            if (converter != null)
+            {
+                result = converter.ConvertFrom(new SourceValueConverterTypeDescriptorContext(valueContext), CultureInfo.CurrentCulture, sourceValue);
+                return true;
+            }
+
+            result = null;
+            return false;
+        }
+
         public void Add(Type type, Func<ConverterValueContext, object> func)
         {
-            converters.Add(type, func);
+            standardConverters.Add(type, func);
+        }
+
+        public void Add(TypeConverter converter)
+        {
+            typeConverters.Add(converter);
         }
     }
 }
