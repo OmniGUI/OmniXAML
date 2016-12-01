@@ -45,7 +45,7 @@
     <Compile Include="AssignmentExtractor.cs" />
     <Compile Include="AttributeBasedInstanceProperties.cs" />
     <Compile Include="DelegateParser.cs" />
-    <Compile Include="BuiltItConversionParser.cs" />
+    <Compile Include="BuiltInConversionParser.cs" />
     <Compile Include="IPrefixAnnotator.cs" />
     <Compile Include="IPrefixedTypeResolver.cs" />
     <Compile Include="IResolver.cs" />

@@ -21,8 +21,20 @@
                 return valueContext.Value;
             }
 
+
+            Func<ConverterValueContext, object> converter;
+            if (standardConverters.TryGetValue(targetType, out converter))
+            {
+                return converter(valueContext);
+            }
+
             object result;
-            if (BuiltItConversionParser.TryParse(targetType, sourceValue, out result))
+            if (ConvertersTryParse(sourceValue, valueContext, targetType, out result))
+            {
+                return result;
+            }
+            
+            if (BuiltInConversionParser.TryParse(targetType, sourceValue, out result))
             {
                 return result;
             }
@@ -33,27 +45,23 @@
                 return result;
             }
 
-            Func<ConverterValueContext, object> converter;
-            if (standardConverters.TryGetValue(targetType, out converter))
-            {
-                return converter(valueContext);
-            }
-
-            if (ConvertersTryParse(sourceValue, valueContext, out result))
-            {
-                return result;
-            }
-
             return valueContext.Value;
         }
 
-        private bool ConvertersTryParse(string sourceValue, ConverterValueContext valueContext, out object result)
+        private bool ConvertersTryParse(string sourceValue, ConverterValueContext valueContext, Type targetType, out object result)
         {
-            var converter = typeConverters.FirstOrDefault(typeConverter => typeConverter.CanConvertFrom(typeof(string)));
+            var converter = typeConverters.FirstOrDefault(typeConverter => typeConverter.GetType().Name.StartsWith(targetType.Name) && typeConverter.CanConvertFrom(typeof(string)));
             if (converter != null)
             {
-                result = converter.ConvertFrom(new SourceValueConverterTypeDescriptorContext(valueContext), CultureInfo.CurrentCulture, sourceValue);
-                return true;
+                try
+                {
+                    result = converter.ConvertFrom(new SourceValueConverterTypeDescriptorContext(valueContext), CultureInfo.CurrentCulture, sourceValue);
+                    return true;
+                }
+                catch
+                {
+                    
+                }               
             }
 
             result = null;

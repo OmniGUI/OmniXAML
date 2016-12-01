@@ -3,6 +3,7 @@
   "dependencies": {
     "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
     "NETStandard.Library": "1.6.1",
+    "Serilog": "2.3.0",
     "Sprache": "2.1.0",
     "System.ComponentModel.TypeConverter": "4.3.0",
     "System.Reactive": "3.1.1"
