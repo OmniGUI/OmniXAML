@@ -6,7 +6,7 @@
         {
         }
 
-        public void EndEnd(object instance)
+        public void OnEnd(object instance)
         {
         }
 

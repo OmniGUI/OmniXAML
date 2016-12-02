@@ -43,8 +43,9 @@
                 var propertyName = nameLocalName.Skip(dot + 1).AsString();
 
                 var xname = attribute.Name.NamespaceName == string.Empty
-                    ? XName.Get(ownerName, attribute.Parent.Name.NamespaceName)
+                    ? XName.Get(ownerName, attribute.Parent.GetDefaultNamespace().NamespaceName)
                     : XName.Get(ownerName, attribute.Name.NamespaceName);
+
                 var ownerType = LocateType(xname);
                 return Member.FromAttached(ownerType, propertyName);
             }

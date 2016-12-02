@@ -50,7 +50,7 @@
             
             ApplyAssignments(instance, node.Assignments, buildContext);
             InflateChildren(node.Children, instance, buildContext);
-            buildContext.InstanceLifecycleSignaler.EndEnd(instance);
+            buildContext.InstanceLifecycleSignaler.OnEnd(instance);
             return instance;
         }
 

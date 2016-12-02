@@ -3,7 +3,7 @@
     public interface IInstanceLifecycleSignaler
     {
         void OnBegin(object instance);
-        void EndEnd(object instance);
+        void OnEnd(object instance);
         void AfterAssociatedToParent(object instance);
     }
 }
