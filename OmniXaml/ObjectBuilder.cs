@@ -82,7 +82,7 @@
             }
         }
 
-        private void Associate(ChildAssociation childAssociation, BuildContext buildContext)
+        protected void Associate(ChildAssociation childAssociation, BuildContext buildContext)
         {
             var childInstance = childAssociation.Child.Instance;
             var childKey = childAssociation.Child.Key;

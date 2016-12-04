@@ -98,7 +98,7 @@
 
             if (!candidates.Any())
                 throw new TypeNotFoundException(
-                    $@"Cannot find a Markup Extension for ""{typeXName}"". We haven't found any type that is name either {typeName} or {typeNameWithSuffix}.");
+                    $@"Cannot find a Markup Extension for ""{typeXName}"". We haven't found any type that is named either {typeName} or {typeNameWithSuffix}.");
 
 
             if (candidates.Any() && !extensions.Any())
