@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Reflection;
+    using System.Text.RegularExpressions;
     using System.Xml.Linq;
     using Glass.Core;
     using TypeLocation;
@@ -11,6 +12,7 @@
     {
         private const string ExtensionSuffix = "Extension";
         private readonly ITypeDirectory typeDirectory;
+        private static Regex s_classNameRegex = new Regex(@"(?<class>\w+\.\w+|\w+);assembly=(?<assembly>\w+\.\w+|\w+)");
 
         public Resolver(ITypeDirectory typeDirectory)
         {
@@ -106,7 +108,7 @@
             {
                 var candidatesMessage = string.Join(",", candidates.Select(type => type.Name));
                 throw new TypeNotFoundException(
-                    $@"Cannot find a Markup Extension for ""{typeXName}"". We found {candidates.Count}: {candidatesMessage}, but none of the is a Markup Extension.");
+                    $@"Cannot find a Markup Extension for ""{typeXName}"". We found {candidates.Count}: {candidatesMessage}, but none of them is a Markup Extension.");
             }
 
             return extensions.First();
@@ -114,8 +116,18 @@
 
         public Type LocateTypeForClassDirective(Type constructionType, string classDirectiveValue)
         {
-            var assembly = constructionType.GetTypeInfo().Assembly;
-            return assembly.GetType(classDirectiveValue);
+            //var assembly = constructionType.GetTypeInfo().Assembly;
+            var match = s_classNameRegex.Match(classDirectiveValue);
+
+            if (!match.Success)
+            {
+                throw new TypeNotFoundException($"Cannot locate type {classDirectiveValue} specified in the x:Class directive.");
+            }
+
+            var className = match.Groups["class"].Value;
+            var assembly = Assembly.Load(new AssemblyName(match.Groups["assembly"].Value));
+            
+            return assembly.GetType(className);
         }
     }
 }

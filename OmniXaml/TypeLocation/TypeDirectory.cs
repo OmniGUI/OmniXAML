@@ -19,7 +19,9 @@
             var ns = GetNamespace(address.Namespace);
 
             if (ns == null)
-                throw new Exception($"Error trying to resolve a XamlType: Cannot find the namespace '{address.Namespace}'");
+            {
+                throw new Exception($"Error trying to resolve a XamlType: Cannot find the namespace '{address.Namespace}'");                
+            }
 
             return ns.Get(address.TypeName);
         }
