@@ -16,5 +16,7 @@
         {
             WindowLoaded = true;
         }
+
+        public event EventHandler Clicked;
     }
 }

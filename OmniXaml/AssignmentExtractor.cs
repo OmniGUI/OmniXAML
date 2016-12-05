@@ -28,13 +28,13 @@
             this.createFunc = createFunc;
         }
 
-        public IEnumerable<MemberAssignment> GetAssignments(Type type, XElement element, IPrefixAnnotator annotator)
+        public IEnumerable<MemberAssignment> GetAssignments(Type owner, XElement element, IPrefixAnnotator annotator)
         {
             EnsureValidAssignments(element);
 
-            var fromAttributes = FromAttributes(type, element);
-            var fromPropertyElements = FromPropertyElements(type, element, annotator);
-            var fromContentProperty = FromContentProperty(type, element, annotator);
+            var fromAttributes = FromAttributes(owner, element);
+            var fromPropertyElements = FromPropertyElements(owner, element, annotator);
+            var fromContentProperty = FromContentProperty(owner, element, annotator);
 
             return fromAttributes.Concat(fromContentProperty).Concat(fromPropertyElements);
         }

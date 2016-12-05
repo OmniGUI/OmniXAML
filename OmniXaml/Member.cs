@@ -1,30 +1,34 @@
 ﻿namespace OmniXaml
 {
     using System;
+    using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Glass;
     using Glass.Core;
-    using System.Linq;
 
     public abstract class Member
     {
-        public Type Owner { get; }
-        public string MemberName { get; }
-
         public Member(Type owner, string memberName)
         {
             Owner = owner;
             MemberName = memberName;
         }
 
+        public Type Owner { get; }
+        public string MemberName { get; }
+        public abstract Type MemberType { get; }
+
         public abstract object GetValue(object instance);
         public abstract void SetValue(object instance, object value);
-        public abstract Type MemberType { get; }
 
         public static Member FromStandard<T>(Expression<Func<T, object>> propertySelector)
         {
             return FromStandard(typeof(T), propertySelector.GetFullPropertyName());
+        }
+
+        public static Member FromStandard<T>(string member)
+        {
+            return FromStandard(typeof(T), member);
         }
 
         public static Member FromStandard(Type type, string member)
@@ -33,7 +37,7 @@
             {
                 return new StandardProperty(type, member);
             }
-            else if(type.GetRuntimeEvent(member) != null)
+            if (type.GetRuntimeEvent(member) != null)
             {
                 return new StandardEvent(type, member);
             }
@@ -53,10 +57,7 @@
             {
                 return new AttachedProperty(type, memberName);
             }
-            else
-            {
-                return new AttachedEvent(type, memberName);
-            }
+            return new AttachedEvent(type, memberName);
         }
 
         public override string ToString()
@@ -66,17 +67,23 @@
 
         protected bool Equals(Member other)
         {
-            return Owner == other.Owner && string.Equals(MemberName, other.MemberName);
+            return (Owner == other.Owner) && string.Equals(MemberName, other.MemberName);
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
+            {
                 return false;
+            }
             if (ReferenceEquals(this, obj))
+            {
                 return true;
-            if (obj.GetType() != this.GetType())
+            }
+            if (obj.GetType() != GetType())
+            {
                 return false;
+            }
             return Equals((Member) obj);
         }
 

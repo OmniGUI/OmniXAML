@@ -7,6 +7,7 @@
     using System.Reflection;
     using Ambient;
     using Glass.Core;
+    using Serilog;
 
     public class ObjectBuilder : IObjectBuilder
     {
@@ -233,10 +234,16 @@
         private static void EnsureValidAssigment(MemberAssignment assignment)
         {
             if ((assignment.SourceValue != null) && (assignment.Children != null) && assignment.Children.Any())
+            {
                 throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");
-
+                
+            }
             if ((assignment.SourceValue == null) && !assignment.Children.Any())
+            {
+                Log.Warning("Children is empty for this assignment {Assignment}", assignment);
                 throw new InvalidOperationException("Children is empty.");
+                
+            }
         }
     }
 }

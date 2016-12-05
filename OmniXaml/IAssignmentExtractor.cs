@@ -6,6 +6,6 @@
 
     public interface IAssignmentExtractor
     {
-        IEnumerable<MemberAssignment> GetAssignments(Type type, XElement element, IPrefixAnnotator annotator);
+        IEnumerable<MemberAssignment> GetAssignments(Type owner, XElement element, IPrefixAnnotator annotator);
     }
 }

@@ -38,29 +38,39 @@
 
         private ConstructionNode ProcessNode(XElement node, IPrefixAnnotator annotator)
         {
-            var type = resolver.LocateType(node.Name);
-            var rawAssigments = assignmentExtractor.GetAssignments(type, node, annotator).ToList();
+            var elementType = resolver.LocateType(node.Name);
             var directives = directiveExtractor.GetDirectives(node).ToList();
 
+            var type = GetFinalTypeAccordingToDirectives(elementType, directives);
+
+            var rawAssigments = assignmentExtractor.GetAssignments(type, node, annotator).ToList();
+            
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
             var children = GetChildren(type, node, annotator);
 
             var ctorArgs = GetCtorArgs(node, type);
 
-            var constructionNode = new ConstructionNode(type)
+            var constructionNode = new ConstructionNode(elementType)
             {
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
                 Assignments = attributeBasedInstanceProperties.Assignments,
                 InjectableArguments = ctorArgs,
                 Children = children,
-                InstantiateAs = attributeBasedInstanceProperties.InstantiateAs,
+                InstantiateAs = type == elementType ? null : type,
             };
 
             AnnotatePrefixes(node, annotator, constructionNode);
 
             return constructionNode;
+        }
+
+        private Type GetFinalTypeAccordingToDirectives(Type elementType, IEnumerable<Directive> directives)
+        {
+            var classDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Class")?.Value;
+
+            return classDirectiveValue != null ? resolver.LocateTypeForClassDirective(elementType, classDirectiveValue) : elementType;
         }
 
         private static void AnnotatePrefixes(XElement node, IPrefixAnnotator annotator, ConstructionNode constructionNode)
@@ -111,14 +121,7 @@
 
             var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
             var key = directives.FirstOrDefault(directive => directive.Name == "Key")?.Value;
-            var classDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Class")?.Value;
-            Type instantiateAs = null;
-
-            if (classDirectiveValue != null)
-            {
-                instantiateAs = resolver.LocateTypeForClassDirective(type, classDirectiveValue);
-            }
-
+            
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
             string name = null;
             IEnumerable<MemberAssignment> finalAssignments = allAssignments;
@@ -141,7 +144,6 @@
                 Name = name,
                 Key = key,
                 Assignments = finalAssignments,
-                InstantiateAs = instantiateAs,
             };
         }
 
@@ -155,7 +157,9 @@
                 var directContent = ((XText)nodeFirstNode).Value;
                 var contentProperty = metadataProvider.Get(type).ContentProperty;
                 if (contentProperty == null)
+                {
                     ctorArgs.Add(directContent);
+                }
             }
             return ctorArgs;
         }
