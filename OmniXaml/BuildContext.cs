@@ -20,5 +20,6 @@
         public IDictionary<string, object> Bag { get; set; } = new Dictionary<string, object>();
         public ConstructionNode CurrentNode { get; set; }
         public IPrefixedTypeResolver PrefixedTypeResolver { get; set; }
+        public ConstructionNode Root { get; set; }
     }
 }

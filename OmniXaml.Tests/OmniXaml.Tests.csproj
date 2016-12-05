@@ -52,10 +52,12 @@
   <ItemGroup>
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />
+    <Compile Include="Model\Custom\CustomWindow.cs" />
     <Compile Include="Model\TextWrapping.cs" />
     <Compile Include="Namespaces\PrefixAnnotatorTests.cs" />
     <Compile Include="Namespaces\TypeDirectoryTests.cs" />
     <Compile Include="ObjectBuilderTests\Ambient.cs" />
+    <Compile Include="ObjectBuilderTests\InstantiateAs.cs" />
     <Compile Include="ObjectBuilderTests\CreationFixture.cs" />
     <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
@@ -82,6 +84,7 @@
     <Compile Include="XmlParserTests\AnnotatorTests.cs" />
     <Compile Include="XmlParserTests\AssignmentExtractorTests.cs" />
     <Compile Include="XmlParserTests\CData.cs" />
+    <Compile Include="XmlParserTests\ClassDirective.cs" />
     <Compile Include="XmlParserTests\CollectionsTests.cs" />
     <Compile Include="XmlParserTests\Dictionaries.cs" />
     <Compile Include="XmlParserTests\EventsTests.cs" />
@@ -96,6 +99,10 @@
   <ItemGroup>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.3.0\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Sprache, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">

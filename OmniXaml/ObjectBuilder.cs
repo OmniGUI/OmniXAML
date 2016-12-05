@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
     using Ambient;
     using Glass.Core;
 
@@ -26,8 +27,9 @@
 
         public object Inflate(ConstructionNode node, BuildContext buildContext, object instance = null)
         {
-            if (buildContext.PrefixedTypeResolver.Root == null)
+            if (buildContext.Root == null)
             {
+                buildContext.Root = node;
                 buildContext.PrefixedTypeResolver.Root = node;
             }
             
@@ -36,6 +38,8 @@
 
         private object InflateCore(ConstructionNode node, BuildContext buildContext, object instance = null)
         {
+            EnsureValidRoot(node, buildContext.Root);
+
             buildContext.CurrentNode = node;
 
             if (instance == null)
@@ -51,7 +55,15 @@
             ApplyAssignments(instance, node.Assignments, buildContext);
             InflateChildren(node.Children, instance, buildContext);
             buildContext.InstanceLifecycleSignaler.OnEnd(instance);
-            return instance;
+            return instance;                                                       
+        }
+
+        private void EnsureValidRoot(ConstructionNode node, ConstructionNode root)
+        {
+            if (!Equals(node, root) && node.InstantiateAs != null)
+            {
+                throw new InvalidOperationException($"'InstantiateAs' has been set for the node {node}, but this feature is only valid for the root node.");
+            }
         }
 
         private static void NotifyNewInstance(BuildContext buildContext, object instance)
@@ -62,13 +74,30 @@
 
         private object CreateInstance(ConstructionNode node, BuildContext buildContext)
         {
-            var instance = creator.Create(node.InstanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
+            EnsureValidNode(node);
+
+            var instanceType = node.InstantiateAs ?? node.InstanceType;
+
+            var instance = creator.Create(instanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
             NotifyNewInstance(buildContext, instance);
 
             if (node.Name != null)
                 buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
 
             return instance;
+        }
+
+        private void EnsureValidNode(ConstructionNode node)
+        {
+            if (node.InstantiateAs != null)
+            {
+                Type instanceType = node.InstanceType;
+                Type instantiateAsType = node.InstantiateAs;
+                if (!instanceType.GetTypeInfo().IsAssignableFrom(instantiateAsType.GetTypeInfo()))
+                {                
+                    throw new InvalidOperationException($"A node of type {instanceType} cannot be instantiated as {instantiateAsType}. The node of type {instanceType} has been tried to inflate as {instantiateAsType}, but this is not possible since the {instantiateAsType} is not derived from {instanceType}");
+                }
+            }
         }
 
         private void InflateChildren(IEnumerable<ConstructionNode> children, object parent, BuildContext buildContext)

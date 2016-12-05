@@ -9,5 +9,6 @@
         Member ResolveProperty(Type type, XAttribute attribute);
         Type LocateType(XName typeXName);
         Type LocateMarkupExtension(XName typeXName);
+        Type LocateTypeForClassDirective(Type constructionType, string classDirectiveValue);
     }
 }

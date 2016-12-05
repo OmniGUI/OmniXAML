@@ -2,6 +2,7 @@
 {
     using System;
     using System.Linq;
+    using System.Reflection;
     using System.Xml.Linq;
     using Glass.Core;
     using TypeLocation;
@@ -109,6 +110,12 @@
             }
 
             return extensions.First();
+        }
+
+        public Type LocateTypeForClassDirective(Type constructionType, string classDirectiveValue)
+        {
+            var assembly = constructionType.GetTypeInfo().Assembly;
+            return assembly.GetType(classDirectiveValue);
         }
     }
 }

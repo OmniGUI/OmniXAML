@@ -20,6 +20,7 @@
         public IEnumerable<string> InjectableArguments { get; set; } = new Collection<string>();
         public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
         public string Key { get; set; }
+        public Type InstantiateAs { get; set; }
 
         public override string ToString()
         {
@@ -29,7 +30,7 @@
         protected bool Equals(ConstructionNode other)
         {
             return InstanceType == other.InstanceType && string.Equals(Name, other.Name) && Enumerable.SequenceEqual(Assignments, other.Assignments) &&
-                   Enumerable.SequenceEqual(InjectableArguments, other.InjectableArguments) && Enumerable.SequenceEqual(Children, other.Children) && Equals(Key, other.Key);
+                   Enumerable.SequenceEqual(InjectableArguments, other.InjectableArguments) && Enumerable.SequenceEqual(Children, other.Children) && Equals(Key, other.Key) && InstantiateAs == other.InstantiateAs;
         }
 
         public override bool Equals(object obj)
@@ -54,6 +55,7 @@
                 hashCode = (hashCode*397) ^ (InjectableArguments != null ? InjectableArguments.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Children != null ? Children.GetHashCode() : 0);
                 hashCode = (hashCode*397) ^ (Key != null ? Key.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (InstantiateAs != null ? InstantiateAs.GetHashCode() : 0);
                 return hashCode;
             }
         }

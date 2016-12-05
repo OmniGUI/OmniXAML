@@ -15,13 +15,12 @@
         private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
         private readonly IResolver resolver;
-        private readonly IPrefixAnnotator prefixAnnotator;
 
         public XamlToTreeParser(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver)
         {
             this.metadataProvider = metadataProvider;
             this.resolver = resolver;
-            Func<XElement, IPrefixAnnotator, ConstructionNode> func = (node, annotator) => ProcessNode(node, annotator);
+            Func<XElement, IPrefixAnnotator, ConstructionNode> func = ProcessNode;
             assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, resolver, func);
             directiveExtractor = new DirectiveExtractor();
         }
@@ -30,9 +29,9 @@
         {
             var xDocument = XDocument.Load(new StringReader(xml));
             var node = xDocument.FirstNode;
-            return new ParseResult()
+            return new ParseResult
             {
-                Root = ProcessNode((XElement) node, prefixAnnotator),
+                Root = ProcessNode((XElement)node, prefixAnnotator),
                 PrefixAnnotator = prefixAnnotator,
             };
         }
@@ -54,8 +53,9 @@
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
                 Assignments = attributeBasedInstanceProperties.Assignments,
-                InjectableArguments = ctorArgs,                
+                InjectableArguments = ctorArgs,
                 Children = children,
+                InstantiateAs = attributeBasedInstanceProperties.InstantiateAs,
             };
 
             AnnotatePrefixes(node, annotator, constructionNode);
@@ -111,6 +111,13 @@
 
             var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
             var key = directives.FirstOrDefault(directive => directive.Name == "Key")?.Value;
+            var classDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Class")?.Value;
+            Type instantiateAs = null;
+
+            if (classDirectiveValue != null)
+            {
+                instantiateAs = resolver.LocateTypeForClassDirective(type, classDirectiveValue);
+            }
 
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
             string name = null;
@@ -133,7 +140,8 @@
             {
                 Name = name,
                 Key = key,
-                Assignments = finalAssignments,                
+                Assignments = finalAssignments,
+                InstantiateAs = instantiateAs,
             };
         }
 
