@@ -2,7 +2,6 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     public class Collection : Collection<object>
     {
