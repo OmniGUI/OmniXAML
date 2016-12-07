@@ -1,13 +1,12 @@
 namespace OmniXaml.Tests.XmlParserTests
 {
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-
-    [TestClass]
+    using Xunit;
+    
     public class NamescopeTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void Namescope()
         {
             var parseResult = ParseResult(@"<Window xmlns:x=""special"" xmlns=""root""><TextBlock x:Name=""One"" /></Window>");
@@ -30,7 +29,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 }
             };
 
-            Assert.AreEqual(expectedNode, parseResult.Root);            
+            Assert.Equal(expectedNode, parseResult.Root);            
         }
     }
 }

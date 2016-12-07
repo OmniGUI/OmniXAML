@@ -1,12 +1,11 @@
 namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Xunit;
 
-    [TestClass]
     public class EventsTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void BasicEvent()
         {
             var tree = ParseResult(@"<Window xmlns=""root"">
@@ -31,10 +30,10 @@ namespace OmniXaml.Tests.XmlParserTests
                 }
             };
 
-            Assert.AreEqual(expected, tree.Root);
+            Assert.Equal(expected, tree.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedEvent()
         {
             var tree = ParseResult(@"<Window xmlns=""root"" Window.Loaded=""OnLoad"" />");
@@ -51,7 +50,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 },
             };
 
-            Assert.AreEqual(expected, tree.Root);
+            Assert.Equal(expected, tree.Root);
         }
     }
 }

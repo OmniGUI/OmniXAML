@@ -1,13 +1,12 @@
 namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-
-    [TestClass]
+    using Xunit;
+    
     public class Events : ObjectBuilderTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void BasicEvent()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -36,14 +35,14 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var root = new TestWindow();
-            var creationFixture = Create(node, root);
+            Create(node, root);
 
             (root.Content as Button).ClickButton();
 
-            Assert.IsTrue(root.ButtonClicked);
+            Assert.True(root.ButtonClicked);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedEvent()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -63,7 +62,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             root.RaiseEvent(new AttachedEventArgs { Event = Window.LoadedEvent });
 
-            Assert.IsTrue(root.WindowLoaded);
+            Assert.True(root.WindowLoaded);
         }
     }
 }

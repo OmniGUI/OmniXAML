@@ -1,14 +1,12 @@
 namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System.Collections.Generic;
-    using Glass.Core;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Xunit;
 
-    [TestClass]
     public class Dictionaries : ObjectBuilderTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void ChildrenToDictionary()
         {
             var node = new ConstructionNode(typeof(ResourceDictionary))
@@ -19,10 +17,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             var actual = Create(node).Result;
 
             var expected = new ResourceDictionary { {"MyKey", new TextBlock() } };
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyToDictionary()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -40,7 +38,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             var actual = Create(node).Result;
 
             var expected = new Window {Resources = new ResourceDictionary { { "MyKey", new TextBlock() } }};
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

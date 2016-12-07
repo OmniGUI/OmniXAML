@@ -2,14 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using Model.Custom;
+    using Xunit;
 
-    [TestClass]
     public class InstantiateAs : ObjectBuilderTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void InstantiateAs_Inflates_The_Specified_Class()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -18,11 +17,10 @@
             };
 
             var result = Create(node);
-            Assert.IsInstanceOfType(result.Result, typeof(CustomWindow));
+            Assert.IsType<CustomWindow>(result.Result);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [Fact]
         public void InvalidTypeThrows()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -30,31 +28,7 @@
                 InstantiateAs = typeof(TextBlock)
             };
 
-            Create(node);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void MemberOfTheCorrectType()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                InstantiateAs = typeof(TextBlock),
-                Assignments = new List<MemberAssignment>()
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<CustomWindow>(window => window.CustomProperty),
-                        SourceValue = "SomeValue",
-                    }
-                }
-            };
-
-            var result = Create(node);
-
-            var expected = new CustomWindow() { CustomProperty = "SomeValue" };
-
-            Assert.AreEqual(expected, result.Result);
-        }
+            Assert.Throws<InvalidOperationException>(() => Create(node));
+        }        
     }
 }

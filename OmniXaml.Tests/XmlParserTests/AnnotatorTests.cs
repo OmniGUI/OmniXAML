@@ -1,18 +1,17 @@
 ﻿namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using Xunit;
 
-    [TestClass]
     public class AnnotatorTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void NormalTest()
         {
             var xaml = @"<Window xmlns=""root"" xmlns:a=""one"" />";
             var p = ParseResult(xaml);
         }
 
-        [TestMethod]
+        [Fact]
         public void NestTest()
         {
             var xaml = @"<Window xmlns=""root"">

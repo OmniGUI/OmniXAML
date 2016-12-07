@@ -21,16 +21,21 @@
 
         public object Create(Type type, BuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
         {
-            if (type.GetTypeInfo().IsPrimitive)
+            if (IsCreatableUsingConversion(type))
             {
-                return CreatePrimitive(type, injectableMembers.First().Value, context);
+                return CreateUsingConversion(type, injectableMembers.First().Value, context);
             }
 
             var ctor = SelectCtor(type, injectableMembers);
-            return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());            
+            return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());
         }
 
-        private object CreatePrimitive(Type type, object o, BuildContext context)
+        private static bool IsCreatableUsingConversion(Type type)
+        {
+            return type.GetTypeInfo().IsPrimitive || type == typeof(string) || type == typeof(decimal);
+        }
+
+        private object CreateUsingConversion(Type type, object o, BuildContext context)
         {
             var converterValueContext = new ConverterValueContext(type, o, objectBuilderContext, directory, context);
             return objectBuilderContext.SourceValueConverter.GetCompatibleValue(converterValueContext);
@@ -51,9 +56,9 @@
         private static ConstructorInfo SelectCtor(Type type, IEnumerable<InjectableMember> injectableMembers)
         {
             var ctorsByNumOfArgs = from ctor in type.GetTypeInfo().DeclaredConstructors
-                                          where ctor.IsPublic
-                                          orderby ctor.GetParameters().Length descending
-                                          select ctor;
+                                   where ctor.IsPublic
+                                   orderby ctor.GetParameters().Length descending
+                                   select ctor;
 
             return ctorsByNumOfArgs.First(info => info.GetParameters().Length <= injectableMembers.Count());
         }

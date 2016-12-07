@@ -1,19 +1,18 @@
 namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Xunit;
 
-    [TestClass]
     public class CollectionsTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void EmptyCollection()
         {
             var tree = ParseResult(@"<Collection xmlns=""root""></Collection>");
-            Assert.AreEqual(new ConstructionNode(typeof(Collection)), tree.Root);
+            Assert.Equal(new ConstructionNode(typeof(Collection)), tree.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void Collection()
         {
             var tree = ParseResult(@"<Collection Title=""My title"" xmlns=""root""><TextBlock/></Collection>");
@@ -29,10 +28,10 @@ namespace OmniXaml.Tests.XmlParserTests
                 }
             };
 
-            Assert.AreEqual(expected, tree.Root);
+            Assert.Equal(expected, tree.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyThatIsCollection()
         {
             var tree = ParseResult(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>");
@@ -53,7 +52,7 @@ namespace OmniXaml.Tests.XmlParserTests
                 },
             };
 
-            Assert.AreEqual(expected, tree.Root);
+            Assert.Equal(expected, tree.Root);
         }
     }
 }

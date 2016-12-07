@@ -1,13 +1,12 @@
 namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-
-    [TestClass]
+    using Xunit;
+    
     public class Namescopes : ObjectBuilderTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void Namescope()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -27,10 +26,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var actual = Create(node);
             var textBlock = actual.BuildContext.NamescopeAnnotator.Find("MyTextBlock", actual.Result);
-            Assert.IsInstanceOfType(textBlock, typeof(TextBlock));
+            Assert.IsType<TextBlock>(textBlock);
         }
 
-        [TestMethod]
+        [Fact]
         public void NamescopeLevel()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -71,8 +70,8 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             var actual = Create(node);
             var one = actual.BuildContext.NamescopeAnnotator.Find("One", actual.Result);
             var two = actual.BuildContext.NamescopeAnnotator.Find("Two", actual.Result);
-            Assert.IsInstanceOfType(one, typeof(TextBlock));
-            Assert.IsInstanceOfType(two, typeof(TextBlock));
+            Assert.IsType<TextBlock>(one);
+            Assert.IsType<TextBlock>(two);
         }
     }
 }

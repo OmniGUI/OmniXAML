@@ -1,29 +1,28 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace OmniXaml.Tests.Namespaces
 {
     using System.Reflection;
     using Model;
     using TypeLocation;
-
-    [TestClass]
+    using Xunit;
+    
     public class TypeDirectoryTests
     {
-        [TestMethod]
+        [Fact]
         public void GetTypeFromXamlNamespace()
         {
             var sut = CreateSut();
             var type = sut.GetTypeByFullAddress(new Address("root", "TextBlock"));
-            Assert.IsNotNull(type);
+            Assert.NotNull(type);
         }
 
-        [TestMethod]
+        [Fact]
         public void GetTypeFromClrNamespace()
         {
             var sut = CreateSut();
             var type = sut.GetTypeByFullAddress(new Address("using:OmniXaml.Tests.Model;assembly=OmniXaml.Tests", "TextBlock"));
-            Assert.IsNotNull(type);
+            Assert.NotNull(type);
         }
 
         private ITypeDirectory CreateSut()

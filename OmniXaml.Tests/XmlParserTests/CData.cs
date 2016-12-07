@@ -1,12 +1,11 @@
 ﻿namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Xunit;
 
-    [TestClass]
     public class CData : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void CDataInsidePropertyElement()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
@@ -23,10 +22,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void CDataAsContentProperty()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><![CDATA[Hello]]></Window>");
@@ -43,7 +42,7 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
     }
 }

@@ -11,8 +11,8 @@
     public class Resolver : IResolver
     {
         private const string ExtensionSuffix = "Extension";
+        private static readonly Regex ClassNameRegex = new Regex(@"(?<class>(?:\w+\.\w+|\w+)+);assembly=(?<assembly>\w+\.\w+|\w+)");
         private readonly ITypeDirectory typeDirectory;
-        private static Regex s_classNameRegex = new Regex(@"(?<class>\w+\.\w+|\w+);assembly=(?<assembly>\w+\.\w+|\w+)");
 
         public Resolver(ITypeDirectory typeDirectory)
         {
@@ -23,7 +23,6 @@
         {
             var nameLocalName = element.Name.LocalName;
 
-
             var dot = nameLocalName.IndexOf('.');
             var ownerName = nameLocalName.Take(dot).AsString();
             var propertyName = nameLocalName.Skip(dot + 1).AsString();
@@ -31,7 +30,9 @@
             var ownerType = LocateType(XName.Get(ownerName, element.Name.NamespaceName));
 
             if (ownerType == type)
+            {
                 return Member.FromStandard(ownerType, propertyName);
+            }
 
             return Member.FromAttached(ownerType, propertyName);
         }
@@ -67,11 +68,15 @@
                 var extensionType = typeDirectory.GetTypeByFullAddress(new Address(ns, typeName + ExtensionSuffix));
 
                 if ((extensionType != null) && extensionType.IsExtension())
+                {
                     type = extensionType;
+                }
             }
 
             if (type == null)
+            {
                 throw new TypeNotFoundException($"Cannot not find the type {typeXName}");
+            }
 
             return type;
         }
@@ -100,8 +105,10 @@
             var extensions = markupExtensions as Type[] ?? markupExtensions.ToArray();
 
             if (!candidates.Any())
+            {
                 throw new TypeNotFoundException(
                     $@"Cannot find a Markup Extension for ""{typeXName}"". We haven't found any type that is named either {typeName} or {typeNameWithSuffix}.");
+            }
 
 
             if (candidates.Any() && !extensions.Any())
@@ -116,8 +123,7 @@
 
         public Type LocateTypeForClassDirective(Type constructionType, string classDirectiveValue)
         {
-            //var assembly = constructionType.GetTypeInfo().Assembly;
-            var match = s_classNameRegex.Match(classDirectiveValue);
+            var match = ClassNameRegex.Match(classDirectiveValue);
 
             if (!match.Success)
             {
@@ -126,7 +132,7 @@
 
             var className = match.Groups["class"].Value;
             var assembly = Assembly.Load(new AssemblyName(match.Groups["assembly"].Value));
-            
+
             return assembly.GetType(className);
         }
     }

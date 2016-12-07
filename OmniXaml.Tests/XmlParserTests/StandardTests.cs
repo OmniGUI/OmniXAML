@@ -1,13 +1,12 @@
 ﻿namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using Model.Custom;
+    using Xunit;
 
-    [TestClass]
     public class StandardTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void ObjectAndDirectProperties()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Title=""Saludos"" />");
@@ -24,10 +23,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyElementWithTextContent()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content>Hola</Window.Content></Window>");
@@ -44,10 +43,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyElementWithChild()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
@@ -65,10 +64,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
         
-        [TestMethod]
+        [Fact]
         public void PropertyElementThatIsAnAttachedProperty()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Grid.Row>1</Grid.Row></Window>");
@@ -85,20 +84,20 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void ImmutableFromContent()
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
             var expected = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"hola"}};
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyDirectContent()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock /></Window>");
@@ -118,10 +117,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyDirectContentText()
         {
             var parseResult = ParseResult(@"<TextBlock xmlns=""root"">Hello</TextBlock>");
@@ -138,10 +137,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyDirectContentTextInsideChild()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
@@ -171,10 +170,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
         
-        [TestMethod]
+        [Fact]
         public void MarkupExtensionWithoutPrefix()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Content=""{Simple}"" />");
@@ -191,17 +190,16 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(TypeNotFoundException))]
+        [Fact]
         public void InlineMarkupExtension_ThatPointsTo_TypeNotImplementing_The_Correct_Interface()
         {
-            ParseResult(@"<Window xmlns=""root"" Content=""{TextBlock}"" />");
+            Assert.Throws<TypeNotFoundException>( () => ParseResult(@"<Window xmlns=""root"" Content=""{TextBlock}"" />"));
         }
 
-        [TestMethod]
+        [Fact]
         public void ChildFromPrefixedNamespace()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" xmlns:a=""custom"">
@@ -222,10 +220,10 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void AttachedPropertyFromPrefixedNamespace()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" xmlns:a=""custom"" a:CustomGrid.Value=""1"" />");
@@ -241,17 +239,17 @@
                 }
             };
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void ClrNs()
         {
             var parseResult = ParseResult(@"<Window xmlns=""using:OmniXaml.Tests.Model;Assembly=OmniXaml.Tests"" />");
 
             var expected = new ConstructionNode(typeof(Window));
 
-            Assert.AreEqual(expected, parseResult.Root);
+            Assert.Equal(expected, parseResult.Root);
         }        
     }
 }

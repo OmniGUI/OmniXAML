@@ -3,45 +3,14 @@ namespace OmniXaml.Tests.ObjectBuilderTests
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-    using Model.Custom;
+    using Xunit;
 
-    [TestClass]
     public class Standard : ObjectBuilderTestsBase
     {
-        [TestMethod]
-        public void TemplateContent()
-        {
-            var node = new ConstructionNode(typeof(ItemsControl))
-            {
-                Assignments = new List<MemberAssignment>
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<ItemsControl>(control => control.ItemTemplate),
-                        Children = new List<ConstructionNode>
-                        {
-                            new ConstructionNode(typeof(DataTemplate))
-                            {
-                                Assignments = new[]
-                                {
-                                    new MemberAssignment
-                                    {
-                                        Member = Member.FromStandard<DataTemplate>(template => template.Content),
-                                        Children = new[] {new ConstructionNode(typeof(TextBlock))}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            };
+        
 
-            var obj = Create(node);
-        }
-
-        [TestMethod]
+        [Fact]
         public void GivenSimpleExtensionThatProvidesAString_TheStringIsProvided()
         {
             var constructionNode = new ConstructionNode(typeof(SimpleExtension))
@@ -71,10 +40,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var b = Create(node);
 
-            Assert.AreEqual(new TextBlock {Text = "MyText"}, b.Result);
+            Assert.Equal(new TextBlock {Text = "MyText"}, b.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void GivenExtensionThatProvidesCollection_TheCollectionIsProvided()
         {
             var extensionNode = new ConstructionNode(typeof(CollectionExtension));
@@ -93,11 +62,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var creationFixture = Create(node);
             var result = (ItemsControl) creationFixture.Result;
-            Assert.IsNotNull(result.Items);
-            Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
+            Assert.NotNull(result.Items);
+            Assert.IsAssignableFrom<IEnumerable>(result.Items);
         }
 
-        [TestMethod]
+        [Fact]
         public void CollectionProperty()
         {
             var items = new[]
@@ -120,32 +89,12 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var result = (ItemsControl) Create(node).Result;
-            Assert.IsNotNull(result.Items);
-            Assert.IsInstanceOfType(result.Items, typeof(IEnumerable));
-            Assert.IsTrue(result.Items.Any());
+            Assert.NotNull(result.Items);
+            Assert.IsAssignableFrom<IEnumerable>(result.Items);
+            Assert.NotEmpty(result.Items);
         }
 
-        [TestMethod]
-        public void ImmutableFromContent()
-        {
-            var node = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"Hola"}};
-            var myImmutable = new MyImmutable("Hola");
-            var fixture = Create(node);
-
-            Assert.AreEqual(myImmutable, fixture.Result);
-        }
-
-        [TestMethod]
-        public void ParametrizedExtension()
-        {
-            var node = new ConstructionNode(typeof(ParametrizedExtension)) {InjectableArguments = new[] {"Hola"}};
-            var myImmutable = new ParametrizedExtension("Hola");
-            var fixture = Create(node);
-
-            Assert.AreEqual(myImmutable, fixture.Result);
-        }
-
-        [TestMethod]
+        [Fact]
         public void LoadInstanceSameType()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -163,13 +112,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             var expected = new Window {Content = "My content"};
             var fixture = Create(node, expected);
 
-            Assert.IsTrue(ReferenceEquals(expected, fixture.Result));
-            Assert.AreEqual(new Window {Content = "My content", Title = "My title"}, fixture.Result);
+            Assert.True(ReferenceEquals(expected, fixture.Result));
+            Assert.Equal(new Window {Content = "My content", Title = "My title"}, fixture.Result);
         }
-
-    
-
-        [TestMethod]
+        
+        [Fact]
         public void BasicProperty()
         {
             var node = new ConstructionNode(typeof(Window))
@@ -185,10 +132,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            Assert.AreEqual(new Window {Height = 12}, creationFixture.Result);
+            Assert.Equal(new Window {Height = 12}, creationFixture.Result);
         }
 
-        [TestMethod]
+        [Fact]
         public void EnumProperty()
         {
             var node = new ConstructionNode(typeof(TextBlock))
@@ -204,10 +151,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            Assert.AreEqual(new TextBlock { TextWrapping = TextWrapping.NoWrap }, creationFixture.Result);
+            Assert.Equal(new TextBlock { TextWrapping = TextWrapping.NoWrap }, creationFixture.Result);
         }
         
-        [TestMethod]
+        [Fact]
         public void Collection()
         {
             var tree = new ConstructionNode(typeof(Collection))
@@ -227,7 +174,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             var expected = new Collection {new TextBlock()};
             expected.Title = "My title";
 
-            Assert.AreEqual(expected, actual);
+            Assert.Equal(expected, actual);
         }
     }
 }

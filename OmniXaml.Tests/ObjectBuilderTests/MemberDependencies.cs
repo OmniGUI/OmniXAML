@@ -1,13 +1,12 @@
 namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System.Collections.Generic;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
-
-    [TestClass]
+    using Xunit;
+    
     public class MemberDependencies : ObjectBuilderTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void DependencyWhenWrongOrder()
         {
             var node = new ConstructionNode(typeof(Setter))
@@ -28,10 +27,10 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var obj = (Setter)Create(node).Result;
-            Assert.IsTrue(obj.RightOrder);
+            Assert.True(obj.RightOrder);
         }
 
-        [TestMethod]
+        [Fact]
         public void DependencyWhenRightOrder()
         {
             var node = new ConstructionNode(typeof(Setter))
@@ -52,7 +51,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var obj = (Setter)Create(node).Result;
-            Assert.IsTrue(obj.RightOrder);
+            Assert.True(obj.RightOrder);
         }
     }
 }

@@ -1,16 +1,15 @@
 namespace OmniXaml.Tests.XmlParserTests
 {
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
+    using Xunit;
 
-    [TestClass]
     public class NameTests : XamlToTreeParserTestsBase
     {
-        [TestMethod]
+        [Fact]
         public void Name()
         {
             var tree = ParseResult(@"<Window xmlns=""root"" Name=""MyWindow"" />");
-            Assert.AreEqual(
+            Assert.Equal(
                 new ConstructionNode(typeof(Window))
                 {
                     Name = "MyWindow",
@@ -19,11 +18,11 @@ namespace OmniXaml.Tests.XmlParserTests
                 tree.Root);
         }
 
-        [TestMethod]
+        [Fact]
         public void XName()
         {
             var tree = ParseResult(@"<Window xmlns=""root"" xmlns:x=""special"" x:Name=""MyWindow"" />");
-            Assert.AreEqual(
+            Assert.Equal(
                 new ConstructionNode(typeof(Window))
                 {
                     Name = "MyWindow",

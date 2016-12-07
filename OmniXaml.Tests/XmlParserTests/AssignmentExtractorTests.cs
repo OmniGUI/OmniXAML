@@ -4,17 +4,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Xml;
     using System.Xml.Linq;
-    using Metadata;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Model;
     using Services;
-
-    [TestClass]
+    using Xunit;
+    
     public class AssignmentExtractorTests
     {
-        [TestMethod]
+        [Fact]
         public void ContentPropertyWithChildren()
         {
             var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
@@ -33,10 +30,10 @@
                 }
             };
 
-            CollectionAssert.AreEqual(expected, assigments);
+            Assert.Equal(expected, assigments);
         }
 
-        [TestMethod]
+        [Fact]
         public void ContentPropertyText()
         {
             var assigments = Parse(@"<TextBlock xmlns=""root"">Hola</TextBlock>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(TextBlock));
@@ -50,41 +47,43 @@
                 }
             };
 
-            CollectionAssert.AreEqual(expected, assigments);
+            Assert.Equal(expected, assigments);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(ParseException))]
+        [Fact]
         public void ElementOrdering_InvalidPropertyElementOrder()
         {
-            Parse(@"<ItemsControl xmlns=""root"">
+            var xaml = @"<ItemsControl xmlns=""root"">
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
-           
+</ItemsControl>";
+
+            Assert.Throws<ParseException>(() => Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl)));
         }
 
-        [TestMethod]
+        [Fact]
         public void ElementOrdering_PropertyAfterDirectContent()
         {
-            Parse(@"<ItemsControl xmlns=""root"">
+            var xaml = @"<ItemsControl xmlns=""root"">
 <TextBlock/>
 <TextBlock/>
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+</ItemsControl>";
 
+            Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
         }
 
-        [TestMethod]
+        [Fact]
         public void ElementOrdering_PropertyBeforeDirectContent()
         {
-            Parse(@"<ItemsControl xmlns=""root"">
+            var xaml = @"<ItemsControl xmlns=""root"">
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 <TextBlock/>
 <TextBlock/>
-</ItemsControl>", (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+</ItemsControl>";
 
+            Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
         }
 
         private static List<MemberAssignment> Parse(string xaml, Func<XElement, IPrefixAnnotator, ConstructionNode> parser, Type type)
@@ -96,7 +95,7 @@
             return assigments;
         }
 
-        [TestMethod]
+        [Fact]
         public void PropertyElement()
         {
             var xaml =
@@ -116,7 +115,7 @@
                 }
             };
 
-            CollectionAssert.AreEqual(expected, assigments);
+            Assert.Equal(expected, assigments);
         }
     }    
 }

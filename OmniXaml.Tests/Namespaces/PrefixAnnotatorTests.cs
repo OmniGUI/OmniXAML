@@ -1,18 +1,15 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace OmniXaml.Tests.Namespaces
+﻿namespace OmniXaml.Tests.Namespaces
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
     using Model;
     using Model.Custom;
     using TypeLocation;
+    using Xunit;
 
-    [TestClass]
     public class PrefixAnnotatorTests
     {
-        [TestMethod]
+        [Fact]
         public void ParentPrefixesAreAvailableInChild()
         {
             var type = typeof(TextBlock);
@@ -39,10 +36,10 @@ namespace OmniXaml.Tests.Namespaces
 
             sut.Root = root;
             var buttonType = sut.GetTypeByPrefix(childNode, "Button");
-            Assert.AreEqual(typeof(Button), buttonType);
+            Assert.Equal(typeof(Button), buttonType);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestMethod2()
         {
             var prefixAnnotator = new PrefixAnnotator();
@@ -65,7 +62,7 @@ namespace OmniXaml.Tests.Namespaces
 
             sut.Root = root;
             var customGridType = sut.GetTypeByPrefix(childNode, "a:CustomGrid");
-            Assert.AreEqual(typeof(CustomGrid), customGridType);
+            Assert.Equal(typeof(CustomGrid), customGridType);
         }
 
         private static TypeDirectory GetTypeDirectory()
