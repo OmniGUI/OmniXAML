@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reactive.Linq;
     using System.Xml;
     using System.Xml.Linq;
+    using Glass.Core;
     using Metadata;
 
     public class AssignmentExtractor : IAssignmentExtractor
@@ -39,16 +39,15 @@
             return fromAttributes.Concat(fromContentProperty).Concat(fromPropertyElements);
         }
 
+
+
         private static void EnsureValidAssignments(XContainer element)
         {
             var numberOfChanges = element
                 .Elements()
-                .ToObservable()
                 .Select(IsProperty)
                 .DistinctUntilChanged()
-                .Count()
-                .ToEnumerable()
-                .First();
+                .Count();                
 
             if (numberOfChanges > 2)
             {
@@ -185,4 +184,6 @@
             return node.Name.LocalName.Contains(".");
         }
     }
+
+    
 }

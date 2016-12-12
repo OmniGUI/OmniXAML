@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutoKeyDictionary.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EnumExtensions.cs" />
     <Compile Include="DependencySorter.cs" />
     <Compile Include="Extensions.cs" />
