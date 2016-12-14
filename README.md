@@ -57,7 +57,7 @@ The following an example of XAML that can be read with OmniXAML.
 </Window>
 ```
 
-This project is linked with [Perspex, the next-generation WPF](https://github.com/grokys/Perspex).
+This project is linked with [Avalonia, the Next Generation Cross-Platform GUI technology](https://github.com/AvaloniaUI/Avalonia).
 
 Thanks to [Nicholas Blumhardt](https://twitter.com/nblumhardt) for his awesome project [Sprache](https://github.com/sprache/Sprache) that has introduced me in the world of parsers.
 
