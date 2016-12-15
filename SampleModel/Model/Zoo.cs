@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using OmniXaml.DefaultLoader;
+    using OmniXaml.Attributes;
 
     [Namescope]
     public class Zoo

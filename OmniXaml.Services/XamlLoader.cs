@@ -28,7 +28,9 @@
         private ConstructionResult Construct(ConstructionNode ctNode, object intance)
         {
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
-            var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler());
+            var prefixedTypeResolver = new PrefixedTypeResolver(new PrefixAnnotator(), directory);
+
+            var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()) { PrefixedTypeResolver = prefixedTypeResolver};
             var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
             var objectConstructor = new ObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var construct = objectConstructor.Inflate(ctNode, trackingContext, intance);

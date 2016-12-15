@@ -1,5 +1,7 @@
 ﻿namespace SampleModel.Model
 {
+    using OmniXaml.Attributes;
+
     public class Animal
     {
         [Name]
