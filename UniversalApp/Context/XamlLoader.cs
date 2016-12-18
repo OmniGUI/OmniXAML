@@ -4,6 +4,7 @@
     using Windows.UI.Xaml.Controls;
     using Adapters;
     using OmniXaml;
+    using OmniXaml.Ambient;
     using OmniXaml.TypeLocation;
 
     public class XamlLoader
@@ -43,7 +44,9 @@
             var objectBuilder = new ExtendedObjectBuilder(new InstanceCreator(constructionContext.SourceValueConverter, constructionContext, directory), constructionContext, new ContextFactory(directory, constructionContext));
 
             var cons = GetConstructionNode(xaml);
-            return objectBuilder.Inflate(cons.Root, new BuildContext(new NamescopeAnnotator(metadataProvider), null, new InstanceLifecycleSignaler()));
+            var prefixedTypeResolver = new PrefixedTypeResolver(new PrefixAnnotator(), directory);
+            var buildContext = new BuildContext(new NamescopeAnnotator(metadataProvider), new AmbientRegistrator(), new InstanceLifecycleSignaler()) { PrefixedTypeResolver = prefixedTypeResolver};
+            return objectBuilder.Inflate(cons.Root, buildContext);
         }
 
         private ParseResult GetConstructionNode(string xaml)
