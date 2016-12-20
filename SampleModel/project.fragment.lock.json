@@ -51,6 +51,23 @@
           "copyToOutput": true
         }
       }
+    },
+    "OmniXaml.Services/1.0.0": {
+      "type": "project",
+      "framework": ".NETStandard,Version=v1.2",
+      "compile": {
+        "bin/Debug/OmniXaml.Services.dll": {}
+      },
+      "runtime": {
+        "bin/Debug/OmniXaml.Services.dll": {}
+      },
+      "contentFiles": {
+        "bin/Debug/OmniXaml.Services.pdb": {
+          "buildAction": "None",
+          "codeLanguage": "any",
+          "copyToOutput": true
+        }
+      }
     }
   }
 }
