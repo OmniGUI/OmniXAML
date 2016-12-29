@@ -1,9 +1,0 @@
-source https://api.nuget.org/v3/index.json
-framework >= net462
-
-nuget Serilog
-nuget Sprache
-nuget System.ComponentModel.TypeConverter
-nuget System.Reactive
-nuget System.Xml.XDocument
-nuget xunit
