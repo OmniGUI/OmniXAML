@@ -93,12 +93,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
-      <Project>{84ae3f65-b4dc-43e0-b2d0-df0b188e8602}</Project>
-      <Name>OmniXaml</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="MainWindow.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -118,6 +112,12 @@
     <None Include="mario.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
+      <Project>{da310afc-3f79-4e8b-9a06-2b089dd9625f}</Project>
+      <Name>OmniXaml</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

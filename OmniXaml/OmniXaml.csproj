@@ -1,154 +1,25 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{84AE3F65-B4DC-43E0-B2D0-DF0B188E8602}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OmniXaml</RootNamespace>
-    <AssemblyName>OmniXaml</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>netstandard1.2</TargetFramework>
+    <PackageId>OmniXaml</PackageId>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Authors>José Manuel Nieto (@SuperJMN)</Authors>
+    <Description>The Cross-platform XAML Framework</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageReleaseNotes>First release</PackageReleaseNotes>   
+    <PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="project.json" />
+    <Compile Include="**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ambient\AmbientMemberAssignment.cs" />
-    <Compile Include="Ambient\AmbientRegistrator.cs" />
-    <Compile Include="Assignment.cs" />
-    <Compile Include="AssignmentExtractor.cs" />
-    <Compile Include="AttributeBasedInstanceProperties.cs" />
-    <Compile Include="DelegateParser.cs" />
-    <Compile Include="BuiltInConversionParser.cs" />
-    <Compile Include="IPrefixAnnotator.cs" />
-    <Compile Include="IPrefixedTypeResolver.cs" />
-    <Compile Include="IResolver.cs" />
-    <Compile Include="KeyedInstance.cs" />
-    <Compile Include="IAssignmentExtractor.cs" />
-    <Compile Include="AttachedEvent.cs" />
-    <Compile Include="ConstructionNode`1.cs" />
-    <Compile Include="ContextFactory.cs" />
-    <Compile Include="ConverterValueContext.cs" />
-    <Compile Include="Dependency.cs" />
-    <Compile Include="IContextFactory.cs" />
-    <Compile Include="IConverterContextFactory.cs" />
-    <Compile Include="IExtensionContextFactory.cs" />
-    <Compile Include="ObjectBuilderContext.cs" />
-    <Compile Include="ConstructionResult.cs" />
-    <Compile Include="BuildContext.cs" />
-    <Compile Include="Directive.cs" />
-    <Compile Include="DirectiveExtractor.cs" />
-    <Compile Include="ExtendedObjectBuilder.cs" />
-    <Compile Include="Ambient\IAmbientRegistrator.cs" />
-    <Compile Include="IInlineParser.cs" />
-    <Compile Include="IInstanceLifecycleSignaler.cs" />
-    <Compile Include="IMarkupExtension.cs" />
-    <Compile Include="INamescopeAnnotator.cs" />
-    <Compile Include="InlineParser.cs" />
-    <Compile Include="InlineParsers\Extensions\AssignmentNode.cs" />
-    <Compile Include="InlineParsers\Extensions\IdentifierNode.cs" />
-    <Compile Include="InlineParsers\Extensions\MarkupExtensionNode.cs" />
-    <Compile Include="InlineParsers\Extensions\MarkupExtensionNodeToConstructionNodeConverter.cs" />
-    <Compile Include="InlineParsers\Extensions\MarkupExtensionParser.cs" />
-    <Compile Include="InlineParsers\Extensions\Option.cs" />
-    <Compile Include="InlineParsers\Extensions\OptionsCollection.cs" />
-    <Compile Include="InlineParsers\Extensions\PositionalOption.cs" />
-    <Compile Include="InlineParsers\Extensions\PropertyOption.cs" />
-    <Compile Include="InlineParsers\Extensions\StringNode.cs" />
-    <Compile Include="InlineParsers\Extensions\TreeNode.cs" />
-    <Compile Include="InstanceLifecycleSignaler.cs" />
-    <Compile Include="IObjectBuilder.cs" />
-    <Compile Include="IXamlLoader.cs" />
-    <Compile Include="IXamlToTreeParser.cs" />
-    <Compile Include="MarkupExtensionContext.cs" />
-    <Compile Include="Metadata\DependencyRegistration.cs" />
-    <Compile Include="Metadata\DependencyRegistrations.cs" />
-    <Compile Include="Metadata\FragmentLoaderInfo.cs" />
-    <Compile Include="Metadata\GenericMetadata.cs" />
-    <Compile Include="Metadata\IConstructionFragmentLoader.cs" />
-    <Compile Include="Metadata\IMetadataProvider.cs" />
-    <Compile Include="Metadata\Metadata.cs" />
-    <Compile Include="Metadata\MetadataProvider.cs" />
-    <Compile Include="Namescope.cs" />
-    <Compile Include="NamescopeAnnotator.cs" />
-    <Compile Include="ChildAssociation.cs" />
-    <Compile Include="ParseException.cs" />
-    <Compile Include="ConversionRequest.cs" />
-    <Compile Include="PrefixAnnotator.cs" />
-    <Compile Include="PrefixedTypeResolver.cs" />
-    <Compile Include="PrimitiveParser.cs" />
-    <Compile Include="Resolver.cs" />
-    <Compile Include="SourceValueConverterTypeDescriptorContext.cs" />
-    <Compile Include="StandardEvent.cs" />
-    <Compile Include="StringUtils.cs" />
-    <Compile Include="TypeExtensions.cs" />
-    <Compile Include="TypeLocation\Address.cs" />
-    <Compile Include="AttachedProperty.cs" />
-    <Compile Include="IContentPropertyRegistry.cs" />
-    <Compile Include="InjectableMember.cs" />
-    <Compile Include="TypeLocation\AddressPack.cs" />
-    <Compile Include="TypeLocation\AssemblyNameConfig.cs" />
-    <Compile Include="TypeLocation\ClrNamespace.cs" />
-    <Compile Include="TypeLocation\ConfiguredAssembly.cs" />
-    <Compile Include="TypeLocation\ConfiguredAssemblyWithNamespaces.cs" />
-    <Compile Include="TypeLocation\ITypeDirectory.cs" />
-    <Compile Include="TypeLocation\Namespace.cs" />
-    <Compile Include="TypeLocation\TypeDirectory.cs" />
-    <Compile Include="TypeLocation\PrefixDeclaration.cs" />
-    <Compile Include="TypeLocation\Route.cs" />
-    <Compile Include="TypeLocation\XamlNamespace.cs" />
-    <Compile Include="TypeNotFoundException.cs" />
-    <Compile Include="XamlParserException.cs" />
-    <Compile Include="XamlToTreeParser.cs" />
-    <Compile Include="ConstructionNode.cs" />
-    <Compile Include="IInstanceCreator.cs" />
-    <Compile Include="InstanceCreator.cs" />
-    <Compile Include="ISourceValueConverter.cs" />
-    <Compile Include="ObjectBuilder.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Member.cs" />
-    <Compile Include="SourceValueConverter.cs" />
-    <Compile Include="StandardProperty.cs" />
-    <Compile Include="MemberAssignment.cs" />
+    <PackageReference Include="NETStandard.Library" Version="1.6.1" />
+    <PackageReference Include="Serilog" Version="2.3.0" />
+    <PackageReference Include="Sprache" Version="2.1.0" />
+    <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">
-      <Project>{4aefcfcf-5514-44b1-acef-93d40528a0bc}</Project>
-      <Name>Glass.Core</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

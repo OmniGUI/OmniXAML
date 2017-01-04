@@ -87,6 +87,11 @@
     <Compile Include="XmlParserTests\XamlToTreeParserTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Glass.Core\Glass.Core.csproj">
       <Project>{4aefcfcf-5514-44b1-acef-93d40528a0bc}</Project>
       <Name>Glass.Core</Name>
@@ -100,14 +105,9 @@
       <Name>OmniXaml.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj">
-      <Project>{84ae3f65-b4dc-43e0-b2d0-df0b188e8602}</Project>
+      <Project>{da310afc-3f79-4e8b-9a06-2b089dd9625f}</Project>
       <Name>OmniXaml</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
