@@ -10,5 +10,10 @@
             var rd = obj as ResourceDictionary;
             return this.ContentEquals(rd);
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }    
 }

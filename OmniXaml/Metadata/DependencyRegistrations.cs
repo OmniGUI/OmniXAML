@@ -17,5 +17,10 @@ namespace OmniXaml.Metadata
         {
             return SetEquals((IEnumerable<DependencyRegistration>) obj);
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }

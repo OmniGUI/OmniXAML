@@ -16,11 +16,16 @@
 
         public Type GetTypeByFullAddress(Address address)
         {
+            if (address.Namespace == string.Empty)
+            {
+                throw new TypeLocationException($@"Cannot find the type {address.TypeName} because no default namespace has been specified. Please, specify it with xmlns attribute (xmlns=""…"")");
+            }
+
             var ns = GetNamespace(address.Namespace);
 
             if (ns == null)
             {
-                throw new Exception($"Error trying to resolve a XamlType: Cannot find the namespace '{address.Namespace}'");                
+                throw new TypeLocationException($"Cannot find the address '{address}'");                
             }
 
             return ns.Get(address.TypeName);

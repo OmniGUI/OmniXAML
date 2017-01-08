@@ -9,6 +9,6 @@
         {
             Dependency = nameOfDependency;
         }
-        public string Dependency { get; set; }
+        public string Dependency { get; private set; }
     }
 }

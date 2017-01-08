@@ -39,8 +39,6 @@
             return fromAttributes.Concat(fromContentProperty).Concat(fromPropertyElements);
         }
 
-
-
         private static void EnsureValidAssignments(XContainer element)
         {
             var numberOfChanges = element
@@ -127,7 +125,7 @@
             return null;
         }
 
-        private static bool IsText(XNode nodeFirstNode)
+        private static bool IsText(XObject nodeFirstNode)
         {
             return nodeFirstNode.NodeType == XmlNodeType.Text || nodeFirstNode.NodeType == XmlNodeType.CDATA;
         }
@@ -166,7 +164,7 @@
             return assignment;
         }
 
-        private static string GetNamespaceFromPrefix(XAttribute attribute, string prefix)
+        private static string GetNamespaceFromPrefix(XObject attribute, string prefix)
         {
             var attributeParent = attribute.Parent;
 

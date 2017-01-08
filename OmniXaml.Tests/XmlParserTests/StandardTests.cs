@@ -1,4 +1,7 @@
-﻿namespace OmniXaml.Tests.XmlParserTests
+﻿using System.Xml;
+using OmniXaml.TypeLocation;
+
+namespace OmniXaml.Tests.XmlParserTests
 {
     using Model;
     using Model.Custom;
@@ -6,6 +9,24 @@
 
     public class StandardTests : XamlToTreeParserTestsBase
     {
+        [Fact]
+        public void NoDeclaredPrefixes()
+        {
+            Assert.Throws<TypeLocationException>(() => ParseResult(@"<Window />"));
+        }
+
+        [Fact]
+        public void EmptyDefaultPrefix()
+        {
+            Assert.Throws<TypeLocationException>(() => ParseResult(@"<Window xmlns="""" />"));
+        }
+
+        [Fact]
+        public void UndeclaredPrefix()
+        {
+            Assert.Throws<XmlException>(() => ParseResult(@"<u:Window />"));
+        }
+
         [Fact]
         public void ObjectAndDirectProperties()
         {
@@ -15,7 +36,7 @@
             {
                 Assignments = new[]
                {
-                    new MemberAssignment()
+                    new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Title),
                         SourceValue = "Saludos",
@@ -66,7 +87,7 @@
 
             Assert.Equal(expected, parseResult.Root);
         }
-        
+
         [Fact]
         public void PropertyElementThatIsAnAttachedProperty()
         {
@@ -92,7 +113,7 @@
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
-            var expected = new ConstructionNode(typeof(MyImmutable)) {InjectableArguments = new[] {"hola"}};
+            var expected = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "hola" } };
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -172,7 +193,7 @@
 
             Assert.Equal(expected, parseResult.Root);
         }
-        
+
         [Fact]
         public void MarkupExtensionWithoutPrefix()
         {
@@ -196,7 +217,7 @@
         [Fact]
         public void InlineMarkupExtension_ThatPointsTo_TypeNotImplementing_The_Correct_Interface()
         {
-            Assert.Throws<TypeNotFoundException>( () => ParseResult(@"<Window xmlns=""root"" Content=""{TextBlock}"" />"));
+            Assert.Throws<TypeNotFoundException>(() => ParseResult(@"<Window xmlns=""root"" Content=""{TextBlock}"" />"));
         }
 
         [Fact]
@@ -250,6 +271,6 @@
             var expected = new ConstructionNode(typeof(Window));
 
             Assert.Equal(expected, parseResult.Root);
-        }        
+        }
     }
 }

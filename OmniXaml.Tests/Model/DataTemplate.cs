@@ -1,6 +1,5 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    using System;
     using Attributes;
 
     [Namescope]
@@ -28,7 +27,7 @@
 
         public override int GetHashCode()
         {
-            return (Content != null ? Content.GetHashCode() : 0);
+            return 0;
         }
     }   
 }

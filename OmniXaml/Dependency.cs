@@ -49,7 +49,7 @@
 
         public override int GetHashCode()
         {
-            return (Assignment != null ? Assignment.GetHashCode() : 0);
+            return Assignment?.GetHashCode() ?? 0;
         }
 
         public IEnumerable<Dependency> Dependencies { get; }

@@ -74,7 +74,7 @@ namespace OmniXaml.TypeLocation
             return new ClrNamespace(assembly, ns);
         }
 
-        public static Assembly GetAssembly(string assemblyPart)
+        private static Assembly GetAssembly(string assemblyPart)
         {
             var dicotomize = assemblyPart.Dicotomize('=');
             return Assembly.Load(new AssemblyName(dicotomize.Item2));
