@@ -1,6 +1,4 @@
-﻿using Glass.Core.Glass.Core;
-
-namespace Glass.Core
+﻿namespace Glass.Core
 {
     using System.Collections.Generic;
     using System.Linq;

@@ -1,4 +1,4 @@
-using Glass.Core.Glass.Core;
+using Glass.Core;
 
 namespace OmniXaml.Ambient
 {
