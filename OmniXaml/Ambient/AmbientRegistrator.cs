@@ -1,7 +1,8 @@
+using Glass.Core.Glass.Core;
+
 namespace OmniXaml.Ambient
 {
     using System.Collections.Generic;
-    using Glass.Core.Glass.Core;
 
     public class AmbientRegistrator : IAmbientRegistrator
     {

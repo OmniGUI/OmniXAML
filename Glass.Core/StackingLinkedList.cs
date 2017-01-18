@@ -1,8 +1,8 @@
-﻿namespace Glass.Core
-{
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 
+namespace Glass.Core
+{
     namespace Glass.Core
     {
         public class StackingLinkedList<T>

@@ -1,8 +1,9 @@
-﻿namespace Glass.Core
+﻿using Glass.Core.Glass.Core;
+
+namespace Glass.Core
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Glass.Core;
 
     public static class StackingLinkedListMixin
     {

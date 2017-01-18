@@ -16,7 +16,7 @@
         {
             directory = new AttributeBasedTypeDirectory(assemblies);
             metadataProvider = new AttributeBasedMetadataProvider();
-            objectBuilderContext = new ObjectBuilderContext(new SourceValueConverter(), metadataProvider);
+            objectBuilderContext = new ObjectBuilderContext(new AttributeBasedSourceValueConverter(assemblies), metadataProvider);
         }
 
         public ConstructionResult Load(string xaml, object intance = null)

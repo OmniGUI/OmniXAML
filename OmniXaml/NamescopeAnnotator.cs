@@ -1,8 +1,9 @@
-﻿namespace OmniXaml
+﻿using Glass.Core.Glass.Core;
+
+namespace OmniXaml
 {
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using Glass.Core.Glass.Core;
     using Metadata;
 
     public class NamescopeAnnotator : INamescopeAnnotator

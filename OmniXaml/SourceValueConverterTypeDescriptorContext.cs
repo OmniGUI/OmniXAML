@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel;
 
-    internal class SourceValueConverterTypeDescriptorContext : ITypeDescriptorContext
+    public class SourceValueConverterTypeDescriptorContext : ITypeDescriptorContext
     {
         private readonly ConverterValueContext valueContext;
 
