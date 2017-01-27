@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class MetadataProvider : IMetadataProvider
     {

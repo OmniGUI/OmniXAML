@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Glass.Core;
+    using Zafiro.Core;
     using TypeLocation;
 
     public class PrefixedTypeResolver : IPrefixedTypeResolver

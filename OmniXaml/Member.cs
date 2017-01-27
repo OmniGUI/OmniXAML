@@ -4,7 +4,7 @@
     using System.Linq;
     using System.Linq.Expressions;
     using System.Reflection;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public abstract class Member
     {

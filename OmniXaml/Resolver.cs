@@ -5,7 +5,7 @@
     using System.Reflection;
     using System.Text.RegularExpressions;
     using System.Xml.Linq;
-    using Glass.Core;
+    using Zafiro.Core;
     using TypeLocation;
 
     public class Resolver : IResolver

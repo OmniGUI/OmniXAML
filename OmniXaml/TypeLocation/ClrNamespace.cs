@@ -2,7 +2,7 @@ namespace OmniXaml.TypeLocation
 {
     using System;
     using System.Reflection;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class ClrNamespace : Namespace
     {

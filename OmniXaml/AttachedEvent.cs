@@ -1,15 +1,15 @@
-﻿using Glass.Core;
-using System;
-using System.Linq;
-using System.Reflection;
-
-namespace OmniXaml
+﻿namespace OmniXaml
 {
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using Zafiro.Core;
+
     internal class AttachedEvent : Member
     {
-        private readonly object eventObject;
         private readonly Func<object, Delegate> addHandlerDelegate;
         private readonly MethodInfo addHandlerMethod;
+        private readonly object eventObject;
         private readonly MethodInfo raiseEventMethod;
 
         public AttachedEvent(Type owner, string propertyName) : base(owner, propertyName)
@@ -17,9 +17,9 @@ namespace OmniXaml
             eventObject = owner.GetRuntimeField($"{propertyName}Event").GetValue(null);
 
             addHandlerMethod = owner.GetRuntimeMethods()
-                    .Where(method => method.Name == "AddHandler")
-                    .OrderBy(method => method.GetParameters().Length)
-                    .First();
+                .Where(method => method.Name == "AddHandler")
+                .OrderBy(method => method.GetParameters().Length)
+                .First();
             addHandlerDelegate = addHandlerMethod.GetDelegateWithDefaultParameterValuesBound();
 
             raiseEventMethod = owner.GetRuntimeMethods().First(method => method.Name == "RaiseEvent");
@@ -30,7 +30,7 @@ namespace OmniXaml
 
         public override object GetValue(object instance)
         {
-            return (Action<object>)(args => raiseEventMethod.Invoke(instance, new[] { args }));
+            return (Action<object>) (args => raiseEventMethod.Invoke(instance, new[] {args}));
         }
 
         public override void SetValue(object instance, object value)

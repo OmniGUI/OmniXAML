@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml.Tests.Model
 {
     using System.Collections.Generic;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class ResourceDictionary : Dictionary<object, object>
     {

@@ -20,6 +20,6 @@
     <PackageReference Include="System.ComponentModel.TypeConverter" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj" />
+    <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 </Project>

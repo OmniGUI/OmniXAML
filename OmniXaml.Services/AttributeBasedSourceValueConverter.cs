@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Glass.Core;
+using Zafiro.Core;
 using OmniXaml.Attributes;
 
 namespace OmniXaml.Services

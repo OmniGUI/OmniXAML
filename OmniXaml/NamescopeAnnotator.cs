@@ -1,4 +1,4 @@
-﻿using Glass.Core;
+﻿using Zafiro.Core;
 
 namespace OmniXaml
 {

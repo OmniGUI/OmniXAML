@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Xml;
     using System.Xml.Linq;
-    using Glass.Core;
     using Metadata;
+    using Zafiro.Core;
 
     public class AssignmentExtractor : IAssignmentExtractor
     {

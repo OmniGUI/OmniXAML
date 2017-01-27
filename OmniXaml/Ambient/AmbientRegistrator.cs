@@ -1,13 +1,14 @@
-using Glass.Core;
-
 namespace OmniXaml.Ambient
 {
     using System.Collections.Generic;
+    using Zafiro.Core;
 
     public class AmbientRegistrator : IAmbientRegistrator
     {
-        private readonly StackingLinkedList<AmbientMemberAssignment> propertyAssignments = new StackingLinkedList<AmbientMemberAssignment>();
         private readonly StackingLinkedList<object> instances = new StackingLinkedList<object>();
+
+        private readonly StackingLinkedList<AmbientMemberAssignment> propertyAssignments =
+            new StackingLinkedList<AmbientMemberAssignment>();
 
         public void RegisterAssignment(AmbientMemberAssignment assignment)
         {

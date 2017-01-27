@@ -2,8 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Glass.Core;
     using Metadata;
+    using Zafiro.Core;
 
     public class Dependency : IDependency<Dependency>
     {

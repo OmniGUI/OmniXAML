@@ -2,7 +2,7 @@ namespace OmniXaml.Metadata
 {
     using System;
     using System.Linq.Expressions;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class GenericMetadata<T> : Metadata
     {

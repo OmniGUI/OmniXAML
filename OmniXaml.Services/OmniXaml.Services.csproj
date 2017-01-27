@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>netstandard1.2</TargetFramework>
- <PackageId>OmniXaml.Services</PackageId>
+    <PackageId>OmniXaml.Services</PackageId>
     <PackageVersion>2.0.0</PackageVersion>
     <Authors>José Manuel Nieto (@SuperJMN)</Authors>
     <Description>The Cross-platform XAML Framework</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>First release</PackageReleaseNotes>   
+    <PackageReleaseNotes>First release</PackageReleaseNotes>
     <PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
   </PropertyGroup>
   <ItemGroup>
@@ -17,8 +17,8 @@
     <PackageReference Include="NETStandard.Library" Version="1.6.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Glass.Core\Glass.Core.csproj" />
     <ProjectReference Include="..\OmniXaml.Attributes\OmniXaml.Attributes.csproj" />
     <ProjectReference Include="..\OmniXaml\OmniXaml.csproj" />
+    <ProjectReference Include="..\Zafiro\Zafiro.Core\Zafiro.Core.csproj" />
   </ItemGroup>
 </Project>

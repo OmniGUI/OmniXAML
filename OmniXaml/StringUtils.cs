@@ -1,7 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class StringUtils
     {

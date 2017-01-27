@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Glass.Core;
+    using Zafiro.Core;
 
     public class ExtendedObjectBuilder : ObjectBuilder
     {
