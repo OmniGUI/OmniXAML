@@ -32,9 +32,14 @@
 
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()) { PrefixedTypeResolver = prefixedTypeResolver};
             var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
-            var objectConstructor = new ObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
+            var objectConstructor = GetObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var construct = objectConstructor.Inflate(ctNode, trackingContext, intance);
             return new ConstructionResult(construct, namescopeAnnotator);
+        }
+
+        protected virtual IObjectBuilder GetObjectBuilder(InstanceCreator instanceCreator, ObjectBuilderContext context, ContextFactory factory)
+        {
+            return new ExtendedObjectBuilder(instanceCreator, context, factory);
         }
 
         private ParseResult Parse(string xaml)
