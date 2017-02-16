@@ -31,13 +31,18 @@
             var prefixedTypeResolver = new PrefixedTypeResolver(new PrefixAnnotator(), directory);
 
             var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()) { PrefixedTypeResolver = prefixedTypeResolver};
-            var instanceCreator = new InstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
+            var instanceCreator = GetInstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
             var objectConstructor = GetObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
             var construct = objectConstructor.Inflate(ctNode, trackingContext, intance);
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 
-        protected virtual IObjectBuilder GetObjectBuilder(InstanceCreator instanceCreator, ObjectBuilderContext context, ContextFactory factory)
+        protected virtual IInstanceCreator GetInstanceCreator(ISourceValueConverter sourceValueConverter, ObjectBuilderContext context, ITypeDirectory typeDirectory)
+        {
+            return new InstanceCreator(sourceValueConverter, context, typeDirectory);
+        }
+
+        protected virtual IObjectBuilder GetObjectBuilder(IInstanceCreator instanceCreator, ObjectBuilderContext context, ContextFactory factory)
         {
             return new ExtendedObjectBuilder(instanceCreator, context, factory);
         }
