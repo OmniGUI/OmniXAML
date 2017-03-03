@@ -52,12 +52,19 @@
 
         public static Member FromAttached(Type type, string memberName)
         {
-            // If there is a method that looks like an attached property accessor, then assume this is an attached property
-            if (type.GetRuntimeMethods().Any(info => info.Name == $"Get{memberName}"))
+            try
             {
-                return new AttachedProperty(type, memberName);
+                // If there is a method that looks like an attached property accessor, then assume this is an attached property
+                if (type.GetRuntimeMethods().Any(info => info.Name == $"Get{memberName}"))
+                {
+                    return new AttachedProperty(type, memberName);
+                }
+                return new AttachedEvent(type, memberName);
             }
-            return new AttachedEvent(type, memberName);
+            catch (Exception e)
+            {
+                throw new ParseException($"Cannot find an attached member called {memberName} in the type {type}.\n\nIf you are specifying an attached property, please verify that both the Get{memberName} and Set{memberName} methods exist in the type {type}, and are declared according to the specification for attached properties (see the reference https://msdn.microsoft.com/en-us/library/ms749011%28v=vs.110%29.aspx that is also vale for OmniXAML).");
+            }
         }
 
         public override string ToString()

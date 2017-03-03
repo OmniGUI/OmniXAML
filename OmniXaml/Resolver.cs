@@ -67,7 +67,7 @@
             {
                 var extensionType = typeDirectory.GetTypeByFullAddress(new Address(ns, typeName + ExtensionSuffix));
 
-                if ((extensionType != null) && extensionType.IsExtension())
+                if (extensionType != null && extensionType.IsExtension())
                 {
                     type = extensionType;
                 }
