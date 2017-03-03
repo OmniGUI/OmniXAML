@@ -109,6 +109,30 @@ namespace OmniXaml.Tests.XmlParserTests
         }
 
         [Fact]
+        public void PropertyElementThatIsACollectionInsideAttachedProperty()
+        {
+            var parseResult = ParseResult(@"<Window xmlns=""root"">
+<VisualStateManager.VisualStateGroups>
+<VisualStateGroup />
+</VisualStateManager.VisualStateGroups>
+</Window>");
+
+            var expected = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new[]
+                {
+                    new MemberAssignment
+                    {
+                        Children = new[] { new ConstructionNode(typeof(VisualStateGroup)), },
+                        Member = Member.FromAttached<VisualStateManager>("VisualStateGroups"),
+                    }
+                }
+            };
+
+            Assert.Equal(expected, parseResult.Root);
+        }
+
+        [Fact]
         public void ImmutableFromContent()
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
@@ -272,5 +296,5 @@ namespace OmniXaml.Tests.XmlParserTests
 
             Assert.Equal(expected, parseResult.Root);
         }
-    }
+    }    
 }

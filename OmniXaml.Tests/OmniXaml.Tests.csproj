@@ -36,10 +36,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="MemberAssignmentTests.cs" />
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />
     <Compile Include="Model\Custom\CustomWindow.cs" />
     <Compile Include="Model\TextWrapping.cs" />
+    <Compile Include="Model\VisualStateGroup.cs" />
+    <Compile Include="Model\VisualStateManager.cs" />
     <Compile Include="Namespaces\PrefixAnnotatorTests.cs" />
     <Compile Include="Namespaces\TypeDirectoryTests.cs" />
     <Compile Include="ObjectBuilderTests\Ambient.cs" />

@@ -16,7 +16,7 @@
         public Member Member { get; }
 
         public void ExecuteAssignment()
-        {
+        {            
             Member.SetValue(Target.Instance, Value);
         }
     }

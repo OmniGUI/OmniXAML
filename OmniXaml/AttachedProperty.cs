@@ -37,7 +37,7 @@
 
         public override object GetValue(object instance)
         {
-            return getter.Invoke(instance, null);
+            return getter.Invoke(null, new[] {instance});
         }
 
         public override Type MemberType => propertyType;

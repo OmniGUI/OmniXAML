@@ -2,12 +2,11 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Reflection;
     using Ambient;
-    using Zafiro.Core;
     using Serilog;
+    using Zafiro.Core;
 
     public class ObjectBuilder : IObjectBuilder
     {
@@ -16,7 +15,8 @@
         private readonly ISourceValueConverter sourceValueConverter;
 
 
-        public ObjectBuilder(IInstanceCreator creator, ObjectBuilderContext objectBuilderContext, IConverterContextFactory contextFactory)
+        public ObjectBuilder(IInstanceCreator creator, ObjectBuilderContext objectBuilderContext,
+            IConverterContextFactory contextFactory)
         {
             this.contextFactory = contextFactory;
             ObjectBuilderContext = objectBuilderContext;
@@ -33,7 +33,7 @@
                 buildContext.Root = node;
                 buildContext.PrefixedTypeResolver.Root = node;
             }
-            
+
             return InflateCore(node, buildContext, instance);
         }
 
@@ -52,18 +52,19 @@
             {
                 NotifyNewInstance(buildContext, instance);
             }
-            
+
             ApplyAssignments(instance, node.Assignments, buildContext);
             InflateChildren(node.Children, instance, buildContext);
             buildContext.InstanceLifecycleSignaler.OnEnd(instance);
-            return instance;                                                       
+            return instance;
         }
 
         private void EnsureValidRoot(ConstructionNode node, ConstructionNode root)
         {
             if (!Equals(node, root) && node.InstantiateAs != null)
             {
-                throw new InvalidOperationException($"'InstantiateAs' has been set for the node {node}, but this feature is only valid for the root node.");
+                throw new InvalidOperationException(
+                    $"'InstantiateAs' has been set for the node {node}, but this feature is only valid for the root node.");
             }
         }
 
@@ -79,11 +80,14 @@
 
             var instanceType = node.InstantiateAs ?? node.InstanceType;
 
-            var instance = creator.Create(instanceType, buildContext, node.InjectableArguments.Select(s => new InjectableMember(s)));
+            var instance = creator.Create(instanceType, buildContext,
+                node.InjectableArguments.Select(s => new InjectableMember(s)));
             NotifyNewInstance(buildContext, instance);
 
             if (node.Name != null)
+            {
                 buildContext.NamescopeAnnotator.RegisterName(node.Name, instance);
+            }
 
             return instance;
         }
@@ -92,11 +96,12 @@
         {
             if (node.InstantiateAs != null)
             {
-                Type instanceType = node.InstanceType;
-                Type instantiateAsType = node.InstantiateAs;
+                var instanceType = node.InstanceType;
+                var instantiateAsType = node.InstantiateAs;
                 if (!instanceType.GetTypeInfo().IsAssignableFrom(instantiateAsType.GetTypeInfo()))
-                {                
-                    throw new InvalidOperationException($"A node of type {instanceType} cannot be instantiated as {instantiateAsType}. The node of type {instanceType} has been tried to inflate as {instantiateAsType}, but this is not possible since the {instantiateAsType} is not derived from {instanceType}");
+                {
+                    throw new InvalidOperationException(
+                        $"A node of type {instanceType} cannot be instantiated as {instantiateAsType}. The node of type {instanceType} has been tried to inflate as {instantiateAsType}, but this is not possible since the {instantiateAsType} is not derived from {instanceType}");
                 }
             }
         }
@@ -138,29 +143,33 @@
         private void ApplyAssignment(MemberAssignment assignment, object target, BuildContext buildContext)
         {
             EnsureValidAssigment(assignment);
-            var property = assignment.Member;
 
-            if ((assignment.Children.Count() == 1) || (assignment.SourceValue != null))
-                ApplySingleAssignment(assignment, target, buildContext, property);
+            if (assignment.Children.Count() == 1 || assignment.SourceValue != null)
+            {
+                ApplySingleAssignment(assignment, target, buildContext);
+            }
             else
-                ApplyMultiAssignment(assignment, target, buildContext, property);
+            {
+                ApplyMultiAssignment(assignment, target, buildContext);
+            }
         }
 
-        private void ApplyMultiAssignment(MemberAssignment assignment, object instance, BuildContext buildContext, Member property)
+        private void ApplyMultiAssignment(MemberAssignment assignment, object instance, BuildContext buildContext)
         {
             foreach (var constructionNode in assignment.Children)
             {
                 var originalValue = InflateCore(constructionNode, buildContext);
-                var child = MakeCompatible(instance, new ConversionRequest(property, originalValue), buildContext);
+                var child = MakeCompatible(instance, new ConversionRequest(assignment.Member, originalValue),
+                    buildContext);
 
-                var parent = property.GetValue(instance);
+                var parent = assignment.Member.GetValue(instance);
                 var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(pendingAdd, buildContext);
             }
         }
 
-        private void ApplySingleAssignment(MemberAssignment assignment, object instance, BuildContext buildContext, Member member)
+        private void ApplySingleAssignment(MemberAssignment assignment, object instance, BuildContext buildContext)
         {
             object value;
             string key = null;
@@ -168,15 +177,17 @@
             {
                 var first = assignment.Children.First();
                 key = first.Key;
-                value = CreateChildProperty(instance, member, first, buildContext);
+                value = CreateChildProperty(instance, assignment.Member, first, buildContext);
             }
             else
             {
                 value = assignment.SourceValue;
             }
 
-            var compatibleValue = MakeCompatible(instance, new ConversionRequest(member, value), buildContext);
-            PerformAssigment(new Assignment(new KeyedInstance(instance, key), member, compatibleValue), buildContext);
+            var compatibleValue = MakeCompatible(instance, new ConversionRequest(assignment.Member, value),
+                buildContext);
+            PerformAssigment(new Assignment(new KeyedInstance(instance, key), assignment.Member, compatibleValue),
+                buildContext);
         }
 
         private static void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
@@ -190,13 +201,15 @@
             buildContext.AmbientRegistrator.RegisterAssignment(ambientPropertyAssignment);
         }
 
-        protected virtual object MakeCompatible(object instance, ConversionRequest conversionRequest, BuildContext buildContext)
+        protected virtual object MakeCompatible(object instance, ConversionRequest conversionRequest,
+            BuildContext buildContext)
         {
             var value = conversionRequest.Value;
 
             if (value is string)
             {
-                var valueContext = contextFactory.CreateConverterContext(conversionRequest.Member.MemberType, value, buildContext);
+                var valueContext =
+                    contextFactory.CreateConverterContext(conversionRequest.Member.MemberType, value, buildContext);
                 var compatibleValue = sourceValueConverter.GetCompatibleValue(valueContext);
                 return compatibleValue;
             }
@@ -220,29 +233,31 @@
             }
         }
 
-        protected virtual object CreateChildProperty(object parent, Member member, ConstructionNode nodeToBeCreated, BuildContext buildContext)
+        protected virtual object CreateChildProperty(object parent, Member member, ConstructionNode nodeToBeCreated,
+            BuildContext buildContext)
         {
             return InflateCore(nodeToBeCreated, buildContext);
         }
 
-        protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> assigments, BuildContext buildContext)
+        protected virtual void ApplyAssignments(object instance, IEnumerable<MemberAssignment> assigments,
+            BuildContext buildContext)
         {
             foreach (var propertyAssignment in assigments)
+            {
                 ApplyAssignment(propertyAssignment, instance, buildContext);
+            }
         }
 
         private static void EnsureValidAssigment(MemberAssignment assignment)
         {
-            if ((assignment.SourceValue != null) && (assignment.Children != null) && assignment.Children.Any())
+            if (assignment.SourceValue != null && assignment.Children != null && assignment.Children.Any())
             {
                 throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");
-                
             }
-            if ((assignment.SourceValue == null) && !assignment.Children.Any())
+            if (assignment.SourceValue == null && !assignment.Children.Any())
             {
                 Log.Warning("Children is empty for this assignment {Assignment}", assignment);
                 throw new InvalidOperationException("Children is empty.");
-                
             }
         }
     }
