@@ -26,8 +26,28 @@
                 return CreateUsingConversion(type, injectableMembers.First().Value, context);
             }
 
-            var ctor = SelectCtor(type, injectableMembers);
-            return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());
+            try
+            {
+                var ctor = SelectCtor(type, injectableMembers);
+                return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());
+            }
+            catch (Exception e)
+            {
+                var message = GetMessage(type, injectableMembers);
+                throw new Exception(message, e);
+            }
+        }
+
+        private static string GetMessage(Type type, IEnumerable<InjectableMember> injectableMembers)
+        {
+            string appendix = "";
+            if (injectableMembers.Any())
+            {
+                var injectableMembersStr = string.Join(", ", injectableMembers.Select(member => member.ToString()));
+                appendix = $" with these injectable members: {injectableMembersStr}";
+            }
+            var formattableString = $"Cannot find an appropriate constructor to create the type {type}{appendix}.";
+            return formattableString;
         }
 
         private static bool IsCreatableUsingConversion(Type type)
