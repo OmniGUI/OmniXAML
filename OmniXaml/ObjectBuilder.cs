@@ -111,17 +111,17 @@
             foreach (var constructionNode in children)
             {
                 var child = InflateCore(constructionNode, buildContext);
-                var association = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
+                var association = new PendingAssociation(parent, parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(association, buildContext);
             }
         }
 
-        protected void Associate(ChildAssociation childAssociation, BuildContext buildContext)
+        private void Associate(PendingAssociation pendingAssociation, BuildContext buildContext)
         {
-            var childInstance = childAssociation.Child.Instance;
-            var childKey = childAssociation.Child.Key;
-            var parent = childAssociation.Parent;
+            var childInstance = pendingAssociation.Child.Instance;
+            var childKey = pendingAssociation.Child.Key;
+            var parent = pendingAssociation.Parent;
 
             if (childKey == null)
             {
@@ -132,10 +132,11 @@
                 Collection.UniversalAddToDictionary(parent, childInstance, childKey);
             }
 
+            buildContext.AddAssociation(new ParentChildRelationship(pendingAssociation.Owner, childInstance));
             OnInstanceAssociated(buildContext, childInstance);
         }
 
-        protected void OnInstanceAssociated(BuildContext buildContext, object childInstance)
+        private void OnInstanceAssociated(BuildContext buildContext, object childInstance)
         {
             buildContext.InstanceLifecycleSignaler.AfterAssociatedToParent(childInstance);
         }
@@ -154,16 +155,16 @@
             }
         }
 
-        private void ApplyMultiAssignment(MemberAssignment assignment, object instance, BuildContext buildContext)
+        private void ApplyMultiAssignment(MemberAssignment assignment, object ownerInstance, BuildContext buildContext)
         {
             foreach (var constructionNode in assignment.Children)
             {
                 var originalValue = InflateCore(constructionNode, buildContext);
-                var child = MakeCompatible(instance, new ConversionRequest(assignment.Member, originalValue),
+                var child = MakeCompatible(ownerInstance, new ConversionRequest(assignment.Member, originalValue),
                     buildContext);
 
-                var parent = assignment.Member.GetValue(instance);
-                var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, constructionNode.Key));
+                var parent = assignment.Member.GetValue(ownerInstance);
+                var pendingAdd = new PendingAssociation(ownerInstance, parent, new KeyedInstance(child, constructionNode.Key));
 
                 Associate(pendingAdd, buildContext);
             }
@@ -184,10 +185,8 @@
                 value = assignment.SourceValue;
             }
 
-            var compatibleValue = MakeCompatible(instance, new ConversionRequest(assignment.Member, value),
-                buildContext);
-            PerformAssigment(new Assignment(new KeyedInstance(instance, key), assignment.Member, compatibleValue),
-                buildContext);
+            var compatibleValue = MakeCompatible(instance, new ConversionRequest(assignment.Member, value), buildContext);
+            PerformAssigment(new Assignment(new KeyedInstance(instance, key), assignment.Member, compatibleValue), buildContext);
         }
 
         private static void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
@@ -223,7 +222,7 @@
             {
                 var parent = assignment.Member.GetValue(assignment.Target.Instance);
                 var child = assignment.Value;
-                var pendingAdd = new ChildAssociation(parent, new KeyedInstance(child, assignment.Target.Key));
+                var pendingAdd = new PendingAssociation(assignment.Target.Instance, parent, new KeyedInstance(child, assignment.Target.Key));
                 Associate(pendingAdd, buildContext);
             }
             else
