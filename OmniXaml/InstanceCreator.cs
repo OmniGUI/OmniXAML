@@ -26,28 +26,10 @@
                 return CreateUsingConversion(type, injectableMembers.First().Value, context);
             }
 
-            try
-            {
-                var ctor = SelectCtor(type, injectableMembers);
-                return Call(ctor, context, injectableMembers ?? new List<InjectableMember>());
-            }
-            catch (Exception e)
-            {
-                var message = GetMessage(type, injectableMembers);
-                throw new Exception(message, e);
-            }
-        }
-
-        private static string GetMessage(Type type, IEnumerable<InjectableMember> injectableMembers)
-        {
-            string appendix = "";
-            if (injectableMembers.Any())
-            {
-                var injectableMembersStr = string.Join(", ", injectableMembers.Select(member => member.ToString()));
-                appendix = $" with these injectable members: {injectableMembersStr}";
-            }
-            var formattableString = $"Cannot find an appropriate constructor to create the type {type}{appendix}.";
-            return formattableString;
+            var ctor = SelectConstructor(type, injectableMembers);
+            return ctor == null
+                ? null
+                : InvokeSelectedConstructor(ctor, context, injectableMembers ?? new List<InjectableMember>());
         }
 
         private static bool IsCreatableUsingConversion(Type type)
@@ -61,7 +43,7 @@
             return objectBuilderContext.SourceValueConverter.GetCompatibleValue(converterValueContext);
         }
 
-        private object Call(ConstructorInfo ctor, BuildContext context, IEnumerable<InjectableMember> injectableMembers)
+        private object InvokeSelectedConstructor(ConstructorInfo ctor, BuildContext context, IEnumerable<InjectableMember> injectableMembers)
         {
             var requiredParams = ctor.GetParameters();
             var zip = requiredParams.Zip(injectableMembers, (p, m) => Convert(m.Value, p.ParameterType, context));
@@ -73,14 +55,14 @@
             return converter.GetCompatibleValue(new ConverterValueContext(targetType, value, objectBuilderContext, directory, context));
         }
 
-        private static ConstructorInfo SelectCtor(Type type, IEnumerable<InjectableMember> injectableMembers)
+        private static ConstructorInfo SelectConstructor(Type type, IEnumerable<InjectableMember> injectableMembers)
         {
             var ctorsByNumOfArgs = from ctor in type.GetTypeInfo().DeclaredConstructors
-                                   where ctor.IsPublic
-                                   orderby ctor.GetParameters().Length descending
-                                   select ctor;
+                where ctor.IsPublic
+                orderby ctor.GetParameters().Length descending
+                select ctor;
 
-            return ctorsByNumOfArgs.First(info => info.GetParameters().Length <= injectableMembers.Count());
+            return ctorsByNumOfArgs.FirstOrDefault(info => info.GetParameters().Length <= injectableMembers.Count());
         }
     }
 }
