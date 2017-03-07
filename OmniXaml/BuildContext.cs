@@ -32,6 +32,7 @@
         public void AddAssociation(ParentChildRelationship pendingAssociation)
         {
             associations.Add(pendingAssociation);
+            childAssociated.OnNext(pendingAssociation);
         }
 
         public IObservable<ParentChildRelationship> ChildAssociated => childAssociated;
