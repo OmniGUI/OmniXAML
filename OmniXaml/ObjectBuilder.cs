@@ -187,6 +187,7 @@
 
             var compatibleValue = MakeCompatible(instance, new ConversionRequest(assignment.Member, value), buildContext);
             PerformAssigment(new Assignment(new KeyedInstance(instance, key), assignment.Member, compatibleValue), buildContext);
+            buildContext.AddAssociation(new ParentChildRelationship(instance, value));
         }
 
         private static void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)
