@@ -1,6 +1,7 @@
 namespace OmniXaml.Tests.ObjectBuilderTests
 {
     using System;
+    using System.Collections.Generic;
     using System.Reflection;
     using Model;
     using Model.Custom;
@@ -8,6 +9,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
     using OmniXaml.Ambient;
     using Services;
     using TypeLocation;
+    using Xunit;
 
     public class ObjectBuilderTestsBase
     {
@@ -68,4 +70,29 @@ namespace OmniXaml.Tests.ObjectBuilderTests
         }
 
     }
+
+    public class CreationTreeTests : ObjectBuilderTestsBase
+    {
+        [Fact]
+        public void GetTree()
+        {
+            var constructionNode = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new List<MemberAssignment>()
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromAttached<VisualStateManager>("VisualStateGroups"),
+                        Children = new ConstructionNode[]
+                        {
+                            new ConstructionNode(typeof(VisualStateGroup)), 
+                        }
+                    }
+                }
+            };
+            var creation = Create(constructionNode);
+        }
+    }
+
+
 }

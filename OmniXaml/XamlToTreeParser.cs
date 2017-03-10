@@ -141,7 +141,7 @@
 
             return new AttributeBasedInstanceProperties
             {
-                Name = name,
+                Name = nameDirectiveValue,
                 Key = key,
                 Assignments = finalAssignments,
             };
