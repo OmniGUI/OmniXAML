@@ -132,7 +132,7 @@
                 Collection.UniversalAddToDictionary(parent, childInstance, childKey);
             }
 
-            buildContext.AddAssociation(new ParentChildRelationship(pendingAssociation.Owner, childInstance));
+            buildContext.AddAssociation(new Association(pendingAssociation.Owner, childInstance));
             OnInstanceAssociated(buildContext, childInstance);
         }
 
@@ -187,7 +187,7 @@
 
             var compatibleValue = MakeCompatible(instance, new ConversionRequest(assignment.Member, value), buildContext);
             PerformAssigment(new Assignment(new KeyedInstance(instance, key), assignment.Member, compatibleValue), buildContext);
-            buildContext.AddAssociation(new ParentChildRelationship(instance, value));
+            buildContext.AddAssociation(new Association(instance, value));
         }
 
         private static void OnAssigmentExecuted(Assignment assignment, BuildContext buildContext)

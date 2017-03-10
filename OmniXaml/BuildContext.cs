@@ -6,11 +6,12 @@
     using System.Linq;
     using System.Reactive.Subjects;
     using Ambient;
+    using Zafiro.Core;
 
     public class BuildContext
     {
-        private readonly HashSet<ParentChildRelationship> associations = new HashSet<ParentChildRelationship>();
-        private readonly ISubject<ParentChildRelationship> childAssociated = new Subject<ParentChildRelationship>();
+        private readonly HashSet<Association> associations = new HashSet<Association>();
+        private readonly ISubject<Association> childAssociated = new Subject<Association>();
 
         public BuildContext(INamescopeAnnotator namescopeAnnotator, IAmbientRegistrator ambientRegistrator, IInstanceLifecycleSignaler instanceLifecycleSignaler)
         {
@@ -29,14 +30,14 @@
         public IPrefixedTypeResolver PrefixedTypeResolver { get; set; }
         public ConstructionNode Root { get; set; }
 
-        public void AddAssociation(ParentChildRelationship pendingAssociation)
+        public void AddAssociation(Association pendingAssociation)
         {
             associations.Add(pendingAssociation);
             childAssociated.OnNext(pendingAssociation);
         }
 
-        public IObservable<ParentChildRelationship> ChildAssociated => childAssociated;
+        public IObservable<Association> ChildAssociated => childAssociated;
 
-        public IEnumerable<ParentChildRelationship> Associations => new ReadOnlyCollection<ParentChildRelationship>(associations.ToList());
+        public IEnumerable<Association> Associations => new ReadOnlyCollection<Association>(associations.ToList());
     }
 }
