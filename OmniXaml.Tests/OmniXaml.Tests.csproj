@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Rework\InstanceCreatorMock.cs" />
     <Compile Include="MemberAssignmentTests.cs" />
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />
@@ -45,6 +46,7 @@
     <Compile Include="Model\VisualStateManager.cs" />
     <Compile Include="Namespaces\PrefixAnnotatorTests.cs" />
     <Compile Include="Namespaces\TypeDirectoryTests.cs" />
+    <Compile Include="Rework\NewObjectBuilderTests.cs" />
     <Compile Include="ObjectBuilderTests\Ambient.cs" />
     <Compile Include="ObjectBuilderTests\Extensions.cs" />
     <Compile Include="ObjectBuilderTests\Immutables.cs" />
@@ -74,12 +76,13 @@
     <Compile Include="ObjectBuilderTests\ObjectBuilderTestsBase.cs" />
     <Compile Include="ObjectBuilderTests\Templates.cs" />
     <None Include="project.json" />
+    <Compile Include="Rework\ObjectBuildFixture.cs" />
     <Compile Include="XmlParserTests\AnnotatorTests.cs" />
     <Compile Include="XmlParserTests\AssignmentExtractorTests.cs" />
     <Compile Include="XmlParserTests\CData.cs" />
     <Compile Include="XmlParserTests\ClassDirective.cs" />
     <Compile Include="XmlParserTests\CollectionsTests.cs" />
-    <Compile Include="XmlParserTests\Dictionaries.cs" />
+    <Compile Include="XmlParserTests\DictionaryTests.cs" />
     <Compile Include="XmlParserTests\EventsTests.cs" />
     <Compile Include="XmlParserTests\NamescopeTests.cs" />
     <Compile Include="XmlParserTests\NameTests.cs" />
@@ -112,6 +115,7 @@
       <Name>Zafiro.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

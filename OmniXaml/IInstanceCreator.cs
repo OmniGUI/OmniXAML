@@ -5,6 +5,6 @@
 
     public interface IInstanceCreator
     {
-        object Create(Type type, BuildContext context, IEnumerable<InjectableMember> injectableMembers = null);
+        object Create(Type type, IBuildContext context, IEnumerable<InjectableMember> injectableMembers = null);
     }
 }

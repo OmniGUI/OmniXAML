@@ -9,9 +9,9 @@
         public Type TargetType { get; }
         public object Value { get; set; }
         public ITypeDirectory TypeDirectory { get; }
-        public BuildContext BuildContext { get; set; }
+        public IBuildContext BuildContext { get; set; }
 
-        public ConverterValueContext(Type targetType, object value, ObjectBuilderContext objectBuilderContext, ITypeDirectory directory, BuildContext buildContext)
+        public ConverterValueContext(Type targetType, object value, ObjectBuilderContext objectBuilderContext, ITypeDirectory directory, IBuildContext buildContext)
         {
             TargetType = targetType;
             Value = value;

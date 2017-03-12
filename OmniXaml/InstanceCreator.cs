@@ -19,7 +19,7 @@
             this.directory = directory;
         }
 
-        public object Create(Type type, BuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
+        public object Create(Type type, IBuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
         {
             if (IsCreatableUsingConversion(type))
             {
@@ -37,20 +37,20 @@
             return type.GetTypeInfo().IsPrimitive || type == typeof(string) || type == typeof(decimal);
         }
 
-        private object CreateUsingConversion(Type type, object o, BuildContext context)
+        private object CreateUsingConversion(Type type, object o, IBuildContext context)
         {
             var converterValueContext = new ConverterValueContext(type, o, objectBuilderContext, directory, context);
             return objectBuilderContext.SourceValueConverter.GetCompatibleValue(converterValueContext);
         }
 
-        private object InvokeSelectedConstructor(ConstructorInfo ctor, BuildContext context, IEnumerable<InjectableMember> injectableMembers)
+        private object InvokeSelectedConstructor(ConstructorInfo ctor, IBuildContext context, IEnumerable<InjectableMember> injectableMembers)
         {
             var requiredParams = ctor.GetParameters();
             var zip = requiredParams.Zip(injectableMembers, (p, m) => Convert(m.Value, p.ParameterType, context));
             return ctor.Invoke(zip.ToArray());
         }
 
-        private object Convert(object value, Type targetType, BuildContext context)
+        private object Convert(object value, Type targetType, IBuildContext context)
         {
             return converter.GetCompatibleValue(new ConverterValueContext(targetType, value, objectBuilderContext, directory, context));
         }
