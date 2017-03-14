@@ -2,17 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Reactive.Subjects;
 
-    internal class InstanceCreatorMock : IInstanceCreator
+    internal class InstanceCreatorMock : IInstanceCook
     {
-        public ISubject<object> InstanceCreated { get; } = new Subject<object>();
+        private Func<Type, IEnumerable<InjectableMember>, CreationResult> createFunc = (type, members) => new CreationResult(Activator.CreateInstance(type), new InjectableMember[0]);
 
-        public object Create(Type type, IBuildContext context, IEnumerable<InjectableMember> injectableMembers = null)
+        public CreationResult Create(Type type, IEnumerable<InjectableMember> injectableMembers = null)
         {
-            var instance = Activator.CreateInstance(type);
-            InstanceCreated.OnNext(instance);
-            return instance;
+            return createFunc(type, injectableMembers);
+        }
+
+        public void SetObjectFactory(Func<Type, IEnumerable<InjectableMember>, CreationResult> factory)
+        {
+            this.createFunc = factory;
         }
     }
 }

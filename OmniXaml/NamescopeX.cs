@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Tests
+﻿namespace OmniXaml
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

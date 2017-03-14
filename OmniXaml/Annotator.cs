@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Metadata;
-    using Tests;
 
     public class Annotator
     {

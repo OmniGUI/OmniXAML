@@ -2,16 +2,18 @@
 {
     public class MyImmutable : ModelObject
     {
-        private readonly string arg;
+        private readonly string argument;
 
-        public MyImmutable(string arg)
+        public MyImmutable(string argument)
         {
-            this.arg = arg;
+            this.Argument = argument;
         }
+
+        public string Argument { get; }
 
         protected bool Equals(MyImmutable other)
         {
-            return string.Equals(arg, other.arg);
+            return string.Equals(argument, other.argument);
         }
 
         public override bool Equals(object obj)
@@ -27,7 +29,7 @@
 
         public override int GetHashCode()
         {
-            return (arg != null ? arg.GetHashCode() : 0);
+            return (argument != null ? argument.GetHashCode() : 0);
         }
     }
 }
