@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IInstanceCook
+    public interface ISmartInstanceCreator
     {
         CreationResult Create(Type constructionNodeInstanceType, IEnumerable<InjectableMember> injectableMembers);
     }

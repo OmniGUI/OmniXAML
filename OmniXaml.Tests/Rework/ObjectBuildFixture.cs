@@ -4,11 +4,14 @@ namespace OmniXaml.Tests.Rework
     {
         public ObjectBuildFixture()
         {
-            Creator = new InstanceCreatorMock();
-            ObjectBuilder = new NewObjectBuilder(Creator);
+            Creator = new SmartInstanceCreatorMock();
+            Converter = new SmartConverterMock();
+            ObjectBuilder = new NewObjectBuilder(Creator, Converter);
         }
 
-        public InstanceCreatorMock Creator { get; }
+        public SmartConverterMock Converter { get; set; }
+
+        public SmartInstanceCreatorMock Creator { get; }
 
         public NewObjectBuilder ObjectBuilder { get; set; }
     }

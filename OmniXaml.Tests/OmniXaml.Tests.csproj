@@ -36,7 +36,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Rework\InstanceCreatorMock.cs" />
+    <Compile Include="Rework\SmartConverterMock.cs" />
+    <Compile Include="Rework\SmartInstanceCreatorMock.cs" />
     <Compile Include="MemberAssignmentTests.cs" />
     <Compile Include="Model\AttachedEventArgs.cs" />
     <Compile Include="Model\Button.cs" />

@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    internal class InstanceCreatorMock : IInstanceCook
+    internal class SmartInstanceCreatorMock : ISmartInstanceCreator
     {
         private Func<Type, IEnumerable<InjectableMember>, CreationResult> createFunc = (type, members) => new CreationResult(Activator.CreateInstance(type), new InjectableMember[0]);
 

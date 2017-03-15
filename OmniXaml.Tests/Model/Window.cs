@@ -20,7 +20,7 @@
 
         protected bool Equals(Window other)
         {
-            return string.Equals(Title, other.Title) && Equals(Content, other.Content) && Equals(Resources, other.Resources);
+            return base.Equals(other) && string.Equals(Title, other.Title) && Equals(Content, other.Content) && Equals(Resources, other.Resources);
         }
 
         public override bool Equals(object obj)

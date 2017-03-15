@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.Rework
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Model;
     using Xunit;
@@ -44,7 +45,7 @@
         public void ImmutableFromProperty()
         {
             var fixture = new ObjectBuildFixture();
-            fixture.Creator.SetObjectFactory((type, inject) => new CreationResult(new MyImmutable((string) inject.First().Value), new[] {inject.First()}));
+            fixture.Creator.SetObjectFactory((type, inject) => new CreationResult(new MyImmutable((string)inject.First().Value), new[] { inject.First() }));
             var ctn = new ConstructionNode(typeof(Window))
             {
                 Assignments = new List<MemberAssignment>
@@ -60,6 +61,29 @@
             var instance = fixture.ObjectBuilder.Inflate(ctn);
 
             Assert.Equal(new MyImmutable("Saludos"), instance);
+        }
+
+        [Fact]
+        public void WhenValueIsNotCompatible_ConverterIsUsed()
+        {
+            var fixture = new ObjectBuildFixture();
+            fixture.Converter.SetConvertFunc((str, type) => double.Parse(str, CultureInfo.InvariantCulture));
+
+            var ctn = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new List<MemberAssignment>
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<Window>(w => w.Height),
+                        SourceValue = "12.5",
+                    }
+                }
+            };
+
+            var instance = fixture.ObjectBuilder.Inflate(ctn);
+
+            Assert.Equal(new Window() { Height = 12.5 }, instance);
         }
     }
 }

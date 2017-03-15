@@ -1,15 +1,18 @@
 ﻿namespace OmniXaml
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
     public class NewObjectBuilder : INewObjectBuilder
     {
-        private readonly IInstanceCook instanceCreator;
+        private readonly ISmartInstanceCreator smartInstanceCreator;
+        private readonly ISmartSourceValueConverter sourceValueConverter;
 
-        public NewObjectBuilder(IInstanceCook instanceCreator)
+        public NewObjectBuilder(ISmartInstanceCreator smartInstanceCreator, ISmartSourceValueConverter sourceValueConverter)
         {
-            this.instanceCreator = instanceCreator;
+            this.smartInstanceCreator = smartInstanceCreator;
+            this.sourceValueConverter = sourceValueConverter;
         }
 
         public object Inflate(ConstructionNode constructionNode)
@@ -24,7 +27,7 @@
                 };
 
 
-            var creationResult = instanceCreator.Create(constructionNode.InstanceType, injectableMembers);
+            var creationResult = smartInstanceCreator.Create(constructionNode.InstanceType, injectableMembers);
 
             var unusedChilden = GetUnusedChildren(creationResult.InjectedMembers, inflatedAssignments);
             ConsumeUnusedAssignments(creationResult.Instance, unusedChilden);
@@ -52,10 +55,10 @@
 
         private IEnumerable<InflatedAssignment> InflateAssignments(IEnumerable<MemberAssignment> assignments)
         {
-            return AssignmentsFromComplex(assignments).Concat(AssignmentsFromDirectValues(assignments));
+            return InflateAssignmentsFromChildren(assignments).Concat(AssignmentsFromSourceValues(assignments));
         }
 
-        private IEnumerable<InflatedAssignment> AssignmentsFromComplex(IEnumerable<MemberAssignment> assignments)
+        private IEnumerable<InflatedAssignment> InflateAssignmentsFromChildren(IEnumerable<MemberAssignment> assignments)
         {
             var instantiatedAssignments =
                 from a in assignments
@@ -71,7 +74,7 @@
             return instantiatedAssignments;
         }
 
-        private IEnumerable<InflatedAssignment> AssignmentsFromDirectValues(IEnumerable<MemberAssignment> assignments)
+        private IEnumerable<InflatedAssignment> AssignmentsFromSourceValues(IEnumerable<MemberAssignment> assignments)
         {
             var instantiatedAssignments =
                 from a in assignments
@@ -79,11 +82,16 @@
                 let value = a.SourceValue
                 select new InflatedAssignment
                 {
-                    Instance = value,
+                    Instance = GetCompatibleValue(value, a.Member.MemberType),
                     Assignment = a.Member,
                 };
 
             return instantiatedAssignments;
+        }
+
+        private object GetCompatibleValue(string strValue, Type desiredTargetType)
+        {
+            return sourceValueConverter.Convert(strValue, desiredTargetType);
         }
     }
 }
