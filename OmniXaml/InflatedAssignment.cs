@@ -1,13 +1,15 @@
 ﻿namespace OmniXaml
 {
+    using System.Collections.Generic;
+
     internal class InflatedAssignment
     {
-        public object Instance { get; set; }
+        public IEnumerable<object> Instances { get; set; }
         public Member Member { get; set; }
 
         protected bool Equals(InflatedAssignment other)
         {
-            return Instance.Equals(other.Instance) && Member.Equals(other.Member);
+            return Instances.Equals(other.Instances) && Member.Equals(other.Member);
         }
 
         public override bool Equals(object obj)
@@ -22,7 +24,7 @@
         {
             unchecked
             {
-                return (Instance.GetHashCode() * 397) ^ Member.GetHashCode();
+                return (Instances.GetHashCode() * 397) ^ Member.GetHashCode();
             }
         }
     }

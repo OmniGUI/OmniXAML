@@ -41,18 +41,18 @@
         private IEnumerable<object> InflateChildren(ConstructionNode constructionNode)
         {
             return from c in constructionNode.Children
-                let i = Inflate(c)
-                select i;
+                   let i = Inflate(c)
+                   select i;
         }
 
         private IEnumerable<InjectableMember> GetInjectables(IEnumerable<InflatedAssignment> inflatedAssignments)
         {
             var injectableMembers = from child in inflatedAssignments
-                select new InjectableMember(child.Instance)
-                {
-                    Name = child.Member.MemberName,
-                    InjectionType = child.Member.MemberType,
-                };
+                                    select new InjectableMember(child.Instances)
+                                    {
+                                        Name = child.Member.MemberName,
+                                        InjectionType = child.Member.MemberType,
+                                    };
 
             var injectables = injectableMembers;
             return injectables;
@@ -61,25 +61,36 @@
         private IEnumerable<InflatedAssignment> GetMembersNotUsedInConstruction(IEnumerable<InjectableMember> creationResultInjectedMembers, IEnumerable<InflatedAssignment> inflatedAssignments)
         {
             var assigned = from injected in creationResultInjectedMembers
-                join assignment in inflatedAssignments on injected.Name equals assignment.Member.MemberName
+                           join assignment in inflatedAssignments on injected.Name equals assignment.Member.MemberName
 
-                select assignment;
+                           select assignment;
 
             return inflatedAssignments.Except(assigned);
         }
 
         private void AssignMembers(object parent, IEnumerable<InflatedAssignment> inflatedAssignments, List<object> children)
         {
-            foreach (var ia in inflatedAssignments)
-            {
-                ia.Member.SetValue(parent, ia.Instance);
-            }
-
             if (parent.GetType().IsCollection())
             {
                 foreach (var child in children)
                 {
                     Associate(parent, child);
+                }
+            }
+
+            foreach (var assignment in inflatedAssignments)
+            {
+                if (assignment.Member.MemberType.IsCollection())
+                {
+                    var hoster = assignment.Member.GetValue(parent);
+                    foreach (var inst in assignment.Instances)
+                    {
+                        Associate(hoster, inst);
+                    }
+                }
+                else
+                {
+                    assignment.Member.SetValue(parent, assignment.Instances.First());
                 }
             }
         }
@@ -99,11 +110,12 @@
             var instantiatedAssignments =
                 from a in assignments
                 where a.Children.Any()
+                let children = from child in a.Children select Inflate(child)
                 from ct in a.Children
                 let inflate = Inflate(ct)
                 select new InflatedAssignment
                 {
-                    Instance = inflate,
+                    Instances = children,
                     Member = a.Member,
                 };
 
@@ -118,7 +130,7 @@
                 let value = a.SourceValue
                 select new InflatedAssignment
                 {
-                    Instance = GetCompatibleValue(value, a.Member.MemberType),
+                    Instances = new[] { GetCompatibleValue(value, a.Member.MemberType) },
                     Member = a.Member,
                 };
 
