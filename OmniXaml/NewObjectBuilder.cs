@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using InlineParsers.Extensions;
@@ -90,7 +91,7 @@
 
         private IEnumerable<InflatedAssignment> InflateAssignments(IEnumerable<MemberAssignment> assignments)
         {
-            return InflateAssignmentsFromChildren(assignments);
+            return InflateAssignmentsFromChildren(assignments).Concat(AssignmentsFromSourceValues(assignments));
         }
 
         private IEnumerable<InflatedAssignment> InflateAssignmentsFromChildren(IEnumerable<MemberAssignment> assignments)
@@ -107,6 +108,26 @@
                 };
 
             return instantiatedAssignments;
+        }
+
+        private IEnumerable<InflatedAssignment> AssignmentsFromSourceValues(IEnumerable<MemberAssignment> assignments)
+        {
+            var instantiatedAssignments =
+                from a in assignments
+                where a.SourceValue != null
+                let value = a.SourceValue
+                select new InflatedAssignment
+                {
+                    Instance = GetCompatibleValue(value, a.Member.MemberType),
+                    Member = a.Member,
+                };
+
+            return instantiatedAssignments;
+        }
+
+        private object GetCompatibleValue(string strValue, Type desiredTargetType)
+        {
+            return sourceValueConverter.Convert(strValue, desiredTargetType);
         }
     }
 }
