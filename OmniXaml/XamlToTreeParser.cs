@@ -56,7 +56,7 @@
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
                 Assignments = attributeBasedInstanceProperties.Assignments,
-                InjectableArguments = ctorArgs,
+                PositionalParameter = ctorArgs,
                 Children = children,
                 InstantiateAs = type == elementType ? null : type,
             };

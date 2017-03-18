@@ -3,11 +3,11 @@
     internal class InflatedAssignment
     {
         public object Instance { get; set; }
-        public Member Assignment { get; set; }
+        public Member Member { get; set; }
 
         protected bool Equals(InflatedAssignment other)
         {
-            return Instance.Equals(other.Instance) && Assignment.Equals(other.Assignment);
+            return Instance.Equals(other.Instance) && Member.Equals(other.Member);
         }
 
         public override bool Equals(object obj)
@@ -22,7 +22,7 @@
         {
             unchecked
             {
-                return (Instance.GetHashCode() * 397) ^ Assignment.GetHashCode();
+                return (Instance.GetHashCode() * 397) ^ Member.GetHashCode();
             }
         }
     }

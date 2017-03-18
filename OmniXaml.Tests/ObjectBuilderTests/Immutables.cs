@@ -30,7 +30,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
         {
             var node = new ConstructionNode(type)
             {
-                InjectableArguments = new[] { textInput }
+                PositionalParameter = new[] { textInput }
             };
 
             var fixture = Create(node);
@@ -40,7 +40,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
         [Fact]
         public void ImmutableFromContent()
         {
-            var node = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "Hola" } };
+            var node = new ConstructionNode(typeof(MyImmutable)) { PositionalParameter = new[] { "Hola" } };
             var myImmutable = new MyImmutable("Hola");
             var fixture = Create(node);
 

@@ -29,7 +29,7 @@
 
             return new ConstructionNode(type)
             {
-                InjectableArguments = arguments,
+                PositionalParameter = arguments,
                 Assignments = assignments,
             };
         }

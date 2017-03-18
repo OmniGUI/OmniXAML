@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.Tests.Rework
 {
+    using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
@@ -45,7 +46,12 @@
         public void ImmutableFromProperty()
         {
             var fixture = new ObjectBuildFixture();
-            fixture.Creator.SetObjectFactory((type, inject) => new CreationResult(new MyImmutable((string)inject.First().Value), new[] { inject.First() }));
+            fixture.Creator.SetObjectFactory((type, hints) =>
+            {
+                var argument = (string)hints.Members.First().Value;
+                var myImmutable = new MyImmutable(argument);
+                return new CreationResult(myImmutable, new CreationHints(new[] {hints.Members.First()}, new List<PositionalParameter>(), new List<object>()));
+            });
             var ctn = new ConstructionNode(typeof(Window))
             {
                 Assignments = new List<MemberAssignment>
@@ -84,6 +90,58 @@
             var instance = fixture.ObjectBuilder.Inflate(ctn);
 
             Assert.Equal(new Window() { Height = 12.5 }, instance);
+        }
+
+        [Fact]
+        public void CreateSimpleType_String()
+        {
+            var fixture = new ObjectBuildFixture();
+            var str = "salutations";
+
+            fixture.Creator.SetObjectFactory((type, hints) => new CreationResult(str, new CreationHints(new InjectableMember[0], new[] { hints.Positionals.First() }, new List<object>())));
+
+            var ctn = new ConstructionNode(typeof(string))
+            {
+                PositionalParameter = new[] { str },
+            };
+
+            var instance = fixture.ObjectBuilder.Inflate(ctn);
+
+            Assert.Equal(str, instance);
+        }
+
+        [Fact]
+        public void Collection()
+        {
+            var fixture = new ObjectBuildFixture();
+            fixture.Creator.SetObjectFactory((type, hints) =>
+            {
+                if (type == typeof(string))
+                {
+                    return new CreationResult(hints.Positionals.First().Instance, new CreationHints(new InjectableMember[0], new[] {hints.Positionals.First()}, new List<object>()));
+                }
+                else
+                {
+                    var i = Activator.CreateInstance(type);
+                    return new CreationResult(i, new CreationHints());
+                }
+            });
+
+
+            var ctn = new ConstructionNode(typeof(Collection))
+            {
+                Children = new[]
+                {
+                    new ConstructionNode(typeof(string))
+                    {
+                        PositionalParameter = new []{ "hola"},
+                    },
+                }
+            };
+
+            var instance = fixture.ObjectBuilder.Inflate(ctn);
+
+            Assert.Equal(new Collection() { "hola" }, instance);
         }
     }
 }

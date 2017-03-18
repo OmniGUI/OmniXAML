@@ -137,7 +137,7 @@ namespace OmniXaml.Tests.XmlParserTests
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
-            var expected = new ConstructionNode(typeof(MyImmutable)) { InjectableArguments = new[] { "hola" } };
+            var expected = new ConstructionNode(typeof(MyImmutable)) { PositionalParameter = new[] { "hola" } };
 
             Assert.Equal(expected, parseResult.Root);
         }

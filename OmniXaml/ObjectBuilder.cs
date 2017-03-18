@@ -81,7 +81,7 @@
             var instanceType = node.InstantiateAs ?? node.InstanceType;
 
             var instance = creator.Create(instanceType, buildContext,
-                node.InjectableArguments.Select(s => new InjectableMember(s)));
+                node.PositionalParameter.Select(s => new InjectableMember(s)));
             NotifyNewInstance(buildContext, instance);
 
             if (node.Name != null)
@@ -256,7 +256,7 @@
             }
             if (assignment.SourceValue == null && !assignment.Children.Any())
             {
-                Log.Warning("Children is empty for this assignment {Assignment}", assignment);
+                Log.Warning("Children is empty for this assignment {Member}", assignment);
                 throw new InvalidOperationException("Children is empty.");
             }
         }
