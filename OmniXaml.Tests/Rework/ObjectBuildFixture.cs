@@ -8,7 +8,7 @@ namespace OmniXaml.Tests.Rework
         {
             Creator = new SmartInstanceCreatorMock();
             Converter = new SmartConverterMock();
-            ObjectBuilder = new NewObjectBuilder(Creator, Converter);
+            ObjectBuilder = new NewObjectBuilder(Creator, Converter, new PipelineMock());
         }
 
         public SmartConverterMock Converter { get; set; }

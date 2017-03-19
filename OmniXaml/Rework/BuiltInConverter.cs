@@ -4,14 +4,13 @@ namespace OmniXaml.Rework
     using System.ComponentModel;
     using Serilog;
 
-    internal class BuiltInConverter : ITaggedSmartSourceValueConverter
+    internal class BuiltInConverter : ISmartSourceValueConverter
     {
         private static readonly Type StringType = typeof(string);
 
-        public (bool, object, string) TryConvert(string strValue, Type targetType)
+        public (bool, object) TryConvert(string strValue, Type targetType)
         {
             object converted = null;
-            var tag = this.GetType().Name;
 
             var typeConverter = TypeDescriptor.GetConverter(targetType);
 
@@ -24,18 +23,13 @@ namespace OmniXaml.Rework
                 catch (Exception)
                 {
                     Log.Information(@"The built-in converter for the type {TargetType} couldn't convert the string ""{Value}""", targetType, strValue);
-                    return (false, converted, tag);
+                    return (false, converted);
                 }
 
-                return (true, converted, tag);
+                return (true, converted);
             }
 
-            return (false, null, tag);
+            return (false, null);
         }
-    }
-
-    internal interface ITaggedSmartSourceValueConverter
-    {
-        (bool, object, string) TryConvert(string strValue, Type targetType);
     }
 }

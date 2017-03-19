@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    internal class InflatedAssignment
+    public class InflatedAssignment
     {
         public IEnumerable<object> Instances { get; set; }
         public Member Member { get; set; }

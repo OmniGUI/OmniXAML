@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Rework\PipelineMock.cs" />
     <Compile Include="Rework\SmartConverterMock.cs" />
     <Compile Include="Rework\SmartInstanceCreatorMock.cs" />
     <Compile Include="MemberAssignmentTests.cs" />

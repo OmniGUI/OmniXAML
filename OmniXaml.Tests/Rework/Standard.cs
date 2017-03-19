@@ -30,7 +30,17 @@ namespace OmniXaml.Tests.Rework
 
         private static object Create(ConstructionNode cn)
         {
-            return new NewObjectBuilder(new SmartInstanceCreatorMock(), new SmartConverterMock()).Inflate(cn);
+            var valuePipeline = new PipelineMock();
+            valuePipeline.SetMutator((parent, member, mut) =>
+            {
+                var me = mut.Value as IMarkupExtension;
+                if (me!=null)
+                {
+                    mut.Value = me.GetValue(null);
+                }                
+            });
+
+            return new NewObjectBuilder(new SmartInstanceCreatorMock(), new SmartConverterMock(), valuePipeline).Inflate(cn);
         }
 
         [Fact]

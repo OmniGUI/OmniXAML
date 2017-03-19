@@ -9,11 +9,13 @@
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly ISmartSourceValueConverter sourceValueConverter;
+        private readonly IValuePipeline pipeline;
 
-        public NewObjectBuilder(ISmartInstanceCreator instanceCreator, ISmartSourceValueConverter sourceValueConverter)
+        public NewObjectBuilder(ISmartInstanceCreator instanceCreator, ISmartSourceValueConverter sourceValueConverter, IValuePipeline pipeline)
         {
             this.instanceCreator = instanceCreator;
             this.sourceValueConverter = sourceValueConverter;
+            this.pipeline = pipeline;
         }
 
         public object Inflate(ConstructionNode constructionNode)
@@ -32,7 +34,7 @@
 
             var unusedMembers = GetMembersNotUsedInConstruction(creationResult.UsedHints.Members, inflateAssignments);
 
-            AssignMembers(creationResult.Instance, unusedMembers, children);
+            AssignNonInjectableDependencies(creationResult.Instance, unusedMembers, children);
 
             return creationResult.Instance;
         }
@@ -68,31 +70,52 @@
             return inflatedAssignments.Except(assigned);
         }
 
-        private void AssignMembers(object parent, IEnumerable<InflatedAssignment> inflatedAssignments, List<object> children)
+        private void AssignNonInjectableDependencies(object parent, IEnumerable<InflatedAssignment> inflatedAssignments, List<object> children)
         {
-            if (parent.GetType().IsCollection())
+            void AssignChildren()
             {
-                foreach (var child in children)
+                if (parent.GetType().IsCollection())
                 {
-                    Associate(parent, child);
+                    foreach (var child in children)
+                    {
+                        Associate(parent, child);
+                    }
                 }
             }
 
-            foreach (var assignment in inflatedAssignments)
+            void AssignMembers()
             {
-                if (assignment.Member.MemberType.IsCollection())
+                foreach (var assignment in inflatedAssignments)
                 {
-                    var hoster = assignment.Member.GetValue(parent);
-                    foreach (var inst in assignment.Instances)
+                    if (assignment.Member.MemberType.IsCollection())
                     {
-                        Associate(hoster, inst);
+                        var hoster = assignment.Member.GetValue(parent);
+                        foreach (var inst in assignment.Instances)
+                        {
+                            Associate(hoster, inst);
+                        }
+                    }
+                    else
+                    {
+                        SetMember(parent, assignment.Member, assignment.Instances.First());
                     }
                 }
-                else
-                {
-                    assignment.Member.SetValue(parent, assignment.Instances.First());
-                }
             }
+
+            AssignChildren();
+            AssignMembers();
+        }
+
+        private void SetMember(object parent, Member member, object value)
+        {
+            var mutableUnit = new MutablePipelineUnit(value);
+            pipeline.Process(parent, member, mutableUnit);
+            if (mutableUnit.Handled)
+            {
+                return;
+            }
+
+            member.SetValue(parent, mutableUnit.Value);
         }
 
         private void Associate(object parent, object child)
@@ -141,6 +164,17 @@
         private object GetCompatibleValue(string strValue, Type desiredTargetType)
         {
             return sourceValueConverter.TryConvert(strValue, desiredTargetType).Item2;
+        }
+    }
+
+    public class MutablePipelineUnit
+    {
+        public bool Handled { get; set; }
+        public object Value { get; set; }
+
+        public MutablePipelineUnit(object value)
+        {
+            Value = value;
         }
     }
 }
