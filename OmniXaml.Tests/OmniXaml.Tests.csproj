@@ -78,6 +78,8 @@
     <Compile Include="ObjectBuilderTests\Templates.cs" />
     <None Include="project.json" />
     <Compile Include="Rework\ObjectBuildFixture.cs" />
+    <Compile Include="Rework\SmartSourceValueConverterTests.cs" />
+    <Compile Include="Rework\Standard.cs" />
     <Compile Include="XmlParserTests\AnnotatorTests.cs" />
     <Compile Include="XmlParserTests\AssignmentExtractorTests.cs" />
     <Compile Include="XmlParserTests\CData.cs" />
@@ -116,7 +118,9 @@
       <Name>Zafiro.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

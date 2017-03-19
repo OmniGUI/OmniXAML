@@ -4,14 +4,14 @@ namespace OmniXaml.Tests.Rework
 
     internal class SmartConverterMock : ISmartSourceValueConverter
     {
-        private Func<string, Type, object> convertFunc = (str, type) =>  System.Convert.ChangeType(str, type);
+        private Func<string, Type, (bool, object)> convertFunc = (str, type) =>  (true, System.Convert.ChangeType(str, type));
 
-        public object Convert(string strValue, Type desiredTargetType)
+        public (bool, object) TryConvert(string strValue, Type desiredTargetType)
         {
             return convertFunc(strValue, desiredTargetType);
         }
 
-        public void SetConvertFunc(Func<string, Type, object> func)
+        public void SetConvertFunc(Func<string, Type, (bool, object)> func)
         {
             convertFunc = func;
         }

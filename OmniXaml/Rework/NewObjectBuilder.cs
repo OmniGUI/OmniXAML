@@ -1,9 +1,8 @@
-﻿namespace OmniXaml
+﻿namespace OmniXaml.Rework
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using InlineParsers.Extensions;
     using Zafiro.Core;
 
     public class NewObjectBuilder : INewObjectBuilder
@@ -21,7 +20,7 @@
         {
             var inflateAssignments = InflateAssignments(constructionNode.Assignments);
 
-            var members = GetInjectables(inflateAssignments);
+            IEnumerable<NewInjectableMember> members = GetInjectables(inflateAssignments);
 
             var positionals =
                 from positional in constructionNode.PositionalParameter
@@ -45,11 +44,12 @@
                    select i;
         }
 
-        private IEnumerable<InjectableMember> GetInjectables(IEnumerable<InflatedAssignment> inflatedAssignments)
+        private IEnumerable<NewInjectableMember> GetInjectables(IEnumerable<InflatedAssignment> inflatedAssignments)
         {
             var injectableMembers = from child in inflatedAssignments
-                                    select new InjectableMember(child.Instances)
+                                    select new NewInjectableMember()
                                     {
+                                        Values = child.Instances,
                                         Name = child.Member.MemberName,
                                         InjectionType = child.Member.MemberType,
                                     };
@@ -58,7 +58,7 @@
             return injectables;
         }
 
-        private IEnumerable<InflatedAssignment> GetMembersNotUsedInConstruction(IEnumerable<InjectableMember> creationResultInjectedMembers, IEnumerable<InflatedAssignment> inflatedAssignments)
+        private IEnumerable<InflatedAssignment> GetMembersNotUsedInConstruction(IEnumerable<NewInjectableMember> creationResultInjectedMembers, IEnumerable<InflatedAssignment> inflatedAssignments)
         {
             var assigned = from injected in creationResultInjectedMembers
                            join assignment in inflatedAssignments on injected.Name equals assignment.Member.MemberName
@@ -128,9 +128,10 @@
                 from a in assignments
                 where a.SourceValue != null
                 let value = a.SourceValue
+                let compatibleValue = GetCompatibleValue(value, a.Member.MemberType)
                 select new InflatedAssignment
                 {
-                    Instances = new[] { GetCompatibleValue(value, a.Member.MemberType) },
+                    Instances = new[] { compatibleValue },
                     Member = a.Member,
                 };
 
@@ -139,7 +140,7 @@
 
         private object GetCompatibleValue(string strValue, Type desiredTargetType)
         {
-            return sourceValueConverter.Convert(strValue, desiredTargetType);
+            return sourceValueConverter.TryConvert(strValue, desiredTargetType).Item2;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml
 {
     using System.Collections.Generic;
+    using Rework;
 
     public class CreationResult
     {

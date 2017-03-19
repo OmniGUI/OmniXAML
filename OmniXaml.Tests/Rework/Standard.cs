@@ -1,11 +1,12 @@
-namespace OmniXaml.Tests.ObjectBuilderTests
+namespace OmniXaml.Tests.Rework
 {
     using System.Collections;
     using System.Collections.Generic;
     using Model;
+    using OmniXaml.Rework;
     using Xunit;
 
-    public class Standard : ObjectBuilderTestsBase
+    public class Standard
     {
         private static void AssertAttachedPropertyCollection(IEnumerable<ConstructionNode> nodes)
         {
@@ -21,14 +22,19 @@ namespace OmniXaml.Tests.ObjectBuilderTests
                 }
             };
 
-            var actual = Create(cn).Result;
+            var actual = Create(cn);
 
-            var visualStateGroups = (IEnumerable)VisualStateManager.GetVisualStateGroups(actual);
+            var visualStateGroups = (IEnumerable) VisualStateManager.GetVisualStateGroups(actual);
             Assert.NotEmpty(visualStateGroups);
         }
 
+        private static object Create(ConstructionNode cn)
+        {
+            return new NewObjectBuilder(new SmartInstanceCreatorMock(), new SmartConverterMock()).Inflate(cn);
+        }
+
         [Fact]
-        private void AttachedPropertThatIsCollectionMultipleElements()
+        private void AttachedPropertyThatIsCollectionMultipleElements()
         {
             AssertAttachedPropertyCollection(new[]
             {
@@ -39,7 +45,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
         }
 
         [Fact]
-        private void AttachedPropertThatIsCollectionOneElement()
+        private void AttachedPropertyThatIsCollectionOneElement()
         {
             AssertAttachedPropertyCollection(new[]
             {
@@ -63,7 +69,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            Assert.Equal(new Window { Height = 12 }, creationFixture.Result);
+            Assert.Equal(new Window {Height = 12}, creationFixture);
         }
 
         [Fact]
@@ -86,9 +92,9 @@ namespace OmniXaml.Tests.ObjectBuilderTests
                 }
             };
 
-            var actual = Create(tree).Result;
+            var actual = Create(tree);
 
-            var expected = new Collection { new TextBlock(), new TextBlock() };
+            var expected = new Collection {new TextBlock(), new TextBlock()};
             expected.Title = "My title";
 
             Assert.Equal(expected, actual);
@@ -116,30 +122,13 @@ namespace OmniXaml.Tests.ObjectBuilderTests
                 }
             };
 
-            var result = (ItemsControl)Create(node).Result;
+            var result = (ItemsControl) Create(node);
             Assert.NotNull(result.Items);
             Assert.IsAssignableFrom<IEnumerable>(result.Items);
             Assert.NotEmpty(result.Items);
         }
 
-        [Fact]
-        public void EnumProperty()
-        {
-            var node = new ConstructionNode(typeof(TextBlock))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<TextBlock>(tb => tb.TextWrapping),
-                        SourceValue = "NoWrap"
-                    }
-                }
-            };
-
-            var creationFixture = Create(node);
-            Assert.Equal(new TextBlock { TextWrapping = TextWrapping.NoWrap }, creationFixture.Result);
-        }
+      
 
         [Fact]
         public void GivenExtensionThatProvidesCollection_TheCollectionIsProvided()
@@ -159,11 +148,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            var result = (ItemsControl)creationFixture.Result;
+            var result = (ItemsControl) creationFixture;
             Assert.NotNull(result.Items);
             Assert.IsAssignableFrom<IEnumerable>(result.Items);
         }
-
+        
         [Fact]
         public void GivenSimpleExtensionThatProvidesAString_TheStringIsProvided()
         {
@@ -194,29 +183,29 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var b = Create(node);
 
-            Assert.Equal(new TextBlock { Text = "MyText" }, b.Result);
+            Assert.Equal(new TextBlock {Text = "MyText"}, b);
         }
 
-        [Fact]
-        public void LoadInstanceSameType()
-        {
-            var node = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(tb => tb.Title),
-                        SourceValue = "My title"
-                    }
-                }
-            };
+        //[Fact]
+        //public void LoadInstanceSameType()
+        //{
+        //    var node = new ConstructionNode(typeof(Window))
+        //    {
+        //        Assignments = new[]
+        //        {
+        //            new MemberAssignment
+        //            {
+        //                Member = Member.FromStandard<Window>(tb => tb.Title),
+        //                SourceValue = "My title"
+        //            }
+        //        }
+        //    };
 
-            var expected = new Window { Content = "My content" };
-            var fixture = Create(node, expected);
+        //    var expected = new Window {Content = "My content"};
+        //    var fixture = Create(node, expected);
 
-            Assert.True(ReferenceEquals(expected, fixture.Result));
-            Assert.Equal(new Window { Content = "My content", Title = "My title" }, fixture.Result);
-        }
+        //    Assert.True(ReferenceEquals(expected, fixture));
+        //    Assert.Equal(new Window {Content = "My content", Title = "My title"}, fixture);
+        //}
     }
 }

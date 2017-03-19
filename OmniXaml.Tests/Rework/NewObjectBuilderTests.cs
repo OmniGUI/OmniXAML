@@ -5,6 +5,7 @@
     using System.Globalization;
     using System.Linq;
     using Model;
+    using OmniXaml.Rework;
     using Xunit;
 
     public class NewObjectBuilderTests
@@ -48,7 +49,7 @@
             var fixture = new ObjectBuildFixture();
             fixture.Creator.SetObjectFactory((type, hints) =>
             {
-                var argument = (string)hints.Members.First().Value;
+                var argument = (string)hints.Members.First().Values.First();
                 var myImmutable = new MyImmutable(argument);
                 return new CreationResult(myImmutable, new CreationHints(new[] {hints.Members.First()}, new List<PositionalParameter>(), new List<object>()));
             });
@@ -73,7 +74,7 @@
         public void WhenValueIsNotCompatible_ConverterIsUsed()
         {
             var fixture = new ObjectBuildFixture();
-            fixture.Converter.SetConvertFunc((str, type) => double.Parse(str, CultureInfo.InvariantCulture));
+            fixture.Converter.SetConvertFunc((str, type) => (true, double.Parse(str, CultureInfo.InvariantCulture)));
 
             var ctn = new ConstructionNode(typeof(Window))
             {
@@ -98,7 +99,7 @@
             var fixture = new ObjectBuildFixture();
             var str = "salutations";
 
-            fixture.Creator.SetObjectFactory((type, hints) => new CreationResult(str, new CreationHints(new InjectableMember[0], new[] { hints.Positionals.First() }, new List<object>())));
+            fixture.Creator.SetObjectFactory((type, hints) => new CreationResult(str, new CreationHints(new NewInjectableMember[0], new[] { hints.Positionals.First() }, new List<object>())));
 
             var ctn = new ConstructionNode(typeof(string))
             {
@@ -118,7 +119,7 @@
             {
                 if (type == typeof(string))
                 {
-                    return new CreationResult(hints.Positionals.First().Instance, new CreationHints(new InjectableMember[0], new[] {hints.Positionals.First()}, new List<object>()));
+                    return new CreationResult(hints.Positionals.First().Instance, new CreationHints(new NewInjectableMember[0], new[] {hints.Positionals.First()}, new List<object>()));
                 }
                 else
                 {

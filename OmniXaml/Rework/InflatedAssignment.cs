@@ -1,4 +1,4 @@
-﻿namespace OmniXaml
+﻿namespace OmniXaml.Rework
 {
     using System.Collections.Generic;
 
@@ -9,7 +9,7 @@
 
         protected bool Equals(InflatedAssignment other)
         {
-            return Instances.Equals(other.Instances) && Member.Equals(other.Member);
+            return Member.Equals(other.Member);
         }
 
         public override bool Equals(object obj)
@@ -22,10 +22,7 @@
 
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return (Instances.GetHashCode() * 397) ^ Member.GetHashCode();
-            }
+            return Member.GetHashCode();
         }
     }
 }

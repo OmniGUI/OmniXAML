@@ -4,6 +4,6 @@ namespace OmniXaml
 
     public interface ISmartSourceValueConverter
     {
-        object Convert(string strValue, Type desiredTargetType);
+        (bool, object) TryConvert(string strValue, Type desiredTargetType);
     }
 }

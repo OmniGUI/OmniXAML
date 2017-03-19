@@ -1,6 +1,7 @@
 ﻿namespace OmniXaml.Tests.Rework
 {
     using System;
+    using OmniXaml.Rework;
 
     internal class SmartInstanceCreatorMock : ISmartInstanceCreator
     {

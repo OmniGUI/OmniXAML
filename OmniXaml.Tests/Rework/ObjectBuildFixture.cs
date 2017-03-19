@@ -1,5 +1,7 @@
 namespace OmniXaml.Tests.Rework
 {
+    using OmniXaml.Rework;
+
     internal class ObjectBuildFixture
     {
         public ObjectBuildFixture()
