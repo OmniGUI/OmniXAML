@@ -196,6 +196,31 @@ namespace OmniXaml.Tests.Rework
             Assert.Equal(new TextBlock {Text = "MyText"}, b);
         }
 
+        [Fact]
+        public void NamescopeTest()
+        {
+            var ctn = new ConstructionNode(typeof(Window))
+            {
+                Assignments = new List<MemberAssignment>()
+                {
+                    new MemberAssignment()
+                    {
+                        Member = Member.FromStandard<Window>(w => w.Content),
+                        Children = new List<ConstructionNode>()
+                        {
+                            new ConstructionNode(typeof(TextBlock))
+                            {
+                                Name = "MyTextBlock",
+                            }
+                        }
+                    }
+                }
+            };
+
+            var sut = new NewObjectBuilder(new SmartInstanceCreatorMock(), new SmartConverterMock(), new PipelineMock());
+            var obj = sut.Inflate(ctn);
+        }
+
         //[Fact]
         //public void LoadInstanceSameType()
         //{

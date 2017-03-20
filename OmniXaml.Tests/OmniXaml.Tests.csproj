@@ -81,6 +81,7 @@
     <Compile Include="Rework\ObjectBuildFixture.cs" />
     <Compile Include="Rework\SmartSourceValueConverterTests.cs" />
     <Compile Include="Rework\Standard.cs" />
+    <Compile Include="Rework\Templates.cs" />
     <Compile Include="XmlParserTests\AnnotatorTests.cs" />
     <Compile Include="XmlParserTests\AssignmentExtractorTests.cs" />
     <Compile Include="XmlParserTests\CData.cs" />
