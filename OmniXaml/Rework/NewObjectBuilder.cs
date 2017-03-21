@@ -1,4 +1,6 @@
-﻿namespace OmniXaml.Rework
+﻿using System.Reactive.Subjects;
+
+namespace OmniXaml.Rework
 {
     using System;
     using System.Collections.Generic;
@@ -10,6 +12,7 @@
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly ISmartSourceValueConverter sourceValueConverter;
         private readonly IValuePipeline pipeline;
+        public ISubject<NodeInflation> NodeInflated { get; } = new ReplaySubject<NodeInflation>();
 
         public NewObjectBuilder(ISmartInstanceCreator instanceCreator, ISmartSourceValueConverter sourceValueConverter, IValuePipeline pipeline)
         {
@@ -35,6 +38,8 @@
             var unusedMembers = GetMembersNotUsedInConstruction(creationResult.UsedHints.Members, inflateAssignments);
 
             AssignNonInjectableDependencies(creationResult.Instance, unusedMembers, children);
+
+            NodeInflated.OnNext(new NodeInflation(creationResult.Instance, constructionNode));
 
             return creationResult.Instance;
         }
@@ -64,7 +69,6 @@
         {
             var assigned = from injected in creationResultInjectedMembers
                            join assignment in inflatedAssignments on injected.Name equals assignment.Member.MemberName
-
                            select assignment;
 
             return inflatedAssignments.Except(assigned);

@@ -1,4 +1,8 @@
-﻿namespace OmniXaml.Tests.Rework
+﻿using System.Reactive.Linq;
+using System.Reactive.Threading.Tasks;
+using System.Threading.Tasks;
+
+namespace OmniXaml.Tests.Rework
 {
     using System;
     using System.Collections.Generic;
@@ -143,6 +147,15 @@
             var instance = fixture.ObjectBuilder.Inflate(ctn);
 
             Assert.Equal(new Collection() { "hola" }, instance);
+        }
+
+        [Fact]
+        public async Task ConstructionNotification()
+        {
+            var fixture = new ObjectBuildFixture();
+            fixture.ObjectBuilder.Inflate(new ConstructionNode(typeof(Window)));
+            var inflatedNode = await fixture.ObjectBuilder.NodeInflated.FirstAsync();
+            Assert.IsType<NodeInflation>(inflatedNode);
         }
     }
 }
