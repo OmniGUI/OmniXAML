@@ -21,7 +21,8 @@
         public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
         public string Key { get; set; }
         public Type InstantiateAs { get; set; }
-        public Type ActualInstanceType => InstantiateAs ?? InstantiateAs;
+        public Type ActualInstanceType => InstantiateAs ?? InstanceType;
+        public string SourceValue { get; set; }
 
         public override string ToString()
         {

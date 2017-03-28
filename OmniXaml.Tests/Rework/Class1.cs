@@ -25,7 +25,7 @@ namespace OmniXaml.Tests.Rework
         public object Inflate(ConstructionNode constructionNode)
         {
             INewObjectBuilder innerBestia = new NewObjectBuilder(new SimpleInstanceCreator(), new SimpleValueConverter(), new NoChangesPipeline());
-            innerBestia.NodeInflated.Subscribe()
+            innerBestia.NodeInflated.Subscribe();
             return innerBestia.Inflate(constructionNode);
         }
     }
@@ -43,15 +43,6 @@ namespace OmniXaml.Tests.Rework
         {
             var convertFrom = TypeDescriptor.GetConverter(desiredTargetType).ConvertFrom(strValue);
             return (true, convertFrom);
-        }
-    }
-
-    internal class SimpleInstanceCreator : ISmartInstanceCreator
-    {
-        public CreationResult Create(Type type, CreationHints creationHints)
-        {
-            var instance = Activator.CreateInstance(type);
-            return new CreationResult(instance, new CreationHints());
         }
     }
 }

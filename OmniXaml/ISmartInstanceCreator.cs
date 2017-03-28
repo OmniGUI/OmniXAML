@@ -5,6 +5,6 @@
 
     public interface ISmartInstanceCreator
     {
-        CreationResult Create(Type type, CreationHints creationHints);
+        CreationResult Create(Type type, CreationHints creationHints = null);
     }
 }
