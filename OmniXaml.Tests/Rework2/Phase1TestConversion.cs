@@ -1,9 +1,9 @@
-﻿namespace OmniXaml.Tests.Rework
+﻿namespace OmniXaml.Tests.Rework2
 {
     using System.Collections.Generic;
     using System.Globalization;
     using Model;
-    using Rework2;
+    using Rework;
     using ReworkPhases;
     using Xunit;
 
@@ -30,7 +30,7 @@
             var inflatedNode = new InflatedNode
             {
                 Instance = new Window(),
-                Assigments = new List<InflatedMemberAssignment>
+                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>
                 {
                     new InflatedMemberAssignment
                     {

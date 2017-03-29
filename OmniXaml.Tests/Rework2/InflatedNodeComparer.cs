@@ -9,12 +9,10 @@ namespace OmniXaml.Tests.Rework2
         public bool Equals(InflatedNode x, InflatedNode y)
         {
             var sameType = x.Instance.GetType() == y.Instance.GetType();
-            var sameAssignments = x.Assigments.SequenceEqual(y.Assigments, new InflatedMemberAssignmentComparer());
-            var sameChildren = x.Children.SequenceEqual(y.Children, new InflatedNodeComparer());
-            var sameSourceValue = x.SourceValue == y.SourceValue;
-            var sameIsResolved = x.IsResolved == y.IsResolved;
+            var sameAssignments = x.UnresolvedAssignments.SequenceEqual(y.UnresolvedAssignments, new InflatedMemberAssignmentComparer());
+            var sameChildren = x.UnresolvedChildren.SequenceEqual(y.UnresolvedChildren, new InflatedNodeComparer());
 
-            return sameType && sameAssignments && sameChildren && sameSourceValue && sameIsResolved;
+            return sameType && sameAssignments && sameChildren;
         }
 
         public int GetHashCode(InflatedNode obj)

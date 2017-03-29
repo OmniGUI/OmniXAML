@@ -1,4 +1,4 @@
-namespace OmniXaml.Tests.Rework
+namespace OmniXaml.Tests.Rework2
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@ namespace OmniXaml.Tests.Rework
     using System.Linq;
     using Model;
     using OmniXaml.Rework;
-    using Rework2;
+    using Rework;
     using ReworkPhases;
     using Xunit;
 
@@ -48,19 +48,10 @@ namespace OmniXaml.Tests.Rework
             var actual = new Phase1Builder(creator, null).Inflate(ctn);
             var expected = new InflatedNode()
             {
-                Instance = new Collection(),
-                Children = new List<InflatedNode>()
-                {
-                    new InflatedNode()
-                    {
-                        Instance = "hola",
-                        IsResolved = true,
-                    }
-                },
-                IsResolved = true,
+                Instance = new Collection() { "hola" },                
             };
 
-            Assert.Equal(expected, actual, new InflatedNodeComparer());
+            Assert.Equal(expected, actual);
         }
 
         [Fact(Skip = "Nada")]
@@ -142,33 +133,21 @@ namespace OmniXaml.Tests.Rework
                 }
             };
 
+            var textBlock = new TextBlock();
+
             var inflatedNode = new InflatedNode
             {
-                Instance = new Window(),
-                Assigments = new List<InflatedMemberAssignment>
-                {
-                    new InflatedMemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(w => w.Content),
-                        Children = new List<InflatedNode>
-                        {
-                            new InflatedNode
-                            {
-                                Instance = new TextBlock()
-                            }
-                        }
-                    }
-                }
+                Instance = new Window { Content = textBlock },              
             };
 
             Assert.Equal(inflatedNode, CreateSut().Inflate(ctn), new InflatedNodeComparer());
         }
 
-        [Fact(Skip = "Nada")]
+        [Fact]
         public void WhenValueIsNotCompatible_ConverterIsUsed()
         {
-            var fixture = new ObjectBuildFixture();
-            fixture.Converter.SetConvertFunc((str, type) => (true, double.Parse(str, CultureInfo.InvariantCulture)));
+            var converter = new SmartConverterMock();
+            converter.SetConvertFunc((str, type) => (true, double.Parse(str, CultureInfo.InvariantCulture)));
 
             var ctn = new ConstructionNode(typeof(Window))
             {
@@ -177,14 +156,33 @@ namespace OmniXaml.Tests.Rework
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(w => w.Height),
-                        SourceValue = "12.5"
+                        Children = new List<ConstructionNode>()
+                        {
+                             new ConstructionNode(typeof(string))
+                             {
+                                 SourceValue = "12.5",
+                             }
+                        }
                     }
                 }
             };
 
-            var instance = fixture.ObjectBuilder.Inflate(ctn);
+            var instance = new Window { Height = 12.5 };
 
-            Assert.Equal(new Window { Height = 12.5 }, instance);
+
+            var expected = new InflatedNode
+            {
+                Instance = instance,                
+            };
+
+            var actual = CreateSut(converter).Inflate(ctn);
+
+            Assert.Equal(expected, actual);
+        }
+
+        private Phase1Builder CreateSut(SmartConverterMock converter)
+        {
+            return new Phase1Builder(new SimpleInstanceCreator(), converter);
         }
     }
 }

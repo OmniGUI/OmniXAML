@@ -40,6 +40,7 @@
     <Compile Include="Rework2\InflatedNodeComparer.cs" />
     <Compile Include="Rework2\Phase1TestConversion.cs" />
     <Compile Include="Rework2\Phase1Tests.cs" />
+    <Compile Include="Rework2\Phase2BuilderTests.cs" />
     <Compile Include="Rework\Class1.cs" />
     <Compile Include="Rework\PipelineMock.cs" />
     <Compile Include="Rework\SimpleInstanceCreator.cs" />
