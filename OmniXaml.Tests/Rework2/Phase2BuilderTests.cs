@@ -19,19 +19,18 @@
                 Text = "Pepito",
             };
 
-            var inflatedNode = new InflatedNode()
+            var inflatedNode = new InflatedNode
             {
                 Instance = new TextBlock(),
-                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(new List<InflatedMemberAssignment>()
+                UnresolvedAssignments = new HashSet<UnresolvedMemberAssignment>(new List<UnresolvedMemberAssignment>()
                 {
-                    new InflatedMemberAssignment()
+                    new UnresolvedMemberAssignment
                     {
                         Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                        Children = new List<InflatedNode>()
+                        Children = new List<UnresolvedNode>
                         {
-                            new InflatedNode()
+                            new UnresolvedNode
                             {
-                                IsConversionFailed = true,
                                 SourceValue = "Pepito",
                             },
                         },

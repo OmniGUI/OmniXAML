@@ -112,7 +112,7 @@ namespace OmniXaml.Tests.Rework2
                 Instance = new Window(),
             };
 
-            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn), new InflatedNodeComparer());
+            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn));
         }
 
         [Fact]
@@ -140,7 +140,7 @@ namespace OmniXaml.Tests.Rework2
                 Instance = new Window { Content = textBlock },              
             };
 
-            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn), new InflatedNodeComparer());
+            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn));
         }
 
         [Fact]

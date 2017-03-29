@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Rework;
-    using Zafiro.Core;
 
     public class Phase1Builder
     {
@@ -51,42 +50,6 @@
             {
                 Instance = instance,
             };
-        }
-    }
-
-    public static class InflateNodeExtensions
-    {
-        public static void AssociateTo(this IEnumerable<InflatedNode> nodes, object parent)
-        {
-            foreach (var inflatedNode in nodes)
-            {
-                Collection.UniversalAdd(parent, inflatedNode.Instance);
-            }
-        }
-    }
-
-    public static class AssigmentsExtensions
-    {
-        public static void ApplyTo(this IEnumerable<InflatedMemberAssignment> assignments, object instance)
-        {
-            foreach (var inflatedAssignment in assignments)
-            {
-                ApplyAssignment(instance, inflatedAssignment);
-            }
-        }
-
-        private static void ApplyAssignment(object instance, InflatedMemberAssignment inflatedAssignment)
-        {
-            if (inflatedAssignment.Member.MemberType.IsCollection())
-            {
-                var parent = inflatedAssignment.Member.GetValue(instance);
-                Collection.UniversalAdd(parent, from n in inflatedAssignment.Children select n.Instance);
-            }
-            else
-            {
-                var value = inflatedAssignment.Children.First().Instance;
-                inflatedAssignment.Member.SetValue(instance, value);
-            }            
         }
     }
 }

@@ -8,7 +8,7 @@ namespace OmniXaml.Tests.Rework2
     {
         public bool Equals(InflatedMemberAssignment x, InflatedMemberAssignment y)
         {
-            var sameChildren = x.Children.SequenceEqual(y.Children, new InflatedNodeComparer());
+            var sameChildren = x.Children.SequenceEqual(y.Children);
             var sameMember = Equals(x.Member, y.Member);
             return sameChildren && sameMember;
         }

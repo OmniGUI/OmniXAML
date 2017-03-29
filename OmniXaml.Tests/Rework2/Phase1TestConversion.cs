@@ -30,14 +30,14 @@
             var inflatedNode = new InflatedNode
             {
                 Instance = new Window(),
-                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>
+                UnresolvedAssignments = new HashSet<UnresolvedMemberAssignment>
                 {
-                    new InflatedMemberAssignment
+                    new UnresolvedMemberAssignment
                     {
                         Member = Member.FromStandard<Window>(w => w.Height),
-                        Children = new List<InflatedNode>
+                        Children = new List<UnresolvedNode>
                         {
-                            new InflatedNode
+                            new UnresolvedNode
                             {
                                 Instance = 12.5
                             }
@@ -46,7 +46,7 @@
                 }
             };
 
-            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn), new InflatedNodeComparer());
+            Assert.Equal(inflatedNode, CreateSut().Inflate(ctn));
         }
 
         private static Phase1Builder CreateSut()

@@ -3,10 +3,9 @@
     using System;
     using System.Collections.Generic;
 
-    public class InflatedNode
+    public class InflatedNode : IInstanceHolder
     {
-        public HashSet<InflatedNode> UnresolvedChildren { get; set; } = new HashSet<InflatedNode>();
-        public HashSet<InflatedMemberAssignment> UnresolvedAssignments { get; set; } = new HashSet<InflatedMemberAssignment>();
+        public HashSet<UnresolvedMemberAssignment> UnresolvedAssignments { get; set; } = new HashSet<UnresolvedMemberAssignment>();
         public object Instance { get; set; }
         public bool IsConversionFailed { get; set; }
         public string SourceValue { get; set; }
@@ -14,8 +13,7 @@
 
         protected bool Equals(InflatedNode other)
         {
-            return UnresolvedChildren.SetEquals(other.UnresolvedChildren) &&
-                   UnresolvedAssignments.SetEquals(other.UnresolvedAssignments) && Equals(Instance, other.Instance) &&
+            return UnresolvedAssignments.SetEquals(other.UnresolvedAssignments) && Equals(Instance, other.Instance) &&
                    IsConversionFailed == other.IsConversionFailed && SourceValue == other.SourceValue && 
                    InstanceType == other.InstanceType;
         }
@@ -32,8 +30,7 @@
         {
             unchecked
             {
-                var hashCode = (UnresolvedChildren != null ? UnresolvedChildren.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (UnresolvedAssignments != null ? UnresolvedAssignments.GetHashCode() : 0);
+                var hashCode =  UnresolvedAssignments != null ? UnresolvedAssignments.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^ (Instance != null ? Instance.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ IsConversionFailed.GetHashCode();
                 hashCode = (hashCode * 397) ^ InstanceType.GetHashCode();
