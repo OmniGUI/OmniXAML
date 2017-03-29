@@ -54,6 +54,67 @@ namespace OmniXaml.Tests.Rework2
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void PropertyWithCollection()
+        {
+            var creator = new SmartInstanceCreatorMock();
+            creator.SetObjectFactory((type, hints) =>
+            {
+                if (type == typeof(string))
+                {
+                    return new CreationResult(hints.Positionals.First().Instance,
+                        new CreationHints(new NewInjectableMember[0], new[] { hints.Positionals.First() },
+                            new List<object>()));
+                }
+                var i = Activator.CreateInstance(type);
+                return new CreationResult(i, new CreationHints());
+            });
+
+
+            var ctn = new ConstructionNode(typeof(ItemsControl))
+            {
+               Assignments = new List<MemberAssignment>
+               {
+                   new MemberAssignment()
+                   {
+                       Member = Member.FromStandard<ItemsControl>(ic => ic.Items),
+                       Children = new List<ConstructionNode>
+                       {
+                           new ConstructionNode(typeof(string))
+                           {
+                               SourceValue = "Value1"
+                           },
+                           new ConstructionNode(typeof(string))
+                           {
+                               SourceValue = "Value2"
+                           },
+                           new ConstructionNode(typeof(string))
+                           {
+                               SourceValue = "Value3"
+                           }
+                       }
+                   },                   
+               }
+            };
+
+            var smartSourceValueConverter = new SmartConverterMock();
+            smartSourceValueConverter.SetConvertFunc((s, type) => (true, s));
+            var actual = new Phase1Builder(creator, smartSourceValueConverter).Inflate(ctn);
+            var expected = new InflatedNode
+            {
+                Instance = new ItemsControl
+                {
+                    Items = new List<object>
+                    {
+                        "Value1", "Value2", "Value3",
+                    }
+                },
+            };
+
+            Assert.Equal(expected, actual);
+        }
+
+
         [Fact(Skip = "Nada")]
         public void CreateSimpleType_String()
         {

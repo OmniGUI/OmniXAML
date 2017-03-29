@@ -19,7 +19,12 @@ namespace OmniXaml.ReworkPhases
             if (inflatedAssignment.Member.MemberType.IsCollection())
             {
                 var parent = inflatedAssignment.Member.GetValue(instance);
-                Collection.UniversalAdd(parent, from n in inflatedAssignment.Children select n.Instance);
+                var children = from n in inflatedAssignment.Children select n.Instance;
+                foreach (var child in children)
+                {
+                    Collection.UniversalAdd(parent, child);
+                }
+                
             }
             else
             {
