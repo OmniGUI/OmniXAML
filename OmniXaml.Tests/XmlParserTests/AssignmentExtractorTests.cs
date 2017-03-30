@@ -8,13 +8,46 @@
     using Model;
     using Services;
     using Xunit;
-    
+
     public class AssignmentExtractorTests
     {
+        private static List<MemberAssignment> Parse(string xaml,
+            Func<XElement, IPrefixAnnotator, ConstructionNode> parser, Type type)
+        {
+            var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly> {Assembly.GetExecutingAssembly()});
+            var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0],
+                new Resolver(typeDirectory), parser);
+
+            var assigments = sut.GetAssignments(type, XElement.Parse(xaml), new PrefixAnnotator()).ToList();
+            return assigments;
+        }
+
+        [Fact]
+        public void ContentPropertyText()
+        {
+            var assigments = Parse(@"<TextBlock xmlns=""root"">Hola</TextBlock>",
+                (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(TextBlock));
+
+            var expected = new[]
+            {
+                new MemberAssignment
+                {
+                    Member = Member.FromStandard<TextBlock>(collection => collection.Text),
+                    Children = new List<ConstructionNode>
+                    {
+                        new ConstructionNode(typeof(string)) {SourceValue = "Hola"}
+                    }
+                }
+            };
+
+            Assert.Equal(expected, assigments);
+        }
+
         [Fact]
         public void ContentPropertyWithChildren()
         {
-            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+            var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>",
+                (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
 
             var expected = new[]
             {
@@ -25,25 +58,8 @@
                     {
                         new ConstructionNode(typeof(TextBlock)),
                         new ConstructionNode(typeof(TextBlock)),
-                        new ConstructionNode(typeof(TextBlock)),
+                        new ConstructionNode(typeof(TextBlock))
                     }
-                }
-            };
-
-            Assert.Equal(expected, assigments);
-        }
-
-        [Fact]
-        public void ContentPropertyText()
-        {
-            var assigments = Parse(@"<TextBlock xmlns=""root"">Hola</TextBlock>", (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(TextBlock));
-
-            var expected = new[]
-            {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard<TextBlock>(collection => collection.Text),
-                    SourceValue = "Hola",
                 }
             };
 
@@ -59,7 +75,8 @@
 <TextBlock/>
 </ItemsControl>";
 
-            Assert.Throws<ParseException>(() => Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl)));
+            Assert.Throws<ParseException>(() => Parse(xaml,
+                (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl)));
         }
 
         [Fact]
@@ -86,20 +103,11 @@
             Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
         }
 
-        private static List<MemberAssignment> Parse(string xaml, Func<XElement, IPrefixAnnotator, ConstructionNode> parser, Type type)
-        {
-            var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly>() { Assembly.GetExecutingAssembly() });
-            var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0], new Resolver(typeDirectory), parser);
-
-            var assigments = sut.GetAssignments(type, XElement.Parse(xaml), new PrefixAnnotator()).ToList();
-            return assigments;
-        }
-
         [Fact]
         public void PropertyElement()
         {
             var xaml =
-@"<ItemsControl xmlns=""root"">
+                @"<ItemsControl xmlns=""root"">
     <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 </ItemsControl>";
 
@@ -111,11 +119,14 @@
                 new MemberAssignment
                 {
                     Member = Member.FromStandard<ItemsControl>(collection => collection.HeaderText),
-                    SourceValue = "Hola",
+                    Children = new List<ConstructionNode>
+                    {
+                        new ConstructionNode(typeof(string)) {SourceValue = "Hola"}
+                    }
                 }
             };
 
             Assert.Equal(expected, assigments);
         }
-    }    
+    }
 }

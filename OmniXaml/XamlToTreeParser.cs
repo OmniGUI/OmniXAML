@@ -129,7 +129,7 @@
             var nameAssignment = allAssignments.FirstOrDefault(assignment => assignment.Member.MemberName == namePropertyName);
             if (namePropertyName != null && nameAssignment != null)
             {
-                name = nameAssignment.SourceValue;
+                name = nameAssignment.Children.First().SourceValue;
                 finalAssignments = allAssignments;
             }
             else if (nameDirectiveValue != null && namePropertyName != null)

@@ -61,5 +61,10 @@
                 return hashCode;
             }
         }
+
+        public static IEnumerable<ConstructionNode> ForString(string str)
+        {
+            yield return new ConstructionNode(typeof(string)) {SourceValue = str};
+        }
     }
 }

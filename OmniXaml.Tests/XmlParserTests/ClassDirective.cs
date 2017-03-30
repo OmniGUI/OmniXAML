@@ -30,7 +30,7 @@
                     new MemberAssignment
                     {
                         Member = Member.FromStandard(typeof(TestWindow), "Clicked"),
-                        SourceValue = "OnClick",
+                        Children = ConstructionNode.ForString("OnClick"),
                     }
                 }
             };
