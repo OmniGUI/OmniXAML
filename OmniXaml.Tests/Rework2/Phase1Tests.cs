@@ -208,7 +208,7 @@ namespace OmniXaml.Tests.Rework2
         public void WhenValueIsNotCompatible_ConverterIsUsed()
         {
             var converter = new SmartConverterMock();
-            converter.SetConvertFunc((str, type) => (true, double.Parse(str, CultureInfo.InvariantCulture)));
+            converter.SetConvertFunc((str, type) => (true, Convert.ChangeType(str, type, CultureInfo.InvariantCulture)));
 
             var ctn = new ConstructionNode(typeof(Window))
             {

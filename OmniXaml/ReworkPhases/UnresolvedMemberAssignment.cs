@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class UnresolvedMemberAssignment : IMemberAssignment<UnresolvedNode>
+    public class UnresolvedMemberAssignment : IMemberAssignment<InflatedNode>
     {
-        public IEnumerable<UnresolvedNode> Children { get; set; }
+        public IEnumerable<InflatedNode> Children { get; set; }
         public Member Member { get; set; }
     }
 }

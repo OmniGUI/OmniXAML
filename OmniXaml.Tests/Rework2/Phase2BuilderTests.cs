@@ -22,14 +22,14 @@
             var inflatedNode = new InflatedNode
             {
                 Instance = new TextBlock(),
-                UnresolvedAssignments = new HashSet<UnresolvedMemberAssignment>(new List<UnresolvedMemberAssignment>()
+                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(new List<InflatedMemberAssignment>()
                 {
-                    new UnresolvedMemberAssignment
+                    new InflatedMemberAssignment
                     {
                         Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                        Children = new List<UnresolvedNode>
+                        Children = new List<InflatedNode>
                         {
-                            new UnresolvedNode
+                            new InflatedNode
                             {
                                 SourceValue = "Pepito",
                             },

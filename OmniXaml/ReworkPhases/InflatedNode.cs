@@ -5,7 +5,7 @@
 
     public class InflatedNode : IInstanceHolder
     {
-        public HashSet<UnresolvedMemberAssignment> UnresolvedAssignments { get; set; } = new HashSet<UnresolvedMemberAssignment>();
+        public HashSet<InflatedMemberAssignment> UnresolvedAssignments { get; set; } = new HashSet<InflatedMemberAssignment>();
         public object Instance { get; set; }
         public bool IsConversionFailed { get; set; }
         public string SourceValue { get; set; }

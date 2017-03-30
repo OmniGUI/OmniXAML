@@ -36,7 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Rework2\FuncStringConverter.cs" />
     <Compile Include="Rework2\InflatedMemberAssignmentComparer.cs" />
+    <Compile Include="Rework2\MemberAssigmentApplierTests.cs" />
     <Compile Include="Rework2\Phase1Tests.cs" />
     <Compile Include="Rework2\Phase2BuilderTests.cs" />
     <Compile Include="Rework\Class1.cs" />

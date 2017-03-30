@@ -1,6 +1,8 @@
 ﻿namespace OmniXaml.ReworkPhases
 {
+    using System.Collections;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.Linq;
     using Rework;
 
@@ -43,13 +45,32 @@
             var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
 
             var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
-            assignments.ApplyTo(instance);
+
+            var unassigned = ApplyAssignments(assignments, instance);
+
             children.AssociateTo(instance);
 
             return new InflatedNode
             {
                 Instance = instance,
+                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(unassigned),
             };
+        }
+
+        private IList<InflatedMemberAssignment> ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)
+        {
+            IList<InflatedMemberAssignment> unassigned = new Collection<InflatedMemberAssignment>();
+            var assignero = new MemberAssigmentApplier(converter);
+            foreach (var inflatedMemberAssignment in assignments)
+            {
+                if (!assignero.TryApply(inflatedMemberAssignment, instance))
+                {
+                    
+                    unassigned.Add(inflatedMemberAssignment);
+                }
+            }
+
+            return unassigned;
         }
     }
 }
