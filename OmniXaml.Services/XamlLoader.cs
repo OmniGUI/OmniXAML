@@ -1,50 +1,47 @@
 ﻿namespace OmniXaml.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using Ambient;
+    using Rework;
     using TypeLocation;
 
     public class XamlLoader : IXamlLoader
     {
-        private readonly ObjectBuilderContext objectBuilderContext;
         private readonly ITypeDirectory directory;
         private readonly AttributeBasedMetadataProvider metadataProvider;
+        private readonly IStringSourceValueConverter converter;
 
         public XamlLoader(IList<Assembly> assemblies)
         {
             directory = new AttributeBasedTypeDirectory(assemblies);
             metadataProvider = new AttributeBasedMetadataProvider();
-            objectBuilderContext = new ObjectBuilderContext(new AttributeBasedSourceValueConverter(assemblies), metadataProvider);
+            converter = new SuperSmartSourceValueConverter(new IStringSourceValueConverter[]
+                {new AttributeBasedStringValueConverter(assemblies), new BuiltInConverter(),});
         }
 
-        public ConstructionResult Load(string xaml, object intance = null)
+        public object Load(string xaml, object intance = null)
         {
             var ct = Parse(xaml);
             return Construct(ct.Root, intance);
         }
 
-        private ConstructionResult Construct(ConstructionNode ctNode, object intance)
+        private object Construct(ConstructionNode ctNode, object instance)
         {
             var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
-            var prefixedTypeResolver = new PrefixedTypeResolver(new PrefixAnnotator(), directory);
-
-            var trackingContext = new BuildContext(namescopeAnnotator, new AmbientRegistrator(), new InstanceLifecycleSignaler()) { PrefixedTypeResolver = prefixedTypeResolver};
-            var instanceCreator = GetInstanceCreator(objectBuilderContext.SourceValueConverter, objectBuilderContext, directory);
-            var objectConstructor = GetObjectBuilder(instanceCreator, objectBuilderContext, new ContextFactory(directory, objectBuilderContext));
-            var construct = objectConstructor.Inflate(ctNode, trackingContext, intance);
+            var instanceCreator = GetInstanceCreator(converter);
+            var objectConstructor = GetObjectBuilder(instanceCreator, converter);
+            var construct = objectConstructor.Inflate(ctNode);
             return new ConstructionResult(construct, namescopeAnnotator);
         }
 
-        protected virtual IInstanceCreator GetInstanceCreator(ISourceValueConverter sourceValueConverter, ObjectBuilderContext context, ITypeDirectory typeDirectory)
+        protected virtual ISmartInstanceCreator GetInstanceCreator(IStringSourceValueConverter converter)
         {
-            return new InstanceCreator(sourceValueConverter, context, typeDirectory);
+            return new SmartInstanceCreator(converter);
         }
 
-        protected virtual IObjectBuilder GetObjectBuilder(IInstanceCreator instanceCreator, ObjectBuilderContext context, ContextFactory factory)
+        protected virtual IObjectBuilder2 GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
         {
-            return new ExtendedObjectBuilder(instanceCreator, context, factory);
+            return new ObjectBuilder2(instanceCreator, converter);
         }
 
         private ParseResult Parse(string xaml)

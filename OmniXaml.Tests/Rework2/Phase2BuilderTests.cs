@@ -38,7 +38,7 @@
                 })
             };
 
-            var actual = sut.Resolve(inflatedNode);
+            var actual = sut.Fix(inflatedNode);
 
             Assert.Equal(expected, actual);
         }

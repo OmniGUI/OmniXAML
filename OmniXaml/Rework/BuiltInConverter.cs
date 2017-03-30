@@ -4,7 +4,7 @@ namespace OmniXaml.Rework
     using System.ComponentModel;
     using Serilog;
 
-    internal class BuiltInConverter : ISmartSourceValueConverter
+    public class BuiltInConverter : IStringSourceValueConverter
     {
         private static readonly Type StringType = typeof(string);
 

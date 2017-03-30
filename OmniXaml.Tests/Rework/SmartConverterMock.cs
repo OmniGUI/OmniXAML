@@ -2,7 +2,7 @@ namespace OmniXaml.Tests.Rework
 {
     using System;
 
-    internal class SmartConverterMock : ISmartSourceValueConverter
+    internal class SmartConverterMock : IStringSourceValueConverter
     {
         private Func<string, Type, (bool, object)> convertFunc = (str, type) =>  (true, System.Convert.ChangeType(str, type));
 

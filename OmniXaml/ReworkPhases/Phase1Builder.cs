@@ -7,9 +7,9 @@
     public class Phase1Builder
     {
         private readonly ISmartInstanceCreator instanceCreator;
-        private readonly ISmartSourceValueConverter converter;
+        private readonly IStringSourceValueConverter converter;
 
-        public Phase1Builder(ISmartInstanceCreator instanceCreator, ISmartSourceValueConverter converter)
+        public Phase1Builder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;

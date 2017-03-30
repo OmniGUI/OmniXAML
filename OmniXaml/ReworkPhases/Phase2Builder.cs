@@ -4,14 +4,14 @@
 
     public class Phase2Builder
     {
-        private readonly ISmartSourceValueConverter converter;
+        private readonly IStringSourceValueConverter converter;
 
-        public Phase2Builder(ISmartSourceValueConverter converter)
+        public Phase2Builder(IStringSourceValueConverter converter)
         {
             this.converter = converter;
         }
 
-        public object Resolve(InflatedNode inflatedNode)
+        public object Fix(InflatedNode inflatedNode)
         {
             var unresolved = from u in inflatedNode.UnresolvedAssignments
                 from n in u.Children select n;

@@ -2,6 +2,6 @@
 {
     public interface IXamlLoader
     {
-        ConstructionResult Load(string xaml, object rootInstance = null);
+        object Load(string xaml, object rootInstance = null);
     }
 }

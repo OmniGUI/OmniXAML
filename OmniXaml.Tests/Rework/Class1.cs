@@ -37,7 +37,7 @@ namespace OmniXaml.Tests.Rework
         }
     }
 
-    internal class SimpleValueConverter : ISmartSourceValueConverter
+    internal class SimpleValueConverter : IStringSourceValueConverter
     {
         public (bool, object) TryConvert(string strValue, Type desiredTargetType)
         {

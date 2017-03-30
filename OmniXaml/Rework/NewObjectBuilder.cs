@@ -10,11 +10,11 @@ namespace OmniXaml.Rework
     public class NewObjectBuilder : INewObjectBuilder
     {
         private readonly ISmartInstanceCreator instanceCreator;
-        private readonly ISmartSourceValueConverter sourceValueConverter;
+        private readonly IStringSourceValueConverter sourceValueConverter;
         private readonly IValuePipeline pipeline;
         public ISubject<NodeInflation> NodeInflated { get; } = new ReplaySubject<NodeInflation>();
 
-        public NewObjectBuilder(ISmartInstanceCreator instanceCreator, ISmartSourceValueConverter sourceValueConverter, IValuePipeline pipeline)
+        public NewObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter sourceValueConverter, IValuePipeline pipeline)
         {
             this.instanceCreator = instanceCreator;
             this.sourceValueConverter = sourceValueConverter;

@@ -2,8 +2,8 @@ namespace OmniXaml
 {
     using System;
 
-    public interface ISmartSourceValueConverter
+    public interface ISmartSourceValueConverter<TInput, TOutput>
     {
-        (bool, object) TryConvert(string strValue, Type desiredTargetType);
+        (bool, object) TryConvert(TInput strValue, Type desiredTargetType);
     }
 }

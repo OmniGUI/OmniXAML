@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public class SmartSourceValueConverter : ISmartSourceValueConverter
+    public class SmartSourceValueConverter : IStringSourceValueConverter
     {
-        private readonly IEnumerable<ISmartSourceValueConverter> converters = new List<ISmartSourceValueConverter>() { new BuiltInConverter() };
+        private readonly IEnumerable<IStringSourceValueConverter> converters = new List<IStringSourceValueConverter>() { new BuiltInConverter() };
 
         public (bool, object) TryConvert(string strValue, Type desiredTargetType)
         {
