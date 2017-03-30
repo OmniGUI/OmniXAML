@@ -2,12 +2,12 @@
 {
     using ReworkPhases;
 
-    public class ObjectBuilder2 : IObjectBuilder2
+    public class ObjectBuilder : IObjectBuilder
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
 
-        public ObjectBuilder2(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
+        public ObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;
@@ -22,6 +22,4 @@
             return unresolvedFixer.Fix(inflatedNode);
         }
     }
-
-
 }

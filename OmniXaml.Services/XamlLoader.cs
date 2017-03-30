@@ -27,11 +27,10 @@
 
         private object Construct(ConstructionNode ctNode, object instance)
         {
-            var namescopeAnnotator = new NamescopeAnnotator(metadataProvider);
             var instanceCreator = GetInstanceCreator(converter);
             var objectConstructor = GetObjectBuilder(instanceCreator, converter);
             var construct = objectConstructor.Inflate(ctNode);
-            return new ConstructionResult(construct, namescopeAnnotator);
+            return construct;
         }
 
         protected virtual ISmartInstanceCreator GetInstanceCreator(IStringSourceValueConverter converter)
@@ -39,9 +38,9 @@
             return new SmartInstanceCreator(converter);
         }
 
-        protected virtual IObjectBuilder2 GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
+        protected virtual IObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
         {
-            return new ObjectBuilder2(instanceCreator, converter);
+            return new ObjectBuilder(instanceCreator, converter);
         }
 
         private ParseResult Parse(string xaml)

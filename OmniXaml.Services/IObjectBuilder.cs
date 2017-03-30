@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Services
 {
-    public interface IObjectBuilder2
+    public interface IObjectBuilder
     {
         object Inflate(ConstructionNode ctNode);
     }
