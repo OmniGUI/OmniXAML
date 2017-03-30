@@ -6,7 +6,7 @@
 
     public class SmartSourceValueConverter : IStringSourceValueConverter
     {
-        private readonly IEnumerable<IStringSourceValueConverter> converters = new List<IStringSourceValueConverter>() { new BuiltInConverter() };
+        private readonly IEnumerable<IStringSourceValueConverter> converters = new List<IStringSourceValueConverter>() { new TypeConverterSourceValueConverter() };
 
         public (bool, object) TryConvert(string strValue, Type desiredTargetType)
         {

@@ -16,7 +16,10 @@
             directory = new AttributeBasedTypeDirectory(assemblies);
             metadataProvider = new AttributeBasedMetadataProvider();
             converter = new SuperSmartSourceValueConverter(new IStringSourceValueConverter[]
-                {new AttributeBasedStringValueConverter(assemblies), new BuiltInConverter(),});
+            {
+                new DirectCompatibilitySourceValueConverter(),
+                new AttributeBasedStringValueConverter(assemblies), new TypeConverterSourceValueConverter(),
+            });
         }
 
         public object Load(string xaml, object intance = null)
