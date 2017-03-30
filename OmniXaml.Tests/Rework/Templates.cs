@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Model;
-    using ObjectBuilderTests;
     using OmniXaml.Rework;
     using Xunit;
 
