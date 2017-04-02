@@ -10,11 +10,13 @@
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
+        private readonly IMemberAssigmentApplier assigmentApplier;
 
-        public Phase1Builder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
+        public Phase1Builder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;
+            this.assigmentApplier = assigmentApplier;
         }
 
         public InflatedNode Inflate(ConstructionNode node)
@@ -60,12 +62,10 @@
         private IList<InflatedMemberAssignment> ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)
         {
             IList<InflatedMemberAssignment> unassigned = new Collection<InflatedMemberAssignment>();
-            var assignero = new MemberAssigmentApplier(converter);
             foreach (var inflatedMemberAssignment in assignments)
             {
-                if (!assignero.TryApply(inflatedMemberAssignment, instance))
+                if (!assigmentApplier.TryApply(inflatedMemberAssignment, instance))
                 {
-                    
                     unassigned.Add(inflatedMemberAssignment);
                 }
             }

@@ -1,15 +1,23 @@
 ﻿namespace OmniXaml.ReworkPhases
 {
     using System.Linq;
+    using Rework;
     using Zafiro.Core;
 
-    public class MemberAssigmentApplier
+    public interface IMemberAssigmentApplier
+    {
+        bool TryApply(InflatedMemberAssignment inflatedAssignment, object instance);
+    }
+
+    public class MemberAssigmentApplier : IMemberAssigmentApplier
     {
         private readonly IStringSourceValueConverter converter;
+        private readonly IValuePipeline pipeline;
 
-        public MemberAssigmentApplier(IStringSourceValueConverter converter)
+        public MemberAssigmentApplier(IStringSourceValueConverter converter, IValuePipeline pipeline)
         {
             this.converter = converter;
+            this.pipeline = pipeline;
         }
 
         public bool TryApply(InflatedMemberAssignment inflatedAssignment, object instance)
@@ -26,18 +34,39 @@
 
         private bool AssignSingleValue(InflatedMemberAssignment inflatedAssignment, object instance)
         {
-            var value = (string) inflatedAssignment.Children.First().Instance;
-            var conversion = converter.TryConvert(value, inflatedAssignment.Member.MemberType);
-            if (conversion.Item1)
+            var value = inflatedAssignment.Children.First().Instance;
+
+            if (value is string)
             {
-                inflatedAssignment.Member.SetValue(instance, conversion.Item2);
+                var conversion = converter.TryConvert((string) value, inflatedAssignment.Member.MemberType);
+                if (conversion.Item1)
+                {
+                    SetMember(instance, inflatedAssignment.Member, conversion.Item2);
+                    return true;
+                }
+
+                return false;                
+            }
+            else
+            {
+                SetMember(instance, inflatedAssignment.Member, value);
                 return true;
             }
-
-            return false;
         }
 
-        private bool AssignCollection(InflatedMemberAssignment inflatedAssignment, object instance)
+        private void SetMember(object parent, Member member, object value)
+        {
+            var mutableUnit = new MutablePipelineUnit(value);
+            pipeline.Process(parent, member, mutableUnit);
+            if (mutableUnit.Handled)
+            {
+                return;
+            }
+
+            member.SetValue(parent, mutableUnit.Value);
+        }
+
+        private static bool AssignCollection(InflatedMemberAssignment inflatedAssignment, object instance)
         {
             var parent = inflatedAssignment.Member.GetValue(instance);
             var children = from n in inflatedAssignment.Children select n.Instance;

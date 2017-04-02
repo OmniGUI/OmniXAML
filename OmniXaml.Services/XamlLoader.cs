@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Reflection;
     using Rework;
+    using ReworkPhases;
     using TypeLocation;
 
     public class XamlLoader : IXamlLoader
@@ -31,9 +32,14 @@
         private object Construct(ConstructionNode ctNode, object instance)
         {
             var instanceCreator = GetInstanceCreator(converter);
-            var objectConstructor = GetObjectBuilder(instanceCreator, converter);
+            var objectConstructor = GetObjectBuilder(instanceCreator, converter, GetMemberAssignmentApplier(converter));
             var construct = objectConstructor.Inflate(ctNode);
             return construct;
+        }
+
+        protected virtual IMemberAssigmentApplier GetMemberAssignmentApplier(IStringSourceValueConverter converter)
+        {
+            return new MemberAssigmentApplier(converter, new NoActionValuePipeline());
         }
 
         protected virtual ISmartInstanceCreator GetInstanceCreator(IStringSourceValueConverter converter)
@@ -41,9 +47,9 @@
             return new SmartInstanceCreator(converter);
         }
 
-        protected virtual IObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter)
+        protected virtual IObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
-            return new ObjectBuilder(instanceCreator, converter);
+            return new ObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
         }
 
         private ParseResult Parse(string xaml)
