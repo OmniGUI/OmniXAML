@@ -57,7 +57,7 @@
         private void SetMember(object parent, Member member, object value)
         {
             var mutableUnit = new MutablePipelineUnit(value);
-            pipeline.Process(parent, member, mutableUnit);
+            pipeline.Handle(parent, member, mutableUnit);
             if (mutableUnit.Handled)
             {
                 return;
