@@ -14,7 +14,7 @@ namespace OmniXaml.Tests.Rework2
     {
         private static Phase1Builder CreateSut()
         {
-            return new Phase1Builder(new SimpleInstanceCreator(), null);
+            return new Phase1Builder(new SimpleInstanceCreator(), new SmartConverterMock(), new MemberAssigmentApplier(null, null));
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace OmniXaml.Tests.Rework2
                 }
             };
 
-            var actual = new Phase1Builder(creator, null).Inflate(ctn);
+            var actual = new Phase1Builder(creator, null, null).Inflate(ctn);
             var expected = new InflatedNode()
             {
                 Instance = new Collection() { "hola" },                
@@ -99,7 +99,7 @@ namespace OmniXaml.Tests.Rework2
 
             var smartSourceValueConverter = new SmartConverterMock();
             smartSourceValueConverter.SetConvertFunc((s, type) => (true, s));
-            var actual = new Phase1Builder(creator, smartSourceValueConverter).Inflate(ctn);
+            var actual = new Phase1Builder(creator, smartSourceValueConverter, null).Inflate(ctn);
             var expected = new InflatedNode
             {
                 Instance = new ItemsControl
@@ -243,7 +243,7 @@ namespace OmniXaml.Tests.Rework2
 
         private Phase1Builder CreateSut(SmartConverterMock converter)
         {
-            return new Phase1Builder(new SimpleInstanceCreator(), converter);
+            return new Phase1Builder(new SimpleInstanceCreator(), converter, null);
         }
     }
 }

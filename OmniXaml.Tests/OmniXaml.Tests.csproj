@@ -56,11 +56,6 @@
     <Compile Include="Namespaces\PrefixAnnotatorTests.cs" />
     <Compile Include="Namespaces\TypeDirectoryTests.cs" />
     <Compile Include="Rework\NewObjectBuilderTests.cs" />
-    <Compile Include="ObjectBuilderTests\Ambient.cs" />
-    <Compile Include="ObjectBuilderTests\Extensions.cs" />
-    <Compile Include="ObjectBuilderTests\Immutables.cs" />
-    <Compile Include="ObjectBuilderTests\InstantiateAs.cs" />
-    <Compile Include="ObjectBuilderTests\CreationFixture.cs" />
     <Compile Include="Model\Collection.cs" />
     <Compile Include="Model\CollectionExtension.cs" />
     <Compile Include="Model\ConstructionFragmentLoader.cs" />
@@ -78,12 +73,6 @@
     <Compile Include="Model\TextBlock.cs" />
     <Compile Include="Model\Window.cs" />
     <Compile Include="Model\Custom\ParametrizedExtension.cs" />
-    <Compile Include="ObjectBuilderTests\Events.cs" />
-    <Compile Include="ObjectBuilderTests\MemberDependencies.cs" />
-    <Compile Include="ObjectBuilderTests\Dictionaries.cs" />
-    <Compile Include="ObjectBuilderTests\Namescopes.cs" />
-    <Compile Include="ObjectBuilderTests\ObjectBuilderTestsBase.cs" />
-    <Compile Include="ObjectBuilderTests\Templates.cs" />
     <None Include="project.json" />
     <Compile Include="Rework\ObjectBuildFixture.cs" />
     <Compile Include="Rework\SmartSourceValueConverterTests.cs" />
@@ -101,7 +90,6 @@
     <Compile Include="Model\ResourceDictionary.cs" />
     <Compile Include="XmlParserTests\StandardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ObjectBuilderTests\Standard.cs" />
     <Compile Include="XmlParserTests\XamlToTreeParserTestsBase.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -36,12 +36,12 @@
             }
 
             var children = from n in node.Children select Inflate(n);
-            var assignments = from a in node.Assignments
+            var assignments = (from a in node.Assignments
                 select new InflatedMemberAssignment
                 {
                     Member = a.Member,
-                    Children = from c in a.Children select Inflate(c),
-                };
+                    Children = (from c in a.Children select Inflate(c)).ToList(),
+                }).ToList();
 
             var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);
             var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());

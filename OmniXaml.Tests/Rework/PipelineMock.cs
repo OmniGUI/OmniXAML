@@ -12,9 +12,9 @@ namespace OmniXaml.Tests.Rework
 
         private Action<object, Member, MutablePipelineUnit> mutator = (o, member, arg3) => { };
 
-        public void Process(object parent, Member member, MutablePipelineUnit mutablePipelineUnit)
+        public void Handle(object parent, Member member, MutablePipelineUnit mutable)
         {
-            mutator(parent, member, mutablePipelineUnit);
+            mutator(parent, member, mutable);
         }
     }
 }

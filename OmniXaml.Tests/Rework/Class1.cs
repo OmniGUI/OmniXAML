@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using OmniXaml.Rework;
+using OmniXaml.Services;
 using OmniXaml.Tests.Model;
 
 namespace OmniXaml.Tests.Rework
@@ -24,18 +25,13 @@ namespace OmniXaml.Tests.Rework
 
         public object Inflate(ConstructionNode constructionNode)
         {
-            INewObjectBuilder innerBestia = new NewObjectBuilder(new SimpleInstanceCreator(), new SimpleValueConverter(), new NoChangesPipeline());
+            INewObjectBuilder innerBestia = new NewObjectBuilder(new SimpleInstanceCreator(), new SimpleValueConverter(), new NoActionValuePipeline());
             innerBestia.NodeInflated.Subscribe();
             return innerBestia.Inflate(constructionNode);
         }
     }
 
-    internal class NoChangesPipeline : IValuePipeline
-    {
-        public void Process(object parent, Member member, MutablePipelineUnit mutablePipelineUnit)
-        {
-        }
-    }
+
 
     internal class SimpleValueConverter : IStringSourceValueConverter
     {

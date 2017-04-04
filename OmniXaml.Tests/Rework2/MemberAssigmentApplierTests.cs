@@ -1,4 +1,6 @@
-﻿namespace OmniXaml.Tests.Rework2
+﻿using OmniXaml.Services;
+
+namespace OmniXaml.Tests.Rework2
 {
     using System;
     using System.Collections.Generic;
@@ -78,7 +80,7 @@
 
         private static MemberAssigmentApplier CreateSut(IStringSourceValueConverter funcStringConverter)
         {
-            return new MemberAssigmentApplier(funcStringConverter);
+            return new MemberAssigmentApplier(funcStringConverter, new NoActionValuePipeline());
         }
     }
 }
