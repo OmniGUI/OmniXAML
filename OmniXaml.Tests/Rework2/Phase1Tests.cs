@@ -8,13 +8,14 @@ namespace OmniXaml.Tests.Rework2
     using OmniXaml.Rework;
     using Rework;
     using ReworkPhases;
+    using Services;
     using Xunit;
 
     public class Phase1Tests
     {
         private static Phase1Builder CreateSut()
         {
-            return new Phase1Builder(new SimpleInstanceCreator(), new SmartConverterMock(), new MemberAssigmentApplier(null, null));
+            return new Phase1Builder(new SimpleInstanceCreator(), new SmartConverterMock(), new MemberAssigmentApplier(new TypeConverterSourceValueConverter(), new NoActionValuePipeline()));
         }
 
         [Fact]
@@ -55,27 +56,13 @@ namespace OmniXaml.Tests.Rework2
         }
 
         [Fact]
-        public void PropertyWithCollection()
+        public void StandardPropertyWithCollection()
         {
-            var creator = new SmartInstanceCreatorMock();
-            creator.SetObjectFactory((type, hints) =>
-            {
-                if (type == typeof(string))
-                {
-                    return new CreationResult(hints.Positionals.First().Instance,
-                        new CreationHints(new NewInjectableMember[0], new[] { hints.Positionals.First() },
-                            new List<object>()));
-                }
-                var i = Activator.CreateInstance(type);
-                return new CreationResult(i, new CreationHints());
-            });
-
-
             var ctn = new ConstructionNode(typeof(ItemsControl))
             {
                Assignments = new List<MemberAssignment>
                {
-                   new MemberAssignment()
+                   new MemberAssignment
                    {
                        Member = Member.FromStandard<ItemsControl>(ic => ic.Items),
                        Children = new List<ConstructionNode>
@@ -99,7 +86,7 @@ namespace OmniXaml.Tests.Rework2
 
             var smartSourceValueConverter = new SmartConverterMock();
             smartSourceValueConverter.SetConvertFunc((s, type) => (true, s));
-            var actual = new Phase1Builder(creator, smartSourceValueConverter, null).Inflate(ctn);
+            var actual = CreateSut().Inflate(ctn);
             var expected = new InflatedNode
             {
                 Instance = new ItemsControl
@@ -114,6 +101,32 @@ namespace OmniXaml.Tests.Rework2
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public void AttachedPropertyWithCollection()
+        {
+            var ctn = new ConstructionNode(typeof(Grid))
+            {
+                Assignments = new List<MemberAssignment>
+                {
+                    new MemberAssignment
+                    {
+                        Member = Member.FromAttached<VisualStateManager>("VisualStateGroups"),
+                        Children = new List<ConstructionNode>
+                        {
+                            new ConstructionNode(typeof(VisualStateGroup)),
+                            new ConstructionNode(typeof(VisualStateGroup)),
+                            new ConstructionNode(typeof(VisualStateGroup)),
+                        }
+                    },
+                }
+            };
+
+            var actual = CreateSut().Inflate(ctn).Instance;
+
+            var collection = VisualStateManager.GetVisualStateGroups(actual);
+            
+            Assert.NotEmpty(collection);
+        }
 
         [Fact(Skip = "Nada")]
         public void CreateSimpleType_String()
@@ -236,14 +249,9 @@ namespace OmniXaml.Tests.Rework2
                 Instance = instance,                
             };
 
-            var actual = CreateSut(converter).Inflate(ctn);
+            var actual = CreateSut().Inflate(ctn);
 
             Assert.Equal(expected, actual);
-        }
-
-        private Phase1Builder CreateSut(SmartConverterMock converter)
-        {
-            return new Phase1Builder(new SimpleInstanceCreator(), converter, null);
         }
     }
 }

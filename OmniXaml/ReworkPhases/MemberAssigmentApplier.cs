@@ -38,14 +38,14 @@
 
             if (value is string)
             {
-                var conversion = converter.TryConvert((string) value, inflatedAssignment.Member.MemberType);
+                var conversion = converter.TryConvert((string)value, inflatedAssignment.Member.MemberType);
                 if (conversion.Item1)
                 {
                     SetMember(instance, inflatedAssignment.Member, conversion.Item2);
                     return true;
                 }
 
-                return false;                
+                return false;
             }
             else
             {
