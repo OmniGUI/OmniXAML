@@ -13,7 +13,7 @@
         {
             var smartSourceValueConverter = new SmartConverterMock();
             smartSourceValueConverter.SetConvertFunc((s, type) => (true, s));
-            var sut = new Phase2Builder(smartSourceValueConverter);
+            var sut = new ObjectBuilderSecondPass(smartSourceValueConverter);
             var expected = new TextBlock()
             {
                 Text = "Pepito",

@@ -2,11 +2,11 @@
 {
     using System.Linq;
 
-    public class Phase2Builder
+    public class ObjectBuilderSecondPass
     {
         private readonly IStringSourceValueConverter converter;
 
-        public Phase2Builder(IStringSourceValueConverter converter)
+        public ObjectBuilderSecondPass(IStringSourceValueConverter converter)
         {
             this.converter = converter;
         }

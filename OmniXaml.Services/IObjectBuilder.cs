@@ -2,6 +2,6 @@
 {
     public interface IObjectBuilder
     {
-        object Inflate(ConstructionNode ctNode);
+        object Build(ConstructionNode node);
     }
 }

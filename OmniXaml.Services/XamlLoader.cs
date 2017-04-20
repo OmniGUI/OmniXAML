@@ -33,7 +33,7 @@
         {
             var instanceCreator = GetInstanceCreator(converter);
             var objectConstructor = GetObjectBuilder(instanceCreator, converter, GetMemberAssignmentApplier(converter));
-            var construct = objectConstructor.Inflate(ctNode);
+            var construct = objectConstructor.Build(ctNode);
             return construct;
         }
 
@@ -49,7 +49,7 @@
 
         protected virtual IObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
-            return new ObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
+            return new FullObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
         }
 
         private ParseResult Parse(string xaml)
