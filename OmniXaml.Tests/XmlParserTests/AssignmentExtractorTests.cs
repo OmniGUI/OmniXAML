@@ -14,7 +14,7 @@
         private static List<MemberAssignment> Parse(string xaml,
             Func<XElement, IPrefixAnnotator, ConstructionNode> parser, Type type)
         {
-            var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly> {Assembly.GetExecutingAssembly()});
+            var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly> {typeof(ModelObject).GetTypeInfo().Assembly});
             var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0],
                 new Resolver(typeDirectory), parser);
 
