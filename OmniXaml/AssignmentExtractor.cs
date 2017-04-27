@@ -83,18 +83,10 @@
                     yield return new MemberAssignment
                     {
                         Member = Member.FromStandard(type, contentProperty),
-                        Children = StringNode(((XText)elementFirstNode).Value)
+                        SourceValue = ((XText)elementFirstNode).Value,
                     };
                 }
             }
-        }
-
-        private IEnumerable<ConstructionNode> StringNode(string value)
-        {
-            yield return new ConstructionNode(typeof(string))
-            {
-                SourceValue = value,
-            };
         }
 
         private static IEnumerable<XElement> GetPropertyElements(XContainer parent)
@@ -124,12 +116,7 @@
                 throw new Exception("Cannot have a direct value and child nodes at the same time");
             }
 
-            if (directValue != null)
-            {
-                children = StringNode(directValue);
-            }
-
-            return new MemberAssignment {Member = member, Children = children };
+            return new MemberAssignment {Member = member, Children = children, SourceValue = directValue};
         }
 
         private static string GetDirectValue(XContainer node)
@@ -176,7 +163,7 @@
             var assignment = new MemberAssignment
             {
                 Member = property,
-                Children = StringNode(value)
+                SourceValue = value,
             };
 
             return assignment;

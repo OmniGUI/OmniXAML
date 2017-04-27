@@ -23,7 +23,11 @@ namespace OmniXaml.Tests.XmlParserTests
                         {
                             new ConstructionNode(typeof(Button))
                             {
-                                Assignments = new[] {new MemberAssignment() { Children = ConstructionNode.ForString("OnClick"), Member = Member.FromStandard(typeof(Button), "Click")},}
+                                Assignments = new[] {new MemberAssignment()
+                                {
+                                    Member = Member.FromStandard(typeof(Button), "Click"),
+                                    SourceValue = "OnClick"
+                                },}
                             },
                         }
                     },
@@ -45,7 +49,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     new MemberAssignment()
                     {
                         Member = Member.FromAttached(typeof(Window), "Loaded"),
-                        Children = ConstructionNode.ForString("OnLoad"),
+                        SourceValue = "OnLoad"
                     },
                 },
             };

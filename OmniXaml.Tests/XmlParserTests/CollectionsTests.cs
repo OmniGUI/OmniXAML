@@ -20,7 +20,11 @@ namespace OmniXaml.Tests.XmlParserTests
             {
                 Assignments = new[]
                 {
-                    new MemberAssignment {Children = ConstructionNode.ForString("My title"), Member = Member.FromStandard<Collection>(collection => collection.Title)}
+                    new MemberAssignment
+                    {
+                        Member = Member.FromStandard<Collection>(collection => collection.Title),
+                        SourceValue = "My title"                        
+                    }
                 },
                 Children = new[]
                 {

@@ -13,7 +13,14 @@ namespace OmniXaml.Tests.XmlParserTests
                 new ConstructionNode(typeof(Window))
                 {
                     Name = "MyWindow",
-                    Assignments = new[] { new MemberAssignment { Member = Member.FromStandard<Window>(window => window.Name), Children = ConstructionNode.ForString("MyWindow") } }
+                    Assignments = new[]
+                    {
+                        new MemberAssignment
+                        {
+                            Member = Member.FromStandard<Window>(window => window.Name),
+                            SourceValue = "MyWindow"
+                        }
+                    }
                 },
                 tree.Root);
         }

@@ -44,7 +44,7 @@
             var type = GetFinalTypeAccordingToDirectives(elementType, directives);
 
             var rawAssigments = assignmentExtractor.GetAssignments(type, node, annotator).ToList();
-            
+
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
             var children = GetChildren(type, node, annotator);
@@ -121,7 +121,7 @@
 
             var nameDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Name")?.Value;
             var key = directives.FirstOrDefault(directive => directive.Name == "Key")?.Value;
-            
+
             var namePropertyName = metadataProvider.Get(type).RuntimePropertyName;
             string name = null;
             IEnumerable<MemberAssignment> finalAssignments = allAssignments;
@@ -129,7 +129,7 @@
             var nameAssignment = allAssignments.FirstOrDefault(assignment => assignment.Member.MemberName == namePropertyName);
             if (namePropertyName != null && nameAssignment != null)
             {
-                name = nameAssignment.Children.First().SourceValue;
+                name = nameAssignment.SourceValue;
                 finalAssignments = allAssignments;
             }
             else if (nameDirectiveValue != null && namePropertyName != null)

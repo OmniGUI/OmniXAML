@@ -39,7 +39,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Title),
-                        Children = ConstructionNode.ForString("Saludos"),
+                        SourceValue = "Saludos",
                     }
                 }
             };
@@ -59,7 +59,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = ConstructionNode.ForString("Hola"),
+                        SourceValue = "Hola"
                     }
                 }
             };
@@ -99,8 +99,9 @@ namespace OmniXaml.Tests.XmlParserTests
                 {
                     new MemberAssignment()
                     {
-                        Children = ConstructionNode.ForString("1"),
+                        
                         Member = Member.FromAttached<Grid>("Row"),
+                        SourceValue = "1",
                     }
                 }
             };
@@ -177,7 +178,7 @@ namespace OmniXaml.Tests.XmlParserTests
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                        Children = ConstructionNode.ForString("Hello"),
+                        SourceValue = "Hello"
                     },
                 }
             };
@@ -206,7 +207,7 @@ namespace OmniXaml.Tests.XmlParserTests
                                     new MemberAssignment()
                                     {
                                         Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                                        Children = ConstructionNode.ForString("Saludos cordiales"),
+                                        SourceValue = "Saludos cordiales",
                                     },
                                 }
                             },
@@ -278,8 +279,8 @@ namespace OmniXaml.Tests.XmlParserTests
                 {
                     new MemberAssignment()
                     {
-                        Children = ConstructionNode.ForString("1"),
                         Member = Member.FromAttached<CustomGrid>("Value"),
+                        SourceValue = "1",
                     }
                 }
             };

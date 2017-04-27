@@ -33,10 +33,7 @@
                 new MemberAssignment
                 {
                     Member = Member.FromStandard<TextBlock>(collection => collection.Text),
-                    Children = new List<ConstructionNode>
-                    {
-                        new ConstructionNode(typeof(string)) {SourceValue = "Hola"}
-                    }
+                    SourceValue = "Hola"
                 }
             };
 
@@ -119,10 +116,7 @@
                 new MemberAssignment
                 {
                     Member = Member.FromStandard<ItemsControl>(collection => collection.HeaderText),
-                    Children = new List<ConstructionNode>
-                    {
-                        new ConstructionNode(typeof(string)) {SourceValue = "Hola"}
-                    }
+                    SourceValue = "Hola"
                 }
             };
 

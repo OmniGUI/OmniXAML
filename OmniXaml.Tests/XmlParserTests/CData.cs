@@ -17,7 +17,7 @@
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = ConstructionNode.ForString("Hello"),
+                        SourceValue = "Hello"
                     },
                 }
             };
@@ -37,7 +37,7 @@
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = ConstructionNode.ForString("Hello"),
+                        SourceValue = "Hello"
                     },
                 }
             };
