@@ -48,7 +48,7 @@
                         return new MemberAssignment
                         {
                             Member = property,
-                            Children = ConstructionNode.ForString(stringNode.Value),
+                            SourceValue = stringNode.Value,
                         };
                     }
 

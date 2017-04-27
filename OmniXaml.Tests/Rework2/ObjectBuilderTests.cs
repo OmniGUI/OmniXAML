@@ -82,7 +82,7 @@ namespace OmniXaml.Tests.Rework2
                    new MemberAssignment()
                    {
                        Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                       Children = ConstructionNode.ForString("SomeText"),
+                       SourceValue = "SomeText",
                    }
                }
             };

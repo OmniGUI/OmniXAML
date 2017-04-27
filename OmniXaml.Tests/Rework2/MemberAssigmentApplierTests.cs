@@ -15,7 +15,7 @@ namespace OmniXaml.Tests.Rework2
         [Fact]
         public void StandardPropertyAssignmentWithMoreThanOneChild()
         {
-            var sut = new MemberAssigmentApplier(new FuncStringConverterExtended((s, type) => (true, s)), new NoActionValuePipeline());
+            var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<TextBlock>(tb => tb.Text),
@@ -39,7 +39,7 @@ namespace OmniXaml.Tests.Rework2
         [Fact]
         public void StandardPropertyAssignmentOfItemsToCollection()
         {
-            var sut = new MemberAssigmentApplier(new FuncStringConverterExtended((s, type) => (true, s)), new NoActionValuePipeline());
+            var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
@@ -61,13 +61,13 @@ namespace OmniXaml.Tests.Rework2
 
             sut.TryApply(inflatedMemberAssignment, itemsControl);
 
-            Assert.Equal(new[] {"A", "B"}, itemsControl.Items);
+            Assert.Equal(new[] { "A", "B" }, itemsControl.Items);
         }
 
         [Fact]
         public void StandardPropertyAssignmentWithOneChild()
         {
-            var sut = new MemberAssigmentApplier(new FuncStringConverterExtended((s, type) => (true, s)), new NoActionValuePipeline());
+            var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var textBlock = new TextBlock();
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
@@ -81,31 +81,29 @@ namespace OmniXaml.Tests.Rework2
                 },
 
             };
-            var success = sut.TryApply(inflatedMemberAssignment, textBlock);
 
-            Assert.True(success);
+            sut.TryApply(inflatedMemberAssignment, textBlock);
+
             Assert.Equal("SomeText", textBlock.Text);
         }
 
         [Fact]
-        public void ConvertFail()
+        public void IncompatibleInstances()
         {
-            var sut = new MemberAssigmentApplier(new FuncStringConverterExtended((s, t) => (false, null)), new NoActionValuePipeline());
+            var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<Window>(w => w.Height),
-                Children = new List<InflatedNode>()
+                Children = new List<InflatedNode>
                 {
-                    new InflatedNode()
+                    new InflatedNode
                     {
                         Instance = "12.5",
                     },
                 }
             };
             var window = new Window();
-            var success = sut.TryApply(inflatedMemberAssignment, window);
-
-            Assert.False(success);            
+            Assert.Throws<ArgumentException>(() => sut.TryApply(inflatedMemberAssignment, window));
         }
     }
 }

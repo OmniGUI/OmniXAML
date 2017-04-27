@@ -39,7 +39,7 @@
 
         protected virtual IMemberAssigmentApplier GetMemberAssignmentApplier(IStringSourceValueConverter converter)
         {
-            return new MemberAssigmentApplier(converter, new NoActionValuePipeline());
+            return new MemberAssigmentApplier(new NoActionValuePipeline());
         }
 
         protected virtual ISmartInstanceCreator GetInstanceCreator(IStringSourceValueConverter converter)

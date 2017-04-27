@@ -36,41 +36,70 @@
             }
 
             var children = from n in node.Children select Build(n);
-            var assignments = (from a in node.Assignments
-                select new InflatedMemberAssignment
-                {
-                    Member = a.Member,
-                    Children = (from c in a.Children select Build(c)).ToList(),
-                }).ToList();
+            var assignments = (from a in node.Assignments select GetInflatedMemberAssignment(a)).ToList();
 
             var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);
             var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
 
             var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
 
-            var unassigned = ApplyAssignments(assignments, instance);
+            ApplyAssignments(assignments, instance);
 
             children.AssociateTo(instance);
 
             return new InflatedNode
             {
                 Instance = instance,
-                UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(unassigned),
+                //UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(unassigned),
             };
         }
 
-        private IEnumerable<InflatedMemberAssignment> ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)
+        private InflatedMemberAssignment GetInflatedMemberAssignment(MemberAssignment a)
         {
-            IList<InflatedMemberAssignment> unassigned = new Collection<InflatedMemberAssignment>();
+            if (a.SourceValue != null)
+            {
+                return FromSourceValue(a);
+            }
+            else
+            {
+                return FromChildren(a);
+            }            
+        }
+
+        private InflatedMemberAssignment FromChildren(MemberAssignment a)
+        {
+            return new InflatedMemberAssignment
+            {
+                Member = a.Member,
+                Children = (from c in a.Children select Build(c)).ToList(),
+            };
+        }
+
+        private InflatedMemberAssignment FromSourceValue(MemberAssignment a)
+        {
+            var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType);
+
+            return new InflatedMemberAssignment
+            {
+                Member = a.Member,
+                Children = new List<InflatedNode>
+                {
+                    new InflatedNode
+                    {
+                        Instance = conversionResult.Item2,
+                        IsConversionFailed = conversionResult.Item1,
+                    }
+                }
+            };
+        }
+
+        private void ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)
+        {
             foreach (var inflatedMemberAssignment in assignments)
             {
-                if (!assigmentApplier.TryApply(inflatedMemberAssignment, instance))
-                {
-                    unassigned.Add(inflatedMemberAssignment);
-                }
+                assigmentApplier.TryApply(inflatedMemberAssignment, instance);
             }
 
-            return unassigned;
         }
     }
 }
