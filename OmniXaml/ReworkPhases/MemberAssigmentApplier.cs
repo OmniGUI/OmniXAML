@@ -1,5 +1,6 @@
 ﻿namespace OmniXaml.ReworkPhases
 {
+    using System;
     using System.Linq;
     using Rework;
     using Zafiro.Core;
@@ -34,8 +35,15 @@
 
         private bool AssignSingleValue(InflatedMemberAssignment inflatedAssignment, object instance)
         {
-            var value = inflatedAssignment.Children.First().Instance;
+            var inflatedAssignmentChildren = inflatedAssignment.Children.ToList();
 
+            if (inflatedAssignmentChildren.Count > 1)
+            {
+                throw new InvalidOperationException($"Cannot assign multiple values to a the property {inflatedAssignment}");
+            }
+
+            var value = inflatedAssignmentChildren.First().Instance;
+            
             if (value is string)
             {
                 var conversion = converter.TryConvert((string)value, inflatedAssignment.Member.MemberType);
