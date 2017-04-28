@@ -47,7 +47,7 @@
             return new SmartInstanceCreator(converter);
         }
 
-        protected virtual IObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        protected virtual IFullObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
             return new FullObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
         }

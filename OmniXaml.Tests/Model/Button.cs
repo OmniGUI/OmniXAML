@@ -14,5 +14,7 @@ namespace OmniXaml.Tests.Model
         {
             Click?.Invoke(this, EventArgs.Empty);
         }
+
+        public object Content { get; set; }
     }
 }

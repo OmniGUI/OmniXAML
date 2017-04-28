@@ -33,7 +33,7 @@ namespace OmniXaml.Tests.Rework2
 
             };
 
-            Assert.Throws<InvalidOperationException>(() => sut.TryApply(inflatedMemberAssignment, null));
+            Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(inflatedMemberAssignment, null));
         }
 
         [Fact]
@@ -59,7 +59,7 @@ namespace OmniXaml.Tests.Rework2
 
             var itemsControl = new ItemsControl();
 
-            sut.TryApply(inflatedMemberAssignment, itemsControl);
+            sut.ExecuteAssignment(inflatedMemberAssignment, itemsControl);
 
             Assert.Equal(new[] { "A", "B" }, itemsControl.Items);
         }
@@ -82,9 +82,25 @@ namespace OmniXaml.Tests.Rework2
 
             };
 
-            sut.TryApply(inflatedMemberAssignment, textBlock);
+            sut.ExecuteAssignment(inflatedMemberAssignment, textBlock);
 
             Assert.Equal("SomeText", textBlock.Text);
+        }
+
+        [Fact]
+        public void AttachedPropertyAssignment()
+        {
+            var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
+            var textBlock = new TextBlock();
+            var inflatedMemberAssignment = new InflatedMemberAssignment
+            {
+                Member = Member.FromAttached<Grid>("Row"),
+                Children = new List<InflatedNode>() { new InflatedNode() { Instance = 1 } }
+            };
+
+            sut.ExecuteAssignment(inflatedMemberAssignment, textBlock);
+
+            Assert.Equal(1, Grid.GetRow(textBlock));
         }
 
         [Fact]
@@ -103,7 +119,7 @@ namespace OmniXaml.Tests.Rework2
                 }
             };
             var window = new Window();
-            Assert.Throws<ArgumentException>(() => sut.TryApply(inflatedMemberAssignment, window));
+            Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(inflatedMemberAssignment, window));
         }
     }
 }

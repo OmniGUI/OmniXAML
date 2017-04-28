@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.Rework2
             this.func = func;
         }
 
-        public void TryApply(InflatedMemberAssignment inflatedAssignment, object instance)
+        public void ExecuteAssignment(InflatedMemberAssignment inflatedAssignment, object instance)
         {
             func(inflatedAssignment, instance);
         }

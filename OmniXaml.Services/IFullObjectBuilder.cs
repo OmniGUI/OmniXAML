@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.Services
 {
-    public interface IObjectBuilder
+    public interface IFullObjectBuilder
     {
         object Build(ConstructionNode node);
     }

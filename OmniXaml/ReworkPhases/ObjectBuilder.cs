@@ -36,7 +36,7 @@
             }
 
             var children = from n in node.Children select Build(n);
-            var assignments = (from a in node.Assignments select GetInflatedMemberAssignment(a)).ToList();
+            var assignments = (from a in node.Assignments select InflateMemberAssignment(a)).ToList();
 
             var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);
             var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
@@ -54,19 +54,19 @@
             };
         }
 
-        private InflatedMemberAssignment GetInflatedMemberAssignment(MemberAssignment a)
+        private InflatedMemberAssignment InflateMemberAssignment(MemberAssignment a)
         {
             if (a.SourceValue != null)
             {
-                return FromSourceValue(a);
+                return InflateFromSourceValue(a);
             }
             else
             {
-                return FromChildren(a);
+                return InflateFromChildren(a);
             }            
         }
 
-        private InflatedMemberAssignment FromChildren(MemberAssignment a)
+        private InflatedMemberAssignment InflateFromChildren(MemberAssignment a)
         {
             return new InflatedMemberAssignment
             {
@@ -75,7 +75,7 @@
             };
         }
 
-        private InflatedMemberAssignment FromSourceValue(MemberAssignment a)
+        private InflatedMemberAssignment InflateFromSourceValue(MemberAssignment a)
         {
             var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType);
 
@@ -97,7 +97,7 @@
         {
             foreach (var inflatedMemberAssignment in assignments)
             {
-                assigmentApplier.TryApply(inflatedMemberAssignment, instance);
+                assigmentApplier.ExecuteAssignment(inflatedMemberAssignment, instance);
             }
 
         }

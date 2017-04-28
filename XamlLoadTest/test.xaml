@@ -1,0 +1,7 @@
+﻿<Window xmlns="root">
+    <ItemsControl>
+        <Button Content="Hola" Grid.Row="12" />
+        <Button Content="Hola" Grid.Row="12" />
+        <Button Content="Hola" Grid.Row="12" />
+    </ItemsControl>
+</Window>

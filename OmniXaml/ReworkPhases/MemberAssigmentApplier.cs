@@ -14,7 +14,7 @@
             this.pipeline = pipeline;
         }
 
-        public void TryApply(InflatedMemberAssignment inflatedAssignment, object instance)
+        public void ExecuteAssignment(InflatedMemberAssignment inflatedAssignment, object instance)
         {
             if (inflatedAssignment.Member.MemberType.IsCollection())
             {

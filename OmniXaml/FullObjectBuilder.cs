@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Services
+﻿namespace OmniXaml
 {
     using ReworkPhases;
 
@@ -17,7 +17,7 @@
 
         public object Build(ConstructionNode node)
         {
-            var mainBuilder = new ObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
+            var mainBuilder = new ReworkPhases.ObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
             var unresolvedFixer = new ObjectBuilderSecondPass(converter);
 
             var inflatedNode = mainBuilder.Build(node);

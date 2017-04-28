@@ -20,19 +20,19 @@ namespace OmniXaml.Tests.Rework2
         }
 
         [Fact]
-        public void NonConvertibleInstance()
+        public void NodeWithOnlyATypeShouldReturnTheProvidedInstanced()
         {
-            var textBlock = new TextBlock();
-            var creator = new FuncInstanceCreator((hints, type) => new CreationResult(textBlock));
+            var someInstance = new TextBlock();
+            var creator = new FuncInstanceCreator((hints, type) => new CreationResult(someInstance));
             var sut = new ObjectBuilder(creator, null, null);
             
             var result = sut.Build(new ConstructionNode(typeof(TextBlock)));
 
-            Assert.Equal(textBlock, result.Instance);
+            Assert.Equal(someInstance, result.Instance);
         }
 
         [Fact]
-        public void Children()
+        public void NodeWithChildrenShouldGetThemAsChildren()
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(Activator.CreateInstance(type)));
@@ -63,7 +63,7 @@ namespace OmniXaml.Tests.Rework2
         }
 
         [Fact]
-        public void Assignment()
+        public void ConstructionWithAssignmentShouldExecuteAssigmentApplier()
         {
             var textBlock = new TextBlock();
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));

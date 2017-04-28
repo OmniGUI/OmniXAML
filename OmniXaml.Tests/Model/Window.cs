@@ -3,7 +3,7 @@
     using Attributes;
 
     [Namescope]
-    internal class Window : ModelObject
+    public class Window : ModelObject
     {
         public static readonly object LoadedEvent = new object();
 
