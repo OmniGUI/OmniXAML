@@ -1,11 +1,10 @@
 ﻿namespace OmniXaml.ReworkPhases
 {
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using Rework;
 
-    public class ObjectBuilder
+    public class ObjectBuilder : IObjectAssembler
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
@@ -18,7 +17,7 @@
             this.assigmentApplier = assigmentApplier;
         }
 
-        public InflatedNode Build(ConstructionNode node)
+        public InflatedNode Assemble(ConstructionNode node)
         {
             if (node.SourceValue != null)
             {
@@ -35,7 +34,7 @@
                 };
             }
 
-            var children = from n in node.Children select Build(n);
+            var children = from n in node.Children select Assemble(n);
             var assignments = (from a in node.Assignments select InflateMemberAssignment(a)).ToList();
 
             var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);
@@ -71,7 +70,7 @@
             return new InflatedMemberAssignment
             {
                 Member = a.Member,
-                Children = (from c in a.Children select Build(c)).ToList(),
+                Children = (from c in a.Children select Assemble(c)).ToList(),
             };
         }
 

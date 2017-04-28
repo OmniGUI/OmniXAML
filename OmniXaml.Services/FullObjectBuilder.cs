@@ -20,7 +20,7 @@
             var mainBuilder = new ObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
             var unresolvedFixer = new ObjectBuilderSecondPass(converter);
 
-            var inflatedNode = mainBuilder.Build(node);
+            var inflatedNode = mainBuilder.Assemble(node);
             return unresolvedFixer.Fix(inflatedNode);
         }
     }

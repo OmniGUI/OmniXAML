@@ -15,7 +15,7 @@ namespace OmniXaml.Tests.Rework2
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
             var sut = new ObjectBuilder(null, converter, null);
-            var result = sut.Build(new ConstructionNode(typeof(int)) {SourceValue = "1"});
+            var result = sut.Assemble(new ConstructionNode(typeof(int)) {SourceValue = "1"});
             Assert.Equal(1, result.Instance);
         }
 
@@ -26,7 +26,7 @@ namespace OmniXaml.Tests.Rework2
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(someInstance));
             var sut = new ObjectBuilder(creator, null, null);
             
-            var result = sut.Build(new ConstructionNode(typeof(TextBlock)));
+            var result = sut.Assemble(new ConstructionNode(typeof(TextBlock)));
 
             Assert.Equal(someInstance, result.Instance);
         }
@@ -57,7 +57,7 @@ namespace OmniXaml.Tests.Rework2
                 }
             };
 
-            var result = sut.Build(constructionNode);
+            var result = sut.Assemble(constructionNode);
 
             Assert.Equal((IEnumerable) result.Instance, new Collection() {1, 2, 3,});
         }
@@ -87,7 +87,7 @@ namespace OmniXaml.Tests.Rework2
                }
             };
 
-            sut.Build(constructionNode);
+            sut.Assemble(constructionNode);
 
             Assert.Equal("SomeText", textBlock.Text);
         }
