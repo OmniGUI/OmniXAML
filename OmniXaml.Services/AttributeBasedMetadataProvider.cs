@@ -26,7 +26,7 @@
             return new DependencyRegistrations(regs);
         }
 
-        private DependencyRegistration GetDependencyRegistration(PropertyInfo info, DependsOnAttribute attribute)
+        private static DependencyRegistration GetDependencyRegistration(PropertyInfo info, DependsOnAttribute attribute)
         {
             return new DependencyRegistration
             {
