@@ -1,7 +1,6 @@
-﻿<Window xmlns="root">
-    <ItemsControl>
-        <Button Content="{Sample}" Grid.Row="12" />
-        <Button Content="Hola" Grid.Row="12" />
-        <Button Content="Hola" Grid.Row="12" />
-    </ItemsControl>
+﻿<Window xmlns="root" xmlns:x="special">
+    <Collection>
+        <Button x:Name="MyButton" Content="CONTENIDO"></Button>
+        <Button Height="{Reference Target=MyButton.Content}"></Button>
+    </Collection>
 </Window>

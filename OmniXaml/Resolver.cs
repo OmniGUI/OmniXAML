@@ -113,7 +113,7 @@
 
             if (candidates.Any() && !extensions.Any())
             {
-                var candidatesMessage = string.Join(",", candidates.Select(type => type.Name));
+                var candidatesMessage = string.Join(",", candidates.Select(type => $"{type.Name} ({type})"));
                 throw new TypeNotFoundException(
                     $@"Cannot find a Markup Extension for ""{typeXName}"". We found {candidates.Count}: {candidatesMessage}, but none of them is a Markup Extension.");
             }

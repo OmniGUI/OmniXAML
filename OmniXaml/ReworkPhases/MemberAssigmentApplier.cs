@@ -35,8 +35,14 @@
                 throw new InvalidOperationException($"Cannot assign multiple values to a the property {inflatedAssignment}");
             }
 
-            var value = inflatedAssignmentChildren.First().Instance;
+            var first = inflatedAssignmentChildren.First();
 
+            if (first.ConversionFailed)
+            {
+                return;
+            }
+
+            var value = first.Instance;
             SetMember(instance, inflatedAssignment.Member, value);
         }
 

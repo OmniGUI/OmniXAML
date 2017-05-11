@@ -28,7 +28,7 @@
                 return new InflatedNode
                 {
                     Instance = converted,
-                    IsConversionFailed = !isSuccesful,
+                    ConversionFailed = !isSuccesful,
                     SourceValue = node.SourceValue,
                     InstanceType = node.ActualInstanceType,
                 };
@@ -78,6 +78,8 @@
         {
             var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType);
 
+            var conversionFailed = !conversionResult.Item1;
+
             return new InflatedMemberAssignment
             {
                 Member = a.Member,
@@ -86,7 +88,8 @@
                     new InflatedNode
                     {
                         Instance = conversionResult.Item2,
-                        IsConversionFailed = conversionResult.Item1,
+                        ConversionFailed = conversionFailed,
+                        SourceValue = conversionFailed? a.SourceValue : null,
                     }
                 }
             };

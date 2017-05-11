@@ -42,7 +42,7 @@
                 return new StandardEvent(type, member);
             }
 
-            throw new XamlParserException($"No supported member {member} found on type {type}");
+            throw new XamlParserException($@"Cannot find a valid member ""{member}"" on type {type}");
         }
 
         public static Member FromAttached<T>(string memberName)

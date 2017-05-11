@@ -22,18 +22,37 @@ namespace XamlLoadTest
             var instance = LoadXaml(args.First());
             
             ShowResult(instance);
+            Console.ReadLine();
         }
 
         private static void ShowResult(object instance)
         {
-            var json = JsonConvert.SerializeObject(instance, Formatting.Indented);
-            Console.WriteLine(json);
+            Console.WriteLine($"AS JSON:\n{WriteAsJson(instance)}\n");
+            Console.WriteLine($"AS XML:\n{WriteAsXml(instance)}");
+        }
 
-
+        private static string WriteAsXml(object instance)
+        {
             var sb = new StringBuilder();
             var cc = new ConfigurationContainer();
-            cc.Create().Serialize(XmlWriter.Create(new StringWriter(sb)), instance);
-            Console.Write(sb.ToString());
+            var xmlWriterSettings = new XmlWriterSettings
+            {
+                Indent = true,
+            };
+
+            using (var xmlWriter = XmlWriter.Create(new StringWriter(sb), xmlWriterSettings))
+            {
+                cc
+                    .Create()
+                    .Serialize(xmlWriter, instance);
+            }
+
+            return sb.ToString();            
+        }
+
+        private static string WriteAsJson(object instance)
+        {
+            return JsonConvert.SerializeObject(instance, Formatting.Indented);
         }
 
         private static object LoadXaml(string file)
