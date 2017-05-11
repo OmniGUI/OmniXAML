@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Text;
+using System.Xml;
+using ExtendedXmlSerializer.Configuration;
+using Xunit.Sdk;
 
 namespace XamlLoadTest
 {
@@ -24,6 +28,12 @@ namespace XamlLoadTest
         {
             var json = JsonConvert.SerializeObject(instance, Formatting.Indented);
             Console.WriteLine(json);
+
+
+            var sb = new StringBuilder();
+            var cc = new ConfigurationContainer();
+            cc.Create().Serialize(XmlWriter.Create(new StringWriter(sb)), instance);
+            Console.Write(sb.ToString());
         }
 
         private static object LoadXaml(string file)

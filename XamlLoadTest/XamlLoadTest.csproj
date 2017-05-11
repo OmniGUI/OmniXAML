@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExtendedXmlSerializer" Version="1.5.0" />
+    <PackageReference Include="ExtendedXmlSerializer" Version="2.0.0-alpha3" />
   </ItemGroup>
 
   <ItemGroup>

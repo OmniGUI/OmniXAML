@@ -4,13 +4,13 @@
     using System.Linq;
     using Rework;
 
-    public class ObjectBuilder : IObjectAssembler
+    public class ObjectAssembler : IObjectAssembler
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
         private readonly IMemberAssigmentApplier assigmentApplier;
 
-        public ObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
+        public ObjectAssembler(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;
