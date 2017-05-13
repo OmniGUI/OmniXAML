@@ -6,7 +6,7 @@ namespace XamlLoadTest
     {
         public object GetValue(ExtensionValueContext context)
         {
-            return null;
+            return Target?.Value;
         }
 
         public ReferenceTarget Target { get; set; }

@@ -49,7 +49,6 @@
             return new InflatedNode
             {
                 Instance = instance,
-                //UnresolvedAssignments = new HashSet<InflatedMemberAssignment>(unassigned),
             };
         }
 
