@@ -22,8 +22,8 @@ namespace XamlLoadTest
                 var prop = dicotomize.Item2;
                 var target = LookupName(name, node);
                 var instance = target.Instance;
-                var value = instance.GetType().GetRuntimeProperty(prop).GetValue(instance);
-                return (true, value);
+                
+                return (true, new ReferenceTarget() { Instance = instance, PropertyName = prop});
             }
 
             return (false, null);
