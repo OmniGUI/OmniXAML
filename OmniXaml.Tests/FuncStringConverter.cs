@@ -1,4 +1,5 @@
 ﻿using System;
+using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Tests
 {
@@ -11,7 +12,7 @@ namespace OmniXaml.Tests
             this.func = func;
         }
 
-        public (bool, object) TryConvert(string strValue, Type desiredTargetType)
+        public (bool, object) TryConvert(string strValue, Type desiredTargetType, ConvertContext context)
         {
             return func(strValue);
         }

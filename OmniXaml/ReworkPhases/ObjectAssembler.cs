@@ -49,6 +49,9 @@
             return new InflatedNode
             {
                 Instance = instance,
+                Assignments  = assignments,
+                Children = children.ToList(),
+                Name = node.Name,
             };
         }
 
@@ -89,6 +92,7 @@
                         Instance = conversionResult.Item2,
                         ConversionFailed = conversionFailed,
                         SourceValue = conversionFailed? a.SourceValue : null,
+                        InstanceType = a.Member.MemberType,
                     }
                 }
             };

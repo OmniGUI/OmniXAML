@@ -11,24 +11,41 @@
             this.converter = converter;
         }
 
-        public object Fix(InflatedNode inflatedNode)
+        public void Fix(InflatedNode inflatedNode)
         {
-            //var unresolved = from u in inflatedNode.UnresolvedAssignments
-            //    from n in u.Children select n;
-            
-            //foreach (var node in unresolved)
-            //{
-            //    if (node.SourceValue != null)
-            //    {
-            //        var tryConvert = converter.TryConvert(node.SourceValue, node.InstanceType);
-            //        var converted = tryConvert.Item2;
-            //        node.Instance = converted;
-            //    }
-            //}
+            LinkChildrenToParent(inflatedNode);
 
-            //inflatedNode.UnresolvedAssignments.ApplyTo(inflatedNode.Instance);
+            if (inflatedNode.ConversionFailed)
+            {
+                var value = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});                
+            }
 
-            return inflatedNode.Instance;
+            var fromAssignments = from u in inflatedNode.Assignments
+                             from n in u.Children
+                             select n;
+
+            var fromChildren = from o in inflatedNode.Children
+                select o;
+
+            foreach (var node in fromChildren.Concat(fromAssignments))
+            {
+                Fix(node);
+            }                      
+        }
+
+        private void LinkChildrenToParent(InflatedNode parent)
+        {
+            var fromAssignments = from assignment in parent.Assignments
+                             from child in assignment.Children
+                             select child;
+
+            var fromChildren = from child in parent.Children select child;
+
+            foreach (var node in fromChildren.Concat(fromAssignments))
+            {
+                node.Parent = parent;
+                LinkChildrenToParent(node);
+            }
         }
     }
 }

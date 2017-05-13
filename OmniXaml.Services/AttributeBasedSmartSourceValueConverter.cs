@@ -1,4 +1,6 @@
-﻿namespace OmniXaml.Services
+﻿using OmniXaml.ReworkPhases;
+
+namespace OmniXaml.Services
 {
     using System;
     using System.Collections.Generic;
@@ -9,7 +11,7 @@
 
     public class AttributeBasedSmartSourceValueConverter<TInput, TOutput> : ISmartSourceValueConverter<TInput, TOutput>
     {
-        private readonly IDictionary<Type, Func<TInput, TOutput>> converterFuncs = new Dictionary<Type, Func<TInput, TOutput>>();
+        private readonly IDictionary<Type, Func<TInput, ConvertContext, (bool, TOutput)>> converterFuncs = new Dictionary<Type, Func<TInput, ConvertContext, (bool, TOutput)>>();
 
         public AttributeBasedSmartSourceValueConverter(IList<Assembly> assemblies)
         {
@@ -29,19 +31,21 @@
             foreach (var converterEntry in converterEntries)
             {
                 var staticFieldValue = converterEntry.member.GetValue(null);
-                var converterFunc = (Func<TInput, TOutput>)staticFieldValue;
+                var converterFunc = (Func<TInput, ConvertContext, (bool, TOutput)>)staticFieldValue;
                 converterFuncs.Add(converterEntry.SourceType, converterFunc);
             }
         }
 
-        public (bool, object) TryConvert(TInput input, Type desiredTargetType)
+        public (bool, object) TryConvert(TInput input, Type desiredTargetType, ConvertContext context)
         {
             if (converterFuncs.ContainsKey(desiredTargetType))
             {
-                return (true, converterFuncs[desiredTargetType](input));
+                return converterFuncs[desiredTargetType](input, context);
             }
 
             return (false, null);
         }
     }
+
+ 
 }

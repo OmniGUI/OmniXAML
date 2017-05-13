@@ -1,14 +1,15 @@
-﻿namespace OmniXaml.Rework
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
+namespace OmniXaml.Rework
+{
     public class SmartSourceValueConverter : IStringSourceValueConverter
     {
-        private readonly IEnumerable<IStringSourceValueConverter> converters = new List<IStringSourceValueConverter>() { new TypeConverterSourceValueConverter() };
+        private readonly IEnumerable<IStringSourceValueConverter> converters =
+            new List<IStringSourceValueConverter> {new TypeConverterSourceValueConverter()};
 
-        public (bool, object) TryConvert(string strValue, Type desiredTargetType)
+        public (bool, object) TryConvert(string strValue, Type desiredTargetType, ConvertContext context = null)
         {
             var results = from c in converters
                 let r = c.TryConvert(strValue, desiredTargetType)
@@ -17,9 +18,8 @@
 
             if (results.Any())
             {
-                return (true, results.First().Item2);
+                return (true, results.First().Item2);                
             }
-
             return (false, null);
         }
     }

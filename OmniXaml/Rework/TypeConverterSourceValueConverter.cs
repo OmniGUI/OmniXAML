@@ -1,3 +1,5 @@
+using OmniXaml.ReworkPhases;
+
 namespace OmniXaml.Rework
 {
     using System;
@@ -8,7 +10,7 @@ namespace OmniXaml.Rework
     {
         private static readonly Type StringType = typeof(string);
 
-        public (bool, object) TryConvert(string strValue, Type targetType)
+        public (bool, object) TryConvert(string strValue, Type targetType, ConvertContext context)
         {
             object converted = null;
 

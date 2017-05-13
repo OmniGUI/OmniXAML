@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OmniXaml.ReworkPhases
 {
@@ -8,6 +9,10 @@ namespace OmniXaml.ReworkPhases
         public string SourceValue { get; set; }
         public Type InstanceType { get; set; }
         public object Instance { get; set; }
+        public List<InflatedMemberAssignment> Assignments { get; set; } = new List<InflatedMemberAssignment>();
+        public IEnumerable<InflatedNode> Children { get; set; } = new List<InflatedNode>();
+        public string Name { get; set; }
+        public InflatedNode Parent { get; set; }
 
         protected bool Equals(InflatedNode other)
         {
