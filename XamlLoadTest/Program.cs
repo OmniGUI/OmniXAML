@@ -2,7 +2,6 @@
 using System.Text;
 using System.Xml;
 using ExtendedXmlSerializer.Configuration;
-using Xunit.Sdk;
 
 namespace XamlLoadTest
 {

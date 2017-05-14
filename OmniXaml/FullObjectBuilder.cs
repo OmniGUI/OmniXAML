@@ -18,7 +18,7 @@
         public object Build(ConstructionNode node)
         {
             var mainBuilder = new ObjectAssembler(instanceCreator, converter, memberAssigmentApplier);
-            var unresolvedFixer = new ObjectBuilderSecondPass(converter);
+            var unresolvedFixer = new ObjectBuilderSecondPass(converter, memberAssigmentApplier);
 
             var inflatedNode = mainBuilder.Assemble(node);
             unresolvedFixer.Fix(inflatedNode);

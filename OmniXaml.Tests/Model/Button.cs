@@ -8,6 +8,11 @@ namespace OmniXaml.Tests.Model
 {
     public class Button : ModelObject
     {
+        public Button()
+        {
+            
+        }
+
         public event EventHandler Click;
 
         public void ClickButton()

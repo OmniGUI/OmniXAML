@@ -34,7 +34,7 @@
                 };
             }
 
-            var children = from n in node.Children select Assemble(n);
+            var children = (from n in node.Children select Assemble(n)).ToList();
             var assignments = (from a in node.Assignments select InflateMemberAssignment(a)).ToList();
 
             var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);

@@ -1,6 +1,6 @@
 ﻿<Window xmlns="root" xmlns:x="special">
     <Collection>
-        <Button x:Name="MyButton" Content="CONTENIDO"></Button>
-        <Button Content="{Reference Target=MyButton.Content}"></Button>
+        <Button x:Name="MyButton" Content="CONTENIDO" Height="100"></Button>
+        <Button Height="{Reference Target=MyButton.Height}"></Button>
     </Collection>
 </Window>

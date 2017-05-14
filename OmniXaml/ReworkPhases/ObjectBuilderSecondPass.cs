@@ -1,14 +1,18 @@
-﻿namespace OmniXaml.ReworkPhases
+﻿using System.Collections.Generic;
+
+namespace OmniXaml.ReworkPhases
 {
     using System.Linq;
 
     public class ObjectBuilderSecondPass
     {
         private readonly IStringSourceValueConverter converter;
+        private readonly IMemberAssigmentApplier assigmentApplier;
 
-        public ObjectBuilderSecondPass(IStringSourceValueConverter converter)
+        public ObjectBuilderSecondPass(IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
         {
             this.converter = converter;
+            this.assigmentApplier = assigmentApplier;
         }
 
         public void Fix(InflatedNode inflatedNode)
@@ -17,7 +21,9 @@
 
             if (inflatedNode.ConversionFailed)
             {
-                var value = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});                
+                var convertResult = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});
+
+                FixAssignment(inflatedNode, convertResult.Item2);                
             }
 
             var fromAssignments = from u in inflatedNode.Assignments
@@ -31,6 +37,25 @@
             {
                 Fix(node);
             }                      
+        }
+
+        private void FixAssignment(InflatedNode inflatedNode, object value)
+        {
+            var assignmentToFix = inflatedNode.Parent.Assignments.SingleOrDefault(ma => ma.Children.Contains(inflatedNode));
+
+            if (assignmentToFix == null)
+            {
+                return;
+            }
+
+            var childNode = assignmentToFix.Children.First();
+
+            childNode.Instance = value;
+            childNode.ConversionFailed = false;
+
+            assigmentApplier.ExecuteAssignment(assignmentToFix, inflatedNode.Parent.Instance);
+
+            FixAssignment(inflatedNode.Parent, inflatedNode.Parent.Instance);
         }
 
         private void LinkChildrenToParent(InflatedNode parent)

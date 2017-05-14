@@ -37,12 +37,13 @@
 
             var first = inflatedAssignmentChildren.First();
 
-            if (first.ConversionFailed)
+            if (first.ContainsFailedConversion)
             {
                 return;
             }
 
             var value = first.Instance;
+
             SetMember(instance, inflatedAssignment.Member, value);
         }
 

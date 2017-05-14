@@ -18,7 +18,6 @@ namespace XamlLoadTest
                 var assignment = new Assignment(keyedInstance, member, mutable.Value);
                 var finalValue = extension.GetValue(new ExtensionValueContext(assignment, null, null, null));
                 mutable.Value = finalValue;
-                mutable.Handled = true;
             }
         }
     }
