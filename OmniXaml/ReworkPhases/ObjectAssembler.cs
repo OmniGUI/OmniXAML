@@ -72,7 +72,7 @@
             return new InflatedMemberAssignment
             {
                 Member = a.Member,
-                Children = (from c in a.Children select Assemble(c)).ToList(),
+                Values = (from c in a.Children select Assemble(c)).ToList(),
             };
         }
 
@@ -85,7 +85,7 @@
             return new InflatedMemberAssignment
             {
                 Member = a.Member,
-                Children = new List<InflatedNode>
+                Values = new List<InflatedNode>
                 {
                     new InflatedNode
                     {

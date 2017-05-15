@@ -28,7 +28,7 @@
 
         private void AssignSingleValue(InflatedMemberAssignment inflatedAssignment, object instance)
         {
-            var inflatedAssignmentChildren = inflatedAssignment.Children.ToList();
+            var inflatedAssignmentChildren = inflatedAssignment.Values.ToList();
 
             if (inflatedAssignmentChildren.Count > 1)
             {
@@ -37,7 +37,7 @@
 
             var first = inflatedAssignmentChildren.First();
 
-            if (first.ContainsFailedConversion)
+            if (first.ContainsFailedConversion())
             {
                 return;
             }
@@ -62,7 +62,7 @@
         private static void AssignCollection(InflatedMemberAssignment inflatedAssignment, object instance)
         {
             var parent = inflatedAssignment.Member.GetValue(instance);
-            var children = from n in inflatedAssignment.Children select n.Instance;
+            var children = from n in inflatedAssignment.Values select n.Instance;
             foreach (var child in children)
             {
                 Collection.UniversalAdd(parent, child);

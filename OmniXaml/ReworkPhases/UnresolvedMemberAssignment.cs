@@ -4,7 +4,7 @@
 
     public class UnresolvedMemberAssignment : IMemberAssignment<InflatedNode>
     {
-        public IEnumerable<InflatedNode> Children { get; set; }
+        public IEnumerable<InflatedNode> Values { get; set; }
         public Member Member { get; set; }
     }
 }

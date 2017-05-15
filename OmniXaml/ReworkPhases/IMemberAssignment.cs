@@ -5,6 +5,6 @@ namespace OmniXaml.ReworkPhases
     public interface IMemberAssignment<T> where T : IInstanceHolder
     {
         Member Member { get; set; }
-        IEnumerable<T> Children { get; set; }
+        IEnumerable<T> Values { get; set; }
     }
 }

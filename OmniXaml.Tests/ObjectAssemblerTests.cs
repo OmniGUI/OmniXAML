@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using OmniXaml.ReworkPhases;
 using OmniXaml.Tests.Model;
 using Xunit;
 
@@ -13,7 +14,7 @@ namespace OmniXaml.Tests
         public void SourceValue()
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
-            var sut = new ReworkPhases.ObjectAssembler(null, converter, null);
+            var sut = new ObjectAssembler(null, converter, null);
             var result = sut.Assemble(new ConstructionNode(typeof(int)) {SourceValue = "1"});
             Assert.Equal(1, result.Instance);
         }
@@ -23,7 +24,7 @@ namespace OmniXaml.Tests
         {
             var someInstance = new TextBlock();
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(someInstance));
-            var sut = new ReworkPhases.ObjectAssembler(creator, null, null);
+            var sut = new ObjectAssembler(creator, null, null);
             
             var result = sut.Assemble(new ConstructionNode(typeof(TextBlock)));
 
@@ -35,7 +36,7 @@ namespace OmniXaml.Tests
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(Activator.CreateInstance(type)));
-            var sut = new ReworkPhases.ObjectAssembler(creator, converter, null);
+            var sut = new ObjectAssembler(creator, converter, null);
 
             var constructionNode = new ConstructionNode(typeof(Collection))
             {
@@ -68,10 +69,9 @@ namespace OmniXaml.Tests
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
 
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(textBlock));
-            var sut = new ReworkPhases.ObjectAssembler(creator, converter, new FuncAssignmentApplier((assignment, i) =>
+            var sut = new ObjectAssembler(creator, converter, new FuncAssignmentApplier((assignment, i) =>
             {
-                assignment.Member.SetValue(i, assignment.Children.First().Instance);
-                return true;
+                assignment.Member.SetValue(i, assignment.Values.First().Instance);
             }));
 
             var constructionNode = new ConstructionNode(typeof(TextBlock))

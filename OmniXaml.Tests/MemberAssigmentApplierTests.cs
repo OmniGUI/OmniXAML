@@ -16,7 +16,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                Children = new List<InflatedNode>()
+                Values = new List<InflatedNode>()
                 {
                     new InflatedNode()
                     {
@@ -40,7 +40,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
-                Children = new List<InflatedNode>()
+                Values = new List<InflatedNode>()
                 {
                     new InflatedNode
                     {
@@ -69,7 +69,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                Children = new List<InflatedNode>()
+                Values = new List<InflatedNode>()
                 {
                     new InflatedNode()
                     {
@@ -92,7 +92,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromAttached<Grid>("Row"),
-                Children = new List<InflatedNode>() { new InflatedNode() { Instance = 1 } }
+                Values = new List<InflatedNode>() { new InflatedNode() { Instance = 1 } }
             };
 
             sut.ExecuteAssignment(inflatedMemberAssignment, textBlock);
@@ -107,7 +107,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<Window>(w => w.Height),
-                Children = new List<InflatedNode>
+                Values = new List<InflatedNode>
                 {
                     new InflatedNode
                     {

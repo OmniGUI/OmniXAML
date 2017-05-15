@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OmniXaml.ReworkPhases
 {
@@ -8,8 +7,6 @@ namespace OmniXaml.ReworkPhases
     {
         public bool ConversionFailed { get; set; }
 
-        public bool ContainsFailedConversion => this.ConversionFailed ||
-                                                Assignments.SelectMany(assignment => assignment.Children).Any(node => node.ContainsFailedConversion);
         public string SourceValue { get; set; }
         public Type InstanceType { get; set; }
         public object Instance { get; set; }

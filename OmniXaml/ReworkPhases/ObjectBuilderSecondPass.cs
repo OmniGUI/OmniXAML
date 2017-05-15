@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace OmniXaml.ReworkPhases
 {
@@ -18,37 +18,58 @@ namespace OmniXaml.ReworkPhases
         public void Fix(InflatedNode inflatedNode)
         {
             LinkChildrenToParent(inflatedNode);
+            FixNode(inflatedNode);
+        }
 
-            if (inflatedNode.ConversionFailed)
+        public void FixNode(InflatedNode inflatedNode)
+        {
+            foreach (var assignment in inflatedNode.Assignments)
             {
-                var convertResult = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});
-
-                FixAssignment(inflatedNode, convertResult.Item2);                
+                FixAssignmentAbstract(assignment);
             }
 
-            var fromAssignments = from u in inflatedNode.Assignments
-                             from n in u.Children
-                             select n;
+            //if (inflatedNode.ConversionFailed)
+            //{
+            //    var convertResult = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});
 
-            var fromChildren = from o in inflatedNode.Children
-                select o;
+            //    FixAssignment(inflatedNode, convertResult.Item2);                
+            //}
 
-            foreach (var node in fromChildren.Concat(fromAssignments))
+            //var fromAssignments = from u in inflatedNode.Assignments
+            //                 from n in u.Children
+            //                 select n;
+
+            //var fromChildren = from o in inflatedNode.Children
+            //    select o;
+
+            //foreach (var node in fromChildren.Concat(fromAssignments))
+            //{
+            //    FixNode(node);
+            //}                      
+        }
+
+        private void FixAssignmentAbstract(InflatedMemberAssignment assignment)
+        {
+            foreach (var n in assignment.Values)
             {
-                Fix(node);
-            }                      
+                FixNodeFromAssignment(n, assignment);
+            }
+        }
+
+        private void FixNodeFromAssignment(InflatedNode inflatedNode, InflatedMemberAssignment assignment)
+        {            
         }
 
         private void FixAssignment(InflatedNode inflatedNode, object value)
         {
-            var assignmentToFix = inflatedNode.Parent.Assignments.SingleOrDefault(ma => ma.Children.Contains(inflatedNode));
+            var assignmentToFix = inflatedNode.Parent.Assignments.SingleOrDefault(ma => ma.Values.Contains(inflatedNode));
 
             if (assignmentToFix == null)
             {
                 return;
             }
 
-            var childNode = assignmentToFix.Children.First();
+            var childNode = assignmentToFix.Values.First();
 
             childNode.Instance = value;
             childNode.ConversionFailed = false;
@@ -61,7 +82,7 @@ namespace OmniXaml.ReworkPhases
         private void LinkChildrenToParent(InflatedNode parent)
         {
             var fromAssignments = from assignment in parent.Assignments
-                             from child in assignment.Children
+                             from child in assignment.Values
                              select child;
 
             var fromChildren = from child in parent.Children select child;
