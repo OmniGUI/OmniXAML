@@ -5,19 +5,26 @@ namespace OmniXaml.ReworkPhases
 {
     public class InflatedNode : IInstanceHolder
     {
-        public bool ConversionFailed { get; set; }
-
+        public InflatedMemberAssignment ParentAssignment { get; set; }
+        public InflatedNode ParentCollection { get; set; }
+        public bool IsPendingCreate { get; set; }
         public string SourceValue { get; set; }
         public Type InstanceType { get; set; }
         public object Instance { get; set; }
-        public List<InflatedMemberAssignment> Assignments { get; set; } = new List<InflatedMemberAssignment>();
-        public IEnumerable<InflatedNode> Children { get; set; } = new List<InflatedNode>();
+        public AssignmentCollection Assignments { get; }
+        public ChildCollection Children { get; } 
         public string Name { get; set; }
-        public InflatedNode Parent { get; set; }
+        public InflatedNode Parent => ParentAssignment?.Parent ?? ParentCollection;
+
+        public InflatedNode()
+        {
+            Assignments = new AssignmentCollection(this);
+            Children = new ChildCollection(this);
+        }
 
         protected bool Equals(InflatedNode other)
         {
-            return Equals(Instance, other.Instance) && ConversionFailed == other.ConversionFailed &&
+            return Equals(Instance, other.Instance) && IsPendingCreate == other.IsPendingCreate &&
                    string.Equals(SourceValue, other.SourceValue) && Equals(InstanceType, other.InstanceType);
         }
 
@@ -35,7 +42,7 @@ namespace OmniXaml.ReworkPhases
             unchecked
             {
                 var hashCode = Instance != null ? Instance.GetHashCode() : 0;
-                hashCode = (hashCode * 397) ^ ConversionFailed.GetHashCode();
+                hashCode = (hashCode * 397) ^ IsPendingCreate.GetHashCode();
                 hashCode = (hashCode * 397) ^ (SourceValue != null ? SourceValue.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (InstanceType != null ? InstanceType.GetHashCode() : 0);
                 return hashCode;

@@ -12,26 +12,26 @@ namespace OmniXaml.Tests
         [Fact]
         public void FixNode()
         {
-            var tree = new InflatedNode()
+            var textBlock = new TextBlock();
+
+            var tree = new InflatedNode
             {
-                Instance = new TextBlock(),
-                Assignments = new List<InflatedMemberAssignment>
+                Instance = textBlock,                
+            }.WithAssignments(new List<InflatedMemberAssignment>
+            {
+                new InflatedMemberAssignment
                 {
-                    new InflatedMemberAssignment
+                    Member = Member.FromStandard<TextBlock>(block => block.Text),                    
+                }.WithValues(new List<InflatedNode>
+                {
+                    new InflatedNode
                     {
-                        Member = Member.FromStandard<TextBlock>(block => block.Text),
-                        Values = new List<InflatedNode>
-                        {
-                            new InflatedNode
-                            {
-                                Instance = null,
-                                SourceValue = "Hola",
-                                ConversionFailed = true,
-                            }
-                        }
+                        Instance = null,
+                        SourceValue = "Hola",
+                        IsPendingCreate = true,
                     }
-                }
-            };
+                })
+            });
 
             var sut = new ObjectBuilderSecondPass(new FuncStringConverter(s => (true, s)), new FuncAssignmentApplier(
                 (assignment, o) =>
@@ -41,6 +41,8 @@ namespace OmniXaml.Tests
                 }));
 
             sut.Fix(tree);
+
+            Assert.Equal("Hola", ((TextBlock)tree.Instance).Text);
         }
     }
 }

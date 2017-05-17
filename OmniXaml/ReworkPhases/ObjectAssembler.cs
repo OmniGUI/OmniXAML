@@ -28,7 +28,7 @@
                 return new InflatedNode
                 {
                     Instance = converted,
-                    ConversionFailed = !isSuccesful,
+                    IsPendingCreate = !isSuccesful,
                     SourceValue = node.SourceValue,
                     InstanceType = node.ActualInstanceType,
                 };
@@ -46,13 +46,14 @@
 
             children.AssociateTo(instance);
 
-            return new InflatedNode
-            {
-                Instance = instance,
-                Assignments  = assignments,
-                Children = children.ToList(),
-                Name = node.Name,
-            };
+            var inflatedNode = new InflatedNode
+                {
+                    Instance = instance,
+                    Name = node.Name,
+                }.WithAssignments(assignments)
+                .WithChildren(children);
+
+            return inflatedNode;
         }
 
         private InflatedMemberAssignment InflateMemberAssignment(MemberAssignment a)
@@ -72,8 +73,8 @@
             return new InflatedMemberAssignment
             {
                 Member = a.Member,
-                Values = (from c in a.Children select Assemble(c)).ToList(),
-            };
+                
+            }.WithValues((from c in a.Children select Assemble(c)).ToList());
         }
 
         private InflatedMemberAssignment InflateFromSourceValue(MemberAssignment a)
@@ -84,18 +85,17 @@
 
             return new InflatedMemberAssignment
             {
-                Member = a.Member,
-                Values = new List<InflatedNode>
+                Member = a.Member,                
+            }.WithValues(new List<InflatedNode>
+            {
+                new InflatedNode
                 {
-                    new InflatedNode
-                    {
-                        Instance = conversionResult.Item2,
-                        ConversionFailed = conversionFailed,
-                        SourceValue = conversionFailed? a.SourceValue : null,
-                        InstanceType = a.Member.MemberType,
-                    }
+                    Instance = conversionResult.Item2,
+                    IsPendingCreate = conversionFailed,
+                    SourceValue = conversionFailed? a.SourceValue : null,
+                    InstanceType = a.Member.MemberType,
                 }
-            };
+            });
         }
 
         private void ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)

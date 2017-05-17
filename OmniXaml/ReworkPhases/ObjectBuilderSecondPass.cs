@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Linq;
 
 namespace OmniXaml.ReworkPhases
 {
-    using System.Linq;
-
     public class ObjectBuilderSecondPass
     {
         private readonly IStringSourceValueConverter converter;
@@ -17,81 +16,51 @@ namespace OmniXaml.ReworkPhases
 
         public void Fix(InflatedNode inflatedNode)
         {
-            LinkChildrenToParent(inflatedNode);
-            FixNode(inflatedNode);
-        }
-
-        public void FixNode(InflatedNode inflatedNode)
-        {
-            foreach (var assignment in inflatedNode.Assignments)
-            {
-                FixAssignmentAbstract(assignment);
-            }
-
-            //if (inflatedNode.ConversionFailed)
+            //if (inflatedNode.IsPendingCreate)
             //{
-            //    var convertResult = converter.TryConvert(inflatedNode.SourceValue, inflatedNode.InstanceType, new ConvertContext() { Node = inflatedNode});
-
-            //    FixAssignment(inflatedNode, convertResult.Item2);                
+            //    Create(inflatedNode);
             //}
 
-            //var fromAssignments = from u in inflatedNode.Assignments
-            //                 from n in u.Children
-            //                 select n;
-
-            //var fromChildren = from o in inflatedNode.Children
-            //    select o;
-
-            //foreach (var node in fromChildren.Concat(fromAssignments))
-            //{
-            //    FixNode(node);
-            //}                      
-        }
-
-        private void FixAssignmentAbstract(InflatedMemberAssignment assignment)
-        {
-            foreach (var n in assignment.Values)
+            foreach (var assignment in inflatedNode.Assignments)
             {
-                FixNodeFromAssignment(n, assignment);
+                foreach (var node in assignment.Values)
+                {
+                    Fix(node, assignment);
+                }
             }
+
+            foreach (var inflatedNodeChild in inflatedNode.Children)
+            {
+                Fix(inflatedNodeChild);
+            }            
         }
 
-        private void FixNodeFromAssignment(InflatedNode inflatedNode, InflatedMemberAssignment assignment)
+        private void Create(InflatedNode inflatedNode)
         {            
         }
 
-        private void FixAssignment(InflatedNode inflatedNode, object value)
+        private void Fix(InflatedNode inflatedNode, InflatedMemberAssignment assignment)
         {
-            var assignmentToFix = inflatedNode.Parent.Assignments.SingleOrDefault(ma => ma.Values.Contains(inflatedNode));
+            Fix(inflatedNode);
 
-            if (assignmentToFix == null)
+            if (inflatedNode.IsPendingCreate)
             {
-                return;
+                var convertResult = converter.TryConvert(inflatedNode.SourceValue, assignment.Member.MemberType);
+                FixNode(assignment, convertResult.Item2);
+                ReapplyAssignment(assignment, inflatedNode.Parent.Instance);
             }
-
-            var childNode = assignmentToFix.Values.First();
-
-            childNode.Instance = value;
-            childNode.ConversionFailed = false;
-
-            assigmentApplier.ExecuteAssignment(assignmentToFix, inflatedNode.Parent.Instance);
-
-            FixAssignment(inflatedNode.Parent, inflatedNode.Parent.Instance);
         }
 
-        private void LinkChildrenToParent(InflatedNode parent)
+        private void ReapplyAssignment(InflatedMemberAssignment assignment, object instance)
         {
-            var fromAssignments = from assignment in parent.Assignments
-                             from child in assignment.Values
-                             select child;
+            assigmentApplier.ExecuteAssignment(assignment, instance);
+        }
 
-            var fromChildren = from child in parent.Children select child;
-
-            foreach (var node in fromChildren.Concat(fromAssignments))
-            {
-                node.Parent = parent;
-                LinkChildrenToParent(node);
-            }
+        private void FixNode(InflatedMemberAssignment assignment, object instance)
+        {
+            var nodeToFix = assignment.Values.First();
+            nodeToFix.IsPendingCreate = false;
+            nodeToFix.Instance = instance;               
         }
     }
 }

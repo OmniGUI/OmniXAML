@@ -16,19 +16,19 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                Values = new List<InflatedNode>()
-                {
-                    new InflatedNode()
-                    {
-                        Instance = "SomeText",
-                    },
-                    new InflatedNode()
-                    {
-                        Instance = "SomeText",
-                    }
-                },
+                
 
-            };
+            }.WithValues(new List<InflatedNode>
+            {
+                new InflatedNode
+                {
+                    Instance = "SomeText",
+                },
+                new InflatedNode
+                {
+                    Instance = "SomeText",
+                }
+            });
 
             Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(inflatedMemberAssignment, null));
         }
@@ -39,20 +39,18 @@ namespace OmniXaml.Tests
             var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
-                Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
-                Values = new List<InflatedNode>()
+                Member = Member.FromStandard<ItemsControl>(tb => tb.Items),              
+            }.WithValues(new List<InflatedNode>()
+            {
+                new InflatedNode
                 {
-                    new InflatedNode
-                    {
-                        Instance = "A",
-                    },
-                    new InflatedNode
-                    {
-                        Instance = "B",
-                    }
+                    Instance = "A",
                 },
-
-            };
+                new InflatedNode
+                {
+                    Instance = "B",
+                }
+            });
 
             var itemsControl = new ItemsControl();
 
@@ -69,15 +67,15 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                Values = new List<InflatedNode>()
-                {
-                    new InflatedNode()
-                    {
-                        Instance = "SomeText",
-                    }
-                },
 
-            };
+
+            }.WithValues(new List<InflatedNode>
+            {
+                new InflatedNode
+                {
+                    Instance = "SomeText",
+                }
+            });
 
             sut.ExecuteAssignment(inflatedMemberAssignment, textBlock);
 
@@ -92,8 +90,7 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromAttached<Grid>("Row"),
-                Values = new List<InflatedNode>() { new InflatedNode() { Instance = 1 } }
-            };
+            }.WithValues(new List<InflatedNode>() { new InflatedNode() { Instance = 1 } });
 
             sut.ExecuteAssignment(inflatedMemberAssignment, textBlock);
 
@@ -107,14 +104,13 @@ namespace OmniXaml.Tests
             var inflatedMemberAssignment = new InflatedMemberAssignment
             {
                 Member = Member.FromStandard<Window>(w => w.Height),
-                Values = new List<InflatedNode>
+            }.WithValues(new List<InflatedNode>
+            {
+                new InflatedNode
                 {
-                    new InflatedNode
-                    {
-                        Instance = "12.5",
-                    },
-                }
-            };
+                    Instance = "12.5",
+                },
+            });
             var window = new Window();
             Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(inflatedMemberAssignment, window));
         }

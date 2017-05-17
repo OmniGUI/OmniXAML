@@ -1,12 +1,17 @@
-﻿namespace OmniXaml.ReworkPhases
-{
-    using System.Collections.Generic;
-    using Zafiro.Core;
+﻿using Zafiro.Core;
 
-    public class InflatedMemberAssignment : IMemberAssignment<InflatedNode>
+namespace OmniXaml.ReworkPhases
+{
+    public class InflatedMemberAssignment : IMemberAssignment
     {
+        public InflatedMemberAssignment()
+        {
+            Values = new ValueCollection(this);
+        }
+
+        public InflatedNode Parent { get; set; }
         public Member Member { get; set; }
-        public IEnumerable<InflatedNode> Values { get; set; } = new List<InflatedNode>();
+        public ValueCollection Values { get; }
 
         public override string ToString()
         {
