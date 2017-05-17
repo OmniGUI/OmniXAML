@@ -2,6 +2,6 @@
 {
     public interface IObjectAssembler
     {
-        void Assemble(ConstructionNode node);
+        void Assemble(ConstructionNode node, ConstructionNode parent = null);
     }
 }

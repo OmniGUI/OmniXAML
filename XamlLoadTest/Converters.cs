@@ -18,9 +18,12 @@ namespace XamlLoadTest
                 var name = dicotomize.Item1;
                 var prop = dicotomize.Item2;
                 var target = LookupName(name, node);
-                var instance = target.Instance;
-                
-                return (true, new ReferenceTarget() { Instance = instance, PropertyName = prop});
+
+                if (target != null)
+                {
+                    var instance = target.Instance;
+                    return (true, new ReferenceTarget() { Instance = instance, PropertyName = prop });
+                }                
             }
 
             return (false, null);

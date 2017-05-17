@@ -20,8 +20,10 @@ namespace OmniXaml.ReworkPhases
             this.assigmentApplier = assigmentApplier;
         }
 
-        public void Assemble(ConstructionNode node)
+        public void Assemble(ConstructionNode node, ConstructionNode parent = null)
         {
+            node.Parent = parent;
+
             if (node.IsCreated)
             {
                 return;
@@ -42,12 +44,12 @@ namespace OmniXaml.ReworkPhases
         {
             foreach (var a in node.Assignments)
             {
-                InflateAssignment(a);
+                InflateAssignment(a, node);
             }
 
             foreach (var c in node.Children)
             {
-                Assemble(c);
+                Assemble(c, node);
             }
 
             if (CanBeCreated(node))
@@ -55,7 +57,7 @@ namespace OmniXaml.ReworkPhases
                 CreateInstance(node);
                 ApplyAssignments(node);
                 AttachChildren(node);
-            }          
+            }
         }
 
         private void AttachChildren(ConstructionNode node)
@@ -65,7 +67,7 @@ namespace OmniXaml.ReworkPhases
             foreach (var c in children)
             {
                 Collection.UniversalAdd(node.Instance, c);
-            }            
+            }
         }
 
         private void ApplyAssignments(ConstructionNode node)
@@ -76,15 +78,15 @@ namespace OmniXaml.ReworkPhases
             }
         }
 
-        private void InflateAssignment(MemberAssignment memberAssignment)
+        private void InflateAssignment(MemberAssignment memberAssignment, ConstructionNode node)
         {
             if (memberAssignment.SourceValue != null)
             {
-                InflateFromSourceValue(memberAssignment);
+                InflateFromSourceValue(memberAssignment, node);
             }
             else
             {
-                InflateFromChildren(memberAssignment);
+                InflateFromChildren(memberAssignment, node);
             }
         }
 
@@ -106,7 +108,7 @@ namespace OmniXaml.ReworkPhases
 
         private void CreateLeafNode(ConstructionNode node)
         {
-            var tryConvert = converter.TryConvert(node.SourceValue, node.ActualInstanceType);
+            var tryConvert = converter.TryConvert(node.SourceValue, node.ActualInstanceType, new ConvertContext() { Node = node });
 
             node.Instance = tryConvert.Item2;
             node.IsCreated = tryConvert.Item1;
@@ -114,17 +116,17 @@ namespace OmniXaml.ReworkPhases
             node.InstanceType = node.ActualInstanceType;
         }
 
-        private void InflateFromChildren(MemberAssignment a)
+        private void InflateFromChildren(MemberAssignment a, ConstructionNode constructionNode)
         {
             foreach (var node in a.Values)
             {
-                Assemble(node);
-            }            
+                Assemble(node, constructionNode);
+            }
         }
 
-        private void InflateFromSourceValue(MemberAssignment a)
+        private void InflateFromSourceValue(MemberAssignment a, ConstructionNode node)
         {
-            var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType);
+            var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType, new ConvertContext() { Node = node, });
 
             a.Values = new List<ConstructionNode>
             {
@@ -132,6 +134,7 @@ namespace OmniXaml.ReworkPhases
                 {
                     Instance = conversionResult.Item2,
                     IsCreated = conversionResult.Item1,
+                    Parent = node,
                 }
             };
         }
