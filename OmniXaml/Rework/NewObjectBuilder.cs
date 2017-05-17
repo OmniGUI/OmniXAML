@@ -28,7 +28,7 @@ namespace OmniXaml.Rework
             IEnumerable<NewInjectableMember> members = GetInjectables(inflateAssignments);
 
             var positionals =
-                from positional in constructionNode.PositionalParameter
+                from positional in constructionNode.PositionalParameters
                 select new PositionalParameter(positional);
 
             var children = InflateChildren(constructionNode).ToList();
@@ -136,9 +136,9 @@ namespace OmniXaml.Rework
         {
             var instantiatedAssignments =
                 from a in assignments
-                where a.Children.Any()
-                let children = from child in a.Children select Inflate(child)
-                from ct in a.Children
+                where a.Values.Any()
+                let children = from child in a.Values select Inflate(child)
+                from ct in a.Values
                 let inflate = Inflate(ct)
                 select new InflatedAssignment
                 {

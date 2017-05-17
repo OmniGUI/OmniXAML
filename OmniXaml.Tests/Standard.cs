@@ -16,7 +16,7 @@ namespace OmniXaml.Tests
                 {
                     new MemberAssignment
                     {
-                        Children = nodes,
+                        Values = nodes,
                         Member = Member.FromAttached<VisualStateManager>("VisualStateGroups")
                     }
                 }
@@ -127,7 +127,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
-                        Children = items
+                        Values = items
                     }
                 }
             };
@@ -152,7 +152,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<ItemsControl>(tb => tb.Items),
-                        Children = new[] {extensionNode}
+                        Values = new[] {extensionNode}
                     }
                 }
             };
@@ -186,7 +186,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                        Children = new[] {constructionNode}
+                        Values = new[] {constructionNode}
                     }
                 }
             };
@@ -206,7 +206,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(w => w.Content),
-                        Children = new List<ConstructionNode>()
+                        Values = new List<ConstructionNode>()
                         {
                             new ConstructionNode(typeof(TextBlock))
                             {

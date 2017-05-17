@@ -71,7 +71,7 @@
                 yield return new MemberAssignment
                 {
                     Member = Member.FromStandard(type, contentProperty),
-                    Children = propertyElementsList.Select(e => createFunc(e, annotator)).ToList()
+                    Values = propertyElementsList.Select(e => createFunc(e, annotator)).ToList()
                 };
             }
             else
@@ -116,7 +116,7 @@
                 throw new Exception("Cannot have a direct value and child nodes at the same time");
             }
 
-            return new MemberAssignment {Member = member, Children = children, SourceValue = directValue};
+            return new MemberAssignment {Member = member, Values = children, SourceValue = directValue};
         }
 
         private static string GetDirectValue(XContainer node)
@@ -157,7 +157,7 @@
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value, prefix => GetNamespaceFromPrefix(attribute, prefix));
-                return new MemberAssignment {Member = property, Children = new[] {constructionNode}};
+                return new MemberAssignment {Member = property, Values = new[] {constructionNode}};
             }
 
             var assignment = new MemberAssignment

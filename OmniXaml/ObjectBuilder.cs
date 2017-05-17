@@ -81,7 +81,7 @@
             var instanceType = node.InstantiateAs ?? node.InstanceType;
 
             var instance = creator.Create(instanceType, buildContext,
-                node.PositionalParameter.Select(s => new InjectableMember(s)));
+                node.PositionalParameters.Select(s => new InjectableMember(s)));
             NotifyNewInstance(buildContext, instance);
 
             if (node.Name != null)
@@ -144,7 +144,7 @@
         {
             EnsureValidAssigment(assignment);
 
-            if (assignment.Children.Count() == 1 || assignment.SourceValue != null)
+            if (assignment.Values.Count() == 1 || assignment.SourceValue != null)
             {
                 ApplySingleAssignment(assignment, target, buildContext);
             }
@@ -156,7 +156,7 @@
 
         private void ApplyMultiAssignment(MemberAssignment assignment, object instance, BuildContext buildContext)
         {
-            foreach (var constructionNode in assignment.Children)
+            foreach (var constructionNode in assignment.Values)
             {
                 var originalValue = InflateCore(constructionNode, buildContext);
                 var child = MakeCompatible(instance, new ConversionRequest(assignment.Member, originalValue),
@@ -175,7 +175,7 @@
             string key = null;
             if (assignment.SourceValue == null)
             {
-                var first = assignment.Children.First();
+                var first = assignment.Values.First();
                 key = first.Key;
                 value = CreateChildProperty(instance, assignment.Member, first, buildContext);
             }
@@ -250,11 +250,11 @@
 
         private static void EnsureValidAssigment(MemberAssignment assignment)
         {
-            if (assignment.SourceValue != null && assignment.Children != null && assignment.Children.Any())
+            if (assignment.SourceValue != null && assignment.Values != null && assignment.Values.Any())
             {
                 throw new InvalidOperationException("You cannot specify a Source Value and Children at the same time.");
             }
-            if (assignment.SourceValue == null && !assignment.Children.Any())
+            if (assignment.SourceValue == null && !assignment.Values.Any())
             {
                 Log.Warning("Children is empty for this assignment {Member}", assignment);
                 throw new InvalidOperationException("Children is empty.");

@@ -47,7 +47,7 @@
 
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
-            var children = GetChildren(type, node, annotator);
+            var children = GetChildren(type, node, annotator).ToList();
 
             var ctorArgs = GetCtorArgs(node, type);
 
@@ -55,8 +55,8 @@
             {
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
-                Assignments = attributeBasedInstanceProperties.Assignments,
-                PositionalParameter = ctorArgs,
+                Assignments = attributeBasedInstanceProperties.Assignments.ToList(),
+                PositionalParameters = ctorArgs,
                 Children = children,
                 InstantiateAs = type == elementType ? null : type,
             };
@@ -143,7 +143,7 @@
             {
                 Name = name,
                 Key = key,
-                Assignments = finalAssignments,
+                Assignments = finalAssignments.ToList(),
             };
         }
 

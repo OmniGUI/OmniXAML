@@ -19,7 +19,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = new[]
+                        Values = new[]
                         {
                             new ConstructionNode(typeof(Button))
                             {

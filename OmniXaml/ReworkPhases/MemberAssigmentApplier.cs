@@ -14,7 +14,7 @@
             this.pipeline = pipeline;
         }
 
-        public void ExecuteAssignment(InflatedMemberAssignment inflatedAssignment, object instance)
+        public void ExecuteAssignment(MemberAssignment inflatedAssignment, object instance)
         {
             if (inflatedAssignment.Member.MemberType.IsCollection())
             {
@@ -26,7 +26,7 @@
             }
         }
 
-        private void AssignSingleValue(InflatedMemberAssignment inflatedAssignment, object instance)
+        private void AssignSingleValue(MemberAssignment inflatedAssignment, object instance)
         {
             var inflatedAssignmentChildren = inflatedAssignment.Values.ToList();
 
@@ -36,12 +36,7 @@
             }
 
             var first = inflatedAssignmentChildren.First();
-
-            if (first.ContainsFailedConversion())
-            {
-                return;
-            }
-
+            
             var value = first.Instance;
 
             SetMember(instance, inflatedAssignment.Member, value);
@@ -59,7 +54,7 @@
             member.SetValue(parent, mutableUnit.Value);
         }
 
-        private static void AssignCollection(InflatedMemberAssignment inflatedAssignment, object instance)
+        private static void AssignCollection(MemberAssignment inflatedAssignment, object instance)
         {
             var parent = inflatedAssignment.Member.GetValue(instance);
             var children = from n in inflatedAssignment.Values select n.Instance;

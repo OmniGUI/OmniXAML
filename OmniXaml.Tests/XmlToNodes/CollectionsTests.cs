@@ -46,7 +46,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
-                        Children = new[]
+                        Values = new[]
                         {
                             new ConstructionNode(typeof(TextBlock)),
                             new ConstructionNode(typeof(TextBlock)),

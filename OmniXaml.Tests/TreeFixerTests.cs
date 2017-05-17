@@ -1,48 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OmniXaml.ReworkPhases;
-using OmniXaml.Tests.Model;
-using Xunit;
-
-namespace OmniXaml.Tests
+﻿namespace OmniXaml.Tests
 {
-    public class TreeFixerTests
+    public class Root
     {
-        [Fact]
-        public void FixNode()
-        {
-            var textBlock = new TextBlock();
+        public Child Child { get; set; }
+    }
 
-            var tree = new InflatedNode
-            {
-                Instance = textBlock,                
-            }.WithAssignments(new List<InflatedMemberAssignment>
-            {
-                new InflatedMemberAssignment
-                {
-                    Member = Member.FromStandard<TextBlock>(block => block.Text),                    
-                }.WithValues(new List<InflatedNode>
-                {
-                    new InflatedNode
-                    {
-                        Instance = null,
-                        SourceValue = "Hola",
-                        IsPendingCreate = true,
-                    }
-                })
-            });
-
-            var sut = new ObjectBuilderSecondPass(new FuncStringConverter(s => (true, s)), new FuncAssignmentApplier(
-                (assignment, o) =>
-                {
-                    o.GetType().GetProperty(assignment.Member.MemberName)
-                        .SetValue(o, assignment.Values.First().Instance);
-                }));
-
-            sut.Fix(tree);
-
-            Assert.Equal("Hola", ((TextBlock)tree.Instance).Text);
-        }
+    public class Child
+    {
+        public string Prop1 { get; set; }
+        public string Prop2 { get; set; }
+        public string Prop3 { get; set; }
     }
 }

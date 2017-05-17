@@ -29,8 +29,8 @@
 
             return new ConstructionNode(type)
             {
-                PositionalParameter = arguments,
-                Assignments = assignments,
+                PositionalParameters = arguments.ToList(),
+                Assignments = assignments.ToList(),
             };
         }
         
@@ -56,7 +56,7 @@
                     return new MemberAssignment
                     {
                         Member = property,
-                        Children = new[] { Convert(markupExtensionNode) }
+                        Values = new[] { Convert(markupExtensionNode) }
                     };
                 });
         }

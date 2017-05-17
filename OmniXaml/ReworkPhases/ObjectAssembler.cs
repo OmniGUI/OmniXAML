@@ -1,4 +1,7 @@
-﻿namespace OmniXaml.ReworkPhases
+﻿using System;
+using Zafiro.Core;
+
+namespace OmniXaml.ReworkPhases
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -17,94 +20,120 @@
             this.assigmentApplier = assigmentApplier;
         }
 
-        public InflatedNode Assemble(ConstructionNode node)
+        public void Assemble(ConstructionNode node)
         {
-            if (node.SourceValue != null)
+            if (node.IsCreated)
             {
-                var tryConvert = converter.TryConvert(node.SourceValue, node.ActualInstanceType);
-                var isSuccesful = tryConvert.Item1;
-                var converted = tryConvert.Item2;
-
-                return new InflatedNode
-                {
-                    Instance = converted,
-                    IsPendingCreate = !isSuccesful,
-                    SourceValue = node.SourceValue,
-                    InstanceType = node.ActualInstanceType,
-                };
+                return;
             }
 
-            var children = (from n in node.Children select Assemble(n)).ToList();
-            var assignments = (from a in node.Assignments select InflateMemberAssignment(a)).ToList();
-
-            var positionalParameters = from n in node.PositionalParameter select new PositionalParameter(n);
-            var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
-
-            var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
-
-            ApplyAssignments(assignments, instance);
-
-            children.AssociateTo(instance);
-
-            var inflatedNode = new InflatedNode
-                {
-                    Instance = instance,
-                    Name = node.Name,
-                }.WithAssignments(assignments)
-                .WithChildren(children);
-
-            return inflatedNode;
-        }
-
-        private InflatedMemberAssignment InflateMemberAssignment(MemberAssignment a)
-        {
-            if (a.SourceValue != null)
+            if (node.SourceValue != null)
             {
-                return InflateFromSourceValue(a);
+                CreateLeafNode(node);
             }
             else
             {
-                return InflateFromChildren(a);
+                CreateIntermediateNode(node);
+            }
+
+        }
+
+        private void CreateIntermediateNode(ConstructionNode node)
+        {
+            foreach (var a in node.Assignments)
+            {
+                InflateAssignment(a);
+            }
+
+            foreach (var c in node.Children)
+            {
+                Assemble(c);
+            }
+
+            if (CanBeCreated(node))
+            {
+                CreateInstance(node);
+                ApplyAssignments(node);
+                AttachChildren(node);
+            }          
+        }
+
+        private void AttachChildren(ConstructionNode node)
+        {
+            var children = node.Children.Select(c => c.Instance).ToList();
+
+            foreach (var c in children)
+            {
+                Collection.UniversalAdd(node.Instance, c);
             }            
         }
 
-        private InflatedMemberAssignment InflateFromChildren(MemberAssignment a)
+        private void ApplyAssignments(ConstructionNode node)
         {
-            return new InflatedMemberAssignment
+            foreach (var assignment in node.Assignments)
             {
-                Member = a.Member,
-                
-            }.WithValues((from c in a.Children select Assemble(c)).ToList());
+                assigmentApplier.ExecuteAssignment(assignment, node.Instance);
+            }
         }
 
-        private InflatedMemberAssignment InflateFromSourceValue(MemberAssignment a)
+        private void InflateAssignment(MemberAssignment memberAssignment)
+        {
+            if (memberAssignment.SourceValue != null)
+            {
+                InflateFromSourceValue(memberAssignment);
+            }
+            else
+            {
+                InflateFromChildren(memberAssignment);
+            }
+        }
+
+        private void CreateInstance(ConstructionNode node)
+        {
+            var positionalParameters = from n in node.PositionalParameters select new PositionalParameter(n);
+            var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
+            var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
+            node.Instance = instance;
+            node.IsCreated = true;
+        }
+
+        private static bool CanBeCreated(ConstructionNode node)
+        {
+            var allAsignmentsCreated = node.Assignments.All(assignment => assignment.Values.All(c => c.IsCreated));
+            var allChildrenCreated = node.Children.All(c => c.IsCreated);
+            return allAsignmentsCreated && allChildrenCreated;
+        }
+
+        private void CreateLeafNode(ConstructionNode node)
+        {
+            var tryConvert = converter.TryConvert(node.SourceValue, node.ActualInstanceType);
+
+            node.Instance = tryConvert.Item2;
+            node.IsCreated = tryConvert.Item1;
+            node.SourceValue = node.SourceValue;
+            node.InstanceType = node.ActualInstanceType;
+        }
+
+        private void InflateFromChildren(MemberAssignment a)
+        {
+            foreach (var node in a.Values)
+            {
+                Assemble(node);
+            }            
+        }
+
+        private void InflateFromSourceValue(MemberAssignment a)
         {
             var conversionResult = converter.TryConvert(a.SourceValue, a.Member.MemberType);
 
-            var conversionFailed = !conversionResult.Item1;
-
-            return new InflatedMemberAssignment
+            a.Values = new List<ConstructionNode>
             {
-                Member = a.Member,                
-            }.WithValues(new List<InflatedNode>
-            {
-                new InflatedNode
+                new ConstructionNode(a.Member.MemberType)
                 {
                     Instance = conversionResult.Item2,
-                    IsPendingCreate = conversionFailed,
-                    SourceValue = conversionFailed? a.SourceValue : null,
-                    InstanceType = a.Member.MemberType,
+                    IsCreated = conversionResult.Item1,
                 }
-            });
-        }
-
-        private void ApplyAssignments(IEnumerable<InflatedMemberAssignment> assignments, object instance)
-        {
-            foreach (var inflatedMemberAssignment in assignments)
-            {
-                assigmentApplier.ExecuteAssignment(inflatedMemberAssignment, instance);
-            }
-
+            };
         }
     }
 }

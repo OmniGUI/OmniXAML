@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using OmniXaml;
 using OmniXaml.Attributes;
-using OmniXaml.ReworkPhases;
 using Zafiro.Core;
 
 namespace XamlLoadTest
@@ -29,14 +26,14 @@ namespace XamlLoadTest
             return (false, null);
         };
 
-        private static InflatedNode LookupName(string name, InflatedNode node)
+        private static ConstructionNode LookupName(string name, ConstructionNode node)
         {
             var root = FindRoot(node);
 
             return LookupNameCore(name, root);
         }
 
-        private static InflatedNode LookupNameCore(string name, InflatedNode root)
+        private static ConstructionNode LookupNameCore(string name, ConstructionNode root)
         {
             if (string.Equals(root.Name, name))
             {
@@ -48,7 +45,7 @@ namespace XamlLoadTest
             return children.Select(inflatedNode => LookupNameCore(name, inflatedNode)).FirstOrDefault(childLookup => childLookup != null);
         }
 
-        private static InflatedNode FindRoot(InflatedNode node)
+        private static ConstructionNode FindRoot(ConstructionNode node)
         {
             if (node.Parent == null)
             {

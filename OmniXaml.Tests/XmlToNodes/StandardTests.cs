@@ -79,7 +79,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = new []{ new ConstructionNode(typeof(TextBlock)), }
+                        Values = new []{ new ConstructionNode(typeof(TextBlock)), }
                     }
                 }
             };
@@ -123,7 +123,7 @@ namespace OmniXaml.Tests.XmlToNodes
                 {
                     new MemberAssignment
                     {
-                        Children = new[] { new ConstructionNode(typeof(VisualStateGroup)), },
+                        Values = new[] { new ConstructionNode(typeof(VisualStateGroup)), },
                         Member = Member.FromAttached<VisualStateManager>("VisualStateGroups"),
                     }
                 }
@@ -137,7 +137,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
-            var expected = new ConstructionNode(typeof(MyImmutable)) { PositionalParameter = new[] { "hola" } };
+            var expected = new ConstructionNode(typeof(MyImmutable)) { PositionalParameters = new[] { "hola" } };
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -154,7 +154,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment()
                     {
                         Member = Member.FromStandard<Window>(tb => tb.Content),
-                        Children = new[]
+                        Values = new[]
                         {
                             new ConstructionNode(typeof(TextBlock)),
                         }
@@ -197,7 +197,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = new[]
+                        Values = new[]
                         {
                             new ConstructionNode(typeof(TextBlock))
                             {
@@ -230,7 +230,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = new[] {new ConstructionNode(typeof(SimpleExtension)),}
+                        Values = new[] {new ConstructionNode(typeof(SimpleExtension)),}
                     }
                 }
             };
@@ -260,7 +260,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
-                        Children = new []{ new ConstructionNode(typeof(CustomControl)), }
+                        Values = new []{ new ConstructionNode(typeof(CustomControl)), }
                     }
                 }
             };

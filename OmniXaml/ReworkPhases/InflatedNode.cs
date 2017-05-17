@@ -15,6 +15,7 @@ namespace OmniXaml.ReworkPhases
         public ChildCollection Children { get; } 
         public string Name { get; set; }
         public InflatedNode Parent => ParentAssignment?.Parent ?? ParentCollection;
+        public bool IsCreated { get; set; }
 
         public InflatedNode()
         {

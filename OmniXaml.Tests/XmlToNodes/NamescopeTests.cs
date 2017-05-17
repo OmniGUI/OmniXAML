@@ -17,7 +17,7 @@ namespace OmniXaml.Tests.XmlToNodes
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(w => w.Content),
-                        Children = new List<ConstructionNode>
+                        Values = new List<ConstructionNode>
                         {
                             new ConstructionNode(typeof(TextBlock))
                             {

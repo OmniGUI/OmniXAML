@@ -2,6 +2,6 @@
 {
     public interface IObjectAssembler
     {
-        InflatedNode Assemble(ConstructionNode node);
+        void Assemble(ConstructionNode node);
     }
 }

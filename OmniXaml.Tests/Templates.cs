@@ -17,7 +17,7 @@ namespace OmniXaml.Tests
                     new MemberAssignment
                     {
                         Member = Member.FromStandard<ItemsControl>(control => control.ItemTemplate),
-                        Children = new List<ConstructionNode>
+                        Values = new List<ConstructionNode>
                         {
                             new ConstructionNode(typeof(DataTemplate))
                             {
@@ -26,7 +26,7 @@ namespace OmniXaml.Tests
                                     new MemberAssignment
                                     {
                                         Member = Member.FromStandard<DataTemplate>(template => template.Content),
-                                        Children = new[] {new ConstructionNode(typeof(TextBlock))}
+                                        Values = new[] {new ConstructionNode(typeof(TextBlock))}
                                     }
                                 }
                             }
