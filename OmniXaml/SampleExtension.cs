@@ -1,7 +1,5 @@
-﻿namespace XamlLoadTest
+﻿namespace OmniXaml
 {
-    using OmniXaml;
-
     public class SampleExtension : IMarkupExtension
     {
         public object GetValue(ExtensionValueContext context)

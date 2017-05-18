@@ -2,6 +2,7 @@
 using System.Text;
 using System.Xml;
 using ExtendedXmlSerializer.Configuration;
+using OmniXaml.Services;
 
 namespace XamlLoadTest
 {

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using OmniXaml.Rework;
-using OmniXaml.Services;
 
-namespace XamlLoadTest
+namespace OmniXaml.Services
 {
-    internal class ExtendedXamlLoader : XamlLoader
+    public class ExtendedXamlLoader : XamlLoader
     {
         public ExtendedXamlLoader(IList<Assembly> assemblies) : base(assemblies)
         {

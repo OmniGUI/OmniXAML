@@ -1,7 +1,6 @@
-using OmniXaml;
 using OmniXaml.Rework;
 
-namespace XamlLoadTest
+namespace OmniXaml.Services
 {
     public class MarkupExtensionValuePipeline : ValuePipeline
     {

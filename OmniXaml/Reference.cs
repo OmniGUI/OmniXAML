@@ -1,6 +1,4 @@
-﻿using OmniXaml;
-
-namespace XamlLoadTest
+﻿namespace OmniXaml
 {
     public class Reference : IMarkupExtension
     {

@@ -1,7 +1,6 @@
-using OmniXaml;
 using OmniXaml.Rework;
 
-namespace XamlLoadTest
+namespace OmniXaml
 {
     public abstract class ValuePipeline : IValuePipeline
     {
