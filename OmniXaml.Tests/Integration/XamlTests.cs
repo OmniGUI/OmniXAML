@@ -53,6 +53,24 @@ namespace OmniXaml.Tests.Integration
         }
 
         [Fact]
+        public void Backreference()
+        {
+            var xaml = @"<Collection  xmlns=""root"" xmlns:x=""special"">
+    <TextBlock x:Name=""MyTextBlock"" Text=""Some text"" />
+    <TextBlock Text=""{Reference Target=MyTextBlock.Text}"" />
+</Collection>";
+
+            var instance = LoadXaml(xaml);
+            var expected = new Collection
+            {
+                new TextBlock {Name = "MyTextBlock", Text = "Some text"},
+                new TextBlock {Text = "Some text"}
+            };
+
+            Assert.Equal(expected, instance);
+        }
+
+        [Fact]
         public void Extension()
         {
             var xaml = @"<TextBlock xmlns=""root"" Text=""{SimpleExtension Property=Hello}""/>";

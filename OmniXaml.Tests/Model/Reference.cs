@@ -1,4 +1,4 @@
-﻿namespace OmniXaml
+﻿namespace OmniXaml.Tests.Model
 {
     public class Reference : IMarkupExtension
     {

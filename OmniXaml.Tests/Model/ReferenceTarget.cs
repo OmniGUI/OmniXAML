@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace OmniXaml
+namespace OmniXaml.Tests.Model
 {
     public class ReferenceTarget
     {

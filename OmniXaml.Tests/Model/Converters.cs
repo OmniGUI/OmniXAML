@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
-using OmniXaml;
 using OmniXaml.Attributes;
-using OmniXaml.Tests.Model;
 using Zafiro.Core;
 
-namespace XamlLoadTest
+namespace OmniXaml.Tests.Model
 {
     public static class Converters
     {
