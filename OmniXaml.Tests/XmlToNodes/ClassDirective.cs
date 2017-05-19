@@ -22,18 +22,18 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var xaml = @"<Window xmlns=""root"" xmlns:x=""special"" x:Class=""OmniXaml.Tests.Model.TestWindow;assembly=OmniXaml.Tests"" Clicked=""OnClick"" />";
             var p = ParseResult(xaml);
+            var memberAssignments = new List<MemberAssignment>
+            {
+                new MemberAssignment
+                {
+                    Member = Member.FromStandard(typeof(TestWindow), "Clicked"),
+                    SourceValue = "OnClick",
+                }
+            };
             var expected = new ConstructionNode(typeof(Window))
             {
                 InstantiateAs = typeof(TestWindow),
-                Assignments = new List<MemberAssignment>
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard(typeof(TestWindow), "Clicked"),
-                        SourceValue = "OnClick",
-                    }
-                }
-            };
+            }.WithAssignments(memberAssignments);
 
             Assert.Equal(expected, p.Root);
         }

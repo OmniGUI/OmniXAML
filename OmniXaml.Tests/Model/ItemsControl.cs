@@ -11,6 +11,8 @@ namespace OmniXaml.Tests.Model
         [Content]
         public ICollection<object> Items { get; set; } = new List<object>();
 
+        public List<object> ItemsSource { get; set; }
+
         protected bool Equals(ItemsControl other)
         {
             return Items != null && (base.Equals(other) && string.Equals(HeaderText, other.HeaderText) && Equals(ItemTemplate, other.ItemTemplate) && Enumerable.SequenceEqual(Items, other.Items));

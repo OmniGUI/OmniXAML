@@ -16,21 +16,19 @@ namespace OmniXaml.Tests.XmlToNodes
         public void Collection()
         {
             var tree = ParseResult(@"<Collection Title=""My title"" xmlns=""root""><TextBlock/></Collection>");
-            var expected = new ConstructionNode(typeof(Collection))
+            var memberAssignments = new[]
             {
-                Assignments = new[]
+                new MemberAssignment
                 {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Collection>(collection => collection.Title),
-                        SourceValue = "My title"                        
-                    }
-                },
-                Children = new[]
-                {
-                    new ConstructionNode(typeof(TextBlock))
+                    Member = Member.FromStandard<Collection>(collection => collection.Title),
+                    SourceValue = "My title"                        
                 }
             };
+            var children = new[]
+            {
+                new ConstructionNode(typeof(TextBlock))
+            };
+            var expected = new ConstructionNode(typeof(Collection)).WithAssignments(memberAssignments).WithChildren(children);
 
             Assert.Equal(expected, tree.Root);
         }
@@ -39,22 +37,20 @@ namespace OmniXaml.Tests.XmlToNodes
         public void PropertyThatIsCollection()
         {
             var tree = ParseResult(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>");
-            var expected = new ConstructionNode(typeof(ItemsControl))
+            var memberAssignments = new[]
             {
-                Assignments = new[]
+                new MemberAssignment
                 {
-                    new MemberAssignment
+                    Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
+                    Values = new[]
                     {
-                        Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
-                        Values = new[]
-                        {
-                            new ConstructionNode(typeof(TextBlock)),
-                            new ConstructionNode(typeof(TextBlock)),
-                            new ConstructionNode(typeof(TextBlock)),
-                        }
+                        new ConstructionNode(typeof(TextBlock)),
+                        new ConstructionNode(typeof(TextBlock)),
+                        new ConstructionNode(typeof(TextBlock)),
                     }
-                },
+                }
             };
+            var expected = new ConstructionNode(typeof(ItemsControl)).WithAssignments(memberAssignments);
 
             Assert.Equal(expected, tree.Root);
         }

@@ -112,7 +112,7 @@ namespace OmniXaml.Rework
 
         private void SetMember(object parent, Member member, object value)
         {
-            var mutableUnit = new MutablePipelineUnit(value);
+            var mutableUnit = new MutablePipelineUnit(null, value);
             pipeline.Handle(parent, member, mutableUnit);
             if (mutableUnit.Handled)
             {

@@ -48,18 +48,16 @@
             var attributeBasedInstanceProperties = CombineDirectivesAndAssigments(type, directives, rawAssigments);
 
             var children = GetChildren(type, node, annotator).ToList();
-
             var ctorArgs = GetCtorArgs(node, type);
 
             var constructionNode = new ConstructionNode(elementType)
             {
                 Name = attributeBasedInstanceProperties.Name,
                 Key = attributeBasedInstanceProperties.Key,
-                Assignments = attributeBasedInstanceProperties.Assignments.ToList(),
                 PositionalParameters = ctorArgs,
-                Children = children,
                 InstantiateAs = type == elementType ? null : type,
-            };
+            }.WithAssignments(attributeBasedInstanceProperties.Assignments.ToList())
+            .WithChildren(children);
 
             AnnotatePrefixes(node, annotator, constructionNode);
 

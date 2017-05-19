@@ -71,6 +71,16 @@ namespace OmniXaml.Tests.Integration
         }
 
         [Fact]
+        public void Template()
+        {
+            var xaml = @"<DataTemplate xmlns=""root"">
+            <TextBlock Text=""Hola"" />
+        </DataTemplate>";
+
+            var instance = LoadXaml(xaml);
+        }
+
+        [Fact]
         public void Extension()
         {
             var xaml = @"<TextBlock xmlns=""root"" Text=""{SimpleExtension Property=Hello}""/>";

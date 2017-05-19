@@ -17,7 +17,7 @@ namespace OmniXaml
                    node.Assignments.SelectMany(assignment => assignment.Values).Any(n => n.ContainsFailedConversion());
         }
 
-        public static InflatedNode WithAssignments(this InflatedNode node, IEnumerable<InflatedMemberAssignment> assignment)
+        public static ConstructionNode WithAssignments(this ConstructionNode node, IEnumerable<MemberAssignment> assignment)
         {
             foreach (var ass in assignment)
             {
@@ -27,7 +27,7 @@ namespace OmniXaml
             return node;
         }
 
-        public static InflatedNode WithChildren(this InflatedNode node, IEnumerable<InflatedNode> children)
+        public static ConstructionNode WithChildren(this ConstructionNode node, IEnumerable<ConstructionNode> children)
         {
             foreach (var ass in children)
             {

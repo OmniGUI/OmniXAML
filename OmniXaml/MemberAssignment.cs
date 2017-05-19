@@ -1,9 +1,11 @@
-﻿namespace OmniXaml
+﻿using Zafiro.Core;
+
+namespace OmniXaml
 {
     using System.Collections.Generic;
     using System.Linq;
 
-    public class MemberAssignment
+    public class MemberAssignment : IChild<ConstructionNode>
     {
         public Member Member { get; set; }
         public string SourceValue { get; set; }
@@ -48,5 +50,7 @@
                 return hashCode;
             }
         }
+
+        public ConstructionNode Parent { get; set; }
     }
 }

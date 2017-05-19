@@ -58,7 +58,7 @@
 
             if (fragmentLoaderInfo != null && parent.GetType() == fragmentLoaderInfo.Type && member.MemberName == fragmentLoaderInfo.PropertyName)
             {
-                return fragmentLoaderInfo.Loader.Load(nodeToBeCreated, this, buildContext);
+                return fragmentLoaderInfo.Loader.Load(nodeToBeCreated);
             }
             else
             {

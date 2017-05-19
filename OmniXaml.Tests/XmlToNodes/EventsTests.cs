@@ -13,26 +13,26 @@ namespace OmniXaml.Tests.XmlToNodes
                                </Window>");
 
             var expected = new ConstructionNode(typeof(Window))
-            {
-                Assignments = new[]
+                .WithAssignments(new[]
                 {
-                    new MemberAssignment()
+                    new MemberAssignment
                     {
                         Member = Member.FromStandard<Window>(window => window.Content),
                         Values = new[]
                         {
                             new ConstructionNode(typeof(Button))
                             {
-                                Assignments = new[] {new MemberAssignment()
+                            }.WithAssignments(new[]
+                            {
+                                new MemberAssignment()
                                 {
                                     Member = Member.FromStandard(typeof(Button), "Click"),
                                     SourceValue = "OnClick"
-                                },}
-                            },
+                                },
+                            }),
                         }
                     },
-                }
-            };
+                });
 
             Assert.Equal(expected, tree.Root);
         }
@@ -44,15 +44,14 @@ namespace OmniXaml.Tests.XmlToNodes
 
             var expected = new ConstructionNode(typeof(Window))
             {
-                Assignments = new[]
+            }.WithAssignments(new[]
+            {
+                new MemberAssignment()
                 {
-                    new MemberAssignment()
-                    {
-                        Member = Member.FromAttached(typeof(Window), "Loaded"),
-                        SourceValue = "OnLoad"
-                    },
+                    Member = Member.FromAttached(typeof(Window), "Loaded"),
+                    SourceValue = "OnLoad"
                 },
-            };
+            });
 
             Assert.Equal(expected, tree.Root);
         }

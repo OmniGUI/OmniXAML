@@ -1,26 +1,30 @@
-﻿namespace OmniXaml
+﻿using Zafiro.Core;
+
+namespace OmniXaml
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    public class ConstructionNode
+    public class ConstructionNode : IChild<ConstructionNode>
     {
         public ConstructionNode()
         {            
+            Assignments = new ParentLinkedCollection<MemberAssignment, ConstructionNode>(this);
+            Children = new ParentLinkedCollection<ConstructionNode, ConstructionNode>(this);
         }
 
-        public ConstructionNode(Type type)
+        public ConstructionNode(Type type) : this()
         {
             InstanceType = type;
         }
 
         public Type InstanceType { get; set; }
         public string Name { get; set; }
-        public IEnumerable<MemberAssignment> Assignments { get; set; } = new Collection<MemberAssignment>();
+        public ParentLinkedCollection<MemberAssignment, ConstructionNode> Assignments { get; }
         public IEnumerable<string> PositionalParameters { get; set; } = new Collection<string>();
-        public IEnumerable<ConstructionNode> Children { get; set; } = new Collection<ConstructionNode>();
+        public ParentLinkedCollection<ConstructionNode, ConstructionNode> Children { get; }
         public string Key { get; set; }
         public Type InstantiateAs { get; set; }
         public Type ActualInstanceType => InstantiateAs ?? InstanceType;

@@ -10,17 +10,17 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content><![CDATA[Hello]]></Window.Content></Window>");
 
+            var memberAssignments = new[]
+            {
+                new MemberAssignment()
+                {
+                    Member = Member.FromStandard<Window>(window => window.Content),
+                    SourceValue = "Hello"
+                },
+            };
             var expected = new ConstructionNode(typeof(Window))
             {
-                Assignments = new[]
-                {
-                    new MemberAssignment()
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        SourceValue = "Hello"
-                    },
-                }
-            };
+            }.WithAssignments(memberAssignments);
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -30,17 +30,17 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><![CDATA[Hello]]></Window>");
 
+            var memberAssignments = new[]
+            {
+                new MemberAssignment()
+                {
+                    Member = Member.FromStandard<Window>(window => window.Content),
+                    SourceValue = "Hello"
+                },
+            };
             var expected = new ConstructionNode(typeof(Window))
             {
-                Assignments = new[]
-                {
-                    new MemberAssignment()
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        SourceValue = "Hello"
-                    },
-                }
-            };
+            }.WithAssignments(memberAssignments);
 
             Assert.Equal(expected, parseResult.Root);
         }

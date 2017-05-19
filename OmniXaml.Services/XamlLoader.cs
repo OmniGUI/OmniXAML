@@ -39,10 +39,10 @@
 
         protected virtual IMemberAssigmentApplier GetMemberAssignmentApplier(IStringSourceValueConverter converter)
         {
-            return new MemberAssigmentApplier(GetValuePipeline());
+            return new MemberAssigmentApplier(GetValuePipeline(metadataProvider));
         }
 
-        protected virtual IValuePipeline GetValuePipeline()
+        protected virtual IValuePipeline GetValuePipeline(AttributeBasedMetadataProvider metadataProvider)
         {
             return new NoActionValuePipeline();
         }
@@ -52,7 +52,7 @@
             return new SmartInstanceCreator(converter);
         }
 
-        protected virtual IFullObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        public virtual IFullObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
             return new FullObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
         }

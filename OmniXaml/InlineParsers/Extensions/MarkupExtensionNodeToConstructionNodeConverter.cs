@@ -29,9 +29,8 @@
 
             return new ConstructionNode(type)
             {
-                PositionalParameters = arguments.ToList(),
-                Assignments = assignments.ToList(),
-            };
+                PositionalParameters = arguments.ToList(),                
+            }.WithAssignments(assignments.ToList());
         }
         
         private IEnumerable<MemberAssignment> ParseAssignments(IEnumerable<PropertyOption> propertyOptions, Type parentType)

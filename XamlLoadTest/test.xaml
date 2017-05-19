@@ -1,7 +1,7 @@
-﻿<Collection  xmlns="root" xmlns:x="special">
-    <Button x:Name="MyButton" Content="CONTENIDO" Height="100"></Button>
-    <Button Height="{Reference Target=MyButton.Height}"></Button>
-    <!--<Button x:Name="MyButton" Content="CONTENIDO" Height="100"></Button>
-        <Button x:Name="MyButton" Content="CONTENIDO" Height="100"></Button>-->
-
-</Collection>
+﻿<ItemsControl xmlns="root">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <TextBlock Text="Hola" />
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>

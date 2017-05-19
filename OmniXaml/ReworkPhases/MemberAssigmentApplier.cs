@@ -26,25 +26,25 @@
             }
         }
 
-        private void AssignSingleValue(MemberAssignment inflatedAssignment, object instance)
+        private void AssignSingleValue(MemberAssignment assignment, object instance)
         {
-            var inflatedAssignmentChildren = inflatedAssignment.Values.ToList();
+            var inflatedAssignmentChildren = assignment.Values.ToList();
 
             if (inflatedAssignmentChildren.Count > 1)
             {
-                throw new InvalidOperationException($"Cannot assign multiple values to a the property {inflatedAssignment}");
+                throw new InvalidOperationException($"Cannot assign multiple values to a the property {assignment}");
             }
 
-            var first = inflatedAssignmentChildren.First();
+            var nodeBeingAssigned = inflatedAssignmentChildren.First();
             
-            var value = first.Instance;
+            var value = nodeBeingAssigned.Instance;
 
-            SetMember(instance, inflatedAssignment.Member, value);
+            SetMember(instance, assignment.Member, value, nodeBeingAssigned);
         }
 
-        private void SetMember(object parent, Member member, object value)
+        private void SetMember(object parent, Member member, object value, ConstructionNode parentNode)
         {
-            var mutableUnit = new MutablePipelineUnit(value);
+            var mutableUnit = new MutablePipelineUnit(parentNode, value);
             pipeline.Handle(parent, member, mutableUnit);
             if (mutableUnit.Handled)
             {

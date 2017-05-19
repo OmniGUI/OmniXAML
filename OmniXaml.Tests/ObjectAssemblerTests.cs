@@ -41,8 +41,7 @@ namespace OmniXaml.Tests
             var sut = new ObjectAssembler(creator, converter, null);
 
             var constructionNode = new ConstructionNode(typeof(Collection))
-            {
-                Children = new List<ConstructionNode>()
+                .WithChildren(new List<ConstructionNode>()
                 {
                     new ConstructionNode(typeof(int))
                     {
@@ -56,8 +55,7 @@ namespace OmniXaml.Tests
                     {
                         SourceValue = "3"
                     },
-                }
-            };
+                });
 
             sut.Assemble(constructionNode);
 
@@ -76,17 +74,14 @@ namespace OmniXaml.Tests
                 assignment.Member.SetValue(i, assignment.Values.First().Instance);
             }));
 
-            var constructionNode = new ConstructionNode(typeof(TextBlock))
+            var constructionNode = new ConstructionNode(typeof(TextBlock)).WithAssignments(new List<MemberAssignment>()
             {
-               Assignments = new List<MemberAssignment>()
-               {
-                   new MemberAssignment()
-                   {
-                       Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                       SourceValue = "SomeText",
-                   }
-               }
-            };
+                new MemberAssignment
+                {
+                    Member = Member.FromStandard<TextBlock>(tb => tb.Text),
+                    SourceValue = "SomeText",
+                }
+            });
 
             sut.Assemble(constructionNode);
 
