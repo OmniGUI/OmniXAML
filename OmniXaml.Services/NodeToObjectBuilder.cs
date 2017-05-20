@@ -17,10 +17,10 @@
 
         public object Build(ConstructionNode node)
         {
-            var mainBuilder = new ObjectAssembler(instanceCreator, converter, memberAssigmentApplier);
+            var builder = new ReworkPhases.NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
 
-            mainBuilder.Assemble(node);
-            mainBuilder.Assemble(node);
+            builder.Assemble(node);
+            builder.Assemble(node);
             return node.Instance;
         }
     }

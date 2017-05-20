@@ -7,13 +7,13 @@ namespace OmniXaml.ReworkPhases
     using System.Linq;
     using Rework;
 
-    public class ObjectAssembler : IObjectAssembler
+    public class NodeAssembler : INodeAssembler
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
         private readonly IMemberAssigmentApplier assigmentApplier;
 
-        public ObjectAssembler(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
+        public NodeAssembler(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;
@@ -93,7 +93,7 @@ namespace OmniXaml.ReworkPhases
         private void CreateInstance(ConstructionNode node)
         {
             var positionalParameters = from n in node.PositionalParameters select new PositionalParameter(n);
-            var creationHints = new CreationHints(new List<NewInjectableMember>(), positionalParameters, new List<object>());
+            var creationHints = new CreationHints(new List<InjectableMember>(), positionalParameters, new List<object>());
             var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
             node.Instance = instance;
             node.IsCreated = true;

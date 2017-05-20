@@ -8,7 +8,7 @@ namespace OmniXaml.Services
         {
         }
 
-        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable)
+        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
         {
             var extension = mutable.Value as IMarkupExtension;
             if (extension != null)

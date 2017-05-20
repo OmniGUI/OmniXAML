@@ -45,7 +45,8 @@
         private void SetMember(object parent, Member member, object value, ConstructionNode parentNode)
         {
             var mutableUnit = new MutablePipelineUnit(parentNode, value);
-            pipeline.Handle(parent, member, mutableUnit);
+            
+            pipeline.Handle(parent, member, mutableUnit, null);
             if (mutableUnit.Handled)
             {
                 return;

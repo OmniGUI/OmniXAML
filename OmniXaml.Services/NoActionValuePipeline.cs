@@ -4,7 +4,7 @@
 
     public class NoActionValuePipeline : IValuePipeline
     {
-        public void Handle(object parent, Member member, MutablePipelineUnit mutable)
+        public void Handle(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
         {            
         }
     }

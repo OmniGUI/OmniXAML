@@ -5,14 +5,14 @@ namespace OmniXaml.Services
 {
     public class TemplatePipeline : ValuePipeline
     {
-        private readonly AttributeBasedMetadataProvider metadataProvider;
+        private readonly IMetadataProvider metadataProvider;
 
-        public TemplatePipeline(IValuePipeline pipeline, AttributeBasedMetadataProvider metadataProvider) : base(pipeline)
+        public TemplatePipeline(IValuePipeline pipeline, IMetadataProvider metadataProvider) : base(pipeline)
         {
             this.metadataProvider = metadataProvider;
         }
 
-        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable)
+        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
         {
             var deferringLoader = metadataProvider.Get(parent.GetType()).FragmentLoaderInfo;
 
@@ -23,7 +23,7 @@ namespace OmniXaml.Services
 
             if (IsApplicable(deferringLoader, parent, member))
             {
-                mutable.Value = deferringLoader.Loader.Load(mutable.ParentNode);
+                mutable.Value = deferringLoader.Loader.Load(mutable.ParentNode, builder);
             }
         }
 

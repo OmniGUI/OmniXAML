@@ -17,7 +17,7 @@
 
         public object Build(ConstructionNode node)
         {
-            var mainBuilder = new ObjectAssembler(instanceCreator, converter, memberAssigmentApplier);
+            var mainBuilder = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
 
             mainBuilder.Assemble(node);
             mainBuilder.Assemble(node);

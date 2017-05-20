@@ -1,17 +1,18 @@
-﻿using OmniXaml.ReworkPhases;
+﻿using OmniXaml.Rework;
+using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Services
 {
     public abstract class XamlLoaderBase : IXamlLoader
     {
         public abstract IXamlToTreeParser Parser { get; }
-        public IMemberAssigmentApplier AssignmentApplier => new MemberAssigmentApplier(new NoActionValuePipeline());
+        public abstract IMemberAssigmentApplier AssignmentApplier { get; }
 
         public abstract ISmartInstanceCreator SmartInstanceCreator { get; }
         public abstract IStringSourceValueConverter StringSourceValueConverter { get; }
+        protected abstract IValuePipeline ValuePipeline { get; }
 
-        public virtual INodeToObjectBuilder Builder => new NodeToObjectBuilder(SmartInstanceCreator,
-            StringSourceValueConverter, AssignmentApplier);
+        public abstract INodeToObjectBuilder Builder { get; }
 
         public object Load(string xaml, object intance = null)
         {

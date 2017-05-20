@@ -14,7 +14,7 @@ namespace OmniXaml.Tests
         public void SourceValue()
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
-            var sut = new ObjectAssembler(null, converter, null);
+            var sut = new NodeAssembler(null, converter, null);
             var constructionNode = new ConstructionNode(typeof(int)) {SourceValue = "1"};
             sut.Assemble(constructionNode);
             Assert.Equal(1, constructionNode.Instance);
@@ -25,7 +25,7 @@ namespace OmniXaml.Tests
         {
             var someInstance = new TextBlock();
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(someInstance));
-            var sut = new ObjectAssembler(creator, null, null);
+            var sut = new NodeAssembler(creator, null, null);
 
             var constructionNode = new ConstructionNode(typeof(TextBlock));
             sut.Assemble(constructionNode);
@@ -38,7 +38,7 @@ namespace OmniXaml.Tests
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(Activator.CreateInstance(type)));
-            var sut = new ObjectAssembler(creator, converter, null);
+            var sut = new NodeAssembler(creator, converter, null);
 
             var constructionNode = new ConstructionNode(typeof(Collection))
                 .WithChildren(new List<ConstructionNode>()
@@ -69,7 +69,7 @@ namespace OmniXaml.Tests
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
 
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(textBlock));
-            var sut = new ObjectAssembler(creator, converter, new FuncAssignmentApplier((assignment, i) =>
+            var sut = new NodeAssembler(creator, converter, new FuncAssignmentApplier((assignment, i) =>
             {
                 assignment.Member.SetValue(i, assignment.Values.First().Instance);
             }));

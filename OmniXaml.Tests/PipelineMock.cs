@@ -12,7 +12,7 @@ namespace OmniXaml.Tests
 
         private Action<object, Member, MutablePipelineUnit> mutator = (o, member, arg3) => { };
 
-        public void Handle(object parent, Member member, MutablePipelineUnit mutable)
+        public void Handle(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
         {
             mutator(parent, member, mutable);
         }

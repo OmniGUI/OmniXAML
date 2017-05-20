@@ -8,19 +8,9 @@ namespace OmniXaml.Tests.Model
 
     public class ConstructionFragmentLoader : IConstructionFragmentLoader
     {
-        public object Load(ConstructionNode node, IObjectBuilder builder, BuildContext buildContext)
+        public object Load(ConstructionNode node, INodeToObjectBuilder builder)
         {
-            return new TemplateContent(node, builder, buildContext);
-        }
-
-        public object Load(ConstructionNode node, IXamlLoader loader)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public object Load(ConstructionNode node)
-        {
-            return new TemplateContent(node, null, null);
+            return new TemplateContent(node, builder);
         }
     }
 }

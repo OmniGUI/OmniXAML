@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml.ReworkPhases
 {
-    public interface IObjectAssembler
+    public interface INodeAssembler
     {
         void Assemble(ConstructionNode node, ConstructionNode parent = null);
     }

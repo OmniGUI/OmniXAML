@@ -12,9 +12,9 @@ namespace XamlLoadTest
     using System.Reflection;
     using Newtonsoft.Json;
 
-    partial class Program
+    class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var instance = LoadXaml(args.First());
             
@@ -54,8 +54,8 @@ namespace XamlLoadTest
 
         private static object LoadXaml(string file)
         {
-            var assemblies = new List<Assembly>() {Assembly.GetEntryAssembly(), typeof(OmniXaml.Tests.Model.Window).GetTypeInfo().Assembly};
-            var loader = new ExtendedXamlLoader(assemblies);
+            var assemblies = new List<Assembly> {Assembly.GetEntryAssembly(), typeof(OmniXaml.Tests.Model.Window).GetTypeInfo().Assembly};
+            var loader = new XamlLoaderExtended(assemblies);
             return loader.Load(File.ReadAllText(file));
         }
     }

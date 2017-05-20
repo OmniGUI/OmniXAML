@@ -2,6 +2,7 @@
 using System.Reflection;
 using OmniXaml.Metadata;
 using OmniXaml.Rework;
+using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Services
 {
@@ -15,6 +16,9 @@ namespace OmniXaml.Services
         public IList<Assembly> Assemblies { get; }
 
         public override IXamlToTreeParser Parser => new XamlToTreeParser(MetadataProvider, InlineParsers, Resolver);
+        public override IMemberAssigmentApplier AssignmentApplier => new MemberAssigmentApplier(ValuePipeline);
+
+        protected override IValuePipeline ValuePipeline => new NoActionValuePipeline();
 
         protected virtual IEnumerable<IInlineParser> InlineParsers => new List<IInlineParser>
         {
@@ -34,5 +38,7 @@ namespace OmniXaml.Services
                 new DirectCompatibilitySourceValueConverter(),
                 new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
             });
+
+        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(SmartInstanceCreator, StringSourceValueConverter, AssignmentApplier);
     }
 }

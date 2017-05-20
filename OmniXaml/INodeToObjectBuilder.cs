@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.Services
+﻿namespace OmniXaml
 {
     public interface INodeToObjectBuilder
     {
