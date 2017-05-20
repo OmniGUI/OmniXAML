@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Reflection;
-using OmniXaml.Services;
-
 namespace OmniXaml.Tests.Model
 {
     using Metadata;

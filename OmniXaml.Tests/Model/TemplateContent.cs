@@ -1,9 +1,5 @@
-﻿using OmniXaml.Services;
-
-namespace OmniXaml.Tests.Model
+﻿namespace OmniXaml.Tests.Model
 {
-    using Metadata;
-
     public class TemplateContent
     {
         private readonly ConstructionNode node;

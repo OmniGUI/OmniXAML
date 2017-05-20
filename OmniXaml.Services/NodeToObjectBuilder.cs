@@ -17,7 +17,7 @@
 
         public object Build(ConstructionNode node)
         {
-            var builder = new ReworkPhases.NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
+            var builder = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
 
             builder.Assemble(node);
             builder.Assemble(node);
