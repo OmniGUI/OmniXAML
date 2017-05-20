@@ -1,16 +1,16 @@
-﻿namespace OmniXaml.Services
-{
-    using System.Collections.Generic;
-    using System.Reflection;
-    using Rework;
-    using ReworkPhases;
-    using TypeLocation;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using OmniXaml.Rework;
+using OmniXaml.ReworkPhases;
+using OmniXaml.TypeLocation;
 
+namespace OmniXaml.Services
+{
     public class XamlLoader : IXamlLoader
     {
+        private readonly IStringSourceValueConverter converter;
         private readonly ITypeDirectory directory;
         private readonly AttributeBasedMetadataProvider metadataProvider;
-        private readonly IStringSourceValueConverter converter;
 
         public XamlLoader(IList<Assembly> assemblies)
         {
@@ -19,7 +19,7 @@
             converter = new SuperSmartSourceValueConverter(new IStringSourceValueConverter[]
             {
                 new DirectCompatibilitySourceValueConverter(),
-                new AttributeBasedStringValueConverter(assemblies), new TypeConverterSourceValueConverter(),
+                new AttributeBasedStringValueConverter(assemblies), new TypeConverterSourceValueConverter()
             });
         }
 
@@ -32,7 +32,8 @@
         private object Construct(ConstructionNode ctNode, object instance)
         {
             var instanceCreator = GetInstanceCreator(converter);
-            var objectConstructor = GetObjectBuilder(instanceCreator, converter, GetMemberAssignmentApplier(converter));
+            var objectConstructor = GetNodeToObjectBuilder(instanceCreator, converter,
+                GetMemberAssignmentApplier(converter));
             var construct = objectConstructor.Build(ctNode);
             return construct;
         }
@@ -52,15 +53,16 @@
             return new SmartInstanceCreator(converter);
         }
 
-        public virtual IFullObjectBuilder GetObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        public virtual INodeToObjectBuilder GetNodeToObjectBuilder(ISmartInstanceCreator instanceCreator,
+            IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
-            return new FullObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
+            return new NodeToObjectBuilder(instanceCreator, converter, memberAssigmentApplier);
         }
 
         private ParseResult Parse(string xaml)
         {
             var resolver = new Resolver(directory);
-            var sut = new XamlToTreeParser(metadataProvider, new[] {new InlineParser(resolver) }, resolver);
+            var sut = new XamlToTreeParser(metadataProvider, new[] {new InlineParser(resolver)}, resolver);
 
             var tree = sut.Parse(xaml, new PrefixAnnotator());
             return tree;

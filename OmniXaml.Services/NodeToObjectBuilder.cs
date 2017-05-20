@@ -2,13 +2,13 @@
 {
     using ReworkPhases;
 
-    public class FullObjectBuilder : IFullObjectBuilder
+    public class NodeToObjectBuilder : INodeToObjectBuilder
     {
         private readonly ISmartInstanceCreator instanceCreator;
         private readonly IStringSourceValueConverter converter;
         private readonly IMemberAssigmentApplier memberAssigmentApplier;
 
-        public FullObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        public NodeToObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
         {
             this.instanceCreator = instanceCreator;
             this.converter = converter;
