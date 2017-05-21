@@ -15,16 +15,16 @@
 
         private readonly IEnumerable<IInlineParser> inlineParsers;
         private readonly IMetadataProvider metadataProvider;
-        private readonly IResolver resolver;
+        private readonly IXmlTypeResolver xmlTypeResolver;
 
         public AssignmentExtractor(IMetadataProvider metadataProvider,
             IEnumerable<IInlineParser> inlineParsers,
-            IResolver resolver,
+            IXmlTypeResolver xmlTypeResolver,
             Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc)
         {
             this.metadataProvider = metadataProvider;
             this.inlineParsers = inlineParsers;
-            this.resolver = resolver;
+            this.xmlTypeResolver = xmlTypeResolver;
             this.createFunc = createFunc;
         }
 
@@ -106,7 +106,7 @@
 
         private MemberAssignment FromPropertyElement(Type type, XElement propertyElement, IPrefixAnnotator annotator)
         {
-            var member = resolver.ResolveProperty(type, propertyElement);
+            var member = xmlTypeResolver.ResolveProperty(type, propertyElement);
             var children = propertyElement.Elements().Select(e => createFunc(e, annotator));
 
             var directValue = GetDirectValue(propertyElement);
@@ -151,7 +151,7 @@
         private MemberAssignment ToAssignment(Type type, XAttribute attribute)
         {
             var value = attribute.Value;
-            var property = resolver.ResolveProperty(type, attribute);
+            var property = xmlTypeResolver.ResolveProperty(type, attribute);
 
             var inlineParser = inlineParsers.FirstOrDefault(p => p.CanParse(value));
             if (inlineParser != null)

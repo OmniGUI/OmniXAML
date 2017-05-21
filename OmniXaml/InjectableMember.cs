@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace OmniXaml.Rework
+namespace OmniXaml
 {
     public class InjectableMember
     {

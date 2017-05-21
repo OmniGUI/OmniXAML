@@ -1,8 +1,5 @@
 ﻿namespace OmniXaml
 {
-    using System.Collections.Generic;
-    using Rework;
-
     public class CreationResult
     {
         public CreationResult(object instance) : this(instance, new CreationHints())

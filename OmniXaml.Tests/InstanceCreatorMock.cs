@@ -1,9 +1,8 @@
 ﻿using System;
-using OmniXaml.Rework;
 
 namespace OmniXaml.Tests
 {
-    internal class SmartInstanceCreatorMock : ISmartInstanceCreator
+    internal class InstanceCreatorMock : IInstanceCreator
     {
         private Func<Type, CreationHints, CreationResult> createFunc = (type, hints) => new CreationResult(Activator.CreateInstance(type), new CreationHints()); 
 

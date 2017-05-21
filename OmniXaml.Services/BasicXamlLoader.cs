@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using OmniXaml.Metadata;
-using OmniXaml.Rework;
-using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Services
 {
@@ -15,22 +13,21 @@ namespace OmniXaml.Services
 
         public IList<Assembly> Assemblies { get; }
 
-        public override IXamlToTreeParser Parser => new XamlToTreeParser(MetadataProvider, InlineParsers, Resolver);
+        public override IXamlToTreeParser Parser => new XamlToTreeParser(MetadataProvider, InlineParsers, XmlTypeResolver);
         public override IMemberAssigmentApplier AssignmentApplier => new MemberAssigmentApplier(ValuePipeline);
 
         protected override IValuePipeline ValuePipeline => new NoActionValuePipeline();
 
         protected virtual IEnumerable<IInlineParser> InlineParsers => new List<IInlineParser>
         {
-            new InlineParser(Resolver)
+            new InlineParser(XmlTypeResolver)
         };
 
-        protected virtual IResolver Resolver => new Resolver(new AttributeBasedTypeDirectory(Assemblies));
+        protected virtual IXmlTypeResolver XmlTypeResolver => new XmlTypeXmlTypeResolver(new AttributeBasedTypeDirectory(Assemblies));
 
         protected virtual IMetadataProvider MetadataProvider => new AttributeBasedMetadataProvider();
 
-        public override ISmartInstanceCreator SmartInstanceCreator =>
-            new SmartInstanceCreator(StringSourceValueConverter);
+        public override IInstanceCreator InstanceCreator => new SimpleInstanceCreator();
 
         public override IStringSourceValueConverter StringSourceValueConverter => new SuperSmartSourceValueConverter(
             new IStringSourceValueConverter[]
@@ -39,6 +36,6 @@ namespace OmniXaml.Services
                 new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
             });
 
-        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(SmartInstanceCreator, StringSourceValueConverter, AssignmentApplier));
+        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(InstanceCreator, StringSourceValueConverter, AssignmentApplier));
     }
 }

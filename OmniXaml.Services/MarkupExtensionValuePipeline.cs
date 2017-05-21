@@ -1,5 +1,3 @@
-using OmniXaml.Rework;
-
 namespace OmniXaml.Services
 {
     public class MarkupExtensionValuePipeline : ValuePipeline

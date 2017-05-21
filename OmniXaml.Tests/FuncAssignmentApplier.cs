@@ -1,5 +1,4 @@
 using System;
-using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Tests
 {

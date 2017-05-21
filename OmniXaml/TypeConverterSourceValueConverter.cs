@@ -1,16 +1,14 @@
-using OmniXaml.ReworkPhases;
+using System;
+using System.ComponentModel;
+using Serilog;
 
-namespace OmniXaml.Rework
+namespace OmniXaml
 {
-    using System;
-    using System.ComponentModel;
-    using Serilog;
-
     public class TypeConverterSourceValueConverter : IStringSourceValueConverter
     {
         private static readonly Type StringType = typeof(string);
 
-        public (bool, object) TryConvert(string strValue, Type targetType, ConvertContext context)
+        public (bool, object) Convert(string strValue, Type targetType, ConvertContext context)
         {
             object converted = null;
 

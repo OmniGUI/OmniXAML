@@ -1,9 +1,8 @@
 using System;
-using OmniXaml.Rework;
 
-namespace OmniXaml.Tests
+namespace OmniXaml.Services
 {
-    internal class SimpleInstanceCreator : ISmartInstanceCreator
+    internal class SimpleInstanceCreator : IInstanceCreator
     {
         public CreationResult Create(Type type, CreationHints creationHints)
         {

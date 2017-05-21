@@ -1,9 +1,5 @@
 ﻿namespace OmniXaml.Tests
 {
-    using System.Collections.Generic;
-    using Model;
-    using Xunit;
-
     public class MemberAssignmentTests
     {
         //[Fact]

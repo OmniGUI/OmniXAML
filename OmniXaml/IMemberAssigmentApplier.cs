@@ -1,4 +1,4 @@
-﻿namespace OmniXaml.ReworkPhases
+﻿namespace OmniXaml
 {
     public interface IMemberAssigmentApplier
     {

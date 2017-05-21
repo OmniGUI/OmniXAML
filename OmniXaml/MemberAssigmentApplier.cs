@@ -1,10 +1,9 @@
-﻿namespace OmniXaml.ReworkPhases
-{
-    using System;
-    using System.Linq;
-    using Rework;
-    using Zafiro.Core;
+﻿using System;
+using System.Linq;
+using Zafiro.Core;
 
+namespace OmniXaml
+{
     public class MemberAssigmentApplier : IMemberAssigmentApplier
     {
         private readonly IValuePipeline pipeline;

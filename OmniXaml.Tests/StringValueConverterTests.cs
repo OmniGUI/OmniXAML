@@ -1,10 +1,9 @@
-﻿using OmniXaml.Rework;
-using OmniXaml.Tests.Model;
+﻿using OmniXaml.Tests.Model;
 using Xunit;
 
 namespace OmniXaml.Tests
 {
-    public class SmartSourceValueConverterTests
+    public class StringValueConverterTests
     {
         [Theory]
         [InlineData("hola", "hola")]
@@ -15,12 +14,12 @@ namespace OmniXaml.Tests
         public void Convert(string sourceValue, object converted)
         {
             var sut = CreateSut();
-            Assert.Equal((true, converted), sut.TryConvert(sourceValue, converted.GetType()));
+            Assert.Equal((true, converted), sut.Convert(sourceValue, converted.GetType()));
         }
       
-        private static SmartSourceValueConverter CreateSut()
+        private static StringValueConverter CreateSut()
         {
-            return new SmartSourceValueConverter();
+            return new StringValueConverter();
         }
     }
 }

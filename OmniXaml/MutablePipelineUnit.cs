@@ -1,4 +1,4 @@
-namespace OmniXaml.Rework
+namespace OmniXaml
 {
     public class MutablePipelineUnit
     {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using OmniXaml.ReworkPhases;
 using OmniXaml.Services;
 using OmniXaml.Tests.Model;
 using Xunit;

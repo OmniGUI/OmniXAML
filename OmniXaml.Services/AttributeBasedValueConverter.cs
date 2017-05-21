@@ -1,6 +1,4 @@
-﻿using OmniXaml.ReworkPhases;
-
-namespace OmniXaml.Services
+﻿namespace OmniXaml.Services
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +7,11 @@ namespace OmniXaml.Services
     using Attributes;
     using Zafiro.Core;
 
-    public class AttributeBasedSmartSourceValueConverter<TInput, TOutput> : ISmartSourceValueConverter<TInput, TOutput>
+    public class AttributeBasedValueConverter<TInput, TOutput> : IValueConverter<TInput, TOutput>
     {
         private readonly IDictionary<Type, Func<TInput, ConvertContext, (bool, TOutput)>> converterFuncs = new Dictionary<Type, Func<TInput, ConvertContext, (bool, TOutput)>>();
 
-        public AttributeBasedSmartSourceValueConverter(IList<Assembly> assemblies)
+        public AttributeBasedValueConverter(IList<Assembly> assemblies)
         {
             AddConvertersFromAssemblies(assemblies);
         }
@@ -36,7 +34,7 @@ namespace OmniXaml.Services
             }
         }
 
-        public (bool, object) TryConvert(TInput input, Type desiredTargetType, ConvertContext context)
+        public (bool, object) Convert(TInput input, Type desiredTargetType, ConvertContext context)
         {
             if (converterFuncs.ContainsKey(desiredTargetType))
             {

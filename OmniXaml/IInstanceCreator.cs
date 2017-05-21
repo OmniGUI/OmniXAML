@@ -1,9 +1,8 @@
 ﻿namespace OmniXaml
 {
     using System;
-    using Rework;
 
-    public interface ISmartInstanceCreator
+    public interface IInstanceCreator
     {
         CreationResult Create(Type type, CreationHints creationHints = null);
     }

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
-using OmniXaml.Rework;
 
 namespace OmniXaml.Services
 {

@@ -1,6 +1,6 @@
 ﻿namespace OmniXaml
 {
-    public interface IStringSourceValueConverter : ISmartSourceValueConverter<string, object>
+    public interface IStringSourceValueConverter : IValueConverter<string, object>
     {
     }
 }

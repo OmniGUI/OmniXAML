@@ -8,13 +8,13 @@
     using Zafiro.Core;
     using TypeLocation;
 
-    public class Resolver : IResolver
+    public class XmlTypeXmlTypeResolver : IXmlTypeResolver
     {
         private const string ExtensionSuffix = "Extension";
         private static readonly Regex ClassNameRegex = new Regex(@"(?<class>(?:\w+\.\w+|\w+)+);assembly=(?<assembly>\w+\.\w+|\w+)");
         private readonly ITypeDirectory typeDirectory;
 
-        public Resolver(ITypeDirectory typeDirectory)
+        public XmlTypeXmlTypeResolver(ITypeDirectory typeDirectory)
         {
             this.typeDirectory = typeDirectory;
         }

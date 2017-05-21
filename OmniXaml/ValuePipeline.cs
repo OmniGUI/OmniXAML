@@ -1,5 +1,3 @@
-using OmniXaml.Rework;
-
 namespace OmniXaml
 {
     public abstract class ValuePipeline : IValuePipeline

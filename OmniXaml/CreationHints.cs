@@ -1,7 +1,7 @@
-﻿namespace OmniXaml.Rework
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace OmniXaml
+{
     public class CreationHints
     {
         public CreationHints()

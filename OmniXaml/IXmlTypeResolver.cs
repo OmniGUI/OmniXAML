@@ -3,7 +3,7 @@
     using System;
     using System.Xml.Linq;
 
-    public interface IResolver
+    public interface IXmlTypeResolver
     {
         Member ResolveProperty(Type type, XElement element);
         Member ResolveProperty(Type type, XAttribute attribute);

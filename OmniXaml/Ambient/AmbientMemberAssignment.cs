@@ -1,7 +1,5 @@
 namespace OmniXaml.Ambient
 {
-    using System.Reflection;
-
     public class AmbientMemberAssignment
     {
         public Member Property { get; set; }

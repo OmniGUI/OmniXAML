@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using OmniXaml.ReworkPhases;
-using OmniXaml.Tests.Model;
-using Xunit;
+﻿using Xunit;
 
 namespace OmniXaml.Tests
 {

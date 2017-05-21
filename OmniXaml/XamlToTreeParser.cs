@@ -14,14 +14,14 @@
         private readonly IAssignmentExtractor assignmentExtractor;
         private readonly DirectiveExtractor directiveExtractor;
         private readonly IMetadataProvider metadataProvider;
-        private readonly IResolver resolver;
+        private readonly IXmlTypeResolver xmlTypeResolver;
 
-        public XamlToTreeParser(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IResolver resolver)
+        public XamlToTreeParser(IMetadataProvider metadataProvider, IEnumerable<IInlineParser> inlineParsers, IXmlTypeResolver xmlTypeResolver)
         {
             this.metadataProvider = metadataProvider;
-            this.resolver = resolver;
+            this.xmlTypeResolver = xmlTypeResolver;
             Func<XElement, IPrefixAnnotator, ConstructionNode> func = ProcessNode;
-            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, resolver, func);
+            assignmentExtractor = new AssignmentExtractor(metadataProvider, inlineParsers, xmlTypeResolver, func);
             directiveExtractor = new DirectiveExtractor();
         }
 
@@ -38,7 +38,7 @@
 
         private ConstructionNode ProcessNode(XElement node, IPrefixAnnotator annotator)
         {
-            var elementType = resolver.LocateType(node.Name);
+            var elementType = xmlTypeResolver.LocateType(node.Name);
             var directives = directiveExtractor.GetDirectives(node).ToList();
 
             var type = GetFinalTypeAccordingToDirectives(elementType, directives);
@@ -68,7 +68,7 @@
         {
             var classDirectiveValue = directives.FirstOrDefault(directive => directive.Name == "Class")?.Value;
 
-            return classDirectiveValue != null ? resolver.LocateTypeForClassDirective(elementType, classDirectiveValue) : elementType;
+            return classDirectiveValue != null ? xmlTypeResolver.LocateTypeForClassDirective(elementType, classDirectiveValue) : elementType;
         }
 
         private static void AnnotatePrefixes(XElement node, IPrefixAnnotator annotator, ConstructionNode constructionNode)

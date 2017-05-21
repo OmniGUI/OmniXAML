@@ -3,26 +3,24 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Reflection;
     using System.Xml.Linq;
-    using TypeLocation;
 
     public class MarkupExtensionNodeToConstructionNodeConverter
     {
         private readonly Func<string, string> getNsFromPrefix;
-        private readonly IResolver resolver;
+        private readonly IXmlTypeResolver xmlTypeResolver;
 
-        public MarkupExtensionNodeToConstructionNodeConverter(Func<string, string> getNsFromPrefix, IResolver resolver)
+        public MarkupExtensionNodeToConstructionNodeConverter(Func<string, string> getNsFromPrefix, IXmlTypeResolver xmlTypeResolver)
         {
             this.getNsFromPrefix = getNsFromPrefix;
-            this.resolver = resolver;
+            this.xmlTypeResolver = xmlTypeResolver;
         }
 
         public ConstructionNode Convert(MarkupExtensionNode tree)
         {
             var identifier = tree.Identifier;
             var ns = getNsFromPrefix(identifier.Prefix);
-            var type = resolver.LocateMarkupExtension(XName.Get(identifier.TypeName, ns));
+            var type = xmlTypeResolver.LocateMarkupExtension(XName.Get(identifier.TypeName, ns));
 
             var arguments = ParseArguments(tree.Options.OfType<PositionalOption>());
             var assignments = ParseAssignments(tree.Options.OfType<PropertyOption>(), type);

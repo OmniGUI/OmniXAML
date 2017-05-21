@@ -18,7 +18,7 @@ namespace OmniXaml.Tests.XmlToNodes
 
             var directory = new TypeDirectory(namespaces);
 
-            var resolver = new Resolver(directory);
+            var resolver = new XmlTypeXmlTypeResolver(directory);
             var sut = new XamlToTreeParser(new AttributeBasedMetadataProvider(), new[] {new InlineParser(resolver) }, resolver);
 
             var prefixAnnotator = new PrefixAnnotator();

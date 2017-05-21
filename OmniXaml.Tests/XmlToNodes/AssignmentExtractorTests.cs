@@ -16,7 +16,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var typeDirectory = new AttributeBasedTypeDirectory(new List<Assembly> {typeof(ModelObject).GetTypeInfo().Assembly});
             var sut = new AssignmentExtractor(new AttributeBasedMetadataProvider(), new InlineParser[0],
-                new Resolver(typeDirectory), parser);
+                new XmlTypeXmlTypeResolver(typeDirectory), parser);
 
             var assigments = sut.GetAssignments(type, XElement.Parse(xaml), new PrefixAnnotator()).ToList();
             return assigments;

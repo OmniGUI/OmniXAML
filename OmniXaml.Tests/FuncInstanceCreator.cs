@@ -1,9 +1,8 @@
 using System;
-using OmniXaml.Rework;
 
 namespace OmniXaml.Tests
 {
-    public class FuncInstanceCreator : ISmartInstanceCreator
+    public class FuncInstanceCreator : IInstanceCreator
     {
         private readonly Func<CreationHints, Type, CreationResult> func;
 

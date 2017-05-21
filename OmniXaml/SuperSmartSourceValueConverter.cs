@@ -1,6 +1,4 @@
-﻿using OmniXaml.ReworkPhases;
-
-namespace OmniXaml
+﻿namespace OmniXaml
 {
     using System;
     using System.Collections.Generic;
@@ -15,10 +13,10 @@ namespace OmniXaml
             this.converters = converters;
         }
 
-        public (bool, object) TryConvert(string strValue, Type desiredTargetType, ConvertContext context)
+        public (bool, object) Convert(string strValue, Type desiredTargetType, ConvertContext context)
         {
             var results = from c in converters
-                let r = c.TryConvert(strValue, desiredTargetType, context)
+                let r = c.Convert(strValue, desiredTargetType, context)
                 where r.Item1
                 select new { r.Item1, r.Item2 };
 

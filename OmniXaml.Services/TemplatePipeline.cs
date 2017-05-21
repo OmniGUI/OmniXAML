@@ -1,5 +1,4 @@
 ﻿using OmniXaml.Metadata;
-using OmniXaml.Rework;
 
 namespace OmniXaml.Services
 {
