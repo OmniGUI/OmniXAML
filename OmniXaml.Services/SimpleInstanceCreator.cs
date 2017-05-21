@@ -2,7 +2,7 @@ using System;
 
 namespace OmniXaml.Services
 {
-    internal class SimpleInstanceCreator : IInstanceCreator
+    public class SimpleInstanceCreator : IInstanceCreator
     {
         public CreationResult Create(Type type, CreationHints creationHints)
         {

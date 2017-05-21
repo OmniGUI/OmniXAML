@@ -5,7 +5,7 @@ namespace OmniXaml.Services
 {
     public class ExtendedXamlLoader : BasicXamlLoader
     {
-        public ExtendedXamlLoader(List<Assembly> assemblies) : base((IList<Assembly>) assemblies)
+        public ExtendedXamlLoader(IList<Assembly> assemblies) : base(assemblies)
         {            
         }
 
