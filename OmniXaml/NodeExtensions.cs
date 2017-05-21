@@ -4,17 +4,11 @@ using OmniXaml.ReworkPhases;
 
 namespace OmniXaml
 {
-    public static class InflatedNodeExtensions
+    public static class NodeExtensions
     {
         public static IEnumerable<ConstructionNode> GetAllChildren(this ConstructionNode node)
         {
             return node.Children.Concat(node.Assignments.SelectMany(assignment => assignment.Values));
-        }
-
-        public static bool ContainsFailedConversion(this InflatedNode node)
-        {
-            return node.IsPendingCreate ||
-                   node.Assignments.SelectMany(assignment => assignment.Values).Any(n => n.ContainsFailedConversion());
         }
 
         public static ConstructionNode WithAssignments(this ConstructionNode node, IEnumerable<MemberAssignment> assignment)
@@ -35,16 +29,6 @@ namespace OmniXaml
             }
 
             return node;
-        }
-
-        public static InflatedMemberAssignment WithValues(this InflatedMemberAssignment assignment, IEnumerable<InflatedNode> nodes)
-        {
-            foreach (var inflatedNode in nodes)
-            {
-                assignment.Values.Add(inflatedNode);
-            }
-
-            return assignment;
-        }
+        }        
     }
 }
