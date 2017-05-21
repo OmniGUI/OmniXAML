@@ -91,7 +91,7 @@ namespace OmniXaml.Tests.Integration
 
         private static object LoadXaml(string xaml)
         {
-            var loader = new XamlLoaderExtended(new List<Assembly> {typeof(Window).GetTypeInfo().Assembly});
+            var loader = new ExtendedXamlLoader(new List<Assembly> {typeof(Window).GetTypeInfo().Assembly});
             return loader.Load(xaml);
         }
     }

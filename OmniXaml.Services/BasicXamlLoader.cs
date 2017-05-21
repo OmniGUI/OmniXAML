@@ -6,9 +6,9 @@ using OmniXaml.ReworkPhases;
 
 namespace OmniXaml.Services
 {
-    public class XamlLoaderSimple : XamlLoaderBase
+    public class BasicXamlLoader : XamlLoader
     {
-        public XamlLoaderSimple(IList<Assembly> assemblies)
+        public BasicXamlLoader(IList<Assembly> assemblies)
         {
             Assemblies = assemblies;
         }
@@ -39,6 +39,6 @@ namespace OmniXaml.Services
                 new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
             });
 
-        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(SmartInstanceCreator, StringSourceValueConverter, AssignmentApplier);
+        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(SmartInstanceCreator, StringSourceValueConverter, AssignmentApplier));
     }
 }

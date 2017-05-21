@@ -4,24 +4,33 @@
 
     public class NodeToObjectBuilder : INodeToObjectBuilder
     {
-        private readonly ISmartInstanceCreator instanceCreator;
-        private readonly IStringSourceValueConverter converter;
-        private readonly IMemberAssigmentApplier memberAssigmentApplier;
+        private readonly INodeAssembler assembler;
 
-        public NodeToObjectBuilder(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        public NodeToObjectBuilder(INodeAssembler assembler)
         {
-            this.instanceCreator = instanceCreator;
-            this.converter = converter;
-            this.memberAssigmentApplier = memberAssigmentApplier;
+            this.assembler = assembler;
         }
 
         public object Build(ConstructionNode node)
         {
-            var builder = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
-
-            builder.Assemble(node);
-            builder.Assemble(node);
+            assembler.Assemble(node);            
             return node.Instance;
+        }
+    }
+
+    public class TwoPassesNodeAssembler : INodeAssembler
+    {
+        private readonly NodeAssembler assembler;
+
+        public TwoPassesNodeAssembler(ISmartInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        {
+            assembler = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
+        }
+
+        public void Assemble(ConstructionNode node, ConstructionNode parent = null)
+        {
+            assembler.Assemble(node, parent);
+            assembler.Assemble(node, parent);
         }
     }
 }

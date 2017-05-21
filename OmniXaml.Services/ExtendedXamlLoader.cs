@@ -4,9 +4,9 @@ using OmniXaml.Rework;
 
 namespace OmniXaml.Services
 {
-    public class XamlLoaderExtended : XamlLoaderSimple
+    public class ExtendedXamlLoader : BasicXamlLoader
     {
-        public XamlLoaderExtended(List<Assembly> assemblies) : base((IList<Assembly>) assemblies)
+        public ExtendedXamlLoader(List<Assembly> assemblies) : base((IList<Assembly>) assemblies)
         {            
         }
 
