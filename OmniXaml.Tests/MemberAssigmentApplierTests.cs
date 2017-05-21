@@ -30,7 +30,7 @@ namespace OmniXaml.Tests
                 Values = nodes,
             };
 
-            Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(assignment, null));
+            Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(assignment, null, null));
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace OmniXaml.Tests
 
             var itemsControl = new ItemsControl();
 
-            sut.ExecuteAssignment(assignment, itemsControl);
+            sut.ExecuteAssignment(assignment, itemsControl, null);
 
             Assert.Equal(new[] { "A", "B" }, itemsControl.Items);
         }
@@ -79,7 +79,7 @@ namespace OmniXaml.Tests
                 Values = nodes,
             };
 
-            sut.ExecuteAssignment(assignment, textBlock);
+            sut.ExecuteAssignment(assignment, textBlock, null);
 
             Assert.Equal("SomeText", textBlock.Text);
         }
@@ -89,14 +89,14 @@ namespace OmniXaml.Tests
         {
             var sut = new MemberAssigmentApplier(new NoActionValuePipeline());
             var textBlock = new TextBlock();
-            var inflatedNodes = new List<ConstructionNode>() { new ConstructionNode() { Instance = 1 } };
+            var nodes = new List<ConstructionNode>() { new ConstructionNode() { Instance = 1 } };
             var assignment = new MemberAssignment
             {
                 Member = Member.FromAttached<Grid>("Row"),
-                Values = inflatedNodes,
+                Values = nodes,
             };
 
-            sut.ExecuteAssignment(assignment, textBlock);
+            sut.ExecuteAssignment(assignment, textBlock, null);
 
             Assert.Equal(1, Grid.GetRow(textBlock));
         }
@@ -112,13 +112,13 @@ namespace OmniXaml.Tests
                     Instance = "12.5",
                 },
             };
-            var inflatedMemberAssignment = new MemberAssignment
+            var assignment = new MemberAssignment
             {
                 Member = Member.FromStandard<Window>(w => w.Height),
                 Values=nodes
             };
             var window = new Window();
-            Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(inflatedMemberAssignment, window));
+            Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(assignment, window, null));
         }
     }
 }

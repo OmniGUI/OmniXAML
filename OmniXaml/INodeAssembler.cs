@@ -2,6 +2,6 @@
 {
     public interface INodeAssembler
     {
-        void Assemble(ConstructionNode node, ConstructionNode parent = null);
+        void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null);
     }
 }

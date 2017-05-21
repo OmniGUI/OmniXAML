@@ -78,6 +78,9 @@ namespace OmniXaml.Tests.Integration
         </DataTemplate>";
 
             var instance = LoadXaml(xaml);
+            var template = (DataTemplate) instance;
+            var loadedContent = template.Content.Load();
+            Assert.IsAssignableFrom<TextBlock>(loadedContent);
         }
 
         [Fact]

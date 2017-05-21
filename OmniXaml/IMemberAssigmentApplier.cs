@@ -2,6 +2,6 @@
 {
     public interface IMemberAssigmentApplier
     {
-        void ExecuteAssignment(MemberAssignment inflatedAssignment, object instance);
+        void ExecuteAssignment(MemberAssignment assignment, object instance, INodeToObjectBuilder builder);
     }
 }

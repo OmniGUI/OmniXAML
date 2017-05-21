@@ -4,16 +4,16 @@ namespace OmniXaml.Tests
 {
     public class FuncAssignmentApplier : IMemberAssigmentApplier
     {
-        private Action<MemberAssignment, object> func;
+        private Action<MemberAssignment, object, INodeToObjectBuilder> func;
 
-        public FuncAssignmentApplier(Action<MemberAssignment, object> func)
+        public FuncAssignmentApplier(Action<MemberAssignment, object, INodeToObjectBuilder> func)
         {
             this.func = func;
         }
 
-        public void ExecuteAssignment(MemberAssignment inflatedAssignment, object instance)
+        public void ExecuteAssignment(MemberAssignment assignment, object instance, INodeToObjectBuilder builder)
         {
-            func(inflatedAssignment, instance);
+            func(assignment, instance, builder);
         }
     }
 }

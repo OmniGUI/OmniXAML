@@ -13,39 +13,39 @@ namespace OmniXaml
             this.pipeline = pipeline;
         }
 
-        public void ExecuteAssignment(MemberAssignment inflatedAssignment, object instance)
+        public void ExecuteAssignment(MemberAssignment assignment, object instance, INodeToObjectBuilder builder)
         {
-            if (inflatedAssignment.Member.MemberType.IsCollection())
+            if (assignment.Member.MemberType.IsCollection())
             {
-                AssignCollection(inflatedAssignment, instance);
+                AssignCollection(assignment, instance);
             }
             else
             {
-                AssignSingleValue(inflatedAssignment, instance);
+                AssignSingleValue(assignment, instance, builder);
             }
         }
 
-        private void AssignSingleValue(MemberAssignment assignment, object instance)
+        private void AssignSingleValue(MemberAssignment assignment, object instance, INodeToObjectBuilder builder)
         {
-            var inflatedAssignmentChildren = assignment.Values.ToList();
+            var children = assignment.Values.ToList();
 
-            if (inflatedAssignmentChildren.Count > 1)
+            if (children.Count > 1)
             {
                 throw new InvalidOperationException($"Cannot assign multiple values to a the property {assignment}");
             }
 
-            var nodeBeingAssigned = inflatedAssignmentChildren.First();
+            var nodeBeingAssigned = children.First();
             
             var value = nodeBeingAssigned.Instance;
 
-            SetMember(instance, assignment.Member, value, nodeBeingAssigned);
+            SetMember(instance, assignment.Member, value, nodeBeingAssigned, builder);
         }
 
-        private void SetMember(object parent, Member member, object value, ConstructionNode parentNode)
+        private void SetMember(object parent, Member member, object value, ConstructionNode parentNode, INodeToObjectBuilder builder)
         {
             var mutableUnit = new MutablePipelineUnit(parentNode, value);
             
-            pipeline.Handle(parent, member, mutableUnit, null);
+            pipeline.Handle(parent, member, mutableUnit, builder);
             if (mutableUnit.Handled)
             {
                 return;
@@ -54,10 +54,10 @@ namespace OmniXaml
             member.SetValue(parent, mutableUnit.Value);
         }
 
-        private static void AssignCollection(MemberAssignment inflatedAssignment, object instance)
+        private static void AssignCollection(MemberAssignment assignment, object instance)
         {
-            var parent = inflatedAssignment.Member.GetValue(instance);
-            var children = from n in inflatedAssignment.Values select n.Instance;
+            var parent = assignment.Member.GetValue(instance);
+            var children = from n in assignment.Values select n.Instance;
             foreach (var child in children)
             {
                 Collection.UniversalAdd(parent, child);

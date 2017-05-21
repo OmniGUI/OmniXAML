@@ -46,7 +46,7 @@ namespace XamlLoadTest
 
             var children = root.GetAllChildren();
 
-            return children.Select(inflatedNode => LookupNameCore(name, inflatedNode)).FirstOrDefault(childLookup => childLookup != null);
+            return children.Select(node => LookupNameCore(name, node)).FirstOrDefault(childLookup => childLookup != null);
         }
 
         private static ConstructionNode FindRoot(ConstructionNode node)

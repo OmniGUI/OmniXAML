@@ -11,7 +11,7 @@
 
         public object Build(ConstructionNode node)
         {
-            assembler.Assemble(node);            
+            assembler.Assemble(node, this, null);            
             return node.Instance;
         }
     }

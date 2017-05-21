@@ -17,7 +17,7 @@ namespace OmniXaml
             this.assigmentApplier = assigmentApplier;
         }
 
-        public void Assemble(ConstructionNode node, ConstructionNode parent = null)
+        public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null)
         {
             node.Parent = parent;
 
@@ -32,27 +32,27 @@ namespace OmniXaml
             }
             else
             {
-                CreateIntermediateNode(node);
+                CreateIntermediateNode(node, nodeToObjectBuilder);
             }
 
         }
 
-        private void CreateIntermediateNode(ConstructionNode node)
+        private void CreateIntermediateNode(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder)
         {
             foreach (var a in node.Assignments)
             {
-                AssembleAssignment(a, node);
+                AssembleAssignment(a, node, nodeToObjectBuilder);
             }
 
             foreach (var c in node.Children)
             {
-                Assemble(c, node);
+                Assemble(c, nodeToObjectBuilder, node);
             }
 
             if (CanBeCreated(node))
             {
                 CreateInstance(node);
-                ApplyAssignments(node);
+                ApplyAssignments(node, nodeToObjectBuilder);
                 AttachChildren(node);
             }
         }
@@ -67,15 +67,15 @@ namespace OmniXaml
             }
         }
 
-        private void ApplyAssignments(ConstructionNode node)
+        private void ApplyAssignments(ConstructionNode node, INodeToObjectBuilder builder)
         {
             foreach (var assignment in node.Assignments)
             {
-                assigmentApplier.ExecuteAssignment(assignment, node.Instance);
+                assigmentApplier.ExecuteAssignment(assignment, node.Instance, builder);
             }
         }
 
-        private void AssembleAssignment(MemberAssignment memberAssignment, ConstructionNode node)
+        private void AssembleAssignment(MemberAssignment memberAssignment, ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder)
         {
             if (memberAssignment.SourceValue != null)
             {
@@ -83,7 +83,7 @@ namespace OmniXaml
             }
             else
             {
-                AssembleFromChildren(memberAssignment, node);
+                AssembleFromChildren(memberAssignment, node, nodeToObjectBuilder);
             }
         }
 
@@ -113,11 +113,11 @@ namespace OmniXaml
             node.InstanceType = node.ActualInstanceType;
         }
 
-        private void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode)
+        private void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode, INodeToObjectBuilder nodeToObjectBuilder)
         {
             foreach (var node in a.Values)
             {
-                Assemble(node, constructionNode);
+                Assemble(node, nodeToObjectBuilder, constructionNode);
             }
         }
 
