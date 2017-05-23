@@ -107,7 +107,7 @@
         private MemberAssignment FromPropertyElement(Type type, XElement propertyElement, IPrefixAnnotator annotator)
         {
             var member = xmlTypeResolver.ResolveProperty(type, propertyElement);
-            var children = propertyElement.Elements().Select(e => createFunc(e, annotator));
+            var children = propertyElement.Elements().Select(e => createFunc(e, annotator)).ToList();
 
             var directValue = GetDirectValue(propertyElement);
 
