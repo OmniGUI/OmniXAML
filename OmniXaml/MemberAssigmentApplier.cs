@@ -13,21 +13,21 @@ namespace OmniXaml
             this.pipeline = pipeline;
         }
 
-        public void ExecuteAssignment(MemberAssignment assignment, object instance, INodeToObjectBuilder builder)
+        public void ExecuteAssignment(NodeAssignment nodeAssignment, INodeToObjectBuilder builder)
         {
-            if (assignment.Member.MemberType.IsCollection())
+            if (nodeAssignment.Assignment.Member.MemberType.IsCollection())
             {
-                AssignCollection(assignment, instance);
+                AssignCollection(nodeAssignment);
             }
             else
             {
-                AssignSingleValue(assignment, instance, builder);
+                AssignSingleValue(nodeAssignment, builder);
             }
         }
 
-        private void AssignSingleValue(MemberAssignment assignment, object instance, INodeToObjectBuilder builder)
+        private void AssignSingleValue(NodeAssignment assignment, INodeToObjectBuilder builder)
         {
-            var children = assignment.Values.ToList();
+            var children = assignment.Assignment.Values.ToList();
 
             if (children.Count > 1)
             {
@@ -38,26 +38,27 @@ namespace OmniXaml
             
             var value = nodeBeingAssigned.Instance;
 
-            SetMember(instance, assignment.Member, value, nodeBeingAssigned, builder);
+            var assign = new Assignment(assignment.Instance, assignment.Assignment.Member, value);
+            SetMember(assign, nodeBeingAssigned, builder);
         }
 
-        private void SetMember(object parent, Member member, object value, ConstructionNode parentNode, INodeToObjectBuilder builder)
+        private void SetMember(Assignment assignment, ConstructionNode parentNode, INodeToObjectBuilder builder)
         {
-            var mutableUnit = new MutablePipelineUnit(parentNode, value);
+            var mutableUnit = new MutablePipelineUnit(parentNode, assignment.Value);
             
-            pipeline.Handle(parent, member, mutableUnit, builder);
+            pipeline.Handle(assignment.Target.Instance, assignment.Member, mutableUnit, builder);
             if (mutableUnit.Handled)
             {
                 return;
             }
 
-            member.SetValue(parent, mutableUnit.Value);
+            assignment.Member.SetValue(assignment.Target.Instance, mutableUnit.Value);
         }
 
-        private static void AssignCollection(MemberAssignment assignment, object instance)
+        private static void AssignCollection(NodeAssignment assignment)
         {
-            var parent = assignment.Member.GetValue(instance);
-            var children = from n in assignment.Values select n.Instance;
+            var parent = assignment.Assignment.Member.GetValue(assignment.Instance);
+            var children = from n in assignment.Assignment.Values select n.Instance;
             foreach (var child in children)
             {
                 Collection.UniversalAdd(parent, child);

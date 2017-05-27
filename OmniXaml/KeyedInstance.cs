@@ -11,5 +11,11 @@
         }
 
         public object Key { get; set; }
+
+        public override string ToString()
+        {
+            var key = Key != null?  "{{Key}}" : string.Empty;
+            return $"{Instance}{key}";
+        }
     }
 }

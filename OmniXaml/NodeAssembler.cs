@@ -71,7 +71,8 @@ namespace OmniXaml
         {
             foreach (var assignment in node.Assignments)
             {
-                assigmentApplier.ExecuteAssignment(assignment, node.Instance, builder);
+                var nodeAssignment = new NodeAssignment(assignment, node.Instance);
+                assigmentApplier.ExecuteAssignment(nodeAssignment, builder);
             }
         }
 
