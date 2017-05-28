@@ -11,7 +11,7 @@ namespace OmniXaml.Services
             this.metadataProvider = metadataProvider;
         }
 
-        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
+        protected override void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder, BuilderContext context)
         {
             var deferringLoader = metadataProvider.Get(parent.GetType()).FragmentLoaderInfo;
 
@@ -22,7 +22,7 @@ namespace OmniXaml.Services
 
             if (IsApplicable(deferringLoader, parent, member))
             {
-                mutable.Value = deferringLoader.Loader.Load(mutable.ParentNode, builder);
+                mutable.Value = deferringLoader.Loader.Load(mutable.ParentNode, builder, context);
             }
         }
 

@@ -13,7 +13,7 @@ namespace OmniXaml
             this.pipeline = pipeline;
         }
 
-        public void ExecuteAssignment(NodeAssignment nodeAssignment, INodeToObjectBuilder builder)
+        public void ExecuteAssignment(NodeAssignment nodeAssignment, INodeToObjectBuilder builder, BuilderContext context)
         {
             if (nodeAssignment.Assignment.Member.MemberType.IsCollection())
             {
@@ -21,11 +21,11 @@ namespace OmniXaml
             }
             else
             {
-                AssignSingleValue(nodeAssignment, builder);
+                AssignSingleValue(nodeAssignment, builder, context);
             }
         }
 
-        private void AssignSingleValue(NodeAssignment assignment, INodeToObjectBuilder builder)
+        private void AssignSingleValue(NodeAssignment assignment, INodeToObjectBuilder builder, BuilderContext context)
         {
             var children = assignment.Assignment.Values.ToList();
 
@@ -39,14 +39,14 @@ namespace OmniXaml
             var value = nodeBeingAssigned.Instance;
 
             var assign = new Assignment(assignment.Instance, assignment.Assignment.Member, value);
-            SetMember(assign, nodeBeingAssigned, builder);
+            SetMember(assign, nodeBeingAssigned, builder, context);
         }
 
-        private void SetMember(Assignment assignment, ConstructionNode parentNode, INodeToObjectBuilder builder)
+        private void SetMember(Assignment assignment, ConstructionNode parentNode, INodeToObjectBuilder builder, BuilderContext context)
         {
             var mutableUnit = new MutablePipelineUnit(parentNode, assignment.Value);
             
-            pipeline.Handle(assignment.Target.Instance, assignment.Member, mutableUnit, builder);
+            pipeline.Handle(assignment.Target.Instance, assignment.Member, mutableUnit, builder, context);
             if (mutableUnit.Handled)
             {
                 return;

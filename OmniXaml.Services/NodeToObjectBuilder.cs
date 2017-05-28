@@ -9,9 +9,9 @@
             this.assembler = assembler;
         }
 
-        public object Build(ConstructionNode node)
+        public object Build(ConstructionNode node, BuilderContext context = null)
         {
-            assembler.Assemble(node, this, null);            
+            assembler.Assemble(node, this, null, context ?? new BuilderContext());            
             return node.Instance;
         }
     }

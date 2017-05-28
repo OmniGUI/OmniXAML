@@ -15,6 +15,7 @@
 
             getter = propInfo.GetMethod;
             setter = propInfo.SetMethod;
+
             propertyType = propInfo.PropertyType;
         }
 
@@ -27,6 +28,11 @@
 
         public override void SetValue(object instance, object value)
         {
+            if (setter == null)
+            {
+                throw new InvalidOperationException($"Attempt to write to read-only property ({MemberName}) from type {Owner}");
+            }
+
             setter.Invoke(instance, new []{ value } );
         }      
     }

@@ -9,15 +9,15 @@ namespace OmniXaml
             this.pipeline = pipeline;
         }
 
-        public void Handle(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder)
+        public void Handle(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder, BuilderContext context)
         {
             if (!mutable.Handled)
             {
-                pipeline.Handle(parent, member, mutable, builder);
-                HandleCore(parent, member, mutable, builder);
+                pipeline.Handle(parent, member, mutable, builder, context);
+                HandleCore(parent, member, mutable, builder, context);
             }
         }
 
-        protected abstract void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder);
+        protected abstract void HandleCore(object parent, Member member, MutablePipelineUnit mutable, INodeToObjectBuilder builder, BuilderContext context);
     }
 }

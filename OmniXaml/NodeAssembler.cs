@@ -17,7 +17,7 @@ namespace OmniXaml
             this.assigmentApplier = assigmentApplier;
         }
 
-        public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null)
+        public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null, BuilderContext context = null)
         {
             node.Parent = parent;
 
@@ -28,31 +28,31 @@ namespace OmniXaml
 
             if (node.SourceValue != null)
             {
-                AssembleLeafNode(node);
+                AssembleLeafNode(node, context);
             }
             else
             {
-                CreateIntermediateNode(node, nodeToObjectBuilder);
+                CreateIntermediateNode(node, nodeToObjectBuilder, context);
             }
 
         }
 
-        private void CreateIntermediateNode(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder)
+        private void CreateIntermediateNode(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, BuilderContext context)
         {
             foreach (var a in node.Assignments)
             {
-                AssembleAssignment(a, node, nodeToObjectBuilder);
+                AssembleAssignment(a, node, nodeToObjectBuilder, context);
             }
 
             foreach (var c in node.Children)
             {
-                Assemble(c, nodeToObjectBuilder, node);
+                Assemble(c, nodeToObjectBuilder, node, context);
             }
 
             if (CanBeCreated(node))
             {
                 CreateInstance(node);
-                ApplyAssignments(node, nodeToObjectBuilder);
+                ApplyAssignments(node, nodeToObjectBuilder, context);
                 AttachChildren(node);
             }
         }
@@ -67,24 +67,24 @@ namespace OmniXaml
             }
         }
 
-        private void ApplyAssignments(ConstructionNode node, INodeToObjectBuilder builder)
+        private void ApplyAssignments(ConstructionNode node, INodeToObjectBuilder builder, BuilderContext context)
         {
             foreach (var assignment in node.Assignments)
             {
                 var nodeAssignment = new NodeAssignment(assignment, node.Instance);
-                assigmentApplier.ExecuteAssignment(nodeAssignment, builder);
+                assigmentApplier.ExecuteAssignment(nodeAssignment, builder, context);
             }
         }
 
-        private void AssembleAssignment(MemberAssignment memberAssignment, ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder)
+        private void AssembleAssignment(MemberAssignment memberAssignment, ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, BuilderContext context)
         {
             if (memberAssignment.SourceValue != null)
             {
-                AssembleFromSourceValue(memberAssignment, node);
+                AssembleFromSourceValue(memberAssignment, node, context);
             }
             else
             {
-                AssembleFromChildren(memberAssignment, node, nodeToObjectBuilder);
+                AssembleFromChildren(memberAssignment, node, nodeToObjectBuilder, context);
             }
         }
 
@@ -104,7 +104,7 @@ namespace OmniXaml
             return allAsignmentsCreated && allChildrenCreated;
         }
 
-        private void AssembleLeafNode(ConstructionNode node)
+        private void AssembleLeafNode(ConstructionNode node, BuilderContext context)
         {
             var tryConvert = converter.Convert(node.SourceValue, node.ActualInstanceType, new ConvertContext() { Node = node });
 
@@ -114,17 +114,17 @@ namespace OmniXaml
             node.InstanceType = node.ActualInstanceType;
         }
 
-        private void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode, INodeToObjectBuilder nodeToObjectBuilder)
+        private void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode, INodeToObjectBuilder nodeToObjectBuilder, BuilderContext context)
         {
             foreach (var node in a.Values)
             {
-                Assemble(node, nodeToObjectBuilder, constructionNode);
+                Assemble(node, nodeToObjectBuilder, constructionNode, context);
             }
         }
 
-        private void AssembleFromSourceValue(MemberAssignment a, ConstructionNode node)
+        private void AssembleFromSourceValue(MemberAssignment a, ConstructionNode node, BuilderContext context)
         {
-            var conversionResult = converter.Convert(a.SourceValue, a.Member.MemberType, new ConvertContext() { Node = node, });
+            var conversionResult = converter.Convert(a.SourceValue, a.Member.MemberType, new ConvertContext() { Node = node, BuilderContext = context });
 
             a.Values = new List<ConstructionNode>
             {

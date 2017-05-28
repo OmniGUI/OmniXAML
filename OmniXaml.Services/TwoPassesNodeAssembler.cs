@@ -9,10 +9,10 @@
             assembler = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
         }
 
-        public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null)
+        public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null, BuilderContext context = null)
         {
-            assembler.Assemble(node, nodeToObjectBuilder, parent);
-            assembler.Assemble(node, nodeToObjectBuilder, parent);
+            assembler.Assemble(node, nodeToObjectBuilder, parent, context);
+            assembler.Assemble(node, nodeToObjectBuilder, parent, context);
         }
     }
 }
