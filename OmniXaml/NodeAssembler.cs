@@ -6,15 +6,15 @@ namespace OmniXaml
 {
     public class NodeAssembler : INodeAssembler
     {
-        private readonly IInstanceCreator instanceCreator;
-        private readonly IStringSourceValueConverter converter;
-        private readonly IMemberAssigmentApplier assigmentApplier;
+        public IInstanceCreator InstanceCreator { get; }
+        public IStringSourceValueConverter Converter { get; }
+        public IMemberAssigmentApplier AssigmentApplier { get; }
 
         public NodeAssembler(IInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier assigmentApplier)
         {
-            this.instanceCreator = instanceCreator;
-            this.converter = converter;
-            this.assigmentApplier = assigmentApplier;
+            this.InstanceCreator = instanceCreator;
+            this.Converter = converter;
+            this.AssigmentApplier = assigmentApplier;
         }
 
         public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null, BuilderContext context = null)
@@ -72,7 +72,7 @@ namespace OmniXaml
             foreach (var assignment in node.Assignments)
             {
                 var nodeAssignment = new NodeAssignment(assignment, node.Instance);
-                assigmentApplier.ExecuteAssignment(nodeAssignment, builder, context);
+                AssigmentApplier.ExecuteAssignment(nodeAssignment, builder, context);
             }
         }
 
@@ -88,11 +88,11 @@ namespace OmniXaml
             }
         }
 
-        private void CreateInstance(ConstructionNode node)
+        protected void CreateInstance(ConstructionNode node)
         {
             var positionalParameters = from n in node.PositionalParameters select new PositionalParameter(n);
             var creationHints = new CreationHints(new List<InjectableMember>(), positionalParameters, new List<object>());
-            var instance = instanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
+            var instance = InstanceCreator.Create(node.ActualInstanceType, creationHints).Instance;
             node.Instance = instance;
             node.IsCreated = true;
         }
@@ -106,7 +106,7 @@ namespace OmniXaml
 
         private void AssembleLeafNode(ConstructionNode node, BuilderContext context)
         {
-            var tryConvert = converter.Convert(node.SourceValue, node.ActualInstanceType, new ConvertContext() { Node = node });
+            var tryConvert = Converter.Convert(node.SourceValue, node.ActualInstanceType, new ConvertContext() { Node = node });
 
             node.Instance = tryConvert.Item2;
             node.IsCreated = tryConvert.Item1;
@@ -114,7 +114,7 @@ namespace OmniXaml
             node.InstanceType = node.ActualInstanceType;
         }
 
-        private void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode, INodeToObjectBuilder nodeToObjectBuilder, BuilderContext context)
+        protected virtual void AssembleFromChildren(MemberAssignment a, ConstructionNode constructionNode, INodeToObjectBuilder nodeToObjectBuilder, BuilderContext context)
         {
             foreach (var node in a.Values)
             {
@@ -124,7 +124,7 @@ namespace OmniXaml
 
         private void AssembleFromSourceValue(MemberAssignment a, ConstructionNode node, BuilderContext context)
         {
-            var conversionResult = converter.Convert(a.SourceValue, a.Member.MemberType, new ConvertContext() { Node = node, BuilderContext = context });
+            var conversionResult = Converter.Convert(a.SourceValue, a.Member.MemberType, new ConvertContext() { Node = node, BuilderContext = context });
 
             a.Values = new List<ConstructionNode>
             {

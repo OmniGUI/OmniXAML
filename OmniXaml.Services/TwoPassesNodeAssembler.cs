@@ -4,9 +4,9 @@
     {
         private readonly NodeAssembler assembler;
 
-        public TwoPassesNodeAssembler(IInstanceCreator instanceCreator, IStringSourceValueConverter converter, IMemberAssigmentApplier memberAssigmentApplier)
+        public TwoPassesNodeAssembler(NodeAssembler nodeAssembler)
         {
-            assembler = new NodeAssembler(instanceCreator, converter, memberAssigmentApplier);
+            assembler = nodeAssembler;
         }
 
         public void Assemble(ConstructionNode node, INodeToObjectBuilder nodeToObjectBuilder, ConstructionNode parent = null, BuilderContext context = null)

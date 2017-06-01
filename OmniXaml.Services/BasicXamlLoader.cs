@@ -36,6 +36,6 @@ namespace OmniXaml.Services
                 new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
             });
 
-        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(InstanceCreator, StringSourceValueConverter, AssignmentApplier));
+        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(new NodeAssembler(InstanceCreator, StringSourceValueConverter, AssignmentApplier)));
     }
 }
