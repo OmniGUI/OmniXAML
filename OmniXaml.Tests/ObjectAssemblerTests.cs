@@ -68,9 +68,9 @@ namespace OmniXaml.Tests
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
 
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(textBlock));
-            var sut = new NodeAssembler(creator, converter, new FuncAssignmentApplier((assignment, i, builder) =>
+            var sut = new NodeAssembler(creator, converter, new FuncAssignmentApplier((assignment, objectBuilder, context) =>
             {
-                assignment.Member.SetValue(i, assignment.Values.First().Instance);
+                assignment.Assignment.Member.SetValue(assignment.Instance, assignment.Assignment.Values.First().Instance);
             }));
 
             var constructionNode = new ConstructionNode(typeof(TextBlock)).WithAssignments(new List<MemberAssignment>()

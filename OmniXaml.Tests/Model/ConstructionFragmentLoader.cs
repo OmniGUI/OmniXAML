@@ -4,7 +4,7 @@ namespace OmniXaml.Tests.Model
 
     public class ConstructionFragmentLoader : IConstructionFragmentLoader
     {
-        public object Load(ConstructionNode node, INodeToObjectBuilder builder)
+        public object Load(ConstructionNode node, INodeToObjectBuilder builder, BuilderContext context)
         {
             return new TemplateContent(node, builder);
         }

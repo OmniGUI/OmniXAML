@@ -30,7 +30,7 @@ namespace OmniXaml.Tests
                 Values = nodes,
             };
 
-            Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(assignment, null, null));
+            Assert.Throws<InvalidOperationException>(() => sut.ExecuteAssignment(new NodeAssignment(assignment, null), null, null));
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace OmniXaml.Tests
 
             var itemsControl = new ItemsControl();
 
-            sut.ExecuteAssignment(assignment, itemsControl, null);
+            sut.ExecuteAssignment(new NodeAssignment(assignment, itemsControl), null, null);
 
             Assert.Equal(new[] { "A", "B" }, itemsControl.Items);
         }
@@ -79,7 +79,7 @@ namespace OmniXaml.Tests
                 Values = nodes,
             };
 
-            sut.ExecuteAssignment(assignment, textBlock, null);
+            sut.ExecuteAssignment(new NodeAssignment(assignment, textBlock), null, null);
 
             Assert.Equal("SomeText", textBlock.Text);
         }
@@ -96,7 +96,7 @@ namespace OmniXaml.Tests
                 Values = nodes,
             };
 
-            sut.ExecuteAssignment(assignment, textBlock, null);
+            sut.ExecuteAssignment(new NodeAssignment(assignment, textBlock), null, null);
 
             Assert.Equal(1, Grid.GetRow(textBlock));
         }
@@ -118,7 +118,7 @@ namespace OmniXaml.Tests
                 Values=nodes
             };
             var window = new Window();
-            Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(assignment, window, null));
+            Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(new NodeAssignment(assignment, window), null, null));
         }
     }
 }

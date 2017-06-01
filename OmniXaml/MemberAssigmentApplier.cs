@@ -13,15 +13,15 @@ namespace OmniXaml
             this.pipeline = pipeline;
         }
 
-        public void ExecuteAssignment(NodeAssignment nodeAssignment, INodeToObjectBuilder builder, BuilderContext context)
+        public void ExecuteAssignment(NodeAssignment assignment, INodeToObjectBuilder builder, BuilderContext context)
         {
-            if (nodeAssignment.Assignment.Member.MemberType.IsCollection())
+            if (assignment.Assignment.Member.MemberType.IsCollection())
             {
-                AssignCollection(nodeAssignment);
+                AssignCollection(assignment);
             }
             else
             {
-                AssignSingleValue(nodeAssignment, builder, context);
+                AssignSingleValue(assignment, builder, context);
             }
         }
 

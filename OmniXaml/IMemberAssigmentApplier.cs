@@ -2,6 +2,6 @@
 {
     public interface IMemberAssigmentApplier
     {
-        void ExecuteAssignment(NodeAssignment nodeAssignment, INodeToObjectBuilder builder, BuilderContext context);
+        void ExecuteAssignment(NodeAssignment assignment, INodeToObjectBuilder builder, BuilderContext context);
     }
 }
