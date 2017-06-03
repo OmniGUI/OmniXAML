@@ -139,7 +139,7 @@
 
             return new AttributeBasedInstanceProperties
             {
-                Name = nameDirectiveValue,
+                Name = name,
                 Key = key,
                 Assignments = finalAssignments.ToList(),
             };
