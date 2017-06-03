@@ -38,9 +38,10 @@ namespace OmniXaml.Services
                 if (constructionNode.ActualInstanceType == loaderInfo.Type &&
                     a.Member.MemberName == loaderInfo.PropertyName)
                 {
-                    ConstructionNode payload = constructionNode.Assignments.First().Values.First();
+                    ConstructionNode payload = constructionNode.Assignments.First(assignment => assignment.Member.MemberName == loaderInfo.PropertyName).Values.First();
                     var loader = loaderInfo.Loader.Load(payload, nodeToObjectBuilder, context);
                     CreateInstance(constructionNode);
+                    ApplyAssignments(constructionNode, nodeToObjectBuilder, context);
                     a.Values = new[] { new ConstructionNode(loader.GetType()) { Instance = loader } };
                     AssigmentApplier.ExecuteAssignment(new NodeAssignment(a, constructionNode.Instance), nodeToObjectBuilder, context);
                 }
@@ -57,19 +58,17 @@ namespace OmniXaml.Services
         public static ConstructionNode Clone(this ConstructionNode original)
         {
             return new ConstructionNode()
-            {
-                InstantiateAs = original.InstantiateAs,
-                Parent = original.Parent.Clone(),
-                Instance = original.Instance,
-                IsCreated = original.IsCreated,
-                Name = original.Name,
-                Key = original.Key,
-                SourceValue = original.SourceValue,
-                PositionalParameters = original.PositionalParameters,
-                InstanceType = original.InstanceType,
-            }
-            .WithChildren(original.Children.Select(node => node.Clone()))
-            .WithAssignments(original.Assignments.Select(a => a.Clone()));
+                {
+                    InstantiateAs = original.InstantiateAs,
+                    Instance = original.Instance,
+                    IsCreated = original.IsCreated,
+                    Name = original.Name,
+                    Key = original.Key,
+                    SourceValue = original.SourceValue,
+                    PositionalParameters = original.PositionalParameters,
+                    InstanceType = original.InstanceType,
+                }.WithAssignments(original.Assignments.Select(a => a.Clone()).ToList())
+                .WithChildren(original.Children.Select(node => node.Clone()));
         }
 
         public static MemberAssignment Clone(this MemberAssignment original)
@@ -77,9 +76,8 @@ namespace OmniXaml.Services
             return new MemberAssignment()
             {
                 Member = original.Member,
-                Parent = original.Parent.Clone(),
                 SourceValue = original.SourceValue,
-                Values = original.Values.Select(n => n.Clone()),
+                Values = original.Values.Select(n => n.Clone()).ToList(),
             };
         }
     }
