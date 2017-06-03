@@ -74,5 +74,17 @@ namespace OmniXaml
             Member = Member.FromStandard(selector);
             Values = new List<ConstructionNode> { childNode };
         }
+
+        public MemberAssignment(Expression<Func<T, object>> selector, params ConstructionNode[] childNodes)
+        {
+            Member = Member.FromStandard(selector);
+            Values = childNodes;
+        }
+
+        public MemberAssignment(Expression<Func<T, object>> selector, IEnumerable<ConstructionNode> childNodes)
+        {
+            Member = Member.FromStandard(selector);
+            Values = childNodes;
+        }
     }
 }

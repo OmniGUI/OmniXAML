@@ -26,15 +26,11 @@ namespace OmniXaml.Tests.XmlToNodes
         public void ContentPropertyText()
         {
             var assigments = Parse(@"<TextBlock xmlns=""root"">Hola</TextBlock>",
-                (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(TextBlock));
+                (e, a) => new ConstructionNode<TextBlock>(), typeof(TextBlock));
 
             var expected = new[]
             {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard<TextBlock>(collection => collection.Text),
-                    SourceValue = "Hola"
-                }
+                new MemberAssignment<TextBlock>(tb => tb.Text, "Hola")
             };
 
             Assert.Equal(expected, assigments);
@@ -44,20 +40,14 @@ namespace OmniXaml.Tests.XmlToNodes
         public void ContentPropertyWithChildren()
         {
             var assigments = Parse(@"<ItemsControl xmlns=""root""><TextBlock/><TextBlock/><TextBlock/></ItemsControl>",
-                (e, a) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+                (e, a) => new ConstructionNode<TextBlock>(), typeof(ItemsControl));
 
             var expected = new[]
             {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
-                    Values = new[]
-                    {
-                        new ConstructionNode(typeof(TextBlock)),
-                        new ConstructionNode(typeof(TextBlock)),
-                        new ConstructionNode(typeof(TextBlock))
-                    }
-                }
+                new MemberAssignment<ItemsControl>(i => i.Items,
+                    new ConstructionNode<TextBlock>(),
+                    new ConstructionNode<TextBlock>(),
+                    new ConstructionNode<TextBlock>())
             };
 
             Assert.Equal(expected, assigments);
@@ -73,7 +63,7 @@ namespace OmniXaml.Tests.XmlToNodes
 </ItemsControl>";
 
             Assert.Throws<ParseException>(() => Parse(xaml,
-                (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl)));
+                (element, annotator) => new ConstructionNode<TextBlock>(), typeof(ItemsControl)));
         }
 
         [Fact]
@@ -85,7 +75,7 @@ namespace OmniXaml.Tests.XmlToNodes
 <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 </ItemsControl>";
 
-            Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+            Parse(xaml, (element, annotator) => new ConstructionNode<TextBlock>(), typeof(ItemsControl));
         }
 
         [Fact]
@@ -97,7 +87,7 @@ namespace OmniXaml.Tests.XmlToNodes
 <TextBlock/>
 </ItemsControl>";
 
-            Parse(xaml, (element, annotator) => new ConstructionNode(typeof(TextBlock)), typeof(ItemsControl));
+            Parse(xaml, (element, annotator) => new ConstructionNode<TextBlock>(), typeof(ItemsControl));
         }
 
         [Fact]
@@ -108,7 +98,7 @@ namespace OmniXaml.Tests.XmlToNodes
     <ItemsControl.HeaderText>Hola</ItemsControl.HeaderText>
 </ItemsControl>";
 
-            var constructionNode = new ConstructionNode(typeof(string));
+            var constructionNode = new ConstructionNode<string>();
             var assigments = Parse(xaml, (element, annotator) => constructionNode, typeof(ItemsControl));
 
             var expected = new[]

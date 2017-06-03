@@ -9,7 +9,7 @@ namespace OmniXaml.Tests.XmlToNodes
         public void EmptyCollection()
         {
             var tree = ParseResult(@"<Collection xmlns=""root""></Collection>");
-            Assert.Equal(new ConstructionNode(typeof(Collection)), tree.Root);
+            Assert.Equal(new ConstructionNode<Collection>(), tree.Root);
         }
 
         [Fact]
@@ -21,14 +21,16 @@ namespace OmniXaml.Tests.XmlToNodes
                 new MemberAssignment
                 {
                     Member = Member.FromStandard<Collection>(collection => collection.Title),
-                    SourceValue = "My title"                        
+                    SourceValue = "My title"
                 }
             };
             var children = new[]
             {
-                new ConstructionNode(typeof(TextBlock))
+                new ConstructionNode<TextBlock>()
             };
-            var expected = new ConstructionNode(typeof(Collection)).WithAssignments(memberAssignments).WithChildren(children);
+            var expected = new ConstructionNode<Collection>()
+                .WithAssignments(memberAssignments)
+                .WithChildren(children);
 
             Assert.Equal(expected, tree.Root);
         }
@@ -44,13 +46,13 @@ namespace OmniXaml.Tests.XmlToNodes
                     Member = Member.FromStandard<ItemsControl>(collection => collection.Items),
                     Values = new[]
                     {
-                        new ConstructionNode(typeof(TextBlock)),
-                        new ConstructionNode(typeof(TextBlock)),
-                        new ConstructionNode(typeof(TextBlock)),
+                        new ConstructionNode<TextBlock>(),
+                        new ConstructionNode<TextBlock>(),
+                        new ConstructionNode<TextBlock>(),
                     }
                 }
             };
-            var expected = new ConstructionNode(typeof(ItemsControl)).WithAssignments(memberAssignments);
+            var expected = new ConstructionNode<ItemsControl>().WithAssignments(memberAssignments);
 
             Assert.Equal(expected, tree.Root);
         }
