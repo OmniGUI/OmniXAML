@@ -67,7 +67,7 @@ namespace OmniXaml
             }
         }
 
-        private void ApplyAssignments(ConstructionNode node, INodeToObjectBuilder builder, BuilderContext context)
+        protected void ApplyAssignments(ConstructionNode node, INodeToObjectBuilder builder, BuilderContext context)
         {
             foreach (var assignment in node.Assignments)
             {
