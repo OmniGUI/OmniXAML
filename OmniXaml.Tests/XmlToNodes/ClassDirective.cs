@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var xaml = @"<Window xmlns=""root"" xmlns:x=""special"" x:Class=""OmniXaml.Tests.Model.Custom.CustomWindow;assembly=OmniXaml.Tests"" />";
             var p = ParseResult(xaml);
-            ConstructionNode expected = new ConstructionNode(typeof(Window)) { InstantiateAs = typeof(CustomWindow) };
+            ConstructionNode expected = new ConstructionNode<Window> { InstantiateAs = typeof(CustomWindow) };
 
             Assert.Equal(expected, p.Root);
         }
@@ -22,18 +22,9 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var xaml = @"<Window xmlns=""root"" xmlns:x=""special"" x:Class=""OmniXaml.Tests.Model.TestWindow;assembly=OmniXaml.Tests"" Clicked=""OnClick"" />";
             var p = ParseResult(xaml);
-            var memberAssignments = new List<MemberAssignment>
-            {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard(typeof(TestWindow), "Clicked"),
-                    SourceValue = "OnClick",
-                }
-            };
-            var expected = new ConstructionNode<Window, TestWindow>
-            {
-                InstantiateAs = typeof(TestWindow),
-            }.WithAssignment("Clicked", "OnClick");
+            
+            var expected = new ConstructionNode<Window, TestWindow>()
+                .WithAssignment("Clicked", "OnClick");
 
             Assert.Equal(expected, p.Root);
         }

@@ -12,7 +12,7 @@ namespace OmniXaml.Tests.XmlToNodes
                                 <Button Click=""OnClick"" />
                                </Window>");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>()
                 .WithAssignments(new[]
                 {
                     new MemberAssignment
@@ -42,7 +42,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var tree = ParseResult(@"<Window xmlns=""root"" Window.Loaded=""OnLoad"" />");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>
             {
             }.WithAssignments(new[]
             {

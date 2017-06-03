@@ -31,7 +31,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Title=""Saludos"" />");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>
             {
             }.WithAssignments(new[]
             {
@@ -50,7 +50,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content>Hola</Window.Content></Window>");
 
-            var expected = new ConstructionNode(typeof(Window)).WithAssignments(new[]
+            var expected = new ConstructionNode<Window>().WithAssignments(new[]
             {
                 new MemberAssignment()
                 {
@@ -69,7 +69,7 @@ namespace OmniXaml.Tests.XmlToNodes
                 ParseResult(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
 
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>
             {
             }.WithAssignments(new[]
             {
@@ -88,7 +88,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Grid.Row>1</Grid.Row></Window>");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>
             {
             }.WithAssignments(new[]
             {
@@ -112,7 +112,7 @@ namespace OmniXaml.Tests.XmlToNodes
 </VisualStateManager.VisualStateGroups>
 </Window>");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>
             {
             }.WithAssignments(new[]
             {
@@ -141,7 +141,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock /></Window>");
 
-            var expected = new ConstructionNode(typeof(Window)).WithAssignments(new[]
+            var expected = new ConstructionNode<Window>().WithAssignments(new[]
             {
                 new MemberAssignment()
                 {
@@ -180,7 +180,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>()
                 .WithAssignments(new[]
                 {
                     new MemberAssignment
@@ -210,7 +210,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Content=""{Simple}"" />");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>()
                 .WithAssignments(new[]
                 {
                     new MemberAssignment
@@ -239,7 +239,7 @@ namespace OmniXaml.Tests.XmlToNodes
                                     </Window.Content>
                                 </Window>");
 
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>()
                 .WithAssignments(new[]
                 {
                     new MemberAssignment
@@ -256,7 +256,7 @@ namespace OmniXaml.Tests.XmlToNodes
         public void AttachedPropertyFromPrefixedNamespace()
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" xmlns:a=""custom"" a:CustomGrid.Value=""1"" />");
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window>()
                 .WithAssignments(new[]
                 {
                     new MemberAssignment()
@@ -274,7 +274,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""using:OmniXaml.Tests.Model;Assembly=OmniXaml.Tests"" />");
 
-            var expected = new ConstructionNode(typeof(Window));
+            var expected = new ConstructionNode<Window>();
 
             Assert.Equal(expected, parseResult.Root);
         }
