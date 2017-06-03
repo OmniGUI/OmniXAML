@@ -131,7 +131,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
-            var expected = new ConstructionNode(typeof(MyImmutable)) {PositionalParameters = new[] {"hola"}};
+            var expected = new ConstructionNode(typeof(MyImmutable)) { PositionalParameters = new[] { "hola" } };
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -257,14 +257,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" xmlns:a=""custom"" a:CustomGrid.Value=""1"" />");
             var expected = new ConstructionNode<Window>()
-                .WithAssignments(new[]
-                {
-                    new MemberAssignment()
-                    {
-                        Member = Member.FromAttached<CustomGrid>("Value"),
-                        SourceValue = "1",
-                    }
-                });
+                .WithAttachedAssignment<CustomGrid>("Value", "1");
 
             Assert.Equal(expected, parseResult.Root);
         }

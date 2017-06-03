@@ -71,7 +71,7 @@ namespace OmniXaml
         public ConstructionNode()
         {
             this.InstanceType = typeof(T);
-        }
+        }        
     }
 
     public class ConstructionNode<TBaseType, TSubtype> : ConstructionNode where TSubtype : TBaseType

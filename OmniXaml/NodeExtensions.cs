@@ -76,5 +76,16 @@ namespace OmniXaml
 
             return node;
         }
+
+        public static ConstructionNode WithAttachedAssignment<TAttachedOwner>(this ConstructionNode node, string attachableMemberName, string value)
+        {
+            node.Assignments.Add(new MemberAssignment()
+            {
+                Member = Member.FromAttached<TAttachedOwner>(attachableMemberName),
+                SourceValue = value,
+            });
+
+            return node;
+        }
     }
 }
