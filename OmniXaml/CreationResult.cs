@@ -1,16 +1,18 @@
 ﻿namespace OmniXaml
 {
-    using System.Collections.Generic;
-
     public class CreationResult
     {
-        public CreationResult(object instance, IEnumerable<InjectableMember> injectedMembers)
+        public CreationResult(object instance) : this(instance, new CreationHints())
+        {            
+        }
+
+        public CreationResult(object instance, CreationHints usedHints)
         {
             Instance = instance;
-            InjectedMembers = injectedMembers;
+            UsedHints = usedHints;
         }
 
         public object Instance { get; }
-        public IEnumerable<InjectableMember> InjectedMembers { get; }
+        public CreationHints UsedHints { get; }
     }
 }

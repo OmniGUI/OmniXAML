@@ -9,7 +9,7 @@
         [Fact]
         public void ParameterizedExtension()
         {
-            var node = new ConstructionNode(typeof(ParametrizedExtension)) { InjectableArguments = new[] { "Hola" } };
+            var node = new ConstructionNode(typeof(ParametrizedExtension)) { PositionalParameter = new[] { "Hola" } };
             var extension = new ParametrizedExtension("Hola");
             var fixture = Create(node);
 

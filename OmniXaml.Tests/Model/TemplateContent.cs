@@ -1,23 +1,19 @@
 ﻿namespace OmniXaml.Tests.Model
 {
-    using Metadata;
-
     public class TemplateContent
     {
         private readonly ConstructionNode node;
-        private readonly IObjectBuilder builder;
-        private readonly BuildContext buildContext;
+        private readonly INodeToObjectBuilder builder;
 
-        public TemplateContent(ConstructionNode node, IObjectBuilder builder, BuildContext buildContext)
+        public TemplateContent(ConstructionNode node, INodeToObjectBuilder builder)
         {
             this.node = node;
             this.builder = builder;
-            this.buildContext = buildContext;
         }
 
         public object Load()
         {
-            return builder.Inflate(node, buildContext);
+            return builder.Build(node);
         }
 
         protected bool Equals(TemplateContent other)

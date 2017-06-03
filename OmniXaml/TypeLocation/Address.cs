@@ -2,10 +2,6 @@
 {
     public class Address
     {
-        public Address()
-        {            
-        }
-
         public Address(string ns, string typeName)
         {
             Namespace = ns;

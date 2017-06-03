@@ -1,0 +1,7 @@
+﻿<ItemsControl xmlns="root">
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <TextBlock Text="Hola" />
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+</ItemsControl>

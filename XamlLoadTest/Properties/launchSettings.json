@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "XamlLoadTest": {
+      "commandName": "Project",
+      "commandLineArgs": "test.xaml"
+    }
+  }
+}

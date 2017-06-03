@@ -1,19 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+
 namespace OmniXaml
 {
-    using System;
-
     public class InjectableMember
     {
-        public InjectableMember(object value)
-        {
-            Value = value;
-        }
-
-        public InjectableMember(string name, object instance)
-        {            
-        }
-
-        public object Value { get; set; }
+        public IEnumerable<object> Values { get; set; }
         public string Name { get; set; }
         public Type InjectionType { get; set; }
     }

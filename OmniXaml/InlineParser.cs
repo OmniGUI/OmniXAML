@@ -6,11 +6,11 @@
 
     public class InlineParser : IInlineParser
     {
-        private readonly IResolver resolver;
+        private readonly IXmlTypeResolver xmlTypeResolver;
 
-        public InlineParser(IResolver resolver)
+        public InlineParser(IXmlTypeResolver xmlTypeResolver)
         {
-            this.resolver = resolver;
+            this.xmlTypeResolver = xmlTypeResolver;
         }
 
         public bool CanParse(string inline)
@@ -22,7 +22,7 @@
         {
             var tree = MarkupExtensionParser.MarkupExtension.Parse(inline);
             
-            var markupExtensionNodeToConstructionNodeConverter = new MarkupExtensionNodeToConstructionNodeConverter(prefixResolver, resolver);
+            var markupExtensionNodeToConstructionNodeConverter = new MarkupExtensionNodeToConstructionNodeConverter(prefixResolver, xmlTypeResolver);
             return markupExtensionNodeToConstructionNodeConverter.Convert(tree);
         }
     }

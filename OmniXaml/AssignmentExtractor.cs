@@ -15,16 +15,16 @@
 
         private readonly IEnumerable<IInlineParser> inlineParsers;
         private readonly IMetadataProvider metadataProvider;
-        private readonly IResolver resolver;
+        private readonly IXmlTypeResolver xmlTypeResolver;
 
         public AssignmentExtractor(IMetadataProvider metadataProvider,
             IEnumerable<IInlineParser> inlineParsers,
-            IResolver resolver,
+            IXmlTypeResolver xmlTypeResolver,
             Func<XElement, IPrefixAnnotator, ConstructionNode> createFunc)
         {
             this.metadataProvider = metadataProvider;
             this.inlineParsers = inlineParsers;
-            this.resolver = resolver;
+            this.xmlTypeResolver = xmlTypeResolver;
             this.createFunc = createFunc;
         }
 
@@ -71,7 +71,7 @@
                 yield return new MemberAssignment
                 {
                     Member = Member.FromStandard(type, contentProperty),
-                    Children = propertyElementsList.Select(e => createFunc(e, annotator)).ToList()
+                    Values = propertyElementsList.Select(e => createFunc(e, annotator)).ToList()
                 };
             }
             else
@@ -83,7 +83,7 @@
                     yield return new MemberAssignment
                     {
                         Member = Member.FromStandard(type, contentProperty),
-                        SourceValue = ((XText) elementFirstNode).Value
+                        SourceValue = ((XText)elementFirstNode).Value,
                     };
                 }
             }
@@ -106,12 +106,17 @@
 
         private MemberAssignment FromPropertyElement(Type type, XElement propertyElement, IPrefixAnnotator annotator)
         {
-            var member = resolver.ResolveProperty(type, propertyElement);
-            var children = propertyElement.Elements().Select(e => createFunc(e, annotator));
+            var member = xmlTypeResolver.ResolveProperty(type, propertyElement);
+            var children = propertyElement.Elements().Select(e => createFunc(e, annotator)).ToList();
 
             var directValue = GetDirectValue(propertyElement);
 
-            return new MemberAssignment {Member = member, Children = children, SourceValue = directValue};
+            if (directValue != null && children.Any())
+            {
+                throw new Exception("Cannot have a direct value and child nodes at the same time");
+            }
+
+            return new MemberAssignment {Member = member, Values = children, SourceValue = directValue};
         }
 
         private static string GetDirectValue(XContainer node)
@@ -146,19 +151,19 @@
         private MemberAssignment ToAssignment(Type type, XAttribute attribute)
         {
             var value = attribute.Value;
-            var property = resolver.ResolveProperty(type, attribute);
+            var property = xmlTypeResolver.ResolveProperty(type, attribute);
 
             var inlineParser = inlineParsers.FirstOrDefault(p => p.CanParse(value));
             if (inlineParser != null)
             {
                 var constructionNode = inlineParser.Parse(value, prefix => GetNamespaceFromPrefix(attribute, prefix));
-                return new MemberAssignment {Member = property, Children = new[] {constructionNode}};
+                return new MemberAssignment {Member = property, Values = new[] {constructionNode}};
             }
 
             var assignment = new MemberAssignment
             {
                 Member = property,
-                SourceValue = value
+                SourceValue = value,
             };
 
             return assignment;

@@ -37,7 +37,7 @@
             if (root != lastToCheck)
             {
                 prefixesFromChildren = root.Assignments
-                    .SelectMany(assignment => assignment.Children)
+                    .SelectMany(assignment => assignment.Values)
                     .Select(constructionNode => GetAvailableFrom(constructionNode, lastToCheck))
                     .SelectMany(enumerable => enumerable);
             }

@@ -23,7 +23,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var actual = Create(cn).Result;
 
-            var visualStateGroups = (IEnumerable) VisualStateManager.GetVisualStateGroups(actual);
+            var visualStateGroups = (IEnumerable)VisualStateManager.GetVisualStateGroups(actual);
             Assert.NotEmpty(visualStateGroups);
         }
 
@@ -63,7 +63,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            Assert.Equal(new Window {Height = 12}, creationFixture.Result);
+            Assert.Equal(new Window { Height = 12 }, creationFixture.Result);
         }
 
         [Fact]
@@ -88,7 +88,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var actual = Create(tree).Result;
 
-            var expected = new Collection {new TextBlock(), new TextBlock()};
+            var expected = new Collection { new TextBlock(), new TextBlock() };
             expected.Title = "My title";
 
             Assert.Equal(expected, actual);
@@ -116,7 +116,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
                 }
             };
 
-            var result = (ItemsControl) Create(node).Result;
+            var result = (ItemsControl)Create(node).Result;
             Assert.NotNull(result.Items);
             Assert.IsAssignableFrom<IEnumerable>(result.Items);
             Assert.NotEmpty(result.Items);
@@ -138,7 +138,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            Assert.Equal(new TextBlock {TextWrapping = TextWrapping.NoWrap}, creationFixture.Result);
+            Assert.Equal(new TextBlock { TextWrapping = TextWrapping.NoWrap }, creationFixture.Result);
         }
 
         [Fact]
@@ -159,11 +159,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
             };
 
             var creationFixture = Create(node);
-            var result = (ItemsControl) creationFixture.Result;
+            var result = (ItemsControl)creationFixture.Result;
             Assert.NotNull(result.Items);
             Assert.IsAssignableFrom<IEnumerable>(result.Items);
         }
-        
+
         [Fact]
         public void GivenSimpleExtensionThatProvidesAString_TheStringIsProvided()
         {
@@ -194,7 +194,7 @@ namespace OmniXaml.Tests.ObjectBuilderTests
 
             var b = Create(node);
 
-            Assert.Equal(new TextBlock {Text = "MyText"}, b.Result);
+            Assert.Equal(new TextBlock { Text = "MyText" }, b.Result);
         }
 
         [Fact]
@@ -212,11 +212,11 @@ namespace OmniXaml.Tests.ObjectBuilderTests
                 }
             };
 
-            var expected = new Window {Content = "My content"};
+            var expected = new Window { Content = "My content" };
             var fixture = Create(node, expected);
 
             Assert.True(ReferenceEquals(expected, fixture.Result));
-            Assert.Equal(new Window {Content = "My content", Title = "My title"}, fixture.Result);
+            Assert.Equal(new Window { Content = "My content", Title = "My title" }, fixture.Result);
         }
     }
 }
