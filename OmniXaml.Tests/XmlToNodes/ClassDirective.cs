@@ -30,10 +30,10 @@ namespace OmniXaml.Tests.XmlToNodes
                     SourceValue = "OnClick",
                 }
             };
-            var expected = new ConstructionNode(typeof(Window))
+            var expected = new ConstructionNode<Window, TestWindow>
             {
                 InstantiateAs = typeof(TestWindow),
-            }.WithAssignments(memberAssignments);
+            }.WithAssignment("Clicked", "OnClick");
 
             Assert.Equal(expected, p.Root);
         }

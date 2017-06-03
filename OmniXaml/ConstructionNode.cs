@@ -45,8 +45,6 @@ namespace OmniXaml
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (!(obj is ConstructionNode))
-                return false;
 
             return Equals((ConstructionNode) obj);
         }
@@ -64,6 +62,25 @@ namespace OmniXaml
                 hashCode = (hashCode * 397) ^ (InstantiateAs != null ? InstantiateAs.GetHashCode() : 0);
                 return hashCode;
             }
+        }
+    }
+
+    public class ConstructionNode<T> : ConstructionNode
+    {
+
+        public ConstructionNode()
+        {
+            this.InstanceType = typeof(T);
+        }
+    }
+
+    public class ConstructionNode<TBaseType, TSubtype> : ConstructionNode where TSubtype : TBaseType
+    {
+
+        public ConstructionNode()
+        {
+            this.InstanceType = typeof(TBaseType);
+            this.InstantiateAs = typeof(TSubtype);
         }
     }
 }

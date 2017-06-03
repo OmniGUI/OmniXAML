@@ -1,4 +1,6 @@
-﻿using Zafiro.Core;
+﻿using System;
+using System.Linq.Expressions;
+using Zafiro.Core;
 
 namespace OmniXaml
 {
@@ -35,8 +37,7 @@ namespace OmniXaml
                 return false;
             if (ReferenceEquals(this, obj))
                 return true;
-            if (obj.GetType() != this.GetType())
-                return false;
+
             return Equals((MemberAssignment) obj);
         }
 
@@ -52,5 +53,20 @@ namespace OmniXaml
         }
 
         public ConstructionNode Parent { get; set; }
+    }
+
+    public class MemberAssignment<T> : MemberAssignment
+    {
+        public MemberAssignment(Expression<Func<T, object>> selector, string value)
+        {
+            Member = Member.FromStandard(selector);
+            SourceValue = value;
+        }
+
+        public MemberAssignment(string memberName, string value)
+        {
+            Member = Member.FromStandard<T>(memberName);
+            SourceValue = value;
+        }
     }
 }
