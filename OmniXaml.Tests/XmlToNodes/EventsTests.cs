@@ -13,26 +13,9 @@ namespace OmniXaml.Tests.XmlToNodes
                                </Window>");
 
             var expected = new ConstructionNode<Window>()
-                .WithAssignments(new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        Values = new[]
-                        {
-                            new ConstructionNode(typeof(Button))
-                            {
-                            }.WithAssignments(new[]
-                            {
-                                new MemberAssignment()
-                                {
-                                    Member = Member.FromStandard(typeof(Button), "Click"),
-                                    SourceValue = "OnClick"
-                                },
-                            }),
-                        }
-                    },
-                });
+                .WithAssignment(window => window.Content, new ConstructionNode<Button>()
+                    .WithAssignment("Click", "OnClick"));
+
 
             Assert.Equal(expected, tree.Root);
         }

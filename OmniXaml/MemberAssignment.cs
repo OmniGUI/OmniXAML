@@ -38,7 +38,7 @@ namespace OmniXaml
             if (ReferenceEquals(this, obj))
                 return true;
 
-            return Equals((MemberAssignment) obj);
+            return Equals((MemberAssignment)obj);
         }
 
         public override int GetHashCode()
@@ -46,8 +46,8 @@ namespace OmniXaml
             unchecked
             {
                 var hashCode = (Member != null ? Member.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (SourceValue != null ? SourceValue.GetHashCode() : 0);
-                hashCode = (hashCode*397) ^ (Values != null ? Values.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (SourceValue != null ? SourceValue.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (Values != null ? Values.GetHashCode() : 0);
                 return hashCode;
             }
         }
@@ -67,6 +67,12 @@ namespace OmniXaml
         {
             Member = Member.FromStandard<T>(memberName);
             SourceValue = value;
+        }
+
+        public MemberAssignment(Expression<Func<T, object>> selector, ConstructionNode childNode)
+        {
+            Member = Member.FromStandard(selector);
+            Values = new List<ConstructionNode> { childNode };
         }
     }
 }

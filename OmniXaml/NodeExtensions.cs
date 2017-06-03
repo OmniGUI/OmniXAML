@@ -62,12 +62,19 @@ namespace OmniXaml
 
         public static ConstructionNode WithChildren(this ConstructionNode node, IEnumerable<ConstructionNode> children)
         {
-            foreach (var ass in children)
+            foreach (var a in children)
             {
-                node.Children.Add(ass);
+                node.Children.Add(a);
             }
 
             return node;
-        }        
+        }
+
+        public static ConstructionNode WithAssignment<T>(this ConstructionNode<T> node, Expression<Func<T, object>> selector, ConstructionNode childNode)
+        {
+            node.Assignments.Add(new MemberAssignment<T>(selector, childNode));
+
+            return node;
+        }
     }
 }
