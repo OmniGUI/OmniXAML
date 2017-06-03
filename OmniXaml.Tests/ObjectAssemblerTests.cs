@@ -14,7 +14,7 @@ namespace OmniXaml.Tests
         {
             var converter = new FuncStringConverterExtended((s, t) => (true, Convert.ChangeType(s, t)));
             var sut = new NodeAssembler(null, converter, null);
-            var constructionNode = new ConstructionNode(typeof(int)) {SourceValue = "1"};
+            var constructionNode = new ConstructionNode<int> {SourceValue = "1"};
             sut.Assemble(constructionNode, null);
             Assert.Equal(1, constructionNode.Instance);
         }
@@ -26,7 +26,7 @@ namespace OmniXaml.Tests
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(someInstance));
             var sut = new NodeAssembler(creator, null, null);
 
-            var constructionNode = new ConstructionNode(typeof(TextBlock));
+            var constructionNode = new ConstructionNode<TextBlock>();
             sut.Assemble(constructionNode, null);
 
             Assert.Equal(someInstance, constructionNode.Instance);
@@ -39,22 +39,21 @@ namespace OmniXaml.Tests
             var creator = new FuncInstanceCreator((hints, type) => new CreationResult(Activator.CreateInstance(type)));
             var sut = new NodeAssembler(creator, converter, null);
 
-            var constructionNode = new ConstructionNode(typeof(Collection))
-                .WithChildren(new List<ConstructionNode>()
-                {
-                    new ConstructionNode(typeof(int))
+            var constructionNode = new ConstructionNode<Collection>()
+                .WithChildren(
+                    new ConstructionNode<int>
                     {
                         SourceValue = "1"
                     },
-                    new ConstructionNode(typeof(int))
+                    new ConstructionNode<int>
                     {
                         SourceValue = "2"
                     },
-                    new ConstructionNode(typeof(int))
+                    new ConstructionNode<int>
                     {
                         SourceValue = "3"
-                    },
-                });
+                    }
+                );
 
             sut.Assemble(constructionNode, null);
 
@@ -73,14 +72,7 @@ namespace OmniXaml.Tests
                 assignment.Assignment.Member.SetValue(assignment.Instance, assignment.Assignment.Values.First().Instance);
             }));
 
-            var constructionNode = new ConstructionNode(typeof(TextBlock)).WithAssignments(new List<MemberAssignment>()
-            {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                    SourceValue = "SomeText",
-                }
-            });
+            var constructionNode = new ConstructionNode<TextBlock>().WithAssignment(tb => tb.Text, "SomeText");
 
             sut.Assemble(constructionNode, null);
 

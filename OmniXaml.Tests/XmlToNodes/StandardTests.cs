@@ -31,16 +31,8 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Title=""Saludos"" />");
 
-            var expected = new ConstructionNode<Window>
-            {
-            }.WithAssignments(new[]
-            {
-                new MemberAssignment
-                {
-                    Member = Member.FromStandard<Window>(window => window.Title),
-                    SourceValue = "Saludos",
-                }
-            });
+            var expected = new ConstructionNode<Window>()
+                .WithAssignment(w => w.Title, "Saludos");
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -50,14 +42,8 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Window.Content>Hola</Window.Content></Window>");
 
-            var expected = new ConstructionNode<Window>().WithAssignments(new[]
-            {
-                new MemberAssignment()
-                {
-                    Member = Member.FromStandard<Window>(window => window.Content),
-                    SourceValue = "Hola"
-                }
-            });
+            var expected = new ConstructionNode<Window>()
+                .WithAssignment(w => w.Content, "Hola");                
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -69,16 +55,7 @@ namespace OmniXaml.Tests.XmlToNodes
                 ParseResult(@"<Window xmlns=""root""><Window.Content><TextBlock /></Window.Content></Window>");
 
 
-            var expected = new ConstructionNode<Window>
-            {
-            }.WithAssignments(new[]
-            {
-                new MemberAssignment()
-                {
-                    Member = Member.FromStandard<Window>(window => window.Content),
-                    Values = new[] {new ConstructionNode(typeof(TextBlock)),}
-                }
-            });
+            var expected = new ConstructionNode<Window>().WithAssignment(w => w.Content, new ConstructionNode<TextBlock>());
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -88,17 +65,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><Grid.Row>1</Grid.Row></Window>");
 
-            var expected = new ConstructionNode<Window>
-            {
-            }.WithAssignments(new[]
-            {
-                new MemberAssignment()
-                {
-
-                    Member = Member.FromAttached<Grid>("Row"),
-                    SourceValue = "1",
-                }
-            });
+            var expected = new ConstructionNode<Window>().WithAttachedAssignment<Grid>("Row", "1");
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -112,16 +79,8 @@ namespace OmniXaml.Tests.XmlToNodes
 </VisualStateManager.VisualStateGroups>
 </Window>");
 
-            var expected = new ConstructionNode<Window>
-            {
-            }.WithAssignments(new[]
-            {
-                new MemberAssignment
-                {
-                    Values = new[] {new ConstructionNode(typeof(VisualStateGroup)),},
-                    Member = Member.FromAttached<VisualStateManager>("VisualStateGroups"),
-                }
-            });
+            var expected = new ConstructionNode<Window>()
+                .WithAttachedAssignment<VisualStateManager>("VisualStateGroups", new ConstructionNode<VisualStateGroup>());
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -131,7 +90,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<MyImmutable xmlns=""root"">hola</MyImmutable>");
 
-            var expected = new ConstructionNode(typeof(MyImmutable)) { PositionalParameters = new[] { "hola" } };
+            var expected = new ConstructionNode<MyImmutable> { PositionalParameters = new[] { "hola" } };
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -141,17 +100,9 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock /></Window>");
 
-            var expected = new ConstructionNode<Window>().WithAssignments(new[]
-            {
-                new MemberAssignment()
-                {
-                    Member = Member.FromStandard<Window>(tb => tb.Content),
-                    Values = new[]
-                    {
-                        new ConstructionNode(typeof(TextBlock)),
-                    }
-                },
-            });
+            var expected = new ConstructionNode<Window>()
+                .WithAssignment(tb => tb.Content,
+                    new ConstructionNode<TextBlock>());
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -161,17 +112,8 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<TextBlock xmlns=""root"">Hello</TextBlock>");
 
-            var expected = new ConstructionNode(typeof(TextBlock))
-            {
-            }.WithAssignments(new[]
-            {
-                new MemberAssignment()
-                {
-                    Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                    SourceValue = "Hello"
-                },
-            });
-
+            var expected = new ConstructionNode<TextBlock>().WithAssignment(tb => tb.Text, "Hello");
+            
             Assert.Equal(expected, parseResult.Root);
         }
 
@@ -181,26 +123,8 @@ namespace OmniXaml.Tests.XmlToNodes
             var parseResult = ParseResult(@"<Window xmlns=""root""><TextBlock>Saludos cordiales</TextBlock></Window>");
 
             var expected = new ConstructionNode<Window>()
-                .WithAssignments(new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        Values = new[]
-                        {
-                            new ConstructionNode(typeof(TextBlock))
-                            {
-                            }.WithAssignments(new[]
-                            {
-                                new MemberAssignment()
-                                {
-                                    Member = Member.FromStandard<TextBlock>(tb => tb.Text),
-                                    SourceValue = "Saludos cordiales",
-                                },
-                            }),
-                        }
-                    }
-                });
+                .WithAssignment(w => w.Content,
+                    new ConstructionNode<TextBlock>().WithAssignment(tb => tb.Text, "Saludos cordiales"));
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -210,15 +134,7 @@ namespace OmniXaml.Tests.XmlToNodes
         {
             var parseResult = ParseResult(@"<Window xmlns=""root"" Content=""{Simple}"" />");
 
-            var expected = new ConstructionNode<Window>()
-                .WithAssignments(new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        Values = new[] {new ConstructionNode(typeof(SimpleExtension)),}
-                    }
-                });
+            var expected = new ConstructionNode<Window>().WithAssignment(w => w.Content, new ConstructionNode<SimpleExtension>());
 
             Assert.Equal(expected, parseResult.Root);
         }
@@ -239,16 +155,9 @@ namespace OmniXaml.Tests.XmlToNodes
                                     </Window.Content>
                                 </Window>");
 
-            var expected = new ConstructionNode<Window>()
-                .WithAssignments(new[]
-                {
-                    new MemberAssignment
-                    {
-                        Member = Member.FromStandard<Window>(window => window.Content),
-                        Values = new[] {new ConstructionNode(typeof(CustomControl)),}
-                    }
-                });
-
+            var expected =
+                new ConstructionNode<Window>().WithAssignment(w => w.Content, new ConstructionNode<CustomControl>());
+               
             Assert.Equal(expected, parseResult.Root);
         }
 

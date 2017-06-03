@@ -60,6 +60,16 @@ namespace OmniXaml
             return node;
         }
 
+        public static ConstructionNode WithChildren(this ConstructionNode node, params ConstructionNode[] children)
+        {
+            foreach (var a in children)
+            {
+                node.Children.Add(a);
+            }
+
+            return node;
+        }
+
         public static ConstructionNode WithChildren(this ConstructionNode node, IEnumerable<ConstructionNode> children)
         {
             foreach (var a in children)
@@ -83,6 +93,17 @@ namespace OmniXaml
             {
                 Member = Member.FromAttached<TAttachedOwner>(attachableMemberName),
                 SourceValue = value,
+            });
+
+            return node;
+        }
+
+        public static ConstructionNode WithAttachedAssignment<TAttachedOwner>(this ConstructionNode node, string attachableMemberName, ConstructionNode childNode)
+        {
+            node.Assignments.Add(new MemberAssignment
+            {
+                Member = Member.FromAttached<TAttachedOwner>(attachableMemberName),
+                Values = new List<ConstructionNode>() { childNode },
             });
 
             return node;
