@@ -15,7 +15,12 @@
         {
             var prefixAnnotator = new PrefixAnnotator();
             var constructionNode = Parser.Parse(xaml, prefixAnnotator).Root;
-            return Builder.Build(constructionNode);
+            var build = Builder.Build(constructionNode);
+            if (build == null)
+            {
+                throw new ParseException("XAML cannot be parsed");
+            }
+            return build;
         }
     }
 }
