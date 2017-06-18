@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Zafiro.Core;
 
@@ -35,7 +37,7 @@ namespace OmniXaml
             }
 
             var nodeBeingAssigned = children.First();
-            
+
             var value = nodeBeingAssigned.Instance;
 
             var assign = new Assignment(assignment.Instance, assignment.Assignment.Member, value);
@@ -45,7 +47,7 @@ namespace OmniXaml
         private void SetMember(Assignment assignment, ConstructionNode parentNode, INodeToObjectBuilder builder, BuilderContext context)
         {
             var mutableUnit = new MutablePipelineUnit(parentNode, assignment.Value);
-            
+
             pipeline.Handle(assignment.Target.Instance, assignment.Member, mutableUnit, builder, context);
             if (mutableUnit.Handled)
             {
@@ -55,10 +57,31 @@ namespace OmniXaml
             assignment.Member.SetValue(assignment.Target.Instance, mutableUnit.Value);
         }
 
-        private static void AssignCollection(NodeAssignment assignment)
+        private void AssignCollection(NodeAssignment assignment)
         {
+            var firstNode = assignment.Assignment.Values.First();
+            var mutableUnit = new MutablePipelineUnit(firstNode, firstNode.Instance);
+            pipeline.Handle(assignment.Instance, assignment.Assignment.Member, mutableUnit, null, null);
+
+            if (mutableUnit.Handled)
+            {
+                return;
+            }
+
             var parent = assignment.Assignment.Member.GetValue(assignment.Instance);
-            var children = from n in assignment.Assignment.Values select n.Instance;
+
+            IEnumerable<object> children;
+            var mutableValue = mutableUnit.Value as IEnumerable<object>;
+
+            if (mutableValue != null)
+            {
+                children = mutableValue;
+            }
+            else
+            {
+                children = from n in assignment.Assignment.Values select n.Instance;
+            }
+            
             foreach (var child in children)
             {
                 Collection.UniversalAdd(parent, child);

@@ -120,5 +120,19 @@ namespace OmniXaml.Tests
             var window = new Window();
             Assert.Throws<ArgumentException>(() => sut.ExecuteAssignment(new NodeAssignment(assignment, window), null, null));
         }
+
+        [Fact]
+        public void ResultCollectionExtensionIsAssignedToCollectionProperty()
+        {
+            var sut = new MemberAssigmentApplier(new MarkupExtensionValuePipeline(new NoActionValuePipeline()));
+            var constructionNode = new ConstructionNode<CollectionExtension>
+            {
+                Instance = new CollectionExtension(),
+                IsCreated = true,
+            };
+
+            var assignment = new NodeAssignment(new MemberAssignment<ItemsControl>(control => control.Items, constructionNode), new ItemsControl());
+            sut.ExecuteAssignment(assignment, null, null);
+        }
     }
 }
