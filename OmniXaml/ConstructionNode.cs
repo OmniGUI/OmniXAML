@@ -63,6 +63,12 @@ namespace OmniXaml
                 return hashCode;
             }
         }
+
+        public override string ToString()
+        {
+            return
+                $@"{nameof(InstanceType)}: {InstanceType}, {nameof(Name)}: {Name}, {nameof(Key)}: {Key}, {nameof(InstantiateAs)}: {InstantiateAs}, {nameof(ActualInstanceType)}: {ActualInstanceType}, {nameof(SourceValue)}: {SourceValue}, {nameof(Instance)}: {Instance}, {nameof(IsCreated)}: {IsCreated}, {nameof(Parent)}: {Parent}";
+        }
     }
 
     public class ConstructionNode<T> : ConstructionNode

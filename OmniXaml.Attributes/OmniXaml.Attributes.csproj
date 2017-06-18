@@ -9,4 +9,7 @@
     <PackageReleaseNotes>First release</PackageReleaseNotes>   
     <PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" Version="1.6.1" />
+  </ItemGroup>
 </Project>

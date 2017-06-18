@@ -17,13 +17,13 @@ namespace OmniXaml
 
         public void ExecuteAssignment(NodeAssignment assignment, INodeToObjectBuilder builder, BuilderContext context)
         {
-            if (assignment.Assignment.Member.MemberType.IsCollection())
+            if (!assignment.Assignment.Member.MemberType.IsCollection())
             {
-                AssignCollection(assignment);
+                AssignSingleValue(assignment, builder, context);
             }
             else
             {
-                AssignSingleValue(assignment, builder, context);
+                AssignCollection(assignment);
             }
         }
 
