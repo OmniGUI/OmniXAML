@@ -15,10 +15,10 @@
 
         public (bool, object) Convert(string strValue, Type desiredTargetType, ConvertContext context)
         {
-            var results = from c in converters
+            var results = (from c in converters
                 let r = c.Convert(strValue, desiredTargetType, context)
                 where r.Item1
-                select new { r.Item1, r.Item2 };
+                select new { r.Item1, r.Item2 }).ToList();
 
             if (Enumerable.Any(results))
             {

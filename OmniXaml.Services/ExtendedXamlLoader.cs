@@ -7,6 +7,8 @@ namespace OmniXaml.Services
 {
     public class ExtendedXamlLoader : BasicXamlLoader
     {
+        private INodeToObjectBuilder builder;
+
         public ExtendedXamlLoader(IList<Assembly> assemblies) : base(assemblies)
         {
         }
@@ -14,8 +16,11 @@ namespace OmniXaml.Services
         protected override IValuePipeline ValuePipeline =>
             new MarkupExtensionValuePipeline(new NoActionValuePipeline());
 
-        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(
-            new TwoPassesNodeAssembler(new TemplateAwareNodeAssembler(InstanceCreator, StringSourceValueConverter, AssignmentApplier, MetadataProvider)));
+        public override INodeToObjectBuilder Builder => builder ??
+                                                        (builder = new NodeToObjectBuilder(
+                                                            new TwoPassesNodeAssembler(new TemplateAwareNodeAssembler(
+                                                                InstanceCreator, StringSourceValueConverter,
+                                                                AssignmentApplier, MetadataProvider))));
     }
 
     public class TemplateAwareNodeAssembler : NodeAssembler

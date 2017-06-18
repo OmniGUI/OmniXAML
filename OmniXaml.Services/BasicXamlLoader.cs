@@ -6,6 +6,8 @@ namespace OmniXaml.Services
 {
     public class BasicXamlLoader : XamlLoader
     {
+        private INodeToObjectBuilder builder;
+
         public BasicXamlLoader(IList<Assembly> assemblies)
         {
             Assemblies = assemblies;
@@ -36,6 +38,12 @@ namespace OmniXaml.Services
                 new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
             });
 
-        public override INodeToObjectBuilder Builder => new NodeToObjectBuilder(new TwoPassesNodeAssembler(new NodeAssembler(InstanceCreator, StringSourceValueConverter, AssignmentApplier)));
+        public override INodeToObjectBuilder Builder => builder ?? (builder = CreateBuilder());
+
+        private INodeToObjectBuilder CreateBuilder()
+        {
+            return new NodeToObjectBuilder(new TwoPassesNodeAssembler(new NodeAssembler(InstanceCreator,
+                StringSourceValueConverter, AssignmentApplier)));
+        }
     }
 }
