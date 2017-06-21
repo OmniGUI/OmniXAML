@@ -1,3 +1,4 @@
+IMPORTANT: Please, keep a close look to the branch "rework" that is currently the most updated work.
 
 It's here. This is OmniXAML V2!
 
