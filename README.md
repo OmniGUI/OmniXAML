@@ -1,4 +1,4 @@
-IMPORTANT: Please, keep a close look to the branch "rework" that is currently the most updated work.
+**IMPORTANT:** If you don't know how to use the library, just file an issue asking for help!
 
 It's here. This is OmniXAML V2!
 
