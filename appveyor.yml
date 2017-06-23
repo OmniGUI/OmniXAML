@@ -1,5 +1,7 @@
 version: 2.1.0.{build}
 
+image: Visual Studio 2017 
+
 install:
 - cmd: git submodule -q update --init
 
