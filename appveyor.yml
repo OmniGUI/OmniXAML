@@ -2,6 +2,8 @@ version: 2.0.0.{build}
 
 install:
   appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+  - cmd: git submodule -q update --init
+
 
 before_build:
 - cmd: nuget restore
@@ -12,8 +14,3 @@ build:
 nuget:
   account_feed: true
   project_feed: true
-
-after_build:
-- ps : .\Create-NugetPackages.ps1 -Version $env:appveyor_build_version
-- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-
