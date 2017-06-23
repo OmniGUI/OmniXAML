@@ -9,6 +9,7 @@ before_build:
 - cmd: nuget restore
 
 build:
+  project: OmniXaml.sln
   verbosity: minimal
   
 nuget:
