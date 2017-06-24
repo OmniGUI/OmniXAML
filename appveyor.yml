@@ -11,6 +11,9 @@ before_build:
 build:
   project: OmniXaml.sln
   verbosity: minimal
+
+test_script:
+- cmd: dotnet test OmniXaml.Tests\OmniXaml.Tests.csproj
   
 nuget:
   account_feed: true
