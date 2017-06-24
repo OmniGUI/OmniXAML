@@ -7,7 +7,8 @@
     <Description>The Cross-platform XAML Framework</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageReleaseNotes>First release</PackageReleaseNotes>   
-    <PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>
+    <PackageTags>WPF XAML Cross-Platform Avalonia AvaloniaUI</PackageTags>   
+    <Version>2.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Update="NETStandard.Library" Version="1.6.1" />
