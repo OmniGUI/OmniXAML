@@ -35,7 +35,7 @@ namespace OmniXaml.Services
             new IStringSourceValueConverter[]
             {
                 new DirectCompatibilitySourceValueConverter(),
-                new AttributeBasedStringValueConverter(Assemblies), new TypeConverterSourceValueConverter()
+                new AttributeBasedStringValueConverter(Assemblies), new ComponentModelTypeConverterBasedSourceValueConverter()
             });
 
         public override INodeToObjectBuilder Builder => builder ?? (builder = CreateBuilder());
