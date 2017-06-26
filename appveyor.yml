@@ -1,19 +1,20 @@
-version: 2.0.0.{build}
+version: 2.1.0.{build}
+
+image: Visual Studio 2017 
 
 install:
-  appveyor DownloadFile https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+- cmd: git submodule -q update --init
 
 before_build:
 - cmd: nuget restore
 
 build:
+  project: OmniXaml.sln
   verbosity: minimal
+
+test_script:
+- cmd: dotnet test OmniXaml.Tests\OmniXaml.Tests.csproj
   
 nuget:
   account_feed: true
   project_feed: true
-
-after_build:
-- ps : .\Create-NugetPackages.ps1 -Version $env:appveyor_build_version
-- ps: Get-ChildItem .\*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-
